@@ -69,7 +69,7 @@ def extract_subarray(primary_array,x_bounds,y_bounds):
     Returns
     -------
     sub_array : ndarray
-        An array containing only data within the xy bounds provided.
+        An array containing only data within the xy-bounds provided.
     
     """
 
@@ -80,6 +80,54 @@ def extract_subarray(primary_array,x_bounds,y_bounds):
     sub_array = primary_array[y_bounds[0]:y_bounds[-1],x_bounds[0]:x_bounds[1]]
 
     return np.array(sub_array)
+
+
+def plot_array_heatmap_image(data_array,
+                             figure_axes=None,
+                             heatmap_plot_parameters={'cmap':'inferno','interpolation':'nearest'},
+                             colorbar_plot_paramters={'orientation':'vertical'}):
+    """ A function to create a heatmap image of the data array provided.
+    
+    This function replicates the image plotting functionality of Tino Well's program. 
+    (Found here: https://github.com/tinowells/ifa). More specifically, the plot assigns a color
+    according to the value a pixel has, and plots it corresponding to its location in the
+    provided data array.
+
+    Parameters
+    ----------
+    data_array : ndarray
+        This is the provided array that is to be plotted. Dimensions matter!
+    figure_axes : Matplotlib Axes (optional)
+        This is a predefined axes variable that the user may desire to have the heatmap plot 
+        to. This defaults to either making new ones, or using the currently defined axes. Note! 
+        This is not deep-copied.
+
+    heatmap_plot_parameters : dictionary <config>
+        These are options the user may use to pass customization parameters into the heatmap plot
+        functionality. See :py:function:`~.matplotlib.pyplot.imshow`.
+    colorbar_plot_paramters : dictionary <config>
+        These are options the user may use to pass customization parameters into the colorbar 
+        class functionality. See :py:function:`~.matplotlib.pyplot.colorbar`.
+
+    Returns
+    -------
+    heatmap_plot_axes : Matplotlib Axes
+        This is the heatmap plot made on the (provided, borrowed, or generated) plotting axes.
+    
+    """
+
+    # First, figure out what type of Matplotlib axes to use.
+    if (figure_axes is not None):
+        ax = figure_axes
+    else:
+        ax = plt.gca()
+        
+    heatmap = ax.imshow(data_array, **heatmap_plot_parameters)
+    plt.colorbar(mappable=heatmap, ax=ax, **colorbar_plot_paramters)
+
+    return ax
+
+
 
 
 def plot_array_histogram(data_array, 
@@ -97,14 +145,15 @@ def plot_array_histogram(data_array,
         This is the data array that is expected to be analyzed and have histograms made. 
     figure_axes : Matplotlib Axes (optional)
         This is a predefined axes variable that the user may desire to have the histogram plot 
-            to. This defaults to either making new ones, or using the currently defined axes.
+        to. This defaults to either making new ones, or using the currently defined axes. Note! 
+        This is not deep-copied.
 
-    histogram_plot_parameters : dictionary
-        This is options the user may use to pass customization parameters into the histogram plot
-        functionality. 
+    histogram_plot_parameters : dictionary <config>
+        These are options the user may use to pass customization parameters into the histogram plot
+        functionality. See :py:function:`~.matplotlib.pyplot.hist`. 
 
-    Returns:
-    --------
+    Returns
+    -------
     histogram_plot_axes : Matplotlib Axes
         This is the histogram plot made on the (provided, borrowed, or generated) plotting axes. 
     gaussian_fit_atributes : dictionary
@@ -127,8 +176,8 @@ def plot_array_histogram(data_array,
     ax.plot(hist_x,hist_y, label='Counts')
 
     # Plotting/fitting the Gaussian function.  For some reasons beyond what I can explain, Astropy
-    # seems to have better fitting capabilities in this specific application than Scipy.
-    gaussian_init = ap_mod.models.Gaussian1D(amplitude=1., mean=0, stddev=1.)
+    # seems to have better fitting capabilities, in this specific application, than Scipy.
+    gaussian_init = ap_mod.models.Gaussian1D(amplitude=1.0, mean=0, stddev=1.0)
     gaussian_fit_model = ap_mod.fitting.LevMarLSQFitter()
     gaussian_fit = gaussian_fit_model(gaussian_init, hist_x, hist_y)
     # For better plotting resolution.
@@ -150,7 +199,7 @@ def plot_array_histogram(data_array,
     mean_stddev_lines = gaussian_mean + gaussian_stddev * np.array([-2,-1,0,1,2])
     line_patterns = ['dotted','dashed','solid','dashed','dotted']
     for linedex, patterndex in zip(mean_stddev_lines, line_patterns):
-        ax.axvline(x=linedex,linestyle=patterndex, color='red', alpha=0.5)
+        ax.axvline(x=linedex, linestyle=patterndex, color='red', alpha=0.5)
     # Gaussian peak value horizontal line.
     ax.axhline(y=gaussian_max, color='red', alpha=0.5)
 
