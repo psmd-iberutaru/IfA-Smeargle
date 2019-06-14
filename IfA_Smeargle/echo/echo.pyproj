@@ -30,7 +30,7 @@
     </Compile>
   </ItemGroup>
   <ItemGroup>
-    <Content Include="documentation_echo_mask_codes.md">
+    <Content Include="readme.md">
       <SubType>Code</SubType>
     </Content>
   </ItemGroup>
