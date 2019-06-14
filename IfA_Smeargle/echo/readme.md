@@ -44,8 +44,8 @@ The whole point of pixel trimming is to flag pixels that have values very far fr
 data collection issues. Normally not very far reaching.
 
 The upper and lower bounds that the cutoff applies can either be done in a few different ways.
-Unless manually specified, the software will always try the first on in the list that is can, 
-proceeding to the next method if one fails.
+Unless manually specified, the software will always try the first on in the list that it can. If 
+the manual specification cannot be matched to a method, the default is ``nothing``.
 
 1. e
 2. **percentcut** The top X % of pixels and bottom Y % of pixels. It is possible to set X = Y, but not required. 

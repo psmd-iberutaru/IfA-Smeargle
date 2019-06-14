@@ -128,6 +128,8 @@ def echo_130_pixel_trimming(data_array, previous_mask={},
         masked_array = _pixel_trim_hardcut(data_array, **trim_parameters)
     elif (method == 'nothing'):
         masked_array = _pixel_trim_nothing(data_array)
+    else:
+        masked_array = _pixel_trim_nothing(data_array)
 
 
     # Figure out what to return.
