@@ -22,7 +22,10 @@
   </PropertyGroup>
   <ItemGroup>
     <Compile Include="echo_main.py" />
-    <Compile Include="masks.py">
+    <Compile Include="masks_echo300.py" />
+    <Compile Include="masks_echo200.py" />
+    <Compile Include="masks_echo000.py" />
+    <Compile Include="masks_echo100.py">
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="__init__.py">

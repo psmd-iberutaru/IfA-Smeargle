@@ -13,9 +13,36 @@
 """
 
 import astropy as ap
+import copy
 import matplotlib as mpl
 import matplotlib.pyplot as plt
 import numpy as np
 import scipy as sp
 
-import masks
+import masks_echo000, masks_echo100, masks_echo200, masks_echo300 as masks
+
+
+def _sort_masking_dictionary(mask_dictionary):
+    """ This function just sorts a dictionary by its key.
+    
+    As the dictionary is expected to be in order by its keys, this is sort of needed. It is
+    not too efficient, and it can be disabled. 
+
+    Parameters
+    ----------
+    mask_dictionary : dictionary
+        The unsorted mask dictionary.
+
+    Returns
+    -------
+    sorted_mask_dictionary : dictionary
+        The mask dictionary that is sorted by the code.
+    """
+
+    sorted_mask_dictionary = {}
+    sorted_keys = sorted(mask_dictionary)
+
+    for keydex in sorted_keys:
+        sorted_mask_dictionary[keydex] = copy.deepcopy(mask_dictionary[keydex])
+
+    return sorted_mask_dictionary
