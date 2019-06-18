@@ -48,7 +48,7 @@ def smeargle_save_figure_file(figure,file_name,
     """
 
     # Checking or applying file ending configuration.
-    supported_file_types = fig.canvas.get_supported_filetypes()
+    supported_file_types = figure.canvas.get_supported_filetypes()
     supported_file_types = list(supported_file_types.keys())
     if any(('.' + typedex) in file_name[-7:] for typedex in supported_file_types):
         # The there seems to be a supported file type already in here.

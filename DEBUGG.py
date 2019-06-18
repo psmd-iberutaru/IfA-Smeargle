@@ -15,7 +15,7 @@ import IfA_Smeargle as ifa
 
 
 # Finding the data files
-fits_file_list = glob.glob('./**/SAPHIRA_Comparison_Fits/**/*.fits',recursive=True)
+fits_file_list = glob.glob('./**/Mk20_M12145-40/**/set4/*.fits',recursive=True)
 print(len(fits_file_list))
 names = fits_file_list[0].split('\\')[-1]
 print(names[:-5] + '.pdf')
@@ -29,39 +29,30 @@ for filedex in fits_file_list[counter:]:
     counter += 1
 
     # Extract.\n",
-    fits,header,data = ifa.hotel.open_fits_file(filedex)
+    fits,header,data = ifa.meta.smeargle_open_fits_file(filedex)
+
+    # Applying hard filter.
+    masks = ifa.echo.echo120_subarray_mask(data, [33,288],[0,256], return_mask=False)
+    col_mask = [2, 34, 66,98, 130, 162,194, 226, 258, 290] - 1
+    masks = ifa.echo.echo382_column_mask(data, col_mask, previous_mask=masks, return_mask=False)
+
+    # Cold filtering
+    masks = ifa.echo.echo_270_minimum_cut(data, 43000, previous_mask=masks, return_mask=False)
+    
+    final_data = ifa.echo.numpy_masked_array(data,None,masking_dictionary=masks)
+
     
     # Histogram parameters, desires 1 ADU wide bins.
-    bin_list = np.arange(data.min() - 1,data.max() + 1,1)
+    bin_list = np.arange(data.min() - 1,data.max() + 1,100)
+    hist_range = [data.min(),data.max()]
+    histogram_parameters = {'histogram_plot_paramters':{'bins':bin_list, 'range':hist_range}}
     
-    plot_hist_parameters = {}
-    histogram_plot_paramters = {'bins':bin_list, 'range':None}
-    plot_hist_parameters['histogram_plot_paramters'] = histogram_plot_paramters
-    plot_hist_parameters['fit_gaussian'] = False
-    
-    # And plot\n",
-    temp_figure = ifa.hotel.plot_single_heatmap_and_histogram(data,plot_histogram_parameters=plot_hist_parameters)
-    
-    title = filedex.split('\\')[-1]
-    temp_figure.suptitle(title)
+    figure = ifa.hotel.plot_single_heatmap_and_histogram(data,
+                                      figure_subplot_parameters={'figsize':(9,3.5), 'dpi':100},
+                                      plot_heatmap_parameters={},
+                                      plot_histogram_parameters=histogram_parameters)
 
-    # Plots with log axis.
-    plot_histlog_parameters = {}
-    histogramlog_plot_paramters = {'bins':bin_list, 'range':None, 'log':True}
-    plot_histlog_parameters['histogram_plot_paramters'] = histogramlog_plot_paramters
-    temp_figure_log = \
-        ifa.hotel.plot_single_heatmap_and_histogram(data,plot_histogram_parameters=plot_histlog_parameters)
-    title_log = filedex.split('\\')[-1] + "__LOG"
-    temp_figure_log.suptitle(title_log)
-    
-    # And save the plot file. We're just saving it in the same place as the actual fits file.
-    temp_figure.savefig(filedex[:-5] + '.pdf')
-    temp_figure_log.savefig(filedex[:-5] + '__LOG.pdf')
-    ###
-
-    plt.close(temp_figure)
-    plt.close(temp_figure_log)
-    del temp_figure, temp_figure_log
+    ifa.meta.smeargle_save_figure_file(figure,filedex[:-5],filedex[:-5])
 
     print(" A figure has been saved. Count {cnt}".format(cnt=counter))
     

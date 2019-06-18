@@ -8,6 +8,7 @@ import astropy as ap
 import astropy.io.fits as ap_fits
 import copy
 import numpy as np
+import numpy.ma as np_ma
 
 
 
@@ -75,3 +76,38 @@ def smeargle_extract_subarray(primary_array,x_bounds,y_bounds):
     sub_array = primary_array[y_bounds[0]:y_bounds[-1],x_bounds[0]:x_bounds[1]]
 
     return np.array(sub_array)
+
+
+def smeargle_masked_array_min_max(masked_array):
+    """ This function returns a masked array's minimum and maximum value.
+
+    For some reason, the built in Numpy Masked min/max functions still return the masked values
+    themselves. This function determines the minimum and maximum value within an array is that
+    not masked. 
+    
+    Parameters
+    ----------
+    masked_array : masked ndarray 
+        The array that has a mask, and is also the one that will have a min max calculated.
+
+    Returns
+    -------
+    masked_min : float
+        The value of the minimum of the masked array ignoring masking.
+    masked_max : float
+        The value of the maximum of the masked array ignoring masking.
+    """
+    
+    # !!WARN Obsolete
+
+    # Execute a copy just in case of damage to the array.
+    masked_array = copy.deepcopy(masked_array)
+
+    # Finding the minimum of the array.
+    masked_min = masked_array.min()
+
+    # Finding the maximum of the array
+    masked_max = masked_array.max()
+
+    return masked_min, masked_max
+

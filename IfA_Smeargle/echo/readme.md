@@ -47,26 +47,6 @@ sub-array. A sub-array mask is strictly meant for trimming the edge pixels or a 
 on detector configuration.
 
 
-#### ECHO-130 Pixel Trimming
-
-The whole point of pixel trimming is to flag pixels that have values very far from the center 
-(basically, outliers). These pixels are normally a result of faults in the array or from 
-data collection issues. Normally not very far reaching.
-
-The upper and lower bounds that the cutoff applies can either be done in a few different ways.
-Unless manually specified, the software will always try the first on in the list that it can. If 
-the manual specification cannot be matched to a method, the default is ``nothing``.
-
-1. e
-2. **percentcut** The top X % of pixels and bottom Y % of pixels. It is possible to set X = Y, but not required. 
-The values of X,Y would be a hard input.
-3. **hardcut** Pixel values greater than some value X or less than some value Y. It is not possible for 
-X <= Y. The values of X,Y would be a hard input.
-4. **nothing** Absolutely nothing.
-
-
-------
-
 ## ECHO-200 Class
 
 The ECHO-200 class of filters are reserved for masks and masking techniques that do not have

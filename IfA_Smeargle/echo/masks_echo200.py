@@ -8,6 +8,7 @@ import numpy as np
 import scipy as sp
 import warnings as warn
 
+from . import echo_main
 from . import masks_echo000, masks_echo100, masks_echo300 as masks
 
 
@@ -37,10 +38,10 @@ def echo_270_minimum_cut(data_array, minimum_value, previous_mask={}, return_mas
         the mask dictionary under the key ``echo270_minimum_cut``.
     """
 
-    masked_array = np.where(data_array < minimum_value, x=True, y=False)
+    masked_array = np.where(data_array < minimum_value, True, False)
 
-    final_mask = _functioned_mask_returning(masked_array, previous_mask,
-                                            'echo270_minimum_cut', return_mask)
+    final_mask = echo_main.functioned_mask_returning(masked_array, previous_mask,
+                                                     'echo270_minimum_cut', return_mask)
 
     return final_mask
 
@@ -71,9 +72,9 @@ def echo_271_maximum_cut(data_array, maximum_value, previous_mask={}, return_mas
         the mask dictionary under the key ``echo271_maximum_cut``.
     """
 
-    masked_array = np.where(data_array > maximum_value, x=True, y=False)
+    masked_array = np.where(data_array > maximum_value, True, False)
 
-    final_mask = _functioned_mask_returning(masked_array, previous_mask,
-                                            'echo271_maximum_cut', return_mask)
+    final_mask = echo_main.functioned_mask_returning(masked_array, previous_mask,
+                                                     'echo271_maximum_cut', return_mask)
 
     return final_mask

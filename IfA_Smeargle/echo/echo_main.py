@@ -83,7 +83,7 @@ def synthesize_mask_dictionary(masking_dictionary):
 
 
 
-def _functioned_mask_returning(pixel_mask,masking_dictionary,filter_name,return_mask_only):
+def functioned_mask_returning(pixel_mask,masking_dictionary,filter_name,return_mask_only):
     """ This function is a single implementation for returning masks.
 
     Because it is an option for the user to return the mask itself, writing the logic for each

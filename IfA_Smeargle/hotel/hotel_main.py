@@ -15,6 +15,7 @@ import matplotlib.cm as mpl_cm
 import matplotlib.patches as mpl_patch
 import matplotlib.pyplot as plt
 import numpy as np
+import numpy.ma as np_ma
 import scipy as sp
 
 from ..meta import *
@@ -72,6 +73,12 @@ def plot_array_heatmap_image(data_array,
     # Finally plotting.
     heatmap = ax.imshow(data_array, **heatmap_plot_parameters)
     plt.colorbar(mappable=heatmap, ax=ax, **colorbar_plot_paramters)
+
+    #Return some information about how much masked pixels there are, if any.
+    ax.text(data_array.shape[1],0,
+            'Masked: {masked} / {total}'.format(
+                masked=np_ma.count_masked(data_array),total=data_array.size),
+            verticalalignment='bottom',horizontalalignment='right',fontsize='large')
 
     return ax
 
@@ -132,9 +139,15 @@ def plot_array_histogram(data_array,
         # It does not exist.
         pass
 
+    # Be able to accept both masked arrays and standard arrays and be able to tell.
+    if (isinstance(data_array,np_ma.MaskedArray)):
+        plotting_data = data_array.compressed()
+    else:
+        plotting_data = data_array.flatten()
+
 
     # Derive histogram data, and double as plotting functionality.
-    hist_data = ax.hist(data_array.flatten(), **histogram_plot_paramters)
+    hist_data = ax.hist(plotting_data, **histogram_plot_paramters)
     hist_x = (hist_data[1][0:-1] + hist_data[1][1:]) / 2 # Derive middle of bin.
     hist_y = hist_data[0]
     # Personally, Sparrow does not find this helpful to look at.
@@ -235,7 +248,7 @@ def plot_single_heatmap_and_histogram(data_array,
     # Plotting both figures in their respective areas side by side. Again, use user
     # specifications.
     plot_array_heatmap_image(data_array, figure_axes=ax[0], **plot_heatmap_parameters)
-    plot_array_histogram(data_array.flatten(), figure_axes=ax[1], **plot_histogram_parameters)
+    plot_array_histogram(data_array, figure_axes=ax[1], **plot_histogram_parameters)
     
     # The histogram feels squished unless the axes ratios are modified.
     ax[1].set_aspect(1/(ax[1].get_data_ratio() * 1.5))
