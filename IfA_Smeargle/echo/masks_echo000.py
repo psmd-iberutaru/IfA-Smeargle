@@ -7,3 +7,5 @@ import astropy as ap
 import numpy as np
 import scipy as sp
 import warnings as warn
+
+from . import masks_echo100, masks_echo200, masks_echo300 as masks

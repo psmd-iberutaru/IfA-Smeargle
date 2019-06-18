@@ -37,6 +37,16 @@ The source of ECHO-100 flags may be from hard (ECHO-000 like) problems. However,
 exactly determined to be an ECHO-000 reason, and thus cannot be marked as so.
 
 
+#### ECHO-120 Subarray Mask
+
+The sub-array mask applies a mask to the entire array excluding a specific subarray provided by
+given x-range and y-range bounds. The sub-array is inclusive of the bounds provided. 
+
+No more than a single sub-array may be provided. It does not make sence to have more than one
+sub-array. A sub-array mask is strictly meant for trimming the edge pixels or a priori trims based
+on detector configuration.
+
+
 #### ECHO-130 Pixel Trimming
 
 The whole point of pixel trimming is to flag pixels that have values very far from the center 
@@ -70,6 +80,21 @@ expected to be used. However, it is usually suggested that ECHO-200 class filter
 skipped unless there is a very good, well-understood reason.
 
 
+#### ECHO-270 Minimum Cut
+
+This mask filters out all pixels that have a value strictly less than a specific limiting 
+minimum; that is, values equal to the minimum are kept.
+
+The limiting minimum is hard-coded as a parameter provided by the user.
+
+#### ECHO-271 Maximum Cut
+
+This mask filters out all pixels that have a value strictly more than a specific limiting 
+maximum; that is, values equal to the maximum are kept.
+
+The limiting maximum is hard-coded as a parameter provided by the user.
+
+
 ------
 
 
@@ -92,6 +117,30 @@ following form:
 [ (x1,y1) , (x2,y2) , (x3,y3) , ... (xn,yn) ]
 
 Each single pixel at those pixel coordinates (zero-indexed) will be flagged for masking.
+
+#### ECHO-381 Rectangle Mask
+
+This mask applies itself to rectangles defined by parallel lists of x-ranges and y-ranges. 
+It is acceptable if these rectangles overlap. 
+
+If only one rectangle is being made, the xy-ranges should be embedded as if to resemble parallel
+arrays. The program may be able to do it automatically, but it is best not to rely on such
+adaptation. Moreover, the xy-ranges should be referencing their values based on a 0-indexed 
+data array. The rectangle masking is inclusive of the values provided. 
+
+#### ECHO-382 Column Mask
+
+This mask applies itself to columns of pixels specified by a 0-indexed list. The list
+must contain all of the columns to mask; if it not contained, it is not masked. 
+
+The specifications of the columns are given by its x-axis coordinate (again, 0-indexed).
+
+#### ECHO-383 Row Mask
+
+This mask applies itself to rows of pixels specified by a 0-indexed list. The list
+must contain all of the rows to mask; if it not contained, it is not masked. 
+
+The specifications of the rows are given by its y-axis coordinate (again, 0-indexed).
 
 
 #### ECHO-398 Nothing

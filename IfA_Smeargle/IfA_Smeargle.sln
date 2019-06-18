@@ -8,9 +8,12 @@ EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{90FEF9BC-338D-44D3-8ECE-F39F548BCC3B}"
 	ProjectSection(SolutionItems) = preProject
 		__init__.py = __init__.py
+		..\DEBUGG.py = ..\DEBUGG.py
 	EndProjectSection
 EndProject
 Project("{888888A0-9F3D-457C-B088-3A5042F75D52}") = "echo", "echo\echo.pyproj", "{2C5E1B3F-7F24-427E-B7C3-2C0A079500F8}"
+EndProject
+Project("{888888A0-9F3D-457C-B088-3A5042F75D52}") = "meta", "meta\meta.pyproj", "{8295F1E0-69EA-41D4-BE14-135B56583298}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -22,6 +25,8 @@ Global
 		{807A2A38-3207-41DC-9358-5022B949E572}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{2C5E1B3F-7F24-427E-B7C3-2C0A079500F8}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{2C5E1B3F-7F24-427E-B7C3-2C0A079500F8}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{8295F1E0-69EA-41D4-BE14-135B56583298}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{8295F1E0-69EA-41D4-BE14-135B56583298}.Release|Any CPU.ActiveCfg = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

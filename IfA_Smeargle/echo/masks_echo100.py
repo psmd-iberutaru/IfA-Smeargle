@@ -9,10 +9,55 @@ import numpy as np
 import scipy as sp
 import warnings as warn
 
-import masks_echo000, masks_echo200, masks_echo300 as masks 
+from ..meta import *
+
+from .echo_main import *
+from . import masks_echo000, masks_echo200, masks_echo300 as masks
 
 
-def echo_130_pixel_trimming(data_array, previous_mask={}, 
+def echo120_subarray_mask(data_array, x_range,y_range, previous_mask={}, return_mask=False):
+    """ This applies a mask on the entire array except for a single sub-array rectangle. 
+
+    This function subsets a sub-array of the data array from a mask. Only one sub-array can be
+    defined using this function. The bounds of the sub-array is inclusively defined by the 
+    x-ranges and y-ranges.
+
+    Parameters
+    ----------
+    data_array : ndarray
+        The data array that the mask will be calculated from. 
+    x_range : list or ndarray
+        The inclusive x-range bounds of the sub-array.
+    y_range : list or ndarray
+        The inclusive y-range bounds of the sub-array.
+    previous_mask : dictionary (optional)
+        Any previous masks done. The new mask made in this function will be added to the 
+        dictionary. Default is to make a new mask dictionary.
+    return_mask : boolean (optional)
+        If this is true, then the mask itself (rather than the dictionary entry) will be 
+        returned instead.
+
+    Returns
+    -------
+    final_mask : ndarray -> dictionary
+        A boolean array for pixels that are masked (True) or are valid (False) will be added to 
+        the mask dictionary under the key ``echo120_subarray_mask``.
+    """
+
+    # A sub-array mask is practically the opposite of a rectangle mask. As such will be the 
+    # implementation of it.
+    masked_array = masks.echo381_rectangle_mask(data_array,[x_range],[y_range],return_mask=True)
+    masked_array = np.logical_not(masked_array)
+
+    # Returning the mask.
+    final_mask = _functioned_mask_returning(masked_array,previous_mask,
+                                            'echo120_subarray_mask',return_mask)
+    
+    return final_mask
+
+
+
+def echo130_pixel_trimming(data_array, previous_mask={}, return_mask=False,
                             method='default',
                             trim_parameters={
                                 # Required for percentcut and hardcut.
@@ -49,7 +94,7 @@ def echo_130_pixel_trimming(data_array, previous_mask={},
     -------
     final_mask : ndarray -> dictionary
         A boolean array for pixels that are masked (True) or are valid (False) will be added to 
-        the mask dictionary under the key ``echo130_pixtrim``.
+        the mask dictionary under the key ``echo130_pixel_trimming``.
 
     """
 
@@ -83,7 +128,7 @@ def echo_130_pixel_trimming(data_array, previous_mask={},
                        "billion."),
                       RuntimeWarning)
 
-        # Now that the numerical bounds have been established, the percentcut has been turned 
+        # Now that the numerical bounds have been established, the percentcut has been turned
         # into a hardcut.
         masked_array = _pixel_trim_hardcut(data_array, upper=upper_value, lower=lower_value)
 
@@ -102,7 +147,7 @@ def echo_130_pixel_trimming(data_array, previous_mask={},
             raise ValueError("It does not make sense for the lower bound to be greater than the "
                              "upper bound. The lower bound must be less than the upper bound.")
 
-        # Abusing np.where. If condition is true, then the pixel is considered bad.
+        # Abusing np.where.  If condition is true, then the pixel is considered bad.
         masked_array = np.where(((data_array > upper) or (data_array < lower)), x=True, y=False)
 
         return masked_array
@@ -131,13 +176,7 @@ def echo_130_pixel_trimming(data_array, previous_mask={},
     else:
         masked_array = _pixel_trim_nothing(data_array)
 
-
-    # Figure out what to return.
-    if (return_mask):
-        final_mask = masked_array
-    elif (not return_mask):
-        final_mask = previous_mask
-    else:
-        final_mask = previous_mask
+    final_mask = _functioned_mask_returning(masked_array, previous_mask,
+                                            'echo130_pixel_trimming', return_mask)
 
     return final_mask
