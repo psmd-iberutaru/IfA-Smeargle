@@ -18,7 +18,7 @@ from . import masks_echo000, masks_echo100, masks_echo200 as masks
 def echo380_single_pixels(data_array, pixel_list, previous_mask={}, return_mask=False):
     """ This applies a single mask on a single pixel(s)
 
-    As the name implies, this function masks a single pixel value or a list of single pixel
+    As the name implies, this function masks a single pixel value or a list of single pixel       
     pairs. 
 
     Parameters
@@ -48,7 +48,7 @@ def echo380_single_pixels(data_array, pixel_list, previous_mask={}, return_mask=
         raise ValueError("The pixel list must be a list (x,y) point pairs.")
     
     # Taking a template mask to then change.
-    masked_array = echo_398_nothing(data_array, return_mask=True)
+    masked_array = echo398_nothing(data_array, return_mask=True)
 
     # Looping over all pairs.
     for pixeldex in pixel_list:

@@ -20,6 +20,8 @@ import numpy as np
 import numpy.ma as np_ma
 import scipy as sp
 
+from ...meta import *
+
 from .masks_echo000 import *
 from .masks_echo100 import *
 from .masks_echo200 import *
@@ -108,6 +110,13 @@ def functioned_mask_returning(pixel_mask,masking_dictionary,filter_name,return_m
         the boolean value.
     
     """
+
+    # Warn if the mask that would be returned is empty.
+    if (np_ma.count_masked(pixel_mask) == 0):
+        smeargle_warning(MaskingWarning,
+                         "The masking routine < {msk_rou} > did not mask any pixels.".format(
+                             msk_rou=filter_name))
+
     returning_object = None
 
     if (return_mask_only):
@@ -119,7 +128,7 @@ def functioned_mask_returning(pixel_mask,masking_dictionary,filter_name,return_m
     return returning_object
 
 
-def _sort_masking_dictionary(mask_dictionary):
+def sort_masking_dictionary(mask_dictionary):
     """ This function just sorts a dictionary by its key.
     
     As the masking dictionary is expected to be in order by its keys, this is sort of needed. 

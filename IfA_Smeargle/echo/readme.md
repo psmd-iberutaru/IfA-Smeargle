@@ -21,8 +21,17 @@ fundamental in origin. That is, the reasons why they are being masked is more ab
 short-falls in hardware/software, or even about nature itself, than something about array 
 performance. 
 
-Being the first and most fundamental class, this is always applied first. 
+Being the first and most fundamental class, this is always applied first. Generally, 
+withholding their application must warrant a very good reason and understanding of the data. 
 
+#### ECHO-010 Fixing Invalids
+
+As most of the data is processed upstream with Python/Numpy, if there are mathematical errors
+or shortcomings in the data (say like divide-by-zero), Numpy usually handles it. But there 
+is no meaning in the Numpy values that it uses (at least for our purposes). 
+
+These invalid inputs (like np.nan and np.Inf) are best masked. That is the purpose of this
+routine: ensuring only valid numerical inputs are included.
 
 ------
 
@@ -42,22 +51,22 @@ exactly determined to be an ECHO-000 reason, and thus cannot be marked as so.
 The sub-array mask applies a mask to the entire array excluding a specific subarray provided by
 given x-range and y-range bounds. The sub-array is inclusive of the bounds provided. 
 
-No more than a single sub-array may be provided. It does not make sence to have more than one
-sub-array. A sub-array mask is strictly meant for trimming the edge pixels or a priori trims based
-on detector configuration.
+No more than a single sub-array may be provided. It does not make sense to have more than one
+sub-array. A sub-array mask is strictly meant for trimming the edge pixels or a priori trims 
+based on detector configuration.
 
 
 ## ECHO-200 Class
 
 The ECHO-200 class of filters are reserved for masks and masking techniques that do not have
 a known hard problem source. The problems that may arise that may require an ECHO-200 class
-filter are far softer. These filters may be used for masking pixels such that downstream lines and
-software behave nicer (assuming that there is no ECHO-000 or ECHO-100 class source for said
+filter are far softer. These filters may be used for masking pixels such that downstream lines 
+and software behave nicer (assuming that there is no ECHO-000 or ECHO-100 class source for said
 filters).
 
 As the source of these filters are mostly for downstream efforts, not all of them are
 expected to be used. However, it is usually suggested that ECHO-200 class filters not be
-skipped unless there is a very good, well-understood reason.
+skipped unless there is a reason.
 
 
 #### ECHO-270 Minimum Cut
@@ -65,15 +74,37 @@ skipped unless there is a very good, well-understood reason.
 This mask filters out all pixels that have a value strictly less than a specific limiting 
 minimum; that is, values equal to the minimum are kept.
 
-The limiting minimum is hard-coded as a parameter provided by the user.
+The limiting minimum is coded as a parameter provided by the user.
 
 #### ECHO-271 Maximum Cut
 
 This mask filters out all pixels that have a value strictly more than a specific limiting 
 maximum; that is, values equal to the maximum are kept.
 
-The limiting maximum is hard-coded as a parameter provided by the user.
+The limiting maximum is coded as a parameter provided by the user.
 
+
+#### ECHO-275 Pixel Truncation
+
+This mask eliminates the highest X and lowest Y pixels from an array. Please note that the pixels
+are being counted, and it is not a value cut (unlike ECHO-270 and ECHO-271). 
+
+The top and bottom pixel count numbers are provided coded by the user. The pixels masked are
+independent from the previous masks provided.
+
+#### ECHO-276 Percent Truncation
+
+This mask eliminates the highest and lowest pixels from an array. Please note that the pixels
+are being counted as a percentage of the total number of pixels, and it is not a value cut 
+(unlike ECHO-270 and ECHO-271). 
+
+The percentages must be given in the following format. Say, for example, the top 5% and the 
+bottom 7% should be truncated, the parameter ``kept_range`` should be:
+
+``kept_range=[0.07,0.95]``
+
+The top and bottom percent values are provided coded by the user. The pixels masked are
+independent from the previous masks provided.
 
 ------
 

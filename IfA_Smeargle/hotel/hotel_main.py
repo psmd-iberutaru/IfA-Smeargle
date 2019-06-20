@@ -140,7 +140,7 @@ def plot_array_histogram(data_array,
         pass
 
     # Be able to accept both masked arrays and standard arrays and be able to tell.
-    if (isinstance(data_array,np_ma.MaskedArray)):
+    if (np_ma.is_masked(data_array)):
         plotting_data = data_array.compressed()
     else:
         plotting_data = data_array.flatten()
