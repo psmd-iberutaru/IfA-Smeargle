@@ -4,7 +4,7 @@
     <SchemaVersion>2.0</SchemaVersion>
     <ProjectGuid>2c5e1b3f-7f24-427e-b7c3-2c0a079500f8</ProjectGuid>
     <ProjectHome>.</ProjectHome>
-    <StartupFile>echo_functions.py</StartupFile>
+    <StartupFile>echo_main.py</StartupFile>
     <SearchPath>
     </SearchPath>
     <WorkingDirectory>.</WorkingDirectory>
