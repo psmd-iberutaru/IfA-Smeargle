@@ -18,6 +18,12 @@ class BrokenLogicError(Smeargle_Exception):
     """
     pass
 
+class IllogicalProsedure(Smeargle_Exception):
+    """
+    This error is thrown when the program would attempt something that does not make scene. 
+    This is usually due to issues with configuration errors.
+    """
+
 class ImprecisionError(Smeargle_Exception):
     """
     This error is used when there are critical issues with numerical precision because of the 

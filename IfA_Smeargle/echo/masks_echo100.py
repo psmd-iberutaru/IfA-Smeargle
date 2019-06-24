@@ -11,11 +11,11 @@ import warnings as warn
 
 from ..meta import *
 
-from . import echo_main
+from . import echo_functions as echo_funct
 from . import masks_echo000, masks_echo200, masks_echo300 as masks
 
 
-def echo120_subarray_mask(data_array, x_range,y_range, previous_mask={}, return_mask=False):
+def echo120_subarray_mask(data_array, x_range, y_range, previous_mask={}, return_mask=False):
     """ This applies a mask on the entire array except for a single sub-array rectangle. 
 
     This function subsets a sub-array of the data array from a mask. Only one sub-array can be
@@ -50,7 +50,7 @@ def echo120_subarray_mask(data_array, x_range,y_range, previous_mask={}, return_
     masked_array = np.logical_not(masked_array)
 
     # Returning the mask.
-    final_mask = echo_main.functioned_mask_returning(masked_array,previous_mask,
+    final_mask = echo_funct.functioned_mask_returning(masked_array,previous_mask,
                                                      'echo120_subarray_mask',return_mask)
     
     return final_mask

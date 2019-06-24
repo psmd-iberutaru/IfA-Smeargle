@@ -9,7 +9,7 @@ import numpy.ma  as np_ma
 import scipy as sp
 import warnings as warn
 
-from . import echo_main
+from . import echo_functions as echo_funct
 from . import masks_echo100, masks_echo200, masks_echo300 as masks
 
 
@@ -42,7 +42,7 @@ def echo010_fixing_invalids(data_array, previous_mask={}, return_mask=False):
 
     masked_array = np_ma.fix_invalid(data_array)
 
-    final_mask = echo_main.functioned_mask_returning(masked_array,previous_mask,
+    final_mask = echo_funct.functioned_mask_returning(masked_array,previous_mask,
                                                      'echo010_fixing_invalids',return_mask)
 
     return final_mask

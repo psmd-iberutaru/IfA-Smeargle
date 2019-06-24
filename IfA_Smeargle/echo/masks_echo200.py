@@ -9,9 +9,9 @@ import numpy.ma as np_ma
 import scipy as sp
 import warnings as warn
 
-from ...meta import *
+from ..meta import *
 
-from . import echo_main
+from . import echo_functions as echo_funct
 from . import masks_echo000, masks_echo100, masks_echo300 as masks
 
 
@@ -43,7 +43,7 @@ def echo270_minimum_cut(data_array, minimum_value, previous_mask={}, return_mask
 
     masked_array = np.where(data_array < minimum_value, True, False)
 
-    final_mask = echo_main.functioned_mask_returning(masked_array, previous_mask,
+    final_mask = echo_funct.functioned_mask_returning(masked_array, previous_mask,
                                                      'echo270_minimum_cut', return_mask)
 
     return final_mask
@@ -77,7 +77,7 @@ def echo271_maximum_cut(data_array, maximum_value, previous_mask={}, return_mask
 
     masked_array = np.where(data_array > maximum_value, True, False)
 
-    final_mask = echo_main.functioned_mask_returning(masked_array, previous_mask,
+    final_mask = echo_funct.functioned_mask_returning(masked_array, previous_mask,
                                                      'echo271_maximum_cut', return_mask)
 
     return final_mask
@@ -125,11 +125,11 @@ def echo275_pixel_truncation(data_array, top_count, bottom_count,
     temp_mask_dict = echo270_minimum_cut(data_array, bottom_value, previous_mask=temp_mask_dict)
     temp_mask_dict = echo271_maximum_cut(data_array, upper_value, previous_mask=temp_mask_dict)
 
-    masked_array = echo_main.synthesize_mask_dictionary(temp_mask_dict)
+    masked_array = echo_funct.synthesize_mask_dictionary(temp_mask_dict)
 
     # Finally return
-    final_mask = echo_main.functioned_mask_returning(masked_array,previous_mask,
-                                                     'echo275_pixel_truncation',return_mask)
+    final_mask = echo_funct.functioned_mask_returning(masked_array, previous_mask,
+                                                     'echo275_pixel_truncation', return_mask)
 
     return final_mask
 
@@ -185,7 +185,7 @@ def echo276_percent_truncation(data_array, kept_range, previous_mask={}, return_
                                 "multiplication; percent truncation will be wildly inaccurate."))
 
     # Otherwise... return
-    final_mask = echo_main.functioned_mask_returning(masked_array,previous_mask,
+    final_mask = echo_funct.functioned_mask_returning(masked_array,previous_mask,
                                                      'echo276_percent_truncation',return_mask)
 
     return final_mask

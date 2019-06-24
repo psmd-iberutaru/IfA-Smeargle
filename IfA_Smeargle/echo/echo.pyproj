@@ -4,7 +4,7 @@
     <SchemaVersion>2.0</SchemaVersion>
     <ProjectGuid>2c5e1b3f-7f24-427e-b7c3-2c0a079500f8</ProjectGuid>
     <ProjectHome>.</ProjectHome>
-    <StartupFile>echo_main.py</StartupFile>
+    <StartupFile>echo_functions.py</StartupFile>
     <SearchPath>
     </SearchPath>
     <WorkingDirectory>.</WorkingDirectory>
@@ -21,7 +21,10 @@
     <EnableUnmanagedDebugging>false</EnableUnmanagedDebugging>
   </PropertyGroup>
   <ItemGroup>
-    <Compile Include="echo_main.py" />
+    <Compile Include="echo_functions.py" />
+    <Compile Include="echo_main.py">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Include="masks_echo300.py" />
     <Compile Include="masks_echo200.py" />
     <Compile Include="masks_echo000.py" />

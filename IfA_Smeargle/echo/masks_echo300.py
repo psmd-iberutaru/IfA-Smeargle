@@ -10,7 +10,7 @@ import warnings as warn
 
 from ..meta import *
 
-from . import echo_main
+from . import echo_functions as echo_funct
 
 from . import masks_echo000, masks_echo100, masks_echo200 as masks
 
@@ -56,13 +56,13 @@ def echo380_single_pixels(data_array, pixel_list, previous_mask={}, return_mask=
         masked_array[ypix,xpix] = True
 
 
-    final_mask = echo_main.functioned_mask_returning(masked_array,previous_mask,
+    final_mask = echo_funct.functioned_mask_returning(masked_array,previous_mask,
                                                      'echo380_single_pixels',return_mask)
 
     return final_mask
 
 
-def echo381_rectangle_mask(data_array, x_ranges,y_ranges, previous_mask={}, return_mask=False):
+def echo381_rectangle_mask(data_array, x_ranges, y_ranges, previous_mask={}, return_mask=False):
     """ This mask function applies rectangular masks to the data array.
 
     The rectangles defined by subsequent xy-ranges (0-indexed) are masked. Multiple overlapping
@@ -118,11 +118,12 @@ def echo381_rectangle_mask(data_array, x_ranges,y_ranges, previous_mask={}, retu
 
     # Mask rectangles.
     for xrangedex,yrangedex in zip(x_ranges,y_ranges):
-        # The +1 is needed for inclusive ranges which is the conceptual default.
+        # The +1 is needed for inclusive ranges which is the conceptual
+        # default.
         masked_array[yrangedex[0]:yrangedex[-1] + 1,xrangedex[0]:xrangedex[-1] + 1] = True
 
     # And returning.
-    final_mask = echo_main.functioned_mask_returning(masked_array,previous_mask,
+    final_mask = echo_funct.functioned_mask_returning(masked_array,previous_mask,
                                                      'echo381_rectangle_mask',return_mask)
 
     return final_mask
@@ -163,7 +164,7 @@ def echo382_column_mask(data_array, column_list, previous_mask={}, return_mask=F
         masked_array[:,columndex] = True
 
     # And returning.
-    final_mask = echo_main.functioned_mask_returning(masked_array,previous_mask,
+    final_mask = echo_funct.functioned_mask_returning(masked_array,previous_mask,
                                                      'echo382_column_mask',return_mask)
 
     return final_mask
@@ -204,7 +205,7 @@ def echo383_row_mask(data_array, row_list, previous_mask={}, return_mask=False):
         masked_array[rowdex,:] = True
 
     # And returning.
-    final_mask = echo_main.functioned_mask_returning(masked_array,previous_mask,
+    final_mask = echo_funct.functioned_mask_returning(masked_array,previous_mask,
                                                      'echo383_row_mask',return_mask)
 
     return final_mask
@@ -237,7 +238,7 @@ def echo398_nothing(data_array, previous_mask={}, return_mask=False):
     array_shape = data_array.shape
     masked_array = np.full(array_shape, False)
 
-    final_mask = echo_main.functioned_mask_returning(masked_array,previous_mask,
+    final_mask = echo_funct.functioned_mask_returning(masked_array,previous_mask,
                                                      'echo380_single_pixels',return_mask)
 
     return final_mask
@@ -270,7 +271,7 @@ def echo399_everything(data_array, previous_mask={}, return_mask=False):
     array_shape = data_array.shape
     masked_array = np.full(array_shape, True)
 
-    final_mask = echo_main.functioned_mask_returning(masked_array,previous_mask,
+    final_mask = echo_funct.functioned_mask_returning(masked_array,previous_mask,
                                                      'echo399_everything',return_mask)
 
     return final_mask
