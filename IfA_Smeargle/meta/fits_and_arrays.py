@@ -10,14 +10,15 @@ import copy
 import numpy as np
 import numpy.ma as np_ma
 
-
+from ..meta import *
 
 def smeargle_open_fits_file(file_name, extension=0):
     """ A function to ensure proper loading/reading of fits files.
 
-    This function, as its name, opens a fits file. It returns the Astropy HDU file. This function 
-    is mostly done to ensure that files are properly closed. It also extracts the needed data and 
-    header information from the file.
+    This function, as its name, opens a fits file. It returns the Astropy HDU 
+    file. This function is mostly done to ensure that files are properly 
+    closed. It also extracts the needed data and header information from the 
+    file.
 
     Parameters
     ----------
@@ -45,6 +46,56 @@ def smeargle_open_fits_file(file_name, extension=0):
 
 
     return hdu_file, hdu_file[extension].header, hdu_file[extension].data
+
+
+def smeargle_write_fits_file(file_name, hdu_header, hdu_data,
+                             hdu_object=None, overwrite=True):
+    """ A function to ensure proper writing of fits files.
+
+    This function writes fits files given the data and header file. The 
+    file name should be a complete path and must also include the file name.
+
+    Parameters
+    ----------
+    file_name : string
+        This is the path of the file to be written, either relative or 
+        absolute.
+    hdu_header : Header
+        The Astropy header object representing the headers of the given file.
+    hdu_data : ndarray
+        The Numpy representation of a fits file data.
+    hdu_object : Astropy HDUList (optional)
+        An astropy HDUList object, if provided, this object takes priority 
+        to be written, the rest are ignored.
+    overwrite : boolean
+        If ``True``, if there exists a file of the same name, overwrite.
+
+    Returns
+    -------
+    hdul_file : Astropy HDUList
+        The file object that was written to disk. If ``hdu_object`` was 
+        provided, it is returned untouched.
+    """
+
+    # Check if the file name has a fits extension.
+    if (file_name[-5:] != '.fits'):
+        file_name += '.fits'
+        smeargle_warning(InputWarning, ("The fits file name does not have a .fits extension; "
+                                        "it has been automatically added."))
+
+    # Check for the hdu_object.
+    if (isinstance(hdu_object,(ap_fits.PrimaryHDU,ap_fits.HDUList))):
+        hdul_file = hdu_object
+    else:
+        # Else, deal with the data.
+        hdu = ap_fits.PrimaryHDU(data=hdu_data, header=hdu_header)
+        hdul_file = ap_fits.HDUList([hdu])
+
+    # Write, follow overwrite instructions, assume the user knows what they 
+    # are doing. Return object.
+    hdul_file.writeto(file_name, overwrite=overwrite)
+    return hdul_file
+    
 
 
 def smeargle_extract_subarray(primary_array,x_bounds,y_bounds):

@@ -1,6 +1,7 @@
 
 """
-Defining custom errors because Python does not have all of the needed error categories.
+Defining custom errors because Python does not have all of the needed error 
+categories.
 """
 
 import warnings as warn
@@ -13,21 +14,23 @@ class Smeargle_Exception(Exception):
 # Errors
 class BrokenLogicError(Smeargle_Exception):
     """
-    This error is encountered when the program enters in a place it should not be able to.
-    Incorporated mostly for safety; usually not the fault of the user. 
+    This error is encountered when the program enters in a place it should 
+    not be able to. Incorporated mostly for safety; usually not the fault of 
+    the user. 
     """
     pass
 
 class IllogicalProsedure(Smeargle_Exception):
     """
-    This error is thrown when the program would attempt something that does not make scene. 
-    This is usually due to issues with configuration errors.
+    This error is thrown when the program would attempt something that does 
+    not make scene. This is usually due to issues with configuration errors.
     """
 
 class ImprecisionError(Smeargle_Exception):
     """
-    This error is used when there are critical issues with numerical precision because of the 
-    volume of data or the very low/high numbers involved. 
+    This error is used when there are critical issues with numerical 
+    precision because of the volume of data or the very low/high numbers 
+    involved. 
     """
     pass
 
@@ -57,7 +60,7 @@ def smeargle_warning(type, message):
     nothing
     
     """
-    warn.warn(message, type)
+    warn.warn(message, type, stacklevel=2)
     
 
 class Smeargle_Warning(UserWarning):
@@ -66,22 +69,37 @@ class Smeargle_Warning(UserWarning):
 
 class ImprecisionWarning(Smeargle_Warning):
     """
-    This warning is used when there may be issues with numerical precision because of the volume
-    of data or the very low/high numbers involved. 
+    This warning is used when there may be issues with numerical precision 
+    because of the volume of data or the very low/high numbers involved. 
     """
     pass
 
 
 class InputWarning(Smeargle_Warning):
     """
-    This warning is used when the user inputs something that is questionable, but not wrong.
+    This warning is used when the user inputs something that is questionable, 
+    but not wrong.
     """
     pass
 
 
 class MaskingWarning(Smeargle_Warning):
     """
-    This warning is used when any masking routine (especially in the ECHO line) fails to mask
-    any pixels. It is not a bad thing, but it can be helpful to know.
+    This warning is used when any masking routine (especially in the ECHO 
+    line) fails to mask any pixels. It is not a bad thing, but it can be 
+    helpful to know.
+    """
+    pass
+
+class OverwriteWarning(Smeargle_Warning):
+    """
+    This warning is used to warn the user that a file has been overwritten,
+    most likely because of conflicting file names.
+    """
+
+class TimeWarning(Smeargle_Warning):
+    """
+    This warning is used when any method called may take a long time to 
+    compute or execute. This allows the user to stop and change if desired. 
     """
     pass

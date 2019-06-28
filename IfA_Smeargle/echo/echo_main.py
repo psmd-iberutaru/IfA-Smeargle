@@ -81,10 +81,11 @@ def execute_echo(data_array,configuration_class):
             # Just send a notice that this filter is being skipped.
             print("Filter {filter} is being skipped as noted by configuration class."
                   .format(filter=filter_keydex))
-
-        # Run the masking filter.
-        masking_dict = echo_filters[filter_keydex](data_array, previous_mask=masking_dict,
-                                                   **config_param[config_keydex])
+            continue
+        else:
+            # Run the masking filter.
+            masking_dict = echo_filters[filter_keydex](data_array, previous_mask=masking_dict,
+                                                       **config_param[config_keydex])
 
     # Making the masked array.
     masked_array = echo_funct.numpy_masked_array(data_array,synthesized_mask=None,

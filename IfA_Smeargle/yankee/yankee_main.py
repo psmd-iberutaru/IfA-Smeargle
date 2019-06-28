@@ -39,6 +39,7 @@ class SmeargleConfig(conclss.BaseConfig):
     """
 
 
+    BravoConfig = conclss.BravoConfig()
     EchoConfig = conclss.EchoConfig()
     HotelConfig = conclss.HotelConfig()
     YankeeConfig = conclss.YankeeConfig()
