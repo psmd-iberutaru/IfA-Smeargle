@@ -18,6 +18,8 @@ def average_endpoints(fits_file, top_chunk, bottom_chunk, frame_exposure_time,
     This function reads in a fits file of 3 dimensions, averaging some 
     top chunk and bottom chunk of their "temporal" axis, normalizing
     and dividing over a timespan. 
+
+    If there is no temporal axis, this program raises an error.
     
     Parameters
     ----------
@@ -51,6 +53,16 @@ def average_endpoints(fits_file, top_chunk, bottom_chunk, frame_exposure_time,
         hdu_obj = ap_fits.HDUList([fits_file])
         header = fits_file.header
         data = fits_file.data
+
+    # Check for too many or too little dimensions; it is important as the 
+    # array shape of data is assumed.
+    if (len(np.array(data).shape) <= 2):
+        raise InputError("The data of the input fits file does not have any wavelength or "
+                         "temporal axis; to collapse spatially would be incorrect.")
+    elif (len(np.array(data).shape) > 3):
+        smeargle_warning(InputWarning,("The number of dimensions in the data array is greater "
+                                       "than 3, it is assumed that the 0th axis is the temporal "
+                                       "axis."))
 
     # Calculate the medians.
     top_median = np.median(data[-16:],axis=0)
