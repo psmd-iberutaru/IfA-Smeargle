@@ -1,2 +1,5 @@
 # Fits files really do not need to be tracked.
 *.fits
+
+# Nor do VS config files.
+*.suo
