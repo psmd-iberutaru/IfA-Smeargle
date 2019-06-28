@@ -65,8 +65,8 @@ def average_endpoints(fits_file, top_chunk, bottom_chunk, frame_exposure_time,
                                        "axis."))
 
     # Calculate the medians.
-    top_median = np.median(data[-16:],axis=0)
-    bottom_median = np.median(data[:16],axis=0)
+    top_median = np.median(data[-top_chunk:],axis=0)
+    bottom_median = np.median(data[:bottom_chunk],axis=0)
 
     # Subtracting and normalizing over the time span.
     integration_time = (data.shape[0] - (top_chunk + bottom_chunk)) * frame_exposure_time
