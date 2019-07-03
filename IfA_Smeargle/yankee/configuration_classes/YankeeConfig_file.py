@@ -1,5 +1,5 @@
 
-from .BaseConfig_file import BaseConfig
+from IfA_Smeargle.yankee.configuration_classes.BaseConfig_file import BaseConfig
 
 class YankeeConfig(BaseConfig):
     """This is the configuration class of the YANKEE line.

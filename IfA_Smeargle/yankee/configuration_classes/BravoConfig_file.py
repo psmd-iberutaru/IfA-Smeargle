@@ -25,6 +25,10 @@ class BravoConfig(BaseConfig):
 
 
 
+    # Preprocessing of beginning/end data for analysis.
+    avg_endpts_config = {'fits_file':None, 'start_chunk':None, 'end_chunk':None, 
+                         'frame_exposure_time':None}
+
     pass
 
 

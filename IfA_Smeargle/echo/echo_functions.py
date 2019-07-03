@@ -11,7 +11,7 @@ import numpy as np
 import numpy.ma as np_ma
 import scipy as sp
 
-from ..meta import *
+from IfA_Smeargle.meta import *
 
 
 def numpy_masked_array(data_array,synthesized_mask,

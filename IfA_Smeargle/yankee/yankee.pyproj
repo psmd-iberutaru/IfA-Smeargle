@@ -25,6 +25,7 @@
     <Compile Include="configuration_classes\BaseConfig_file.py">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="configuration_classes\BravoConfig_file.py" />
     <Compile Include="configuration_classes\EchoConfig_file.py">
       <SubType>Code</SubType>
     </Compile>

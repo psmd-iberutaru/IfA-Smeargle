@@ -1,10 +1,10 @@
 
-from .BaseConfig_file import BaseConfig
+from IfA_Smeargle.yankee.configuration_classes.BaseConfig_file import BaseConfig
 
-from .BravoConfig_file import BravoConfig
+from IfA_Smeargle.yankee.configuration_classes.BravoConfig_file import BravoConfig
 
-from .EchoConfig_file import EchoConfig
+from IfA_Smeargle.yankee.configuration_classes.EchoConfig_file import EchoConfig
 
-from .HotelConfig_file import HotelConfig
+from IfA_Smeargle.yankee.configuration_classes.HotelConfig_file import HotelConfig
 
-from .YankeeConfig_file import YankeeConfig 
+from IfA_Smeargle.yankee.configuration_classes.YankeeConfig_file import YankeeConfig 

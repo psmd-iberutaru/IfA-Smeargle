@@ -9,10 +9,12 @@ import numpy as np
 import scipy as sp
 import warnings as warn
 
-from ..meta import *
+from IfA_Smeargle.meta import *
 
-from . import echo_functions as echo_funct
-from . import masks_echo000, masks_echo200, masks_echo300 as masks
+from IfA_Smeargle.echo import echo_functions as echo_funct
+from IfA_Smeargle.echo.masks_echo000 import *
+from IfA_Smeargle.echo.masks_echo200 import *
+from IfA_Smeargle.echo.masks_echo300 import *
 
 
 def echo120_subarray_mask(data_array, x_range, y_range, previous_mask={}, return_mask=False):
@@ -46,7 +48,7 @@ def echo120_subarray_mask(data_array, x_range, y_range, previous_mask={}, return
 
     # A sub-array mask is practically the opposite of a rectangle mask. As such will be the 
     # implementation of it.
-    masked_array = masks.echo381_rectangle_mask(data_array,[x_range],[y_range],return_mask=True)
+    masked_array = echo381_rectangle_mask(data_array,[x_range],[y_range],return_mask=True)
     masked_array = np.logical_not(masked_array)
 
     # Returning the mask.

@@ -1,4 +1,4 @@
 
-from . import endpoint_averaging as end_ave
+from IfA_Smeargle.bravo import endpoint_averaging as end_ave
 
-from . import renaming as rename
+from IfA_Smeargle.bravo import renaming as rename

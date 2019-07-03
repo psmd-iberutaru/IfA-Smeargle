@@ -18,7 +18,7 @@ import numpy as np
 import numpy.ma as np_ma
 import scipy as sp
 
-from ..meta import *
+from IfA_Smeargle import meta
 
 
 def plot_array_heatmap_image(data_array,
@@ -74,7 +74,7 @@ def plot_array_heatmap_image(data_array,
     heatmap = ax.imshow(data_array, **heatmap_plot_parameters)
     plt.colorbar(mappable=heatmap, ax=ax, **colorbar_plot_paramters)
 
-    #Return some information about how much masked pixels there are, if any.
+    # Return some information about how much masked pixels there are, if any.
     ax.text(data_array.shape[1],0,
             'Masked: {masked} / {total}'.format(
                 masked=np_ma.count_masked(data_array),total=data_array.size),
@@ -135,6 +135,9 @@ def plot_array_histogram(data_array,
         # In the event that the value they gave is not strictly boolean.
         if (histogram_plot_paramters['log'] == True):
             fit_gaussian = False
+        else:
+            smeargle_warning(InputWarning,("The histogram plot parameter for log plotting is not "
+                                           "None or True; the unreadable input is ignored. "))
     except KeyError:
         # It does not exist.
         pass

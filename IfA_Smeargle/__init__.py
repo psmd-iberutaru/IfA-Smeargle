@@ -1,21 +1,21 @@
 
 #####
-from . import bravo
-from . import bravo as data_preparation
+from IfA_Smeargle import bravo
+from IfA_Smeargle import bravo as data_preparation
 
 #####
-from . import echo
-from . import echo as masking_routines 
-#####
-
-#####
-from . import hotel
-from . import hotel as dark_current_analysis
+from IfA_Smeargle import echo
+from IfA_Smeargle import echo as masking_routines 
 #####
 
 #####
-from . import yankee
-from . import yankee as config_class
+from IfA_Smeargle import hotel
+from IfA_Smeargle import hotel as dark_current_analysis
+#####
+
+#####
+from IfA_Smeargle import yankee
+from IfA_Smeargle import yankee as config_class
 
 
 ###############################################################################
@@ -23,5 +23,5 @@ from . import yankee as config_class
 ###############################################################################
 
 #####
-from . import meta
+from IfA_Smeargle import meta
 #####

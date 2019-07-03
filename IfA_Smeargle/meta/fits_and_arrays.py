@@ -10,7 +10,7 @@ import copy
 import numpy as np
 import numpy.ma as np_ma
 
-from ..meta import *
+from IfA_Smeargle.meta import *
 
 def smeargle_open_fits_file(file_name, extension=0):
     """ A function to ensure proper loading/reading of fits files.
@@ -21,7 +21,7 @@ def smeargle_open_fits_file(file_name, extension=0):
     file.
 
     Parameters
-    ----------
+    ---------- 
     file_name : string
         This is the path of the file to be read, either relative or absolute.
     extension : int or string (optional)
@@ -29,7 +29,7 @@ def smeargle_open_fits_file(file_name, extension=0):
 
     Returns
     -------
-    hdu_file : HDUList
+    hdu_file : HDULists
         The Astropy object representing the fits file.
     hdu_header : Header
         The Astropy header object representing the headers of the given file.

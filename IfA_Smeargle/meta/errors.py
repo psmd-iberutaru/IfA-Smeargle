@@ -6,13 +6,15 @@ categories.
 
 import warnings as warn
 
-# Smeargle Base.
-class Smeargle_Exception(Exception):
+# Smeargle Bases.
+class _Smeargle_BaseException(BaseException):
+    pass
+class _Smeargle_Exception(Exception):
     pass
 
 
 # Errors
-class BrokenLogicError(Smeargle_Exception):
+class BrokenLogicError(_Smeargle_Exception):
     """
     This error is encountered when the program enters in a place it should 
     not be able to. Incorporated mostly for safety; usually not the fault of 
@@ -20,13 +22,13 @@ class BrokenLogicError(Smeargle_Exception):
     """
     pass
 
-class IllogicalProsedure(Smeargle_Exception):
+class IllogicalProsedure(_Smeargle_Exception):
     """
     This error is thrown when the program would attempt something that does 
     not make scene. This is usually due to issues with configuration errors.
     """
 
-class ImprecisionError(Smeargle_Exception):
+class ImprecisionError(_Smeargle_Exception):
     """
     This error is used when there are critical issues with numerical 
     precision because of the volume of data or the very low/high numbers 
@@ -34,11 +36,24 @@ class ImprecisionError(Smeargle_Exception):
     """
     pass
 
-class InputError(Smeargle_Exception):
+class InputError(_Smeargle_Exception):
     """
     This error is used when the user does not input a proper or logical entry. 
     """
     pass
+
+class ImportingError(InputError):
+    """
+    This error is used when reading configuration files, or other data files
+    is not going as it should. Named ImportingError to avoid conflicts with 
+    ImportError.
+    """
+    pass
+
+class TerminalError(_Smeargle_BaseException):
+    """
+    Something has gone terribly wrong. It is best to contact Sparrow.
+    """
 
 
 # Warnings
@@ -63,27 +78,26 @@ def smeargle_warning(type, message):
     warn.warn(message, type, stacklevel=2)
     
 
-class Smeargle_Warning(UserWarning):
+# Smeargle base.
+class _Smeargle_Warning(UserWarning):
     pass
 
 
-class ImprecisionWarning(Smeargle_Warning):
+class ImprecisionWarning(_Smeargle_Warning):
     """
     This warning is used when there may be issues with numerical precision 
     because of the volume of data or the very low/high numbers involved. 
     """
     pass
 
-
-class InputWarning(Smeargle_Warning):
+class InputWarning(_Smeargle_Warning):
     """
     This warning is used when the user inputs something that is questionable, 
     but not wrong.
     """
     pass
 
-
-class MaskingWarning(Smeargle_Warning):
+class MaskingWarning(_Smeargle_Warning):
     """
     This warning is used when any masking routine (especially in the ECHO 
     line) fails to mask any pixels. It is not a bad thing, but it can be 
@@ -91,13 +105,23 @@ class MaskingWarning(Smeargle_Warning):
     """
     pass
 
-class OverwriteWarning(Smeargle_Warning):
+class OverwriteWarning(_Smeargle_Warning):
     """
     This warning is used to warn the user that a file has been overwritten,
     most likely because of conflicting file names.
     """
+    pass
 
-class TimeWarning(Smeargle_Warning):
+
+class ReductionWarning(_Smeargle_Warning):
+    """
+    This warning is used when normally unusual parameters are used for data 
+    reduction. The user is trusted in their procedures.
+    """
+    pass
+
+
+class TimeWarning(_Smeargle_Warning):
     """
     This warning is used when any method called may take a long time to 
     compute or execute. This allows the user to stop and change if desired. 

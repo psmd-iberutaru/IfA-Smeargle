@@ -9,8 +9,12 @@ import numpy.ma  as np_ma
 import scipy as sp
 import warnings as warn
 
-from . import echo_functions as echo_funct
-from . import masks_echo100, masks_echo200, masks_echo300 as masks
+from IfA_Smeargle.meta import *
+
+from IfA_Smeargle.echo import echo_functions as echo_funct
+from IfA_Smeargle.echo.masks_echo100 import *
+from IfA_Smeargle.echo.masks_echo200 import *
+from IfA_Smeargle.echo.masks_echo300 import *
 
 
 def echo010_fixing_invalids(data_array, previous_mask={}, return_mask=False):

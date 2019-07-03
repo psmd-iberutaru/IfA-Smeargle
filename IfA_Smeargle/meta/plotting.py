@@ -12,7 +12,7 @@ it is still suggested that these functions be used over custom approaches when a
 import matplotlib as mpl
 import matplotlib.pyplot as plt
 
-from . import errors
+from IfA_Smeargle.meta import errors
 
 def smeargle_save_figure_file(figure,file_name,
                               title=None, close_figure=True):

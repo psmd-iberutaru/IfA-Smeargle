@@ -8,11 +8,12 @@ import numpy as np
 import scipy as sp
 import warnings as warn
 
-from ..meta import *
+from IfA_Smeargle.meta import *
 
-from . import echo_functions as echo_funct
-
-from . import masks_echo000, masks_echo100, masks_echo200 as masks
+from IfA_Smeargle.echo import echo_functions as echo_funct
+from IfA_Smeargle.echo.masks_echo000 import *
+from IfA_Smeargle.echo.masks_echo100 import *
+from IfA_Smeargle.echo.masks_echo200 import *
 
 
 def echo380_single_pixels(data_array, pixel_list, previous_mask={}, return_mask=False):

@@ -13,7 +13,7 @@ import os
 import shutil
 import time
 
-from ..meta import *
+from IfA_Smeargle import meta
 
 def voltage_pattern_rename_fits(data_directory, voltage_pattern, 
                                 common_prefix='', common_suffix='',
@@ -70,7 +70,7 @@ def voltage_pattern_rename_fits(data_directory, voltage_pattern,
                                       "but do outside Python. Disable via < copy_data=False >."))
 
         # Preserve the files just in case, work on a copy data set. Date-time 
-        # to distinguish by format __YYYYMMDD_HHMMSS from other BravoArchives
+        # to distinguish, by format __YYYYMMDD_HHMMSS, from other BravoArchives
         archive_name = 'BravoArchive' + time.strftime("__%Y%m%d_%H%M%S", time.localtime())
         shutil.make_archive(data_directory + '/../' + archive_name, 'zip', data_directory + '/')
         # For some reason, if the archive is made in the same directory, it 
@@ -106,11 +106,11 @@ def voltage_pattern_rename_fits(data_directory, voltage_pattern,
         elif (voltage_pattern[voltindex - 1] <= voltage_pattern[voltindex] and 
               voltage_pattern[voltindex] <= voltage_pattern[(voltindex + 1)%n_voltages]):
             # Surrounding voltages are sloped upwards.
-            temp_voltage_string += 'upp'
+            temp_voltage_string += 'up'
         elif (voltage_pattern[voltindex - 1] >= voltage_pattern[voltindex] and 
               voltage_pattern[voltindex] >= voltage_pattern[(voltindex + 1)%n_voltages]):
             # Surrounding voltages are sloped downwards.
-            temp_voltage_string += 'dwn'
+            temp_voltage_string += 'down'
         elif (voltage_pattern[voltindex - 1] <= voltage_pattern[voltindex] and 
               voltage_pattern[voltindex] >= voltage_pattern[(voltindex + 1)%n_voltages]):
             # Surrounding voltages are lower than this voltage.
@@ -119,6 +119,9 @@ def voltage_pattern_rename_fits(data_directory, voltage_pattern,
               voltage_pattern[voltindex] <= voltage_pattern[(voltindex + 1)%n_voltages]):
             # Surrounding voltages are higher than this voltage.
             temp_voltage_string += 'bot'
+        else:
+            # For some reason, it does not fit into the pattern.
+            temp_voltage_string += 'null'
 
         # Label, Windows does not like the colon or pipe, so, we use the 
         # next best thing.
@@ -130,15 +133,16 @@ def voltage_pattern_rename_fits(data_directory, voltage_pattern,
         
         
     # Compile the renames, assume that the sets repeat themselves if there 
-    # are more files than voltages. Then actually rename the file.
+    # are more files than voltages . Then actually rename the file.
     voltage_string_list = []
     for fileindex,filenamedex,pathdex in zip(range(n_files),original_names,original_paths):
-        volt_string = str(voltage_strings[fileindex%n_voltages]) + ', ' + str(fileindex + 1).zfill(3)
+        volt_string = (str(voltage_strings[fileindex%n_voltages]) 
+                       + ',' + str(fileindex + 1).zfill(3))
         voltage_string_list.append(volt_string)
         
-        # Renaming.
+        # Renaming if needed.
         if (rename):
-            renamed_file = (common_prefix  + '__' + volt_string + '__'  + common_suffix)
+            renamed_file = (common_prefix + '__' + volt_string + '__' + common_suffix)
             os.rename(filenamedex, os.path.join(pathdex, renamed_file))
 
     # Finished.

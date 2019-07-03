@@ -1,1 +1,1 @@
-from .hotel_main import *
+from IfA_Smeargle.hotel.hotel_main import *
