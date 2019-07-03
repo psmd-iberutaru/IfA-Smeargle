@@ -120,7 +120,7 @@ def smeargle_extract_subarray(primary_array,x_bounds,y_bounds):
     
     """
 
-    # Be verbose in accepting revered (but valid) bounds.
+    # Be verbose in accepting reversed (but valid) bounds.
     x_bounds = np.sort(x_bounds)
     y_bounds = np.sort(y_bounds)
 

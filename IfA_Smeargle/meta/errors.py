@@ -22,6 +22,13 @@ class BrokenLogicError(_Smeargle_Exception):
     """
     pass
 
+class ExportingError(_Smeargle_Exception):
+    """
+    This error is used when the program attempts to export data in some way,
+    but is unable to.
+    """
+    pass
+
 class IllogicalProsedure(_Smeargle_Exception):
     """
     This error is thrown when the program would attempt something that does 
@@ -49,6 +56,7 @@ class ImportingError(InputError):
     ImportError.
     """
     pass
+
 
 class TerminalError(_Smeargle_BaseException):
     """

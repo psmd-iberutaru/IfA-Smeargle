@@ -1,4 +1,5 @@
 import copy
+import os
 import pickle
 
 # This may be unneeded because the imports should already be read by the 
@@ -51,7 +52,7 @@ class BaseConfig(object):
             pass
 
 
-    def write_to_file(self, file_name, protocol=pickle.HIGHEST_PROTOCOL):
+    def write_to_file(self, file_name, overwrite=False, protocol=pickle.HIGHEST_PROTOCOL):
         """ Wrapper function around configuration file writing. 
         
         Writes the configuration class to a pickle file. See 
@@ -65,6 +66,9 @@ class BaseConfig(object):
             The name of the configuration class. The extension ``.ifaspkl``  
             is automatically applied. This denotes a Python pickle file from 
             IfA-Smeargle.
+        overwrite : boolean
+            If true, the writing of the configuration class will overwrite any
+            existing file.
         protocol : int
             The pickling protocol value for the pickling function.
 
@@ -74,7 +78,7 @@ class BaseConfig(object):
 
         """
 
-        write_config_file(self, file_name, protocol=protocol)
+        write_config_file(self, file_name, overwrite=overwrite, protocol=protocol)
 
 
     def read_from_file(self, file_name):
@@ -137,7 +141,7 @@ class BaseConfig(object):
 
 # Loading/unloading functions.
 def write_config_file(config_class, file_name, 
-                      protocol=pickle.HIGHEST_PROTOCOL):
+                      overwrite=False, protocol=pickle.HIGHEST_PROTOCOL):
     """ Function to write a specific configuration class to a normal file.
 
     As the entire module more or less depends on configuration classes. It 
@@ -152,6 +156,9 @@ def write_config_file(config_class, file_name,
         The name of the configuration class. The extension ``.ifaspkl``  
         is automatically applied. This denotes a Python pickle file from 
         IfA-Smeargle.
+    overwrite : boolean
+        If true, the writing of the configuration class will overwrite any
+        existing file.
     protocol : int
         The pickling protocol value for the pickling function.
 
@@ -174,6 +181,19 @@ def write_config_file(config_class, file_name,
         smeargle_warning(InputWarning,("The provided file name is missing the .ifaspkl file "
                                        "extension. It has been automatically appended."))
         file_name += '.ifaspkl'
+
+    # Check to see if the file exists, if so, then overwrite if provided for.
+    if (os.path.isfile(file_name)):
+        if (overwrite):
+            # It should be overwritten, warn to be nice. 
+            smeargle_warning(OverwriteWarning,("There exists a file with the provided name. "
+                                               "Overwrite is true; the previous file will "
+                                               "be replaced as provided."))
+        else:
+            # It should not overwritten at this point.
+            raise ExportingError("There exists a file with the same name as the previous one. "
+                                 "Overwrite is set to False, the new configuration file cannot "
+                                 "be written.")
 
     # ...and write.
     with open(file_name, 'wb') as config_file:
@@ -213,9 +233,9 @@ def read_config_file(file_name):
         try:
             config_class = pickle.load(config_file)
         except AttributeError:
-            raise ImportError("The configuration class objects have not been imported properly. "
-                              "The depickleing has no template to use. Consider importing the "
-                              "configuration classes to __main__.")
+            raise ImportingError("The configuration class objects have not been imported "
+                                 "properly. The depickleing has no template to use. Consider "
+                                 "importing the configuration classes to __main__.")
 
         config_class = copy.deepcopy(config_class)
 
