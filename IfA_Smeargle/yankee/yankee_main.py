@@ -10,7 +10,7 @@ in the meta functionality.
 import copy
 import pickle
 
-from IfA_Smeargle import meta
+from IfA_Smeargle.meta import *
 
 from IfA_Smeargle.yankee import configuration_classes as conclass
 
@@ -19,14 +19,16 @@ from IfA_Smeargle.yankee.configuration_classes.BaseConfig_file \
     import read_config_file, write_config_file
 
 class SmeargleConfig(conclass.BaseConfig):
-    """ Configuration class of the entire Smeargle pipeline and other properties.
+    """ Configuration class of the entire Smeargle pipeline and other 
+    properties.
     
-    Each different array configuration must have its own reduction method. The purpose of this
-    class is to be an organized collection of ALL configuration options possible. That is, 
-    this class is read by the main pipeline and all other functions are created.
+    Each different array configuration must have its own reduction method. 
+    The purpose of this class is to be an organized collection of ALL  
+    configuration options possible. That is, this class is read by the main 
+    pipeline and all other functions are created.
 
-    Within each argument exists another configuration class specific to each of the Smeargle
-    lines. They are defined in their appropriate files. 
+    Within each argument exists another configuration class specific to each 
+    of the Smeargle lines. They are defined in their appropriate files. 
 
     Arguments
     ---------

@@ -3,7 +3,7 @@
 import inspect
 import numpy as np
 
-from ..meta import *
+from IfA_Smeargle.meta import *
 
 from IfA_Smeargle.echo import echo_functions as echo_funct
 from IfA_Smeargle.echo import masks_echo000 as mask000
@@ -61,8 +61,8 @@ def execute_echo(data_array,configuration_class):
         if (not 'echo' in keydex):
             del config_param[keydex]
     
-    # This sorting method should suffice; these dictionaries should be 
-    # parallel.
+    # This sorting method should suffice; these dictionaries must be 
+    # parallel for the below method to work.
     echo_filters = echo_funct.sort_masking_dictionary(echo_filters)
     config_param = echo_funct.sort_masking_dictionary(config_param)
 
@@ -79,15 +79,25 @@ def execute_echo(data_array,configuration_class):
                                         .format(filter=filter_keydex,config=config_keydex))
 
         # Check if the filter should actually be run.
-        if (not config_param[config_keydex]['run']):
-            # Just send a notice that this filter is being skipped.
-            print("Filter {filter} is being skipped as noted by configuration class."
-                  .format(filter=filter_keydex))
+        try:
+            if (not config_param[config_keydex]['run']):
+                # Just send a notice that this filter is being skipped.
+                print("Filter {filter} is being skipped as noted by configuration class."
+                      .format(filter=filter_keydex))
+                continue
+            else:
+                # Run the masking filter.
+                masking_dict = echo_filters[filter_keydex](data_array, 
+                                                           previous_mask=masking_dict,
+                                                           **config_param[config_keydex])
+        except KeyError:
+            smeargle_warning(ConfigurationWarning, ("The following configuration dictionary is "
+                                                    "missing the 'run' parameter. The masking "
+                                                    "method is skipped as if 'run'=False. \n"
+                                                    "Problem configuration dictionary: \n  "
+                                                    "{config_name}".format(
+                                                        config_name=config_keydex)))
             continue
-        else:
-            # Run the masking filter.
-            masking_dict = echo_filters[filter_keydex](data_array, previous_mask=masking_dict,
-                                                       **config_param[config_keydex])
 
     # Making the masked array.
     masked_array = echo_funct.numpy_masked_array(data_array,synthesized_mask=None,

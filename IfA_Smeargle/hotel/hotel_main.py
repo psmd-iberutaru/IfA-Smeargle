@@ -18,7 +18,7 @@ import numpy as np
 import numpy.ma as np_ma
 import scipy as sp
 
-from IfA_Smeargle import meta
+from IfA_Smeargle.meta import *
 
 
 def plot_array_heatmap_image(data_array,

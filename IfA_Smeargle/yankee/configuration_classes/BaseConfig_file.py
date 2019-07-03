@@ -118,8 +118,8 @@ class BaseConfig(object):
             # EchoConfig class.
             if (not isinstance(read_config_class,type(self))):
                 raise ImportingError("The read configuration file configuration class type " 
-                                     "is not the same as the calling class type. See:   "
-                                     "File:  {file_type}    Init:  {init_type} ".format(
+                                     "is not the same as the calling class type.  \n  "
+                                     "File:  {file_type}  \n  Init:  {init_type} ".format(
                                          file_type=type(read_config_class),
                                          init_type=type(self)))
             else:

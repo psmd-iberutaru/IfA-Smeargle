@@ -3,7 +3,7 @@ import astropy as ap
 import astropy.io.fits as ap_fits
 import numpy as np
 
-from IfA_Smeargle import meta
+from IfA_Smeargle.meta import *
 
 """
 This module parses the data cubes, extracting the needed information from the 

@@ -85,11 +85,25 @@ def smeargle_write_fits_file(file_name, hdu_header, hdu_data,
 
     # Check for the hdu_object.
     if (isinstance(hdu_object,(ap_fits.PrimaryHDU,ap_fits.HDUList))):
+        # Astropy can handle PrimaryHDU -> .fits conversion.
         hdul_file = hdu_object
     else:
         # Else, deal with the data.
         hdu = ap_fits.PrimaryHDU(data=hdu_data, header=hdu_header)
         hdul_file = ap_fits.HDUList([hdu])
+
+    # Check to see if the file exists, if so, then overwrite if provided for.
+    if (os.path.isfile(file_name)):
+        if (overwrite):
+            # It should be overwritten, warn to be nice. 
+            smeargle_warning(OverwriteWarning,("There exists a file with the provided name. "
+                                               "Overwrite is true; the previous file will "
+                                               "be replaced as provided."))
+        else:
+            # It should not overwritten at this point.
+            raise ExportingError("There exists a file with the same name as the previous one. "
+                                 "Overwrite is set to False, the new fits file cannot "
+                                 "be written.")
 
     # Write, follow overwrite instructions, assume the user knows what they 
     # are doing. Return object.
@@ -101,8 +115,9 @@ def smeargle_write_fits_file(file_name, hdu_header, hdu_data,
 def smeargle_extract_subarray(primary_array,x_bounds,y_bounds):
     """ A function to extract a smaller array copy from a larger array.
 
-    Sub-arrays are rather important in the analysis of specific arrays. This function extracts a
-    sub-array from a given primary array specified by the x_bounds and y_bounds.
+    Sub-arrays are rather important in the analysis of specific arrays. 
+    This function extracts a sub-array from a given primary array specified 
+    by the x_bounds and y_bounds.
 
     Parameters
     ----------
@@ -132,14 +147,15 @@ def smeargle_extract_subarray(primary_array,x_bounds,y_bounds):
 def smeargle_masked_array_min_max(masked_array):
     """ This function returns a masked array's minimum and maximum value.
 
-    For some reason, the built in Numpy Masked min/max functions still return the masked values
-    themselves. This function determines the minimum and maximum value within an array is that
-    not masked. 
+    This function determines the minimum and maximum of a masked arrays 
+    between valid, unmasked, values only. Masked values are not considered 
+    for min-max evaluation.
     
     Parameters
     ----------
     masked_array : masked ndarray 
-        The array that has a mask, and is also the one that will have a min max calculated.
+        The array that has a mask, and is also the one that will have a 
+        min max calculated.
 
     Returns
     -------
@@ -149,7 +165,12 @@ def smeargle_masked_array_min_max(masked_array):
         The value of the maximum of the masked array ignoring masking.
     """
     
-    # !!WARN Obsolete
+    # Sparrow was wrong when coding the function that required this function.
+    # It has scene been reduced to the logical answer and is thus depreciated. 
+    smeargle_warning(DepreciationWarning,("This function was built because of the erroneous "
+                                          "understanding that it was difficult to get min-max "
+                                          "from Numpy Masked Arrays. This function is a "
+                                          "wrapper around the easy and proper method."))
 
     # Execute a copy just in case of damage to the array.
     masked_array = copy.deepcopy(masked_array)

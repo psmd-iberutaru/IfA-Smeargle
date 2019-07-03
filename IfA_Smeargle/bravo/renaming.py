@@ -13,7 +13,7 @@ import os
 import shutil
 import time
 
-from IfA_Smeargle import meta
+from IfA_Smeargle.meta import *
 
 def voltage_pattern_rename_fits(data_directory, voltage_pattern, 
                                 common_prefix='', common_suffix='',

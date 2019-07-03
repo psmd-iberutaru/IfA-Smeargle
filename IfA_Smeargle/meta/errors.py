@@ -91,6 +91,21 @@ class _Smeargle_Warning(UserWarning):
     pass
 
 
+class ConfigurationWarning(_Smeargle_Warning):
+    """
+    This warning is used when there are issues with the configuration class
+    and that data is missing. However, the missing data does not warrant an
+    exception.
+    """
+
+class DepreciationWarning(_Smeargle_Warning):
+    """
+    This warning is used when there are some functions that are used but
+    have since been replaced with better functions, or where the previous 
+    function is not very stable or integrated with the rest of the functions.
+    """
+    pass
+
 class ImprecisionWarning(_Smeargle_Warning):
     """
     This warning is used when there may be issues with numerical precision 
