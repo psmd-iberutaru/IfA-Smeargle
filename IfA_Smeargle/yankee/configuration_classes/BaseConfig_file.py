@@ -28,7 +28,9 @@ class BaseConfig(object):
         """ Generate or read from file a configuration class.
 
         This allows for the ease of creating configuration classes from 
-        configuration files. 
+        configuration files. However, if the file name is not found, it will
+        return a blank class. To have an error raised instead, use the 
+        built-in functionality of the ``read_from_file`` function.
 
         Parameters
         ----------
@@ -43,10 +45,20 @@ class BaseConfig(object):
             The configuration class.
         """
 
-        # Test if the config file name has been provided.
+        # Test if the configuration file name has been provided.
         if (config_file_name is not None):
             # Assume it is a string and attempt to parse it.
-            self = self.read_from_file(config_file_name)
+            try:
+                self = self.read_from_file(config_file_name)
+            except FileNotFoundError:
+                # As it is not explicitly trying to load a file (that is, the 
+                # function name does not describe loading files) allow the 
+                # default option as a valid entry.
+                smeargle_warning(ImportingWarning,("The specified configuration file given by "
+                                                   "the file name cannot be found. A default "
+                                                   "configuration class is being provided. "))
+                # Assume defaults as file is not valid.
+                pass
         else:
             # Assume defaults.
             pass
@@ -168,6 +180,11 @@ def write_config_file(config_class, file_name,
 
     """
 
+    # Ensure that the file name is actually a string.
+    if (not isinstance(file_name,str)):
+        raise InputError("Inputted class name variable is not a string. It cannot be converted "
+                         "to a file name to write the configuration file.")
+
     # Make sure the proper class is being sent through.
     if (not isinstance(config_class, BaseConfig)):
         raise InputError("Provided class is not a Smeargle BaseConfig configuration class. It "
@@ -192,7 +209,7 @@ def write_config_file(config_class, file_name,
         else:
             # It should not overwritten at this point.
             raise ExportingError("There exists a file with the same name as the previous one. "
-                                 "Overwrite is set to False, the new configuration file cannot "
+                                 "Overwrite is set to False; the new configuration file cannot "
                                  "be written.")
 
     # ...and write.
@@ -220,6 +237,11 @@ def read_config_file(file_name):
         The configuration class stored in the file.
 
     """
+
+    # Ensure that the file name is actually a string.
+    if (not isinstance(file_name,str)):
+        raise InputError("Inputted class name variable is not a string. It cannot be converted "
+                         "to a file name to write the configuration file.")
     
     # Amateur checking to see the file is associated with IfA-Smeargle.
     if (file_name[-8:] != '.ifaspkl'):

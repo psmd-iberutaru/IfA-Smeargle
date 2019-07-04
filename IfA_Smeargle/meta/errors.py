@@ -106,6 +106,13 @@ class DepreciationWarning(_Smeargle_Warning):
     """
     pass
 
+class ImportingWarning(_Smeargle_Warning):
+    """
+    This warning is used when there are issues loading a file, but it can
+    be handled using some assumptions.
+    """
+    pass 
+
 class ImprecisionWarning(_Smeargle_Warning):
     """
     This warning is used when there may be issues with numerical precision 

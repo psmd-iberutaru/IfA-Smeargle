@@ -18,6 +18,8 @@ class BravoConfig(BaseConfig):
     ----------
     voltpat_rename_config : dictionary
         These are the parameters fed into ``voltage_pattern_rename_fits``
+    avg_endpts_config : dictionary
+        These are the parameters fed into ``average_endpoints``.
     """
 
     # Renaming file

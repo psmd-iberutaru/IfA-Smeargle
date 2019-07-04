@@ -146,8 +146,8 @@ def echo276_percent_truncation(data_array, kept_range, previous_mask={}, return_
     data array.
 
     The parameter ``kept_range`` define the percent range of pixels that will 
-    be kept. Anything outside this percentage range is masked. The pixels  the previous
-    masked are independent of masks provided.
+    be kept. Anything outside this percentage range is masked. The pixels 
+    the previous masked are independent of masks provided.
 
     Parameters
     ----------
