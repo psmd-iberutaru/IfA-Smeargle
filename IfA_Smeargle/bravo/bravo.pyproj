@@ -22,7 +22,7 @@
   </PropertyGroup>
   <ItemGroup>
     <Compile Include="bravo_main.py" />
-    <Compile Include="endpoint_averaging.py">
+    <Compile Include="averaging.py">
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="renaming.py" />

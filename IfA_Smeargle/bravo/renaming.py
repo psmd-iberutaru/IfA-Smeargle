@@ -15,9 +15,75 @@ import time
 
 from IfA_Smeargle.meta import *
 
+
+def parallel_renaming(file_names, file_renames, data_directory=None,
+                      file_extensions='.fits'):
+    """ Renames files provided parallel name arrays.
+
+    Given two same length lists of file names, one pre-rename and one 
+    post-rename, this function renames them accordingly. A directory is also
+    an option, and the file name list will be derived from that.
+
+    This only works for one type of file extension, or leave the string blank
+    for all files.
+
+    Parameters
+    ----------
+    file_names : array_like
+        The list of the file names that is to be renamed.
+    file_renames : array_like
+        The list of the file names that are going to be used for the renaming
+        process.
+    data_directory : string (optional)
+        A directory that contains all of the files that are going to be 
+        renamed. Does not handle directories recursively. 
+    file_extensions : string (optional)
+        The file extension of the files that are going to be renamed. Defaults
+        to a .fits file.
+
+    Returns
+    -------
+    nothing
+    """
+
+    # Extraction of the directory if provided. Paths should be conserved.
+    if (data_directory is not None):
+        # For the files to be renamed.
+        original_names = glob.glob(data_directory + '/*' + file_extensions)
+        original_paths = [os.path.split(pathdex)[0] for pathdex in original_names]
+        n_files = len(original_names)
+        
+        # Overwrite
+        file_names = original_names
+
+    # Check for length issues.
+    if (len(file_names) != len(file_renames)):
+        raise RuntimeError("The number of file names and the number of file renames are not "
+                           "the same; therefore, these are not parallel arrays.")
+    
+    # Rename, the two cases are needed for the presence of the data directory
+    # or not.
+    if (data_directory is not None):
+        for pathdex,filenamedex,filerenamedex in zip(original_paths,
+                                                     file_names,
+                                                     file_renames):
+            # Check for automatic file name extension.
+            if (filerenamedex[-len(file_extensions):] != file_extensions):
+                os.rename(filenamedex, os.path.join(pathdex, filerenamedex + file_extensions))
+            else:
+                os.rename(filenamedex, os.path.join(pathdex, filerenamedex))
+    else:
+        for filenamedex,filerenamedex in zip(file_names,file_renames):
+           # Check for automatic file name extension.
+            if (filerenamedex[-len(file_extensions):] != file_extensions):
+                os.rename(filenamedex, filerenamedex + file_extensions)
+            else:
+                os.rename(filenamedex, filerenamedex)
+
+
 def voltage_pattern_rename_fits(data_directory, voltage_pattern, 
                                 common_prefix='', common_suffix='',
-                                rename=True, copy_data=True):
+                                rename=False, copy_data=True):
     """ Renames files according to their voltage pattern specified.
 
     Some data filename outputs only give timestamps. This function renames
@@ -40,7 +106,7 @@ def voltage_pattern_rename_fits(data_directory, voltage_pattern,
     common_suffix : string (optional)
         All file renames will contain this suffix after the voltage data.
     rename : boolean (optional)
-        If true, the program renames the files as intended, else, it leaves 
+        If true, the program renames the files as specified, else, it leaves 
         the files untouched; still archived, however, if ``copy_data=True``.
     copy_data : boolean (optional)
         Execute the renaming on a copy of the data, the original data 
@@ -53,11 +119,16 @@ def voltage_pattern_rename_fits(data_directory, voltage_pattern,
         ordered form. Does not include prefixes/suffixes.
 
     """
+
+    if (rename):
+        smeargle_warning(DepreciationWarning,("The renaming method contained works as intended; "
+                                              "however, it is not optimal and does not play "
+                                              "nice with the other naming functions."))
     
     # Minor and fragile input sanitation.
     if (data_directory[-1] == '/'):
         data_directory = copy.deepcopy(data_directory[:-1])
-    if (common_suffix[-5:] != '.fits'):
+    if ((common_suffix[-5:] != '.fits') and (rename)):
         common_suffix += '.fits'
         smeargle_warning(InputWarning, ("The < common_suffix > does not have a .fits extension; "
                                         "it has been automatically added."))

@@ -4,6 +4,7 @@ import inspect
 import numpy as np
 
 from IfA_Smeargle.meta import *
+import IfA_Smeargle.yankee as yankee
 
 from IfA_Smeargle.echo import echo_functions as echo_funct
 from IfA_Smeargle.echo import masks_echo000 as mask000
@@ -13,7 +14,7 @@ from IfA_Smeargle.echo import masks_echo300 as mask300
 
 
 
-def execute_echo(data_array,configuration_class):
+def echo_execution(data_array,configuration_class):
     """ This script pragmatically uses a configuration class to determine  
     which filters to use.
 
@@ -26,7 +27,7 @@ def execute_echo(data_array,configuration_class):
     ----------
     data_array : ndarray
         The data array that is to processed and filtered accordingly
-    configuration_class : EchoConfig class
+    configuration_class : SmeargleConfig or EchoConfig class
         The configuration class that will be used to provide instruction
         to the ECHO filters.
     
@@ -39,6 +40,11 @@ def execute_echo(data_array,configuration_class):
         The dictionary of all of the masks applied.
 
     """
+
+    # Be adaptive as to which configuration class is given.
+    provided_config = meta_config.extract_proper_configuration_class(configuration_class,
+                                                                     yankee.EchoConfig)
+
 
     # Gathering all possible filters, given as a dictionary.
     filter_000_list = dict(inspect.getmembers(mask000, inspect.isfunction))
@@ -55,7 +61,7 @@ def execute_echo(data_array,configuration_class):
             del echo_filters[keydex]
 
     # Extracting configuration parameters.
-    temp_param_list = dict(inspect.getmembers(config.EchoConfig))
+    temp_param_list = dict(inspect.getmembers(provided_config))
     config_param = copy.deepcopy(temp_param_list)
     for keydex, valuedex in temp_param_list.items():
         if (not 'echo' in keydex):
@@ -74,16 +80,16 @@ def execute_echo(data_array,configuration_class):
         # Check if the names are related, ensuring proper filter-config 
         # pairing.
         if (filter_keydex[:7] != config_keydex[:7]):
-            raise IllogicalProsedure("Attempting mismatched filter-config process with "
-                                     "{filter} and {config}"
-                                        .format(filter=filter_keydex,config=config_keydex))
+            raise IllogicalProsedureError("Attempting mismatched filter-config process with "
+                                          "{filter} and {config}".format(
+                                              filter=filter_keydex,config=config_keydex))
 
         # Check if the filter should actually be run.
         try:
             if (not config_param[config_keydex]['run']):
                 # Just send a notice that this filter is being skipped.
-                print("Filter {filter} is being skipped as noted by configuration class."
-                      .format(filter=filter_keydex))
+                print("Filter {filter} is being skipped as noted by configuration class.".format(
+                    filter=filter_keydex))
                 continue
             else:
                 # Run the masking filter.

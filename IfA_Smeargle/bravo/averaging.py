@@ -69,15 +69,16 @@ def average_endpoints(fits_file, start_chunk, end_chunk, frame_exposure_time,
     # It is unnatural, but not forbidden, to have differing top and bottom 
     # chunk range values.
     if (start_chunk != end_chunk):
-        smeargle_warning(ReductionWarning,("The size of the before "))
+        smeargle_warning(ReductionWarning,("The size of the start chunk and end chunk are "
+                                           "different sizes, this is unusual but acceptable."))
 
     # Calculate the medians.
     start_median = np.median(data[-start_chunk:],axis=0)
     end_median = np.median(data[:end_chunk],axis=0)
 
     # Subtracting and normalizing over the time span, starting and ending
-    # at respective midpoints; integer multiplication in required for the
-    # discrete nature of frames.
+    # at respective midpoints; integer multiplication/division is required  
+    # because  of the discrete nature of frames.
     integration_time = (data.shape[0] - (start_chunk//2 + end_chunk//2)) * frame_exposure_time
     final_data = (start_median - end_median)/integration_time
 
@@ -88,7 +89,7 @@ def average_endpoints(fits_file, start_chunk, end_chunk, frame_exposure_time,
         writing_file_name = fits_file
 
     # Header information preserves the values used for the beginning and 
-    # ending chunks.
+    # ending chunks. May be unneeded.
     header['previous_size'] = (data.shape[0], 'How long the temporal axis was in frames.')
     header['start_chunk'] = (start_chunk, 'The length of the starting median block.')
     header['end_chunk'] = (end_chunk, 'The length of the ending median block.')

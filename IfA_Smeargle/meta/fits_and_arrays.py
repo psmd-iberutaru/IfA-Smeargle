@@ -9,6 +9,7 @@ import astropy.io.fits as ap_fits
 import copy
 import numpy as np
 import numpy.ma as np_ma
+import os
 
 from IfA_Smeargle.meta import *
 

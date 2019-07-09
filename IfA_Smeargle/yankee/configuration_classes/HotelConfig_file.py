@@ -1,5 +1,12 @@
 
+from IfA_Smeargle.meta import *
+
 from IfA_Smeargle.yankee.configuration_classes.BaseConfig_file import BaseConfig
+
+# Pulling deeper functions into the light.
+from IfA_Smeargle.yankee.yankee_functions import *
+from IfA_Smeargle.yankee.configuration_classes.BaseConfig_file \
+    import read_config_file, write_config_file
 
 class HotelConfig(BaseConfig):
     """This is the configuration class of the HOTEL line.
@@ -27,13 +34,25 @@ class HotelConfig(BaseConfig):
 
     """
 
-    # Basic single plot, plotting functions.
-    heatmap_config = {'plot': False, 'data_array':None}
-    histogram_config = {'plot': False, 'data_array':None}
+    def __init__(self, file_name=None):
 
-    # Complex multi-plot, plotting functions.
-    heathist_config = {'plot': False, 'data_array':None}
+        try:
+            provided_config = extract_proper_configuration_class(file_name, HotelConfig)
+            self.__dict__.update(provided_config.__dict__)
+        except Exception:
+            if (file_name is not None):
+                smeargle_warning(ImportingWarning,("The configuration file could not be "
+                                                   "properly read. Consider using the factory "
+                                                   "function. A blank configuration class has "
+                                                   "been provided instead."))
 
-    # Too hard plotting functions, defaults are really not to be changed. 
+            # Basic single plot, plotting functions.
+            self.heatmap_config = {'plot': False, 'data_array':None}
+            self.histogram_config = {'plot': False, 'data_array':None}
+
+            # Complex multi-plot, plotting functions.
+            self.heathist_config = {'plot': False, 'data_array':None}
+
+            # Too hard plotting functions, defaults are really not to be changed. 
 
 

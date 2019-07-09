@@ -24,46 +24,6 @@ class BaseConfig(object):
     
     """
 
-    def __init__(self, config_file_name=None):
-        """ Generate or read from file a configuration class.
-
-        This allows for the ease of creating configuration classes from 
-        configuration files. However, if the file name is not found, it will
-        return a blank class. To have an error raised instead, use the 
-        built-in functionality of the ``read_from_file`` function.
-
-        Parameters
-        ----------
-        config_file_name : string or None
-            The path to the file name that is desired to be read. If it is
-            None, then the default, blank, configuration class is returned
-            instead.
-
-        Returns
-        -------
-        self : Configuration Class
-            The configuration class.
-        """
-
-        # Test if the configuration file name has been provided.
-        if (config_file_name is not None):
-            # Assume it is a string and attempt to parse it.
-            try:
-                self = self.read_from_file(config_file_name)
-            except FileNotFoundError:
-                # As it is not explicitly trying to load a file (that is, the 
-                # function name does not describe loading files) allow the 
-                # default option as a valid entry.
-                smeargle_warning(ImportingWarning,("The specified configuration file given by "
-                                                   "the file name cannot be found. A default "
-                                                   "configuration class is being provided. "))
-                # Assume defaults as file is not valid.
-                pass
-        else:
-            # Assume defaults.
-            pass
-
-
     def write_to_file(self, file_name, overwrite=False, protocol=pickle.HIGHEST_PROTOCOL):
         """ Wrapper function around configuration file writing. 
         
@@ -135,11 +95,12 @@ class BaseConfig(object):
                                          file_type=type(read_config_class),
                                          init_type=type(self)))
             else:
-                # Seems to be all good.
                 try:
-                    self = copy.deepcopy(read_config_class)
+                    self.__dict__.update(read_config_class.__dict__)
                 except Exception:
-                    self = read_config_class
+                    raise ImportingError("The configuration file cannot be read this way. "
+                                         "consider using the factory function for the "
+                                         "<read_config_file> function.")
         else:
             # File name is not strictly provided, give an empty class.
             smeargle_warning(InputWarning,("The file name string is None, returning a blank "
@@ -258,7 +219,5 @@ def read_config_file(file_name):
             raise ImportingError("The configuration class objects have not been imported "
                                  "properly. The depickleing has no template to use. Consider "
                                  "importing the configuration classes to __main__.")
-
-        config_class = copy.deepcopy(config_class)
 
     return config_class

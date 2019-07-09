@@ -15,6 +15,7 @@ from IfA_Smeargle.meta import *
 from IfA_Smeargle.yankee import configuration_classes as conclass
 
 # Pulling deeper functions into the light.
+from IfA_Smeargle.yankee.yankee_functions import *
 from IfA_Smeargle.yankee.configuration_classes.BaseConfig_file \
     import read_config_file, write_config_file
 
@@ -43,11 +44,21 @@ class SmeargleConfig(conclass.BaseConfig):
         The base configuration class, should generally not be used. 
     """
 
+    def __init__(self, file_name=None):
+        try:
+            self.__dict__.update(extract_proper_configuration_class(file_name,
+                                                                    SmeargleConfig).__dict__)
+        except Exception:
+            if (file_name is not None):
+                smeargle_warning(ImportingWarning,("The configuration file could not be "
+                                                   "properly read. Consider using the factory "
+                                                   "function. A blank configuration class has "
+                                                   "been provided instead."))
 
-    BravoConfig = conclass.BravoConfig()
-    EchoConfig = conclass.EchoConfig()
-    HotelConfig = conclass.HotelConfig()
-    YankeeConfig = conclass.YankeeConfig()
+            self.BravoConfig = conclass.BravoConfig()
+            self.EchoConfig = conclass.EchoConfig()
+            self.HotelConfig = conclass.HotelConfig()
+            self.YankeeConfig = conclass.YankeeConfig()
 
 
 
