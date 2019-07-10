@@ -28,7 +28,7 @@ def duplicate_archive_data_files(data_directory, archive_extension='bztar'):
         The directory that the data is contained within.
     archive_extension : string (optional)
         The extension of the archive. Note that only some archives are 
-        supported. Default is ``zip``.
+        supported. Default is ``bztar``.
 
     Returns
     -------
@@ -50,6 +50,16 @@ def duplicate_archive_data_files(data_directory, archive_extension='bztar'):
     # moving it is a workaround. 
     shutil.make_archive(data_directory + '/../' + archive_name, 
                         archive_extension, data_directory + '/')
+
+    # Be adaptive for the tar based file extensions.
+    if (archive_extension == 'gztar'):
+        archive_extension = 'tar.gz'
+    elif (archive_extension == 'bztar'):
+        archive_extension = 'tar.bz2'
+    elif (archive_extension == 'bztar'):
+        archive_extension = 'tar.xz'
+
+    # Proceed with the move.
     shutil.move(data_directory + '/../' + archive_name + '.' + archive_extension, 
                 data_directory + '/' + archive_name + '.' + archive_extension)
 

@@ -73,15 +73,9 @@ def bravo_execution_saphria(data_directory, configuration_class):
     bravo.rename.parallel_renaming(None, final_names, data_directory, file_extensions='.fits')
 
 
-<<<<<<< HEAD
     # Next, modifying the data to its own standard format. 
     averaging_names = glob.glob(data_directory + '/*' + '.fits')
     for fitsdex in averaging_names:
-=======
-    # Next, modifying the data.
-    original_names = glob.glob(data_directory + '/*' + '.fits')
-    for fitsdex in original_names:
->>>>>>> 4dabd360393af89a6ad100b69d221d40eaae1b84
         bravo.avging.average_endpoints(fitsdex, **provided_config.avg_endpts_config)
 
     return None
