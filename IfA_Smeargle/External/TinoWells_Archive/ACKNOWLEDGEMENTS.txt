@@ -1,0 +1,6 @@
+The entire codebase contained in this folder and all sub-folders were mostly taken from Tino Wells.
+
+Github link:
+https://github.com/tinowells/ifa
+
+The code is not at all claimed by any super-directories or projects; they solely use this code directly, as a template, or as inspiration.

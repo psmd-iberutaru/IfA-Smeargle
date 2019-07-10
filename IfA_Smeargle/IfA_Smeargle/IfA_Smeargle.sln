@@ -1,0 +1,47 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.29001.49
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{90FEF9BC-338D-44D3-8ECE-F39F548BCC3B}"
+	ProjectSection(SolutionItems) = preProject
+		__init__.py = __init__.py
+		..\DEBUGG.py = ..\DEBUGG.py
+	EndProjectSection
+EndProject
+Project("{888888A0-9F3D-457C-B088-3A5042F75D52}") = "echo", "echo\echo.pyproj", "{2C5E1B3F-7F24-427E-B7C3-2C0A079500F8}"
+EndProject
+Project("{888888A0-9F3D-457C-B088-3A5042F75D52}") = "meta", "meta\meta.pyproj", "{8295F1E0-69EA-41D4-BE14-135B56583298}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Archive_Smeargle_Scripts", "Archive_Smeargle_Scripts", "{90271F7D-969D-4891-8E28-C9E102479914}"
+EndProject
+Project("{888888A0-9F3D-457C-B088-3A5042F75D52}") = "yankee", "yankee\yankee.pyproj", "{7A96C54C-031D-4CFA-A228-76FF39F1D054}"
+EndProject
+Project("{888888A0-9F3D-457C-B088-3A5042F75D52}") = "bravo", "bravo\bravo.pyproj", "{CD32DBA9-3A5F-4787-AE76-4E0FCE184916}"
+EndProject
+Project("{888888A0-9F3D-457C-B088-3A5042F75D52}") = "oscar", "oscar\oscar.pyproj", "{807A2A38-3207-41DC-9358-5022B949E572}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{2C5E1B3F-7F24-427E-B7C3-2C0A079500F8}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{2C5E1B3F-7F24-427E-B7C3-2C0A079500F8}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{8295F1E0-69EA-41D4-BE14-135B56583298}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{8295F1E0-69EA-41D4-BE14-135B56583298}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{7A96C54C-031D-4CFA-A228-76FF39F1D054}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{7A96C54C-031D-4CFA-A228-76FF39F1D054}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{CD32DBA9-3A5F-4787-AE76-4E0FCE184916}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{CD32DBA9-3A5F-4787-AE76-4E0FCE184916}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{807A2A38-3207-41DC-9358-5022B949E572}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{807A2A38-3207-41DC-9358-5022B949E572}.Release|Any CPU.ActiveCfg = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {F72CEB49-0CC2-4D5A-B8AF-FDE391BF8AD1}
+	EndGlobalSection
+EndGlobal
