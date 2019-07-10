@@ -1,7 +1,0 @@
-# Fits files really do not need to be tracked.
-*.fits
-# Large data archive files are annoying.
-*.tar.bz2
-
-# Nor do VS config files.
-*.suo

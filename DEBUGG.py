@@ -47,7 +47,11 @@ for filedex in fits_file_list[counter:]:
     hist_range = [data.min(),data.max()]
     histogram_parameters = {'histogram_plot_paramters':{'bins':bin_list, 'range':hist_range}}
     
+<<<<<<< HEAD
+    figure = ifa.oscar.plot_single_heatmap_and_histogram(data,
+=======
     figure = ifa.hotel.plot_single_heatmap_and_histogram(data,
+>>>>>>> 4dabd360393af89a6ad100b69d221d40eaae1b84
                                       figure_subplot_parameters={'figsize':(9,3.5), 'dpi':100},
                                       plot_heatmap_parameters={},
                                       plot_histogram_parameters=histogram_parameters)
