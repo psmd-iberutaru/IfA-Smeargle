@@ -33,6 +33,8 @@ class SmeargleConfig(conclass.BaseConfig):
 
     Arguments
     ---------
+    BravoConfig : Configuration class
+        The configuration class for the BRAVO line.
     EchoConfig : Configuration class
         The configuration class for the ECHO line.
     OscarConfig : Configuration class

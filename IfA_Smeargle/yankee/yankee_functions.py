@@ -5,6 +5,7 @@ purpose is to allow for the proper reading of different possible arrangements
 of the configuration parameters.
 """
 import copy
+import os
 
 import IfA_Smeargle.yankee as yankee
 
@@ -12,6 +13,7 @@ from IfA_Smeargle.meta import *
 
 from IfA_Smeargle.yankee.configuration_classes.BaseConfig_file \
     import read_config_file, write_config_file
+
 
 
 
@@ -85,3 +87,73 @@ def extract_proper_configuration_class(configuration_class, desired_class,
     return None
 
 
+def configuration_factory_function(desired_class, file_name=None,
+                                   silent=False):
+    """ A function that will always open or load the proper configuration
+    class.
+
+    This is considered the safest method of loading a configuration class 
+    from file. This function returns the desired configuration file if it is
+    contained within the file; else, it returns a blank configuration.
+
+    Please note, this does not write the configuration class to file, ever.
+
+    Parameters
+    ----------
+    desired_class : Configuration class
+        The desired configuration class type that should be extracted from the 
+        file.
+    file_name : string (optional)
+        The name of the configuration file. 
+    silent : boolean (optional)
+        If True, no warning(s) will be printed.
+    
+    Returns
+    -------
+    config_class : Configuration class
+        The desired configuration class instance.
+    """
+    # Check that the desired class is actually a valid configuration class.
+    if (not issubclass(desired_class,yankee.BaseConfig)):
+        raise InputError("The desired class must be a member/sub class of the BaseConfig class "
+                         "by which all IfA-S configuration classes are built upon. The factory "
+                         "does not know what to return.")
+
+    # Check if the file exists.
+    if (file_name is None):
+        # They did not specify a file at all.
+        if (not silent):
+            smeargle_warning(InputWarning, ("A file name has not be provided; this "
+                                            "factory will return a blank configuration "
+                                            "class."))
+        config_class = desired_class()
+
+    elif (isinstance(file_name,str)):
+        # It may or may not be a class?
+        if (os.path.isfile(file_name)):
+            try:
+                config_class = read_config_file(file_name)
+            except Exception:
+                # It did not seem to work.
+                if (not silent):
+                    smeargle_warning(InputWarning, ("The file could not be read "
+                                                    "properly; this factory will return "
+                                                    "a blank configuration class."))
+                config_class = desired_class()
+        else:
+            # The provided path was not correct, the file does not exist.
+            if (not silent):
+                smeargle_warning(InputWarning, ("The file specified by file_name does not "
+                                                "exist; this factory will return a blank "
+                                                "configuration class."))
+            config_class = desired_class()
+
+    else:
+        # The file_name parameter is un-useable in its current form.
+        smeargle_warning(InputWarning, ("The file_name parameter is not understandable by "
+                                        "this factory; this factory will return a blank "
+                                        "configuration class."))
+        config_class = desired_class()
+
+    # Finally, return
+    return config_class
