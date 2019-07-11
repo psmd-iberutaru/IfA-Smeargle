@@ -2,6 +2,7 @@
 import astropy as ap
 import astropy.io.fits as ap_fits
 import numpy as np
+import warnings as warn
 
 from IfA_Smeargle.meta import *
 
@@ -88,14 +89,11 @@ def average_endpoints(fits_file, start_chunk, end_chunk, frame_exposure_time,
     else:
         writing_file_name = fits_file
 
-    # Header information preserves the values used for the beginning and 
-    # ending chunks. May be unneeded.
-    header['RAW_SIZE'] = (data.shape[0], 'How long the temporal axis was in frames.')
-    header['S_MEDIAN'] = (start_chunk, 'The length of the starting median block.')
-    header['E_MEDIAN'] = (end_chunk, 'The length of the ending median block.')
-
     if (write_file):
-        # Write the file. 
-        hdu_file = meta_faa.smeargle_write_fits_file(writing_file_name, header, final_data)
+        # Write the file. Also, it is expected that the fits files are 
+        # overwritten, suppress the warning that comes with it.
+        with warn.catch_warnings():
+            warn.simplefilter("ignore", category=OverwriteWarning)
+            hdu_file = meta_faa.smeargle_write_fits_file(writing_file_name, header, final_data)
 
     return hdu_file

@@ -51,7 +51,9 @@ def duplicate_archive_data_files(data_directory, archive_extension='bztar'):
     shutil.make_archive(data_directory + '/../' + archive_name, 
                         archive_extension, data_directory + '/')
 
-    # Be adaptive for the tar based file extensions.
+    # Be adaptive for the tar based file extensions, the notation used for 
+    # shutil is not exactly the same as the file extension. This is required
+    # for the moving workaround.
     if (archive_extension == 'gztar'):
         archive_extension = 'tar.gz'
     elif (archive_extension == 'bztar'):
@@ -64,7 +66,7 @@ def duplicate_archive_data_files(data_directory, archive_extension='bztar'):
                 data_directory + '/' + archive_name + '.' + archive_extension)
 
     # Inform the user where the archive is (just in case).
-    print("Pure archive of data is stored in  < {arc_dir} >"
+    print("Raw archive of data is stored in  < {arc_dir} >"
           .format(arc_dir=(data_directory + '/' + archive_name + '.' + archive_extension)))
 
     return None
