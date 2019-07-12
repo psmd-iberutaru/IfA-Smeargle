@@ -115,9 +115,13 @@ def configuration_factory_function(desired_class, file_name=None,
     """
     # Check that the desired class is actually a valid configuration class.
     if (not issubclass(desired_class,yankee.BaseConfig)):
-        raise InputError("The desired class must be a member/sub class of the BaseConfig class "
-                         "by which all IfA-S configuration classes are built upon. The factory "
-                         "does not know what to return.")
+        # Try one's best to deal with an instance of a configuration class.
+        if (isinstance(desired_class,yankee.BaseConfig)):
+            desired_class = type(desired_class)
+        else:
+            raise InputError("The desired class must be a member/sub class of the BaseConfig "
+                             "class by which all IfA-Smeargle configuration classes are built "
+                             "upon. The factory does not know what to return.")
 
     # Check if the file exists.
     if (file_name is None):

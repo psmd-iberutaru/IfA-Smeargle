@@ -65,6 +65,10 @@ class ImportingError(InputError):
     pass
 
 #####
+# These are the base exceptions; proper programing protocol dictates that 
+# Python try-except statements should not catch these. As such, they are 
+# reserved for very critical problems within the code itself (rarely should
+# the fault be the user's).
 
 class IncompleteError(Smeargle_BaseException):
     """

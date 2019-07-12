@@ -21,6 +21,8 @@ Project("{888888A0-9F3D-457C-B088-3A5042F75D52}") = "bravo", "bravo\bravo.pyproj
 EndProject
 Project("{888888A0-9F3D-457C-B088-3A5042F75D52}") = "oscar", "oscar\oscar.pyproj", "{807A2A38-3207-41DC-9358-5022B949E572}"
 EndProject
+Project("{888888A0-9F3D-457C-B088-3A5042F75D52}") = "zulu", "zulu\zulu.pyproj", "{834F7F1D-2939-4FE8-A583-C0EF95913E73}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -37,6 +39,8 @@ Global
 		{CD32DBA9-3A5F-4787-AE76-4E0FCE184916}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{807A2A38-3207-41DC-9358-5022B949E572}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{807A2A38-3207-41DC-9358-5022B949E572}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{834F7F1D-2939-4FE8-A583-C0EF95913E73}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{834F7F1D-2939-4FE8-A583-C0EF95913E73}.Release|Any CPU.ActiveCfg = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
