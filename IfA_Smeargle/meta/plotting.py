@@ -48,6 +48,13 @@ def smeargle_save_figure_file(figure,file_name,
     
     """
 
+    # Warn about the build up of memory if the figure is not closed.
+    if (not close_figure):
+        smeargle_warning(MemoryWarning, ("The figure will not be released from RAM. An "
+                                         "excessive amount of figures will be very memory "
+                                         "intensive. Why this function is being used without "
+                                         "its closing function is beyond Sparrow."))
+
     # Checking or applying file ending configuration.
     supported_file_types = figure.canvas.get_supported_filetypes()
     supported_file_types = list(supported_file_types.keys())
@@ -63,12 +70,12 @@ def smeargle_save_figure_file(figure,file_name,
         if (isinstance(title, str)):
             figure.suptitle(title)
         else:
-            ## !!WARN
-            pass
-    else:
-        pass
+            # Doesn't seem to be a string...
+            smeargle_warning(InputWarning, ("The title parameter has been provided, but as it "
+                                            "is not a string, it cannot be applied to the "
+                                            "figure. The title will not be applied."))
 
-    # Save then remove figure if specified.
+    # Save to file then remove figure from RAM if specified.
     figure.savefig(file_name)
     if (close_figure):
         plt.close(figure)

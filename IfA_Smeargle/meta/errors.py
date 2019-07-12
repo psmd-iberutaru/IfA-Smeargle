@@ -46,7 +46,7 @@ class ImprecisionError(Smeargle_Exception):
     """
     This error is used when there are critical issues with numerical 
     precision because of the volume of data or the very low/high numbers 
-    involved. 
+    involved. It is also just used when data may be chaotic.   
     """
     pass
 
@@ -159,6 +159,14 @@ class MaskingWarning(Smeargle_Warning):
     """
     pass
 
+class MemoryWarning(Smeargle_Warning):
+    """
+    This warning is used to warn the user that the procedures that follow 
+    would require a lot of memory RAM. If instead it would produce a large 
+    file(s), StorageWarning should be used.
+    """
+    pass
+
 class OverwriteWarning(Smeargle_Warning):
     """
     This warning is used to warn the user that a file has been overwritten,
@@ -174,6 +182,12 @@ class ReductionWarning(Smeargle_Warning):
     """
     pass
 
+class StorageWarning(Smeargle_Warning):
+    """
+    This warning is used when the large file(s) would be written to the hard
+    drive. If instead a lot of RAM would be used, it is better to use 
+    MemoryWarning.
+    """
 
 class TimeWarning(Smeargle_Warning):
     """
