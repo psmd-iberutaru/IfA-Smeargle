@@ -39,14 +39,36 @@ def smeargle_open_fits_file(file_name, extension=0):
     """
 
     with ap_fits.open(file_name) as hdul:
-        hdu_file = copy.deepcopy(hdul)
+        hdul_file = copy.deepcopy(hdul)
         
         # Just because just in case.
         hdul.close()
         del hdul
 
+    # Read from the extension
+    hdu_header = hdul_file[extension].header
+    hdu_data = hdul_file[extension].data
 
-    return hdu_file, hdu_file[extension].header, hdu_file[extension].data
+    # Check if there is an IfA-Smeargle mask, if so, mutate data to a masked
+    # array.
+    try:
+        data_mask = hdul_file['IFASMASK'].data
+    except KeyError:
+        data_mask = None
+    finally:
+        if (data_mask is not None):
+            # Inform that a mask has been found and is going to be used.
+            smeargle_warning(InputWarning,("The fits file contains an <IFASMASK> extension, "
+                                           "a pixel mask created by this program. It will be "
+                                           "applied to the data. The output data will be a "
+                                           "Numpy Masked Array."))
+            # Apply the mask.
+            hdu_data = np_ma.array(hdu_data, mask=data_mask)
+        else:
+            hdu_data = np.array(hdu_data)
+
+    # Finally return
+    return hdul_file, hdu_header, hdu_data
 
 
 def smeargle_write_fits_file(file_name, hdu_header, hdu_data,
@@ -55,6 +77,8 @@ def smeargle_write_fits_file(file_name, hdu_header, hdu_data,
 
     This function writes fits files given the data and header file. The 
     file name should be a complete path and must also include the file name.
+
+
 
     Parameters
     ----------
@@ -84,6 +108,7 @@ def smeargle_write_fits_file(file_name, hdu_header, hdu_data,
         smeargle_warning(InputWarning, ("The fits file name does not have a .fits extension; "
                                         "it has been automatically added."))
 
+    # Create the main HDUL object to write the fits file.
     # Check for the hdu_object.
     if (isinstance(hdu_object,(ap_fits.PrimaryHDU,ap_fits.HDUList))):
         # Astropy can handle PrimaryHDU -> .fits conversion.
@@ -92,6 +117,20 @@ def smeargle_write_fits_file(file_name, hdu_header, hdu_data,
         # Else, deal with the data.
         hdu = ap_fits.PrimaryHDU(data=hdu_data, header=hdu_header)
         hdul_file = ap_fits.HDUList([hdu])
+
+    # Check if the data is a masked array, if it is, extract the mask and save
+    # it to write in an extension.
+    if (isinstance(hdu_data,np_ma.MaskedArray)):
+        data_mask = np_ma.getmaskarray(hdu_data)
+        # Create the HDU object mask.
+        data_mask_hdu = ap_fits.ImageHDU(data_mask, name='IFASMASK')
+        hdul_file.append(data_mask_hdu)
+
+        # Warn that the mask has been added.
+        smeargle_warning(OutputWarning,("The data array provided has been detected to be a "
+                                        "masked array. The mask is saved in the fits extension "
+                                        "<IFASMASK>. The primary data is not affected."))
+
 
     # Check to see if the file exists, if so, then overwrite if provided for.
     if (os.path.isfile(file_name)):

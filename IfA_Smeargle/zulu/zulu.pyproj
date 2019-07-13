@@ -21,6 +21,9 @@
     <EnableUnmanagedDebugging>false</EnableUnmanagedDebugging>
   </PropertyGroup>
   <ItemGroup>
+    <Compile Include="dectector_pipelines\saphria_pipeline.py">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Include="dectector_pipelines\__init__.py">
       <SubType>Code</SubType>
     </Compile>

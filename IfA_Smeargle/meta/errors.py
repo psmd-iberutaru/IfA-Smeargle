@@ -159,7 +159,7 @@ class MaskingWarning(Smeargle_Warning):
     """
     This warning is used when any masking routine (especially in the ECHO 
     line) fails to mask any pixels. It is not a bad thing, but it can be 
-    helpful to know.
+    helpful to know. 
     """
     pass
 
@@ -170,6 +170,13 @@ class MemoryWarning(Smeargle_Warning):
     file(s), StorageWarning should be used.
     """
     pass
+
+class OutputWarning(Smeargle_Warning):
+    """
+    This warning is used to warn the user about outputs and some things that
+    may be helpful to know about them. Such outputs are generally writing 
+    file outputs.
+    """
 
 class OverwriteWarning(Smeargle_Warning):
     """

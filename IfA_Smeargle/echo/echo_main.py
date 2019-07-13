@@ -11,7 +11,7 @@ from IfA_Smeargle.echo import masks
 
 
 
-def echo_execution(data_array,configuration_class):
+def echo_execution(data_array, configuration_class):
     """ This script pragmatically uses a configuration class to determine  
     which filters to use.
 
@@ -22,8 +22,9 @@ def echo_execution(data_array,configuration_class):
 
     Parameters
     ----------
-    data_array : ndarray
-        The data array that is to processed and filtered accordingly
+    data_array : ndarray or string
+        The data array that is to processed and filtered accordingly. A fits 
+        file is also acceptable.
     configuration_class : SmeargleConfig or EchoConfig class
         The configuration class that will be used to provide instruction
         to the ECHO filters.
@@ -37,6 +38,9 @@ def echo_execution(data_array,configuration_class):
         The dictionary of all of the masks applied.
 
     """
+    # Be adaptive with accepting a fits file.
+    if (isinstance(data_array,str)):
+        data_array = meta_faa.smeargle_open_fits_file(data_array)[2]
 
     # Be adaptive as to which configuration class is given.
     provided_config = meta_config.extract_proper_configuration_class(configuration_class,
