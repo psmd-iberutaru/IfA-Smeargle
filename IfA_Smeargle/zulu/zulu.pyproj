@@ -21,19 +21,15 @@
     <EnableUnmanagedDebugging>false</EnableUnmanagedDebugging>
   </PropertyGroup>
   <ItemGroup>
-    <Compile Include="dectector_pipelines\saphria_pipeline.py">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="dectector_pipelines\__init__.py">
-      <SubType>Code</SubType>
-    </Compile>
+    <Compile Include="detector_pipelines\saphria_pipeline.py" />
     <Compile Include="zulu_main.py" />
     <Compile Include="__init__.py">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="detector_pipelines\__init__.py" />
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="dectector_pipelines\" />
+    <Folder Include="detector_pipelines\" />
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)\Python Tools\Microsoft.PythonTools.targets" />
   <!-- Uncomment the CoreCompile target to enable the Build command in
