@@ -43,10 +43,13 @@ def echo120_subarray_mask(data_array, x_range, y_range, previous_mask={}, return
         A boolean array for pixels that are masked (True) or are valid (False) will be added to 
         the mask dictionary under the key ``echo120_subarray_mask``.
     """
+    # Data validation.
+    x_range = np.array(x_range)
+    y_range = np.array(y_range)
 
     # A sub-array mask is practically the opposite of a rectangle mask. As such will be the 
     # implementation of it.
-    masked_array = masks.echo381_rectangle_mask(data_array,[x_range],[y_range],return_mask=True)
+    masked_array = masks.echo381_rectangle_mask(data_array,x_range,y_range,return_mask=True)
     masked_array = np.logical_not(masked_array)
 
     # Returning the mask.

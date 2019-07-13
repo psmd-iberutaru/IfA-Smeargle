@@ -76,7 +76,8 @@ def bravo_execution_saphria(data_directory, configuration_class):
     # Next, modifying the data to its own standard format. 
     averaging_names = glob.glob(data_directory + '/*' + '.fits')
     for fitsdex in averaging_names:
-        bravo.avging.average_endpoints_per_second(fitsdex, **provided_config.avg_endpts_config)
+        bravo.avging.average_endpoints_per_second(fitsdex, 
+                                                  **provided_config.avg_endpts_persec_config)
 
     return None
 

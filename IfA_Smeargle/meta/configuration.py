@@ -36,12 +36,12 @@ def extract_proper_configuration_class(configuration_class, desired_class,
 
     # Test if the class is a base class, the base class has no configuration
     # value.
-    if (type(desired_class) == type(yankee.BaseConfig)):
+    if (desired_class is yankee.BaseConfig):
         raise ConfigurationError("The BaseConfig class does not have any configuration elements "
                                  "attached to it. In the case that it does for your code, "
                                  "it is suggested that it is changed.")
     # Test if useless to proceed because it is already finished.
-    elif (type(configuration_class) == type(desired_class)):
+    elif (configuration_class is desired_class):
         # If the user really wants a deepcopy.
         if (deep_copy):
             extracted_class = copy.deepcopy(configuration_class)
@@ -51,7 +51,7 @@ def extract_proper_configuration_class(configuration_class, desired_class,
     # Test for subclasses:
     elif (isinstance(configuration_class,(yankee.BaseConfig,yankee.SmeargleConfig))):
         try:
-            desired_class_name = type(desired_class).__name__
+            desired_class_name = desired_class.__name__
             extracted_class = getattr(configuration_class,desired_class_name)
             # If the user really wants a deep copy.
             if (deep_copy):
@@ -65,7 +65,7 @@ def extract_proper_configuration_class(configuration_class, desired_class,
                                  "configuration class. \n"
                                  "Config: {config}     Desired: {desire}".format(
                                      config=type(configuration_class),
-                                     desire=type(desired_class)))
+                                     desire=desired_class))
     else:
         raise InputError("The class object provided is not a configuration class that is "
                          "easily understood by this program. We cannot proceed reading it.")

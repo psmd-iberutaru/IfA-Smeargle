@@ -39,10 +39,10 @@ def saphria_reduction_pipeline(data_directory, configuration_class):
     # Apply the desired masks as needed. Although, the format provided by
     # the BRAVO line states that they should all be in the same directory.
     # Recursive is unneeded but still added.
-    data_files = glob.glob(data_directory, recursive=True)
+    data_files = glob.glob(data_directory + '/*', recursive=True)
     for filedex in data_files:
-        # Execute the mask.
-        masked_array = echo.echo_execution(filedex, configuration_class)
+        # Execute the mask; catch the dictionary, it is unneeded though.
+        masked_array, _ = echo.echo_execution(filedex, configuration_class)
 
         # Write the file, because masked arrays do not harm the original data
         # it is acceptable to overwrite. The Header should remain unchanged;

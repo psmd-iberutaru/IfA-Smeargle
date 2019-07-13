@@ -238,7 +238,7 @@ def echo398_nothing(data_array, previous_mask={}, return_mask=False):
     masked_array = np.full(array_shape, False)
 
     final_mask = echo_funct.functioned_mask_returning(masked_array,previous_mask,
-                                                     'echo380_single_pixels',return_mask)
+                                                     'echo398_nothing',return_mask)
 
     return final_mask
 

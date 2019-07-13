@@ -1,5 +1,5 @@
 
-
+import copy
 import inspect
 import numpy as np
 
@@ -87,10 +87,15 @@ def echo_execution(data_array, configuration_class):
                     filter=filter_keydex))
                 continue
             else:
+                # The 'run' key is not an official parameter; delete it before 
+                # passing onto the function.
+                proper_config_dict = copy.deepcopy(config_param[config_keydex])
+                del proper_config_dict['run']
+
                 # Run the masking filter.
                 masking_dict = echo_filters[filter_keydex](data_array, 
                                                            previous_mask=masking_dict,
-                                                           **config_param[config_keydex])
+                                                           **proper_config_dict)
         except KeyError:
             smeargle_warning(ConfigurationWarning, ("The following configuration dictionary is "
                                                     "missing the 'run' parameter. The masking "

@@ -115,7 +115,8 @@ def smeargle_write_fits_file(file_name, hdu_header, hdu_data,
         hdul_file = hdu_object
     else:
         # Else, deal with the data.
-        hdu = ap_fits.PrimaryHDU(data=hdu_data, header=hdu_header)
+        print(np.array(hdu_data),type(np.array(hdu_data)))
+        hdu = ap_fits.PrimaryHDU(data=np.array(hdu_data), header=hdu_header)
         hdul_file = ap_fits.HDUList([hdu])
 
     # Check if the data is a masked array, if it is, extract the mask and save
