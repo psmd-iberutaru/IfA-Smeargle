@@ -45,8 +45,10 @@ def saphria_reduction_pipeline(data_directory, configuration_class):
         masked_array = echo.echo_execution(filedex, configuration_class)
 
         # Write the file, because masked arrays do not harm the original data
-        # it is acceptable to overwrite.
-        meta_faa.smeargle_write_fits_file(filedex, None, masked_array)
+        # it is acceptable to overwrite. The Header should remain unchanged;
+        # it is read and reused from the file itself.
+        temp_header = meta_faa.smeargle_open_fits_file(filedex)[1]
+        meta_faa.smeargle_write_fits_file(filedex, temp_header, masked_array)
 
 
 
