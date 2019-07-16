@@ -1,18 +1,17 @@
 
 """
 This is used when multiple figures are to be plotted in one file or system.
-
+These instead take configuration classes.
 """
 
 import matplotlib.pyplot as plt
 
 from IfA_Smeargle.meta import *
 from IfA_Smeargle import oscar
+from IfA_Smeargle import yankee
 
-def plot_single_heatmap_and_histogram(data_array,
-                                      figure_subplot_parameters={'figsize':(9,3.5), 'dpi':100},
-                                      plot_heatmap_parameters={},
-                                      plot_histogram_parameters={}):
+def plot_single_heatmap_and_histogram(data_array, configuration_class=None,
+                                      figure_subplot_parameters={'figsize':(9,3.5), 'dpi':100}):
     """ This extracts data from a single data array, plotting a histogram 
     and heatmap.
 
@@ -27,16 +26,12 @@ def plot_single_heatmap_and_histogram(data_array,
     data_array : ndarray or string
         This is the data array that is expected to be analyzed and have 
         histograms made. It can also be a fits file if desired. 
+    configuration_class : Configuration Class
+        The configuration options for the plotting functionality.
 
     figure_subplot_parameters : dictionary <config>
         These are parameters that are passed straight into the subplot 
         routine to make the figure.
-    plot_heatmap_parameters : dictionary <config>
-        These are parameters that are passed directly into 
-        :py:function:`~.plot_array_heatmap_image`.
-    plot_histogram_parameters : dictionary <config>
-        These are parameters that are passed directly into 
-        :py:function:`~.plot_array_histogram`.
 
     Returns
     -------
@@ -47,6 +42,28 @@ def plot_single_heatmap_and_histogram(data_array,
     # Extract proper data.
     data_array = oscar.oscar_funct.oscar_convert_data_inputs(data_array)
 
+    # Extract the proper configurations.
+    if (configuration_class is not None):
+        # Get the right class.
+        plot_config = meta_config.extract_proper_configuration_class(configuration_class,
+                                                                     yankee.OscarConfig)
+        heatmap_config = plot_config.general_heatmap_config
+        histogram_config = plot_config.general_histogram_config
+        # Remove the data array variables and figure axes variables.
+        try:
+            del heatmap_config['data_array']
+        except Exception:
+            pass
+        try:
+            del histogram_config['data_array']
+        except Exception:
+            pass
+    else:
+        # Use built-in defaults.
+        heatmap_config = {}
+        histogram_config = {}
+
+
 
     # Generate the figure, also use the user's specifications.
     fig, ax = plt.subplots(1, 2,**figure_subplot_parameters)
@@ -54,9 +71,9 @@ def plot_single_heatmap_and_histogram(data_array,
     # Plotting both figures in their respective areas side by side. 
     # Again, use user specifications.
     oscar.heatmaps.plot_array_heatmap_image(data_array, 
-                                            figure_axes=ax[0], **plot_heatmap_parameters)
+                                            figure_axes=ax[0], **heatmap_config)
     oscar.histograms.plot_array_histogram(data_array, 
-                                          figure_axes=ax[1], **plot_histogram_parameters)
+                                          figure_axes=ax[1], **histogram_config)
     
     # The histogram feels squished unless the axes ratios are modified.
     ax[1].set_aspect(1/(ax[1].get_data_ratio() * 1.5))

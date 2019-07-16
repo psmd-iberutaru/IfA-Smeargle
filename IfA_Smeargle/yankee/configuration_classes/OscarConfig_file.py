@@ -47,11 +47,10 @@ class OscarConfig(BaseConfig):
                                                    "been provided instead."))
 
             # Basic single plot, plotting functions.
-            self.heatmap_config = {'plot': False, 'data_array':None}
-            self.histogram_config = {'plot': False, 'data_array':None}
+            self.general_heatmap_config = {'plot': False, 'data_array':None}
+            self.general_histogram_config = {'plot': False, 'data_array':None}
 
             # Complex multi-plot, plotting functions.
-            self.heathist_config = {'plot': False, 'data_array':None}
 
             # Too hard plotting functions, defaults are really not to be changed. 
 

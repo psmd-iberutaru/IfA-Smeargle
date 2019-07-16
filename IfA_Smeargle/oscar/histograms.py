@@ -13,7 +13,7 @@ from IfA_Smeargle.meta import *
 from IfA_Smeargle import oscar
 
 def plot_array_histogram(data_array, 
-                         figure_axes=None, fit_gaussian=True,
+                         figure_axes=None, fit_gaussian=True, plot=True,
                          histogram_plot_paramters={'bins':50, 'range':[-10,10]}):
     """ A function to create and plot histogram plots for better analysis of 
     a given array.
@@ -35,6 +35,9 @@ def plot_array_histogram(data_array,
     fit_gaussian : boolean (optional)
         This parameter regulates if the function should replicate the 
         Gaussian function fitting.
+    plot : boolean (optional)
+        A flag to check if this plotting function should be run. A component 
+        in the mutli-plot functions. Defaults to true.
 
     histogram_plot_parameters : dictionary <config>
         These are options the user may use to pass customization parameters 
@@ -57,6 +60,12 @@ def plot_array_histogram(data_array,
     some incompatibilities. 
 
     """
+
+    # Decide if we even plot.
+    if (not plot):
+        # We're not plotting today.
+        return None
+
     # Extract proper data.
     data_array = oscar.oscar_funct.oscar_convert_data_inputs(data_array)
 

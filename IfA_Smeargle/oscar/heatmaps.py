@@ -12,7 +12,7 @@ from IfA_Smeargle.meta import *
 from IfA_Smeargle import oscar
 
 def plot_array_heatmap_image(data_array,
-                             figure_axes=None,  
+                             figure_axes=None, plot=True,
                              heatmap_plot_parameters={'interpolation':'nearest'},
                              colorbar_plot_paramters={'orientation':'vertical'}):
     """ A function to create a heatmap image of the data array provided.
@@ -32,6 +32,9 @@ def plot_array_heatmap_image(data_array,
         This is a predefined axes variable that the user may desire to have 
         the heatmap plot to. This defaults to either making new ones, or 
         using the currently defined axes. Note: This is not deep-copied!
+    plot : boolean (optional)
+        A flag to check if this plotting function should be run. A component 
+        in the mutli-plot functions.
 
     heatmap_plot_parameters : dictionary <config>
         These are options the user may use to pass customization parameters 
@@ -49,6 +52,11 @@ def plot_array_heatmap_image(data_array,
         generated) plotting axes.
     
     """
+    # Decide if we even plot.
+    if (not plot):
+        # We're not plotting today.
+        return None
+
 
     # First, figure out what type of Matplotlib axes to use. 
     if (figure_axes is not None):
