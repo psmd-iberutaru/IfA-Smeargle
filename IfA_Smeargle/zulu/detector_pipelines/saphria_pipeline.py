@@ -42,7 +42,7 @@ def saphria_reduction_pipeline(data_directory, configuration_class):
     data_files = glob.glob(data_directory + '/*.fits', recursive=True)
     for filedex in data_files:
         # Execute the mask; catch the dictionary, it is unneeded though.
-        masked_array, _ = echo.echo_execution(filedex, configuration_class)
+        masked_array, __ = echo.echo_execution(filedex, configuration_class)
 
         # Write the file, because masked arrays do not harm the original data
         # it is acceptable to overwrite. The Header should remain unchanged;

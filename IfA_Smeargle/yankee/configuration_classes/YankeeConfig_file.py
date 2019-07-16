@@ -3,8 +3,7 @@ from IfA_Smeargle.yankee.configuration_classes.BaseConfig_file import BaseConfig
 
 # Pulling deeper functions into the light.
 from IfA_Smeargle.yankee.yankee_functions import *
-from IfA_Smeargle.yankee.configuration_classes.BaseConfig_file \
-    import read_config_file, write_config_file
+
 
 class YankeeConfig(BaseConfig):
     """This is the configuration class of the YANKEE line.

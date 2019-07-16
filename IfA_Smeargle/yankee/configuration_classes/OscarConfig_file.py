@@ -5,8 +5,7 @@ from IfA_Smeargle.yankee.configuration_classes.BaseConfig_file import BaseConfig
 
 # Pulling deeper functions into the light.
 from IfA_Smeargle.yankee.yankee_functions import *
-from IfA_Smeargle.yankee.configuration_classes.BaseConfig_file \
-    import read_config_file, write_config_file
+
 
 class OscarConfig(BaseConfig):
     """This is the configuration class of the OSCAR line.

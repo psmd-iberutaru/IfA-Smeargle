@@ -16,8 +16,7 @@ from IfA_Smeargle.yankee import configuration_classes as conclass
 
 # Pulling deeper functions into the light.
 from IfA_Smeargle.yankee.yankee_functions import *
-from IfA_Smeargle.yankee.configuration_classes.BaseConfig_file \
-    import read_config_file, write_config_file
+
 
 class SmeargleConfig(conclass.BaseConfig):
     """ Configuration class of the entire Smeargle pipeline and other 
