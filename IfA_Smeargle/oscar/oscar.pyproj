@@ -20,6 +20,18 @@
     <VisualStudioVersion Condition=" '$(VisualStudioVersion)' == '' ">10.0</VisualStudioVersion>
   </PropertyGroup>
   <ItemGroup>
+    <Compile Include="heatmaps.py">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="histograms.py">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="multi_figure.py">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="oscar_functions.py">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Include="oscar_main.py" />
     <Compile Include="__init__.py" />
   </ItemGroup>
