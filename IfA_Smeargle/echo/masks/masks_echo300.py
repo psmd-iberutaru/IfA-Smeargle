@@ -56,7 +56,7 @@ def echo380_single_pixels(data_array, pixel_list, previous_mask={}, return_mask=
 
 
     final_mask = echo_funct.functioned_mask_returning(masked_array,previous_mask,
-                                                     'echo380_single_pixels',return_mask)
+                                                      'echo380_single_pixels',return_mask)
 
     return final_mask
 
@@ -123,7 +123,7 @@ def echo381_rectangle_mask(data_array, x_ranges, y_ranges, previous_mask={}, ret
 
     # And returning.
     final_mask = echo_funct.functioned_mask_returning(masked_array,previous_mask,
-                                                     'echo381_rectangle_mask',return_mask)
+                                                      'echo381_rectangle_mask',return_mask)
 
     return final_mask
 
@@ -164,7 +164,7 @@ def echo382_column_mask(data_array, column_list, previous_mask={}, return_mask=F
 
     # And returning.
     final_mask = echo_funct.functioned_mask_returning(masked_array,previous_mask,
-                                                     'echo382_column_mask',return_mask)
+                                                      'echo382_column_mask',return_mask)
 
     return final_mask
 
@@ -205,7 +205,7 @@ def echo383_row_mask(data_array, row_list, previous_mask={}, return_mask=False):
 
     # And returning.
     final_mask = echo_funct.functioned_mask_returning(masked_array,previous_mask,
-                                                     'echo383_row_mask',return_mask)
+                                                      'echo383_row_mask',return_mask)
 
     return final_mask
 
@@ -237,8 +237,12 @@ def echo398_nothing(data_array, previous_mask={}, return_mask=False):
     array_shape = data_array.shape
     masked_array = np.full(array_shape, False)
 
-    final_mask = echo_funct.functioned_mask_returning(masked_array,previous_mask,
-                                                     'echo398_nothing',return_mask)
+    # Warnings are printed when a filter returns zero masked pixels, this 
+    # is actually intended for this mask, ignore the filter.
+    with warn.catch_warnings():
+        warn.simplefilter("ignore", category=MaskingWarning)
+        final_mask = echo_funct.functioned_mask_returning(masked_array,previous_mask,
+                                                          'echo398_nothing',return_mask)
 
     return final_mask
 
@@ -271,6 +275,6 @@ def echo399_everything(data_array, previous_mask={}, return_mask=False):
     masked_array = np.full(array_shape, True)
 
     final_mask = echo_funct.functioned_mask_returning(masked_array,previous_mask,
-                                                     'echo399_everything',return_mask)
+                                                      'echo399_everything',return_mask)
 
     return final_mask

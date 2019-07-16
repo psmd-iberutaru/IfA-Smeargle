@@ -106,7 +106,9 @@ def configuration_factory_function(desired_class, file_name=None,
     file_name : string (optional)
         The name of the configuration file. 
     silent : boolean (optional)
-        If True, no warning(s) will be printed.
+        If true, then no warnings or informational messages will be displayed
+        if and only if they come from this function, other warnings from 
+        inner used functions still apply.
     
     Returns
     -------
@@ -126,10 +128,10 @@ def configuration_factory_function(desired_class, file_name=None,
     # Check if the file exists.
     if (file_name is None):
         # They did not specify a file at all.
-        if (not silent):
-            smeargle_warning(InputWarning, ("A file name has not be provided; this "
-                                            "factory will return a blank configuration "
-                                            "class."))
+        smeargle_warning(InputWarning, ("A file name has not be provided; this "
+                                        "factory will return a blank configuration "
+                                        "class."),
+                         silent=silent)
         config_class = desired_class()
 
     elif (isinstance(file_name,str)):
@@ -139,24 +141,25 @@ def configuration_factory_function(desired_class, file_name=None,
                 config_class = read_config_file(file_name)
             except Exception:
                 # It did not seem to work.
-                if (not silent):
-                    smeargle_warning(InputWarning, ("The file could not be read "
-                                                    "properly; this factory will return "
-                                                    "a blank configuration class."))
+                smeargle_warning(InputWarning, ("The file could not be read "
+                                                "properly; this factory will return "
+                                                "a blank configuration class."),
+                                 silent=silent)
                 config_class = desired_class()
         else:
             # The provided path was not correct, the file does not exist.
-            if (not silent):
-                smeargle_warning(InputWarning, ("The file specified by file_name does not "
-                                                "exist; this factory will return a blank "
-                                                "configuration class."))
+            smeargle_warning(InputWarning, ("The file specified by file_name does not "
+                                            "exist; this factory will return a blank "
+                                            "configuration class."),
+                             silent=silent)
             config_class = desired_class()
 
     else:
         # The file_name parameter is un-useable in its current form.
         smeargle_warning(InputWarning, ("The file_name parameter is not understandable by "
                                         "this factory; this factory will return a blank "
-                                        "configuration class."))
+                                        "configuration class."),
+                         silent=silent)
         config_class = desired_class()
 
     # Finally, return

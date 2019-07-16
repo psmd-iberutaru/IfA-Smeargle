@@ -11,7 +11,8 @@ from IfA_Smeargle.echo import masks
 
 
 
-def echo_execution(data_array, configuration_class):
+def echo_execution(data_array, configuration_class,
+                   slient=False):
     """ This script pragmatically uses a configuration class to determine  
     which filters to use.
 
@@ -28,6 +29,10 @@ def echo_execution(data_array, configuration_class):
     configuration_class : SmeargleConfig or EchoConfig class
         The configuration class that will be used to provide instruction
         to the ECHO filters.
+    silent : boolean (optional)
+        If true, then no warnings or informational messages will be displayed
+        if and only if they come from this function, other warnings from 
+        inner used functions still apply.
     
     Returns
     -------
@@ -81,7 +86,7 @@ def echo_execution(data_array, configuration_class):
 
         # Check if the filter should actually be run.
         try:
-            if (not config_param[config_keydex]['run']):
+            if ((not config_param[config_keydex]['run']) and (not slient)):
                 # Just send a notice that this filter is being skipped.
                 print("Filter {filter} is being skipped as noted by configuration class.".format(
                     filter=filter_keydex))
@@ -102,7 +107,8 @@ def echo_execution(data_array, configuration_class):
                                                     "method is skipped as if 'run'=False. \n"
                                                     "Problem configuration dictionary: \n  "
                                                     "{config_name}".format(
-                                                        config_name=config_keydex)))
+                                                        config_name=config_keydex)),
+                             silent=silent)
             continue
 
     # Making the masked array.

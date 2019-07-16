@@ -53,6 +53,10 @@ def smeargle_open_fits_file(file_name, extension=0):
     # array.
     try:
         data_mask = hdul_file['IFASMASK'].data
+        # Because fits files do not handle boolean arrays, convert from the 
+        # int 1/0 array in the file.
+        data_mask = np.array(np.where(data_mask <= 1, True, False), dtype=bool)
+
     except KeyError:
         data_mask = None
     finally:
@@ -115,14 +119,16 @@ def smeargle_write_fits_file(file_name, hdu_header, hdu_data,
         hdul_file = hdu_object
     else:
         # Else, deal with the data.
-        print(np.array(hdu_data),type(np.array(hdu_data)))
         hdu = ap_fits.PrimaryHDU(data=np.array(hdu_data), header=hdu_header)
         hdul_file = ap_fits.HDUList([hdu])
 
     # Check if the data is a masked array, if it is, extract the mask and save
     # it to write in an extension.
     if (isinstance(hdu_data,np_ma.MaskedArray)):
+        # Get data mask and convert to int array; apparently fits files do not
+        # work well with booleans.
         data_mask = np_ma.getmaskarray(hdu_data)
+        data_mask = np.array(np.where(data_mask, int(1), int(0)), dtype=int)
         # Create the HDU object mask.
         data_mask_hdu = ap_fits.ImageHDU(data_mask, name='IFASMASK')
         hdul_file.append(data_mask_hdu)
