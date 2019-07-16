@@ -55,7 +55,7 @@ def smeargle_open_fits_file(file_name, extension=0):
         data_mask = hdul_file['IFASMASK'].data
         # Because fits files do not handle boolean arrays, convert from the 
         # int 1/0 array in the file.
-        data_mask = np.array(np.where(data_mask <= 1, True, False), dtype=bool)
+        data_mask = np.array(np.where(data_mask >= 1, True, False), dtype=bool)
 
     except KeyError:
         data_mask = None

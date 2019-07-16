@@ -27,31 +27,36 @@ def plot_array_heatmap_image(data_array,
                              colorbar_plot_paramters={'orientation':'vertical'}):
     """ A function to create a heatmap image of the data array provided.
     
-    This function replicates the image plotting functionality of Tino Well's program. 
-    (Found here: https://github.com/tinowells/ifa). More specifically, the plot assigns a color
-    according to the value a pixel has, and plots it corresponding to its location in the
-    provided data array.
+    This function replicates the image plotting functionality of Tino Well's 
+    program. (Found here: https://github.com/tinowells/ifa). More 
+    specifically, the plot assigns a color according to the value a pixel 
+    has, and plots it corresponding to its location in the provided data 
+    array.
 
     Parameters
     ----------
-    data_array : ndarray
-        This is the provided array that is to be plotted. Dimensions matter!
+    data_array : ndarray or string
+        This is the provided array that is to be plotted. Dimensions matter! 
+        May also be a fits file.
     figure_axes : Matplotlib Axes (optional)
-        This is a predefined axes variable that the user may desire to have the heatmap plot 
-        to. This defaults to either making new ones, or using the currently defined axes. Note! 
-        This is not deep-copied.
+        This is a predefined axes variable that the user may desire to have 
+        the heatmap plot to. This defaults to either making new ones, or 
+        using the currently defined axes. Note: This is not deep-copied!
 
     heatmap_plot_parameters : dictionary <config>
-        These are options the user may use to pass customization parameters into the heatmap plot
-        functionality. See :py:function:`~.matplotlib.pyplot.imshow`.
+        These are options the user may use to pass customization parameters 
+        into the heatmap plot functionality. 
+        See :py:function:`~.matplotlib.pyplot.imshow`.
     colorbar_plot_paramters : dictionary <config>
-        These are options the user may use to pass customization parameters into the colorbar 
-        class functionality. See :py:function:`~.matplotlib.pyplot.colorbar`.
+        These are options the user may use to pass customization parameters 
+        into the colorbar class functionality. 
+        See :py:function:`~.matplotlib.pyplot.colorbar`.
 
     Returns
     -------
     heatmap_plot_axes : Matplotlib Axes
-        This is the heatmap plot made on the (provided, borrowed, or generated) plotting axes.
+        This is the heatmap plot made on the (provided, borrowed, or 
+        generated) plotting axes.
     
     """
 
@@ -61,8 +66,12 @@ def plot_array_heatmap_image(data_array,
     else:
         ax = plt.gca()
 
-    # Color-map. This is a very roundabout way for customization because for some reason using a 
-    # normal colorbar class gives a very weird error.
+    # Test for a string, and if so, extract the fits file.
+    if (isinstance(data_array,str)):
+        __, __, data_array = meta_faa.smeargle_open_fits_file(data_array)
+
+    # Color-map. This is a very roundabout way for customization because for 
+    # some reason using a normal colorbar class gives a very weird error.
     if ('cmap' in heatmap_plot_parameters):
         pass
     else:
@@ -88,41 +97,51 @@ def plot_array_heatmap_image(data_array,
 def plot_array_histogram(data_array, 
                          figure_axes=None, fit_gaussian=True,
                          histogram_plot_paramters={'bins':50, 'range':[-10,10]}):
-    """ A function to create and plot histogram plots for better analysis of a given array.
+    """ A function to create and plot histogram plots for better analysis of 
+    a given array.
 
-    This function replicates the histogram plotting functionality of Tino Well's program. 
-    (Found here: https://github.com/tinowells/ifa). More specifically, it attempts to plot 
-    histograms of pixel data; then, the program attempts to fit a Gaussian function. 
+    This function replicates the histogram plotting functionality of Tino 
+    Well's program. (Found here: https://github.com/tinowells/ifa). More 
+    specifically, it attempts to plot histograms of pixel data; then, the 
+    program attempts to fit a Gaussian function. 
 
     Parameters
     ----------
-    data_array : ndarray
-        This is the data array that is expected to be analyzed and have histograms made. 
+    data_array : ndarray or string
+        This is the data array that is expected to be analyzed and have 
+        histograms made. May also be a fits file.
     figure_axes : Matplotlib Axes (optional)
-        This is a predefined axes variable that the user may desire to have the histogram plot 
-        to. This defaults to either making new ones, or using the currently defined axes. Note! 
-        This is not deep-copied.
+        This is a predefined axes variable that the user may desire to have 
+        the histogram plot to. This defaults to either making new ones, or 
+        using the currently defined axes. Note: This is not deep-copied!
     fit_gaussian : boolean (optional)
-        This parameter regulates if the function should replicate the Gaussian function fitting.
+        This parameter regulates if the function should replicate the 
+        Gaussian function fitting.
 
     histogram_plot_parameters : dictionary <config>
-        These are options the user may use to pass customization parameters into the histogram plot
-        functionality. See :py:function:`~.matplotlib.pyplot.hist`. 
+        These are options the user may use to pass customization parameters 
+        into the histogram plot functionality. 
+        See :py:function:`~.matplotlib.pyplot.hist`. 
 
     Returns
     -------
     histogram_plot_axes : Matplotlib Axes
-        This is the histogram plot made on the (provided, borrowed, or generated) plotting axes. 
+        This is the histogram plot made on the (provided, borrowed, or 
+        generated) plotting axes. 
     gaussian_fit_atributes : dictionary
-        This is a dictionary of the mean, stddev, amplitude, and maximum of the computed/fit 
-        Gaussian model.
+        This is a dictionary of the mean, stddev, amplitude, and maximum of 
+        the computed/fit Gaussian model.
 
     Notes
     -----
-    If the ``histogram_plot_parameters`` specifies that the histogram plot should be logarithmic,
-    the Gaussian function will be disabled because of some incompatibilities. 
+    If the ``histogram_plot_parameters`` specifies that the histogram plot 
+    should be logarithmic, the Gaussian function will be disabled because of 
+    some incompatibilities. 
 
     """
+    # Test for a string, and if so, extract the fits file.
+    if (isinstance(data_array,str)):
+        __, __, data_array = meta_faa.smeargle_open_fits_file(data_array)
 
     # First, figure out what type of Matplotlib axes to use.
     if (figure_axes is not None):
@@ -142,7 +161,8 @@ def plot_array_histogram(data_array,
         # It does not exist.
         pass
 
-    # Be able to accept both masked arrays and standard arrays and be able to tell.
+    # Be able to accept both masked arrays and standard arrays and be able 
+    # to tell.
     if (np_ma.is_masked(data_array)):
         plotting_data = data_array.compressed()
     else:
@@ -151,15 +171,15 @@ def plot_array_histogram(data_array,
 
     # Derive histogram data, and double as plotting functionality.
     hist_data = ax.hist(plotting_data, **histogram_plot_paramters)
-    hist_x = (hist_data[1][0:-1] + hist_data[1][1:]) / 2 # Derive middle of bin.
+    hist_x = (hist_data[1][0:-1] + hist_data[1][1:]) / 2 # Middle of bin.
     hist_y = hist_data[0]
     # Personally, Sparrow does not find this helpful to look at.
     # ax.plot(hist_x,hist_y)
 
     if (fit_gaussian):
-        # Plotting/fitting the Gaussian function.  For some reasons beyond what I can explain, 
-        # Astropy seems to have better fitting capabilities, in this specific application, 
-        # than Scipy.
+        # Plotting/fitting the Gaussian function.  For some reasons beyond 
+        # what I can explain, Astropy seems to have better fitting 
+        # capabilities, in this specific application, than Scipy.
         gaussian_init = ap_mod.models.Gaussian1D(amplitude=1.0, mean=0, stddev=1.0)
         gaussian_fit_model = ap_mod.fitting.LevMarLSQFitter()
         gaussian_fit = gaussian_fit_model(gaussian_init, hist_x, hist_y)
@@ -168,7 +188,8 @@ def plot_array_histogram(data_array,
         ax.plot(temp_gauss_x_axis, gaussian_fit(temp_gauss_x_axis), 
                 linewidth=1.5, color='black')
 
-        # Deriving basic information form Gaussian model to return back to the user.
+        # Deriving basic information form Gaussian model to return back to 
+        # the user.
         gaussian_mean = gaussian_fit.mean.value
         gaussian_stddev = gaussian_fit.stddev.value
         gaussian_amplitude = gaussian_fit.amplitude.value
@@ -218,20 +239,24 @@ def plot_single_heatmap_and_histogram(data_array,
                                       figure_subplot_parameters={'figsize':(9,3.5), 'dpi':100},
                                       plot_heatmap_parameters={},
                                       plot_histogram_parameters={}):
-    """ This extracts data from a single data array, plotting a histogram and heatmap.
+    """ This extracts data from a single data array, plotting a histogram 
+    and heatmap.
 
-    This function attempts to plot both a histogram and a heatmap side-by-side given a data
-    array. Although all of the customizable parameters may be sent via the dictionary, this
-    is not the suggested method if extreme customization of the figure is needed. However,
-    if the current arrangement is fine, then so too should this function be.
+    This function attempts to plot both a histogram and a heatmap 
+    side-by-side given a data array. Although all of the customizable 
+    parameters may be sent via the dictionary, this is not the suggested 
+    method if extreme customization of the figure is needed. However, if the 
+    current arrangement is fine, then so too should this function be.
 
     Parameters
     ----------
-    data_array : ndarray
-        This is the data array that is expected to be analyzed and have histograms made. 
+    data_array : ndarray or string
+        This is the data array that is expected to be analyzed and have 
+        histograms made. It can also be a fits file if desired. 
 
     figure_subplot_parameters : dictionary <config>
-        These are parameters that are passed straight into the subplot routine to make the figure.
+        These are parameters that are passed straight into the subplot 
+        routine to make the figure.
     plot_heatmap_parameters : dictionary <config>
         These are parameters that are passed directly into 
         :py:function:`~.plot_array_heatmap_image`.
@@ -244,12 +269,16 @@ def plot_single_heatmap_and_histogram(data_array,
     final_figure : Matplotlib Figure
         This is the final figure made of the heatmap and the histogram.
     """
+    # Test for a string, and if so, extract the fits file.
+    if (isinstance(data_array,str)):
+        __, __, data_array = meta_faa.smeargle_open_fits_file(data_array)
+
 
     # Generate the figure, also use the user's specifications.
     fig, ax = plt.subplots(1, 2,**figure_subplot_parameters)
 
-    # Plotting both figures in their respective areas side by side. Again, use user
-    # specifications.
+    # Plotting both figures in their respective areas side by side. 
+    # Again, use user specifications.
     plot_array_heatmap_image(data_array, figure_axes=ax[0], **plot_heatmap_parameters)
     plot_array_histogram(data_array, figure_axes=ax[1], **plot_histogram_parameters)
     
