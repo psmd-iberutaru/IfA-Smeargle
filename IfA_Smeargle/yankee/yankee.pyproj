@@ -22,6 +22,9 @@
     <EnableUnmanagedDebugging>false</EnableUnmanagedDebugging>
   </PropertyGroup>
   <ItemGroup>
+    <Compile Include="configuration_classes\ZuluConfig_file.py">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Include="yankee_functions.py" />
     <Compile Include="configuration_classes\BaseConfig_file.py">
       <SubType>Code</SubType>

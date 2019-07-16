@@ -94,7 +94,7 @@ class TerminalError(Smeargle_BaseException):
 
 # Warnings
 
-def smeargle_warning(type, message, silent=False):
+def smeargle_warning(type, message, hushed=False):
     """ Just a wrapper function around the warning's warn command.
 
     This wrapper was really only for the logical flow of Sparrow.
@@ -105,7 +105,7 @@ def smeargle_warning(type, message, silent=False):
         The warning class type.
     message : string
         The message that the warning is to give to the user.
-    silent : boolean (optional)
+    hushed : boolean (optional)
         If true, then the warning is never actually issued.
 
     Returns
@@ -113,7 +113,7 @@ def smeargle_warning(type, message, silent=False):
     nothing
     
     """
-    if (not silent):
+    if (not hushed):
         warn.warn(message, type, stacklevel=2)
     else:
         pass

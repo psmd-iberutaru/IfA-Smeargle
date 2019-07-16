@@ -1,20 +1,20 @@
 
+
 from IfA_Smeargle.yankee.configuration_classes.BaseConfig_file import BaseConfig
 
 # Pulling deeper functions into the light.
 from IfA_Smeargle.yankee.yankee_functions import *
 
 
-class YankeeConfig(BaseConfig):
-    """This is the configuration class of the YANKEE line.
+class ZuluConfig(BaseConfig):
+    """This is the configuration class of the ZULU line.
 
-    The YANKEE line is mostly responsible for holding, storing, and reading 
-    of configuration files and classes that dictate the rest  of the module's 
-    behavior. 
+    The ZULU line is responsible for collecting all functions for each 
+    detector analysis line and grouping them into one method.
     
     By default, all of the entries in the configurations are empty. Moreover, 
     each configuration attribute only contains the required entries. Optional 
-    entries may be added at user  discretion (see documentation for such 
+    entries may be added at user discretion (see documentation for such 
     entries).
     
 

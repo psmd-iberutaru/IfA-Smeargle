@@ -13,7 +13,7 @@ from IfA_Smeargle import yankee
 
 
 def echo_execution(data_array, configuration_class,
-                   slient=False):
+                   hushed=False):
     """ This script pragmatically uses a configuration class to determine  
     which filters to use.
 
@@ -30,7 +30,7 @@ def echo_execution(data_array, configuration_class,
     configuration_class : SmeargleConfig or EchoConfig class
         The configuration class that will be used to provide instruction
         to the ECHO filters.
-    silent : boolean (optional)
+    hushed : boolean (optional)
         If true, then no warnings or informational messages will be displayed
         if and only if they come from this function, other warnings from 
         inner used functions still apply.
@@ -46,7 +46,7 @@ def echo_execution(data_array, configuration_class,
     """
     # Be adaptive with accepting a fits file.
     if (isinstance(data_array,str)):
-        data_array = meta_faa.smeargle_open_fits_file(data_array)[2]
+        __, __, data_array = meta_faa.smeargle_open_fits_file(data_array)
 
     # Be adaptive as to which configuration class is given.
     provided_config = meta_config.extract_proper_configuration_class(configuration_class,
@@ -109,7 +109,7 @@ def echo_execution(data_array, configuration_class,
                                                     "Problem configuration dictionary: \n  "
                                                     "{config_name}".format(
                                                         config_name=config_keydex)),
-                             silent=silent)
+                             hushed=hushed)
             continue
 
     # Making the masked array.

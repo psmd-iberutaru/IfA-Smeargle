@@ -4,6 +4,7 @@ This is the entire reduction method for the Saphria based infrared arrays.
 
 """
 import glob
+import warnings as warn
 
 from IfA_Smeargle import bravo
 from IfA_Smeargle import echo
@@ -23,7 +24,7 @@ def saphria_reduction_pipeline(data_directory, configuration_class):
     data_directory : string
         The data directory straight out of the Saphria array. Data 
         preprocessing is internally handled.
-    configuration_class : Configuration class
+    configuration_class : SmeargleConfig class
         The configuration class/options that go along with this reduction
         script. Must be a SmeargleConfig class instance.
 
@@ -42,13 +43,17 @@ def saphria_reduction_pipeline(data_directory, configuration_class):
     data_files = glob.glob(data_directory + '/*.fits', recursive=True)
     for filedex in data_files:
         # Execute the mask; catch the dictionary, it is unneeded though.
-        masked_array, __ = echo.echo_execution(filedex, configuration_class)
+        masked_array, __ = echo.echo_execution(filedex, configuration_class,
+                                               hushed=True)
 
         # Write the file, because masked arrays do not harm the original data
         # it is acceptable to overwrite. The Header should remain unchanged;
-        # it is read and reused from the file itself.
-        temp_header = meta_faa.smeargle_open_fits_file(filedex)[1]
-        meta_faa.smeargle_write_fits_file(filedex, temp_header, masked_array)
+        # it is read and reused from the file itself. Ignore overwrite 
+        # warnings
+        with warn.catch_warnings():
+            warn.simplefilter("ignore", category=OverwriteWarning)
+            temp_header = meta_faa.smeargle_open_fits_file(filedex)[1]
+            meta_faa.smeargle_write_fits_file(filedex, temp_header, masked_array)
 
 
 

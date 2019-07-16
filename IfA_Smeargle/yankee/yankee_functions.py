@@ -85,7 +85,7 @@ def extract_proper_configuration_class(configuration_class, desired_class,
 
 
 def configuration_factory_function(desired_class, file_name=None,
-                                   silent=False):
+                                   hushed=False):
     """ A function that will always open or load the proper configuration
     class.
 
@@ -102,7 +102,7 @@ def configuration_factory_function(desired_class, file_name=None,
         file.
     file_name : string (optional)
         The name of the configuration file. 
-    silent : boolean (optional)
+    hushed : boolean (optional)
         If true, then no warnings or informational messages will be displayed
         if and only if they come from this function, other warnings from 
         inner used functions still apply.
@@ -128,7 +128,7 @@ def configuration_factory_function(desired_class, file_name=None,
         smeargle_warning(InputWarning, ("A file name has not be provided; this "
                                         "factory will return a blank configuration "
                                         "class."),
-                         silent=silent)
+                         hushed=hushed)
         config_class = desired_class()
 
     elif (isinstance(file_name,str)):
@@ -141,14 +141,14 @@ def configuration_factory_function(desired_class, file_name=None,
                 smeargle_warning(InputWarning, ("The file could not be read "
                                                 "properly; this factory will return "
                                                 "a blank configuration class."),
-                                 silent=silent)
+                                 hushed=hushed)
                 config_class = desired_class()
         else:
             # The provided path was not correct, the file does not exist.
             smeargle_warning(InputWarning, ("The file specified by file_name does not "
                                             "exist; this factory will return a blank "
                                             "configuration class."),
-                             silent=silent)
+                             hushed=hushed)
             config_class = desired_class()
 
     else:
@@ -156,7 +156,7 @@ def configuration_factory_function(desired_class, file_name=None,
         smeargle_warning(InputWarning, ("The file_name parameter is not understandable by "
                                         "this factory; this factory will return a blank "
                                         "configuration class."),
-                         silent=silent)
+                         hushed=hushed)
         config_class = desired_class()
 
     # Finally, return
@@ -255,7 +255,7 @@ def read_config_file(file_name):
     # Ensure that the file name is actually a string.
     if (not isinstance(file_name,str)):
         raise InputError("Inputted class name variable is not a string. It cannot be converted "
-                         "to a file name to write the configuration file.")
+                         "to a file name to read the configuration file.")
     
     # Amateur checking to see the file is associated with IfA-Smeargle.
     if (file_name[-8:] != '.ifaspkl'):

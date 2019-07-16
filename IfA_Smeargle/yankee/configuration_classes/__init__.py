@@ -8,3 +8,5 @@ from IfA_Smeargle.yankee.configuration_classes.EchoConfig_file import EchoConfig
 from IfA_Smeargle.yankee.configuration_classes.OscarConfig_file import OscarConfig
 
 from IfA_Smeargle.yankee.configuration_classes.YankeeConfig_file import YankeeConfig 
+
+from IfA_Smeargle.yankee.configuration_classes.ZuluConfig_file import ZuluConfig 
