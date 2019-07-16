@@ -9,10 +9,10 @@ import numpy as np
 import scipy as sp
 import warnings as warn
 
-from IfA_Smeargle.meta import *
-
+from IfA_Smeargle import echo
 from IfA_Smeargle.echo import echo_functions as echo_funct
 from IfA_Smeargle.echo import masks
+from IfA_Smeargle.meta import *
 
 
 def echo120_subarray_mask(data_array, x_range, y_range, previous_mask={}, return_mask=False):

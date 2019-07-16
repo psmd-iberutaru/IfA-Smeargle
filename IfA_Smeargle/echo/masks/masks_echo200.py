@@ -9,10 +9,10 @@ import numpy.ma as np_ma
 import scipy as sp
 import warnings as warn
 
-from IfA_Smeargle.meta import *
-
+from IfA_Smeargle import echo
 from IfA_Smeargle.echo import echo_functions as echo_funct
 from IfA_Smeargle.echo import masks
+from IfA_Smeargle.meta import *
 
 def echo270_minimum_cut(data_array, minimum_value, previous_mask={}, return_mask=False):
     """ This applies a mask on all pixels lower than some value.

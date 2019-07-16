@@ -7,7 +7,7 @@ of the configuration parameters.
 import copy
 
 from IfA_Smeargle.meta import *
-import IfA_Smeargle.yankee as yankee
+from IfA_Smeargle import yankee
 
 
 def extract_proper_configuration_class(configuration_class, desired_class,

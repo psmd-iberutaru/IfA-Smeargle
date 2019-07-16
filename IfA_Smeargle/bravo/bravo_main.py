@@ -8,8 +8,8 @@ should ever be used for any one given process.
 
 import glob
 
-import IfA_Smeargle.bravo as bravo
-import IfA_Smeargle.yankee as yankee
+from IfA_Smeargle import bravo
+from IfA_Smeargle import yankee
 
 from IfA_Smeargle.meta import *
 
