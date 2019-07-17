@@ -50,14 +50,8 @@ def plot_single_heatmap_and_histogram(data_array, configuration_class=None,
         heatmap_config = plot_config.general_heatmap_config
         histogram_config = plot_config.general_histogram_config
         # Remove the data array variables and figure axes variables.
-        try:
-            del heatmap_config['data_array']
-        except Exception:
-            pass
-        try:
-            del histogram_config['data_array']
-        except Exception:
-            pass
+        heatmap_config.pop('data_array', None)
+        histogram_config.pop('data_array', None)
     else:
         # Use built-in defaults.
         heatmap_config = {}

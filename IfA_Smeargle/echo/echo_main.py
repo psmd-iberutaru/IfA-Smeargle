@@ -57,16 +57,16 @@ def echo_execution(data_array, configuration_class,
     filter_list = dict(inspect.getmembers(masks, inspect.isfunction))
 
     echo_filters = copy.deepcopy(filter_list)
-    for keydex,valuedex in filter_list.items():
+    for keydex, valuedex in filter_list.items():
         if (not 'echo' in keydex):
-            del echo_filters[keydex]
+            echo_filters.pop(keydex, None)
 
     # Extracting configuration parameters.
     temp_param_list = dict(inspect.getmembers(provided_config))
     config_param = copy.deepcopy(temp_param_list)
     for keydex, valuedex in temp_param_list.items():
         if (not 'echo' in keydex):
-            del config_param[keydex]
+            config_param.pop(keydex, None)
     
     # This sorting method should suffice; these dictionaries must be 
     # parallel for the below method to work.
@@ -96,7 +96,7 @@ def echo_execution(data_array, configuration_class,
                 # The 'run' key is not an official parameter; delete it before 
                 # passing onto the function.
                 proper_config_dict = copy.deepcopy(config_param[config_keydex])
-                del proper_config_dict['run']
+                proper_config_dict.pop('run', None)
 
                 # Run the masking filter.
                 masking_dict = echo_filters[filter_keydex](data_array, 
