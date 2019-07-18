@@ -14,7 +14,7 @@ import matplotlib.pyplot as plt
 
 from IfA_Smeargle.meta import *
 
-def smeargle_save_figure_file(figure,file_name,
+def smeargle_save_figure_file(figure, file_name,
                               title=None, close_figure=True):
     """ This function just saves a figure to a file to a name provided.
 

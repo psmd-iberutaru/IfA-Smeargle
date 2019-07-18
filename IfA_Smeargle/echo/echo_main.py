@@ -73,7 +73,6 @@ def echo_execution(data_array, configuration_class,
     echo_filters = echo_funct.sort_masking_dictionary(echo_filters)
     config_param = echo_funct.sort_masking_dictionary(config_param)
 
-
     # Loop and always add to the masking dictionary.
     masking_dict = {}
     for filter_keydex, config_keydex in zip(list(echo_filters.keys()),list(config_param.keys())):
@@ -87,10 +86,12 @@ def echo_execution(data_array, configuration_class,
 
         # Check if the filter should actually be run.
         try:
-            if ((not config_param[config_keydex]['run']) and (not slient)):
+            if (not config_param[config_keydex]['run']):
                 # Just send a notice that this filter is being skipped.
-                print("Filter {filter} is being skipped as noted by configuration class.".format(
-                    filter=filter_keydex))
+                if not (hushed):
+                    print("Filter {filter} is being skipped as noted by configuration class.".format(
+                        filter=filter_keydex))
+                # Skip the filter, continue to the next filter.
                 continue
             else:
                 # The 'run' key is not an official parameter; delete it before 

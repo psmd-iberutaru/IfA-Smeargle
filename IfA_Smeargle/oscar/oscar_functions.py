@@ -41,5 +41,6 @@ def oscar_convert_data_inputs(data, desired_form=np.ma.MaskedArray):
             converted_data = np_ma.array(temp_data)
 
 
+
     # Finally, return the data.
     return converted_data
