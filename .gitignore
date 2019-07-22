@@ -1,7 +1,8 @@
-# Fits files really do not need to be tracked.
-*.fits
-# Large data archive files are annoying.
+# The entire data section does not really need to be saved. These files
+# are associated with the detector data.
+./Data/*
 *.tar.bz2
+*.fits
 
 # Nor do VS config files.
 *.suo

@@ -40,7 +40,6 @@ def saphria_reduction_pipeline(data_directory, configuration_class):
     
     # Apply the desired masks as needed. Although, the format provided by
     # the BRAVO line states that they should all be in the same directory.
-    # Recursive is unneeded but still added.
     data_files = glob.glob(data_directory + '/*.fits')
     with warn.catch_warnings():
         # Limit warnings, the files should be overwritten and should also
@@ -68,7 +67,7 @@ def saphria_reduction_pipeline(data_directory, configuration_class):
     for filedex in data_files:
         oscar_plot = oscar.multi.plot_single_heatmap_and_histogram(filedex, configuration_class)
         # Save the plot.
-        file_name = filedex + '__plot.pdf' # UPDATE
+        file_name = filedex[:-5] + '__plot.pdf' # UPDATE
         plot_title = filedex[:-5] # UPDATE
         meta_plting.smeargle_save_figure_file(oscar_plot, file_name, title=plot_title)
 

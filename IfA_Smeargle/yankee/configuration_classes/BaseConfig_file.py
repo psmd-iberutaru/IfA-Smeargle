@@ -28,8 +28,8 @@ class BaseConfig(object):
     def __str__(self):
         """ The print visualization of the configuration classes.
 
-        This is for a good amount of printing and visualization. This just the
-        default method, though it should work for most cases. Each other 
+        This is for a good amount of printing and visualization. This just 
+        the default method, though it should work for most cases. Each other 
         configuration class may have their own method if need be.        
 
         This statement uses a fair bit of basic Unicode characters mostly 
@@ -43,7 +43,8 @@ class BaseConfig(object):
         print_output = '\n< Configuration Class --- ' + str(type(self).__name__) + ' > \n'
 
         # chr(9555) = ╓ . It is a pretty header character. The class is 
-        # repeated again to reduce confusion.
+        # repeated again to reduce confusion especially with multi-class 
+        # printing.
         print_output += chr(9555) + ' ' + str(type(self).__name__) + ' Parameters:' + '\n'
 
 
@@ -56,8 +57,8 @@ class BaseConfig(object):
                 correspondence_symbol = chr(8628)
             else:
                 # char(8640) = ⇀ . A right top harpoon is used for its visual
-                # aspect, and to not have it confused with an equals. Also, it
-                # discourages copying the key and value.
+                # aspect, and to not have it confused with an equals. Also, 
+                # it discourages copying the key and value.
                correspondence_symbol = chr(8640)
 
             # chr(9567) = ╟ . It is a pretty vertical bar that matches.

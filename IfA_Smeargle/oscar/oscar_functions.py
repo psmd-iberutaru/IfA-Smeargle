@@ -44,3 +44,56 @@ def oscar_convert_data_inputs(data, desired_form=np.ma.MaskedArray):
 
     # Finally, return the data.
     return converted_data
+
+
+def oscar_bin_width(data_array, bin_width,
+                    local_minimum=None, local_maximum=None):
+    """ Matplotlib does not support having input bin withs; this returns a 
+    valid form.
+
+    This function just generates a valid bin value list provided a given 
+    bin widths. If the ``local_maximum`` or ``local_minimum value`` is not 
+    provided, then the absolute maximum and minimum of the provided array is
+    used. 
+
+    If mod[(max - min), bin_width] != 0, the last/highest bin is 
+    disenfranchised. This function can adapt to masked arrays. 
+
+    Parameters
+    ----------
+    data_array : ndarray
+        The data to which the bins will be calculated from; ignored if the two
+        local maximum and minimum parameters are provided.
+    bin_width : float
+        The width of the bins.
+    local_minimum : float (optional)
+        A predefined minimum that the calculating function should use.
+    local_maximum : float (optional)
+        A predefined maximum that the calculating function should use. 
+
+    Returns
+    -------
+    bin_list_values : ndarray
+        A list of values that can be fed into matplotlib to emulate binning by
+        a value width.
+    """
+
+    # Test if the user provided their own minimum or maximums.
+    if ((local_minimum is not None) and (local_maximum is not None)):
+        # They have, apply the minimum and maximums.
+        minimum = local_minimum
+        maximum = local_maximum
+    else:
+        # They have not, or at least, it is not a usable set.
+        if (not isinstance(data_array,np.ndarray)):
+            data_array = np.array(data_array)
+        minimum = data_array.min()
+        maximum = data_array.max()
+
+    # Calculate the bins based off of the width provided. Numpy is pretty 
+    # good with this.
+    bin_list_values = np.arange(minimum, maximum, bin_width)
+    bin_list_values = np.append(bin_list_values, maximum)
+
+    # All done.
+    return bin_list_values

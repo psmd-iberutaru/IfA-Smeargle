@@ -10,12 +10,14 @@ from IfA_Smeargle.yankee.yankee_functions import *
 class EchoConfig(BaseConfig):
     """ This is the configuration class of the ECHO line.
 
-    The ECHO line is mostly for masking techniques. Each attribute in this class is a
-    dictionary entry that contains the parameters for these masking/filtering function.
+    The ECHO line is mostly for masking techniques. Each attribute in this 
+    class is a dictionary entry that contains the parameters for these 
+    masking/filtering functions.
     
-    By default, all of the entries in the configurations are empty. Moreover, each configuration
-    attribute only contains the required entries. Optional entries may be added at user 
-    discretion (see documentation for such entries).
+    By default, all of the entries in the configurations are empty. 
+    Moreover, each configuration attribute only contains the required 
+    entries. Optional entries may be added at user discretion (see 
+    documentation for such entries).
 
     Attributes
     ----------

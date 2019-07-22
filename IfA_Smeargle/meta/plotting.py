@@ -18,24 +18,27 @@ def smeargle_save_figure_file(figure, file_name,
                               title=None, close_figure=True):
     """ This function just saves a figure to a file to a name provided.
 
-    Because of some oddities with Matplotlib, saving a file within a function and exiting said
-    function (or overwriting in a loop its variable) with a new figure causes two figures to 
-    be saved in parallel. This is very memory intensive, so closing a saved figure is ideal.
-    This function does it so the user or Smeargle lines do not need to care about it.
+    Because of some oddities with Matplotlib, saving a file within a function 
+    and exiting said function (or overwriting in a loop its variable) with a 
+    new figure causes two figures to be saved in parallel. This is very 
+    memory intensive, so closing a saved figure is ideal.
+    
+    This function does it so the user or Smeargle lines do not need to care 
+    about it.
 
     Parameters
     ----------
     figure : Matplotlib Figure
         This is the figure to be saved to a file.
     file_name : string
-        This is the file string name for the figure to be saved. It should already have the  
-        appropriate extension. If not, it defaults to pdf. 
+        This is the file string name for the figure to be saved. It should 
+        already have the appropriate extension. If not, it defaults to pdf. 
     title : string (optional)
-        This is the title for the figure plot. Although it can be added from here, it is not
-        advised.
+        This is the title for the figure plot. Although it can be added from 
+        here, it is not advised.
     close_figure : boolean (optional)
-        This specifies if the figure should be closed. Given that this function is built for that,
-        this should not be changed.
+        This specifies if the figure should be closed. Given that this 
+        function is built for that, this should not be changed.
 
     Returns
     -------
@@ -53,7 +56,7 @@ def smeargle_save_figure_file(figure, file_name,
         smeargle_warning(MemoryWarning, ("The figure will not be released from RAM. An "
                                          "excessive amount of figures will be very memory "
                                          "intensive. Why this function is being used without "
-                                         "its closing function is beyond Sparrow."))
+                                         "its closing functionality is beyond Sparrow."))
 
     # Checking or applying file ending configuration.
     supported_file_types = figure.canvas.get_supported_filetypes()
@@ -62,7 +65,8 @@ def smeargle_save_figure_file(figure, file_name,
         # The there seems to be a supported file type already in here.
         pass
     else:
-        # There does not seem to be an appropriate file extension. Add one (pdf).
+        # There does not seem to be an appropriate file extension. 
+        # Add one (pdf).
         file_name += '.pdf'
 
     # Apply the title if provided, if the format isn't applicable, trash.
