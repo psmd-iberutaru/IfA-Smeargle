@@ -89,7 +89,9 @@ def echo_execution(data_array, configuration_class,
             if (not config_param[config_keydex]['run']):
                 # Just send a notice that this filter is being skipped.
                 if not (hushed):
-                    print("Filter {filter} is being skipped as noted by configuration class.".format(
+                    # String concentration is first before function calls.
+                    print("Filter {filter} is being skipped "
+                          "as noted by configuration class.".format(
                         filter=filter_keydex))
                 # Skip the filter, continue to the next filter.
                 continue

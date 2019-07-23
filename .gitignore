@@ -1,6 +1,6 @@
 # The entire data section does not really need to be saved. These files
 # are associated with the detector data.
-./Data/*
+Data/*
 *.tar.bz2
 *.fits
 
