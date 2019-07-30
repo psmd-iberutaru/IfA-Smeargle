@@ -62,6 +62,7 @@ class EchoConfig(BaseConfig):
             self.echo271_config = {'run':False, 'maximum_value':None}
             self.echo275_config = {'run':False, 'top_count':None, 'bottom_count':None}
             self.echo276_config = {'run':False, 'kept_range':None}
+            self.echo277_config = {'run':False, 'sigma_limits':None}
 
             # ECHO-300 class
             ################

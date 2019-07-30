@@ -200,3 +200,74 @@ def echo276_percent_truncation(data_array, kept_range, previous_mask={}, return_
                                                      'echo276_percent_truncation', return_mask)
 
     return final_mask
+
+
+def echo277_sigma_truncation(data_array, sigma_limits,
+                             previous_mask={}, return_mask=False):
+    """ This applies a mask on pixels outside a given multiple of a sigma 
+    value.
+    
+    This function masks values if they are outsize of a sigma range from the 
+    mean. The mean and sigma values are automatically calculated from the
+    array provided. 
+
+    Parameters
+    ----------
+    data_array : ndarray
+        The data array that the mask will be calculated from. 
+    sigma_limits : float or ndarray
+        The multiple of sigma which will be applied. Unequal bottom-top bounds
+        may be set as a list-like input.
+    previous_mask : dictionary (optional)
+        Any previous masks done. The new mask made in this function will be  
+        added to the dictionary. Default is to make a new mask dictionary.
+    return_mask : boolean (optional)
+        If this is true, then the mask itself (rather than the dictionary  
+        entry) will be returned instead.
+
+    Returns
+    -------
+    final_mask : ndarray -> dictionary
+        A boolean array for pixels that are masked (True) or are valid (False)  
+        will be added to the mask dictionary under the key 
+        ``echo277_sigma_truncation``.
+    """
+
+    # Check if the sigma limits are the same, or the user provided for a lower
+    # and upper sigma to use.
+    if (isinstance(sigma_limits,(int,float))):
+        # It is just a number, apply them evenly.
+        bottom_sigma_multiple = sigma_limits
+        top_sigma_multiple = sigma_limits
+    elif (np.squeeze(np.array(sigma_limits)).size == 2):
+        # It is asynchronous and valid, apply it as so.
+        sigma_limits = np.squeeze(np.array(sigma_limits))
+        bottom_sigma_multiple = sigma_limits[0]
+        top_sigma_multiple = sigma_limits[-1]
+    else:
+        raise InputError("The sigma_limits parameter must either a number or a 2 large range "
+                         "for the bottom and top sigma multiple bounds. It is unknown how to "
+                         "handle the current input.")
+
+    # Calculate the mean and the sigma values of the data array. Handle for NaNs.
+    mean = np.nanmean(data_array)
+    stddev = np.nanstd(data_array)
+        
+    # Compute which pixels to be masked out. 
+    with warn.catch_warnings():
+        warn.simplefilter("ignore", MaskingWarning)
+        temp_mask_dict = {}
+        temp_mask_dict = masks.echo270_minimum_cut(data_array, 
+                                                   (mean - bottom_sigma_multiple * stddev),
+                                                   previous_mask=temp_mask_dict)
+        temp_mask_dict = masks.echo271_maximum_cut(data_array, 
+                                                   (mean + top_sigma_multiple * stddev),
+                                                   previous_mask=temp_mask_dict)
+        # Synthesize the top and bottom masks.
+        masked_array = echo_funct.synthesize_mask_dictionary(temp_mask_dict)
+
+    # Finally return
+    final_mask = echo_funct.functioned_mask_returning(masked_array, previous_mask,
+                                                     'echo277_sigma_truncation', return_mask)
+
+    return final_mask

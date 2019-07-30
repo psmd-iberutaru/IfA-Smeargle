@@ -39,7 +39,7 @@ def bravo_execution_saphria(data_directory, configuration_class):
 
     # Be adaptive as to which configuration class is given.
     provided_config = yankee.extract_proper_configuration_class(configuration_class,
-                                                                     yankee.BravoConfig)
+                                                                yankee.BravoConfig)
 
     # Determine the detector's name.
     if (isinstance(provided_config.detector_name,str)):
@@ -64,10 +64,13 @@ def bravo_execution_saphria(data_directory, configuration_class):
 
     # Rename all of the files. The directory structure seems fine.
     final_names = []
-    for detectdex, voltdex in zip([detector_name for index in range(n_files)],
-                                  voltage_names):
+    for index, detectdex, voltdex in zip(range(len(voltage_names)),
+                                         [detector_name for index in range(n_files)],
+                                         voltage_names):
         final_names.append(detectdex
-                           + '__' + voltdex + '__'
+                           + '__' + 'num;' + str(index + 1) 
+                           + '__' + voltdex 
+                           # + '__'
                            + '.fits')
 
     bravo.rename.parallel_renaming(None, final_names, data_directory, file_extensions='.fits')
@@ -77,7 +80,7 @@ def bravo_execution_saphria(data_directory, configuration_class):
     averaging_names = glob.glob(data_directory + '/*' + '.fits')
     for fitsdex in averaging_names:
         bravo.avging.average_endpoints_per_second(fitsdex, 
-                                                  **provided_config.avg_endpts_persec_config)
+                                                  **provided_config.avg_endpts_persec_config) 
 
     return None
 

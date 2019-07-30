@@ -92,12 +92,12 @@ def average_endpoints(fits_file, start_chunk, end_chunk,
     else:
         writing_file_name = fits_file
 
-    if (write_file):
-        # Write the file. Also, it is expected that the fits files are 
-        # overwritten, suppress the warning that comes with it.
-        with warn.catch_warnings():
-            warn.simplefilter("ignore", category=OverwriteWarning)
-            hdu_file = meta_faa.smeargle_write_fits_file(writing_file_name, header, final_data)
+    # Write the file. Also, it is expected that the fits files are 
+    # overwritten, suppress the warning that comes with it.
+    with warn.catch_warnings():
+        warn.simplefilter("ignore", category=OverwriteWarning)
+        hdu_file = meta_faa.smeargle_write_fits_file(writing_file_name, header, final_data,
+                                                     save_file=write_file)
 
     return hdu_file
 
@@ -197,12 +197,13 @@ def average_endpoints_per_second(fits_file, start_chunk, end_chunk, frame_exposu
     else:
         writing_file_name = fits_file
 
-    if (write_file):
-        # Write the file. Also, it is expected that the fits files are 
-        # overwritten, suppress the warning that comes with it.
-        with warn.catch_warnings():
-            warn.simplefilter("ignore", category=OverwriteWarning)
-            hdu_file = meta_faa.smeargle_write_fits_file(writing_file_name, header, final_data)
+
+    # Write the file. Also, it is expected that the fits files are 
+    # overwritten, suppress the warning that comes with it.
+    with warn.catch_warnings():
+        warn.simplefilter("ignore", category=OverwriteWarning)
+        hdu_file = meta_faa.smeargle_write_fits_file(writing_file_name, header, final_data,
+                                                     save_file=write_file)
 
     return hdu_file
 

@@ -215,8 +215,10 @@ def voltage_pattern_rename_fits(data_directory, voltage_pattern,
     # are more files than voltages . Then actually rename the file.
     voltage_string_list = []
     for fileindex,filenamedex,pathdex in zip(range(n_files),original_names,original_paths):
-        volt_string = (str(voltage_strings[fileindex%n_voltages]) 
-                       + ',' + str(fileindex + 1).zfill(3))
+        volt_string = str(voltage_strings[fileindex%n_voltages])
+        # To prevent file name clashes
+        if (rename):
+            volt_string += (',' + str(fileindex + 1).zfill(3))
         voltage_string_list.append(volt_string)
         
         # Renaming if needed.

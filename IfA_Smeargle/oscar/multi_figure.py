@@ -40,7 +40,7 @@ def plot_single_heatmap_and_histogram(data_array, configuration_class=None,
     """
 
     # Extract proper data.
-    data_array = oscar.oscar_funct.oscar_convert_data_inputs(data_array)
+    data_array = oscar.oscar_convert_data_inputs(data_array)
 
     # Extract the proper configurations.
     if (configuration_class is not None):

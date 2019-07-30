@@ -76,7 +76,7 @@ def smeargle_open_fits_file(file_name, extension=0):
 
 
 def smeargle_write_fits_file(file_name, hdu_header, hdu_data,
-                             hdu_object=None, overwrite=True):
+                             hdu_object=None, save_file=True, overwrite=True):
     """ A function to ensure proper writing of fits files.
 
     This function writes fits files given the data and header file. The 
@@ -96,7 +96,10 @@ def smeargle_write_fits_file(file_name, hdu_header, hdu_data,
     hdu_object : Astropy HDUList (optional)
         An astropy HDUList object, if provided, this object takes priority 
         to be written, the rest are ignored.
-    overwrite : boolean
+    save_file : boolean (optional)
+        If ``True``, then the fits file will be written to file, else, just
+        the instance will be returned.
+    overwrite : boolean (optional)
         If ``True``, if there exists a file of the same name, overwrite.
 
     Returns
@@ -154,7 +157,9 @@ def smeargle_write_fits_file(file_name, hdu_header, hdu_data,
 
     # Write, follow overwrite instructions, assume the user knows what they 
     # are doing. Return object.
-    hdul_file.writeto(file_name, overwrite=overwrite)
+    if (save_file):
+        hdul_file.writeto(file_name, overwrite=overwrite)
+
     return hdul_file
     
 

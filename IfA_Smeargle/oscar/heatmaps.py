@@ -65,7 +65,7 @@ def plot_array_heatmap_image(data_array,
         ax = plt.gca()
 
     # Extract proper data.
-    data_array = oscar.oscar_funct.oscar_convert_data_inputs(data_array)
+    data_array = oscar.oscar_convert_data_inputs(data_array)
 
     # Color-map. This is a very roundabout way for customization because for 
     # some reason using a normal colorbar class gives a very weird error.

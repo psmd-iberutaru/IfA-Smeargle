@@ -106,6 +106,14 @@ bottom 7% should be truncated, the parameter ``kept_range`` should be:
 The top and bottom percent values are provided coded by the user. The pixels masked are
 independent from the previous masks provided.
 
+#### ECHO-277 Sigma Truncation
+
+This mask eliminates pixel values outside of a set number of multiples (``sigma_limits``) of 
+the standard deviation value away from the mean. Asymmetric multiples may also be set. 
+
+Both the mean and the standard deviations are calculated unweighted and standardly to 
+most mathematical texts. 
+
 ------
 
 

@@ -128,7 +128,7 @@ def configuration_factory_function(desired_class, file_name=None,
         smeargle_warning(InputWarning, ("A file name has not be provided; this "
                                         "factory will return a blank configuration "
                                         "class."),
-                         hushed=hushed)
+                         silent=hushed)
         config_class = desired_class()
 
     elif (isinstance(file_name,str)):
@@ -141,14 +141,14 @@ def configuration_factory_function(desired_class, file_name=None,
                 smeargle_warning(InputWarning, ("The file could not be read "
                                                 "properly; this factory will return "
                                                 "a blank configuration class."),
-                                 hushed=hushed)
+                                 silent=hushed)
                 config_class = desired_class()
         else:
             # The provided path was not correct, the file does not exist.
             smeargle_warning(InputWarning, ("The file specified by file_name does not "
                                             "exist; this factory will return a blank "
                                             "configuration class."),
-                             hushed=hushed)
+                             silent=hushed)
             config_class = desired_class()
 
     else:
@@ -156,7 +156,7 @@ def configuration_factory_function(desired_class, file_name=None,
         smeargle_warning(InputWarning, ("The file_name parameter is not understandable by "
                                         "this factory; this factory will return a blank "
                                         "configuration class."),
-                         hushed=hushed)
+                         silent=hushed)
         config_class = desired_class()
 
     # Finally, return

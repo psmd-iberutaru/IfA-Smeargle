@@ -13,7 +13,8 @@ from IfA_Smeargle.meta import *
 from IfA_Smeargle import oscar
 
 def plot_array_histogram(data_array, 
-                         figure_axes=None, fit_gaussian=True, plot=True,
+                         figure_axes=None, fit_gaussian=True, bin_width=None,
+                         plot=True,
                          histogram_plot_paramters={'bins':50, 'range':[-10,10]}):
     """ A function to create and plot histogram plots for better analysis of 
     a given array.
@@ -35,6 +36,9 @@ def plot_array_histogram(data_array,
     fit_gaussian : boolean (optional)
         This parameter regulates if the function should replicate the 
         Gaussian function fitting.
+    bin_width : boolean (optional)
+        Matplotlib is not nice with bin widths, if it is an integer, widths 
+        are applied instead.
     plot : boolean (optional)
         A flag to check if this plotting function should be run. A component 
         in the mutli-plot functions. Defaults to true.
@@ -67,7 +71,7 @@ def plot_array_histogram(data_array,
         return None
 
     # Extract proper data.
-    data_array = oscar.oscar_funct.oscar_convert_data_inputs(data_array)
+    data_array = oscar.oscar_convert_data_inputs(data_array)
 
     # First, figure out what type of Matplotlib axes to use.
     if (figure_axes is not None):
@@ -94,6 +98,9 @@ def plot_array_histogram(data_array,
     else:
         plotting_data = data_array.flatten()
 
+    # Test for bin width instead of numbers.
+    if (isinstance(bin_width,(int,float))):
+        histogram_plot_paramters['bins'] = oscar.oscar_bin_width(plotting_data, bin_width)
 
     # Derive histogram data, and double as plotting functionality.
     hist_data = ax.hist(plotting_data, **histogram_plot_paramters)

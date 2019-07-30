@@ -1,7 +1,9 @@
 
 import copy
+import glob
 import inspect
 import numpy as np
+import warnings as warn
 
 
 from IfA_Smeargle import echo
@@ -89,7 +91,7 @@ def echo_execution(data_array, configuration_class,
             if (not config_param[config_keydex]['run']):
                 # Just send a notice that this filter is being skipped.
                 if not (hushed):
-                    # String concentration is first before function calls.
+                    # String concentration is first before function calls. 
                     print("Filter {filter} is being skipped "
                           "as noted by configuration class.".format(
                         filter=filter_keydex))
@@ -112,7 +114,7 @@ def echo_execution(data_array, configuration_class,
                                                     "Problem configuration dictionary: \n  "
                                                     "{config_name}".format(
                                                         config_name=config_keydex)),
-                             hushed=hushed)
+                             silent=hushed)
             continue
 
     # Making the masked array.
@@ -121,3 +123,60 @@ def echo_execution(data_array, configuration_class,
 
     # And, return
     return masked_array, masking_dict
+
+
+def echo_directory_execution(data_directory, configuration_class,
+                             overwrite=True, hushed=False):
+    """ This function extends the ECHO abilities to entire directories of
+    using the same configuration file.
+
+    The original echo_execution function only handles a single data array,
+    computing the mask, and then returning a masked array. This function 
+    extends such capabilities and overwrites the files.
+    
+    Parameters
+    ----------
+    data_directory : string
+        The directory to the data files.
+    configuration_class : SmeargleConfig or EchoConfig class
+        The configuration class (and by extension, filters) that are to be
+        used for all files.
+    overwrite : boolean (optional)
+        An option to decide if the files should be overwritten or renamed.
+    hushed : boolean (optional)
+        If true, then no warnings or informational messages will be displayed
+        if and only if they come from this function, other warnings from 
+        inner used functions still apply.
+
+    Returns
+    -------
+    nothing
+    """
+
+    # Obtain the fits files by reference name.
+    data_files = glob.glob(data_directory + '/*.fits')
+
+    
+    # Limit warnings, the files should be overwritten and should also
+    # have the mask contained within.
+    with warn.catch_warnings():
+        warn.simplefilter("ignore", category=OverwriteWarning)
+        warn.simplefilter("ignore", category=OutputWarning)
+
+        # Loop over all files.
+        for filedex in data_files:
+            # Execute the mask; catch the dictionary, it is unneeded though.
+            masked_array, __ = echo.echo_execution(filedex, configuration_class,
+                                                   hushed=hushed)
+
+            # The Header should remain unchanged; it is read and reused 
+            # from the file itself. 
+            __, temp_header, __ = meta_faa.smeargle_open_fits_file(filedex)
+
+            # Check for the overwriting option.
+            if (overwrite):
+                meta_faa.smeargle_write_fits_file(filedex, temp_header, masked_array)
+            else:
+                # This is incomplete, how to proceed is likely to require a 
+                # list of strings equal in length to number of files.
+                raise IncompleteError

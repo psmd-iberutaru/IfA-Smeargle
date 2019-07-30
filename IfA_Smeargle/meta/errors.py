@@ -86,15 +86,21 @@ class TerminalError(Smeargle_BaseException):
     """
     Something has gone terribly wrong. It is best to contact Sparrow. 
     """
-    def __init__(self, message=''):
-        self.message = ("TERMINAL:  " + message)
+    def __init__(self, message=None):
+        if (message is None):
+            self.message = "TERMINAL: A general TERMINAL error has been raised."
+        elif (isinstance(message, str)):
+            self.message = ("TERMINAL:  " + message)
+        else:
+            raise TerminalError("The message for a TERMINAL error must be a string.")
+    
     def __str__(self):
         return self.message
 
 
 # Warnings
 
-def smeargle_warning(type, message, hushed=False):
+def smeargle_warning(type, message, silent=False):
     """ Just a wrapper function around the warning's warn command.
 
     This wrapper was really only for the logical flow of Sparrow.
@@ -105,7 +111,7 @@ def smeargle_warning(type, message, hushed=False):
         The warning class type.
     message : string
         The message that the warning is to give to the user.
-    hushed : boolean (optional)
+    slient : boolean (optional)
         If true, then the warning is never actually issued.
 
     Returns
@@ -113,7 +119,7 @@ def smeargle_warning(type, message, hushed=False):
     nothing
     
     """
-    if (not hushed):
+    if (not silent):
         warn.warn(message, type, stacklevel=2)
     else:
         pass
