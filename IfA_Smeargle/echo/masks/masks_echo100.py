@@ -9,6 +9,7 @@ import astropy.modeling as ap_mod
 import numpy as np
 import numpy.ma as np_ma
 import scipy as sp
+import matplotlib.pyplot as plt
 import warnings as warn
 
 from IfA_Smeargle import echo
@@ -94,51 +95,13 @@ def echo170_gaussian_truncation(data_array, sigma_multiple, previous_mask={}, re
         key ``echo170_gaussian_truncation``.
     """
 
-    # Be able to accept both masked arrays and standard arrays and be able 
-    # to tell.
-    if (np_ma.is_masked(data_array)):
-        flat_data = data_array.compressed()
-    else:
-        flat_data = data_array.flatten()
 
-    # For consistent measurements have a lot of bins throughout the values.
-    # But, bins of width 1 are too many and take a lot of time to make. 
-    hist_bins = oscar.oscar_bin_width(flat_data, 42)
-
-    # Extract histogram data from the data.
-    hist_data = np.histogram(flat_data, bins=hist_bins)
-    hist_x = (hist_data[1][0:-1] + hist_data[1][1:]) / 2 # Middle of bin.
-    hist_y = hist_data[0]
-
-    # Filter out some of the outlier pixels, consider only 75% of the 
-    # meaningful bins and the bins with a value greater than a limiting entry.
-    valuecut_index = np.where(hist_y >= 5)
-    hist_x = np.array(hist_x[valuecut_index])
-    hist_y = np.array(hist_y[valuecut_index])
-
-    sorted_index = np.argsort(hist_y)
-    cut_index = sorted_index[-np.floor(len(sorted_index)*0.75).astype(int):]
-    hist_x = np.array(hist_x[cut_index])
-    hist_y = np.array(hist_y[cut_index])
-
-
-    # Fitting the Gaussian function.  For some reasons beyond 
-    # what Sparrow can explain, Astropy seems to have better fitting 
-    # capabilities, in this specific application, than Scipy.
-    gaussian_init = ap_mod.models.Gaussian1D(amplitude=1.0, mean=0, stddev=1.0)
-    gaussian_fit_model = ap_mod.fitting.LevMarLSQFitter()
-    gaussian_fit = gaussian_fit_model(gaussian_init, hist_x, hist_y)
+    # Fitting the Gaussian function. 
+    __, gauss_param = meta_plting.smeargle_fit_histogram_gaussian_function(data_array)   
 
     # Basic Gaussian information.
-    mean = gaussian_fit.mean.value
-    stddev = gaussian_fit.stddev.value
-
-#    # Check if the Gaussian fit did anything useful.
-#    if ((int(mean) == 0) or (int(stddev) == 1)):
-#        smeargle_warning(MaskingWarning,("The Gaussian fit is remarkably close to the initial "
-#                                         "conditions. It is highly likely that the Gaussian "
-#                                         "fit silently failed. "))
-    print(mean,stddev)
+    mean = gauss_param['mean']
+    stddev = gauss_param['stddev']
 
     # Compute which pixels to be masked out. 
     with warn.catch_warnings():

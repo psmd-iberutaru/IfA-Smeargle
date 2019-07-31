@@ -110,23 +110,21 @@ def plot_array_histogram(data_array,
     # ax.plot(hist_x,hist_y)
 
     if (fit_gaussian):
-        # Plotting/fitting the Gaussian function.  For some reasons beyond 
-        # what Sparrow can explain, Astropy seems to have better fitting 
-        # capabilities, in this specific application, than Scipy.
-        gaussian_init = ap_mod.models.Gaussian1D(amplitude=1.0, mean=0, stddev=1.0)
-        gaussian_fit_model = ap_mod.fitting.LevMarLSQFitter()
-        gaussian_fit = gaussian_fit_model(gaussian_init, hist_x, hist_y)
+        # Fit a Gaussian to the data.
+        gauss_funt, gauss_param = \
+            meta_plting.smeargle_fit_histogram_gaussian_function(plotting_data)
+
         # For better plotting resolution.
         temp_gauss_x_axis = np.linspace(hist_x.min() - 1, hist_x.max() + 1, hist_x.size * 10)
-        ax.plot(temp_gauss_x_axis, gaussian_fit(temp_gauss_x_axis), 
+        ax.plot(temp_gauss_x_axis, gauss_funt(temp_gauss_x_axis), 
                 linewidth=1.5, color='black')
 
         # Deriving basic information form Gaussian model to return back to 
         # the user.
-        gaussian_mean = gaussian_fit.mean.value
-        gaussian_stddev = gaussian_fit.stddev.value
-        gaussian_amplitude = gaussian_fit.amplitude.value
-        gaussian_max = np.max(gaussian_fit(temp_gauss_x_axis))
+        gaussian_mean = gauss_param['mean']
+        gaussian_stddev = gauss_param['stddev']
+        gaussian_amplitude = gauss_param['amplitude']
+        gaussian_max = np.max(gauss_funt(temp_gauss_x_axis))
         gaussian_fit_atributes = {'mean': gaussian_mean, 'stddev': gaussian_stddev,
                                   'amplitude': gaussian_amplitude,'max' : gaussian_max}
 
