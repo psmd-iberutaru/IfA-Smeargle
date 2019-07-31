@@ -111,7 +111,7 @@ def plot_array_histogram(data_array,
 
     if (fit_gaussian):
         # Plotting/fitting the Gaussian function.  For some reasons beyond 
-        # what I can explain, Astropy seems to have better fitting 
+        # what Sparrow can explain, Astropy seems to have better fitting 
         # capabilities, in this specific application, than Scipy.
         gaussian_init = ap_mod.models.Gaussian1D(amplitude=1.0, mean=0, stddev=1.0)
         gaussian_fit_model = ap_mod.fitting.LevMarLSQFitter()

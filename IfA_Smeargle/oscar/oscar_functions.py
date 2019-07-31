@@ -87,9 +87,9 @@ def oscar_bin_width(data_array, bin_width,
         # They have not, or at least, it is not a usable set.
         if (not isinstance(data_array,np.ndarray)):
             data_array = np.array(data_array)
-        minimum = data_array.min()
-        maximum = data_array.max()
-
+        minimum = np.nanmin(data_array)
+        maximum = np.nanmax(data_array)
+        print(minimum,maximum)
     # Calculate the bins based off of the width provided. Numpy is pretty 
     # good with this.
     bin_list_values = np.arange(minimum, maximum, bin_width)

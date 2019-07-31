@@ -55,6 +55,16 @@ No more than a single sub-array may be provided. It does not make sense to have 
 sub-array. A sub-array mask is strictly meant for trimming the edge pixels or a priori trims 
 based on detector configuration.
 
+#### ECHO-170 Gaussian Truncation
+
+A Gaussian function is fit to a numerously populated histogram function of the data. 
+The center and the deviation values of this distribution are used to mask pixels outside
+the range. Pixel values outside the range 
+![equation](https://latex.codecogs.com/svg.latex?%5Cinline%20%5Cleft%5C%7Bx_%5Ctext%7Bpix%7D%20%5Cin%20%5Cmathbb%7BR%7D%20%7C%20%5Cmu%20-%20k%5Csigma%20%5Cleq%20x_%5Ctext%7Bpix%7D%20%5Cleq%20%5Cmu%20-%20k%5Csigma%20%5Cright%5C%7D)
+are masked. The value ![equation](https://latex.codecogs.com/svg.latex?%5Cinline%20k) is given by
+``sigma_multiple``, a user defined value.
+
+
 
 ## ECHO-200 Class
 

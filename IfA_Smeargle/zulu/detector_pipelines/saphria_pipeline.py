@@ -89,6 +89,7 @@ def SA201907281826_reduction_pipeline(data_directory, configuration_class):
         ref_frame = configuration_class.ZuluConfig.SA201907281826['ref_frame']
         sub_avg_frames = configuration_class.ZuluConfig.SA201907281826['sub_avg_frames']
         frame_exposure = configuration_class.ZuluConfig.SA201907281826['frame_exposure']
+        early_sigma = configuration_class.ZuluConfig.SA201907281826['early_sigma']
     except (AttributeError, KeyError):
         # Frame 4, account for 0-indexing.
         early_frame = 3
@@ -100,6 +101,7 @@ def SA201907281826_reduction_pipeline(data_directory, configuration_class):
 
         # How long each frame was exposed for in seconds.
         frame_exposure = 5
+        early_sigma = 2
 
 
     # Initial renaming of primary files.
@@ -157,8 +159,8 @@ def SA201907281826_reduction_pipeline(data_directory, configuration_class):
         hdul_file, hdu_header, hdu_data = meta_faa.smeargle_open_fits_file(filedex)
 
         # Early frame masking.
-        early_mask = echo.masks.echo277_sigma_truncation(hdu_data[early_frame], 3, 
-                                                         return_mask=True)
+        early_mask = echo.masks.echo170_gaussian_truncation(hdu_data[early_frame], early_sigma, 
+                                                            return_mask=True)
 
         # Calculating the differing averaging frames.
         for subavedex in sub_avg_frames:
@@ -170,9 +172,10 @@ def SA201907281826_reduction_pipeline(data_directory, configuration_class):
             hdu_to_be_written = bravo.avging.average_endpoints(filedex, ref_frame, subavedex, 
                                                                write_file=False,
                                                                alternate_name=alt_name)
-            hdu_to_be_written[0].data = np_ma.array(hdu_to_be_written[0].data, mask=early_mask)
-            meta_faa.smeargle_write_fits_file(alt_name, None, None, hdu_object=hdu_to_be_written)
-
+            temp_header = hdu_to_be_written[0].header 
+            temp_data = np_ma.array(hdu_to_be_written[0].data, mask=early_mask)
+            meta_faa.smeargle_write_fits_file(alt_name, temp_header, temp_data)
+    raise TerminalError
     # Re-obtain file names, again.
     file_names = glob.glob(data_directory + '/*' + '.fits')
     for filedex in file_names:
