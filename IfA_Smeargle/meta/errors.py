@@ -29,6 +29,13 @@ class ConfigurationError(Smeargle_Exception):
     incorrect).
     """
 
+class DataError(Smeargle_Exception):
+    """
+    This error is used when there is an issue with the fundamental data that
+    this program or module cannot fix. The user should be able to figure out 
+    what is the problem.
+    """
+
 class ExportingError(Smeargle_Exception):
     """
     This error is used when the program attempts to export data in some way,
@@ -137,6 +144,13 @@ class ConfigurationWarning(Smeargle_Warning):
     This warning is used when there are issues with the configuration class
     and that data is missing. However, the missing data does not warrant an
     exception.
+    """
+
+class DataWarning(Smeargle_Warning):
+    """
+    This warning is used when there is an issue with the fundamental data that
+    this program or module cannot fix but can still work around. The user 
+    should be able to figure out what is the problem.
     """
 
 class DepreciationWarning(Smeargle_Warning):

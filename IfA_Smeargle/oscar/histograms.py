@@ -15,7 +15,7 @@ from IfA_Smeargle import oscar
 def plot_array_histogram(data_array, 
                          figure_axes=None, fit_gaussian=True, bin_width=None,
                          plot=True,
-                         histogram_plot_paramters={'bins':50, 'range':[-10,10]}):
+                         histogram_plot_paramters={}):
     """ A function to create and plot histogram plots for better analysis of 
     a given array.
 
@@ -101,6 +101,24 @@ def plot_array_histogram(data_array,
     # Test for bin width instead of numbers.
     if (isinstance(bin_width,(int,float))):
         histogram_plot_paramters['bins'] = oscar.oscar_bin_width(plotting_data, bin_width)
+    else:
+        bin_width = data_array.ptp() / float(np.nanmax(histogram_plot_paramters['bins']))
+
+    # Range is not used when bin sequences are provided. Allow for a patch 
+    # that would return data as expected.
+    if (('range' in histogram_plot_paramters) and 
+        (isinstance(histogram_plot_paramters['bins'],np.ndarray))):
+        # The user provided their own range parameter, "override" the bin
+        # with parameter by using a different bin width system.
+        min_range = histogram_plot_paramters['range'][0]
+        max_range = histogram_plot_paramters['range'][-1]
+
+        # Apply the bins
+        histogram_plot_paramters['bins'] = oscar.oscar_bin_width(None, bin_width,
+                                                                 local_minimum=min_range,
+                                                                 local_maximum=max_range)
+    else:
+        pass
 
     # Derive histogram data, and double as plotting functionality.
     hist_data = ax.hist(plotting_data, **histogram_plot_paramters)
@@ -112,10 +130,11 @@ def plot_array_histogram(data_array,
     if (fit_gaussian):
         # Fit a Gaussian to the data.
         gauss_funt, gauss_param = \
-            meta_plting.smeargle_fit_histogram_gaussian_function(plotting_data)
+            meta_model.smeargle_fit_histogram_gaussian_function(plotting_data, bin_width)
 
         # For better plotting resolution.
-        temp_gauss_x_axis = np.linspace(hist_x.min() - 1, hist_x.max() + 1, hist_x.size * 10)
+        temp_gauss_x_axis = np.linspace(np.nanmin(hist_x) - 1, np.nanmax(hist_x) + 1, 
+                                        hist_x.size * 10)
         ax.plot(temp_gauss_x_axis, gauss_funt(temp_gauss_x_axis), 
                 linewidth=1.5, color='black')
 
@@ -124,7 +143,7 @@ def plot_array_histogram(data_array,
         gaussian_mean = gauss_param['mean']
         gaussian_stddev = gauss_param['stddev']
         gaussian_amplitude = gauss_param['amplitude']
-        gaussian_max = np.max(gauss_funt(temp_gauss_x_axis))
+        gaussian_max = np.nanmax(gauss_funt(temp_gauss_x_axis))
         gaussian_fit_atributes = {'mean': gaussian_mean, 'stddev': gaussian_stddev,
                                   'amplitude': gaussian_amplitude,'max' : gaussian_max}
 
@@ -140,15 +159,13 @@ def plot_array_histogram(data_array,
         ax.axhline(y=gaussian_max, color='orange', alpha=0.75)
 
         # Manually assigning legend elements.
-        counts_label = mpl_patch.Patch(color='blue', 
-                                       label='Counts')
         center_label = mpl_patch.Patch(color=mean_stddev_colors[2], linewidth=1, 
-                                       label='μ = {val}'.format(val=gaussian_mean)[:9])
+                                       label='μ = {0:.3f}'.format(gaussian_mean))
         stddev_label = mpl_patch.Patch(color=mean_stddev_colors[1], linewidth=1, 
-                                        label='σ = {val}'.format(val=gaussian_stddev)[:9])
+                                        label='σ = {0:.3f}'.format(gaussian_stddev))
         peak_label = mpl_patch.Patch(color='orange', 
-                                     label='Max = {val}'.format(val=gaussian_max)[:12])
-        ax.legend(handles=[counts_label,center_label,stddev_label,peak_label],
+                                     label='Max = {0:.3f}'.format(gaussian_max))
+        ax.legend(handles=[center_label,stddev_label,peak_label],
                   markerscale=0.75, fontsize='small',
                   loc='upper center', bbox_to_anchor=(0.5, -0.1), shadow=True, ncol=4)
     elif not (fit_gaussian):
@@ -161,6 +178,15 @@ def plot_array_histogram(data_array,
     # Basic axis labels.
     ax.set_xlabel('Pixel Values')
     ax.set_ylabel('Count Quantity')
+
+    # If the range has been set, adhere to it. Have a fall back in the event 
+    # The user may have messed up.
+    if ('range' in histogram_plot_paramters):
+        left_range = (np.nanmin(histogram_plot_paramters.get('range', np.nanmin(plotting_data))) 
+                      - 1)
+        right_range = (np.nanmax(histogram_plot_paramters.get('range', np.nanmax(plotting_data))) 
+                       + 1)
+        ax.set_xlim(left_range, right_range)
 
     # That should be it.
     return ax, gaussian_fit_atributes

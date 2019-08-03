@@ -65,7 +65,8 @@ def echo120_subarray_mask(data_array, x_range, y_range, previous_mask={}, return
     return final_mask
 
 
-def echo170_gaussian_truncation(data_array, sigma_multiple, previous_mask={}, return_mask=False):
+def echo170_gaussian_truncation(data_array, sigma_multiple, bin_size, 
+                                previous_mask={}, return_mask=False):
     """ This applies a mask on pixel values outside some Gaussian profile.
 
     This function is similar to echo277_sigma_truncation, but instead the
@@ -80,6 +81,8 @@ def echo170_gaussian_truncation(data_array, sigma_multiple, previous_mask={}, re
     sigma_multiple : float
         The multiple of sigma from the mean that will be allowed; all else are
         masked.
+    bin_size : float
+        The size of the bins to use for the histogram fitting.
     previous_mask : dictionary (optional)
         Any previous masks done. The new mask made in this function will be 
         added to the dictionary. Default is to make a new mask dictionary.
@@ -97,7 +100,8 @@ def echo170_gaussian_truncation(data_array, sigma_multiple, previous_mask={}, re
 
 
     # Fitting the Gaussian function. 
-    __, gauss_param = meta_plting.smeargle_fit_histogram_gaussian_function(data_array)   
+    __, gauss_param = meta_model.smeargle_fit_histogram_gaussian_function(data_array, 
+                                                                          bin_width=bin_size)   
 
     # Basic Gaussian information.
     mean = gauss_param['mean']
@@ -118,6 +122,6 @@ def echo170_gaussian_truncation(data_array, sigma_multiple, previous_mask={}, re
 
     # Finally return
     final_mask = echo_funct.functioned_mask_returning(masked_array, previous_mask,
-                                                     'echo277_sigma_truncation', return_mask)
+                                                     'echo170_gaussian_truncation', return_mask)
 
     return final_mask

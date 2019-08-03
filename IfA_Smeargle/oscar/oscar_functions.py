@@ -90,6 +90,7 @@ def oscar_bin_width(data_array, bin_width,
         minimum = np.nanmin(data_array)
         maximum = np.nanmax(data_array)
 
+    
     # Calculate the bins based off of the width provided. Numpy is pretty 
     # good with this.
     bin_list_values = np.arange(minimum, maximum, bin_width)

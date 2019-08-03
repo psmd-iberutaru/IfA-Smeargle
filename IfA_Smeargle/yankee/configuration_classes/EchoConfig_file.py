@@ -54,7 +54,7 @@ class EchoConfig(BaseConfig):
             ################
 
             self.echo120_config = {'run':False, 'x_range': None, 'y_range':None}
-            self.echo170_config = {'run':False, 'sigma_multiple': None}
+            self.echo170_config = {'run':False, 'sigma_multiple': None, 'bin_size':None}
 
             # ECHO-200 class
             ################

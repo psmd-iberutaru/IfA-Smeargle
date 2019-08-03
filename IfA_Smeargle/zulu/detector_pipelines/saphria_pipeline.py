@@ -156,11 +156,12 @@ def SA201907281826_reduction_pipeline(data_directory, configuration_class):
     file_names = glob.glob(data_directory + '/*' + '.fits')
     for filedex in file_names:
         # Load fits file.
-        hdul_file, hdu_header, hdu_data = meta_faa.smeargle_open_fits_file(filedex)
+        hdul_file, hdu_header, hdu_data = meta_faa.smeargle_open_fits_file(filedex, silent=True)
 
         # Early frame masking.
-        early_mask = echo.masks.echo170_gaussian_truncation(hdu_data[early_frame], early_sigma, 
-                                                            return_mask=True)
+#        early_mask = echo.masks.echo170_gaussian_truncation(hdu_data[early_frame], early_sigma, 
+#                                                            return_mask=True)
+        early_mask=None
 
         # Calculating the differing averaging frames.
         for subavedex in sub_avg_frames:
@@ -174,18 +175,22 @@ def SA201907281826_reduction_pipeline(data_directory, configuration_class):
                                                                alternate_name=alt_name)
             temp_header = hdu_to_be_written[0].header 
             temp_data = np_ma.array(hdu_to_be_written[0].data, mask=early_mask)
-            meta_faa.smeargle_write_fits_file(alt_name, temp_header, temp_data)
-    raise TerminalError
+            meta_faa.smeargle_write_fits_file(alt_name, temp_header, temp_data, silent=True)
+
     # Re-obtain file names, again.
     file_names = glob.glob(data_directory + '/*' + '.fits')
     for filedex in file_names:
         # Extract the fits file, keeping track of the early mask and raw data.
-        __, hdu_header, hdu_data = meta_faa.smeargle_open_fits_file(filedex)
+        __, hdu_header, hdu_data = meta_faa.smeargle_open_fits_file(filedex, silent=True)
         raw_data = np_ma.getdata(hdu_data)
         early_mask = np_ma.getmaskarray(hdu_data)
 
         # Execute the main masks as specified by the EchoConfig.
-        __, mask_dictionary = echo.echo_execution(hdu_data, configuration_class, hushed=True)
+        print(filedex)
+        try:
+            __, mask_dictionary = echo.echo_execution(hdu_data, configuration_class, hushed=True)
+        except TypeError:
+            continue
 
         # Add an entry to the masking dictionary corresponding to the early 
         # mask.
@@ -195,7 +200,7 @@ def SA201907281826_reduction_pipeline(data_directory, configuration_class):
         hdu_data = echo.numpy_masked_array(raw_data, None, masking_dictionary=mask_dictionary)
 
         # Write the files once more.
-        meta_faa.smeargle_write_fits_file(filedex, hdu_header, hdu_data)
+        meta_faa.smeargle_write_fits_file(filedex, hdu_header, hdu_data, silent=True)
 
 
     # Re-obtain file names, once again. This is unneeded and can be condensed
@@ -203,6 +208,7 @@ def SA201907281826_reduction_pipeline(data_directory, configuration_class):
     # so the 'simplification' is likely worth it.
     file_names = glob.glob(data_directory + '/*.fits')
     for filedex in file_names:
+        print(filedex)
         try:
             oscar_plot = oscar.multi.plot_single_heatmap_and_histogram(filedex, 
                                                                        configuration_class)

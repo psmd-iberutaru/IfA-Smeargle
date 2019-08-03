@@ -10,10 +10,11 @@ import copy
 import numpy as np
 import numpy.ma as np_ma
 import os
+import warnings as warn
 
 from IfA_Smeargle.meta import *
 
-def smeargle_open_fits_file(file_name, extension=0):
+def smeargle_open_fits_file(file_name, extension=0, silent=False):
     """ A function to ensure proper loading/reading of fits files.
 
     This function, as its name, opens a fits file. It returns the Astropy HDU 
@@ -27,6 +28,9 @@ def smeargle_open_fits_file(file_name, extension=0):
         This is the path of the file to be read, either relative or absolute.
     extension : int or string (optional)
         The desired extension of the fits file. Defaults to primary structure. 
+    silent : boolean (optional)
+        Turn off all warnings and information sent by this function and 
+        functions below it.
 
     Returns
     -------
@@ -38,6 +42,12 @@ def smeargle_open_fits_file(file_name, extension=0):
         The Numpy representation of a fits file data.
     """
 
+    # The user doesn't want any warnings.
+    if (silent):
+        with warn.catch_warnings():
+            warn.simplefilter("ignore")
+            return smeargle_open_fits_file(file_name, extension=extension)
+
     with ap_fits.open(file_name) as hdul:
         hdul_file = copy.deepcopy(hdul)
         
@@ -48,6 +58,49 @@ def smeargle_open_fits_file(file_name, extension=0):
     # Read from the extension
     hdu_header = hdul_file[extension].header
     hdu_data = hdul_file[extension].data
+
+
+    # For some reason, there are null problems and value problems with the 
+    # data. Any and all frames that match the criteria are nulled out. Send
+    # a warning.
+    # Check first for nans.
+    if (np.any(np.isnan(hdu_data))):
+        nan_index = np.argwhere(np.isnan(hdu_data))
+        # Check for 3D or 2D file.
+        if (nan_index.shape[1] == 2):
+            smeargle_warning(DataWarning,("This a 2D data frame with nan/null values. They "
+                                          "will be kept; but, functions down the line may "
+                                          "break."))
+        elif (nan_index.shape[1] == 3):
+            smeargle_warning(DataWarning,("This a 3D data frame with nan/null values. Frames "
+                                          "with nan/null values have been completely nulled."))
+            # Null all of the frames with null values.
+            for framedex in nan_index.T[0]:
+                hdu_data[framedex] = np.full_like(hdu_data[framedex], np.nan)
+        else:
+            raise DataError("The fits file exists, but is 1D or 4D+, this module cannot handle "
+                            "such data.")
+    # Check for unnaturally large or small values which are a glitch more 
+    # than actual data.
+    illogical_low = -1e6
+    illogical_high = 1e6
+    if (np.any(np.where(np.logical_or(illogical_low > hdu_data, hdu_data > illogical_high)))):
+        illegal_value_index = np.argwhere(np.logical_or(illogical_low > hdu_data, 
+                                                         hdu_data > illogical_high))
+        if (illegal_value_index.shape[1] == 2):
+            smeargle_warning(DataWarning,("This a 2D data frame with +/- large values. They "
+                                          "will be kept; but, functions down the line may "
+                                          "easily break."))
+        elif (illegal_value_index.shape[1] == 3):
+            smeargle_warning(DataWarning,("This a 3D data frame with +/- large values. Frames "
+                                          "with +/- large values have been completely nulled."))
+            # Null all of the frames that have really big +/- values.
+            for framedex in illegal_value_index.T[0]:
+                hdu_data[framedex] = np.full_like(hdu_data[framedex], np.nan)
+        else:
+            raise DataError("The fits file exists, but is 1D or 4D+, this module cannot handle "
+                            "such data.")
+
 
     # Check if there is an IfA-Smeargle mask, if so, mutate data to a masked
     # array.
@@ -76,7 +129,8 @@ def smeargle_open_fits_file(file_name, extension=0):
 
 
 def smeargle_write_fits_file(file_name, hdu_header, hdu_data,
-                             hdu_object=None, save_file=True, overwrite=True):
+                             hdu_object=None, save_file=True, overwrite=True,
+                             silent=False):
     """ A function to ensure proper writing of fits files.
 
     This function writes fits files given the data and header file. The 
@@ -101,6 +155,9 @@ def smeargle_write_fits_file(file_name, hdu_header, hdu_data,
         the instance will be returned.
     overwrite : boolean (optional)
         If ``True``, if there exists a file of the same name, overwrite.
+    silent : boolean (optional)
+        Turn off all warnings and information sent by this function and 
+        functions below it.
 
     Returns
     -------
@@ -108,6 +165,14 @@ def smeargle_write_fits_file(file_name, hdu_header, hdu_data,
         The file object that was written to disk. If ``hdu_object`` was 
         provided, it is returned untouched.
     """
+
+    # The user does not want any warnings.
+    if (silent):
+        with warn.catch_warnings():
+            warn.simplefilter("ignore")
+            return smeargle_write_fits_file(file_name, hdu_header, hdu_data,
+                             hdu_object=hdu_object, save_file=save_file, overwrite=overwrite)
+
 
     # Check if the file name has a fits extension.
     if (file_name[-5:] != '.fits'):
@@ -228,10 +293,10 @@ def smeargle_masked_array_min_max(masked_array):
     masked_array = copy.deepcopy(masked_array)
 
     # Finding the minimum of the array.
-    masked_min = masked_array.min()
+    masked_min = np.nanmin(masked_array)
 
     # Finding the maximum of the array
-    masked_max = masked_array.max()
+    masked_max = np.nanmax(masked_array)
 
     return masked_min, masked_max
 

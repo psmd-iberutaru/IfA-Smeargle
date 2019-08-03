@@ -33,6 +33,9 @@
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="meta_main.py" />
+    <Compile Include="modeling_and_fitting.py">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Include="plotting.py">
       <SubType>Code</SubType>
     </Compile>
