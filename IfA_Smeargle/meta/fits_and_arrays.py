@@ -59,7 +59,7 @@ def smeargle_open_fits_file(file_name, extension=0, silent=False):
     hdu_header = hdul_file[extension].header
     hdu_data = hdul_file[extension].data
 
-
+    print(file_name)
     # For some reason, there are null problems and value problems with the 
     # data. Any and all frames that match the criteria are nulled out. Send
     # a warning.
@@ -84,23 +84,25 @@ def smeargle_open_fits_file(file_name, extension=0, silent=False):
     # than actual data.
     illogical_low = -1e6
     illogical_high = 1e6
-    if (np.any(np.where(np.logical_or(illogical_low > hdu_data, hdu_data > illogical_high)))):
-        illegal_value_index = np.argwhere(np.logical_or(illogical_low > hdu_data, 
-                                                         hdu_data > illogical_high))
-        if (illegal_value_index.shape[1] == 2):
-            smeargle_warning(DataWarning,("This a 2D data frame with +/- large values. They "
-                                          "will be kept; but, functions down the line may "
-                                          "easily break."))
-        elif (illegal_value_index.shape[1] == 3):
-            smeargle_warning(DataWarning,("This a 3D data frame with +/- large values. Frames "
-                                          "with +/- large values have been completely nulled."))
-            # Null all of the frames that have really big +/- values.
-            for framedex in illegal_value_index.T[0]:
-                hdu_data[framedex] = np.full_like(hdu_data[framedex], np.nan)
-        else:
-            raise DataError("The fits file exists, but is 1D or 4D+, this module cannot handle "
-                            "such data.")
-
+    with np.errstate(invalid='ignore'):
+        if (np.any(np.where(np.logical_or(illogical_low > hdu_data, 
+                                          hdu_data > illogical_high)))):
+            illegal_value_index = np.argwhere(np.logical_or(illogical_low > hdu_data, 
+                                                             hdu_data > illogical_high))
+            if (illegal_value_index.shape[1] == 2):
+                smeargle_warning(DataWarning,("This a 2D data frame with +/- large values. They "
+                                              "will be kept; but, functions down the line may "
+                                              "easily break."))
+            elif (illegal_value_index.shape[1] == 3):
+                smeargle_warning(DataWarning,("This a 3D data frame with +/- large values. "
+                                              "Frames with +/- large values have been "
+                                              "completely nulled."))
+                # Null all of the frames that have really big +/- values.
+                for framedex in illegal_value_index.T[0]:
+                    hdu_data[framedex] = np.full_like(hdu_data[framedex], np.nan)
+            else:
+                raise DataError("The fits file exists, but is 1D or 4D+, this module cannot "
+                                "handle such data.")
 
     # Check if there is an IfA-Smeargle mask, if so, mutate data to a masked
     # array.

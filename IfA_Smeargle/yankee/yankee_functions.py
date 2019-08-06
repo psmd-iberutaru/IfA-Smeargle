@@ -7,6 +7,7 @@ of the configuration parameters.
 import copy
 import os
 import pickle
+import warnings as warn
 
 from IfA_Smeargle.meta import *
 import IfA_Smeargle.yankee as yankee
@@ -84,8 +85,7 @@ def extract_proper_configuration_class(configuration_class, desired_class,
     return None
 
 
-def configuration_factory_function(desired_class, file_name=None,
-                                   hushed=False):
+def configuration_factory_function(desired_class, file_name=None, silent=False):
     """ A function that will always open or load the proper configuration
     class.
 
@@ -102,16 +102,21 @@ def configuration_factory_function(desired_class, file_name=None,
         file.
     file_name : string (optional)
         The name of the configuration file. 
-    hushed : boolean (optional)
-        If true, then no warnings or informational messages will be displayed
-        if and only if they come from this function, other warnings from 
-        inner used functions still apply.
+    silent : boolean (optional)
+        Turn off all warnings and information sent by this function and 
+        functions below it.
     
     Returns
     -------
     config_class : Configuration class
         The desired configuration class instance.
     """
+    # Check if the user didn't want any warnings or info messages.
+    if (silent):
+        with warn.catch_warnings():
+            warn.simplefilter('ignore')
+            return configuration_factory_function(desired_class, file_name=file_name)
+
     # Check that the desired class is actually a valid configuration class.
     if (not issubclass(desired_class,yankee.BaseConfig)):
         # Try one's best to deal with an instance of a configuration class.
@@ -127,8 +132,7 @@ def configuration_factory_function(desired_class, file_name=None,
         # They did not specify a file at all.
         smeargle_warning(InputWarning, ("A file name has not be provided; this "
                                         "factory will return a blank configuration "
-                                        "class."),
-                         silent=hushed)
+                                        "class."))
         config_class = desired_class()
 
     elif (isinstance(file_name,str)):
@@ -140,23 +144,20 @@ def configuration_factory_function(desired_class, file_name=None,
                 # It did not seem to work.
                 smeargle_warning(InputWarning, ("The file could not be read "
                                                 "properly; this factory will return "
-                                                "a blank configuration class."),
-                                 silent=hushed)
+                                                "a blank configuration class."))
                 config_class = desired_class()
         else:
             # The provided path was not correct, the file does not exist.
             smeargle_warning(InputWarning, ("The file specified by file_name does not "
                                             "exist; this factory will return a blank "
-                                            "configuration class."),
-                             silent=hushed)
+                                            "configuration class."))
             config_class = desired_class()
 
     else:
         # The file_name parameter is un-useable in its current form.
         smeargle_warning(InputWarning, ("The file_name parameter is not understandable by "
                                         "this factory; this factory will return a blank "
-                                        "configuration class."),
-                         silent=hushed)
+                                        "configuration class."))
         config_class = desired_class()
 
     # Finally, return

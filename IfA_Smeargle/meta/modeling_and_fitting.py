@@ -160,8 +160,14 @@ def smeargle_fit_histogram_gaussian_function(data_array, bin_width=10):
                                           "off."))
             peak_index, __ = sp_sig.find_peaks(cuthist_y)
             fwhm_esti_list = sp_sig.peak_widths(cuthist_y, peak_index, rel_height=0.5)[0]
-        finally:
-            fwhm_esti = extract_fwhm_estimate(fwhm_esti_list, cuthist_y)
+            try:
+                fwhm_esti = extract_fwhm_estimate(fwhm_esti_list, cuthist_y)
+            except ValueError:
+                # Inform the user of the failure of peak-finding. Prevent an Unbound error by
+                # assigning a dummy value.
+                fwhm_esti = 0
+                raise DataError("It seems that there is no peak in the data; suggesting a very "
+                                "flat profile. The Gaussian fit cannot be applied.")
     finally:
         guess_stddev = fwhm_esti / 2.35482 # 2 sqrt(2 ln 2)
     # The peak location where the stddev estimate was calculated is as good 
@@ -187,8 +193,5 @@ def smeargle_fit_histogram_gaussian_function(data_array, bin_width=10):
                       'amplitude': guess_amplitude}
     gaussian_function, gaussian_parameters = smeargle_fit_gaussian_function(cuthist_x, cuthist_y, 
                                                                             inital_guesses)
-
-    print(inital_guesses)
-    print(fwhm_esti_list)
 
     return gaussian_function, gaussian_parameters

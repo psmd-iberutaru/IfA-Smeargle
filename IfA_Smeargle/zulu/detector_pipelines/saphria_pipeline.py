@@ -44,7 +44,7 @@ def saphria_reduction_pipeline(data_directory, configuration_class):
     # Apply the desired masks as needed. Although, the format provided by
     # the BRAVO line states that they should all be in the same directory.
     echo.echo_directory_execution(data_directory, configuration_class, 
-                                  overwrite=True, hushed=True)
+                                  overwrite=True)
 
 
     # Re-reference the files. This is mostly to ensure any file name changes
@@ -159,9 +159,9 @@ def SA201907281826_reduction_pipeline(data_directory, configuration_class):
         hdul_file, hdu_header, hdu_data = meta_faa.smeargle_open_fits_file(filedex, silent=True)
 
         # Early frame masking.
-#        early_mask = echo.masks.echo170_gaussian_truncation(hdu_data[early_frame], early_sigma, 
-#                                                            return_mask=True)
-        early_mask=None
+        early_mask = echo.masks.echo170_gaussian_truncation(hdu_data[early_frame], early_sigma, 
+                                                            bin_size=10,
+                                                            return_mask=True)
 
         # Calculating the differing averaging frames.
         for subavedex in sub_avg_frames:
@@ -186,11 +186,8 @@ def SA201907281826_reduction_pipeline(data_directory, configuration_class):
         early_mask = np_ma.getmaskarray(hdu_data)
 
         # Execute the main masks as specified by the EchoConfig.
-        print(filedex)
-        try:
-            __, mask_dictionary = echo.echo_execution(hdu_data, configuration_class, hushed=True)
-        except TypeError:
-            continue
+        __, mask_dictionary = echo.echo_execution(hdu_data, configuration_class, silent=True)
+
 
         # Add an entry to the masking dictionary corresponding to the early 
         # mask.
@@ -208,7 +205,6 @@ def SA201907281826_reduction_pipeline(data_directory, configuration_class):
     # so the 'simplification' is likely worth it.
     file_names = glob.glob(data_directory + '/*.fits')
     for filedex in file_names:
-        print(filedex)
         try:
             oscar_plot = oscar.multi.plot_single_heatmap_and_histogram(filedex, 
                                                                        configuration_class)

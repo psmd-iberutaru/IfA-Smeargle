@@ -15,7 +15,7 @@ from IfA_Smeargle import yankee
 
 
 def echo_execution(data_array, configuration_class,
-                   hushed=False):
+                   silent=False):
     """ This script pragmatically uses a configuration class to determine  
     which filters to use.
 
@@ -32,10 +32,8 @@ def echo_execution(data_array, configuration_class,
     configuration_class : SmeargleConfig or EchoConfig class
         The configuration class that will be used to provide instruction
         to the ECHO filters.
-    hushed : boolean (optional)
-        If true, then no warnings or informational messages will be displayed
-        if and only if they come from this function, other warnings from 
-        inner used functions still apply.
+    silent : boolean (optional)
+        If true, then no warnings or informational messages will be displayed.
     
     Returns
     -------
@@ -89,13 +87,8 @@ def echo_execution(data_array, configuration_class,
         # Check if the filter should actually be run.
         try:
             if (not config_param[config_keydex]['run']):
-                # Just send a notice that this filter is being skipped.
-                if not (hushed):
-                    # String concentration is first before function calls. 
-                    print("Filter {filter} is being skipped "
-                          "as noted by configuration class.".format(
-                        filter=filter_keydex))
                 # Skip the filter, continue to the next filter.
+                print("Skipping filter   ",filter_keydex)
                 continue
             else:
                 # The 'run' key is not an official parameter; delete it before 
@@ -113,8 +106,7 @@ def echo_execution(data_array, configuration_class,
                                                     "method is skipped as if 'run'=False. \n"
                                                     "Problem configuration dictionary: \n  "
                                                     "{config_name}".format(
-                                                        config_name=config_keydex)),
-                             silent=hushed)
+                                                        config_name=config_keydex)))
             continue
 
     # Making the masked array.
@@ -126,7 +118,7 @@ def echo_execution(data_array, configuration_class,
 
 
 def echo_directory_execution(data_directory, configuration_class,
-                             overwrite=True, hushed=False):
+                             overwrite=True, silent=False):
     """ This function extends the ECHO abilities to entire directories of
     using the same configuration file.
 
@@ -143,10 +135,9 @@ def echo_directory_execution(data_directory, configuration_class,
         used for all files.
     overwrite : boolean (optional)
         An option to decide if the files should be overwritten or renamed.
-    hushed : boolean (optional)
-        If true, then no warnings or informational messages will be displayed
-        if and only if they come from this function, other warnings from 
-        inner used functions still apply.
+    silent : boolean (optional)
+        Turn off all warnings and information sent by this function and 
+        functions below it.
 
     Returns
     -------
@@ -166,8 +157,7 @@ def echo_directory_execution(data_directory, configuration_class,
         # Loop over all files.
         for filedex in data_files:
             # Execute the mask; catch the dictionary, it is unneeded though.
-            masked_array, __ = echo.echo_execution(filedex, configuration_class,
-                                                   hushed=hushed)
+            masked_array, __ = echo.echo_execution(filedex, configuration_class)
 
             # The Header should remain unchanged; it is read and reused 
             # from the file itself. 

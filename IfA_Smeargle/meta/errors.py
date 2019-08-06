@@ -63,13 +63,26 @@ class InputError(Smeargle_Exception):
     """
     pass
 
-class ImportingError(InputError):
+class ImportingError(Smeargle_Exception):
     """
     This error is used when reading configuration files, or other data files
     is not going as it should. Named ImportingError to avoid conflicts with 
     ImportError.
     """
     pass
+
+class MaskingError(Smeargle_Exception):
+    """
+    This error is used when a mask cannot be applied or where there are 
+    fatal issues with calculating the mask.
+    """
+    pass
+
+class ModelingError(Smeargle_Exception):
+    """
+    This error is used when there are issues with applying or fitting models
+    to a particular set of data. May be used hand-in-hand with DataError.
+    """
 
 #####
 # These are the base exceptions; proper programing protocol dictates that 
@@ -107,7 +120,7 @@ class TerminalError(Smeargle_BaseException):
 
 # Warnings
 
-def smeargle_warning(type, message, silent=False):
+def smeargle_warning(type, message):
     """ Just a wrapper function around the warning's warn command.
 
     This wrapper was really only for the logical flow of Sparrow.
@@ -118,19 +131,13 @@ def smeargle_warning(type, message, silent=False):
         The warning class type.
     message : string
         The message that the warning is to give to the user.
-    slient : boolean (optional)
-        If true, then the warning is never actually issued.
 
     Returns
     -------
     nothing
     
     """
-    if (not silent):
-        warn.warn(message, type, stacklevel=2)
-    else:
-        pass
-
+    warn.warn(message, type, stacklevel=2)
     return None
     
 
