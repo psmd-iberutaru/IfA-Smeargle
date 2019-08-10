@@ -44,6 +44,12 @@ def echo_execution(data_array, configuration_class,
         The dictionary of all of the masks applied.
 
     """
+    # Check if the user wanted it to be silent.
+    if (silent):
+        with smeargle_absolute_silence():
+            return echo_execution(data_array, configuration_class)
+
+
     # Be adaptive with accepting a fits file.
     if (isinstance(data_array,str)):
         __, __, data_array = meta_faa.smeargle_open_fits_file(data_array)
@@ -88,7 +94,6 @@ def echo_execution(data_array, configuration_class,
         try:
             if (not config_param[config_keydex]['run']):
                 # Skip the filter, continue to the next filter.
-                print("Skipping filter   ",filter_keydex)
                 continue
             else:
                 # The 'run' key is not an official parameter; delete it before 
@@ -143,6 +148,11 @@ def echo_directory_execution(data_directory, configuration_class,
     -------
     nothing
     """
+    # Check if the user wanted it to be silent.
+    if (silent):
+        with smeargle_absolute_silence():
+            return echo_directory_execution(data_directory, configuration_class,
+                                            overwrite=overwrite)
 
     # Obtain the fits files by reference name.
     data_files = glob.glob(data_directory + '/*.fits')

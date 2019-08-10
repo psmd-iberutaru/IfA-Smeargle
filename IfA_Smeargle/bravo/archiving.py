@@ -43,11 +43,11 @@ def duplicate_archive_data_files(data_directory, archive_extension='bztar'):
 
     # Preserve the files just in case, work on a copy data set. Date-time 
     # to distinguish, by format __YYYYMMDD_HHMMSS, from other BravoArchives
-    archive_name = 'BravoArchive' + time.strftime("__%Y%m%d_%H%M%S", time.localtime())
+    archive_name = 'IFAS_BravoArchive' + time.strftime("__%Y%m%d_%H%M%S", time.localtime())
     
     # For some reason, if the archive is made in the same directory, it 
-    # recursively archives until its way too big. Making it outside then 
-    # moving it is a workaround. 
+    # recursively archives itself and intended files until its way too big. 
+    # Making it outside then moving it is a workaround. 
     shutil.make_archive(data_directory + '/../' + archive_name, 
                         archive_extension, data_directory + '/')
 
@@ -58,7 +58,7 @@ def duplicate_archive_data_files(data_directory, archive_extension='bztar'):
         archive_extension = 'tar.gz'
     elif (archive_extension == 'bztar'):
         archive_extension = 'tar.bz2'
-    elif (archive_extension == 'bztar'):
+    elif (archive_extension == 'xztar'):
         archive_extension = 'tar.xz'
 
     # Proceed with the move.
@@ -66,7 +66,8 @@ def duplicate_archive_data_files(data_directory, archive_extension='bztar'):
                 data_directory + '/' + archive_name + '.' + archive_extension)
 
     # Inform the user where the archive is (just in case).
-    print("Raw archive of data is stored in  < {arc_dir} >"
-          .format(arc_dir=(data_directory + '/' + archive_name + '.' + archive_extension)))
+    smeargle_info("Raw archive of data is stored in  < {arc_dir} >"
+                  .format(arc_dir=(data_directory + '/' 
+                                   + archive_name + '.' + archive_extension)))
 
     return None

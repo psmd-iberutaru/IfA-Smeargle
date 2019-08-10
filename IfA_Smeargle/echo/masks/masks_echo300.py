@@ -239,8 +239,7 @@ def echo398_nothing(data_array, previous_mask={}, return_mask=False):
 
     # Warnings are printed when a filter returns zero masked pixels, this 
     # is actually intended for this mask, ignore the filter.
-    with warn.catch_warnings():
-        warn.simplefilter("ignore", category=MaskingWarning)
+    with smeargle_silence_specific_warnings(MaskingWarning):
         final_mask = echo_funct.functioned_mask_returning(masked_array,previous_mask,
                                                           'echo398_nothing',return_mask)
 

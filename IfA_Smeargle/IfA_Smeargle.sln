@@ -6,7 +6,7 @@ MinimumVisualStudioVersion = 10.0.40219.1
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{90FEF9BC-338D-44D3-8ECE-F39F548BCC3B}"
 	ProjectSection(SolutionItems) = preProject
 		__init__.py = __init__.py
-		..\DEBUGG.py = ..\DEBUGG.py
+		ifas_execute.py = ifas_execute.py
 	EndProjectSection
 EndProject
 Project("{888888A0-9F3D-457C-B088-3A5042F75D52}") = "echo", "echo\echo.pyproj", "{2C5E1B3F-7F24-427E-B7C3-2C0A079500F8}"

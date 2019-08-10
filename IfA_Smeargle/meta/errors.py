@@ -4,6 +4,7 @@ Defining custom errors because Python does not have all of the needed error
 categories.
 """
 
+import contextlib
 import warnings as warn
 
 # Smeargle Bases.
@@ -13,7 +14,12 @@ class Smeargle_Exception(Exception):
     pass
 
 
+##############################################################################
+##############################################################################
 # Errors
+##############################################################################
+##############################################################################
+
 class BrokenLogicError(Smeargle_Exception):
     """
     This error is encountered when the program enters in a place it should 
@@ -117,8 +123,11 @@ class TerminalError(Smeargle_BaseException):
     def __str__(self):
         return self.message
 
-
+##############################################################################
+##############################################################################
 # Warnings
+##############################################################################
+##############################################################################
 
 def smeargle_warning(type, message):
     """ Just a wrapper function around the warning's warn command.
@@ -240,3 +249,131 @@ class TimeWarning(Smeargle_Warning):
     compute or execute. This allows the user to stop and change if desired. 
     """
     pass
+
+
+##############################################################################
+##############################################################################
+# Informational Messages
+##############################################################################
+##############################################################################
+
+def smeargle_info(message):
+    """
+    This is a wrapper function to print helpful information.
+   
+    Printing information as the function(s) go on is very helpful. However,
+    using the normal print function doesn't allow for some level of 
+    customization and ease of handling. Hence, function for uniformity.
+
+    Parameters
+    ----------
+    message : string
+        The informational message that is to be printed. 
+
+    Returns
+    -------
+    nothing
+    """
+    
+    # Test if info messages should not be printed given their
+    if (smeargle_info._silent_mode):
+        # Messages should not be printed in general.
+        pass
+    else:
+        print("IFAS Info: " + message)
+    return None
+
+# This is the default and will set the silent mode parameter for informational
+# printing, but it ensures not to override anything that may already exist.
+if (hasattr(smeargle_info, '_silent_mode')):
+    pass
+else:
+    smeargle_info._silent_mode = False
+
+
+##############################################################################
+##############################################################################
+# Silencing Context Managers 
+##############################################################################
+##############################################################################
+
+# To silence a specific type of warning. This is a wrapper function.
+@contextlib.contextmanager
+def smeargle_silence_specific_warnings(silenced_warning_type):
+    """ This context manager silences all warnings of a given type. Depending
+    on what was inputed.
+    
+    Parameters
+    ----------
+    silenced_warning_type : WarningType
+        The warning that should be silenced.
+    """
+    with warn.catch_warnings():
+        warn.simplefilter("ignore", category=silenced_warning_type)
+        yield
+
+    return None
+
+# To silence Smeargle based warnings
+@contextlib.contextmanager
+def smeargle_silence_ifas_warnings():
+    """ This context manager silences all Smeargle based warnings, all other 
+    warnings are still valid.
+    """
+    with warn.catch_warnings():
+        warn.simplefilter("ignore", category=Smeargle_Warning)
+        yield
+
+    return None
+
+# To silence non-Smeargle based warnings
+@contextlib.contextmanager
+def smeargle_silence_nonifas_warnings():
+    """ This context manager silences all non-Smeargle based warnings, all 
+    other warnings are still valid.
+    """
+    with warn.catch_warnings():
+        warn.simplefilter("ignore")
+        warn.simplefilter("default", category=Smeargle_Warning)
+        yield
+
+    return None
+
+# To silence all warnings
+@contextlib.contextmanager
+def smeargle_silence_all_warnings():
+    """ This context manager silences all warnings. Warnings should not be 
+    printed.
+    """
+    with warn.catch_warnings():
+        warn.simplefilter("ignore")
+        yield
+
+    return None
+
+# To silence all informational messages.
+@contextlib.contextmanager
+def smeargle_silence_info_message():
+    """ This context manager silences all informational messages that may
+    be printed.
+    """
+    # Trigger silent mode.
+    smeargle_info._silent_mode = True
+
+    yield
+
+    # Release silent mode, allowing for future messages to be implemented.
+    smeargle_info._silent_mode = False
+    return None
+
+# To silence everything, warnings and informational messages.
+@contextlib.contextmanager
+def smeargle_absolute_silence():
+    """This context manager silences any and all messages, it basically 
+    it is wrapper around all other general Smeargle context managers (even 
+    if there is some overlap).
+    """
+    with smeargle_silence_ifas_warnings(), \
+         smeargle_silence_all_warnings(),  \
+         smeargle_silence_info_message():
+            yield 

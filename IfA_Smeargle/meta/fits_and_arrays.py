@@ -44,8 +44,7 @@ def smeargle_open_fits_file(file_name, extension=0, silent=False):
 
     # The user doesn't want any warnings.
     if (silent):
-        with warn.catch_warnings():
-            warn.simplefilter("ignore")
+        with smeargle_absolute_silence():
             return smeargle_open_fits_file(file_name, extension=extension)
 
     with ap_fits.open(file_name) as hdul:
@@ -59,7 +58,6 @@ def smeargle_open_fits_file(file_name, extension=0, silent=False):
     hdu_header = hdul_file[extension].header
     hdu_data = hdul_file[extension].data
 
-    print(file_name)
     # For some reason, there are null problems and value problems with the 
     # data. Any and all frames that match the criteria are nulled out. Send
     # a warning.
@@ -170,8 +168,7 @@ def smeargle_write_fits_file(file_name, hdu_header, hdu_data,
 
     # The user does not want any warnings.
     if (silent):
-        with warn.catch_warnings():
-            warn.simplefilter("ignore")
+        with smeargle_absolute_silence():
             return smeargle_write_fits_file(file_name, hdu_header, hdu_data,
                              hdu_object=hdu_object, save_file=save_file, overwrite=overwrite)
 

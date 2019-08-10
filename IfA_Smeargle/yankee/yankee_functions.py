@@ -113,8 +113,7 @@ def configuration_factory_function(desired_class, file_name=None, silent=False):
     """
     # Check if the user didn't want any warnings or info messages.
     if (silent):
-        with warn.catch_warnings():
-            warn.simplefilter('ignore')
+        with smeargle_absolute_silence():
             return configuration_factory_function(desired_class, file_name=file_name)
 
     # Check that the desired class is actually a valid configuration class.
