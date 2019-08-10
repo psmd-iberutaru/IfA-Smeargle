@@ -39,11 +39,11 @@ def plot_array_heatmap_image(data_array,
     heatmap_plot_parameters : dictionary <config>
         These are options the user may use to pass customization parameters 
         into the heatmap plot functionality. 
-        See :py:function:`~.matplotlib.pyplot.imshow`.
+        See :py:func:`~.matplotlib.pyplot.imshow`.
     colorbar_plot_paramters : dictionary <config>
         These are options the user may use to pass customization parameters 
         into the colorbar class functionality. 
-        See :py:function:`~.matplotlib.pyplot.colorbar`.
+        See :py:func:`~.matplotlib.pyplot.colorbar`.
 
     Returns
     -------

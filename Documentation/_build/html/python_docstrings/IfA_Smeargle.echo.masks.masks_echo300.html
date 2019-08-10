@@ -1,0 +1,284 @@
+
+<!DOCTYPE html>
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta charset="utf-8" />
+    <title>IfA_Smeargle.echo.masks.masks_echo300 module &#8212; IfA-Smeargle 2019-08-19 documentation</title>
+    <link rel="stylesheet" href="../_static/pyramid.css" type="text/css" />
+    <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+    <script type="text/javascript" id="documentation_options" data-url_root="../" src="../_static/documentation_options.js"></script>
+    <script type="text/javascript" src="../_static/jquery.js"></script>
+    <script type="text/javascript" src="../_static/underscore.js"></script>
+    <script type="text/javascript" src="../_static/doctools.js"></script>
+    <script type="text/javascript" src="../_static/language_data.js"></script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="IfA_Smeargle.echo.echo_functions module" href="IfA_Smeargle.echo.echo_functions.html" />
+    <link rel="prev" title="IfA_Smeargle.echo.masks.masks_echo200 module" href="IfA_Smeargle.echo.masks.masks_echo200.html" />
+<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Neuton&amp;subset=latin" type="text/css" media="screen" charset="utf-8" />
+<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Nobile:regular,italic,bold,bolditalic&amp;subset=latin" type="text/css" media="screen" charset="utf-8" />
+<!--[if lte IE 6]>
+<link rel="stylesheet" href="../_static/ie6.css" type="text/css" media="screen" charset="utf-8" />
+<![endif]-->
+
+  </head><body>
+
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="../py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="right" >
+          <a href="IfA_Smeargle.echo.echo_functions.html" title="IfA_Smeargle.echo.echo_functions module"
+             accesskey="N">next</a> |</li>
+        <li class="right" >
+          <a href="IfA_Smeargle.echo.masks.masks_echo200.html" title="IfA_Smeargle.echo.masks.masks_echo200 module"
+             accesskey="P">previous</a> |</li>
+        <li class="nav-item nav-item-0"><a href="../index.html">IfA-Smeargle 2019-08-19 documentation</a> &#187;</li>
+          <li class="nav-item nav-item-1"><a href="modules.html" >PROGRAM</a> &#187;</li>
+          <li class="nav-item nav-item-2"><a href="IfA_Smeargle.html" >IfA_Smeargle package</a> &#187;</li>
+          <li class="nav-item nav-item-3"><a href="IfA_Smeargle.echo.html" >IfA_Smeargle.echo package</a> &#187;</li>
+          <li class="nav-item nav-item-4"><a href="IfA_Smeargle.echo.masks.html" accesskey="U">IfA_Smeargle.echo.masks package</a> &#187;</li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <div class="section" id="module-IfA_Smeargle.echo.masks.masks_echo300">
+<span id="ifa-smeargle-echo-masks-masks-echo300-module"></span><h1>IfA_Smeargle.echo.masks.masks_echo300 module<a class="headerlink" href="#module-IfA_Smeargle.echo.masks.masks_echo300" title="Permalink to this headline">¶</a></h1>
+<p>This file contains the code to calculate which pixel should be masked. Note the masking code
+in this file is 300; this file only contains ECHO-300 class masks.</p>
+<dl class="function">
+<dt id="IfA_Smeargle.echo.masks.masks_echo300.echo380_single_pixels">
+<code class="sig-prename descclassname">IfA_Smeargle.echo.masks.masks_echo300.</code><code class="sig-name descname">echo380_single_pixels</code><span class="sig-paren">(</span><em class="sig-param">data_array</em>, <em class="sig-param">pixel_list</em>, <em class="sig-param">previous_mask={}</em>, <em class="sig-param">return_mask=False</em><span class="sig-paren">)</span><a class="headerlink" href="#IfA_Smeargle.echo.masks.masks_echo300.echo380_single_pixels" title="Permalink to this definition">¶</a></dt>
+<dd><p>This applies a single mask on a single pixel(s)</p>
+<p>As the name implies, this function masks a single pixel value or a list of single pixel
+pairs.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>data_array</strong> (<em>ndarray</em>) – The data array that the mask will be calculated from.</p></li>
+<li><p><strong>pixel_list</strong> (<em>array-like</em><em>, </em><em>ndarray</em>) – This is a list/array of pixel pair (x,y) values. The function loops and applies the
+mask to each pair.</p></li>
+<li><p><strong>previous_mask</strong> (<em>dictionary</em><em> (</em><em>optional</em><em>)</em>) – Any previous masks done. The new mask made in this function will be added to the
+dictionary. Default is to make a new mask dictionary.</p></li>
+<li><p><strong>return_mask</strong> (<em>boolean</em><em> (</em><em>optional</em><em>)</em>) – If this is true, then the mask itself (rather than the dictionary entry) will be
+returned instead.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p><strong>final_mask</strong> – A boolean array for pixels that are masked (True) or are valid (False) will be added to
+the mask dictionary under the key <code class="docutils literal notranslate"><span class="pre">echo380single_pixels</span></code>.</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>ndarray -&gt; dictionary</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="function">
+<dt id="IfA_Smeargle.echo.masks.masks_echo300.echo381_rectangle_mask">
+<code class="sig-prename descclassname">IfA_Smeargle.echo.masks.masks_echo300.</code><code class="sig-name descname">echo381_rectangle_mask</code><span class="sig-paren">(</span><em class="sig-param">data_array</em>, <em class="sig-param">x_ranges</em>, <em class="sig-param">y_ranges</em>, <em class="sig-param">previous_mask={}</em>, <em class="sig-param">return_mask=False</em><span class="sig-paren">)</span><a class="headerlink" href="#IfA_Smeargle.echo.masks.masks_echo300.echo381_rectangle_mask" title="Permalink to this definition">¶</a></dt>
+<dd><p>This mask function applies rectangular masks to the data array.</p>
+<p>The rectangles defined by subsequent xy-ranges (0-indexed) are masked. Multiple overlapping
+rectangles may be defined and masked using this function. The rectangle bounds provided are
+also masked as the rectangle is inclusive of said bounds.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>data_array</strong> (<em>ndarray</em>) – The data array that the mask will be calculated from.</p></li>
+<li><p><strong>x_ranges</strong> (<em>list</em><em> or </em><em>ndarray</em>) – The list of 0-indexed x_ranges to be masked. Must be the same length as y_ranges.</p></li>
+<li><p><strong>y_ranges</strong> (<em>list</em><em> or </em><em>ndarray</em>) – The list of 0-indexed y_ranges to be masked. Must be the same length as x_ranges.</p></li>
+<li><p><strong>previous_mask</strong> (<em>dictionary</em><em> (</em><em>optional</em><em>)</em>) – Any previous masks done. The new mask made in this function will be added to the
+dictionary. Default is to make a new mask dictionary.</p></li>
+<li><p><strong>return_mask</strong> (<em>boolean</em><em> (</em><em>optional</em><em>)</em>) – If this is true, then the mask itself (rather than the dictionary entry) will be
+returned instead.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p><strong>final_mask</strong> – A boolean array for pixels that are masked (True) or are valid (False) will be added to
+the mask dictionary under the key <code class="docutils literal notranslate"><span class="pre">echo381_rectangle_mask</span></code>.</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>ndarray -&gt; dictionary</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="function">
+<dt id="IfA_Smeargle.echo.masks.masks_echo300.echo382_column_mask">
+<code class="sig-prename descclassname">IfA_Smeargle.echo.masks.masks_echo300.</code><code class="sig-name descname">echo382_column_mask</code><span class="sig-paren">(</span><em class="sig-param">data_array</em>, <em class="sig-param">column_list</em>, <em class="sig-param">previous_mask={}</em>, <em class="sig-param">return_mask=False</em><span class="sig-paren">)</span><a class="headerlink" href="#IfA_Smeargle.echo.masks.masks_echo300.echo382_column_mask" title="Permalink to this definition">¶</a></dt>
+<dd><p>This applies a column mask on the data array provided its locations.</p>
+<p>The column mask takes a list of column numbers (0-indexed x-axis values). All pixels within
+these columns are then masked.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>data_array</strong> (<em>ndarray</em>) – The data array that the mask will be calculated from.</p></li>
+<li><p><strong>column_list</strong> (<em>list</em><em> or </em><em>ndarray</em>) – The list of column x-axis values that will be masked. Should be 0-indexed.</p></li>
+<li><p><strong>previous_mask</strong> (<em>dictionary</em><em> (</em><em>optional</em><em>)</em>) – Any previous masks done. The new mask made in this function will be added to the
+dictionary. Default is to make a new mask dictionary.</p></li>
+<li><p><strong>return_mask</strong> (<em>boolean</em><em> (</em><em>optional</em><em>)</em>) – If this is true, then the mask itself (rather than the dictionary entry) will be
+returned instead.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p><strong>final_mask</strong> – A boolean array for pixels that are masked (True) or are valid (False) will be added to
+the mask dictionary under the key <code class="docutils literal notranslate"><span class="pre">echo382_column_mask</span></code>.</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>ndarray -&gt; dictionary</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="function">
+<dt id="IfA_Smeargle.echo.masks.masks_echo300.echo383_row_mask">
+<code class="sig-prename descclassname">IfA_Smeargle.echo.masks.masks_echo300.</code><code class="sig-name descname">echo383_row_mask</code><span class="sig-paren">(</span><em class="sig-param">data_array</em>, <em class="sig-param">row_list</em>, <em class="sig-param">previous_mask={}</em>, <em class="sig-param">return_mask=False</em><span class="sig-paren">)</span><a class="headerlink" href="#IfA_Smeargle.echo.masks.masks_echo300.echo383_row_mask" title="Permalink to this definition">¶</a></dt>
+<dd><p>This applies a row mask on the data array provided its locations.</p>
+<p>The row mask takes a list of column numbers (0-indexed x-axis values). All pixels within
+these rows are then masked.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>data_array</strong> (<em>ndarray</em>) – The data array that the mask will be calculated from.</p></li>
+<li><p><strong>row_list</strong> (<em>list</em><em> or </em><em>ndarray</em>) – The list of row y-axis values that will be masked. Should be 0-indexed.</p></li>
+<li><p><strong>previous_mask</strong> (<em>dictionary</em><em> (</em><em>optional</em><em>)</em>) – Any previous masks done. The new mask made in this function will be added to the
+dictionary. Default is to make a new mask dictionary.</p></li>
+<li><p><strong>return_mask</strong> (<em>boolean</em><em> (</em><em>optional</em><em>)</em>) – If this is true, then the mask itself (rather than the dictionary entry) will be
+returned instead.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p><strong>final_mask</strong> – A boolean array for pixels that are masked (True) or are valid (False) will be added to
+the mask dictionary under the key <code class="docutils literal notranslate"><span class="pre">echo383_row_mask</span></code>.</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>ndarray -&gt; dictionary</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="function">
+<dt id="IfA_Smeargle.echo.masks.masks_echo300.echo398_nothing">
+<code class="sig-prename descclassname">IfA_Smeargle.echo.masks.masks_echo300.</code><code class="sig-name descname">echo398_nothing</code><span class="sig-paren">(</span><em class="sig-param">data_array</em>, <em class="sig-param">previous_mask={}</em>, <em class="sig-param">return_mask=False</em><span class="sig-paren">)</span><a class="headerlink" href="#IfA_Smeargle.echo.masks.masks_echo300.echo398_nothing" title="Permalink to this definition">¶</a></dt>
+<dd><p>This applies a blanket blank (all pixels are valid) mask on the data array.</p>
+<p>As the name says, this applies a mask…to…well…nothing. As such, all that is
+returned in the mask dictionary is the blank mask.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>data_array</strong> (<em>ndarray</em>) – The data array that the mask will be calculated from.</p></li>
+<li><p><strong>previous_mask</strong> (<em>dictionary</em><em> (</em><em>optional</em><em>)</em>) – Any previous masks done. The new mask made in this function will be added to the
+dictionary. Default is to make a new mask dictionary.</p></li>
+<li><p><strong>return_mask</strong> (<em>boolean</em><em> (</em><em>optional</em><em>)</em>) – If this is true, then the mask itself (rather than the dictionary entry) will be
+returned instead.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p><strong>final_mask</strong> – A boolean array for pixels that are masked (True) or are valid (False) will be added to
+the mask dictionary under the key <code class="docutils literal notranslate"><span class="pre">echo398_nothing</span></code>.</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>ndarray -&gt; dictionary</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="function">
+<dt id="IfA_Smeargle.echo.masks.masks_echo300.echo399_everything">
+<code class="sig-prename descclassname">IfA_Smeargle.echo.masks.masks_echo300.</code><code class="sig-name descname">echo399_everything</code><span class="sig-paren">(</span><em class="sig-param">data_array</em>, <em class="sig-param">previous_mask={}</em>, <em class="sig-param">return_mask=False</em><span class="sig-paren">)</span><a class="headerlink" href="#IfA_Smeargle.echo.masks.masks_echo300.echo399_everything" title="Permalink to this definition">¶</a></dt>
+<dd><p>This applies a blanket blank (all pixels are invalid) mask on the data array.</p>
+<p>As the name says, this applies a mask…to…well…everything. As such, all that is
+returned in the mask dictionary is the full mask.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>data_array</strong> (<em>ndarray</em>) – The data array that the mask will be calculated from.</p></li>
+<li><p><strong>previous_mask</strong> (<em>dictionary</em><em> (</em><em>optional</em><em>)</em>) – Any previous masks done. The new mask made in this function will be added to the
+dictionary. Default is to make a new mask dictionary.</p></li>
+<li><p><strong>return_mask</strong> (<em>boolean</em><em> (</em><em>optional</em><em>)</em>) – If this is true, then the mask itself (rather than the dictionary entry) will be
+returned instead.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p><strong>final_mask</strong> – A boolean array for pixels that are masked (True) or are valid (False) will be added to
+the mask dictionary under the key <code class="docutils literal notranslate"><span class="pre">echo399_everything</span></code>.</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>ndarray -&gt; dictionary</p>
+</dd>
+</dl>
+</dd></dl>
+
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+  <h4>Previous topic</h4>
+  <p class="topless"><a href="IfA_Smeargle.echo.masks.masks_echo200.html"
+                        title="previous chapter">IfA_Smeargle.echo.masks.masks_echo200 module</a></p>
+  <h4>Next topic</h4>
+  <p class="topless"><a href="IfA_Smeargle.echo.echo_functions.html"
+                        title="next chapter">IfA_Smeargle.echo.echo_functions module</a></p>
+  <div role="note" aria-label="source link">
+    <h3>This Page</h3>
+    <ul class="this-page-menu">
+      <li><a href="../_sources/python_docstrings/IfA_Smeargle.echo.masks.masks_echo300.rst.txt"
+            rel="nofollow">Show Source</a></li>
+    </ul>
+   </div>
+<div id="searchbox" style="display: none" role="search">
+  <h3 id="searchlabel">Quick search</h3>
+    <div class="searchformwrapper">
+    <form class="search" action="../search.html" method="get">
+      <input type="text" name="q" aria-labelledby="searchlabel" />
+      <input type="submit" value="Go" />
+    </form>
+    </div>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="../py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="right" >
+          <a href="IfA_Smeargle.echo.echo_functions.html" title="IfA_Smeargle.echo.echo_functions module"
+             >next</a> |</li>
+        <li class="right" >
+          <a href="IfA_Smeargle.echo.masks.masks_echo200.html" title="IfA_Smeargle.echo.masks.masks_echo200 module"
+             >previous</a> |</li>
+        <li class="nav-item nav-item-0"><a href="../index.html">IfA-Smeargle 2019-08-19 documentation</a> &#187;</li>
+          <li class="nav-item nav-item-1"><a href="modules.html" >PROGRAM</a> &#187;</li>
+          <li class="nav-item nav-item-2"><a href="IfA_Smeargle.html" >IfA_Smeargle package</a> &#187;</li>
+          <li class="nav-item nav-item-3"><a href="IfA_Smeargle.echo.html" >IfA_Smeargle.echo package</a> &#187;</li>
+          <li class="nav-item nav-item-4"><a href="IfA_Smeargle.echo.masks.html" >IfA_Smeargle.echo.masks package</a> &#187;</li> 
+      </ul>
+    </div>
+    <div class="footer" role="contentinfo">
+        &#169; Copyright 2019, Sparrow.
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 2.1.2.
+    </div>
+  </body>
+</html>

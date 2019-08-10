@@ -1,0 +1,168 @@
+
+<!DOCTYPE html>
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta charset="utf-8" />
+    <title>IfA_Smeargle.meta.modeling_and_fitting module &#8212; IfA-Smeargle 2019-08-19 documentation</title>
+    <link rel="stylesheet" href="../_static/pyramid.css" type="text/css" />
+    <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+    <script type="text/javascript" id="documentation_options" data-url_root="../" src="../_static/documentation_options.js"></script>
+    <script type="text/javascript" src="../_static/jquery.js"></script>
+    <script type="text/javascript" src="../_static/underscore.js"></script>
+    <script type="text/javascript" src="../_static/doctools.js"></script>
+    <script type="text/javascript" src="../_static/language_data.js"></script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="IfA_Smeargle.meta.plotting module" href="IfA_Smeargle.meta.plotting.html" />
+    <link rel="prev" title="IfA_Smeargle.meta.meta_main module" href="IfA_Smeargle.meta.meta_main.html" />
+<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Neuton&amp;subset=latin" type="text/css" media="screen" charset="utf-8" />
+<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Nobile:regular,italic,bold,bolditalic&amp;subset=latin" type="text/css" media="screen" charset="utf-8" />
+<!--[if lte IE 6]>
+<link rel="stylesheet" href="../_static/ie6.css" type="text/css" media="screen" charset="utf-8" />
+<![endif]-->
+
+  </head><body>
+
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="../py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="right" >
+          <a href="IfA_Smeargle.meta.plotting.html" title="IfA_Smeargle.meta.plotting module"
+             accesskey="N">next</a> |</li>
+        <li class="right" >
+          <a href="IfA_Smeargle.meta.meta_main.html" title="IfA_Smeargle.meta.meta_main module"
+             accesskey="P">previous</a> |</li>
+        <li class="nav-item nav-item-0"><a href="../index.html">IfA-Smeargle 2019-08-19 documentation</a> &#187;</li>
+          <li class="nav-item nav-item-1"><a href="modules.html" >PROGRAM</a> &#187;</li>
+          <li class="nav-item nav-item-2"><a href="IfA_Smeargle.html" >IfA_Smeargle package</a> &#187;</li>
+          <li class="nav-item nav-item-3"><a href="IfA_Smeargle.meta.html" accesskey="U">IfA_Smeargle.meta package</a> &#187;</li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <div class="section" id="module-IfA_Smeargle.meta.modeling_and_fitting">
+<span id="ifa-smeargle-meta-modeling-and-fitting-module"></span><h1>IfA_Smeargle.meta.modeling_and_fitting module<a class="headerlink" href="#module-IfA_Smeargle.meta.modeling_and_fitting" title="Permalink to this headline">¶</a></h1>
+<dl class="function">
+<dt id="IfA_Smeargle.meta.modeling_and_fitting.smeargle_fit_gaussian_function">
+<code class="sig-prename descclassname">IfA_Smeargle.meta.modeling_and_fitting.</code><code class="sig-name descname">smeargle_fit_gaussian_function</code><span class="sig-paren">(</span><em class="sig-param">x_data</em>, <em class="sig-param">y_data</em>, <em class="sig-param">inital_guesses</em><span class="sig-paren">)</span><a class="headerlink" href="#IfA_Smeargle.meta.modeling_and_fitting.smeargle_fit_gaussian_function" title="Permalink to this definition">¶</a></dt>
+<dd><p>This function fits a Gaussian function to a specific set of data.</p>
+<p>Gaussian fitting is hard, this function exists as a port so that
+all fitting functions use the same algorithm and said algorithm is easy
+to change.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>x_data</strong> (<em>ndarray</em>) – The X data that the Gaussian will be fit over.</p></li>
+<li><p><strong>y_data</strong> (<em>ndarray</em>) – The Y data that the Gaussian will be fit over.</p></li>
+<li><p><strong>inital_guesses</strong> (<em>dictionary</em>) – Initial guesses for the Gaussian fitting function.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p><ul class="simple">
+<li><p><strong>gaussian_function</strong> (<em>function</em>) – A callable function that when provided an X value, it will return
+the value of the function.</p></li>
+<li><p><strong>gaussian_parameters</strong> (<em>dictionary</em>) – A compiled dictionary of all of the parameters of the Gaussian fit.</p></li>
+</ul>
+</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="function">
+<dt id="IfA_Smeargle.meta.modeling_and_fitting.smeargle_fit_histogram_gaussian_function">
+<code class="sig-prename descclassname">IfA_Smeargle.meta.modeling_and_fitting.</code><code class="sig-name descname">smeargle_fit_histogram_gaussian_function</code><span class="sig-paren">(</span><em class="sig-param">data_array</em>, <em class="sig-param">bin_width=10</em><span class="sig-paren">)</span><a class="headerlink" href="#IfA_Smeargle.meta.modeling_and_fitting.smeargle_fit_histogram_gaussian_function" title="Permalink to this definition">¶</a></dt>
+<dd><p>This function fits a Gaussian function to a specific set of data.</p>
+<p>Gaussian fitting is hard, this function exists as a port so that
+all fitting functions use the same algorithm and said algorithm is easy
+to change. This applies it to the histogram of the data.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>data_array</strong> (<em>ndarray</em>) – The data that the histogram Gaussian function is fitting.</p></li>
+<li><p><strong>bin_width</strong> (<em>float</em><em> (</em><em>optional</em><em>)</em>) – The width of the bins to use for the histogram fitting function.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p><ul class="simple">
+<li><p><strong>gaussian_function</strong> (<em>function</em>) – A callable function that when provided an X value, it will return
+the value of the function.</p></li>
+<li><p><strong>gaussian_parameters</strong> (<em>dictionary</em>) – A compiled dictionary of all of the parameters of the Gaussian fit.</p></li>
+</ul>
+</p>
+</dd>
+</dl>
+</dd></dl>
+
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+  <h4>Previous topic</h4>
+  <p class="topless"><a href="IfA_Smeargle.meta.meta_main.html"
+                        title="previous chapter">IfA_Smeargle.meta.meta_main module</a></p>
+  <h4>Next topic</h4>
+  <p class="topless"><a href="IfA_Smeargle.meta.plotting.html"
+                        title="next chapter">IfA_Smeargle.meta.plotting module</a></p>
+  <div role="note" aria-label="source link">
+    <h3>This Page</h3>
+    <ul class="this-page-menu">
+      <li><a href="../_sources/python_docstrings/IfA_Smeargle.meta.modeling_and_fitting.rst.txt"
+            rel="nofollow">Show Source</a></li>
+    </ul>
+   </div>
+<div id="searchbox" style="display: none" role="search">
+  <h3 id="searchlabel">Quick search</h3>
+    <div class="searchformwrapper">
+    <form class="search" action="../search.html" method="get">
+      <input type="text" name="q" aria-labelledby="searchlabel" />
+      <input type="submit" value="Go" />
+    </form>
+    </div>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="../py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="right" >
+          <a href="IfA_Smeargle.meta.plotting.html" title="IfA_Smeargle.meta.plotting module"
+             >next</a> |</li>
+        <li class="right" >
+          <a href="IfA_Smeargle.meta.meta_main.html" title="IfA_Smeargle.meta.meta_main module"
+             >previous</a> |</li>
+        <li class="nav-item nav-item-0"><a href="../index.html">IfA-Smeargle 2019-08-19 documentation</a> &#187;</li>
+          <li class="nav-item nav-item-1"><a href="modules.html" >PROGRAM</a> &#187;</li>
+          <li class="nav-item nav-item-2"><a href="IfA_Smeargle.html" >IfA_Smeargle package</a> &#187;</li>
+          <li class="nav-item nav-item-3"><a href="IfA_Smeargle.meta.html" >IfA_Smeargle.meta package</a> &#187;</li> 
+      </ul>
+    </div>
+    <div class="footer" role="contentinfo">
+        &#169; Copyright 2019, Sparrow.
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 2.1.2.
+    </div>
+  </body>
+</html>

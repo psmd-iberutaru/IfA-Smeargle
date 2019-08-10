@@ -46,7 +46,7 @@ def plot_array_histogram(data_array,
     histogram_plot_parameters : dictionary <config>
         These are options the user may use to pass customization parameters 
         into the histogram plot functionality. 
-        See :py:function:`~.matplotlib.pyplot.hist`. 
+        See :py:func:`~.matplotlib.pyplot.hist`. 
 
     Returns
     -------

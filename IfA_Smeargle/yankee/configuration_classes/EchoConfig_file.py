@@ -23,14 +23,11 @@ class EchoConfig(BaseConfig):
     ----------
     echo010_config : dictionary
         The configuration parameters for the ECHO-010 mask.
+    echo120_config : dictionary
+        The configuration parameters for the ECHO-120 mask.
 
-        .
-        .
-        .
-        .
-
-    echo399_config : dictionary
-        The configuration parameters for the ECHO-399 mask.
+    etc...etc...etc...
+    
     """
 
     def __init__(self, file_name=None):

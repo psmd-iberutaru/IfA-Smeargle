@@ -1,0 +1,185 @@
+
+<!DOCTYPE html>
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta charset="utf-8" />
+    <title>IfA_Smeargle.bravo.renaming module &#8212; IfA-Smeargle 2019-08-19 documentation</title>
+    <link rel="stylesheet" href="../_static/pyramid.css" type="text/css" />
+    <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+    <script type="text/javascript" id="documentation_options" data-url_root="../" src="../_static/documentation_options.js"></script>
+    <script type="text/javascript" src="../_static/jquery.js"></script>
+    <script type="text/javascript" src="../_static/underscore.js"></script>
+    <script type="text/javascript" src="../_static/doctools.js"></script>
+    <script type="text/javascript" src="../_static/language_data.js"></script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="IfA_Smeargle.echo package" href="IfA_Smeargle.echo.html" />
+    <link rel="prev" title="IfA_Smeargle.bravo.bravo_main module" href="IfA_Smeargle.bravo.bravo_main.html" />
+<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Neuton&amp;subset=latin" type="text/css" media="screen" charset="utf-8" />
+<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Nobile:regular,italic,bold,bolditalic&amp;subset=latin" type="text/css" media="screen" charset="utf-8" />
+<!--[if lte IE 6]>
+<link rel="stylesheet" href="../_static/ie6.css" type="text/css" media="screen" charset="utf-8" />
+<![endif]-->
+
+  </head><body>
+
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="../py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="right" >
+          <a href="IfA_Smeargle.echo.html" title="IfA_Smeargle.echo package"
+             accesskey="N">next</a> |</li>
+        <li class="right" >
+          <a href="IfA_Smeargle.bravo.bravo_main.html" title="IfA_Smeargle.bravo.bravo_main module"
+             accesskey="P">previous</a> |</li>
+        <li class="nav-item nav-item-0"><a href="../index.html">IfA-Smeargle 2019-08-19 documentation</a> &#187;</li>
+          <li class="nav-item nav-item-1"><a href="modules.html" >PROGRAM</a> &#187;</li>
+          <li class="nav-item nav-item-2"><a href="IfA_Smeargle.html" >IfA_Smeargle package</a> &#187;</li>
+          <li class="nav-item nav-item-3"><a href="IfA_Smeargle.bravo.html" accesskey="U">IfA_Smeargle.bravo package</a> &#187;</li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <div class="section" id="module-IfA_Smeargle.bravo.renaming">
+<span id="ifa-smeargle-bravo-renaming-module"></span><h1>IfA_Smeargle.bravo.renaming module<a class="headerlink" href="#module-IfA_Smeargle.bravo.renaming" title="Permalink to this headline">¶</a></h1>
+<p>This file contains methods used to determine proper naming conventions and
+to reformat the fits file names from raw output  (often just timestamps) to
+something more useful and accurate to the data.</p>
+<dl class="function">
+<dt id="IfA_Smeargle.bravo.renaming.parallel_renaming">
+<code class="sig-prename descclassname">IfA_Smeargle.bravo.renaming.</code><code class="sig-name descname">parallel_renaming</code><span class="sig-paren">(</span><em class="sig-param">file_names</em>, <em class="sig-param">file_renames</em>, <em class="sig-param">data_directory=None</em>, <em class="sig-param">file_extensions='.fits'</em><span class="sig-paren">)</span><a class="headerlink" href="#IfA_Smeargle.bravo.renaming.parallel_renaming" title="Permalink to this definition">¶</a></dt>
+<dd><p>Renames files provided parallel name arrays.</p>
+<p>Given two same length lists of file names, one pre-rename and one
+post-rename, this function renames them accordingly. A directory is also
+an option, and the file name list will be derived from that.</p>
+<p>This only works for one type of file extension, or leave the string blank
+for all files.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>file_names</strong> (<em>array_like</em>) – The list of the file names that is to be renamed.</p></li>
+<li><p><strong>file_renames</strong> (<em>array_like</em>) – The list of the file names that are going to be used for the renaming
+process.</p></li>
+<li><p><strong>data_directory</strong> (<em>string</em><em> (</em><em>optional</em><em>)</em>) – A directory that contains all of the files that are going to be
+renamed. Does not handle directories recursively.</p></li>
+<li><p><strong>file_extensions</strong> (<em>string</em><em> (</em><em>optional</em><em>)</em>) – The file extension of the files that are going to be renamed. Defaults
+to a .fits file.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p></p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>nothing</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="function">
+<dt id="IfA_Smeargle.bravo.renaming.voltage_pattern_rename_fits">
+<code class="sig-prename descclassname">IfA_Smeargle.bravo.renaming.</code><code class="sig-name descname">voltage_pattern_rename_fits</code><span class="sig-paren">(</span><em class="sig-param">data_directory</em>, <em class="sig-param">voltage_pattern</em>, <em class="sig-param">begin_garbage=0</em>, <em class="sig-param">common_prefix=''</em>, <em class="sig-param">common_suffix=''</em>, <em class="sig-param">rename=False</em>, <em class="sig-param">archive_data=True</em><span class="sig-paren">)</span><a class="headerlink" href="#IfA_Smeargle.bravo.renaming.voltage_pattern_rename_fits" title="Permalink to this definition">¶</a></dt>
+<dd><p>Renames files according to their voltage pattern specified.</p>
+<p>Some data filename outputs only give timestamps. This function renames</p>
+<p>The output files created are according to the voltage pattern that the
+user specified. This function assumes that the pattern provided is one
+‘set’, where a set contains some amount of fits files. Moreover, this
+function weakly determines which are up-mid-down ramps.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>data_directory</strong> (<em>string</em>) – This is the directory that contain all of the data files to be
+renamed.</p></li>
+<li><p><strong>voltage_pattern</strong> (<em>array_like</em>) – These are voltage values, assuming that the first element is the
+first voltage element to be used, proceeding from there in order.</p></li>
+<li><p><strong>begin_garbage</strong> (<em>int</em><em> (</em><em>optional</em><em>)</em>) – The number of files, in the beginning, that should not count as data.</p></li>
+<li><p><strong>common_prefix</strong> (<em>string</em><em> (</em><em>optional</em><em>)</em>) – All file renames will contain this prefix before the voltage data.</p></li>
+<li><p><strong>common_suffix</strong> (<em>string</em><em> (</em><em>optional</em><em>)</em>) – All file renames will contain this suffix after the voltage data.</p></li>
+<li><p><strong>rename</strong> (<em>boolean</em><em> (</em><em>optional</em><em>)</em>) – If true, the program renames the files as specified, else, it leaves
+the files untouched; still archived, however, if <code class="docutils literal notranslate"><span class="pre">copy_data=True</span></code>.</p></li>
+<li><p><strong>archive_data</strong> (<em>boolean</em><em> (</em><em>optional</em><em>)</em>) – Execute the renaming on a copy of the data, the original data
+is archived and preserved.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p><strong>voltage_string_list</strong> – This is the list of the voltage strings applied, given in a parallel
+ordered form. Does not include prefixes/suffixes.</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>list</p>
+</dd>
+</dl>
+</dd></dl>
+
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+  <h4>Previous topic</h4>
+  <p class="topless"><a href="IfA_Smeargle.bravo.bravo_main.html"
+                        title="previous chapter">IfA_Smeargle.bravo.bravo_main module</a></p>
+  <h4>Next topic</h4>
+  <p class="topless"><a href="IfA_Smeargle.echo.html"
+                        title="next chapter">IfA_Smeargle.echo package</a></p>
+  <div role="note" aria-label="source link">
+    <h3>This Page</h3>
+    <ul class="this-page-menu">
+      <li><a href="../_sources/python_docstrings/IfA_Smeargle.bravo.renaming.rst.txt"
+            rel="nofollow">Show Source</a></li>
+    </ul>
+   </div>
+<div id="searchbox" style="display: none" role="search">
+  <h3 id="searchlabel">Quick search</h3>
+    <div class="searchformwrapper">
+    <form class="search" action="../search.html" method="get">
+      <input type="text" name="q" aria-labelledby="searchlabel" />
+      <input type="submit" value="Go" />
+    </form>
+    </div>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="../py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="right" >
+          <a href="IfA_Smeargle.echo.html" title="IfA_Smeargle.echo package"
+             >next</a> |</li>
+        <li class="right" >
+          <a href="IfA_Smeargle.bravo.bravo_main.html" title="IfA_Smeargle.bravo.bravo_main module"
+             >previous</a> |</li>
+        <li class="nav-item nav-item-0"><a href="../index.html">IfA-Smeargle 2019-08-19 documentation</a> &#187;</li>
+          <li class="nav-item nav-item-1"><a href="modules.html" >PROGRAM</a> &#187;</li>
+          <li class="nav-item nav-item-2"><a href="IfA_Smeargle.html" >IfA_Smeargle package</a> &#187;</li>
+          <li class="nav-item nav-item-3"><a href="IfA_Smeargle.bravo.html" >IfA_Smeargle.bravo package</a> &#187;</li> 
+      </ul>
+    </div>
+    <div class="footer" role="contentinfo">
+        &#169; Copyright 2019, Sparrow.
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 2.1.2.
+    </div>
+  </body>
+</html>

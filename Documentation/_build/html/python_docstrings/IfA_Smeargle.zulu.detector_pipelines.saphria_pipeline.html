@@ -1,0 +1,172 @@
+
+<!DOCTYPE html>
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta charset="utf-8" />
+    <title>IfA_Smeargle.zulu.detector_pipelines.saphria_pipeline module &#8212; IfA-Smeargle 2019-08-19 documentation</title>
+    <link rel="stylesheet" href="../_static/pyramid.css" type="text/css" />
+    <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+    <script type="text/javascript" id="documentation_options" data-url_root="../" src="../_static/documentation_options.js"></script>
+    <script type="text/javascript" src="../_static/jquery.js"></script>
+    <script type="text/javascript" src="../_static/underscore.js"></script>
+    <script type="text/javascript" src="../_static/doctools.js"></script>
+    <script type="text/javascript" src="../_static/language_data.js"></script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="IfA_Smeargle.zulu.zulu_main module" href="IfA_Smeargle.zulu.zulu_main.html" />
+    <link rel="prev" title="IfA_Smeargle.zulu.detector_pipelines package" href="IfA_Smeargle.zulu.detector_pipelines.html" />
+<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Neuton&amp;subset=latin" type="text/css" media="screen" charset="utf-8" />
+<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Nobile:regular,italic,bold,bolditalic&amp;subset=latin" type="text/css" media="screen" charset="utf-8" />
+<!--[if lte IE 6]>
+<link rel="stylesheet" href="../_static/ie6.css" type="text/css" media="screen" charset="utf-8" />
+<![endif]-->
+
+  </head><body>
+
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="../py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="right" >
+          <a href="IfA_Smeargle.zulu.zulu_main.html" title="IfA_Smeargle.zulu.zulu_main module"
+             accesskey="N">next</a> |</li>
+        <li class="right" >
+          <a href="IfA_Smeargle.zulu.detector_pipelines.html" title="IfA_Smeargle.zulu.detector_pipelines package"
+             accesskey="P">previous</a> |</li>
+        <li class="nav-item nav-item-0"><a href="../index.html">IfA-Smeargle 2019-08-19 documentation</a> &#187;</li>
+          <li class="nav-item nav-item-1"><a href="modules.html" >PROGRAM</a> &#187;</li>
+          <li class="nav-item nav-item-2"><a href="IfA_Smeargle.html" >IfA_Smeargle package</a> &#187;</li>
+          <li class="nav-item nav-item-3"><a href="IfA_Smeargle.zulu.html" >IfA_Smeargle.zulu package</a> &#187;</li>
+          <li class="nav-item nav-item-4"><a href="IfA_Smeargle.zulu.detector_pipelines.html" accesskey="U">IfA_Smeargle.zulu.detector_pipelines package</a> &#187;</li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <div class="section" id="module-IfA_Smeargle.zulu.detector_pipelines.saphria_pipeline">
+<span id="ifa-smeargle-zulu-detector-pipelines-saphria-pipeline-module"></span><h1>IfA_Smeargle.zulu.detector_pipelines.saphria_pipeline module<a class="headerlink" href="#module-IfA_Smeargle.zulu.detector_pipelines.saphria_pipeline" title="Permalink to this headline">¶</a></h1>
+<p>This is the entire reduction method for the Saphria based infrared arrays.</p>
+<dl class="function">
+<dt id="IfA_Smeargle.zulu.detector_pipelines.saphria_pipeline.SA201907281826_reduction_pipeline">
+<code class="sig-prename descclassname">IfA_Smeargle.zulu.detector_pipelines.saphria_pipeline.</code><code class="sig-name descname">SA201907281826_reduction_pipeline</code><span class="sig-paren">(</span><em class="sig-param">data_directory</em>, <em class="sig-param">configuration_class</em><span class="sig-paren">)</span><a class="headerlink" href="#IfA_Smeargle.zulu.detector_pipelines.saphria_pipeline.SA201907281826_reduction_pipeline" title="Permalink to this definition">¶</a></dt>
+<dd><p>This function is the reduction pipeline instructed on 2019-07-28,
+18:26.</p>
+<p>This reduction line differs from the main branch significantly enough to
+warrant itself its own special function. Its variants are also listed here.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>data_directory</strong> (<em>string</em>) – The data directory straight out of the Saphria array. Data
+preprocessing is internally handled.</p></li>
+<li><p><strong>configuration_class</strong> (<em>SmeargleConfig class</em>) – The configuration class/options that go along with this reduction
+script. Must be a SmeargleConfig class instance. Default
+configurations are stored in the Configuration_Archive</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p></p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>nothing</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="function">
+<dt id="IfA_Smeargle.zulu.detector_pipelines.saphria_pipeline.saphria_reduction_pipeline">
+<code class="sig-prename descclassname">IfA_Smeargle.zulu.detector_pipelines.saphria_pipeline.</code><code class="sig-name descname">saphria_reduction_pipeline</code><span class="sig-paren">(</span><em class="sig-param">data_directory</em>, <em class="sig-param">configuration_class</em><span class="sig-paren">)</span><a class="headerlink" href="#IfA_Smeargle.zulu.detector_pipelines.saphria_pipeline.saphria_reduction_pipeline" title="Permalink to this definition">¶</a></dt>
+<dd><p>This is the entire reduction and analysis pipeline for the SAPHRIA
+arrays.</p>
+<p>This is the default reduction pipeline for the Saphria array. The
+“outputs” are written to file(s) and arranged in their own directory
+instead of a Python output, mostly because of the sheer number of outputs.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>data_directory</strong> (<em>string</em>) – The data directory straight out of the Saphria array. Data
+preprocessing is internally handled.</p></li>
+<li><p><strong>configuration_class</strong> (<em>SmeargleConfig class</em>) – The configuration class/options that go along with this reduction
+script. Must be a SmeargleConfig class instance.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p></p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>nothing</p>
+</dd>
+</dl>
+</dd></dl>
+
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+  <h4>Previous topic</h4>
+  <p class="topless"><a href="IfA_Smeargle.zulu.detector_pipelines.html"
+                        title="previous chapter">IfA_Smeargle.zulu.detector_pipelines package</a></p>
+  <h4>Next topic</h4>
+  <p class="topless"><a href="IfA_Smeargle.zulu.zulu_main.html"
+                        title="next chapter">IfA_Smeargle.zulu.zulu_main module</a></p>
+  <div role="note" aria-label="source link">
+    <h3>This Page</h3>
+    <ul class="this-page-menu">
+      <li><a href="../_sources/python_docstrings/IfA_Smeargle.zulu.detector_pipelines.saphria_pipeline.rst.txt"
+            rel="nofollow">Show Source</a></li>
+    </ul>
+   </div>
+<div id="searchbox" style="display: none" role="search">
+  <h3 id="searchlabel">Quick search</h3>
+    <div class="searchformwrapper">
+    <form class="search" action="../search.html" method="get">
+      <input type="text" name="q" aria-labelledby="searchlabel" />
+      <input type="submit" value="Go" />
+    </form>
+    </div>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="../py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="right" >
+          <a href="IfA_Smeargle.zulu.zulu_main.html" title="IfA_Smeargle.zulu.zulu_main module"
+             >next</a> |</li>
+        <li class="right" >
+          <a href="IfA_Smeargle.zulu.detector_pipelines.html" title="IfA_Smeargle.zulu.detector_pipelines package"
+             >previous</a> |</li>
+        <li class="nav-item nav-item-0"><a href="../index.html">IfA-Smeargle 2019-08-19 documentation</a> &#187;</li>
+          <li class="nav-item nav-item-1"><a href="modules.html" >PROGRAM</a> &#187;</li>
+          <li class="nav-item nav-item-2"><a href="IfA_Smeargle.html" >IfA_Smeargle package</a> &#187;</li>
+          <li class="nav-item nav-item-3"><a href="IfA_Smeargle.zulu.html" >IfA_Smeargle.zulu package</a> &#187;</li>
+          <li class="nav-item nav-item-4"><a href="IfA_Smeargle.zulu.detector_pipelines.html" >IfA_Smeargle.zulu.detector_pipelines package</a> &#187;</li> 
+      </ul>
+    </div>
+    <div class="footer" role="contentinfo">
+        &#169; Copyright 2019, Sparrow.
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 2.1.2.
+    </div>
+  </body>
+</html>

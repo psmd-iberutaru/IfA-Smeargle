@@ -1,0 +1,166 @@
+
+<!DOCTYPE html>
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta charset="utf-8" />
+    <title>IfA_Smeargle.yankee.configuration_classes.BravoConfig_file module &#8212; IfA-Smeargle 2019-08-19 documentation</title>
+    <link rel="stylesheet" href="../_static/pyramid.css" type="text/css" />
+    <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+    <script type="text/javascript" id="documentation_options" data-url_root="../" src="../_static/documentation_options.js"></script>
+    <script type="text/javascript" src="../_static/jquery.js"></script>
+    <script type="text/javascript" src="../_static/underscore.js"></script>
+    <script type="text/javascript" src="../_static/doctools.js"></script>
+    <script type="text/javascript" src="../_static/language_data.js"></script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="IfA_Smeargle.yankee.configuration_classes.EchoConfig_file module" href="IfA_Smeargle.yankee.configuration_classes.EchoConfig_file.html" />
+    <link rel="prev" title="IfA_Smeargle.yankee.configuration_classes.BaseConfig_file module" href="IfA_Smeargle.yankee.configuration_classes.BaseConfig_file.html" />
+<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Neuton&amp;subset=latin" type="text/css" media="screen" charset="utf-8" />
+<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Nobile:regular,italic,bold,bolditalic&amp;subset=latin" type="text/css" media="screen" charset="utf-8" />
+<!--[if lte IE 6]>
+<link rel="stylesheet" href="../_static/ie6.css" type="text/css" media="screen" charset="utf-8" />
+<![endif]-->
+
+  </head><body>
+
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="../py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="right" >
+          <a href="IfA_Smeargle.yankee.configuration_classes.EchoConfig_file.html" title="IfA_Smeargle.yankee.configuration_classes.EchoConfig_file module"
+             accesskey="N">next</a> |</li>
+        <li class="right" >
+          <a href="IfA_Smeargle.yankee.configuration_classes.BaseConfig_file.html" title="IfA_Smeargle.yankee.configuration_classes.BaseConfig_file module"
+             accesskey="P">previous</a> |</li>
+        <li class="nav-item nav-item-0"><a href="../index.html">IfA-Smeargle 2019-08-19 documentation</a> &#187;</li>
+          <li class="nav-item nav-item-1"><a href="modules.html" >PROGRAM</a> &#187;</li>
+          <li class="nav-item nav-item-2"><a href="IfA_Smeargle.html" >IfA_Smeargle package</a> &#187;</li>
+          <li class="nav-item nav-item-3"><a href="IfA_Smeargle.yankee.html" >IfA_Smeargle.yankee package</a> &#187;</li>
+          <li class="nav-item nav-item-4"><a href="IfA_Smeargle.yankee.configuration_classes.html" accesskey="U">IfA_Smeargle.yankee.configuration_classes package</a> &#187;</li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <div class="section" id="module-IfA_Smeargle.yankee.configuration_classes.BravoConfig_file">
+<span id="ifa-smeargle-yankee-configuration-classes-bravoconfig-file-module"></span><h1>IfA_Smeargle.yankee.configuration_classes.BravoConfig_file module<a class="headerlink" href="#module-IfA_Smeargle.yankee.configuration_classes.BravoConfig_file" title="Permalink to this headline">¶</a></h1>
+<dl class="class">
+<dt id="IfA_Smeargle.yankee.configuration_classes.BravoConfig_file.BravoConfig">
+<em class="property">class </em><code class="sig-prename descclassname">IfA_Smeargle.yankee.configuration_classes.BravoConfig_file.</code><code class="sig-name descname">BravoConfig</code><span class="sig-paren">(</span><em class="sig-param">file_name=None</em><span class="sig-paren">)</span><a class="headerlink" href="#IfA_Smeargle.yankee.configuration_classes.BravoConfig_file.BravoConfig" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="IfA_Smeargle.yankee.configuration_classes.BaseConfig_file.html#IfA_Smeargle.yankee.configuration_classes.BaseConfig_file.BaseConfig" title="IfA_Smeargle.yankee.configuration_classes.BaseConfig_file.BaseConfig"><code class="xref py py-class docutils literal notranslate"><span class="pre">IfA_Smeargle.yankee.configuration_classes.BaseConfig_file.BaseConfig</span></code></a></p>
+<p>This is the configuration class of the BRAVO line.</p>
+<p>The BRAVO line is mostly responsible for gathering the data from the
+raw output of the detector and processing it in a form that the later
+lines can use.</p>
+<p>By default, all of the entries in the configurations are empty. Moreover,
+each configuration attribute only contains the required entries. Optional
+entries may be added at user discretion (see documentation for such
+entries).</p>
+<dl class="attribute">
+<dt id="IfA_Smeargle.yankee.configuration_classes.BravoConfig_file.BravoConfig.detector_name">
+<code class="sig-name descname">detector_name</code><a class="headerlink" href="#IfA_Smeargle.yankee.configuration_classes.BravoConfig_file.BravoConfig.detector_name" title="Permalink to this definition">¶</a></dt>
+<dd><p>The name of the detector that is being processed.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type</dt>
+<dd class="field-odd"><p>dictionary or string</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="IfA_Smeargle.yankee.configuration_classes.BravoConfig_file.BravoConfig.voltpat_rename_config">
+<code class="sig-name descname">voltpat_rename_config</code><a class="headerlink" href="#IfA_Smeargle.yankee.configuration_classes.BravoConfig_file.BravoConfig.voltpat_rename_config" title="Permalink to this definition">¶</a></dt>
+<dd><p>These are the parameters fed into <code class="docutils literal notranslate"><span class="pre">voltage_pattern_rename_fits</span></code></p>
+<dl class="field-list simple">
+<dt class="field-odd">Type</dt>
+<dd class="field-odd"><p>dictionary</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="IfA_Smeargle.yankee.configuration_classes.BravoConfig_file.BravoConfig.avg_endpts_config">
+<code class="sig-name descname">avg_endpts_config</code><a class="headerlink" href="#IfA_Smeargle.yankee.configuration_classes.BravoConfig_file.BravoConfig.avg_endpts_config" title="Permalink to this definition">¶</a></dt>
+<dd><p>These are the parameters fed into <code class="docutils literal notranslate"><span class="pre">average_endpoints</span></code>.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type</dt>
+<dd class="field-odd"><p>dictionary</p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+  <h4>Previous topic</h4>
+  <p class="topless"><a href="IfA_Smeargle.yankee.configuration_classes.BaseConfig_file.html"
+                        title="previous chapter">IfA_Smeargle.yankee.configuration_classes.BaseConfig_file module</a></p>
+  <h4>Next topic</h4>
+  <p class="topless"><a href="IfA_Smeargle.yankee.configuration_classes.EchoConfig_file.html"
+                        title="next chapter">IfA_Smeargle.yankee.configuration_classes.EchoConfig_file module</a></p>
+  <div role="note" aria-label="source link">
+    <h3>This Page</h3>
+    <ul class="this-page-menu">
+      <li><a href="../_sources/python_docstrings/IfA_Smeargle.yankee.configuration_classes.BravoConfig_file.rst.txt"
+            rel="nofollow">Show Source</a></li>
+    </ul>
+   </div>
+<div id="searchbox" style="display: none" role="search">
+  <h3 id="searchlabel">Quick search</h3>
+    <div class="searchformwrapper">
+    <form class="search" action="../search.html" method="get">
+      <input type="text" name="q" aria-labelledby="searchlabel" />
+      <input type="submit" value="Go" />
+    </form>
+    </div>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="../py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="right" >
+          <a href="IfA_Smeargle.yankee.configuration_classes.EchoConfig_file.html" title="IfA_Smeargle.yankee.configuration_classes.EchoConfig_file module"
+             >next</a> |</li>
+        <li class="right" >
+          <a href="IfA_Smeargle.yankee.configuration_classes.BaseConfig_file.html" title="IfA_Smeargle.yankee.configuration_classes.BaseConfig_file module"
+             >previous</a> |</li>
+        <li class="nav-item nav-item-0"><a href="../index.html">IfA-Smeargle 2019-08-19 documentation</a> &#187;</li>
+          <li class="nav-item nav-item-1"><a href="modules.html" >PROGRAM</a> &#187;</li>
+          <li class="nav-item nav-item-2"><a href="IfA_Smeargle.html" >IfA_Smeargle package</a> &#187;</li>
+          <li class="nav-item nav-item-3"><a href="IfA_Smeargle.yankee.html" >IfA_Smeargle.yankee package</a> &#187;</li>
+          <li class="nav-item nav-item-4"><a href="IfA_Smeargle.yankee.configuration_classes.html" >IfA_Smeargle.yankee.configuration_classes package</a> &#187;</li> 
+      </ul>
+    </div>
+    <div class="footer" role="contentinfo">
+        &#169; Copyright 2019, Sparrow.
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 2.1.2.
+    </div>
+  </body>
+</html>
