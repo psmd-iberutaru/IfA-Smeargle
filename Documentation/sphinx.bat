@@ -9,5 +9,4 @@ cd Documentation
 make clean && make html && make latex
 
 :: Go to the LaTeX and compile
-::cd build/latex
-::make latexpdf
+make latexpdf
