@@ -1,0 +1,11 @@
+html {
+    height: 100%
+}
+
+body {
+    width: 100%
+}
+
+.wy-nav-content {
+    max-width: 42%;
+}

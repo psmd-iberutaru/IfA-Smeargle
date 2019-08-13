@@ -10,7 +10,7 @@ Welcome to IfA_Smeargle's documentation!
    :maxdepth: 2
    :caption: Contents:
 
-   main
+   how_to_use
 
    python_docstrings/modules
 

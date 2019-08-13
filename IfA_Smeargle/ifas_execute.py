@@ -60,7 +60,7 @@ def execute_ifas_smeargle(pipeline_name, data_directory, config_class_path,
     # command line.
     if (__name__ != '__main__'):
         raise IllogicalProsedureError("This function is not supposed to operate outside of the "
-                                      "command-line execution method. Please use the Zulu "
+                                      "command-line execution method. Please use the ZULU "
                                       "line if running this program via imports.")
     else:
         smeargle_info("Executing the following pipeline:  " + pipeline_name)
