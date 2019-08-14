@@ -1,0 +1,374 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>IfA_Smeargle.echo.echo_main &mdash; IfA-Smeargle 2019-08-19 documentation</title>
+  
+
+  
+  
+  
+  
+
+  
+  <script type="text/javascript" src="../../../_static/js/modernizr.min.js"></script>
+  
+    
+      <script type="text/javascript" id="documentation_options" data-url_root="../../../" src="../../../_static/documentation_options.js"></script>
+        <script type="text/javascript" src="../../../_static/jquery.js"></script>
+        <script type="text/javascript" src="../../../_static/underscore.js"></script>
+        <script type="text/javascript" src="../../../_static/doctools.js"></script>
+        <script type="text/javascript" src="../../../_static/language_data.js"></script>
+    
+    <script type="text/javascript" src="../../../_static/js/theme.js"></script>
+
+    
+
+  
+  <link rel="stylesheet" href="../../../_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
+  <link rel="stylesheet" href="../../../_static/css/custom.css" type="text/css" />
+    <link rel="index" title="Index" href="../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../search.html" />
+    <link href="../../../_static/css/ifa_smeargle.css" rel="stylesheet" type="text/css">
+
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+          
+
+          
+            <a href="../../../index.html" class="icon icon-home"> IfA-Smeargle
+          
+
+          
+          </a>
+
+          
+            
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <p class="caption"><span class="caption-text">Contents:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../how_to_use.html">How to Use</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../python_docstrings/modules.html">IfA_Smeargle</a></li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../../index.html">IfA-Smeargle</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="../../../index.html">Docs</a> &raquo;</li>
+        
+          <li><a href="../../index.html">Module code</a> &raquo;</li>
+        
+      <li>IfA_Smeargle.echo.echo_main</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <h1>Source code for IfA_Smeargle.echo.echo_main</h1><div class="highlight"><pre>
+<span></span>
+<span class="kn">import</span> <span class="nn">copy</span>
+<span class="kn">import</span> <span class="nn">glob</span>
+<span class="kn">import</span> <span class="nn">inspect</span>
+<span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+<span class="kn">import</span> <span class="nn">warnings</span> <span class="k">as</span> <span class="nn">warn</span>
+
+
+<span class="kn">from</span> <span class="nn">IfA_Smeargle</span> <span class="k">import</span> <span class="n">echo</span>
+<span class="kn">from</span> <span class="nn">IfA_Smeargle.echo</span> <span class="k">import</span> <span class="n">echo_functions</span> <span class="k">as</span> <span class="n">echo_funct</span>
+<span class="kn">from</span> <span class="nn">IfA_Smeargle.echo</span> <span class="k">import</span> <span class="n">masks</span>
+<span class="kn">from</span> <span class="nn">IfA_Smeargle.meta</span> <span class="k">import</span> <span class="o">*</span>
+<span class="kn">from</span> <span class="nn">IfA_Smeargle</span> <span class="k">import</span> <span class="n">yankee</span>
+
+
+
+<div class="viewcode-block" id="echo_execution"><a class="viewcode-back" href="../../../python_docstrings/IfA_Smeargle.echo.echo_main.html#IfA_Smeargle.echo.echo_main.echo_execution">[docs]</a><span class="k">def</span> <span class="nf">echo_execution</span><span class="p">(</span><span class="n">data_array</span><span class="p">,</span> <span class="n">configuration_class</span><span class="p">,</span>
+                   <span class="n">silent</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot; This script pragmatically uses a configuration class to determine  </span>
+<span class="sd">    which filters to use.</span>
+
+<span class="sd">    This function goes through all possible filters, applying those that the </span>
+<span class="sd">    user specified in their configuration file. It only applies those which  </span>
+<span class="sd">    are flagged to run where there is also some configuration. It handles </span>
+<span class="sd">    cases where this is not true accordingly.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    data_array : ndarray or string</span>
+<span class="sd">        The data array that is to processed and filtered accordingly. A fits </span>
+<span class="sd">        file is also acceptable.</span>
+<span class="sd">    configuration_class : SmeargleConfig or EchoConfig class</span>
+<span class="sd">        The configuration class that will be used to provide instruction</span>
+<span class="sd">        to the ECHO filters.</span>
+<span class="sd">    silent : boolean (optional)</span>
+<span class="sd">        If true, then no warnings or informational messages will be displayed.</span>
+<span class="sd">    </span>
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    masked_array : Masked Array</span>
+<span class="sd">        The data containing the masked values from the mask provided in the</span>
+<span class="sd">        configuration parameters.</span>
+<span class="sd">    masking_dict : dictionary</span>
+<span class="sd">        The dictionary of all of the masks applied.</span>
+
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="c1"># Check if the user wanted it to be silent.</span>
+    <span class="k">if</span> <span class="p">(</span><span class="n">silent</span><span class="p">):</span>
+        <span class="k">with</span> <span class="n">smeargle_absolute_silence</span><span class="p">():</span>
+            <span class="k">return</span> <span class="n">echo_execution</span><span class="p">(</span><span class="n">data_array</span><span class="p">,</span> <span class="n">configuration_class</span><span class="p">)</span>
+
+
+    <span class="c1"># Be adaptive with accepting a fits file.</span>
+    <span class="k">if</span> <span class="p">(</span><span class="nb">isinstance</span><span class="p">(</span><span class="n">data_array</span><span class="p">,</span><span class="nb">str</span><span class="p">)):</span>
+        <span class="n">__</span><span class="p">,</span> <span class="n">__</span><span class="p">,</span> <span class="n">data_array</span> <span class="o">=</span> <span class="n">meta_faa</span><span class="o">.</span><span class="n">smeargle_open_fits_file</span><span class="p">(</span><span class="n">data_array</span><span class="p">)</span>
+
+    <span class="c1"># Be adaptive as to which configuration class is given.</span>
+    <span class="n">provided_config</span> <span class="o">=</span> <span class="n">meta_config</span><span class="o">.</span><span class="n">extract_proper_configuration_class</span><span class="p">(</span><span class="n">configuration_class</span><span class="p">,</span>
+                                                                     <span class="n">yankee</span><span class="o">.</span><span class="n">EchoConfig</span><span class="p">)</span>
+
+
+    <span class="c1"># Gathering all possible filters, given as a dictionary.</span>
+    <span class="n">filter_list</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">(</span><span class="n">inspect</span><span class="o">.</span><span class="n">getmembers</span><span class="p">(</span><span class="n">masks</span><span class="p">,</span> <span class="n">inspect</span><span class="o">.</span><span class="n">isfunction</span><span class="p">))</span>
+
+    <span class="n">echo_filters</span> <span class="o">=</span> <span class="n">copy</span><span class="o">.</span><span class="n">deepcopy</span><span class="p">(</span><span class="n">filter_list</span><span class="p">)</span>
+    <span class="k">for</span> <span class="n">keydex</span><span class="p">,</span> <span class="n">valuedex</span> <span class="ow">in</span> <span class="n">filter_list</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+        <span class="k">if</span> <span class="p">(</span><span class="ow">not</span> <span class="s1">&#39;echo&#39;</span> <span class="ow">in</span> <span class="n">keydex</span><span class="p">):</span>
+            <span class="n">echo_filters</span><span class="o">.</span><span class="n">pop</span><span class="p">(</span><span class="n">keydex</span><span class="p">,</span> <span class="kc">None</span><span class="p">)</span>
+
+    <span class="c1"># Extracting configuration parameters.</span>
+    <span class="n">temp_param_list</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">(</span><span class="n">inspect</span><span class="o">.</span><span class="n">getmembers</span><span class="p">(</span><span class="n">provided_config</span><span class="p">))</span>
+    <span class="n">config_param</span> <span class="o">=</span> <span class="n">copy</span><span class="o">.</span><span class="n">deepcopy</span><span class="p">(</span><span class="n">temp_param_list</span><span class="p">)</span>
+    <span class="k">for</span> <span class="n">keydex</span><span class="p">,</span> <span class="n">valuedex</span> <span class="ow">in</span> <span class="n">temp_param_list</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+        <span class="k">if</span> <span class="p">(</span><span class="ow">not</span> <span class="s1">&#39;echo&#39;</span> <span class="ow">in</span> <span class="n">keydex</span><span class="p">):</span>
+            <span class="n">config_param</span><span class="o">.</span><span class="n">pop</span><span class="p">(</span><span class="n">keydex</span><span class="p">,</span> <span class="kc">None</span><span class="p">)</span>
+    
+    <span class="c1"># This sorting method should suffice; these dictionaries must be </span>
+    <span class="c1"># parallel for the below method to work.</span>
+    <span class="n">echo_filters</span> <span class="o">=</span> <span class="n">echo_funct</span><span class="o">.</span><span class="n">sort_masking_dictionary</span><span class="p">(</span><span class="n">echo_filters</span><span class="p">)</span>
+    <span class="n">config_param</span> <span class="o">=</span> <span class="n">echo_funct</span><span class="o">.</span><span class="n">sort_masking_dictionary</span><span class="p">(</span><span class="n">config_param</span><span class="p">)</span>
+
+    <span class="c1"># Loop and always add to the masking dictionary.</span>
+    <span class="n">masking_dict</span> <span class="o">=</span> <span class="p">{}</span>
+    <span class="k">for</span> <span class="n">filter_keydex</span><span class="p">,</span> <span class="n">config_keydex</span> <span class="ow">in</span> <span class="nb">zip</span><span class="p">(</span><span class="nb">list</span><span class="p">(</span><span class="n">echo_filters</span><span class="o">.</span><span class="n">keys</span><span class="p">()),</span><span class="nb">list</span><span class="p">(</span><span class="n">config_param</span><span class="o">.</span><span class="n">keys</span><span class="p">())):</span>
+
+        <span class="c1"># Check if the names are related, ensuring proper filter-config </span>
+        <span class="c1"># pairing.</span>
+        <span class="k">if</span> <span class="p">(</span><span class="n">filter_keydex</span><span class="p">[:</span><span class="mi">7</span><span class="p">]</span> <span class="o">!=</span> <span class="n">config_keydex</span><span class="p">[:</span><span class="mi">7</span><span class="p">]):</span>
+            <span class="k">raise</span> <span class="n">IllogicalProsedureError</span><span class="p">(</span><span class="s2">&quot;Attempting mismatched filter-config process with &quot;</span>
+                                          <span class="s2">&quot;</span><span class="si">{filter}</span><span class="s2"> and </span><span class="si">{config}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span>
+                                              <span class="nb">filter</span><span class="o">=</span><span class="n">filter_keydex</span><span class="p">,</span><span class="n">config</span><span class="o">=</span><span class="n">config_keydex</span><span class="p">))</span>
+
+        <span class="c1"># Check if the filter should actually be run.</span>
+        <span class="k">try</span><span class="p">:</span>
+            <span class="k">if</span> <span class="p">(</span><span class="ow">not</span> <span class="n">config_param</span><span class="p">[</span><span class="n">config_keydex</span><span class="p">][</span><span class="s1">&#39;run&#39;</span><span class="p">]):</span>
+                <span class="c1"># Skip the filter, continue to the next filter.</span>
+                <span class="k">continue</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="c1"># The &#39;run&#39; key is not an official parameter; delete it before </span>
+                <span class="c1"># passing onto the function.</span>
+                <span class="n">proper_config_dict</span> <span class="o">=</span> <span class="n">copy</span><span class="o">.</span><span class="n">deepcopy</span><span class="p">(</span><span class="n">config_param</span><span class="p">[</span><span class="n">config_keydex</span><span class="p">])</span>
+                <span class="n">proper_config_dict</span><span class="o">.</span><span class="n">pop</span><span class="p">(</span><span class="s1">&#39;run&#39;</span><span class="p">,</span> <span class="kc">None</span><span class="p">)</span>
+
+                <span class="c1"># Run the masking filter.</span>
+                <span class="n">masking_dict</span> <span class="o">=</span> <span class="n">echo_filters</span><span class="p">[</span><span class="n">filter_keydex</span><span class="p">](</span><span class="n">data_array</span><span class="p">,</span> 
+                                                           <span class="n">previous_mask</span><span class="o">=</span><span class="n">masking_dict</span><span class="p">,</span>
+                                                           <span class="o">**</span><span class="n">proper_config_dict</span><span class="p">)</span>
+        <span class="k">except</span> <span class="ne">KeyError</span><span class="p">:</span>
+            <span class="n">smeargle_warning</span><span class="p">(</span><span class="n">ConfigurationWarning</span><span class="p">,</span> <span class="p">(</span><span class="s2">&quot;The following configuration dictionary is &quot;</span>
+                                                    <span class="s2">&quot;missing the &#39;run&#39; parameter. The masking &quot;</span>
+                                                    <span class="s2">&quot;method is skipped as if &#39;run&#39;=False. </span><span class="se">\n</span><span class="s2">&quot;</span>
+                                                    <span class="s2">&quot;Problem configuration dictionary: </span><span class="se">\n</span><span class="s2">  &quot;</span>
+                                                    <span class="s2">&quot;</span><span class="si">{config_name}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span>
+                                                        <span class="n">config_name</span><span class="o">=</span><span class="n">config_keydex</span><span class="p">)))</span>
+            <span class="k">continue</span>
+
+    <span class="c1"># Making the masked array.</span>
+    <span class="n">masked_array</span> <span class="o">=</span> <span class="n">echo_funct</span><span class="o">.</span><span class="n">numpy_masked_array</span><span class="p">(</span><span class="n">data_array</span><span class="p">,</span><span class="n">synthesized_mask</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+                                                 <span class="n">masking_dictionary</span><span class="o">=</span><span class="n">masking_dict</span><span class="p">)</span>
+
+    <span class="c1"># And, return</span>
+    <span class="k">return</span> <span class="n">masked_array</span><span class="p">,</span> <span class="n">masking_dict</span></div>
+
+
+<div class="viewcode-block" id="echo_directory_execution"><a class="viewcode-back" href="../../../python_docstrings/IfA_Smeargle.echo.echo_main.html#IfA_Smeargle.echo.echo_main.echo_directory_execution">[docs]</a><span class="k">def</span> <span class="nf">echo_directory_execution</span><span class="p">(</span><span class="n">data_directory</span><span class="p">,</span> <span class="n">configuration_class</span><span class="p">,</span>
+                             <span class="n">overwrite</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">silent</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot; This function extends the ECHO abilities to entire directories of</span>
+<span class="sd">    using the same configuration file.</span>
+
+<span class="sd">    The original echo_execution function only handles a single data array,</span>
+<span class="sd">    computing the mask, and then returning a masked array. This function </span>
+<span class="sd">    extends such capabilities and overwrites the files.</span>
+<span class="sd">    </span>
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    data_directory : string</span>
+<span class="sd">        The directory to the data files.</span>
+<span class="sd">    configuration_class : SmeargleConfig or EchoConfig class</span>
+<span class="sd">        The configuration class (and by extension, filters) that are to be</span>
+<span class="sd">        used for all files.</span>
+<span class="sd">    overwrite : boolean (optional)</span>
+<span class="sd">        An option to decide if the files should be overwritten or renamed.</span>
+<span class="sd">    silent : boolean (optional)</span>
+<span class="sd">        Turn off all warnings and information sent by this function and </span>
+<span class="sd">        functions below it.</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    nothing</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="c1"># Check if the user wanted it to be silent.</span>
+    <span class="k">if</span> <span class="p">(</span><span class="n">silent</span><span class="p">):</span>
+        <span class="k">with</span> <span class="n">smeargle_absolute_silence</span><span class="p">():</span>
+            <span class="k">return</span> <span class="n">echo_directory_execution</span><span class="p">(</span><span class="n">data_directory</span><span class="p">,</span> <span class="n">configuration_class</span><span class="p">,</span>
+                                            <span class="n">overwrite</span><span class="o">=</span><span class="n">overwrite</span><span class="p">)</span>
+
+    <span class="c1"># Obtain the fits files by reference name.</span>
+    <span class="n">data_files</span> <span class="o">=</span> <span class="n">glob</span><span class="o">.</span><span class="n">glob</span><span class="p">(</span><span class="n">data_directory</span> <span class="o">+</span> <span class="s1">&#39;/*.fits&#39;</span><span class="p">)</span>
+
+    
+    <span class="c1"># Limit warnings, the files should be overwritten and should also</span>
+    <span class="c1"># have the mask contained within.</span>
+    <span class="k">with</span> <span class="n">warn</span><span class="o">.</span><span class="n">catch_warnings</span><span class="p">():</span>
+        <span class="n">warn</span><span class="o">.</span><span class="n">simplefilter</span><span class="p">(</span><span class="s2">&quot;ignore&quot;</span><span class="p">,</span> <span class="n">category</span><span class="o">=</span><span class="n">OverwriteWarning</span><span class="p">)</span>
+        <span class="n">warn</span><span class="o">.</span><span class="n">simplefilter</span><span class="p">(</span><span class="s2">&quot;ignore&quot;</span><span class="p">,</span> <span class="n">category</span><span class="o">=</span><span class="n">OutputWarning</span><span class="p">)</span>
+
+        <span class="c1"># Loop over all files.</span>
+        <span class="k">for</span> <span class="n">filedex</span> <span class="ow">in</span> <span class="n">data_files</span><span class="p">:</span>
+            <span class="c1"># Execute the mask; catch the dictionary, it is unneeded though.</span>
+            <span class="n">masked_array</span><span class="p">,</span> <span class="n">__</span> <span class="o">=</span> <span class="n">echo</span><span class="o">.</span><span class="n">echo_execution</span><span class="p">(</span><span class="n">filedex</span><span class="p">,</span> <span class="n">configuration_class</span><span class="p">)</span>
+
+            <span class="c1"># The Header should remain unchanged; it is read and reused </span>
+            <span class="c1"># from the file itself. </span>
+            <span class="n">__</span><span class="p">,</span> <span class="n">temp_header</span><span class="p">,</span> <span class="n">__</span> <span class="o">=</span> <span class="n">meta_faa</span><span class="o">.</span><span class="n">smeargle_open_fits_file</span><span class="p">(</span><span class="n">filedex</span><span class="p">)</span>
+
+            <span class="c1"># Check for the overwriting option.</span>
+            <span class="k">if</span> <span class="p">(</span><span class="n">overwrite</span><span class="p">):</span>
+                <span class="n">meta_faa</span><span class="o">.</span><span class="n">smeargle_write_fits_file</span><span class="p">(</span><span class="n">filedex</span><span class="p">,</span> <span class="n">temp_header</span><span class="p">,</span> <span class="n">masked_array</span><span class="p">)</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="c1"># This is incomplete, how to proceed is likely to require a </span>
+                <span class="c1"># list of strings equal in length to number of files.</span>
+                <span class="k">raise</span> <span class="n">IncompleteError</span></div>
+</pre></div>
+
+           </div>
+           
+          </div>
+          <footer>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2019, Sparrow
+
+    </p>
+  </div>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+
+  
+  
+    
+   
+
+</body>
+</html>

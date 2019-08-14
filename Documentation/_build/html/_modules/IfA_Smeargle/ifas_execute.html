@@ -1,0 +1,330 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>IfA_Smeargle.ifas_execute &mdash; IfA-Smeargle 2019-08-19 documentation</title>
+  
+
+  
+  
+  
+  
+
+  
+  <script type="text/javascript" src="../../_static/js/modernizr.min.js"></script>
+  
+    
+      <script type="text/javascript" id="documentation_options" data-url_root="../../" src="../../_static/documentation_options.js"></script>
+        <script type="text/javascript" src="../../_static/jquery.js"></script>
+        <script type="text/javascript" src="../../_static/underscore.js"></script>
+        <script type="text/javascript" src="../../_static/doctools.js"></script>
+        <script type="text/javascript" src="../../_static/language_data.js"></script>
+    
+    <script type="text/javascript" src="../../_static/js/theme.js"></script>
+
+    
+
+  
+  <link rel="stylesheet" href="../../_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
+  <link rel="stylesheet" href="../../_static/css/custom.css" type="text/css" />
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" />
+    <link href="../../_static/css/ifa_smeargle.css" rel="stylesheet" type="text/css">
+
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+          
+
+          
+            <a href="../../index.html" class="icon icon-home"> IfA-Smeargle
+          
+
+          
+          </a>
+
+          
+            
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <p class="caption"><span class="caption-text">Contents:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../how_to_use.html">How to Use</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../python_docstrings/modules.html">IfA_Smeargle</a></li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../index.html">IfA-Smeargle</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="../../index.html">Docs</a> &raquo;</li>
+        
+          <li><a href="../index.html">Module code</a> &raquo;</li>
+        
+      <li>IfA_Smeargle.ifas_execute</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <h1>Source code for IfA_Smeargle.ifas_execute</h1><div class="highlight"><pre>
+<span></span>
+<span class="kn">import</span> <span class="nn">argparse</span>
+<span class="kn">import</span> <span class="nn">inspect</span>
+<span class="kn">import</span> <span class="nn">os</span>
+<span class="kn">import</span> <span class="nn">sys</span>
+
+<span class="k">try</span><span class="p">:</span>
+    <span class="kn">from</span> <span class="nn">IfA_Smeargle.meta</span> <span class="k">import</span> <span class="o">*</span>
+    <span class="kn">from</span> <span class="nn">IfA_Smeargle</span> <span class="k">import</span> <span class="n">yankee</span>
+    <span class="kn">from</span> <span class="nn">IfA_Smeargle</span> <span class="k">import</span> <span class="n">zulu</span>
+<span class="k">except</span> <span class="p">(</span><span class="n">ModuleNotFoundError</span><span class="p">,</span> <span class="ne">ValueError</span><span class="p">):</span>
+    <span class="c1"># Path hack, mostly likely because this python file </span>
+    <span class="c1"># is in the same directory of the package as is default.</span>
+    <span class="n">sys</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">insert</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">abspath</span><span class="p">(</span><span class="s1">&#39;.&#39;</span><span class="p">))</span>
+    <span class="n">sys</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">insert</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">abspath</span><span class="p">(</span><span class="s1">&#39;..&#39;</span><span class="p">))</span>
+    <span class="c1"># Try again...</span>
+    <span class="kn">from</span> <span class="nn">IfA_Smeargle.meta</span> <span class="k">import</span> <span class="o">*</span>
+    <span class="kn">from</span> <span class="nn">IfA_Smeargle</span> <span class="k">import</span> <span class="n">yankee</span>
+    <span class="kn">from</span> <span class="nn">IfA_Smeargle</span> <span class="k">import</span> <span class="n">zulu</span>
+
+
+    
+
+
+
+<div class="viewcode-block" id="execute_ifas_smeargle"><a class="viewcode-back" href="../../python_docstrings/IfA_Smeargle.ifas_execute.html#IfA_Smeargle.ifas_execute.execute_ifas_smeargle">[docs]</a><span class="k">def</span> <span class="nf">execute_ifas_smeargle</span><span class="p">(</span><span class="n">pipeline_name</span><span class="p">,</span> <span class="n">data_directory</span><span class="p">,</span> <span class="n">config_class_path</span><span class="p">,</span>
+                          <span class="n">silent</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot; This takes the input from an argparser and executes the proper </span>
+<span class="sd">    pipeline.</span>
+
+<span class="sd">    This function takes string information and parses and executes the input</span>
+<span class="sd">    to the best of the ability of this module. This function cannot be called</span>
+<span class="sd">    unless it via the command-line execution route. </span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    pipeline_name : string</span>
+<span class="sd">        The name of the data reduction pipeline that will be used.</span>
+<span class="sd">    data_directory : string</span>
+<span class="sd">        The path to the data, specifically where the data is all stored in.</span>
+<span class="sd">    config_class_path : string</span>
+<span class="sd">        The file path (including the file) that describes where the </span>
+<span class="sd">        configuration class lies.</span>
+<span class="sd">    silent : boolean (optional)</span>
+<span class="sd">        Turn off all warnings and information sent by this function and </span>
+<span class="sd">        functions below it.</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    pipeline_results : unknown</span>
+<span class="sd">        Returns exactly what the pipeline function would have returned.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="c1"># Check if the user wanted this function to be silent. </span>
+    <span class="k">if</span> <span class="p">(</span><span class="n">silent</span><span class="p">):</span>
+        <span class="k">with</span> <span class="n">smeargle_absolute_silence</span><span class="p">():</span>
+            <span class="k">return</span> <span class="n">execute_ifas_smeargle</span><span class="p">(</span><span class="n">pipeline_name</span><span class="p">,</span> <span class="n">data_directory</span><span class="p">,</span> <span class="n">config_class_path</span><span class="p">)</span>
+
+    <span class="c1"># This function should not be executed if this is not instigated from the </span>
+    <span class="c1"># command line.</span>
+    <span class="k">if</span> <span class="p">(</span><span class="vm">__name__</span> <span class="o">!=</span> <span class="s1">&#39;__main__&#39;</span><span class="p">):</span>
+        <span class="k">raise</span> <span class="n">IllogicalProsedureError</span><span class="p">(</span><span class="s2">&quot;This function is not supposed to operate outside of the &quot;</span>
+                                      <span class="s2">&quot;command-line execution method. Please use the ZULU &quot;</span>
+                                      <span class="s2">&quot;line if running this program via imports.&quot;</span><span class="p">)</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">smeargle_info</span><span class="p">(</span><span class="s2">&quot;Executing the following pipeline:  &quot;</span> <span class="o">+</span> <span class="n">pipeline_name</span><span class="p">)</span>
+
+    <span class="c1"># Gather all of the possible available pipelines. </span>
+    <span class="n">pipeline_dictionary</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">(</span><span class="n">inspect</span><span class="o">.</span><span class="n">getmembers</span><span class="p">(</span><span class="n">zulu</span><span class="o">.</span><span class="n">pipelines</span><span class="p">,</span> <span class="n">inspect</span><span class="o">.</span><span class="n">isfunction</span><span class="p">))</span>
+
+    <span class="c1"># Try and attempted to get the pipeline function itself.</span>
+    <span class="k">try</span><span class="p">:</span>
+        <span class="n">pipeline_function</span> <span class="o">=</span> <span class="n">pipeline_dictionary</span><span class="p">[</span><span class="n">pipeline_name</span><span class="p">]</span>
+    <span class="k">except</span> <span class="ne">KeyError</span><span class="p">:</span>
+        <span class="k">raise</span> <span class="n">InputError</span><span class="p">(</span><span class="s2">&quot;There does not exist a pipeline of name &lt;</span><span class="si">{pipe_name}</span><span class="s2">&gt;. Double check &quot;</span>
+                         <span class="s2">&quot;the inputted pipeline name.&quot;</span>
+                         <span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">pipe_name</span><span class="o">=</span><span class="n">pipeline_name</span><span class="p">))</span>
+
+    <span class="c1"># Try and get the configuration class itself.</span>
+    <span class="k">try</span><span class="p">:</span>
+        <span class="n">configuration_class</span> <span class="o">=</span> <span class="n">yankee</span><span class="o">.</span><span class="n">SmeargleConfig</span><span class="p">(</span><span class="n">config_class_path</span><span class="p">)</span>
+    <span class="k">except</span> <span class="ne">Exception</span><span class="p">:</span>
+        <span class="c1"># It seemed that the standard method could not return a good </span>
+        <span class="c1"># configuration class. Attempt to read with the factory function.</span>
+        <span class="n">configuration_class</span> <span class="o">=</span> <span class="n">yankee</span><span class="o">.</span><span class="n">configuration_factory_function</span><span class="p">(</span><span class="n">yankee</span><span class="o">.</span><span class="n">SmeargleConfig</span><span class="p">,</span> 
+                                                                    <span class="n">file_name</span><span class="o">=</span><span class="n">config_class_path</span><span class="p">)</span>
+    
+    <span class="c1"># Check if the file directory provided is a valid data directory. Be</span>
+    <span class="c1"># generous on the definition of a &#39;directory&#39;.</span>
+    <span class="k">if</span> <span class="p">(</span><span class="ow">not</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">exists</span><span class="p">(</span><span class="n">data_directory</span><span class="p">)):</span>
+        <span class="k">raise</span> <span class="n">InputError</span><span class="p">(</span><span class="s2">&quot;The data directory &lt;</span><span class="si">{data_dir}</span><span class="s2">&gt; does not seem to exist. Double check &quot;</span>
+                         <span class="s2">&quot;the inputted data directory and its contents.&quot;</span>
+                         <span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">data_dir</span><span class="o">=</span><span class="n">data_directory</span><span class="p">))</span>
+
+    <span class="c1"># The parameters given pass all of the elements provided. Execute the </span>
+    <span class="c1"># pipeline. Assume it is in the following format (as all other pipelines</span>
+    <span class="c1"># coded by Sparrow are).</span>
+    <span class="n">pipeline_results</span> <span class="o">=</span> <span class="n">pipeline_function</span><span class="p">(</span><span class="n">data_directory</span><span class="p">,</span> <span class="n">configuration_class</span><span class="p">)</span>
+
+    <span class="c1"># And finally return</span>
+    <span class="k">return</span> <span class="n">pipeline_results</span></div>
+
+
+<span class="k">if</span> <span class="p">(</span><span class="vm">__name__</span> <span class="o">==</span> <span class="s1">&#39;__main__&#39;</span><span class="p">):</span>
+    <span class="c1"># Creating the argpaser</span>
+    <span class="n">parser</span> <span class="o">=</span> <span class="n">argparse</span><span class="o">.</span><span class="n">ArgumentParser</span><span class="p">(</span><span class="n">description</span><span class="o">=</span><span class="p">(</span><span class="s2">&quot;Execute a IfA-Smeargle data reduction and &quot;</span>
+                                                  <span class="s2">&quot;analysis pipeline via a command-line call.&quot;</span><span class="p">))</span>
+
+    <span class="c1"># Adding the three required arguments for all pipelines. These are always</span>
+    <span class="c1"># constant requirements and thus are positional.</span>
+    <span class="n">parser</span><span class="o">.</span><span class="n">add_argument</span><span class="p">(</span><span class="s2">&quot;pipeline&quot;</span><span class="p">,</span> <span class="n">help</span><span class="o">=</span><span class="p">(</span><span class="s2">&quot;The name of the ZULU pipeline that is &quot;</span>
+                                          <span class="s2">&quot;going to be executed in the command call.&quot;</span><span class="p">),</span>
+                        <span class="nb">type</span><span class="o">=</span><span class="nb">str</span><span class="p">)</span>
+    <span class="n">parser</span><span class="o">.</span><span class="n">add_argument</span><span class="p">(</span><span class="s2">&quot;data_dir&quot;</span><span class="p">,</span> <span class="n">help</span><span class="o">=</span><span class="p">(</span><span class="s2">&quot;The path to the directory that holds the data &quot;</span>
+                                          <span class="s2">&quot;that the pipeline will work on.&quot;</span><span class="p">),</span>
+                        <span class="nb">type</span><span class="o">=</span><span class="nb">str</span><span class="p">)</span>
+    <span class="n">parser</span><span class="o">.</span><span class="n">add_argument</span><span class="p">(</span><span class="s2">&quot;config_file&quot;</span><span class="p">,</span> <span class="n">help</span><span class="o">=</span><span class="p">(</span><span class="s2">&quot;The path to the .ifaspkl SmeargleConfig &quot;</span>
+                                             <span class="s2">&quot;configuration file which will be used.&quot;</span><span class="p">),</span>
+                        <span class="nb">type</span><span class="o">=</span><span class="nb">str</span><span class="p">)</span>
+
+    <span class="c1"># Optional arguments.</span>
+    <span class="n">parser</span><span class="o">.</span><span class="n">add_argument</span><span class="p">(</span><span class="s2">&quot;-s&quot;</span><span class="p">,</span> <span class="s2">&quot;--silent&quot;</span><span class="p">,</span> <span class="n">help</span><span class="o">=</span><span class="p">(</span><span class="s2">&quot;Run the pipeline silenced; no info or &quot;</span>
+                                                <span class="s2">&quot;warnings printed.&quot;</span><span class="p">),</span>
+                        <span class="n">action</span><span class="o">=</span><span class="s2">&quot;store_true&quot;</span><span class="p">)</span>
+
+    <span class="c1"># Parse the arguments.</span>
+    <span class="n">args</span> <span class="o">=</span> <span class="n">parser</span><span class="o">.</span><span class="n">parse_args</span><span class="p">()</span>
+
+    <span class="c1"># Extract the arguments for visual purposes.</span>
+    <span class="n">pipeline</span> <span class="o">=</span> <span class="nb">str</span><span class="p">(</span><span class="n">args</span><span class="o">.</span><span class="n">pipeline</span><span class="p">)</span>
+    <span class="n">data_dir</span> <span class="o">=</span> <span class="nb">str</span><span class="p">(</span><span class="n">args</span><span class="o">.</span><span class="n">data_dir</span><span class="p">)</span>
+    <span class="n">config_file</span> <span class="o">=</span> <span class="nb">str</span><span class="p">(</span><span class="n">args</span><span class="o">.</span><span class="n">config_file</span><span class="p">)</span>
+    <span class="n">silent</span> <span class="o">=</span> <span class="nb">bool</span><span class="p">(</span><span class="n">args</span><span class="o">.</span><span class="n">silent</span><span class="p">)</span>
+
+    <span class="c1"># Execute the file. The return is likely lost anyways.</span>
+    <span class="n">__</span> <span class="o">=</span> <span class="n">execute_ifas_smeargle</span><span class="p">(</span><span class="n">pipeline_name</span><span class="o">=</span><span class="n">pipeline</span><span class="p">,</span> <span class="n">data_directory</span><span class="o">=</span><span class="n">data_dir</span><span class="p">,</span> 
+                               <span class="n">config_class_path</span><span class="o">=</span><span class="n">config_file</span><span class="p">,</span> <span class="n">silent</span><span class="o">=</span><span class="n">silent</span><span class="p">)</span>
+    
+</pre></div>
+
+           </div>
+           
+          </div>
+          <footer>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2019, Sparrow
+
+    </p>
+  </div>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+
+  
+  
+    
+   
+
+</body>
+</html>

@@ -1,0 +1,425 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>IfA_Smeargle.bravo.renaming &mdash; IfA-Smeargle 2019-08-19 documentation</title>
+  
+
+  
+  
+  
+  
+
+  
+  <script type="text/javascript" src="../../../_static/js/modernizr.min.js"></script>
+  
+    
+      <script type="text/javascript" id="documentation_options" data-url_root="../../../" src="../../../_static/documentation_options.js"></script>
+        <script type="text/javascript" src="../../../_static/jquery.js"></script>
+        <script type="text/javascript" src="../../../_static/underscore.js"></script>
+        <script type="text/javascript" src="../../../_static/doctools.js"></script>
+        <script type="text/javascript" src="../../../_static/language_data.js"></script>
+    
+    <script type="text/javascript" src="../../../_static/js/theme.js"></script>
+
+    
+
+  
+  <link rel="stylesheet" href="../../../_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
+  <link rel="stylesheet" href="../../../_static/css/custom.css" type="text/css" />
+    <link rel="index" title="Index" href="../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../search.html" />
+    <link href="../../../_static/css/ifa_smeargle.css" rel="stylesheet" type="text/css">
+
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+          
+
+          
+            <a href="../../../index.html" class="icon icon-home"> IfA-Smeargle
+          
+
+          
+          </a>
+
+          
+            
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <p class="caption"><span class="caption-text">Contents:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../how_to_use.html">How to Use</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../python_docstrings/modules.html">IfA_Smeargle</a></li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../../index.html">IfA-Smeargle</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="../../../index.html">Docs</a> &raquo;</li>
+        
+          <li><a href="../../index.html">Module code</a> &raquo;</li>
+        
+      <li>IfA_Smeargle.bravo.renaming</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <h1>Source code for IfA_Smeargle.bravo.renaming</h1><div class="highlight"><pre>
+<span></span>
+<span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">This file contains methods used to determine proper naming conventions and</span>
+<span class="sd">to reformat the fits file names from raw output  (often just timestamps) to</span>
+<span class="sd">something more useful and accurate to the data.</span>
+<span class="sd">&quot;&quot;&quot;</span>
+
+
+<span class="kn">import</span> <span class="nn">copy</span>
+<span class="kn">import</span> <span class="nn">glob</span>
+<span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+<span class="kn">import</span> <span class="nn">os</span> 
+<span class="kn">import</span> <span class="nn">shutil</span>
+<span class="kn">import</span> <span class="nn">time</span>
+
+
+<span class="kn">from</span> <span class="nn">IfA_Smeargle</span> <span class="k">import</span> <span class="n">bravo</span>
+<span class="kn">from</span> <span class="nn">IfA_Smeargle.meta</span> <span class="k">import</span> <span class="o">*</span>
+
+
+<div class="viewcode-block" id="parallel_renaming"><a class="viewcode-back" href="../../../python_docstrings/IfA_Smeargle.bravo.renaming.html#IfA_Smeargle.bravo.renaming.parallel_renaming">[docs]</a><span class="k">def</span> <span class="nf">parallel_renaming</span><span class="p">(</span><span class="n">file_names</span><span class="p">,</span> <span class="n">file_renames</span><span class="p">,</span> <span class="n">data_directory</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+                      <span class="n">file_extensions</span><span class="o">=</span><span class="s1">&#39;.fits&#39;</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot; Renames files provided parallel name arrays.</span>
+
+<span class="sd">    Given two same length lists of file names, one pre-rename and one </span>
+<span class="sd">    post-rename, this function renames them accordingly. A directory is also</span>
+<span class="sd">    an option, and the file name list will be derived from that.</span>
+
+<span class="sd">    This only works for one type of file extension, or leave the string blank</span>
+<span class="sd">    for all files.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    file_names : array_like</span>
+<span class="sd">        The list of the file names that is to be renamed.</span>
+<span class="sd">    file_renames : array_like</span>
+<span class="sd">        The list of the file names that are going to be used for the renaming</span>
+<span class="sd">        process.</span>
+<span class="sd">    data_directory : string (optional)</span>
+<span class="sd">        A directory that contains all of the files that are going to be </span>
+<span class="sd">        renamed. Does not handle directories recursively. </span>
+<span class="sd">    file_extensions : string (optional)</span>
+<span class="sd">        The file extension of the files that are going to be renamed. Defaults</span>
+<span class="sd">        to a .fits file.</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    nothing</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="c1"># Extraction of the directory if provided. Paths should be conserved.</span>
+    <span class="k">if</span> <span class="p">(</span><span class="n">data_directory</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">):</span>
+        <span class="c1"># For the files to be renamed.</span>
+        <span class="n">original_names</span> <span class="o">=</span> <span class="n">glob</span><span class="o">.</span><span class="n">glob</span><span class="p">(</span><span class="n">data_directory</span> <span class="o">+</span> <span class="s1">&#39;/*&#39;</span> <span class="o">+</span> <span class="n">file_extensions</span><span class="p">)</span>
+        <span class="n">original_paths</span> <span class="o">=</span> <span class="p">[</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="n">pathdex</span><span class="p">)[</span><span class="mi">0</span><span class="p">]</span> <span class="k">for</span> <span class="n">pathdex</span> <span class="ow">in</span> <span class="n">original_names</span><span class="p">]</span>
+        <span class="n">n_files</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">original_names</span><span class="p">)</span>
+        
+        <span class="c1"># Overwrite</span>
+        <span class="n">file_names</span> <span class="o">=</span> <span class="n">original_names</span>
+
+    <span class="c1"># Check for length issues.</span>
+    <span class="k">if</span> <span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">file_names</span><span class="p">)</span> <span class="o">!=</span> <span class="nb">len</span><span class="p">(</span><span class="n">file_renames</span><span class="p">)):</span>
+        <span class="k">raise</span> <span class="ne">RuntimeError</span><span class="p">(</span><span class="s2">&quot;The number of file names and the number of file renames are not &quot;</span>
+                           <span class="s2">&quot;the same; therefore, these are not parallel arrays.&quot;</span><span class="p">)</span>
+    
+    <span class="c1"># Rename, the two cases are needed for the presence of the data directory</span>
+    <span class="c1"># or not.</span>
+    <span class="k">if</span> <span class="p">(</span><span class="n">data_directory</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">):</span>
+        <span class="k">for</span> <span class="n">pathdex</span><span class="p">,</span><span class="n">filenamedex</span><span class="p">,</span><span class="n">filerenamedex</span> <span class="ow">in</span> <span class="nb">zip</span><span class="p">(</span><span class="n">original_paths</span><span class="p">,</span>
+                                                     <span class="n">file_names</span><span class="p">,</span>
+                                                     <span class="n">file_renames</span><span class="p">):</span>
+            <span class="c1"># Check for automatic file name extension.</span>
+            <span class="k">if</span> <span class="p">(</span><span class="n">filerenamedex</span><span class="p">[</span><span class="o">-</span><span class="nb">len</span><span class="p">(</span><span class="n">file_extensions</span><span class="p">):]</span> <span class="o">!=</span> <span class="n">file_extensions</span><span class="p">):</span>
+                <span class="n">os</span><span class="o">.</span><span class="n">rename</span><span class="p">(</span><span class="n">filenamedex</span><span class="p">,</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">pathdex</span><span class="p">,</span> <span class="n">filerenamedex</span> <span class="o">+</span> <span class="n">file_extensions</span><span class="p">))</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="n">os</span><span class="o">.</span><span class="n">rename</span><span class="p">(</span><span class="n">filenamedex</span><span class="p">,</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">pathdex</span><span class="p">,</span> <span class="n">filerenamedex</span><span class="p">))</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="k">for</span> <span class="n">filenamedex</span><span class="p">,</span><span class="n">filerenamedex</span> <span class="ow">in</span> <span class="nb">zip</span><span class="p">(</span><span class="n">file_names</span><span class="p">,</span><span class="n">file_renames</span><span class="p">):</span>
+           <span class="c1"># Check for automatic file name extension.</span>
+            <span class="k">if</span> <span class="p">(</span><span class="n">filerenamedex</span><span class="p">[</span><span class="o">-</span><span class="nb">len</span><span class="p">(</span><span class="n">file_extensions</span><span class="p">):]</span> <span class="o">!=</span> <span class="n">file_extensions</span><span class="p">):</span>
+                <span class="n">os</span><span class="o">.</span><span class="n">rename</span><span class="p">(</span><span class="n">filenamedex</span><span class="p">,</span> <span class="n">filerenamedex</span> <span class="o">+</span> <span class="n">file_extensions</span><span class="p">)</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="n">os</span><span class="o">.</span><span class="n">rename</span><span class="p">(</span><span class="n">filenamedex</span><span class="p">,</span> <span class="n">filerenamedex</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="voltage_pattern_rename_fits"><a class="viewcode-back" href="../../../python_docstrings/IfA_Smeargle.bravo.renaming.html#IfA_Smeargle.bravo.renaming.voltage_pattern_rename_fits">[docs]</a><span class="k">def</span> <span class="nf">voltage_pattern_rename_fits</span><span class="p">(</span><span class="n">data_directory</span><span class="p">,</span> <span class="n">voltage_pattern</span><span class="p">,</span> 
+                                <span class="n">begin_garbage</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span>
+                                <span class="n">common_prefix</span><span class="o">=</span><span class="s1">&#39;&#39;</span><span class="p">,</span> <span class="n">common_suffix</span><span class="o">=</span><span class="s1">&#39;&#39;</span><span class="p">,</span>
+                                <span class="n">rename</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">archive_data</span><span class="o">=</span><span class="kc">True</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot; Renames files according to their voltage pattern specified.</span>
+
+<span class="sd">    Some data filename outputs only give timestamps. This function renames</span>
+<span class="sd">    </span>
+<span class="sd">    The output files created are according to the voltage pattern that the </span>
+<span class="sd">    user specified. This function assumes that the pattern provided is one </span>
+<span class="sd">    &#39;set&#39;, where a set contains some amount of fits files. Moreover, this</span>
+<span class="sd">    function weakly determines which are up-mid-down ramps. </span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    data_directory : string</span>
+<span class="sd">        This is the directory that contain all of the data files to be </span>
+<span class="sd">        renamed.</span>
+<span class="sd">    voltage_pattern : array_like</span>
+<span class="sd">        These are voltage values, assuming that the first element is the </span>
+<span class="sd">        first voltage element to be used, proceeding from there in order.</span>
+<span class="sd">    begin_garbage : int (optional)</span>
+<span class="sd">        The number of files, in the beginning, that should not count as data.</span>
+<span class="sd">    common_prefix : string (optional)</span>
+<span class="sd">        All file renames will contain this prefix before the voltage data.</span>
+<span class="sd">    common_suffix : string (optional)</span>
+<span class="sd">        All file renames will contain this suffix after the voltage data.</span>
+<span class="sd">    rename : boolean (optional)</span>
+<span class="sd">        If true, the program renames the files as specified, else, it leaves </span>
+<span class="sd">        the files untouched; still archived, however, if ``copy_data=True``.</span>
+<span class="sd">    archive_data : boolean (optional)</span>
+<span class="sd">        Execute the renaming on a copy of the data, the original data </span>
+<span class="sd">        is archived and preserved.</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    voltage_string_list : list</span>
+<span class="sd">        This is the list of the voltage strings applied, given in a parallel </span>
+<span class="sd">        ordered form. Does not include prefixes/suffixes.</span>
+
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="k">if</span> <span class="p">(</span><span class="n">rename</span><span class="p">):</span>
+        <span class="n">smeargle_warning</span><span class="p">(</span><span class="n">DepreciationWarning</span><span class="p">,(</span><span class="s2">&quot;The renaming method contained works as intended; &quot;</span>
+                                              <span class="s2">&quot;however, it is not optimal and does not play &quot;</span>
+                                              <span class="s2">&quot;nice with the other naming functions.&quot;</span><span class="p">))</span>
+    
+    <span class="c1"># Minor and fragile input sanitation.</span>
+    <span class="k">if</span> <span class="p">(</span><span class="n">data_directory</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span> <span class="o">==</span> <span class="s1">&#39;/&#39;</span><span class="p">):</span>
+        <span class="n">data_directory</span> <span class="o">=</span> <span class="n">copy</span><span class="o">.</span><span class="n">deepcopy</span><span class="p">(</span><span class="n">data_directory</span><span class="p">[:</span><span class="o">-</span><span class="mi">1</span><span class="p">])</span>
+    <span class="k">if</span> <span class="p">((</span><span class="n">common_suffix</span><span class="p">[</span><span class="o">-</span><span class="mi">5</span><span class="p">:]</span> <span class="o">!=</span> <span class="s1">&#39;.fits&#39;</span><span class="p">)</span> <span class="ow">and</span> <span class="p">(</span><span class="n">rename</span><span class="p">)):</span>
+        <span class="n">common_suffix</span> <span class="o">+=</span> <span class="s1">&#39;.fits&#39;</span>
+        <span class="n">smeargle_warning</span><span class="p">(</span><span class="n">InputWarning</span><span class="p">,</span> <span class="p">(</span><span class="s2">&quot;The &lt; common_suffix &gt; does not have a .fits extension; &quot;</span>
+                                        <span class="s2">&quot;it has been automatically added.&quot;</span><span class="p">))</span>
+
+    <span class="c1"># If the user wanted to preserve their data.</span>
+    <span class="k">if</span> <span class="p">(</span><span class="n">archive_data</span><span class="p">):</span>
+        <span class="n">bravo</span><span class="o">.</span><span class="n">arc</span><span class="o">.</span><span class="n">duplicate_archive_data_files</span><span class="p">(</span><span class="n">data_directory</span><span class="p">)</span>
+
+    <span class="c1"># The files that are before the garbage denotation should be labeled as</span>
+    <span class="c1"># such.</span>
+    <span class="n">garbage_names</span> <span class="o">=</span> <span class="n">glob</span><span class="o">.</span><span class="n">glob</span><span class="p">(</span><span class="n">data_directory</span> <span class="o">+</span> <span class="s1">&#39;/*.fits&#39;</span><span class="p">)[:</span><span class="n">begin_garbage</span><span class="p">]</span>
+    <span class="n">garbage_paths</span> <span class="o">=</span> <span class="p">[</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="n">garbagepathdex</span><span class="p">)[</span><span class="mi">0</span><span class="p">]</span> <span class="k">for</span> <span class="n">garbagepathdex</span> <span class="ow">in</span> <span class="n">garbage_names</span><span class="p">]</span>
+    <span class="n">n_garbage_files</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">garbage_names</span><span class="p">)</span>
+
+
+    <span class="c1"># For the files to be renamed.</span>
+    <span class="n">original_names</span> <span class="o">=</span> <span class="n">glob</span><span class="o">.</span><span class="n">glob</span><span class="p">(</span><span class="n">data_directory</span> <span class="o">+</span> <span class="s1">&#39;/*.fits&#39;</span><span class="p">)[</span><span class="n">begin_garbage</span><span class="p">:]</span>
+    <span class="n">original_paths</span> <span class="o">=</span> <span class="p">[</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="n">pathdex</span><span class="p">)[</span><span class="mi">0</span><span class="p">]</span> <span class="k">for</span> <span class="n">pathdex</span> <span class="ow">in</span> <span class="n">original_names</span><span class="p">]</span>
+    <span class="n">n_files</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">original_names</span><span class="p">)</span>
+
+    
+    <span class="c1"># Be able to handle the last case by looping back.</span>
+    <span class="n">n_voltages</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">voltage_pattern</span><span class="p">)</span>
+    <span class="n">voltage_strings</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="k">for</span> <span class="n">voltindex</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">n_voltages</span><span class="p">):</span>
+        <span class="n">temp_voltage_string</span> <span class="o">=</span> <span class="s1">&#39;&#39;</span>
+    
+        <span class="c1"># Record the voltage number.</span>
+        <span class="n">temp_voltage_string</span> <span class="o">+=</span> <span class="nb">str</span><span class="p">(</span><span class="n">voltage_pattern</span><span class="p">[</span><span class="n">voltindex</span><span class="p">])</span> <span class="o">+</span> <span class="s1">&#39;V&#39;</span>
+    
+        <span class="c1"># Detecting if the voltage is overall increasing, decreasing, or </span>
+        <span class="c1"># peaking. The odd modular division is to handle the last voltage </span>
+        <span class="c1"># effectively. </span>
+        <span class="k">if</span> <span class="p">(</span><span class="n">voltage_pattern</span><span class="p">[</span><span class="n">voltindex</span> <span class="o">-</span> <span class="mi">1</span><span class="p">]</span> <span class="o">==</span> <span class="n">voltage_pattern</span><span class="p">[</span><span class="n">voltindex</span><span class="p">]</span> <span class="ow">and</span> 
+            <span class="n">voltage_pattern</span><span class="p">[</span><span class="n">voltindex</span><span class="p">]</span> <span class="o">==</span> <span class="n">voltage_pattern</span><span class="p">[(</span><span class="n">voltindex</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)</span><span class="o">%</span><span class="n">n_voltages</span><span class="p">]):</span>
+            <span class="c1"># Surrounding voltages are equal, this is a flat slope.</span>
+            <span class="n">temp_voltage_string</span> <span class="o">+=</span> <span class="s1">&#39;mid&#39;</span>
+        <span class="k">elif</span> <span class="p">(</span><span class="n">voltage_pattern</span><span class="p">[</span><span class="n">voltindex</span> <span class="o">-</span> <span class="mi">1</span><span class="p">]</span> <span class="o">&lt;=</span> <span class="n">voltage_pattern</span><span class="p">[</span><span class="n">voltindex</span><span class="p">]</span> <span class="ow">and</span> 
+              <span class="n">voltage_pattern</span><span class="p">[</span><span class="n">voltindex</span><span class="p">]</span> <span class="o">&lt;=</span> <span class="n">voltage_pattern</span><span class="p">[(</span><span class="n">voltindex</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)</span><span class="o">%</span><span class="n">n_voltages</span><span class="p">]):</span>
+            <span class="c1"># Surrounding voltages are sloped upwards.</span>
+            <span class="n">temp_voltage_string</span> <span class="o">+=</span> <span class="s1">&#39;up&#39;</span>
+        <span class="k">elif</span> <span class="p">(</span><span class="n">voltage_pattern</span><span class="p">[</span><span class="n">voltindex</span> <span class="o">-</span> <span class="mi">1</span><span class="p">]</span> <span class="o">&gt;=</span> <span class="n">voltage_pattern</span><span class="p">[</span><span class="n">voltindex</span><span class="p">]</span> <span class="ow">and</span> 
+              <span class="n">voltage_pattern</span><span class="p">[</span><span class="n">voltindex</span><span class="p">]</span> <span class="o">&gt;=</span> <span class="n">voltage_pattern</span><span class="p">[(</span><span class="n">voltindex</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)</span><span class="o">%</span><span class="n">n_voltages</span><span class="p">]):</span>
+            <span class="c1"># Surrounding voltages are sloped downwards.</span>
+            <span class="n">temp_voltage_string</span> <span class="o">+=</span> <span class="s1">&#39;down&#39;</span>
+        <span class="k">elif</span> <span class="p">(</span><span class="n">voltage_pattern</span><span class="p">[</span><span class="n">voltindex</span> <span class="o">-</span> <span class="mi">1</span><span class="p">]</span> <span class="o">&lt;=</span> <span class="n">voltage_pattern</span><span class="p">[</span><span class="n">voltindex</span><span class="p">]</span> <span class="ow">and</span> 
+              <span class="n">voltage_pattern</span><span class="p">[</span><span class="n">voltindex</span><span class="p">]</span> <span class="o">&gt;=</span> <span class="n">voltage_pattern</span><span class="p">[(</span><span class="n">voltindex</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)</span><span class="o">%</span><span class="n">n_voltages</span><span class="p">]):</span>
+            <span class="c1"># Surrounding voltages are lower than this voltage.</span>
+            <span class="n">temp_voltage_string</span> <span class="o">+=</span> <span class="s1">&#39;top&#39;</span>
+        <span class="k">elif</span> <span class="p">(</span><span class="n">voltage_pattern</span><span class="p">[</span><span class="n">voltindex</span> <span class="o">-</span> <span class="mi">1</span><span class="p">]</span> <span class="o">&gt;=</span> <span class="n">voltage_pattern</span><span class="p">[</span><span class="n">voltindex</span><span class="p">]</span> <span class="ow">and</span> 
+              <span class="n">voltage_pattern</span><span class="p">[</span><span class="n">voltindex</span><span class="p">]</span> <span class="o">&lt;=</span> <span class="n">voltage_pattern</span><span class="p">[(</span><span class="n">voltindex</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)</span><span class="o">%</span><span class="n">n_voltages</span><span class="p">]):</span>
+            <span class="c1"># Surrounding voltages are higher than this voltage.</span>
+            <span class="n">temp_voltage_string</span> <span class="o">+=</span> <span class="s1">&#39;bot&#39;</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="c1"># For some reason, it does not fit into the pattern.</span>
+            <span class="n">temp_voltage_string</span> <span class="o">+=</span> <span class="s1">&#39;null&#39;</span>
+
+        <span class="c1"># Label, Windows does not like the colon or pipe, so, we use the </span>
+        <span class="c1"># next best thing.</span>
+        <span class="n">temp_voltage_string</span> <span class="o">=</span> <span class="s1">&#39;detBias;&#39;</span> <span class="o">+</span> <span class="n">temp_voltage_string</span>
+
+
+        <span class="c1"># Save and record.</span>
+        <span class="n">voltage_strings</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">temp_voltage_string</span><span class="p">)</span>
+
+    <span class="c1"># Compile the garbage files.</span>
+    <span class="n">garbage_string_list</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="k">for</span> <span class="n">fileindex</span><span class="p">,</span> <span class="n">filenamedex</span><span class="p">,</span> <span class="n">pathdex</span> <span class="ow">in</span> <span class="nb">zip</span><span class="p">(</span><span class="nb">range</span><span class="p">(</span><span class="n">n_garbage_files</span><span class="p">),</span>
+                                               <span class="n">garbage_names</span><span class="p">,</span> <span class="n">garbage_paths</span><span class="p">):</span>
+        <span class="n">garbage_string</span> <span class="o">=</span> <span class="s1">&#39;Garbage&#39;</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">fileindex</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)</span><span class="o">.</span><span class="n">zfill</span><span class="p">(</span><span class="mi">3</span><span class="p">)</span>
+        <span class="n">garbage_string_list</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">garbage_string</span><span class="p">)</span>
+
+        <span class="c1"># If renaming is needed.</span>
+        <span class="k">if</span> <span class="p">(</span><span class="n">rename</span><span class="p">):</span>
+            <span class="n">os</span><span class="o">.</span><span class="n">rename</span><span class="p">(</span><span class="n">filenamedex</span><span class="p">,</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">pathdex</span><span class="p">,</span> <span class="n">garbage_string</span><span class="p">))</span>
+        
+        
+    <span class="c1"># Compile the renames, assume that the sets repeat themselves if there </span>
+    <span class="c1"># are more files than voltages . Then actually rename the file.</span>
+    <span class="n">voltage_string_list</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="k">for</span> <span class="n">fileindex</span><span class="p">,</span><span class="n">filenamedex</span><span class="p">,</span><span class="n">pathdex</span> <span class="ow">in</span> <span class="nb">zip</span><span class="p">(</span><span class="nb">range</span><span class="p">(</span><span class="n">n_files</span><span class="p">),</span><span class="n">original_names</span><span class="p">,</span><span class="n">original_paths</span><span class="p">):</span>
+        <span class="n">volt_string</span> <span class="o">=</span> <span class="nb">str</span><span class="p">(</span><span class="n">voltage_strings</span><span class="p">[</span><span class="n">fileindex</span><span class="o">%</span><span class="n">n_voltages</span><span class="p">])</span>
+        <span class="c1"># To prevent file name clashes</span>
+        <span class="k">if</span> <span class="p">(</span><span class="n">rename</span><span class="p">):</span>
+            <span class="n">volt_string</span> <span class="o">+=</span> <span class="p">(</span><span class="s1">&#39;,&#39;</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">fileindex</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)</span><span class="o">.</span><span class="n">zfill</span><span class="p">(</span><span class="mi">3</span><span class="p">))</span>
+        <span class="n">voltage_string_list</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">volt_string</span><span class="p">)</span>
+        
+        <span class="c1"># Renaming if needed.</span>
+        <span class="k">if</span> <span class="p">(</span><span class="n">rename</span><span class="p">):</span>
+            <span class="n">renamed_file</span> <span class="o">=</span> <span class="p">(</span><span class="n">common_prefix</span> <span class="o">+</span> <span class="s1">&#39;__&#39;</span> <span class="o">+</span> <span class="n">volt_string</span> <span class="o">+</span> <span class="s1">&#39;__&#39;</span> <span class="o">+</span> <span class="n">common_suffix</span><span class="p">)</span>
+            <span class="n">os</span><span class="o">.</span><span class="n">rename</span><span class="p">(</span><span class="n">filenamedex</span><span class="p">,</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">pathdex</span><span class="p">,</span> <span class="n">renamed_file</span><span class="p">))</span>
+
+    <span class="c1"># Finished, it is also helpful to return the garbage file names.</span>
+    <span class="n">voltage_string_list</span> <span class="o">=</span> <span class="n">garbage_string_list</span> <span class="o">+</span> <span class="n">voltage_string_list</span>
+
+    <span class="k">return</span> <span class="n">voltage_string_list</span></div>
+    
+</pre></div>
+
+           </div>
+           
+          </div>
+          <footer>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2019, Sparrow
+
+    </p>
+  </div>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+
+  
+  
+    
+   
+
+</body>
+</html>

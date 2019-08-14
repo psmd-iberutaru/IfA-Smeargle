@@ -1,0 +1,469 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>IfA_Smeargle.yankee.yankee_functions &mdash; IfA-Smeargle 2019-08-19 documentation</title>
+  
+
+  
+  
+  
+  
+
+  
+  <script type="text/javascript" src="../../../_static/js/modernizr.min.js"></script>
+  
+    
+      <script type="text/javascript" id="documentation_options" data-url_root="../../../" src="../../../_static/documentation_options.js"></script>
+        <script type="text/javascript" src="../../../_static/jquery.js"></script>
+        <script type="text/javascript" src="../../../_static/underscore.js"></script>
+        <script type="text/javascript" src="../../../_static/doctools.js"></script>
+        <script type="text/javascript" src="../../../_static/language_data.js"></script>
+    
+    <script type="text/javascript" src="../../../_static/js/theme.js"></script>
+
+    
+
+  
+  <link rel="stylesheet" href="../../../_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
+  <link rel="stylesheet" href="../../../_static/css/custom.css" type="text/css" />
+    <link rel="index" title="Index" href="../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../search.html" />
+    <link href="../../../_static/css/ifa_smeargle.css" rel="stylesheet" type="text/css">
+
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+          
+
+          
+            <a href="../../../index.html" class="icon icon-home"> IfA-Smeargle
+          
+
+          
+          </a>
+
+          
+            
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <p class="caption"><span class="caption-text">Contents:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../how_to_use.html">How to Use</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../python_docstrings/modules.html">IfA_Smeargle</a></li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../../index.html">IfA-Smeargle</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="../../../index.html">Docs</a> &raquo;</li>
+        
+          <li><a href="../../index.html">Module code</a> &raquo;</li>
+        
+      <li>IfA_Smeargle.yankee.yankee_functions</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <h1>Source code for IfA_Smeargle.yankee.yankee_functions</h1><div class="highlight"><pre>
+<span></span>
+<span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">These functions just provide a nice and easy place to put functions whose</span>
+<span class="sd">purpose is to allow for the proper reading of different possible arrangements</span>
+<span class="sd">of the configuration parameters.</span>
+<span class="sd">&quot;&quot;&quot;</span>
+<span class="kn">import</span> <span class="nn">copy</span>
+<span class="kn">import</span> <span class="nn">os</span>
+<span class="kn">import</span> <span class="nn">pickle</span>
+<span class="kn">import</span> <span class="nn">warnings</span> <span class="k">as</span> <span class="nn">warn</span>
+
+<span class="kn">from</span> <span class="nn">IfA_Smeargle.meta</span> <span class="k">import</span> <span class="o">*</span>
+<span class="kn">import</span> <span class="nn">IfA_Smeargle.yankee</span> <span class="k">as</span> <span class="nn">yankee</span>
+
+
+
+
+<div class="viewcode-block" id="extract_proper_configuration_class"><a class="viewcode-back" href="../../../python_docstrings/IfA_Smeargle.yankee.yankee_functions.html#IfA_Smeargle.yankee.yankee_functions.extract_proper_configuration_class">[docs]</a><span class="k">def</span> <span class="nf">extract_proper_configuration_class</span><span class="p">(</span><span class="n">configuration_class</span><span class="p">,</span> <span class="n">desired_class</span><span class="p">,</span>
+                                       <span class="n">deep_copy</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot; This function extracts the proper configuration class from a </span>
+<span class="sd">    collection of configuration classes.</span>
+<span class="sd">    </span>
+<span class="sd">    The whole point of this function is to retain the flexibility and ease</span>
+<span class="sd">    of using differing configuration classes and the structure of the </span>
+<span class="sd">    configuration classes themselves. </span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    configuration_class : Any BaseConfig based class or string</span>
+<span class="sd">        The main configuration class that should contain the desired class. </span>
+<span class="sd">        It may also be a file name.</span>
+<span class="sd">    desired_class : Any BaseConfig based class execpt for BaseConfig</span>
+<span class="sd">        The desired class.</span>
+<span class="sd">    deep_copy : boolean (optional)</span>
+<span class="sd">        If a deep copy of the class is desired, then set to True.</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    extracted_class : Any BaseConfig based class (same class as desired class)</span>
+<span class="sd">        A copy of the desired configuration class.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="c1"># Test to see if it is a file name, if it is: load.</span>
+    <span class="k">if</span> <span class="p">(</span><span class="nb">isinstance</span><span class="p">(</span><span class="n">configuration_class</span><span class="p">,</span><span class="nb">str</span><span class="p">)):</span>
+        <span class="n">configuration_class</span> <span class="o">=</span> <span class="n">read_config_file</span><span class="p">(</span><span class="n">configuration_class</span><span class="p">)</span>
+
+    <span class="c1"># Test if the class is a base class, the base class has no configuration</span>
+    <span class="c1"># value.</span>
+    <span class="k">if</span> <span class="p">(</span><span class="n">desired_class</span> <span class="ow">is</span> <span class="n">yankee</span><span class="o">.</span><span class="n">BaseConfig</span><span class="p">):</span>
+        <span class="k">raise</span> <span class="n">ConfigurationError</span><span class="p">(</span><span class="s2">&quot;The BaseConfig class does not have any configuration elements &quot;</span>
+                                 <span class="s2">&quot;attached to it. In the case that it does for your code, &quot;</span>
+                                 <span class="s2">&quot;it is suggested that it is changed.&quot;</span><span class="p">)</span>
+    <span class="c1"># Test if useless to proceed because it is already finished.</span>
+    <span class="k">elif</span> <span class="p">(</span><span class="nb">type</span><span class="p">(</span><span class="n">configuration_class</span><span class="p">)</span> <span class="o">==</span> <span class="n">desired_class</span><span class="p">):</span>
+        <span class="c1"># If the user really wants a deepcopy.</span>
+        <span class="k">if</span> <span class="p">(</span><span class="n">deep_copy</span><span class="p">):</span>
+            <span class="n">extracted_class</span> <span class="o">=</span> <span class="n">copy</span><span class="o">.</span><span class="n">deepcopy</span><span class="p">(</span><span class="n">configuration_class</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">extracted_class</span> <span class="o">=</span> <span class="n">configuration_class</span>
+        <span class="k">return</span> <span class="n">extracted_class</span>
+    <span class="c1"># Test for subclasses:</span>
+    <span class="k">elif</span> <span class="p">(</span><span class="nb">isinstance</span><span class="p">(</span><span class="n">configuration_class</span><span class="p">,(</span><span class="n">yankee</span><span class="o">.</span><span class="n">BaseConfig</span><span class="p">,</span><span class="n">yankee</span><span class="o">.</span><span class="n">SmeargleConfig</span><span class="p">))):</span>
+        <span class="k">try</span><span class="p">:</span>
+            <span class="n">desired_class_name</span> <span class="o">=</span> <span class="n">desired_class</span><span class="o">.</span><span class="vm">__name__</span>
+            <span class="n">extracted_class</span> <span class="o">=</span> <span class="nb">getattr</span><span class="p">(</span><span class="n">configuration_class</span><span class="p">,</span> <span class="n">desired_class_name</span><span class="p">)</span>
+            <span class="c1"># If the user really wants a deep copy.</span>
+            <span class="k">if</span> <span class="p">(</span><span class="n">deep_copy</span><span class="p">):</span>
+                <span class="n">extracted_class</span> <span class="o">=</span> <span class="n">copy</span><span class="o">.</span><span class="n">deepcopy</span><span class="p">(</span><span class="n">extracted_class</span><span class="p">)</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="n">extracted_class</span> <span class="o">=</span> <span class="n">extracted_class</span>
+            <span class="k">return</span> <span class="n">extracted_class</span>
+
+        <span class="k">except</span> <span class="ne">AttributeError</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">AttributeError</span><span class="p">(</span><span class="s2">&quot;The configuration class provided does not have the desired &quot;</span>
+                                 <span class="s2">&quot;configuration class. </span><span class="se">\n</span><span class="s2">&quot;</span>
+                                 <span class="s2">&quot;Config: </span><span class="si">{config}</span><span class="s2">     Desired: </span><span class="si">{desire}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span>
+                                     <span class="n">config</span><span class="o">=</span><span class="nb">type</span><span class="p">(</span><span class="n">configuration_class</span><span class="p">),</span>
+                                     <span class="n">desire</span><span class="o">=</span><span class="n">desired_class</span><span class="p">))</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="k">raise</span> <span class="n">InputError</span><span class="p">(</span><span class="s2">&quot;The class object provided is not a configuration class that is &quot;</span>
+                         <span class="s2">&quot;easily understood by this program. We cannot proceed reading it.&quot;</span><span class="p">)</span>
+
+    <span class="c1"># Function should not get here.</span>
+    <span class="k">raise</span> <span class="n">BrokenLogicError</span><span class="p">(</span><span class="s2">&quot;Something is broken, contact the software maintainers.&quot;</span><span class="p">)</span>
+    <span class="k">return</span> <span class="kc">None</span></div>
+
+
+<div class="viewcode-block" id="configuration_factory_function"><a class="viewcode-back" href="../../../python_docstrings/IfA_Smeargle.yankee.yankee_functions.html#IfA_Smeargle.yankee.yankee_functions.configuration_factory_function">[docs]</a><span class="k">def</span> <span class="nf">configuration_factory_function</span><span class="p">(</span><span class="n">desired_class</span><span class="p">,</span> <span class="n">file_name</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">silent</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot; A function that will always open or load the proper configuration</span>
+<span class="sd">    class.</span>
+
+<span class="sd">    This is considered the safest method of loading a configuration class </span>
+<span class="sd">    from file. This function returns the desired configuration file if it is</span>
+<span class="sd">    contained within the file; else, it returns a blank configuration.</span>
+
+<span class="sd">    Please note, this does not write the configuration class to file, ever.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    desired_class : Configuration class</span>
+<span class="sd">        The desired configuration class type that should be extracted from the </span>
+<span class="sd">        file.</span>
+<span class="sd">    file_name : string (optional)</span>
+<span class="sd">        The name of the configuration file. </span>
+<span class="sd">    silent : boolean (optional)</span>
+<span class="sd">        Turn off all warnings and information sent by this function and </span>
+<span class="sd">        functions below it.</span>
+<span class="sd">    </span>
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    config_class : Configuration class</span>
+<span class="sd">        The desired configuration class instance.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="c1"># Check if the user didn&#39;t want any warnings or info messages.</span>
+    <span class="k">if</span> <span class="p">(</span><span class="n">silent</span><span class="p">):</span>
+        <span class="k">with</span> <span class="n">smeargle_absolute_silence</span><span class="p">():</span>
+            <span class="k">return</span> <span class="n">configuration_factory_function</span><span class="p">(</span><span class="n">desired_class</span><span class="p">,</span> <span class="n">file_name</span><span class="o">=</span><span class="n">file_name</span><span class="p">)</span>
+
+    <span class="c1"># Check that the desired class is actually a valid configuration class.</span>
+    <span class="k">if</span> <span class="p">(</span><span class="ow">not</span> <span class="nb">issubclass</span><span class="p">(</span><span class="n">desired_class</span><span class="p">,</span><span class="n">yankee</span><span class="o">.</span><span class="n">BaseConfig</span><span class="p">)):</span>
+        <span class="c1"># Try one&#39;s best to deal with an instance of a configuration class.</span>
+        <span class="k">if</span> <span class="p">(</span><span class="nb">isinstance</span><span class="p">(</span><span class="n">desired_class</span><span class="p">,</span><span class="n">yankee</span><span class="o">.</span><span class="n">BaseConfig</span><span class="p">)):</span>
+            <span class="n">desired_class</span> <span class="o">=</span> <span class="nb">type</span><span class="p">(</span><span class="n">desired_class</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="n">InputError</span><span class="p">(</span><span class="s2">&quot;The desired class must be a member/sub class of the BaseConfig &quot;</span>
+                             <span class="s2">&quot;class by which all IfA-Smeargle configuration classes are built &quot;</span>
+                             <span class="s2">&quot;upon. The factory does not know what to return.&quot;</span><span class="p">)</span>
+
+    <span class="c1"># Check if the file exists.</span>
+    <span class="k">if</span> <span class="p">(</span><span class="n">file_name</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">):</span>
+        <span class="c1"># They did not specify a file at all.</span>
+        <span class="n">smeargle_warning</span><span class="p">(</span><span class="n">InputWarning</span><span class="p">,</span> <span class="p">(</span><span class="s2">&quot;A file name has not be provided; this &quot;</span>
+                                        <span class="s2">&quot;factory will return a blank configuration &quot;</span>
+                                        <span class="s2">&quot;class.&quot;</span><span class="p">))</span>
+        <span class="n">config_class</span> <span class="o">=</span> <span class="n">desired_class</span><span class="p">()</span>
+
+    <span class="k">elif</span> <span class="p">(</span><span class="nb">isinstance</span><span class="p">(</span><span class="n">file_name</span><span class="p">,</span><span class="nb">str</span><span class="p">)):</span>
+        <span class="c1"># It may or may not be a class?</span>
+        <span class="k">if</span> <span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">isfile</span><span class="p">(</span><span class="n">file_name</span><span class="p">)):</span>
+            <span class="k">try</span><span class="p">:</span>
+                <span class="n">config_class</span> <span class="o">=</span> <span class="n">read_config_file</span><span class="p">(</span><span class="n">file_name</span><span class="p">)</span>
+            <span class="k">except</span> <span class="ne">Exception</span><span class="p">:</span>
+                <span class="c1"># It did not seem to work.</span>
+                <span class="n">smeargle_warning</span><span class="p">(</span><span class="n">InputWarning</span><span class="p">,</span> <span class="p">(</span><span class="s2">&quot;The file could not be read &quot;</span>
+                                                <span class="s2">&quot;properly; this factory will return &quot;</span>
+                                                <span class="s2">&quot;a blank configuration class.&quot;</span><span class="p">))</span>
+                <span class="n">config_class</span> <span class="o">=</span> <span class="n">desired_class</span><span class="p">()</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="c1"># The provided path was not correct, the file does not exist.</span>
+            <span class="n">smeargle_warning</span><span class="p">(</span><span class="n">InputWarning</span><span class="p">,</span> <span class="p">(</span><span class="s2">&quot;The file specified by file_name does not &quot;</span>
+                                            <span class="s2">&quot;exist; this factory will return a blank &quot;</span>
+                                            <span class="s2">&quot;configuration class.&quot;</span><span class="p">))</span>
+            <span class="n">config_class</span> <span class="o">=</span> <span class="n">desired_class</span><span class="p">()</span>
+
+    <span class="k">else</span><span class="p">:</span>
+        <span class="c1"># The file_name parameter is un-useable in its current form.</span>
+        <span class="n">smeargle_warning</span><span class="p">(</span><span class="n">InputWarning</span><span class="p">,</span> <span class="p">(</span><span class="s2">&quot;The file_name parameter is not understandable by &quot;</span>
+                                        <span class="s2">&quot;this factory; this factory will return a blank &quot;</span>
+                                        <span class="s2">&quot;configuration class.&quot;</span><span class="p">))</span>
+        <span class="n">config_class</span> <span class="o">=</span> <span class="n">desired_class</span><span class="p">()</span>
+
+    <span class="c1"># Finally, return</span>
+    <span class="k">return</span> <span class="n">config_class</span></div>
+
+
+
+
+<span class="c1"># Loading/unloading functions.</span>
+<div class="viewcode-block" id="write_config_file"><a class="viewcode-back" href="../../../python_docstrings/IfA_Smeargle.yankee.yankee_functions.html#IfA_Smeargle.yankee.yankee_functions.write_config_file">[docs]</a><span class="k">def</span> <span class="nf">write_config_file</span><span class="p">(</span><span class="n">config_class</span><span class="p">,</span> <span class="n">file_name</span><span class="p">,</span> 
+                      <span class="n">overwrite</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">protocol</span><span class="o">=</span><span class="n">pickle</span><span class="o">.</span><span class="n">HIGHEST_PROTOCOL</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot; Function to write a specific configuration class to a normal file.</span>
+
+<span class="sd">    As the entire module more or less depends on configuration classes. It </span>
+<span class="sd">    is important to be able to save, copy, and reuse configuration classes. </span>
+<span class="sd">    Therefore, this allows configuration files to be written to file. </span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    config_class : Configuration class</span>
+<span class="sd">        The configuration class that is going to be saved as a file.</span>
+<span class="sd">    file_name : string</span>
+<span class="sd">        The name of the configuration class. The extension ``.ifaspkl``  </span>
+<span class="sd">        is automatically applied. This denotes a Python pickle file from </span>
+<span class="sd">        IfA-Smeargle.</span>
+<span class="sd">    overwrite : boolean</span>
+<span class="sd">        If true, the writing of the configuration class will overwrite any</span>
+<span class="sd">        existing file.</span>
+<span class="sd">    protocol : int</span>
+<span class="sd">        The pickling protocol value for the pickling function.</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    nothing</span>
+
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="c1"># Ensure that the file name is actually a string.</span>
+    <span class="k">if</span> <span class="p">(</span><span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">file_name</span><span class="p">,</span><span class="nb">str</span><span class="p">)):</span>
+        <span class="k">raise</span> <span class="n">InputError</span><span class="p">(</span><span class="s2">&quot;Inputted class name variable is not a string. It cannot be converted &quot;</span>
+                         <span class="s2">&quot;to a file name to write the configuration file.&quot;</span><span class="p">)</span>
+
+    <span class="c1"># Make sure the proper class is being sent through.</span>
+    <span class="k">if</span> <span class="p">(</span><span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">config_class</span><span class="p">,</span> <span class="n">yankee</span><span class="o">.</span><span class="n">BaseConfig</span><span class="p">)):</span>
+        <span class="k">raise</span> <span class="n">InputError</span><span class="p">(</span><span class="s2">&quot;Provided class is not a Smeargle BaseConfig configuration class. It &quot;</span>
+                         <span class="s2">&quot;would be improper to write it as one.&quot;</span><span class="p">)</span>
+
+    <span class="c1"># Automatically apply extension for good file hygiene.</span>
+    <span class="k">if</span> <span class="p">(</span><span class="n">file_name</span><span class="p">[</span><span class="o">-</span><span class="mi">8</span><span class="p">:]</span> <span class="o">==</span> <span class="s1">&#39;.ifaspkl&#39;</span><span class="p">):</span>
+        <span class="k">pass</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="c1"># It is missing the extension, add, but warn.</span>
+        <span class="n">smeargle_warning</span><span class="p">(</span><span class="n">InputWarning</span><span class="p">,(</span><span class="s2">&quot;The provided file name is missing the .ifaspkl file &quot;</span>
+                                       <span class="s2">&quot;extension. It has been automatically appended.&quot;</span><span class="p">))</span>
+        <span class="n">file_name</span> <span class="o">+=</span> <span class="s1">&#39;.ifaspkl&#39;</span>
+
+    <span class="c1"># Check to see if the file exists, if so, then overwrite if provided for.</span>
+    <span class="k">if</span> <span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">isfile</span><span class="p">(</span><span class="n">file_name</span><span class="p">)):</span>
+        <span class="k">if</span> <span class="p">(</span><span class="n">overwrite</span><span class="p">):</span>
+            <span class="c1"># It should be overwritten, warn to be nice. </span>
+            <span class="n">smeargle_warning</span><span class="p">(</span><span class="n">OverwriteWarning</span><span class="p">,(</span><span class="s2">&quot;There exists a file with the provided name. &quot;</span>
+                                               <span class="s2">&quot;Overwrite is true; the previous file will &quot;</span>
+                                               <span class="s2">&quot;be replaced as provided.&quot;</span><span class="p">))</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="c1"># It should not overwritten at this point.</span>
+            <span class="k">raise</span> <span class="n">ExportingError</span><span class="p">(</span><span class="s2">&quot;There exists a file with the same name as the previous one. &quot;</span>
+                                 <span class="s2">&quot;Overwrite is set to False; the new configuration file cannot &quot;</span>
+                                 <span class="s2">&quot;be written.&quot;</span><span class="p">)</span>
+
+    <span class="c1"># ...and write.</span>
+    <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">file_name</span><span class="p">,</span> <span class="s1">&#39;wb&#39;</span><span class="p">)</span> <span class="k">as</span> <span class="n">config_file</span><span class="p">:</span>
+        <span class="n">pickle</span><span class="o">.</span><span class="n">dump</span><span class="p">(</span><span class="n">config_class</span><span class="p">,</span> <span class="n">config_file</span><span class="p">,</span> <span class="n">protocol</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="read_config_file"><a class="viewcode-back" href="../../../python_docstrings/IfA_Smeargle.yankee.yankee_functions.html#IfA_Smeargle.yankee.yankee_functions.read_config_file">[docs]</a><span class="k">def</span> <span class="nf">read_config_file</span><span class="p">(</span><span class="n">file_name</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot; Function to read a specific configuration class from a normal file.</span>
+
+<span class="sd">    As the entire module more or less depends on configuration classes. It is </span>
+<span class="sd">    important to be able to save, copy, and reuse configuration classes.  </span>
+<span class="sd">    Therefore, this allows pre-made/saved configuration files to be read from </span>
+<span class="sd">    a file.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    file_name : string</span>
+<span class="sd">        The path and name of the file that contains the configuration class. </span>
+<span class="sd">        Must have the extension ``.ifaspkl``</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    config_class : SmeargleConfig</span>
+<span class="sd">        The configuration class stored in the file.</span>
+
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="c1"># Ensure that the file name is actually a string.</span>
+    <span class="k">if</span> <span class="p">(</span><span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">file_name</span><span class="p">,</span><span class="nb">str</span><span class="p">)):</span>
+        <span class="k">raise</span> <span class="n">InputError</span><span class="p">(</span><span class="s2">&quot;Inputted class name variable is not a string. It cannot be converted &quot;</span>
+                         <span class="s2">&quot;to a file name to read the configuration file.&quot;</span><span class="p">)</span>
+    
+    <span class="c1"># Amateur checking to see the file is associated with IfA-Smeargle.</span>
+    <span class="k">if</span> <span class="p">(</span><span class="n">file_name</span><span class="p">[</span><span class="o">-</span><span class="mi">8</span><span class="p">:]</span> <span class="o">!=</span> <span class="s1">&#39;.ifaspkl&#39;</span><span class="p">):</span>
+        <span class="k">raise</span> <span class="n">InputError</span><span class="p">(</span><span class="s2">&quot;Provided file name does not have the .ifaspkl extension. This may be &quot;</span>
+                         <span class="s2">&quot;the wrong file.&quot;</span><span class="p">)</span>
+
+    <span class="c1"># And load...</span>
+    <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">file_name</span><span class="p">,</span><span class="s1">&#39;rb&#39;</span><span class="p">)</span> <span class="k">as</span> <span class="n">config_file</span><span class="p">:</span>
+        
+        <span class="c1"># Test if the class is defined.</span>
+        <span class="k">try</span><span class="p">:</span>
+            <span class="n">config_class</span> <span class="o">=</span> <span class="n">pickle</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="n">config_file</span><span class="p">)</span>
+        <span class="k">except</span> <span class="ne">AttributeError</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="n">ImportingError</span><span class="p">(</span><span class="s2">&quot;The configuration class objects have not been imported &quot;</span>
+                                 <span class="s2">&quot;properly. The depickleing has no template to use. Consider &quot;</span>
+                                 <span class="s2">&quot;importing the configuration classes to __main__.&quot;</span><span class="p">)</span>
+
+    <span class="k">return</span> <span class="n">config_class</span></div>
+
+</pre></div>
+
+           </div>
+           
+          </div>
+          <footer>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2019, Sparrow
+
+    </p>
+  </div>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+
+  
+  
+    
+   
+
+</body>
+</html>

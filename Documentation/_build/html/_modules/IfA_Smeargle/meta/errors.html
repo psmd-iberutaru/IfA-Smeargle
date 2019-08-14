@@ -1,0 +1,571 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>IfA_Smeargle.meta.errors &mdash; IfA-Smeargle 2019-08-19 documentation</title>
+  
+
+  
+  
+  
+  
+
+  
+  <script type="text/javascript" src="../../../_static/js/modernizr.min.js"></script>
+  
+    
+      <script type="text/javascript" id="documentation_options" data-url_root="../../../" src="../../../_static/documentation_options.js"></script>
+        <script type="text/javascript" src="../../../_static/jquery.js"></script>
+        <script type="text/javascript" src="../../../_static/underscore.js"></script>
+        <script type="text/javascript" src="../../../_static/doctools.js"></script>
+        <script type="text/javascript" src="../../../_static/language_data.js"></script>
+    
+    <script type="text/javascript" src="../../../_static/js/theme.js"></script>
+
+    
+
+  
+  <link rel="stylesheet" href="../../../_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
+  <link rel="stylesheet" href="../../../_static/css/custom.css" type="text/css" />
+    <link rel="index" title="Index" href="../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../search.html" />
+    <link href="../../../_static/css/ifa_smeargle.css" rel="stylesheet" type="text/css">
+
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+          
+
+          
+            <a href="../../../index.html" class="icon icon-home"> IfA-Smeargle
+          
+
+          
+          </a>
+
+          
+            
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <p class="caption"><span class="caption-text">Contents:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../how_to_use.html">How to Use</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../python_docstrings/modules.html">IfA_Smeargle</a></li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../../index.html">IfA-Smeargle</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="../../../index.html">Docs</a> &raquo;</li>
+        
+          <li><a href="../../index.html">Module code</a> &raquo;</li>
+        
+      <li>IfA_Smeargle.meta.errors</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <h1>Source code for IfA_Smeargle.meta.errors</h1><div class="highlight"><pre>
+<span></span>
+<span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">Defining custom errors because Python does not have all of the needed error </span>
+<span class="sd">categories.</span>
+<span class="sd">&quot;&quot;&quot;</span>
+
+<span class="kn">import</span> <span class="nn">contextlib</span>
+<span class="kn">import</span> <span class="nn">warnings</span> <span class="k">as</span> <span class="nn">warn</span>
+
+<span class="c1"># Smeargle Bases.</span>
+<div class="viewcode-block" id="Smeargle_BaseException"><a class="viewcode-back" href="../../../python_docstrings/IfA_Smeargle.meta.errors.html#IfA_Smeargle.meta.errors.Smeargle_BaseException">[docs]</a><span class="k">class</span> <span class="nc">Smeargle_BaseException</span><span class="p">(</span><span class="ne">BaseException</span><span class="p">):</span>
+    <span class="k">pass</span></div>
+<div class="viewcode-block" id="Smeargle_Exception"><a class="viewcode-back" href="../../../python_docstrings/IfA_Smeargle.meta.errors.html#IfA_Smeargle.meta.errors.Smeargle_Exception">[docs]</a><span class="k">class</span> <span class="nc">Smeargle_Exception</span><span class="p">(</span><span class="ne">Exception</span><span class="p">):</span>
+    <span class="k">pass</span></div>
+
+
+<span class="c1">##############################################################################</span>
+<span class="c1">##############################################################################</span>
+<span class="c1"># Errors</span>
+<span class="c1">##############################################################################</span>
+<span class="c1">##############################################################################</span>
+
+<div class="viewcode-block" id="BrokenLogicError"><a class="viewcode-back" href="../../../python_docstrings/IfA_Smeargle.meta.errors.html#IfA_Smeargle.meta.errors.BrokenLogicError">[docs]</a><span class="k">class</span> <span class="nc">BrokenLogicError</span><span class="p">(</span><span class="n">Smeargle_Exception</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    This error is encountered when the program enters in a place it should </span>
+<span class="sd">    not be able to. Incorporated mostly for safety; usually not the fault of </span>
+<span class="sd">    the user. </span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">pass</span></div>
+
+<div class="viewcode-block" id="ConfigurationError"><a class="viewcode-back" href="../../../python_docstrings/IfA_Smeargle.meta.errors.html#IfA_Smeargle.meta.errors.ConfigurationError">[docs]</a><span class="k">class</span> <span class="nc">ConfigurationError</span><span class="p">(</span><span class="n">Smeargle_Exception</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    This error is normally encountered when there are problems with </span>
+<span class="sd">    configuration processing (usually because the configuration class is</span>
+<span class="sd">    incorrect).</span>
+<span class="sd">    &quot;&quot;&quot;</span></div>
+
+<div class="viewcode-block" id="DataError"><a class="viewcode-back" href="../../../python_docstrings/IfA_Smeargle.meta.errors.html#IfA_Smeargle.meta.errors.DataError">[docs]</a><span class="k">class</span> <span class="nc">DataError</span><span class="p">(</span><span class="n">Smeargle_Exception</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    This error is used when there is an issue with the fundamental data that</span>
+<span class="sd">    this program or module cannot fix. The user should be able to figure out </span>
+<span class="sd">    what is the problem.</span>
+<span class="sd">    &quot;&quot;&quot;</span></div>
+
+<div class="viewcode-block" id="ExportingError"><a class="viewcode-back" href="../../../python_docstrings/IfA_Smeargle.meta.errors.html#IfA_Smeargle.meta.errors.ExportingError">[docs]</a><span class="k">class</span> <span class="nc">ExportingError</span><span class="p">(</span><span class="n">Smeargle_Exception</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    This error is used when the program attempts to export data in some way,</span>
+<span class="sd">    but is unable to. Named ExportingError to keep with ImportingError.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">pass</span></div>
+
+<div class="viewcode-block" id="IllogicalProsedureError"><a class="viewcode-back" href="../../../python_docstrings/IfA_Smeargle.meta.errors.html#IfA_Smeargle.meta.errors.IllogicalProsedureError">[docs]</a><span class="k">class</span> <span class="nc">IllogicalProsedureError</span><span class="p">(</span><span class="n">Smeargle_Exception</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    This error is thrown when the program would attempt something that does </span>
+<span class="sd">    not make scene. This is usually due to issues with configuration errors.</span>
+<span class="sd">    &quot;&quot;&quot;</span></div>
+
+<div class="viewcode-block" id="ImprecisionError"><a class="viewcode-back" href="../../../python_docstrings/IfA_Smeargle.meta.errors.html#IfA_Smeargle.meta.errors.ImprecisionError">[docs]</a><span class="k">class</span> <span class="nc">ImprecisionError</span><span class="p">(</span><span class="n">Smeargle_Exception</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    This error is used when there are critical issues with numerical </span>
+<span class="sd">    precision because of the volume of data or the very low/high numbers </span>
+<span class="sd">    involved. It is also just used when data may be chaotic.   </span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">pass</span></div>
+
+<div class="viewcode-block" id="InputError"><a class="viewcode-back" href="../../../python_docstrings/IfA_Smeargle.meta.errors.html#IfA_Smeargle.meta.errors.InputError">[docs]</a><span class="k">class</span> <span class="nc">InputError</span><span class="p">(</span><span class="n">Smeargle_Exception</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    This error is used when the user does not input a proper or logical entry. </span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">pass</span></div>
+
+<div class="viewcode-block" id="ImportingError"><a class="viewcode-back" href="../../../python_docstrings/IfA_Smeargle.meta.errors.html#IfA_Smeargle.meta.errors.ImportingError">[docs]</a><span class="k">class</span> <span class="nc">ImportingError</span><span class="p">(</span><span class="n">Smeargle_Exception</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    This error is used when reading configuration files, or other data files</span>
+<span class="sd">    is not going as it should. Named ImportingError to avoid conflicts with </span>
+<span class="sd">    ImportError.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">pass</span></div>
+
+<div class="viewcode-block" id="MaskingError"><a class="viewcode-back" href="../../../python_docstrings/IfA_Smeargle.meta.errors.html#IfA_Smeargle.meta.errors.MaskingError">[docs]</a><span class="k">class</span> <span class="nc">MaskingError</span><span class="p">(</span><span class="n">Smeargle_Exception</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    This error is used when a mask cannot be applied or where there are </span>
+<span class="sd">    fatal issues with calculating the mask.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">pass</span></div>
+
+<div class="viewcode-block" id="ModelingError"><a class="viewcode-back" href="../../../python_docstrings/IfA_Smeargle.meta.errors.html#IfA_Smeargle.meta.errors.ModelingError">[docs]</a><span class="k">class</span> <span class="nc">ModelingError</span><span class="p">(</span><span class="n">Smeargle_Exception</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    This error is used when there are issues with applying or fitting models</span>
+<span class="sd">    to a particular set of data. May be used hand-in-hand with DataError.</span>
+<span class="sd">    &quot;&quot;&quot;</span></div>
+
+<span class="c1">#####</span>
+<span class="c1"># These are the base exceptions; proper programing protocol dictates that </span>
+<span class="c1"># Python try-except statements should not catch these. As such, they are </span>
+<span class="c1"># reserved for very critical problems within the code itself (rarely should</span>
+<span class="c1"># the fault be the user&#39;s).</span>
+
+<div class="viewcode-block" id="IncompleteError"><a class="viewcode-back" href="../../../python_docstrings/IfA_Smeargle.meta.errors.html#IfA_Smeargle.meta.errors.IncompleteError">[docs]</a><span class="k">class</span> <span class="nc">IncompleteError</span><span class="p">(</span><span class="n">Smeargle_BaseException</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    This used when the code is trying to use a function that is incomplete or</span>
+<span class="sd">    not usable. </span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">message</span> <span class="o">=</span> <span class="p">(</span><span class="s2">&quot;TERMINAL: This section of the code is incomplete and likely does not &quot;</span>
+                        <span class="s2">&quot;work at all. Proceeding is not allowed. Send the call stack to &quot;</span>
+                        <span class="s2">&quot;maintainers to resolve this issue.&quot;</span><span class="p">)</span>
+    <span class="k">def</span> <span class="nf">__str__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">message</span></div>
+
+<div class="viewcode-block" id="TerminalError"><a class="viewcode-back" href="../../../python_docstrings/IfA_Smeargle.meta.errors.html#IfA_Smeargle.meta.errors.TerminalError">[docs]</a><span class="k">class</span> <span class="nc">TerminalError</span><span class="p">(</span><span class="n">Smeargle_BaseException</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Something has gone terribly wrong. It is best to contact Sparrow. </span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">message</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+        <span class="k">if</span> <span class="p">(</span><span class="n">message</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">):</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">message</span> <span class="o">=</span> <span class="s2">&quot;TERMINAL: A general TERMINAL error has been raised.&quot;</span>
+        <span class="k">elif</span> <span class="p">(</span><span class="nb">isinstance</span><span class="p">(</span><span class="n">message</span><span class="p">,</span> <span class="nb">str</span><span class="p">)):</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">message</span> <span class="o">=</span> <span class="p">(</span><span class="s2">&quot;TERMINAL:  &quot;</span> <span class="o">+</span> <span class="n">message</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="n">TerminalError</span><span class="p">(</span><span class="s2">&quot;The message for a TERMINAL error must be a string.&quot;</span><span class="p">)</span>
+    
+    <span class="k">def</span> <span class="nf">__str__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">message</span></div>
+
+<span class="c1">##############################################################################</span>
+<span class="c1">##############################################################################</span>
+<span class="c1"># Warnings</span>
+<span class="c1">##############################################################################</span>
+<span class="c1">##############################################################################</span>
+
+<div class="viewcode-block" id="smeargle_warning"><a class="viewcode-back" href="../../../python_docstrings/IfA_Smeargle.meta.errors.html#IfA_Smeargle.meta.errors.smeargle_warning">[docs]</a><span class="k">def</span> <span class="nf">smeargle_warning</span><span class="p">(</span><span class="nb">type</span><span class="p">,</span> <span class="n">message</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot; Just a wrapper function around the warning&#39;s warn command.</span>
+
+<span class="sd">    This wrapper was really only for the logical flow of Sparrow.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    type : Warnings Class</span>
+<span class="sd">        The warning class type.</span>
+<span class="sd">    message : string</span>
+<span class="sd">        The message that the warning is to give to the user.</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    nothing</span>
+<span class="sd">    </span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">warn</span><span class="o">.</span><span class="n">warn</span><span class="p">(</span><span class="n">message</span><span class="p">,</span> <span class="nb">type</span><span class="p">,</span> <span class="n">stacklevel</span><span class="o">=</span><span class="mi">2</span><span class="p">)</span>
+    <span class="k">return</span> <span class="kc">None</span></div>
+    
+
+<span class="c1"># Smeargle base.</span>
+<div class="viewcode-block" id="Smeargle_Warning"><a class="viewcode-back" href="../../../python_docstrings/IfA_Smeargle.meta.errors.html#IfA_Smeargle.meta.errors.Smeargle_Warning">[docs]</a><span class="k">class</span> <span class="nc">Smeargle_Warning</span><span class="p">(</span><span class="ne">UserWarning</span><span class="p">):</span>
+    <span class="k">pass</span></div>
+
+
+<div class="viewcode-block" id="ConfigurationWarning"><a class="viewcode-back" href="../../../python_docstrings/IfA_Smeargle.meta.errors.html#IfA_Smeargle.meta.errors.ConfigurationWarning">[docs]</a><span class="k">class</span> <span class="nc">ConfigurationWarning</span><span class="p">(</span><span class="n">Smeargle_Warning</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    This warning is used when there are issues with the configuration class</span>
+<span class="sd">    and that data is missing. However, the missing data does not warrant an</span>
+<span class="sd">    exception.</span>
+<span class="sd">    &quot;&quot;&quot;</span></div>
+
+<div class="viewcode-block" id="DataWarning"><a class="viewcode-back" href="../../../python_docstrings/IfA_Smeargle.meta.errors.html#IfA_Smeargle.meta.errors.DataWarning">[docs]</a><span class="k">class</span> <span class="nc">DataWarning</span><span class="p">(</span><span class="n">Smeargle_Warning</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    This warning is used when there is an issue with the fundamental data that</span>
+<span class="sd">    this program or module cannot fix but can still work around. The user </span>
+<span class="sd">    should be able to figure out what is the problem.</span>
+<span class="sd">    &quot;&quot;&quot;</span></div>
+
+<div class="viewcode-block" id="DepreciationWarning"><a class="viewcode-back" href="../../../python_docstrings/IfA_Smeargle.meta.errors.html#IfA_Smeargle.meta.errors.DepreciationWarning">[docs]</a><span class="k">class</span> <span class="nc">DepreciationWarning</span><span class="p">(</span><span class="n">Smeargle_Warning</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    This warning is used when there are some functions that are used but</span>
+<span class="sd">    have since been replaced with better functions, or where the previous </span>
+<span class="sd">    function is not very stable or integrated with the rest of the functions.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">pass</span></div>
+
+<div class="viewcode-block" id="ImportingWarning"><a class="viewcode-back" href="../../../python_docstrings/IfA_Smeargle.meta.errors.html#IfA_Smeargle.meta.errors.ImportingWarning">[docs]</a><span class="k">class</span> <span class="nc">ImportingWarning</span><span class="p">(</span><span class="n">Smeargle_Warning</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    This warning is used when there are issues loading a file, but it can</span>
+<span class="sd">    be handled using some assumptions.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">pass</span> </div>
+
+<div class="viewcode-block" id="ImprecisionWarning"><a class="viewcode-back" href="../../../python_docstrings/IfA_Smeargle.meta.errors.html#IfA_Smeargle.meta.errors.ImprecisionWarning">[docs]</a><span class="k">class</span> <span class="nc">ImprecisionWarning</span><span class="p">(</span><span class="n">Smeargle_Warning</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    This warning is used when there may be issues with numerical precision </span>
+<span class="sd">    because of the volume of data or the very low/high numbers involved. </span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">pass</span></div>
+
+<div class="viewcode-block" id="InputWarning"><a class="viewcode-back" href="../../../python_docstrings/IfA_Smeargle.meta.errors.html#IfA_Smeargle.meta.errors.InputWarning">[docs]</a><span class="k">class</span> <span class="nc">InputWarning</span><span class="p">(</span><span class="n">Smeargle_Warning</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    This warning is used when the user inputs something that is questionable, </span>
+<span class="sd">    but not wrong.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">pass</span></div>
+
+<div class="viewcode-block" id="MaskingWarning"><a class="viewcode-back" href="../../../python_docstrings/IfA_Smeargle.meta.errors.html#IfA_Smeargle.meta.errors.MaskingWarning">[docs]</a><span class="k">class</span> <span class="nc">MaskingWarning</span><span class="p">(</span><span class="n">Smeargle_Warning</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    This warning is used when any masking routine (especially in the ECHO </span>
+<span class="sd">    line) fails to mask any pixels. It is not a bad thing, but it can be </span>
+<span class="sd">    helpful to know. </span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">pass</span></div>
+
+<div class="viewcode-block" id="MemoryWarning"><a class="viewcode-back" href="../../../python_docstrings/IfA_Smeargle.meta.errors.html#IfA_Smeargle.meta.errors.MemoryWarning">[docs]</a><span class="k">class</span> <span class="nc">MemoryWarning</span><span class="p">(</span><span class="n">Smeargle_Warning</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    This warning is used to warn the user that the procedures that follow </span>
+<span class="sd">    would require a lot of memory RAM. If instead it would produce a large </span>
+<span class="sd">    file(s), StorageWarning should be used.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">pass</span></div>
+
+<div class="viewcode-block" id="OutputWarning"><a class="viewcode-back" href="../../../python_docstrings/IfA_Smeargle.meta.errors.html#IfA_Smeargle.meta.errors.OutputWarning">[docs]</a><span class="k">class</span> <span class="nc">OutputWarning</span><span class="p">(</span><span class="n">Smeargle_Warning</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    This warning is used to warn the user about outputs and some things that</span>
+<span class="sd">    may be helpful to know about them. Such outputs are generally writing </span>
+<span class="sd">    file outputs.</span>
+<span class="sd">    &quot;&quot;&quot;</span></div>
+
+<div class="viewcode-block" id="OverwriteWarning"><a class="viewcode-back" href="../../../python_docstrings/IfA_Smeargle.meta.errors.html#IfA_Smeargle.meta.errors.OverwriteWarning">[docs]</a><span class="k">class</span> <span class="nc">OverwriteWarning</span><span class="p">(</span><span class="n">Smeargle_Warning</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    This warning is used to warn the user that a file has been overwritten,</span>
+<span class="sd">    most likely because of conflicting file names.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">pass</span></div>
+
+
+<div class="viewcode-block" id="ReductionWarning"><a class="viewcode-back" href="../../../python_docstrings/IfA_Smeargle.meta.errors.html#IfA_Smeargle.meta.errors.ReductionWarning">[docs]</a><span class="k">class</span> <span class="nc">ReductionWarning</span><span class="p">(</span><span class="n">Smeargle_Warning</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    This warning is used when normally unusual parameters are used for data </span>
+<span class="sd">    reduction. The user is trusted in their procedures.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">pass</span></div>
+
+<div class="viewcode-block" id="StorageWarning"><a class="viewcode-back" href="../../../python_docstrings/IfA_Smeargle.meta.errors.html#IfA_Smeargle.meta.errors.StorageWarning">[docs]</a><span class="k">class</span> <span class="nc">StorageWarning</span><span class="p">(</span><span class="n">Smeargle_Warning</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    This warning is used when the large file(s) would be written to the hard</span>
+<span class="sd">    drive. If instead a lot of RAM would be used, it is better to use </span>
+<span class="sd">    MemoryWarning.</span>
+<span class="sd">    &quot;&quot;&quot;</span></div>
+
+<div class="viewcode-block" id="TimeWarning"><a class="viewcode-back" href="../../../python_docstrings/IfA_Smeargle.meta.errors.html#IfA_Smeargle.meta.errors.TimeWarning">[docs]</a><span class="k">class</span> <span class="nc">TimeWarning</span><span class="p">(</span><span class="n">Smeargle_Warning</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    This warning is used when any method called may take a long time to </span>
+<span class="sd">    compute or execute. This allows the user to stop and change if desired. </span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">pass</span></div>
+
+
+<span class="c1">##############################################################################</span>
+<span class="c1">##############################################################################</span>
+<span class="c1"># Informational Messages</span>
+<span class="c1">##############################################################################</span>
+<span class="c1">##############################################################################</span>
+
+<div class="viewcode-block" id="smeargle_info"><a class="viewcode-back" href="../../../python_docstrings/IfA_Smeargle.meta.errors.html#IfA_Smeargle.meta.errors.smeargle_info">[docs]</a><span class="k">def</span> <span class="nf">smeargle_info</span><span class="p">(</span><span class="n">message</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    This is a wrapper function to print helpful information.</span>
+<span class="sd">   </span>
+<span class="sd">    Printing information as the function(s) go on is very helpful. However,</span>
+<span class="sd">    using the normal print function doesn&#39;t allow for some level of </span>
+<span class="sd">    customization and ease of handling. Hence, function for uniformity.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    message : string</span>
+<span class="sd">        The informational message that is to be printed. </span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    nothing</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    
+    <span class="c1"># Test if info messages should not be printed given their</span>
+    <span class="k">if</span> <span class="p">(</span><span class="n">smeargle_info</span><span class="o">.</span><span class="n">_silent_mode</span><span class="p">):</span>
+        <span class="c1"># Messages should not be printed in general.</span>
+        <span class="k">pass</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;IFAS Info: &quot;</span> <span class="o">+</span> <span class="n">message</span><span class="p">)</span>
+    <span class="k">return</span> <span class="kc">None</span></div>
+
+<span class="c1"># This is the default and will set the silent mode parameter for informational</span>
+<span class="c1"># printing, but it ensures not to override anything that may already exist.</span>
+<span class="k">if</span> <span class="p">(</span><span class="nb">hasattr</span><span class="p">(</span><span class="n">smeargle_info</span><span class="p">,</span> <span class="s1">&#39;_silent_mode&#39;</span><span class="p">)):</span>
+    <span class="k">pass</span>
+<span class="k">else</span><span class="p">:</span>
+    <span class="n">smeargle_info</span><span class="o">.</span><span class="n">_silent_mode</span> <span class="o">=</span> <span class="kc">False</span>
+
+
+<span class="c1">##############################################################################</span>
+<span class="c1">##############################################################################</span>
+<span class="c1"># Silencing Context Managers </span>
+<span class="c1">##############################################################################</span>
+<span class="c1">##############################################################################</span>
+
+<span class="c1"># To silence a specific type of warning. This is a wrapper function.</span>
+<div class="viewcode-block" id="smeargle_silence_specific_warnings"><a class="viewcode-back" href="../../../python_docstrings/IfA_Smeargle.meta.errors.html#IfA_Smeargle.meta.errors.smeargle_silence_specific_warnings">[docs]</a><span class="nd">@contextlib</span><span class="o">.</span><span class="n">contextmanager</span>
+<span class="k">def</span> <span class="nf">smeargle_silence_specific_warnings</span><span class="p">(</span><span class="n">silenced_warning_type</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot; This context manager silences all warnings of a given type. Depending</span>
+<span class="sd">    on what was inputed.</span>
+<span class="sd">    </span>
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    silenced_warning_type : WarningType</span>
+<span class="sd">        The warning that should be silenced.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">with</span> <span class="n">warn</span><span class="o">.</span><span class="n">catch_warnings</span><span class="p">():</span>
+        <span class="n">warn</span><span class="o">.</span><span class="n">simplefilter</span><span class="p">(</span><span class="s2">&quot;ignore&quot;</span><span class="p">,</span> <span class="n">category</span><span class="o">=</span><span class="n">silenced_warning_type</span><span class="p">)</span>
+        <span class="k">yield</span>
+
+    <span class="k">return</span> <span class="kc">None</span></div>
+
+<span class="c1"># To silence Smeargle based warnings</span>
+<div class="viewcode-block" id="smeargle_silence_ifas_warnings"><a class="viewcode-back" href="../../../python_docstrings/IfA_Smeargle.meta.errors.html#IfA_Smeargle.meta.errors.smeargle_silence_ifas_warnings">[docs]</a><span class="nd">@contextlib</span><span class="o">.</span><span class="n">contextmanager</span>
+<span class="k">def</span> <span class="nf">smeargle_silence_ifas_warnings</span><span class="p">():</span>
+    <span class="sd">&quot;&quot;&quot; This context manager silences all Smeargle based warnings, all other </span>
+<span class="sd">    warnings are still valid.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">with</span> <span class="n">warn</span><span class="o">.</span><span class="n">catch_warnings</span><span class="p">():</span>
+        <span class="n">warn</span><span class="o">.</span><span class="n">simplefilter</span><span class="p">(</span><span class="s2">&quot;ignore&quot;</span><span class="p">,</span> <span class="n">category</span><span class="o">=</span><span class="n">Smeargle_Warning</span><span class="p">)</span>
+        <span class="k">yield</span>
+
+    <span class="k">return</span> <span class="kc">None</span></div>
+
+<span class="c1"># To silence non-Smeargle based warnings</span>
+<div class="viewcode-block" id="smeargle_silence_nonifas_warnings"><a class="viewcode-back" href="../../../python_docstrings/IfA_Smeargle.meta.errors.html#IfA_Smeargle.meta.errors.smeargle_silence_nonifas_warnings">[docs]</a><span class="nd">@contextlib</span><span class="o">.</span><span class="n">contextmanager</span>
+<span class="k">def</span> <span class="nf">smeargle_silence_nonifas_warnings</span><span class="p">():</span>
+    <span class="sd">&quot;&quot;&quot; This context manager silences all non-Smeargle based warnings, all </span>
+<span class="sd">    other warnings are still valid.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">with</span> <span class="n">warn</span><span class="o">.</span><span class="n">catch_warnings</span><span class="p">():</span>
+        <span class="n">warn</span><span class="o">.</span><span class="n">simplefilter</span><span class="p">(</span><span class="s2">&quot;ignore&quot;</span><span class="p">)</span>
+        <span class="n">warn</span><span class="o">.</span><span class="n">simplefilter</span><span class="p">(</span><span class="s2">&quot;default&quot;</span><span class="p">,</span> <span class="n">category</span><span class="o">=</span><span class="n">Smeargle_Warning</span><span class="p">)</span>
+        <span class="k">yield</span>
+
+    <span class="k">return</span> <span class="kc">None</span></div>
+
+<span class="c1"># To silence all warnings</span>
+<div class="viewcode-block" id="smeargle_silence_all_warnings"><a class="viewcode-back" href="../../../python_docstrings/IfA_Smeargle.meta.errors.html#IfA_Smeargle.meta.errors.smeargle_silence_all_warnings">[docs]</a><span class="nd">@contextlib</span><span class="o">.</span><span class="n">contextmanager</span>
+<span class="k">def</span> <span class="nf">smeargle_silence_all_warnings</span><span class="p">():</span>
+    <span class="sd">&quot;&quot;&quot; This context manager silences all warnings. Warnings should not be </span>
+<span class="sd">    printed.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">with</span> <span class="n">warn</span><span class="o">.</span><span class="n">catch_warnings</span><span class="p">():</span>
+        <span class="n">warn</span><span class="o">.</span><span class="n">simplefilter</span><span class="p">(</span><span class="s2">&quot;ignore&quot;</span><span class="p">)</span>
+        <span class="k">yield</span>
+
+    <span class="k">return</span> <span class="kc">None</span></div>
+
+<span class="c1"># To silence all informational messages.</span>
+<div class="viewcode-block" id="smeargle_silence_info_message"><a class="viewcode-back" href="../../../python_docstrings/IfA_Smeargle.meta.errors.html#IfA_Smeargle.meta.errors.smeargle_silence_info_message">[docs]</a><span class="nd">@contextlib</span><span class="o">.</span><span class="n">contextmanager</span>
+<span class="k">def</span> <span class="nf">smeargle_silence_info_message</span><span class="p">():</span>
+    <span class="sd">&quot;&quot;&quot; This context manager silences all informational messages that may</span>
+<span class="sd">    be printed.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="c1"># Trigger silent mode.</span>
+    <span class="n">smeargle_info</span><span class="o">.</span><span class="n">_silent_mode</span> <span class="o">=</span> <span class="kc">True</span>
+
+    <span class="k">yield</span>
+
+    <span class="c1"># Release silent mode, allowing for future messages to be implemented.</span>
+    <span class="n">smeargle_info</span><span class="o">.</span><span class="n">_silent_mode</span> <span class="o">=</span> <span class="kc">False</span>
+    <span class="k">return</span> <span class="kc">None</span></div>
+
+<span class="c1"># To silence everything, warnings and informational messages.</span>
+<div class="viewcode-block" id="smeargle_absolute_silence"><a class="viewcode-back" href="../../../python_docstrings/IfA_Smeargle.meta.errors.html#IfA_Smeargle.meta.errors.smeargle_absolute_silence">[docs]</a><span class="nd">@contextlib</span><span class="o">.</span><span class="n">contextmanager</span>
+<span class="k">def</span> <span class="nf">smeargle_absolute_silence</span><span class="p">():</span>
+    <span class="sd">&quot;&quot;&quot;This context manager silences any and all messages, it basically </span>
+<span class="sd">    it is wrapper around all other general Smeargle context managers (even </span>
+<span class="sd">    if there is some overlap).</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">with</span> <span class="n">smeargle_silence_ifas_warnings</span><span class="p">(),</span> \
+         <span class="n">smeargle_silence_all_warnings</span><span class="p">(),</span>  \
+         <span class="n">smeargle_silence_info_message</span><span class="p">():</span>
+            <span class="k">yield</span> </div>
+</pre></div>
+
+           </div>
+           
+          </div>
+          <footer>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2019, Sparrow
+
+    </p>
+  </div>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+
+  
+  
+    
+   
+
+</body>
+</html>

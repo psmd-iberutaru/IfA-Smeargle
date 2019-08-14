@@ -1,0 +1,493 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>IfA_Smeargle.meta.fits_and_arrays &mdash; IfA-Smeargle 2019-08-19 documentation</title>
+  
+
+  
+  
+  
+  
+
+  
+  <script type="text/javascript" src="../../../_static/js/modernizr.min.js"></script>
+  
+    
+      <script type="text/javascript" id="documentation_options" data-url_root="../../../" src="../../../_static/documentation_options.js"></script>
+        <script type="text/javascript" src="../../../_static/jquery.js"></script>
+        <script type="text/javascript" src="../../../_static/underscore.js"></script>
+        <script type="text/javascript" src="../../../_static/doctools.js"></script>
+        <script type="text/javascript" src="../../../_static/language_data.js"></script>
+    
+    <script type="text/javascript" src="../../../_static/js/theme.js"></script>
+
+    
+
+  
+  <link rel="stylesheet" href="../../../_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
+  <link rel="stylesheet" href="../../../_static/css/custom.css" type="text/css" />
+    <link rel="index" title="Index" href="../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../search.html" />
+    <link href="../../../_static/css/ifa_smeargle.css" rel="stylesheet" type="text/css">
+
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+          
+
+          
+            <a href="../../../index.html" class="icon icon-home"> IfA-Smeargle
+          
+
+          
+          </a>
+
+          
+            
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <p class="caption"><span class="caption-text">Contents:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../how_to_use.html">How to Use</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../python_docstrings/modules.html">IfA_Smeargle</a></li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../../index.html">IfA-Smeargle</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="../../../index.html">Docs</a> &raquo;</li>
+        
+          <li><a href="../../index.html">Module code</a> &raquo;</li>
+        
+      <li>IfA_Smeargle.meta.fits_and_arrays</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <h1>Source code for IfA_Smeargle.meta.fits_and_arrays</h1><div class="highlight"><pre>
+<span></span>
+<span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">This file contains functions dealing with the loading and handling of fits files and their </span>
+<span class="sd">associated header and data arrays.</span>
+<span class="sd">&quot;&quot;&quot;</span>
+
+<span class="kn">import</span> <span class="nn">astropy</span> <span class="k">as</span> <span class="nn">ap</span>
+<span class="kn">import</span> <span class="nn">astropy.io.fits</span> <span class="k">as</span> <span class="nn">ap_fits</span>
+<span class="kn">import</span> <span class="nn">copy</span>
+<span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+<span class="kn">import</span> <span class="nn">numpy.ma</span> <span class="k">as</span> <span class="nn">np_ma</span>
+<span class="kn">import</span> <span class="nn">os</span>
+<span class="kn">import</span> <span class="nn">warnings</span> <span class="k">as</span> <span class="nn">warn</span>
+
+<span class="kn">from</span> <span class="nn">IfA_Smeargle.meta</span> <span class="k">import</span> <span class="o">*</span>
+
+<div class="viewcode-block" id="smeargle_open_fits_file"><a class="viewcode-back" href="../../../python_docstrings/IfA_Smeargle.meta.fits_and_arrays.html#IfA_Smeargle.meta.fits_and_arrays.smeargle_open_fits_file">[docs]</a><span class="k">def</span> <span class="nf">smeargle_open_fits_file</span><span class="p">(</span><span class="n">file_name</span><span class="p">,</span> <span class="n">extension</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">silent</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot; A function to ensure proper loading/reading of fits files.</span>
+
+<span class="sd">    This function, as its name, opens a fits file. It returns the Astropy HDU </span>
+<span class="sd">    file. This function is mostly done to ensure that files are properly </span>
+<span class="sd">    closed. It also extracts the needed data and header information from the </span>
+<span class="sd">    file.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ---------- </span>
+<span class="sd">    file_name : string</span>
+<span class="sd">        This is the path of the file to be read, either relative or absolute.</span>
+<span class="sd">    extension : int or string (optional)</span>
+<span class="sd">        The desired extension of the fits file. Defaults to primary structure. </span>
+<span class="sd">    silent : boolean (optional)</span>
+<span class="sd">        Turn off all warnings and information sent by this function and </span>
+<span class="sd">        functions below it.</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    hdu_file : HDULists</span>
+<span class="sd">        The Astropy object representing the fits file.</span>
+<span class="sd">    hdu_header : Header</span>
+<span class="sd">        The Astropy header object representing the headers of the given file.</span>
+<span class="sd">    hdu_data : ndarray</span>
+<span class="sd">        The Numpy representation of a fits file data.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="c1"># The user doesn&#39;t want any warnings.</span>
+    <span class="k">if</span> <span class="p">(</span><span class="n">silent</span><span class="p">):</span>
+        <span class="k">with</span> <span class="n">smeargle_absolute_silence</span><span class="p">():</span>
+            <span class="k">return</span> <span class="n">smeargle_open_fits_file</span><span class="p">(</span><span class="n">file_name</span><span class="p">,</span> <span class="n">extension</span><span class="o">=</span><span class="n">extension</span><span class="p">)</span>
+
+    <span class="k">with</span> <span class="n">ap_fits</span><span class="o">.</span><span class="n">open</span><span class="p">(</span><span class="n">file_name</span><span class="p">)</span> <span class="k">as</span> <span class="n">hdul</span><span class="p">:</span>
+        <span class="n">hdul_file</span> <span class="o">=</span> <span class="n">copy</span><span class="o">.</span><span class="n">deepcopy</span><span class="p">(</span><span class="n">hdul</span><span class="p">)</span>
+        
+        <span class="c1"># Just because just in case.</span>
+        <span class="n">hdul</span><span class="o">.</span><span class="n">close</span><span class="p">()</span>
+        <span class="k">del</span> <span class="n">hdul</span>
+
+    <span class="c1"># Read from the extension</span>
+    <span class="n">hdu_header</span> <span class="o">=</span> <span class="n">hdul_file</span><span class="p">[</span><span class="n">extension</span><span class="p">]</span><span class="o">.</span><span class="n">header</span>
+    <span class="n">hdu_data</span> <span class="o">=</span> <span class="n">hdul_file</span><span class="p">[</span><span class="n">extension</span><span class="p">]</span><span class="o">.</span><span class="n">data</span>
+
+    <span class="c1"># For some reason, there are null problems and value problems with the </span>
+    <span class="c1"># data. Any and all frames that match the criteria are nulled out. Send</span>
+    <span class="c1"># a warning.</span>
+    <span class="c1"># Check first for nans.</span>
+    <span class="k">if</span> <span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">any</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">isnan</span><span class="p">(</span><span class="n">hdu_data</span><span class="p">))):</span>
+        <span class="n">nan_index</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">argwhere</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">isnan</span><span class="p">(</span><span class="n">hdu_data</span><span class="p">))</span>
+        <span class="c1"># Check for 3D or 2D file.</span>
+        <span class="k">if</span> <span class="p">(</span><span class="n">nan_index</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">==</span> <span class="mi">2</span><span class="p">):</span>
+            <span class="n">smeargle_warning</span><span class="p">(</span><span class="n">DataWarning</span><span class="p">,(</span><span class="s2">&quot;This a 2D data frame with nan/null values. They &quot;</span>
+                                          <span class="s2">&quot;will be kept; but, functions down the line may &quot;</span>
+                                          <span class="s2">&quot;break.&quot;</span><span class="p">))</span>
+        <span class="k">elif</span> <span class="p">(</span><span class="n">nan_index</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">==</span> <span class="mi">3</span><span class="p">):</span>
+            <span class="n">smeargle_warning</span><span class="p">(</span><span class="n">DataWarning</span><span class="p">,(</span><span class="s2">&quot;This a 3D data frame with nan/null values. Frames &quot;</span>
+                                          <span class="s2">&quot;with nan/null values have been completely nulled.&quot;</span><span class="p">))</span>
+            <span class="c1"># Null all of the frames with null values.</span>
+            <span class="k">for</span> <span class="n">framedex</span> <span class="ow">in</span> <span class="n">nan_index</span><span class="o">.</span><span class="n">T</span><span class="p">[</span><span class="mi">0</span><span class="p">]:</span>
+                <span class="n">hdu_data</span><span class="p">[</span><span class="n">framedex</span><span class="p">]</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">full_like</span><span class="p">(</span><span class="n">hdu_data</span><span class="p">[</span><span class="n">framedex</span><span class="p">],</span> <span class="n">np</span><span class="o">.</span><span class="n">nan</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="n">DataError</span><span class="p">(</span><span class="s2">&quot;The fits file exists, but is 1D or 4D+, this module cannot handle &quot;</span>
+                            <span class="s2">&quot;such data.&quot;</span><span class="p">)</span>
+    <span class="c1"># Check for unnaturally large or small values which are a glitch more </span>
+    <span class="c1"># than actual data.</span>
+    <span class="n">illogical_low</span> <span class="o">=</span> <span class="o">-</span><span class="mf">1e6</span>
+    <span class="n">illogical_high</span> <span class="o">=</span> <span class="mf">1e6</span>
+    <span class="k">with</span> <span class="n">np</span><span class="o">.</span><span class="n">errstate</span><span class="p">(</span><span class="n">invalid</span><span class="o">=</span><span class="s1">&#39;ignore&#39;</span><span class="p">):</span>
+        <span class="k">if</span> <span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">any</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">where</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">logical_or</span><span class="p">(</span><span class="n">illogical_low</span> <span class="o">&gt;</span> <span class="n">hdu_data</span><span class="p">,</span> 
+                                          <span class="n">hdu_data</span> <span class="o">&gt;</span> <span class="n">illogical_high</span><span class="p">)))):</span>
+            <span class="n">illegal_value_index</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">argwhere</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">logical_or</span><span class="p">(</span><span class="n">illogical_low</span> <span class="o">&gt;</span> <span class="n">hdu_data</span><span class="p">,</span> 
+                                                             <span class="n">hdu_data</span> <span class="o">&gt;</span> <span class="n">illogical_high</span><span class="p">))</span>
+            <span class="k">if</span> <span class="p">(</span><span class="n">illegal_value_index</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">==</span> <span class="mi">2</span><span class="p">):</span>
+                <span class="n">smeargle_warning</span><span class="p">(</span><span class="n">DataWarning</span><span class="p">,(</span><span class="s2">&quot;This a 2D data frame with +/- large values. They &quot;</span>
+                                              <span class="s2">&quot;will be kept; but, functions down the line may &quot;</span>
+                                              <span class="s2">&quot;easily break.&quot;</span><span class="p">))</span>
+            <span class="k">elif</span> <span class="p">(</span><span class="n">illegal_value_index</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">==</span> <span class="mi">3</span><span class="p">):</span>
+                <span class="n">smeargle_warning</span><span class="p">(</span><span class="n">DataWarning</span><span class="p">,(</span><span class="s2">&quot;This a 3D data frame with +/- large values. &quot;</span>
+                                              <span class="s2">&quot;Frames with +/- large values have been &quot;</span>
+                                              <span class="s2">&quot;completely nulled.&quot;</span><span class="p">))</span>
+                <span class="c1"># Null all of the frames that have really big +/- values.</span>
+                <span class="k">for</span> <span class="n">framedex</span> <span class="ow">in</span> <span class="n">illegal_value_index</span><span class="o">.</span><span class="n">T</span><span class="p">[</span><span class="mi">0</span><span class="p">]:</span>
+                    <span class="n">hdu_data</span><span class="p">[</span><span class="n">framedex</span><span class="p">]</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">full_like</span><span class="p">(</span><span class="n">hdu_data</span><span class="p">[</span><span class="n">framedex</span><span class="p">],</span> <span class="n">np</span><span class="o">.</span><span class="n">nan</span><span class="p">)</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="k">raise</span> <span class="n">DataError</span><span class="p">(</span><span class="s2">&quot;The fits file exists, but is 1D or 4D+, this module cannot &quot;</span>
+                                <span class="s2">&quot;handle such data.&quot;</span><span class="p">)</span>
+
+    <span class="c1"># Check if there is an IfA-Smeargle mask, if so, mutate data to a masked</span>
+    <span class="c1"># array.</span>
+    <span class="k">try</span><span class="p">:</span>
+        <span class="n">data_mask</span> <span class="o">=</span> <span class="n">hdul_file</span><span class="p">[</span><span class="s1">&#39;IFASMASK&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">data</span>
+        <span class="c1"># Because fits files do not handle boolean arrays, convert from the </span>
+        <span class="c1"># int 1/0 array in the file.</span>
+        <span class="n">data_mask</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">where</span><span class="p">(</span><span class="n">data_mask</span> <span class="o">&gt;=</span> <span class="mi">1</span><span class="p">,</span> <span class="kc">True</span><span class="p">,</span> <span class="kc">False</span><span class="p">),</span> <span class="n">dtype</span><span class="o">=</span><span class="nb">bool</span><span class="p">)</span>
+
+    <span class="k">except</span> <span class="ne">KeyError</span><span class="p">:</span>
+        <span class="n">data_mask</span> <span class="o">=</span> <span class="kc">None</span>
+    <span class="k">finally</span><span class="p">:</span>
+        <span class="k">if</span> <span class="p">(</span><span class="n">data_mask</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">):</span>
+            <span class="c1"># Inform that a mask has been found and is going to be used.</span>
+            <span class="n">smeargle_warning</span><span class="p">(</span><span class="n">InputWarning</span><span class="p">,(</span><span class="s2">&quot;The fits file contains an &lt;IFASMASK&gt; extension, &quot;</span>
+                                           <span class="s2">&quot;a pixel mask created by this program. It will be &quot;</span>
+                                           <span class="s2">&quot;applied to the data. The output data will be a &quot;</span>
+                                           <span class="s2">&quot;Numpy Masked Array.&quot;</span><span class="p">))</span>
+            <span class="c1"># Apply the mask.</span>
+            <span class="n">hdu_data</span> <span class="o">=</span> <span class="n">np_ma</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">hdu_data</span><span class="p">,</span> <span class="n">mask</span><span class="o">=</span><span class="n">data_mask</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">hdu_data</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">hdu_data</span><span class="p">)</span>
+
+    <span class="c1"># Finally return</span>
+    <span class="k">return</span> <span class="n">hdul_file</span><span class="p">,</span> <span class="n">hdu_header</span><span class="p">,</span> <span class="n">hdu_data</span></div>
+
+
+<div class="viewcode-block" id="smeargle_write_fits_file"><a class="viewcode-back" href="../../../python_docstrings/IfA_Smeargle.meta.fits_and_arrays.html#IfA_Smeargle.meta.fits_and_arrays.smeargle_write_fits_file">[docs]</a><span class="k">def</span> <span class="nf">smeargle_write_fits_file</span><span class="p">(</span><span class="n">file_name</span><span class="p">,</span> <span class="n">hdu_header</span><span class="p">,</span> <span class="n">hdu_data</span><span class="p">,</span>
+                             <span class="n">hdu_object</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">save_file</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">overwrite</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+                             <span class="n">silent</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot; A function to ensure proper writing of fits files.</span>
+
+<span class="sd">    This function writes fits files given the data and header file. The </span>
+<span class="sd">    file name should be a complete path and must also include the file name.</span>
+
+
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    file_name : string</span>
+<span class="sd">        This is the path of the file to be written, either relative or </span>
+<span class="sd">        absolute.</span>
+<span class="sd">    hdu_header : Header</span>
+<span class="sd">        The Astropy header object representing the headers of the given file.</span>
+<span class="sd">    hdu_data : ndarray</span>
+<span class="sd">        The Numpy representation of a fits file data.</span>
+<span class="sd">    hdu_object : Astropy HDUList (optional)</span>
+<span class="sd">        An astropy HDUList object, if provided, this object takes priority </span>
+<span class="sd">        to be written, the rest are ignored.</span>
+<span class="sd">    save_file : boolean (optional)</span>
+<span class="sd">        If ``True``, then the fits file will be written to file, else, just</span>
+<span class="sd">        the instance will be returned.</span>
+<span class="sd">    overwrite : boolean (optional)</span>
+<span class="sd">        If ``True``, if there exists a file of the same name, overwrite.</span>
+<span class="sd">    silent : boolean (optional)</span>
+<span class="sd">        Turn off all warnings and information sent by this function and </span>
+<span class="sd">        functions below it.</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    hdul_file : Astropy HDUList</span>
+<span class="sd">        The file object that was written to disk. If ``hdu_object`` was </span>
+<span class="sd">        provided, it is returned untouched.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="c1"># The user does not want any warnings.</span>
+    <span class="k">if</span> <span class="p">(</span><span class="n">silent</span><span class="p">):</span>
+        <span class="k">with</span> <span class="n">smeargle_absolute_silence</span><span class="p">():</span>
+            <span class="k">return</span> <span class="n">smeargle_write_fits_file</span><span class="p">(</span><span class="n">file_name</span><span class="p">,</span> <span class="n">hdu_header</span><span class="p">,</span> <span class="n">hdu_data</span><span class="p">,</span>
+                             <span class="n">hdu_object</span><span class="o">=</span><span class="n">hdu_object</span><span class="p">,</span> <span class="n">save_file</span><span class="o">=</span><span class="n">save_file</span><span class="p">,</span> <span class="n">overwrite</span><span class="o">=</span><span class="n">overwrite</span><span class="p">)</span>
+
+
+    <span class="c1"># Check if the file name has a fits extension.</span>
+    <span class="k">if</span> <span class="p">(</span><span class="n">file_name</span><span class="p">[</span><span class="o">-</span><span class="mi">5</span><span class="p">:]</span> <span class="o">!=</span> <span class="s1">&#39;.fits&#39;</span><span class="p">):</span>
+        <span class="n">file_name</span> <span class="o">+=</span> <span class="s1">&#39;.fits&#39;</span>
+        <span class="n">smeargle_warning</span><span class="p">(</span><span class="n">InputWarning</span><span class="p">,</span> <span class="p">(</span><span class="s2">&quot;The fits file name does not have a .fits extension; &quot;</span>
+                                        <span class="s2">&quot;it has been automatically added.&quot;</span><span class="p">))</span>
+
+    <span class="c1"># Create the main HDUL object to write the fits file.</span>
+    <span class="c1"># Check for the hdu_object.</span>
+    <span class="k">if</span> <span class="p">(</span><span class="nb">isinstance</span><span class="p">(</span><span class="n">hdu_object</span><span class="p">,(</span><span class="n">ap_fits</span><span class="o">.</span><span class="n">PrimaryHDU</span><span class="p">,</span><span class="n">ap_fits</span><span class="o">.</span><span class="n">HDUList</span><span class="p">))):</span>
+        <span class="c1"># Astropy can handle PrimaryHDU -&gt; .fits conversion.</span>
+        <span class="n">hdul_file</span> <span class="o">=</span> <span class="n">hdu_object</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="c1"># Else, deal with the data.</span>
+        <span class="n">hdu</span> <span class="o">=</span> <span class="n">ap_fits</span><span class="o">.</span><span class="n">PrimaryHDU</span><span class="p">(</span><span class="n">data</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">hdu_data</span><span class="p">),</span> <span class="n">header</span><span class="o">=</span><span class="n">hdu_header</span><span class="p">)</span>
+        <span class="n">hdul_file</span> <span class="o">=</span> <span class="n">ap_fits</span><span class="o">.</span><span class="n">HDUList</span><span class="p">([</span><span class="n">hdu</span><span class="p">])</span>
+
+    <span class="c1"># Check if the data is a masked array, if it is, extract the mask and save</span>
+    <span class="c1"># it to write in an extension.</span>
+    <span class="k">if</span> <span class="p">(</span><span class="nb">isinstance</span><span class="p">(</span><span class="n">hdu_data</span><span class="p">,</span><span class="n">np_ma</span><span class="o">.</span><span class="n">MaskedArray</span><span class="p">)):</span>
+        <span class="c1"># Get data mask and convert to int array; apparently fits files do not</span>
+        <span class="c1"># work well with booleans.</span>
+        <span class="n">data_mask</span> <span class="o">=</span> <span class="n">np_ma</span><span class="o">.</span><span class="n">getmaskarray</span><span class="p">(</span><span class="n">hdu_data</span><span class="p">)</span>
+        <span class="n">data_mask</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">where</span><span class="p">(</span><span class="n">data_mask</span><span class="p">,</span> <span class="nb">int</span><span class="p">(</span><span class="mi">1</span><span class="p">),</span> <span class="nb">int</span><span class="p">(</span><span class="mi">0</span><span class="p">)),</span> <span class="n">dtype</span><span class="o">=</span><span class="nb">int</span><span class="p">)</span>
+        <span class="c1"># Create the HDU object mask.</span>
+        <span class="n">data_mask_hdu</span> <span class="o">=</span> <span class="n">ap_fits</span><span class="o">.</span><span class="n">ImageHDU</span><span class="p">(</span><span class="n">data_mask</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="s1">&#39;IFASMASK&#39;</span><span class="p">)</span>
+        <span class="n">hdul_file</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">data_mask_hdu</span><span class="p">)</span>
+
+        <span class="c1"># Warn that the mask has been added.</span>
+        <span class="n">smeargle_warning</span><span class="p">(</span><span class="n">OutputWarning</span><span class="p">,(</span><span class="s2">&quot;The data array provided has been detected to be a &quot;</span>
+                                        <span class="s2">&quot;masked array. The mask is saved in the fits extension &quot;</span>
+                                        <span class="s2">&quot;&lt;IFASMASK&gt;. The primary data is not affected.&quot;</span><span class="p">))</span>
+
+
+    <span class="c1"># Check to see if the file exists, if so, then overwrite if provided for.</span>
+    <span class="k">if</span> <span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">isfile</span><span class="p">(</span><span class="n">file_name</span><span class="p">)):</span>
+        <span class="k">if</span> <span class="p">(</span><span class="n">overwrite</span><span class="p">):</span>
+            <span class="c1"># It should be overwritten, warn to be nice. </span>
+            <span class="n">smeargle_warning</span><span class="p">(</span><span class="n">OverwriteWarning</span><span class="p">,(</span><span class="s2">&quot;There exists a file with the provided name. &quot;</span>
+                                               <span class="s2">&quot;Overwrite is true; the previous file will &quot;</span>
+                                               <span class="s2">&quot;be replaced as provided.&quot;</span><span class="p">))</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="c1"># It should not overwritten at this point.</span>
+            <span class="k">raise</span> <span class="n">ExportingError</span><span class="p">(</span><span class="s2">&quot;There exists a file with the same name as the previous one. &quot;</span>
+                                 <span class="s2">&quot;Overwrite is set to False, the new fits file cannot &quot;</span>
+                                 <span class="s2">&quot;be written.&quot;</span><span class="p">)</span>
+
+    <span class="c1"># Write, follow overwrite instructions, assume the user knows what they </span>
+    <span class="c1"># are doing. Return object.</span>
+    <span class="k">if</span> <span class="p">(</span><span class="n">save_file</span><span class="p">):</span>
+        <span class="n">hdul_file</span><span class="o">.</span><span class="n">writeto</span><span class="p">(</span><span class="n">file_name</span><span class="p">,</span> <span class="n">overwrite</span><span class="o">=</span><span class="n">overwrite</span><span class="p">)</span>
+
+    <span class="k">return</span> <span class="n">hdul_file</span></div>
+    
+
+
+<div class="viewcode-block" id="smeargle_extract_subarray"><a class="viewcode-back" href="../../../python_docstrings/IfA_Smeargle.meta.fits_and_arrays.html#IfA_Smeargle.meta.fits_and_arrays.smeargle_extract_subarray">[docs]</a><span class="k">def</span> <span class="nf">smeargle_extract_subarray</span><span class="p">(</span><span class="n">primary_array</span><span class="p">,</span><span class="n">x_bounds</span><span class="p">,</span><span class="n">y_bounds</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot; A function to extract a smaller array copy from a larger array.</span>
+
+<span class="sd">    Sub-arrays are rather important in the analysis of specific arrays. </span>
+<span class="sd">    This function extracts a sub-array from a given primary array specified </span>
+<span class="sd">    by the x_bounds and y_bounds.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    primary_array : ndarray</span>
+<span class="sd">        This is the data array that is desired to be sliced.</span>
+<span class="sd">    x_bounds : list-like</span>
+<span class="sd">        The bounds of the x-axis of a given array. </span>
+<span class="sd">    y_bounds : list-like</span>
+<span class="sd">        The bounds of the y-axis of a given array.</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    sub_array : ndarray</span>
+<span class="sd">        An array containing only data within the xy-bounds provided.</span>
+<span class="sd">    </span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="c1"># Be verbose in accepting reversed (but valid) bounds.</span>
+    <span class="n">x_bounds</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">sort</span><span class="p">(</span><span class="n">x_bounds</span><span class="p">)</span>
+    <span class="n">y_bounds</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">sort</span><span class="p">(</span><span class="n">y_bounds</span><span class="p">)</span>
+
+    <span class="n">sub_array</span> <span class="o">=</span> <span class="n">primary_array</span><span class="p">[</span><span class="n">y_bounds</span><span class="p">[</span><span class="mi">0</span><span class="p">]:</span><span class="n">y_bounds</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">],</span><span class="n">x_bounds</span><span class="p">[</span><span class="mi">0</span><span class="p">]:</span><span class="n">x_bounds</span><span class="p">[</span><span class="mi">1</span><span class="p">]]</span>
+
+    <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">sub_array</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="smeargle_masked_array_min_max"><a class="viewcode-back" href="../../../python_docstrings/IfA_Smeargle.meta.fits_and_arrays.html#IfA_Smeargle.meta.fits_and_arrays.smeargle_masked_array_min_max">[docs]</a><span class="k">def</span> <span class="nf">smeargle_masked_array_min_max</span><span class="p">(</span><span class="n">masked_array</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot; This function returns a masked array&#39;s minimum and maximum value.</span>
+
+<span class="sd">    This function determines the minimum and maximum of a masked arrays </span>
+<span class="sd">    between valid, unmasked, values only. Masked values are not considered </span>
+<span class="sd">    for min-max evaluation.</span>
+<span class="sd">    </span>
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    masked_array : masked ndarray </span>
+<span class="sd">        The array that has a mask, and is also the one that will have a </span>
+<span class="sd">        min max calculated.</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    masked_min : float</span>
+<span class="sd">        The value of the minimum of the masked array ignoring masking.</span>
+<span class="sd">    masked_max : float</span>
+<span class="sd">        The value of the maximum of the masked array ignoring masking.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    
+    <span class="c1"># Sparrow was wrong when coding the function that required this function.</span>
+    <span class="c1"># It has scene been reduced to the logical answer and is thus depreciated. </span>
+    <span class="n">smeargle_warning</span><span class="p">(</span><span class="n">DepreciationWarning</span><span class="p">,(</span><span class="s2">&quot;This function was built because of the erroneous &quot;</span>
+                                          <span class="s2">&quot;understanding that it was difficult to get min-max &quot;</span>
+                                          <span class="s2">&quot;from Numpy Masked Arrays. This function is a &quot;</span>
+                                          <span class="s2">&quot;wrapper around the easy and proper method.&quot;</span><span class="p">))</span>
+
+    <span class="c1"># Execute a copy just in case of damage to the array.</span>
+    <span class="n">masked_array</span> <span class="o">=</span> <span class="n">copy</span><span class="o">.</span><span class="n">deepcopy</span><span class="p">(</span><span class="n">masked_array</span><span class="p">)</span>
+
+    <span class="c1"># Finding the minimum of the array.</span>
+    <span class="n">masked_min</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">nanmin</span><span class="p">(</span><span class="n">masked_array</span><span class="p">)</span>
+
+    <span class="c1"># Finding the maximum of the array</span>
+    <span class="n">masked_max</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">nanmax</span><span class="p">(</span><span class="n">masked_array</span><span class="p">)</span>
+
+    <span class="k">return</span> <span class="n">masked_min</span><span class="p">,</span> <span class="n">masked_max</span></div>
+
+</pre></div>
+
+           </div>
+           
+          </div>
+          <footer>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2019, Sparrow
+
+    </p>
+  </div>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+
+  
+  
+    
+   
+
+</body>
+</html>

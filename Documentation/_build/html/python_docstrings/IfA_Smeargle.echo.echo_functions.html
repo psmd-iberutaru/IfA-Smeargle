@@ -180,7 +180,7 @@
 <p>These are some functions for the ECHO line that are helpful.</p>
 <dl class="function">
 <dt id="IfA_Smeargle.echo.echo_functions.functioned_mask_returning">
-<code class="sig-prename descclassname">IfA_Smeargle.echo.echo_functions.</code><code class="sig-name descname">functioned_mask_returning</code><span class="sig-paren">(</span><em class="sig-param">pixel_mask</em>, <em class="sig-param">masking_dictionary</em>, <em class="sig-param">filter_name</em>, <em class="sig-param">return_mask_only</em><span class="sig-paren">)</span><a class="headerlink" href="#IfA_Smeargle.echo.echo_functions.functioned_mask_returning" title="Permalink to this definition">¶</a></dt>
+<code class="sig-prename descclassname">IfA_Smeargle.echo.echo_functions.</code><code class="sig-name descname">functioned_mask_returning</code><span class="sig-paren">(</span><em class="sig-param">pixel_mask</em>, <em class="sig-param">masking_dictionary</em>, <em class="sig-param">filter_name</em>, <em class="sig-param">return_mask_only</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/IfA_Smeargle/echo/echo_functions.html#functioned_mask_returning"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#IfA_Smeargle.echo.echo_functions.functioned_mask_returning" title="Permalink to this definition">¶</a></dt>
 <dd><p>This function is a single implementation for returning masks.</p>
 <p>Because it is an option for the user to return the mask itself, writing the logic for each
 of the masks will get really old.</p>
@@ -206,7 +206,7 @@ the boolean value.</p>
 
 <dl class="function">
 <dt id="IfA_Smeargle.echo.echo_functions.numpy_masked_array">
-<code class="sig-prename descclassname">IfA_Smeargle.echo.echo_functions.</code><code class="sig-name descname">numpy_masked_array</code><span class="sig-paren">(</span><em class="sig-param">data_array</em>, <em class="sig-param">synthesized_mask</em>, <em class="sig-param">masking_dictionary=None</em><span class="sig-paren">)</span><a class="headerlink" href="#IfA_Smeargle.echo.echo_functions.numpy_masked_array" title="Permalink to this definition">¶</a></dt>
+<code class="sig-prename descclassname">IfA_Smeargle.echo.echo_functions.</code><code class="sig-name descname">numpy_masked_array</code><span class="sig-paren">(</span><em class="sig-param">data_array</em>, <em class="sig-param">synthesized_mask</em>, <em class="sig-param">masking_dictionary=None</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/IfA_Smeargle/echo/echo_functions.html#numpy_masked_array"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#IfA_Smeargle.echo.echo_functions.numpy_masked_array" title="Permalink to this definition">¶</a></dt>
 <dd><p>This function makes a Numpy masked array; a nice built in class for this line.</p>
 <p>The Numpy Masked Array class works very well with masking data values in a given array.
 It is only natural to use such functionality. This is really a wrapper function for ease of
@@ -225,7 +225,7 @@ completely ignored in favor of this parameter.</p></li>
 
 <dl class="function">
 <dt id="IfA_Smeargle.echo.echo_functions.sort_masking_dictionary">
-<code class="sig-prename descclassname">IfA_Smeargle.echo.echo_functions.</code><code class="sig-name descname">sort_masking_dictionary</code><span class="sig-paren">(</span><em class="sig-param">mask_dictionary</em><span class="sig-paren">)</span><a class="headerlink" href="#IfA_Smeargle.echo.echo_functions.sort_masking_dictionary" title="Permalink to this definition">¶</a></dt>
+<code class="sig-prename descclassname">IfA_Smeargle.echo.echo_functions.</code><code class="sig-name descname">sort_masking_dictionary</code><span class="sig-paren">(</span><em class="sig-param">mask_dictionary</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/IfA_Smeargle/echo/echo_functions.html#sort_masking_dictionary"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#IfA_Smeargle.echo.echo_functions.sort_masking_dictionary" title="Permalink to this definition">¶</a></dt>
 <dd><p>This function just sorts a dictionary by its key.</p>
 <p>As the masking dictionary is expected to be in order by its keys, this is sort of needed.
 It is not too efficient, and it can be disabled.</p>
@@ -244,7 +244,7 @@ It is not too efficient, and it can be disabled.</p>
 
 <dl class="function">
 <dt id="IfA_Smeargle.echo.echo_functions.synthesize_mask_dictionary">
-<code class="sig-prename descclassname">IfA_Smeargle.echo.echo_functions.</code><code class="sig-name descname">synthesize_mask_dictionary</code><span class="sig-paren">(</span><em class="sig-param">masking_dictionary</em><span class="sig-paren">)</span><a class="headerlink" href="#IfA_Smeargle.echo.echo_functions.synthesize_mask_dictionary" title="Permalink to this definition">¶</a></dt>
+<code class="sig-prename descclassname">IfA_Smeargle.echo.echo_functions.</code><code class="sig-name descname">synthesize_mask_dictionary</code><span class="sig-paren">(</span><em class="sig-param">masking_dictionary</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/IfA_Smeargle/echo/echo_functions.html#synthesize_mask_dictionary"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#IfA_Smeargle.echo.echo_functions.synthesize_mask_dictionary" title="Permalink to this definition">¶</a></dt>
 <dd><p>This function takes a masking dictionary and returns it with a final overall mask.</p>
 <p>The masking dictionary is made solely because it is helpful to preserve the information as
 to which mask applied to which pixel. However, in actual visualization, it is not really

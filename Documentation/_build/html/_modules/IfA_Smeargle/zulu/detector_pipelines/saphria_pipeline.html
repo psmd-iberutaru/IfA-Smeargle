@@ -1,0 +1,411 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>IfA_Smeargle.zulu.detector_pipelines.saphria_pipeline &mdash; IfA-Smeargle 2019-08-19 documentation</title>
+  
+
+  
+  
+  
+  
+
+  
+  <script type="text/javascript" src="../../../../_static/js/modernizr.min.js"></script>
+  
+    
+      <script type="text/javascript" id="documentation_options" data-url_root="../../../../" src="../../../../_static/documentation_options.js"></script>
+        <script type="text/javascript" src="../../../../_static/jquery.js"></script>
+        <script type="text/javascript" src="../../../../_static/underscore.js"></script>
+        <script type="text/javascript" src="../../../../_static/doctools.js"></script>
+        <script type="text/javascript" src="../../../../_static/language_data.js"></script>
+    
+    <script type="text/javascript" src="../../../../_static/js/theme.js"></script>
+
+    
+
+  
+  <link rel="stylesheet" href="../../../../_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="../../../../_static/pygments.css" type="text/css" />
+  <link rel="stylesheet" href="../../../../_static/css/custom.css" type="text/css" />
+    <link rel="index" title="Index" href="../../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../../search.html" />
+    <link href="../../../../_static/css/ifa_smeargle.css" rel="stylesheet" type="text/css">
+
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+          
+
+          
+            <a href="../../../../index.html" class="icon icon-home"> IfA-Smeargle
+          
+
+          
+          </a>
+
+          
+            
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <p class="caption"><span class="caption-text">Contents:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../../how_to_use.html">How to Use</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../python_docstrings/modules.html">IfA_Smeargle</a></li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../../../index.html">IfA-Smeargle</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="../../../../index.html">Docs</a> &raquo;</li>
+        
+          <li><a href="../../../index.html">Module code</a> &raquo;</li>
+        
+      <li>IfA_Smeargle.zulu.detector_pipelines.saphria_pipeline</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <h1>Source code for IfA_Smeargle.zulu.detector_pipelines.saphria_pipeline</h1><div class="highlight"><pre>
+<span></span>
+<span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">This is the entire reduction method for the Saphria based infrared arrays.</span>
+
+<span class="sd">&quot;&quot;&quot;</span>
+<span class="kn">import</span> <span class="nn">glob</span>
+<span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+<span class="kn">import</span> <span class="nn">numpy.ma</span> <span class="k">as</span> <span class="nn">np_ma</span>
+<span class="kn">import</span> <span class="nn">warnings</span> <span class="k">as</span> <span class="nn">warn</span>
+
+<span class="kn">from</span> <span class="nn">IfA_Smeargle</span> <span class="k">import</span> <span class="n">bravo</span>
+<span class="kn">from</span> <span class="nn">IfA_Smeargle</span> <span class="k">import</span> <span class="n">echo</span>
+<span class="kn">from</span> <span class="nn">IfA_Smeargle</span> <span class="k">import</span> <span class="n">oscar</span>
+<span class="kn">from</span> <span class="nn">IfA_Smeargle</span> <span class="k">import</span> <span class="n">yankee</span>
+
+<span class="kn">from</span> <span class="nn">IfA_Smeargle.meta</span> <span class="k">import</span> <span class="o">*</span>
+
+<div class="viewcode-block" id="saphria_reduction_pipeline"><a class="viewcode-back" href="../../../../python_docstrings/IfA_Smeargle.zulu.detector_pipelines.saphria_pipeline.html#IfA_Smeargle.zulu.detector_pipelines.saphria_pipeline.saphria_reduction_pipeline">[docs]</a><span class="k">def</span> <span class="nf">saphria_reduction_pipeline</span><span class="p">(</span><span class="n">data_directory</span><span class="p">,</span> <span class="n">configuration_class</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;This is the entire reduction and analysis pipeline for the SAPHRIA </span>
+<span class="sd">    arrays.</span>
+
+<span class="sd">    This is the default reduction pipeline for the Saphria array. The</span>
+<span class="sd">    &quot;outputs&quot; are written to file(s) and arranged in their own directory </span>
+<span class="sd">    instead of a Python output, mostly because of the sheer number of outputs.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    data_directory : string</span>
+<span class="sd">        The data directory straight out of the Saphria array. Data </span>
+<span class="sd">        preprocessing is internally handled.</span>
+<span class="sd">    configuration_class : SmeargleConfig class</span>
+<span class="sd">        The configuration class/options that go along with this reduction</span>
+<span class="sd">        script. Must be a SmeargleConfig class instance.</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    nothing</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="c1"># First, run the data reorganization program.</span>
+    <span class="n">bravo</span><span class="o">.</span><span class="n">bravo_execution_saphria</span><span class="p">(</span><span class="n">data_directory</span><span class="p">,</span> <span class="n">configuration_class</span><span class="p">)</span>
+
+    
+    <span class="c1"># Apply the desired masks as needed. Although, the format provided by</span>
+    <span class="c1"># the BRAVO line states that they should all be in the same directory.</span>
+    <span class="n">echo</span><span class="o">.</span><span class="n">echo_directory_execution</span><span class="p">(</span><span class="n">data_directory</span><span class="p">,</span> <span class="n">configuration_class</span><span class="p">,</span> 
+                                  <span class="n">overwrite</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+
+
+    <span class="c1"># Re-reference the files. This is mostly to ensure any file name changes</span>
+    <span class="c1"># are taken into account.</span>
+    <span class="n">data_files</span> <span class="o">=</span> <span class="n">glob</span><span class="o">.</span><span class="n">glob</span><span class="p">(</span><span class="n">data_directory</span> <span class="o">+</span> <span class="s1">&#39;/*.fits&#39;</span><span class="p">)</span>
+    <span class="k">for</span> <span class="n">filedex</span> <span class="ow">in</span> <span class="n">data_files</span><span class="p">:</span>
+        <span class="n">oscar_plot</span> <span class="o">=</span> <span class="n">oscar</span><span class="o">.</span><span class="n">multi</span><span class="o">.</span><span class="n">plot_single_heatmap_and_histogram</span><span class="p">(</span><span class="n">filedex</span><span class="p">,</span> <span class="n">configuration_class</span><span class="p">)</span>
+        <span class="c1"># Save the plot.</span>
+        <span class="n">file_name</span> <span class="o">=</span> <span class="n">filedex</span><span class="p">[:</span><span class="o">-</span><span class="mi">5</span><span class="p">]</span> <span class="o">+</span> <span class="s1">&#39;__plot.pdf&#39;</span> <span class="c1"># UPDATE</span>
+        <span class="n">plot_title</span> <span class="o">=</span> <span class="n">filedex</span><span class="p">[:</span><span class="o">-</span><span class="mi">5</span><span class="p">]</span> <span class="c1"># UPDATE</span>
+        <span class="n">meta_plting</span><span class="o">.</span><span class="n">smeargle_save_figure_file</span><span class="p">(</span><span class="n">oscar_plot</span><span class="p">,</span> <span class="n">file_name</span><span class="p">,</span> <span class="n">title</span><span class="o">=</span><span class="n">plot_title</span><span class="p">)</span>
+
+    <span class="c1"># That should be it.</span>
+    <span class="k">return</span> <span class="kc">None</span></div>
+
+
+<div class="viewcode-block" id="SA201907281826_reduction_pipeline"><a class="viewcode-back" href="../../../../python_docstrings/IfA_Smeargle.zulu.detector_pipelines.saphria_pipeline.html#IfA_Smeargle.zulu.detector_pipelines.saphria_pipeline.SA201907281826_reduction_pipeline">[docs]</a><span class="k">def</span> <span class="nf">SA201907281826_reduction_pipeline</span><span class="p">(</span><span class="n">data_directory</span><span class="p">,</span> <span class="n">configuration_class</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot; This function is the reduction pipeline instructed on 2019-07-28, </span>
+<span class="sd">    18:26.</span>
+
+<span class="sd">    This reduction line differs from the main branch significantly enough to</span>
+<span class="sd">    warrant itself its own special function. Its variants are also listed here.</span>
+<span class="sd">    </span>
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    data_directory : string</span>
+<span class="sd">        The data directory straight out of the Saphria array. Data </span>
+<span class="sd">        preprocessing is internally handled.</span>
+<span class="sd">    configuration_class : SmeargleConfig class</span>
+<span class="sd">        The configuration class/options that go along with this reduction</span>
+<span class="sd">        script. Must be a SmeargleConfig class instance. Default </span>
+<span class="sd">        configurations are stored in the Configuration_Archive</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    nothing</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="c1"># Obtain parameters, else use hard coded default values.</span>
+    <span class="k">try</span><span class="p">:</span>
+        <span class="n">early_frame</span> <span class="o">=</span> <span class="n">configuration_class</span><span class="o">.</span><span class="n">ZuluConfig</span><span class="o">.</span><span class="n">SA201907281826</span><span class="p">[</span><span class="s1">&#39;early_frame&#39;</span><span class="p">]</span>
+        <span class="n">ref_frame</span> <span class="o">=</span> <span class="n">configuration_class</span><span class="o">.</span><span class="n">ZuluConfig</span><span class="o">.</span><span class="n">SA201907281826</span><span class="p">[</span><span class="s1">&#39;ref_frame&#39;</span><span class="p">]</span>
+        <span class="n">sub_avg_frames</span> <span class="o">=</span> <span class="n">configuration_class</span><span class="o">.</span><span class="n">ZuluConfig</span><span class="o">.</span><span class="n">SA201907281826</span><span class="p">[</span><span class="s1">&#39;sub_avg_frames&#39;</span><span class="p">]</span>
+        <span class="n">frame_exposure</span> <span class="o">=</span> <span class="n">configuration_class</span><span class="o">.</span><span class="n">ZuluConfig</span><span class="o">.</span><span class="n">SA201907281826</span><span class="p">[</span><span class="s1">&#39;frame_exposure&#39;</span><span class="p">]</span>
+        <span class="n">early_sigma</span> <span class="o">=</span> <span class="n">configuration_class</span><span class="o">.</span><span class="n">ZuluConfig</span><span class="o">.</span><span class="n">SA201907281826</span><span class="p">[</span><span class="s1">&#39;early_sigma&#39;</span><span class="p">]</span>
+    <span class="k">except</span> <span class="p">(</span><span class="ne">AttributeError</span><span class="p">,</span> <span class="ne">KeyError</span><span class="p">):</span>
+        <span class="c1"># Frame 4, account for 0-indexing.</span>
+        <span class="n">early_frame</span> <span class="o">=</span> <span class="mi">3</span>
+
+        <span class="c1"># Frame index values provided by Don Hall.</span>
+        <span class="n">ref_frame</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="mi">17</span><span class="p">,</span><span class="mi">32</span><span class="p">],</span> <span class="n">dtype</span><span class="o">=</span><span class="nb">int</span><span class="p">)</span>
+        <span class="n">sub_avg_frames</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([(</span><span class="mi">257</span><span class="p">,</span><span class="mi">272</span><span class="p">),</span> <span class="p">(</span><span class="mi">513</span><span class="p">,</span><span class="mi">528</span><span class="p">),</span> <span class="p">(</span><span class="mi">1025</span><span class="p">,</span><span class="mi">1040</span><span class="p">),</span> <span class="p">(</span><span class="mi">2049</span><span class="p">,</span><span class="mi">2064</span><span class="p">),</span> <span class="p">(</span><span class="mi">4097</span><span class="p">,</span><span class="mi">4112</span><span class="p">)],</span>
+                                  <span class="n">dtype</span><span class="o">=</span><span class="nb">int</span><span class="p">)</span>
+
+        <span class="c1"># How long each frame was exposed for in seconds.</span>
+        <span class="n">frame_exposure</span> <span class="o">=</span> <span class="mi">5</span>
+        <span class="n">early_sigma</span> <span class="o">=</span> <span class="mi">2</span>
+
+
+    <span class="c1"># Initial renaming of primary files.</span>
+    <span class="k">def</span> <span class="nf">_saphria_renaming</span><span class="p">(</span><span class="n">data_directory</span><span class="p">,</span> <span class="n">configuration_class</span><span class="p">):</span>
+        <span class="c1"># Just a inner function to store the new naming routine. </span>
+        <span class="c1"># Be adaptive as to which configuration class is given.</span>
+        <span class="n">provided_config</span> <span class="o">=</span> <span class="n">yankee</span><span class="o">.</span><span class="n">extract_proper_configuration_class</span><span class="p">(</span><span class="n">configuration_class</span><span class="p">,</span>
+                                                                    <span class="n">yankee</span><span class="o">.</span><span class="n">BravoConfig</span><span class="p">)</span>
+
+        <span class="c1"># Determine the detector&#39;s name.</span>
+        <span class="k">if</span> <span class="p">(</span><span class="nb">isinstance</span><span class="p">(</span><span class="n">provided_config</span><span class="o">.</span><span class="n">detector_name</span><span class="p">,</span><span class="nb">str</span><span class="p">)):</span>
+            <span class="n">detector_name</span> <span class="o">=</span> <span class="n">provided_config</span><span class="o">.</span><span class="n">detector_name</span>
+        <span class="k">elif</span> <span class="p">(</span><span class="nb">isinstance</span><span class="p">(</span><span class="n">provided_config</span><span class="o">.</span><span class="n">detector_name</span><span class="p">,</span><span class="nb">dict</span><span class="p">)):</span>
+            <span class="k">try</span><span class="p">:</span>
+                <span class="n">detector_name</span> <span class="o">=</span> <span class="n">provided_config</span><span class="o">.</span><span class="n">detector_name</span><span class="p">[</span><span class="s1">&#39;name&#39;</span><span class="p">]</span>
+            <span class="k">except</span> <span class="ne">KeyError</span><span class="p">:</span>
+                <span class="k">raise</span> <span class="n">ConfigurationError</span><span class="p">(</span><span class="s2">&quot;The detector name cannot be found in the &quot;</span>
+                                         <span class="s2">&quot;configuration file. It must either be a string or a &quot;</span>
+                                         <span class="s2">&quot;dictionary with the name value referenced by the key &quot;</span>
+                                         <span class="s2">&quot;&lt;name&gt;.&quot;</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="n">ConfigurationError</span><span class="p">(</span><span class="s2">&quot;The detector name cannot be found in the configuration &quot;</span>
+                                     <span class="s2">&quot;file. It must either be a string or a dictionary with &quot;</span>
+                                     <span class="s2">&quot;the name value referenced by the key &lt;name&gt;.&quot;</span><span class="p">)</span>
+
+        <span class="c1"># Getting the voltage renames</span>
+        <span class="n">voltage_names</span> <span class="o">=</span> <span class="n">bravo</span><span class="o">.</span><span class="n">rename</span><span class="o">.</span><span class="n">voltage_pattern_rename_fits</span><span class="p">(</span>
+            <span class="n">data_directory</span><span class="p">,</span> <span class="o">**</span><span class="n">provided_config</span><span class="o">.</span><span class="n">voltpat_rename_config</span><span class="p">)</span>
+        <span class="n">n_files</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">voltage_names</span><span class="p">)</span>
+
+
+        <span class="c1"># Rename all of the files. The directory structure seems fine.</span>
+        <span class="n">final_names</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="k">for</span> <span class="n">index</span><span class="p">,</span> <span class="n">detectdex</span><span class="p">,</span> <span class="n">voltdex</span> <span class="ow">in</span> <span class="nb">zip</span><span class="p">(</span><span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">voltage_names</span><span class="p">)),</span>
+                                             <span class="p">[</span><span class="n">detector_name</span> <span class="k">for</span> <span class="n">index</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">n_files</span><span class="p">)],</span>
+                                             <span class="n">voltage_names</span><span class="p">):</span>
+            <span class="n">final_names</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">detectdex</span>
+                               <span class="o">+</span> <span class="s1">&#39;__&#39;</span> <span class="o">+</span> <span class="s1">&#39;num;&#39;</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">index</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)</span> 
+                               <span class="o">+</span> <span class="s1">&#39;__&#39;</span> <span class="o">+</span> <span class="n">voltdex</span> 
+                               <span class="c1"># + &#39;__&#39;</span>
+                               <span class="o">+</span> <span class="s1">&#39;.fits&#39;</span><span class="p">)</span>
+
+        <span class="n">bravo</span><span class="o">.</span><span class="n">rename</span><span class="o">.</span><span class="n">parallel_renaming</span><span class="p">(</span><span class="kc">None</span><span class="p">,</span> <span class="n">final_names</span><span class="p">,</span> <span class="n">data_directory</span><span class="p">,</span> 
+                                       <span class="n">file_extensions</span><span class="o">=</span><span class="s1">&#39;.fits&#39;</span><span class="p">)</span>
+
+        <span class="k">return</span> <span class="kc">None</span>
+    
+    <span class="c1"># Run the renaming of the files.</span>
+    <span class="n">_saphria_renaming</span><span class="p">(</span><span class="n">data_directory</span><span class="p">,</span> <span class="n">configuration_class</span><span class="p">)</span>
+
+    <span class="c1"># Re-obtain file names.</span>
+    <span class="n">file_names</span> <span class="o">=</span> <span class="n">glob</span><span class="o">.</span><span class="n">glob</span><span class="p">(</span><span class="n">data_directory</span> <span class="o">+</span> <span class="s1">&#39;/*&#39;</span> <span class="o">+</span> <span class="s1">&#39;.fits&#39;</span><span class="p">)</span>
+    <span class="k">for</span> <span class="n">filedex</span> <span class="ow">in</span> <span class="n">file_names</span><span class="p">:</span>
+        <span class="c1"># Load fits file.</span>
+        <span class="n">hdul_file</span><span class="p">,</span> <span class="n">hdu_header</span><span class="p">,</span> <span class="n">hdu_data</span> <span class="o">=</span> <span class="n">meta_faa</span><span class="o">.</span><span class="n">smeargle_open_fits_file</span><span class="p">(</span><span class="n">filedex</span><span class="p">,</span> <span class="n">silent</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+
+        <span class="c1"># Early frame masking.</span>
+        <span class="n">early_mask</span> <span class="o">=</span> <span class="n">echo</span><span class="o">.</span><span class="n">masks</span><span class="o">.</span><span class="n">echo170_gaussian_truncation</span><span class="p">(</span><span class="n">hdu_data</span><span class="p">[</span><span class="n">early_frame</span><span class="p">],</span> <span class="n">early_sigma</span><span class="p">,</span> 
+                                                            <span class="n">bin_size</span><span class="o">=</span><span class="mi">10</span><span class="p">,</span>
+                                                            <span class="n">return_mask</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+
+        <span class="c1"># Calculating the differing averaging frames.</span>
+        <span class="k">for</span> <span class="n">subavedex</span> <span class="ow">in</span> <span class="n">sub_avg_frames</span><span class="p">:</span>
+            <span class="c1"># Deriving an alternate name.</span>
+            <span class="n">alt_name</span> <span class="o">=</span> <span class="p">(</span><span class="n">filedex</span><span class="p">[:</span><span class="o">-</span><span class="mi">5</span><span class="p">]</span> 
+                        <span class="o">+</span> <span class="s1">&#39;__&#39;</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">subavedex</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span> <span class="o">+</span> <span class="s1">&#39;-&#39;</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">subavedex</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span> 
+                        <span class="o">+</span> <span class="s1">&#39;.fits&#39;</span><span class="p">)</span>
+            <span class="c1"># Executing averaging and writing, saving the mask.</span>
+            <span class="n">hdu_to_be_written</span> <span class="o">=</span> <span class="n">bravo</span><span class="o">.</span><span class="n">avging</span><span class="o">.</span><span class="n">average_endpoints</span><span class="p">(</span><span class="n">filedex</span><span class="p">,</span> <span class="n">ref_frame</span><span class="p">,</span> <span class="n">subavedex</span><span class="p">,</span> 
+                                                               <span class="n">write_file</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
+                                                               <span class="n">alternate_name</span><span class="o">=</span><span class="n">alt_name</span><span class="p">)</span>
+            <span class="n">temp_header</span> <span class="o">=</span> <span class="n">hdu_to_be_written</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">header</span> 
+            <span class="n">temp_data</span> <span class="o">=</span> <span class="n">np_ma</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">hdu_to_be_written</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">data</span><span class="p">,</span> <span class="n">mask</span><span class="o">=</span><span class="n">early_mask</span><span class="p">)</span>
+            <span class="n">meta_faa</span><span class="o">.</span><span class="n">smeargle_write_fits_file</span><span class="p">(</span><span class="n">alt_name</span><span class="p">,</span> <span class="n">temp_header</span><span class="p">,</span> <span class="n">temp_data</span><span class="p">,</span> <span class="n">silent</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+
+    <span class="c1"># Re-obtain file names, again.</span>
+    <span class="n">file_names</span> <span class="o">=</span> <span class="n">glob</span><span class="o">.</span><span class="n">glob</span><span class="p">(</span><span class="n">data_directory</span> <span class="o">+</span> <span class="s1">&#39;/*&#39;</span> <span class="o">+</span> <span class="s1">&#39;.fits&#39;</span><span class="p">)</span>
+    <span class="k">for</span> <span class="n">filedex</span> <span class="ow">in</span> <span class="n">file_names</span><span class="p">:</span>
+        <span class="c1"># Extract the fits file, keeping track of the early mask and raw data.</span>
+        <span class="n">__</span><span class="p">,</span> <span class="n">hdu_header</span><span class="p">,</span> <span class="n">hdu_data</span> <span class="o">=</span> <span class="n">meta_faa</span><span class="o">.</span><span class="n">smeargle_open_fits_file</span><span class="p">(</span><span class="n">filedex</span><span class="p">,</span> <span class="n">silent</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+        <span class="n">raw_data</span> <span class="o">=</span> <span class="n">np_ma</span><span class="o">.</span><span class="n">getdata</span><span class="p">(</span><span class="n">hdu_data</span><span class="p">)</span>
+        <span class="n">early_mask</span> <span class="o">=</span> <span class="n">np_ma</span><span class="o">.</span><span class="n">getmaskarray</span><span class="p">(</span><span class="n">hdu_data</span><span class="p">)</span>
+
+        <span class="c1"># Execute the main masks as specified by the EchoConfig.</span>
+        <span class="n">__</span><span class="p">,</span> <span class="n">mask_dictionary</span> <span class="o">=</span> <span class="n">echo</span><span class="o">.</span><span class="n">echo_execution</span><span class="p">(</span><span class="n">hdu_data</span><span class="p">,</span> <span class="n">configuration_class</span><span class="p">,</span> <span class="n">silent</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+
+
+        <span class="c1"># Add an entry to the masking dictionary corresponding to the early </span>
+        <span class="c1"># mask.</span>
+        <span class="n">mask_dictionary</span><span class="p">[</span><span class="s1">&#39;early_mask&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">early_mask</span>
+
+        <span class="c1"># Make the final masked fits file.</span>
+        <span class="n">hdu_data</span> <span class="o">=</span> <span class="n">echo</span><span class="o">.</span><span class="n">numpy_masked_array</span><span class="p">(</span><span class="n">raw_data</span><span class="p">,</span> <span class="kc">None</span><span class="p">,</span> <span class="n">masking_dictionary</span><span class="o">=</span><span class="n">mask_dictionary</span><span class="p">)</span>
+
+        <span class="c1"># Write the files once more.</span>
+        <span class="n">meta_faa</span><span class="o">.</span><span class="n">smeargle_write_fits_file</span><span class="p">(</span><span class="n">filedex</span><span class="p">,</span> <span class="n">hdu_header</span><span class="p">,</span> <span class="n">hdu_data</span><span class="p">,</span> <span class="n">silent</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+
+
+    <span class="c1"># Re-obtain file names, once again. This is unneeded and can be condensed</span>
+    <span class="c1"># into the upper loop. However, the loops do not take too much more time</span>
+    <span class="c1"># so the &#39;simplification&#39; is likely worth it.</span>
+    <span class="n">file_names</span> <span class="o">=</span> <span class="n">glob</span><span class="o">.</span><span class="n">glob</span><span class="p">(</span><span class="n">data_directory</span> <span class="o">+</span> <span class="s1">&#39;/*.fits&#39;</span><span class="p">)</span>
+    <span class="k">for</span> <span class="n">filedex</span> <span class="ow">in</span> <span class="n">file_names</span><span class="p">:</span>
+        <span class="k">try</span><span class="p">:</span>
+            <span class="n">oscar_plot</span> <span class="o">=</span> <span class="n">oscar</span><span class="o">.</span><span class="n">multi</span><span class="o">.</span><span class="n">plot_single_heatmap_and_histogram</span><span class="p">(</span><span class="n">filedex</span><span class="p">,</span> 
+                                                                       <span class="n">configuration_class</span><span class="p">)</span>
+        <span class="k">except</span> <span class="ne">TypeError</span><span class="p">:</span>
+            <span class="k">continue</span>
+        <span class="c1"># Save the plot.</span>
+        <span class="n">file_name</span> <span class="o">=</span> <span class="n">filedex</span><span class="p">[:</span><span class="o">-</span><span class="mi">5</span><span class="p">]</span> <span class="o">+</span> <span class="s1">&#39;__plot.pdf&#39;</span> <span class="c1"># UPDATE</span>
+        <span class="n">plot_title</span> <span class="o">=</span> <span class="n">filedex</span><span class="p">[:</span><span class="o">-</span><span class="mi">5</span><span class="p">]</span> <span class="c1"># UPDATE</span>
+        <span class="n">meta_plting</span><span class="o">.</span><span class="n">smeargle_save_figure_file</span><span class="p">(</span><span class="n">oscar_plot</span><span class="p">,</span> <span class="n">file_name</span><span class="p">,</span> <span class="n">title</span><span class="o">=</span><span class="n">plot_title</span><span class="p">)</span>
+
+    <span class="c1"># All finished</span>
+    <span class="k">return</span> <span class="kc">None</span> </div>
+</pre></div>
+
+           </div>
+           
+          </div>
+          <footer>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2019, Sparrow
+
+    </p>
+  </div>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+
+  
+  
+    
+   
+
+</body>
+</html>

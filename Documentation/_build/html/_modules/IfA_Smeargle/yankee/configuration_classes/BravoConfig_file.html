@@ -1,0 +1,251 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>IfA_Smeargle.yankee.configuration_classes.BravoConfig_file &mdash; IfA-Smeargle 2019-08-19 documentation</title>
+  
+
+  
+  
+  
+  
+
+  
+  <script type="text/javascript" src="../../../../_static/js/modernizr.min.js"></script>
+  
+    
+      <script type="text/javascript" id="documentation_options" data-url_root="../../../../" src="../../../../_static/documentation_options.js"></script>
+        <script type="text/javascript" src="../../../../_static/jquery.js"></script>
+        <script type="text/javascript" src="../../../../_static/underscore.js"></script>
+        <script type="text/javascript" src="../../../../_static/doctools.js"></script>
+        <script type="text/javascript" src="../../../../_static/language_data.js"></script>
+    
+    <script type="text/javascript" src="../../../../_static/js/theme.js"></script>
+
+    
+
+  
+  <link rel="stylesheet" href="../../../../_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="../../../../_static/pygments.css" type="text/css" />
+  <link rel="stylesheet" href="../../../../_static/css/custom.css" type="text/css" />
+    <link rel="index" title="Index" href="../../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../../search.html" />
+    <link href="../../../../_static/css/ifa_smeargle.css" rel="stylesheet" type="text/css">
+
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+          
+
+          
+            <a href="../../../../index.html" class="icon icon-home"> IfA-Smeargle
+          
+
+          
+          </a>
+
+          
+            
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <p class="caption"><span class="caption-text">Contents:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../../how_to_use.html">How to Use</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../python_docstrings/modules.html">IfA_Smeargle</a></li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../../../index.html">IfA-Smeargle</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="../../../../index.html">Docs</a> &raquo;</li>
+        
+          <li><a href="../../../index.html">Module code</a> &raquo;</li>
+        
+      <li>IfA_Smeargle.yankee.configuration_classes.BravoConfig_file</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <h1>Source code for IfA_Smeargle.yankee.configuration_classes.BravoConfig_file</h1><div class="highlight"><pre>
+<span></span>
+<span class="kn">from</span> <span class="nn">IfA_Smeargle.meta</span> <span class="k">import</span> <span class="o">*</span>
+
+<span class="kn">from</span> <span class="nn">.BaseConfig_file</span> <span class="k">import</span> <span class="n">BaseConfig</span>
+
+<span class="c1"># Pulling deeper functions into the light.</span>
+<span class="kn">from</span> <span class="nn">IfA_Smeargle.yankee.yankee_functions</span> <span class="k">import</span> <span class="o">*</span>
+
+<div class="viewcode-block" id="BravoConfig"><a class="viewcode-back" href="../../../../python_docstrings/IfA_Smeargle.yankee.configuration_classes.BravoConfig_file.html#IfA_Smeargle.yankee.configuration_classes.BravoConfig_file.BravoConfig">[docs]</a><span class="k">class</span> <span class="nc">BravoConfig</span><span class="p">(</span><span class="n">BaseConfig</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;This is the configuration class of the BRAVO line.</span>
+
+<span class="sd">    The BRAVO line is mostly responsible for gathering the data from the </span>
+<span class="sd">    raw output of the detector and processing it in a form that the later </span>
+<span class="sd">    lines can use.</span>
+<span class="sd">    </span>
+<span class="sd">    By default, all of the entries in the configurations are empty. Moreover, </span>
+<span class="sd">    each configuration attribute only contains the required entries. Optional </span>
+<span class="sd">    entries may be added at user discretion (see documentation for such </span>
+<span class="sd">    entries).</span>
+<span class="sd">    </span>
+
+<span class="sd">    Attributes</span>
+<span class="sd">    ----------</span>
+<span class="sd">    detector_name : dictionary or string</span>
+<span class="sd">        The name of the detector that is being processed.</span>
+<span class="sd">    voltpat_rename_config : dictionary</span>
+<span class="sd">        These are the parameters fed into ``voltage_pattern_rename_fits``</span>
+<span class="sd">    avg_endpts_config : dictionary</span>
+<span class="sd">        These are the parameters fed into ``average_endpoints``.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">file_name</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+
+        <span class="k">try</span><span class="p">:</span>
+            <span class="n">provided_config</span> <span class="o">=</span> <span class="n">extract_proper_configuration_class</span><span class="p">(</span><span class="n">file_name</span><span class="p">,</span> <span class="n">BravoConfig</span><span class="p">)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="vm">__dict__</span><span class="o">.</span><span class="n">update</span><span class="p">(</span><span class="n">provided_config</span><span class="o">.</span><span class="vm">__dict__</span><span class="p">)</span>
+        <span class="k">except</span> <span class="ne">Exception</span><span class="p">:</span>
+            <span class="k">if</span> <span class="p">(</span><span class="n">file_name</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">):</span>
+                <span class="n">smeargle_warning</span><span class="p">(</span><span class="n">ImportingWarning</span><span class="p">,(</span><span class="s2">&quot;The configuration file could not be &quot;</span>
+                                                   <span class="s2">&quot;properly read. Consider using the factory &quot;</span>
+                                                   <span class="s2">&quot;function. A blank configuration class has &quot;</span>
+                                                   <span class="s2">&quot;been provided instead.&quot;</span><span class="p">))</span>
+
+            <span class="c1"># The name of the detector.</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">detector_name</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;name&#39;</span><span class="p">:</span><span class="kc">None</span><span class="p">}</span>
+
+            <span class="c1"># Renaming file</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">voltpat_rename_config</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;voltage_pattern&#39;</span><span class="p">:</span><span class="kc">None</span><span class="p">}</span>
+
+
+            <span class="c1"># Preprocessing of beginning/end data for analysis.</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">avg_endpts_persec_config</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;start_chunk&#39;</span><span class="p">:</span><span class="kc">None</span><span class="p">,</span> <span class="s1">&#39;end_chunk&#39;</span><span class="p">:</span><span class="kc">None</span><span class="p">,</span> 
+                                             <span class="s1">&#39;frame_exposure_time&#39;</span><span class="p">:</span><span class="kc">None</span><span class="p">}</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">avg_endpts_perksec_config</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;start_chunk&#39;</span><span class="p">:</span><span class="kc">None</span><span class="p">,</span> <span class="s1">&#39;end_chunk&#39;</span><span class="p">:</span><span class="kc">None</span><span class="p">,</span> 
+                                              <span class="s1">&#39;frame_exposure_time&#39;</span><span class="p">:</span><span class="kc">None</span><span class="p">}</span>
+
+    <span class="k">pass</span></div>
+
+
+</pre></div>
+
+           </div>
+           
+          </div>
+          <footer>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2019, Sparrow
+
+    </p>
+  </div>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+
+  
+  
+    
+   
+
+</body>
+</html>

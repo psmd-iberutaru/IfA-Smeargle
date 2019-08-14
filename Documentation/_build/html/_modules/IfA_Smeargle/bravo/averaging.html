@@ -1,0 +1,446 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>IfA_Smeargle.bravo.averaging &mdash; IfA-Smeargle 2019-08-19 documentation</title>
+  
+
+  
+  
+  
+  
+
+  
+  <script type="text/javascript" src="../../../_static/js/modernizr.min.js"></script>
+  
+    
+      <script type="text/javascript" id="documentation_options" data-url_root="../../../" src="../../../_static/documentation_options.js"></script>
+        <script type="text/javascript" src="../../../_static/jquery.js"></script>
+        <script type="text/javascript" src="../../../_static/underscore.js"></script>
+        <script type="text/javascript" src="../../../_static/doctools.js"></script>
+        <script type="text/javascript" src="../../../_static/language_data.js"></script>
+    
+    <script type="text/javascript" src="../../../_static/js/theme.js"></script>
+
+    
+
+  
+  <link rel="stylesheet" href="../../../_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
+  <link rel="stylesheet" href="../../../_static/css/custom.css" type="text/css" />
+    <link rel="index" title="Index" href="../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../search.html" />
+    <link href="../../../_static/css/ifa_smeargle.css" rel="stylesheet" type="text/css">
+
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+          
+
+          
+            <a href="../../../index.html" class="icon icon-home"> IfA-Smeargle
+          
+
+          
+          </a>
+
+          
+            
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <p class="caption"><span class="caption-text">Contents:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../how_to_use.html">How to Use</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../python_docstrings/modules.html">IfA_Smeargle</a></li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../../index.html">IfA-Smeargle</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="../../../index.html">Docs</a> &raquo;</li>
+        
+          <li><a href="../../index.html">Module code</a> &raquo;</li>
+        
+      <li>IfA_Smeargle.bravo.averaging</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <h1>Source code for IfA_Smeargle.bravo.averaging</h1><div class="highlight"><pre>
+<span></span>
+<span class="kn">import</span> <span class="nn">astropy</span> <span class="k">as</span> <span class="nn">ap</span>
+<span class="kn">import</span> <span class="nn">astropy.io.fits</span> <span class="k">as</span> <span class="nn">ap_fits</span>
+<span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+<span class="kn">import</span> <span class="nn">warnings</span> <span class="k">as</span> <span class="nn">warn</span>
+
+<span class="kn">from</span> <span class="nn">IfA_Smeargle.meta</span> <span class="k">import</span> <span class="o">*</span>
+
+<span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">This module parses the data cubes, extracting the needed information from the </span>
+<span class="sd">first X and last X frames, adapting them and outputting them. </span>
+<span class="sd">&quot;&quot;&quot;</span>
+
+
+<div class="viewcode-block" id="average_endpoints"><a class="viewcode-back" href="../../../python_docstrings/IfA_Smeargle.bravo.averaging.html#IfA_Smeargle.bravo.averaging.average_endpoints">[docs]</a><span class="k">def</span> <span class="nf">average_endpoints</span><span class="p">(</span><span class="n">fits_file</span><span class="p">,</span> <span class="n">start_chunk</span><span class="p">,</span> <span class="n">end_chunk</span><span class="p">,</span>
+                      <span class="n">write_file</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">alternate_name</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot; This function reads a fits file and computes its end section values.</span>
+
+<span class="sd">    This function reads in a fits file of 3 dimensions, averaging some </span>
+<span class="sd">    top chunk and bottom chunk of their &quot;temporal&quot; axis.</span>
+
+<span class="sd">    If there is no temporal axis, this program raises an error.</span>
+<span class="sd">    </span>
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    fits_file : string or Astropy HDUList file</span>
+<span class="sd">        This is the fits file that will be modified, or at least have its</span>
+<span class="sd">        values calculated from.</span>
+<span class="sd">    start_chunk : array-like</span>
+<span class="sd">        The exact range of frames from the beginning that will be median-ed.</span>
+<span class="sd">    end_chunk : array-like</span>
+<span class="sd">        The exact range of frames from the bottom that will be median-ed.</span>
+<span class="sd">    write_file : boolean (optional)</span>
+<span class="sd">        If true, the Astropy HDUL object is written to a fits file.</span>
+<span class="sd">    alternate_name : string (optional)</span>
+<span class="sd">        An alternate fits file name to write the data too instead of the </span>
+<span class="sd">        first provided one.</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    hdu_file : Astropy HDUList file</span>
+<span class="sd">        The HDUList object of the written file.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="c1"># Test for the different cases of the fits file.</span>
+    <span class="k">if</span> <span class="p">(</span><span class="nb">isinstance</span><span class="p">(</span><span class="n">fits_file</span><span class="p">,</span> <span class="nb">str</span><span class="p">)):</span>
+        <span class="n">hdu_obj</span><span class="p">,</span> <span class="n">header</span><span class="p">,</span> <span class="n">data</span> <span class="o">=</span> <span class="n">meta_faa</span><span class="o">.</span><span class="n">smeargle_open_fits_file</span><span class="p">(</span><span class="n">fits_file</span><span class="p">)</span>
+    <span class="k">elif</span> <span class="p">(</span><span class="nb">isinstance</span><span class="p">(</span><span class="n">fits_file</span><span class="p">,</span> <span class="n">ap_fits</span><span class="o">.</span><span class="n">HDUList</span><span class="p">)):</span>
+        <span class="n">hdu_obj</span> <span class="o">=</span> <span class="n">fits_file</span> 
+        <span class="n">header</span> <span class="o">=</span> <span class="n">fits_file</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">header</span>
+        <span class="n">data</span> <span class="o">=</span> <span class="n">fits_file</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">data</span>
+    <span class="k">elif</span> <span class="p">(</span><span class="nb">isinstance</span><span class="p">(</span><span class="n">fits_file</span><span class="p">,</span> <span class="n">ap_fits</span><span class="o">.</span><span class="n">PrimaryHDU</span><span class="p">)):</span>
+        <span class="n">hdu_obj</span> <span class="o">=</span> <span class="n">ap_fits</span><span class="o">.</span><span class="n">HDUList</span><span class="p">([</span><span class="n">fits_file</span><span class="p">])</span>
+        <span class="n">header</span> <span class="o">=</span> <span class="n">fits_file</span><span class="o">.</span><span class="n">header</span>
+        <span class="n">data</span> <span class="o">=</span> <span class="n">fits_file</span><span class="o">.</span><span class="n">data</span>
+
+    <span class="c1"># Check for too many or too little dimensions; it is important as the </span>
+    <span class="c1"># array shape of data is assumed.</span>
+    <span class="k">if</span> <span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">data</span><span class="p">)</span><span class="o">.</span><span class="n">shape</span><span class="p">)</span> <span class="o">&lt;=</span> <span class="mi">2</span><span class="p">):</span>
+        <span class="k">raise</span> <span class="n">InputError</span><span class="p">(</span><span class="s2">&quot;The data of the input fits file does not have any wavelength or &quot;</span>
+                         <span class="s2">&quot;temporal axis; to collapse spatially would be incorrect.&quot;</span><span class="p">)</span>
+    <span class="k">elif</span> <span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">data</span><span class="p">)</span><span class="o">.</span><span class="n">shape</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">3</span><span class="p">):</span>
+        <span class="n">smeargle_warning</span><span class="p">(</span><span class="n">InputWarning</span><span class="p">,(</span><span class="s2">&quot;The number of dimensions in the data array is greater &quot;</span>
+                                       <span class="s2">&quot;than 3, it is assumed that the 0th axis is the temporal &quot;</span>
+                                       <span class="s2">&quot;axis.&quot;</span><span class="p">))</span>
+
+    <span class="c1"># Allow for swapped, but valid ranges.</span>
+    <span class="n">start_chunk</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">sort</span><span class="p">(</span><span class="n">start_chunk</span><span class="p">)</span>
+    <span class="n">end_chunk</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">sort</span><span class="p">(</span><span class="n">end_chunk</span><span class="p">)</span>
+    <span class="c1"># Check if the chunks overlap, if they do, this is a problem.</span>
+    <span class="k">if</span> <span class="p">(</span><span class="n">start_chunk</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">&gt;=</span> <span class="n">end_chunk</span><span class="p">[</span><span class="mi">0</span><span class="p">]):</span>
+        <span class="k">raise</span> <span class="n">InputError</span><span class="p">(</span><span class="s2">&quot;The end of the start_chunk is after the start of the end_chunk. The &quot;</span>
+                         <span class="s2">&quot;overlap is improper and should be fixed.&quot;</span><span class="p">)</span>
+    <span class="c1"># It is unnatural, but not forbidden, to have differing top and bottom </span>
+    <span class="c1"># chunk range values.</span>
+    <span class="k">if</span> <span class="p">(</span><span class="n">start_chunk</span><span class="o">.</span><span class="n">ptp</span><span class="p">()</span> <span class="o">!=</span> <span class="n">end_chunk</span><span class="o">.</span><span class="n">ptp</span><span class="p">()):</span>
+        <span class="n">smeargle_warning</span><span class="p">(</span><span class="n">ReductionWarning</span><span class="p">,(</span><span class="s2">&quot;The size of the start chunk and end chunk are &quot;</span>
+                                           <span class="s2">&quot;different sizes, this is unusual but acceptable.&quot;</span><span class="p">))</span>
+
+    <span class="c1"># Calculate the medians.</span>
+    <span class="n">start_median</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">median</span><span class="p">(</span><span class="n">data</span><span class="p">[</span><span class="n">start_chunk</span><span class="p">[</span><span class="mi">0</span><span class="p">]:</span><span class="n">start_chunk</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]],</span><span class="n">axis</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
+    <span class="n">end_median</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">median</span><span class="p">(</span><span class="n">data</span><span class="p">[</span><span class="n">end_chunk</span><span class="p">[</span><span class="mi">0</span><span class="p">]:</span><span class="n">end_chunk</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]],</span><span class="n">axis</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
+
+    <span class="c1"># Subtracting and normalizing over the time span, starting and ending</span>
+    <span class="c1"># at respective midpoints; integer multiplication/division is required  </span>
+    <span class="c1"># because  of the discrete nature of frames.</span>
+    <span class="n">final_data</span> <span class="o">=</span> <span class="n">end_median</span> <span class="o">-</span> <span class="n">start_median</span>
+
+    <span class="c1"># Check to see if the user provided an alternate name.</span>
+    <span class="k">if</span> <span class="p">((</span><span class="n">alternate_name</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">)</span> <span class="ow">and</span> <span class="p">(</span><span class="nb">isinstance</span><span class="p">(</span><span class="n">alternate_name</span><span class="p">,</span><span class="nb">str</span><span class="p">))):</span>
+        <span class="n">writing_file_name</span> <span class="o">=</span> <span class="n">alternate_name</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">writing_file_name</span> <span class="o">=</span> <span class="n">fits_file</span>
+
+    <span class="c1"># Write the file. Also, it is expected that the fits files are </span>
+    <span class="c1"># overwritten, suppress the warning that comes with it.</span>
+    <span class="k">with</span> <span class="n">warn</span><span class="o">.</span><span class="n">catch_warnings</span><span class="p">():</span>
+        <span class="n">warn</span><span class="o">.</span><span class="n">simplefilter</span><span class="p">(</span><span class="s2">&quot;ignore&quot;</span><span class="p">,</span> <span class="n">category</span><span class="o">=</span><span class="n">OverwriteWarning</span><span class="p">)</span>
+        <span class="n">hdu_file</span> <span class="o">=</span> <span class="n">meta_faa</span><span class="o">.</span><span class="n">smeargle_write_fits_file</span><span class="p">(</span><span class="n">writing_file_name</span><span class="p">,</span> <span class="n">header</span><span class="p">,</span> <span class="n">final_data</span><span class="p">,</span>
+                                                     <span class="n">save_file</span><span class="o">=</span><span class="n">write_file</span><span class="p">)</span>
+
+    <span class="k">return</span> <span class="n">hdu_file</span></div>
+
+
+
+<div class="viewcode-block" id="average_endpoints_per_second"><a class="viewcode-back" href="../../../python_docstrings/IfA_Smeargle.bravo.averaging.html#IfA_Smeargle.bravo.averaging.average_endpoints_per_second">[docs]</a><span class="k">def</span> <span class="nf">average_endpoints_per_second</span><span class="p">(</span><span class="n">fits_file</span><span class="p">,</span> <span class="n">start_chunk</span><span class="p">,</span> <span class="n">end_chunk</span><span class="p">,</span> <span class="n">frame_exposure_time</span><span class="p">,</span>
+                                 <span class="n">write_file</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">alternate_name</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot; This function reads a fits file and computes its end section values.</span>
+
+<span class="sd">    This function reads in a fits file of 3 dimensions, averaging some </span>
+<span class="sd">    top chunk and bottom chunk of their &quot;temporal&quot; axis, normalizing</span>
+<span class="sd">    and dividing over a timespan. </span>
+
+<span class="sd">    If there is no temporal axis, this program raises an error.</span>
+<span class="sd">    </span>
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    fits_file : string or Astropy HDUList file</span>
+<span class="sd">        This is the fits file that will be modified, or at least have its</span>
+<span class="sd">        values calculated from.</span>
+<span class="sd">    start_chunk : array-like</span>
+<span class="sd">        The exact range of frames from the beginning that will be median-ed.</span>
+<span class="sd">    end_chunk : array-like</span>
+<span class="sd">        The exact range of frames from the bottom that will be median-ed.</span>
+<span class="sd">    frame_exposure_time : float</span>
+<span class="sd">        The duration, per frame (in seconds), of each exposure.</span>
+<span class="sd">    write_file : boolean (optional)</span>
+<span class="sd">        If true, the Astropy HDUL object is written to a fits file.</span>
+<span class="sd">    alternate_name : string (optional)</span>
+<span class="sd">        An alternate fits file name to write the data too instead of the </span>
+<span class="sd">        first provided one.</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    hdu_file : Astropy HDUList file</span>
+<span class="sd">        The HDUList object of the written file.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="c1"># Test for the different cases of the fits file.</span>
+    <span class="k">if</span> <span class="p">(</span><span class="nb">isinstance</span><span class="p">(</span><span class="n">fits_file</span><span class="p">,</span> <span class="nb">str</span><span class="p">)):</span>
+        <span class="n">hdu_obj</span><span class="p">,</span> <span class="n">header</span><span class="p">,</span> <span class="n">data</span> <span class="o">=</span> <span class="n">meta_faa</span><span class="o">.</span><span class="n">smeargle_open_fits_file</span><span class="p">(</span><span class="n">fits_file</span><span class="p">)</span>
+    <span class="k">elif</span> <span class="p">(</span><span class="nb">isinstance</span><span class="p">(</span><span class="n">fits_file</span><span class="p">,</span> <span class="n">ap_fits</span><span class="o">.</span><span class="n">HDUList</span><span class="p">)):</span>
+        <span class="n">hdu_obj</span> <span class="o">=</span> <span class="n">fits_file</span> 
+        <span class="n">header</span> <span class="o">=</span> <span class="n">fits_file</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">header</span>
+        <span class="n">data</span> <span class="o">=</span> <span class="n">fits_file</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">data</span>
+    <span class="k">elif</span> <span class="p">(</span><span class="nb">isinstance</span><span class="p">(</span><span class="n">fits_file</span><span class="p">,</span> <span class="n">ap_fits</span><span class="o">.</span><span class="n">PrimaryHDU</span><span class="p">)):</span>
+        <span class="n">hdu_obj</span> <span class="o">=</span> <span class="n">ap_fits</span><span class="o">.</span><span class="n">HDUList</span><span class="p">([</span><span class="n">fits_file</span><span class="p">])</span>
+        <span class="n">header</span> <span class="o">=</span> <span class="n">fits_file</span><span class="o">.</span><span class="n">header</span>
+        <span class="n">data</span> <span class="o">=</span> <span class="n">fits_file</span><span class="o">.</span><span class="n">data</span>
+
+    <span class="c1"># Check for too many or too little dimensions; it is important as the </span>
+    <span class="c1"># array shape of data is assumed.</span>
+    <span class="k">if</span> <span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">data</span><span class="p">)</span><span class="o">.</span><span class="n">shape</span><span class="p">)</span> <span class="o">&lt;=</span> <span class="mi">2</span><span class="p">):</span>
+        <span class="k">raise</span> <span class="n">InputError</span><span class="p">(</span><span class="s2">&quot;The data of the input fits file does not have any wavelength or &quot;</span>
+                         <span class="s2">&quot;temporal axis; to collapse spatially would be incorrect.&quot;</span><span class="p">)</span>
+    <span class="k">elif</span> <span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">data</span><span class="p">)</span><span class="o">.</span><span class="n">shape</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">3</span><span class="p">):</span>
+        <span class="n">smeargle_warning</span><span class="p">(</span><span class="n">InputWarning</span><span class="p">,(</span><span class="s2">&quot;The number of dimensions in the data array is greater &quot;</span>
+                                       <span class="s2">&quot;than 3, it is assumed that the 0th axis is the temporal &quot;</span>
+                                       <span class="s2">&quot;axis.&quot;</span><span class="p">))</span>
+
+    <span class="c1"># Check for too many or too little dimensions; it is important as the </span>
+    <span class="c1"># array shape of data is assumed.</span>
+    <span class="k">if</span> <span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">data</span><span class="p">)</span><span class="o">.</span><span class="n">shape</span><span class="p">)</span> <span class="o">&lt;=</span> <span class="mi">2</span><span class="p">):</span>
+        <span class="k">raise</span> <span class="n">InputError</span><span class="p">(</span><span class="s2">&quot;The data of the input fits file does not have any wavelength or &quot;</span>
+                         <span class="s2">&quot;temporal axis; to collapse spatially would be incorrect.&quot;</span><span class="p">)</span>
+    <span class="k">elif</span> <span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">data</span><span class="p">)</span><span class="o">.</span><span class="n">shape</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">3</span><span class="p">):</span>
+        <span class="n">smeargle_warning</span><span class="p">(</span><span class="n">InputWarning</span><span class="p">,(</span><span class="s2">&quot;The number of dimensions in the data array is greater &quot;</span>
+                                       <span class="s2">&quot;than 3, it is assumed that the 0th axis is the temporal &quot;</span>
+                                       <span class="s2">&quot;axis.&quot;</span><span class="p">))</span>
+
+    <span class="c1"># Allow for swapped, but valid ranges.</span>
+    <span class="n">start_chunk</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">sort</span><span class="p">(</span><span class="n">start_chunk</span><span class="p">)</span>
+    <span class="n">end_chunk</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">sort</span><span class="p">(</span><span class="n">end_chunk</span><span class="p">)</span>
+    <span class="c1"># Check if the chunks overlap, if they do, this is a problem.</span>
+    <span class="k">if</span> <span class="p">(</span><span class="n">start_chunk</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">&gt;=</span> <span class="n">end_chunk</span><span class="p">[</span><span class="mi">0</span><span class="p">]):</span>
+        <span class="k">raise</span> <span class="n">InputError</span><span class="p">(</span><span class="s2">&quot;The end of the start_chunk is after the start of the end_chunk. The &quot;</span>
+                         <span class="s2">&quot;overlap is improper and should be fixed.&quot;</span><span class="p">)</span>
+    <span class="c1"># It is unnatural, but not forbidden, to have differing top and bottom </span>
+    <span class="c1"># chunk range values.</span>
+    <span class="k">if</span> <span class="p">(</span><span class="n">start_chunk</span><span class="o">.</span><span class="n">ptp</span><span class="p">()</span> <span class="o">!=</span> <span class="n">end_chunk</span><span class="o">.</span><span class="n">ptp</span><span class="p">()):</span>
+        <span class="n">smeargle_warning</span><span class="p">(</span><span class="n">ReductionWarning</span><span class="p">,(</span><span class="s2">&quot;The size of the start chunk and end chunk are &quot;</span>
+                                           <span class="s2">&quot;different sizes, this is unusual but acceptable.&quot;</span><span class="p">))</span>
+
+    <span class="c1"># Calculate the medians.</span>
+    <span class="n">start_median</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">median</span><span class="p">(</span><span class="n">data</span><span class="p">[</span><span class="n">start_chunk</span><span class="p">[</span><span class="mi">0</span><span class="p">]:</span><span class="n">start_chunk</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]],</span><span class="n">axis</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
+    <span class="n">end_median</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">median</span><span class="p">(</span><span class="n">data</span><span class="p">[</span><span class="n">end_chunk</span><span class="p">[</span><span class="mi">0</span><span class="p">]:</span><span class="n">end_chunk</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]],</span><span class="n">axis</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
+
+    <span class="c1"># Subtracting and normalizing over the time span, starting and ending</span>
+    <span class="c1"># at respective midpoints; integer multiplication/division is required  </span>
+    <span class="c1"># because  of the discrete nature of frames.</span>
+    <span class="n">integration_time</span> <span class="o">=</span> <span class="p">((</span><span class="n">np</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">end_chunk</span><span class="p">)</span> <span class="o">-</span> <span class="n">np</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">start_chunk</span><span class="p">))</span> <span class="o">*</span> <span class="n">frame_exposure_time</span><span class="p">)</span>
+    <span class="n">final_data</span> <span class="o">=</span> <span class="p">(</span><span class="n">end_median</span><span class="o">-</span><span class="n">start_median</span><span class="p">)</span><span class="o">/</span><span class="n">integration_time</span>
+
+    <span class="c1"># Check to see if the user provided an alternate name.</span>
+    <span class="k">if</span> <span class="p">((</span><span class="n">alternate_name</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">)</span> <span class="ow">and</span> <span class="p">(</span><span class="nb">isinstance</span><span class="p">(</span><span class="n">alternate_name</span><span class="p">,</span><span class="nb">str</span><span class="p">))):</span>
+        <span class="n">writing_file_name</span> <span class="o">=</span> <span class="n">alternate_name</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">writing_file_name</span> <span class="o">=</span> <span class="n">fits_file</span>
+
+
+    <span class="c1"># Write the file. Also, it is expected that the fits files are </span>
+    <span class="c1"># overwritten, suppress the warning that comes with it.</span>
+    <span class="k">with</span> <span class="n">warn</span><span class="o">.</span><span class="n">catch_warnings</span><span class="p">():</span>
+        <span class="n">warn</span><span class="o">.</span><span class="n">simplefilter</span><span class="p">(</span><span class="s2">&quot;ignore&quot;</span><span class="p">,</span> <span class="n">category</span><span class="o">=</span><span class="n">OverwriteWarning</span><span class="p">)</span>
+        <span class="n">hdu_file</span> <span class="o">=</span> <span class="n">meta_faa</span><span class="o">.</span><span class="n">smeargle_write_fits_file</span><span class="p">(</span><span class="n">writing_file_name</span><span class="p">,</span> <span class="n">header</span><span class="p">,</span> <span class="n">final_data</span><span class="p">,</span>
+                                                     <span class="n">save_file</span><span class="o">=</span><span class="n">write_file</span><span class="p">)</span>
+
+    <span class="k">return</span> <span class="n">hdu_file</span></div>
+
+
+<div class="viewcode-block" id="average_endpoints_per_kilosecond"><a class="viewcode-back" href="../../../python_docstrings/IfA_Smeargle.bravo.averaging.html#IfA_Smeargle.bravo.averaging.average_endpoints_per_kilosecond">[docs]</a><span class="k">def</span> <span class="nf">average_endpoints_per_kilosecond</span><span class="p">(</span><span class="n">fits_file</span><span class="p">,</span> <span class="n">start_chunk</span><span class="p">,</span> <span class="n">end_chunk</span><span class="p">,</span> <span class="n">frame_exposure_time</span><span class="p">,</span>
+                                     <span class="n">write_file</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">alternate_name</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot; This function reads a fits file and computes its end section values.</span>
+
+<span class="sd">    This function reads in a fits file of 3 dimensions, averaging some </span>
+<span class="sd">    top chunk and bottom chunk of their &quot;temporal&quot; axis, normalizing</span>
+<span class="sd">    and dividing over a timespan. The time is measured in kilo-seconds. This</span>
+<span class="sd">    is basically a wrapper function around the per second version.</span>
+
+<span class="sd">    If there is no temporal axis, this program raises an error.</span>
+<span class="sd">    </span>
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    fits_file : string or Astropy HDUList file</span>
+<span class="sd">        This is the fits file that will be modified, or at least have its</span>
+<span class="sd">        values calculated from.</span>
+<span class="sd">    start_chunk : int</span>
+<span class="sd">        The exact number of frames from the beginning that will be median-ed.</span>
+<span class="sd">    end_chunk : int</span>
+<span class="sd">        The exact number of frames from the bottom that will be median-ed.</span>
+<span class="sd">    frame_exposure_time : float</span>
+<span class="sd">        The duration, per frame (in seconds), of each exposure.</span>
+<span class="sd">    write_file : boolean (optional)</span>
+<span class="sd">        If true, the Astropy HDUL object is written to a fits file.</span>
+<span class="sd">    alternate_name : string (optional)</span>
+<span class="sd">        An alternate fits file name to write the data too instead of the </span>
+<span class="sd">        first provided one.</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    hdu_file : Astropy HDUList file</span>
+<span class="sd">        The HDUList object of the written file.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="c1"># If frame_exposure_time is in per seconds, this converts it to per </span>
+    <span class="c1"># kilosecond, as desired. </span>
+    <span class="n">new_frame_exposure_time</span> <span class="o">=</span> <span class="n">frame_exposure_time</span> <span class="o">*</span> <span class="mf">0.001</span> 
+
+    <span class="c1"># Feed it through.</span>
+    <span class="n">hdu_file</span> <span class="o">=</span> <span class="n">average_endpoints_per_second</span><span class="p">(</span><span class="n">fits_file</span><span class="p">,</span> <span class="n">start_chunk</span><span class="p">,</span> <span class="n">end_chunk</span><span class="p">,</span> 
+                                            <span class="n">new_frame_exposure_time</span><span class="p">,</span>
+                                            <span class="n">write_file</span><span class="o">=</span><span class="n">write_file</span><span class="p">,</span> <span class="n">alternate_name</span><span class="o">=</span><span class="n">alternate_name</span><span class="p">)</span>
+
+    <span class="k">return</span> <span class="n">hdu_file</span></div>
+</pre></div>
+
+           </div>
+           
+          </div>
+          <footer>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2019, Sparrow
+
+    </p>
+  </div>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+
+  
+  
+    
+   
+
+</body>
+</html>
