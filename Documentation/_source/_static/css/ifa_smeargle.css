@@ -7,5 +7,5 @@ body {
 }
 
 .wy-nav-content {
-    max-width: 42%;
+    min-width: 42%;
 }

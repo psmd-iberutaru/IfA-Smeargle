@@ -7,7 +7,7 @@ Welcome to IfA_Smeargle's documentation!
 ========================================
 
 .. toctree::
-   :maxdepth: 2
+   :maxdepth: 3
    :caption: Contents:
 
    how_to_use

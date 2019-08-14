@@ -1,5 +1,5 @@
-PROGRAM
-=======
+IfA_Smeargle
+============
 
 .. toctree::
    :maxdepth: 4

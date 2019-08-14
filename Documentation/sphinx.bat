@@ -2,7 +2,7 @@
 
 :: Go out to the mrimary directory for api compliation
 cd ..
-sphinx-apidoc -e -f -o Documentation/_source/python_docstrings ./
+sphinx-apidoc -e -f -o Documentation/_source/python_docstrings ./IfA_Smeargle
 
 :: Go back into the doc directory and complile the html
 cd Documentation
