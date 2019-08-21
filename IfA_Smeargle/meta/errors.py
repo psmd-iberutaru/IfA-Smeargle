@@ -291,9 +291,64 @@ else:
     smeargle_info._silent_mode = False
 
 
+# The context manager is mostly for stylistic purposes. Given that debug 
+# functional printing is more often than not more than one line. 
+@contextlib.contextmanager
+def smeargle_debug_block():
+    """ This is a wrapper function for encasing debugging code. 
+
+    The execution of code within a debug block is used to contain easily 
+    printed debug information. Debug messages should use the debug function
+    :func:`smeargle_debug_message`
+    """
+
+    if (smeargle_debug_block._silent_mode):
+        pass
+    else:
+        yield
+    return None
+# This is the default and will set the silent mode parameter for debug
+# printing, but it ensures not to override anything that may already exist.
+if (hasattr(smeargle_debug_block, '_silent_mode')):
+    pass
+else:
+    smeargle_debug_block._silent_mode = True
+
+# The message form of the debug information. 
+def smeargle_debug_message(message):
+    """ This is a wrapper function for the printing of debug messages. 
+
+    Given the nature of debug messages, it should be clear that it is a debug
+    message, and should also have the proper silencing capabilities.
+
+    Parameters
+    ----------
+    message : string
+        The message that is to be sent as the debug message.
+    
+    Returns
+    -------
+    nothing    
+    """
+
+    # Test if info messages should not be printed given their
+    if (smeargle_debug_message._silent_mode):
+        # Messages should not be printed in general.
+        pass
+    else:
+        print("IFAS Debug: " + message)
+    return None
+# This is the default and will set the silent mode parameter for debug
+# printing, but it ensures not to override anything that may already exist.
+if (hasattr(smeargle_debug_message, '_silent_mode')):
+    pass
+else:
+    smeargle_debug_message._silent_mode = True
+
+
 ##############################################################################
 ##############################################################################
-# Silencing Context Managers 
+# Enabling/Silencing Context Managers 
 ##############################################################################
 ##############################################################################
 
@@ -366,7 +421,44 @@ def smeargle_silence_info_message():
     smeargle_info._silent_mode = False
     return None
 
-# To silence everything, warnings and informational messages.
+# To enable debug messages.
+@contextlib.contextmanager
+def smeargle_enable_debug():
+    """ This context manager turns all debug messages on for the duration of 
+    the context. 
+    """
+    # Turn on debugging (releasing from silence)
+    smeargle_debug_block._silent_mode = False
+    smeargle_debug_message._silent_mode = False
+
+    yield
+    
+    # Disable by silencing. 
+    smeargle_debug_block._silent_mode = True
+    smeargle_debug_message._silent_mode = True
+
+    return None
+
+# To disable debug messages.
+@contextlib.contextmanager
+def smeargle_disable_debug():
+    """ This context manager turns all debug messages off for the duration of 
+    the context. Given that debug messages are generally off in the first 
+    place, usage may be rare.
+    """
+    # Disable by silencing. 
+    smeargle_debug_block._silent_mode = True
+    smeargle_debug_message._silent_mode = True
+
+    yield
+    
+    # Disable by silencing. 
+    smeargle_debug_block._silent_mode = True
+    smeargle_debug_message._silent_mode = True
+
+    return None
+
+# To silence everything, warnings, informational, and debug messages.
 @contextlib.contextmanager
 def smeargle_absolute_silence():
     """This context manager silences any and all messages, it basically 
@@ -375,5 +467,6 @@ def smeargle_absolute_silence():
     """
     with smeargle_silence_ifas_warnings(), \
          smeargle_silence_all_warnings(),  \
-         smeargle_silence_info_message():
+         smeargle_silence_info_message(),  \
+         smeargle_disable_debug():
             yield 

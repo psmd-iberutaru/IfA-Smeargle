@@ -5,6 +5,7 @@ purpose is to allow for the proper reading of different possible arrangements
 of the configuration parameters.
 """
 import copy
+import inspect
 import os
 import pickle
 import warnings as warn
@@ -12,77 +13,6 @@ import warnings as warn
 from IfA_Smeargle.meta import *
 import IfA_Smeargle.yankee as yankee
 
-
-
-
-def extract_proper_configuration_class(configuration_class, desired_class,
-                                       deep_copy=False):
-    """ This function extracts the proper configuration class from a 
-    collection of configuration classes.
-    
-    The whole point of this function is to retain the flexibility and ease
-    of using differing configuration classes and the structure of the 
-    configuration classes themselves. 
-
-    Parameters
-    ----------
-    configuration_class : Any BaseConfig based class or string
-        The main configuration class that should contain the desired class. 
-        It may also be a file name.
-    desired_class : Any BaseConfig based class execpt for BaseConfig
-        The desired class.
-    deep_copy : boolean (optional)
-        If a deep copy of the class is desired, then set to True.
-
-    Returns
-    -------
-    extracted_class : Any BaseConfig based class (same class as desired class)
-        A copy of the desired configuration class.
-    """
-
-    # Test to see if it is a file name, if it is: load.
-    if (isinstance(configuration_class,str)):
-        configuration_class = read_config_file(configuration_class)
-
-    # Test if the class is a base class, the base class has no configuration
-    # value.
-    if (desired_class is yankee.BaseConfig):
-        raise ConfigurationError("The BaseConfig class does not have any configuration elements "
-                                 "attached to it. In the case that it does for your code, "
-                                 "it is suggested that it is changed.")
-    # Test if useless to proceed because it is already finished.
-    elif (type(configuration_class) == desired_class):
-        # If the user really wants a deepcopy.
-        if (deep_copy):
-            extracted_class = copy.deepcopy(configuration_class)
-        else:
-            extracted_class = configuration_class
-        return extracted_class
-    # Test for subclasses:
-    elif (isinstance(configuration_class,(yankee.BaseConfig,yankee.SmeargleConfig))):
-        try:
-            desired_class_name = desired_class.__name__
-            extracted_class = getattr(configuration_class, desired_class_name)
-            # If the user really wants a deep copy.
-            if (deep_copy):
-                extracted_class = copy.deepcopy(extracted_class)
-            else:
-                extracted_class = extracted_class
-            return extracted_class
-
-        except AttributeError:
-            raise AttributeError("The configuration class provided does not have the desired "
-                                 "configuration class. \n"
-                                 "Config: {config}     Desired: {desire}".format(
-                                     config=type(configuration_class),
-                                     desire=desired_class))
-    else:
-        raise InputError("The class object provided is not a configuration class that is "
-                         "easily understood by this program. We cannot proceed reading it.")
-
-    # Function should not get here.
-    raise BrokenLogicError("Something is broken, contact the software maintainers.")
-    return None
 
 
 def configuration_factory_function(desired_class, file_name=None, silent=False):
@@ -163,7 +93,134 @@ def configuration_factory_function(desired_class, file_name=None, silent=False):
     return config_class
 
 
+def extract_proper_configuration_class(configuration_class, desired_class,
+                                       deep_copy=False):
+    """ This function extracts the proper configuration class from a 
+    collection of configuration classes.
+    
+    The whole point of this function is to retain the flexibility and ease
+    of using differing configuration classes and the structure of the 
+    configuration classes themselves. 
 
+    Parameters
+    ----------
+    configuration_class : Any BaseConfig based class or string
+        The main configuration class that should contain the desired class. 
+        It may also be a file name.
+    desired_class : Any BaseConfig based class execpt for BaseConfig
+        The desired class.
+    deep_copy : boolean (optional)
+        If a deep copy of the class is desired, then set to True.
+
+    Returns
+    -------
+    extracted_class : Any BaseConfig based class (same class as desired class)
+        A copy of the desired configuration class.
+    """
+
+    # Test to see if it is a file name, if it is: load.
+    if (isinstance(configuration_class,str)):
+        configuration_class = read_config_file(configuration_class)
+
+    # Test if the class is a base class, the base class has no configuration
+    # value.
+    if (desired_class is yankee.BaseConfig):
+        raise ConfigurationError("The BaseConfig class does not have any configuration elements "
+                                 "attached to it. In the case that it does for your code, "
+                                 "it is suggested that it is changed.")
+    # Test if useless to proceed because it is already finished.
+    elif (type(configuration_class) == desired_class):
+        # If the user really wants a deepcopy.
+        if (deep_copy):
+            extracted_class = copy.deepcopy(configuration_class)
+        else:
+            extracted_class = configuration_class
+        return extracted_class
+    # Test for subclasses:
+    elif (isinstance(configuration_class,(yankee.BaseConfig,yankee.SmeargleConfig))):
+        try:
+            desired_class_name = desired_class.__name__
+            extracted_class = getattr(configuration_class, desired_class_name)
+            # If the user really wants a deep copy.
+            if (deep_copy):
+                extracted_class = copy.deepcopy(extracted_class)
+            else:
+                extracted_class = extracted_class
+            return extracted_class
+
+        except AttributeError:
+            raise AttributeError("The configuration class provided does not have the desired "
+                                 "configuration class. \n"
+                                 "Config: {config}     Desired: {desire}".format(
+                                     config=type(configuration_class),
+                                     desire=desired_class))
+    else:
+        raise InputError("The class object provided is not a configuration class that is "
+                         "easily understood by this program. We cannot proceed reading it.")
+
+    # Function should not get here.
+    raise BrokenLogicError("Something is broken, contact the software maintainers.")
+    return None
+
+
+def fast_forward_configuration_class(configuration_class):
+    """ This function future adapts the provided configuration class.
+    
+    One of the byproducts of how the YANKEE line is coded is that 
+    configuration files made in previous versions of IfA-Smeargle will not
+    work by default. This function fixes that, returning an updated 
+    configuration class that can be used with the current installed version.
+
+    Parameters
+    ----------
+    configuration_class : Configuration Class
+        The configuration class that is to be updated and fast-forwarded into
+        its future.
+
+    Returns
+    -------
+    updated_configuration_class : Configuration Class
+        The configuration class that should be updated and compatible with
+        the current version.
+    """
+
+    # Assume that the current module installation has the right class; if not
+    # then that is a big issue with the maintainers.
+    class_name = type(configuration_class).__name__
+    
+    # Obtain all of the possible configuration classes from YANKEE.
+    yankee_classes = dict(inspect.getmembers(yankee, inspect.isclass))
+    
+    # Extract the default class instance from said list.
+    default_class = yankee_classes[class_name]()
+
+    # Dictionaries are easier to use.
+    provided_class_dict = configuration_class.__dict__
+    default_class_dict = default_class.__dict__
+
+    # Cycle through all of the parameters in the class; replace configuration
+    # class defaults with provided entries. 
+    for default_keydex in default_class_dict.keys():
+        # Replace defaults with existing provided attributes.
+        if (default_keydex in provided_class_dict):
+            # BaseConfig-like objects should not be replaced completely, dig
+            # deeper and replace only what is needed. 
+            if (isinstance(provided_class_dict[default_keydex],yankee.BaseConfig)):
+                # Iterate deeper, the deep copy may not be needed.
+                replacing_value = copy.deepcopy(
+                    fast_forward_configuration_class(provided_class_dict[default_keydex]))
+                default_class_dict.update({default_keydex:replacing_value})
+            else:
+                # Deep copy may not be needed.
+                replacing_value = copy.deepcopy(provided_class_dict[default_keydex])
+                default_class_dict.update({default_keydex:replacing_value})
+        else:
+            # There is no common object, keep defaults.
+            pass
+
+    # All done, renaming for documentation sake.
+    updated_configuration_class = default_class
+    return updated_configuration_class
 
 # Loading/unloading functions.
 def write_config_file(config_class, file_name, 

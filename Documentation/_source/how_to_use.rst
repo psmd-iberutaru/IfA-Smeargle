@@ -81,7 +81,7 @@ In order to make a configuration file, please use the Jupyter notebook labeled
 ``ifas_configuration_recipe.ipynb``. This writes a configuration file as 
 specified. 
 
-.. note::
+.. warning::
    Configuration files and classes are not forward compatible. There 
    is however a function to convert older configuration classes/files to newer
    versions while preserving the old data.

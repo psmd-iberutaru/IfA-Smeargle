@@ -180,6 +180,7 @@ def SA201907281826_reduction_pipeline(data_directory, configuration_class):
     # Re-obtain file names, again.
     file_names = glob.glob(data_directory + '/*' + '.fits')
     for filedex in file_names:
+
         # Extract the fits file, keeping track of the early mask and raw data.
         __, hdu_header, hdu_data = meta_faa.smeargle_open_fits_file(filedex, silent=True)
         raw_data = np_ma.getdata(hdu_data)

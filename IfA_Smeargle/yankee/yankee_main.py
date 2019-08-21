@@ -62,6 +62,8 @@ class SmeargleConfig(conclass.BaseConfig):
             self.YankeeConfig = conclass.YankeeConfig()
             self.ZuluConfig = conclass.ZuluConfig()
 
+            self.BaseConfig = conclass.BaseConfig()
+
 
 
 
