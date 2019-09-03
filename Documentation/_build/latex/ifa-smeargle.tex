@@ -72,7 +72,7 @@
 
 
 \title{IfA-Smeargle}
-\date{Aug 13, 2019}
+\date{Sep 03, 2019}
 \release{2019-08-19}
 \author{Sparrow}
 \newcommand{\sphinxlogo}{\vbox{}}
@@ -171,10 +171,10 @@ In order to make a configuration file, please use the Jupyter notebook labeled
 \sphinxcode{\sphinxupquote{ifas\_configuration\_recipe.ipynb}}. This writes a configuration file as
 specified.
 
-\begin{sphinxadmonition}{note}{Note:}
+\begin{sphinxadmonition}{warning}{Warning:}
 Configuration files and classes are not forward compatible. There
 is however a function to convert older configuration classes/files to newer
-versions while preserving the old data.
+versions while preserving the old data. See the {\hyperref[\detokenize{python_docstrings/IfA_Smeargle.yankee.yankee_functions:IfA_Smeargle.yankee.yankee_functions.fast_forward_configuration_class}]{\sphinxcrossref{\sphinxcode{\sphinxupquote{Fast Forward Configuration Class}}}}} function.
 \end{sphinxadmonition}
 
 
@@ -455,11 +455,11 @@ Contains all of the methods used for renaming and reformatting data.
 
 Each function is dependent on the array and/or method. Only one function
 should ever be used for any one given process.
-\index{bravo\_execution\_saphria() (in module IfA\_Smeargle.bravo.bravo\_main)@\spxentry{bravo\_execution\_saphria()}\spxextra{in module IfA\_Smeargle.bravo.bravo\_main}}
+\index{bravo\_execution\_saphira() (in module IfA\_Smeargle.bravo.bravo\_main)@\spxentry{bravo\_execution\_saphira()}\spxextra{in module IfA\_Smeargle.bravo.bravo\_main}}
 
 \begin{fulllineitems}
-\phantomsection\label{\detokenize{python_docstrings/IfA_Smeargle.bravo.bravo_main:IfA_Smeargle.bravo.bravo_main.bravo_execution_saphria}}\pysiglinewithargsret{\sphinxcode{\sphinxupquote{IfA\_Smeargle.bravo.bravo\_main.}}\sphinxbfcode{\sphinxupquote{bravo\_execution\_saphria}}}{\emph{data\_directory}, \emph{configuration\_class}}{}
-Reformats data provided by a SAPHRIA array into a form used by this
+\phantomsection\label{\detokenize{python_docstrings/IfA_Smeargle.bravo.bravo_main:IfA_Smeargle.bravo.bravo_main.bravo_execution_saphira}}\pysiglinewithargsret{\sphinxcode{\sphinxupquote{IfA\_Smeargle.bravo.bravo\_main.}}\sphinxbfcode{\sphinxupquote{bravo\_execution\_saphira}}}{\emph{data\_directory}, \emph{configuration\_class}}{}
+Reformats data provided by a SAPHIRA array into a form used by this
 program.
 
 Each array or data set has their own different forms of representing the
@@ -1753,6 +1753,59 @@ if there is some overlap).
 
 \end{fulllineitems}
 
+\index{smeargle\_debug\_block() (in module IfA\_Smeargle.meta.errors)@\spxentry{smeargle\_debug\_block()}\spxextra{in module IfA\_Smeargle.meta.errors}}
+
+\begin{fulllineitems}
+\phantomsection\label{\detokenize{python_docstrings/IfA_Smeargle.meta.errors:IfA_Smeargle.meta.errors.smeargle_debug_block}}\pysiglinewithargsret{\sphinxcode{\sphinxupquote{IfA\_Smeargle.meta.errors.}}\sphinxbfcode{\sphinxupquote{smeargle\_debug\_block}}}{}{}
+This is a wrapper function for encasing debugging code.
+
+The execution of code within a debug block is used to contain easily
+printed debug information. Debug messages should use the debug function
+{\hyperref[\detokenize{python_docstrings/IfA_Smeargle.meta.errors:IfA_Smeargle.meta.errors.smeargle_debug_message}]{\sphinxcrossref{\sphinxcode{\sphinxupquote{smeargle\_debug\_message()}}}}}
+
+\end{fulllineitems}
+
+\index{smeargle\_debug\_message() (in module IfA\_Smeargle.meta.errors)@\spxentry{smeargle\_debug\_message()}\spxextra{in module IfA\_Smeargle.meta.errors}}
+
+\begin{fulllineitems}
+\phantomsection\label{\detokenize{python_docstrings/IfA_Smeargle.meta.errors:IfA_Smeargle.meta.errors.smeargle_debug_message}}\pysiglinewithargsret{\sphinxcode{\sphinxupquote{IfA\_Smeargle.meta.errors.}}\sphinxbfcode{\sphinxupquote{smeargle\_debug\_message}}}{\emph{message}}{}
+This is a wrapper function for the printing of debug messages.
+
+Given the nature of debug messages, it should be clear that it is a debug
+message, and should also have the proper silencing capabilities.
+\begin{quote}\begin{description}
+\item[{Parameters}] \leavevmode
+\sphinxstyleliteralstrong{\sphinxupquote{message}} (\sphinxstyleliteralemphasis{\sphinxupquote{string}}) \textendash{} The message that is to be sent as the debug message.
+
+\item[{Returns}] \leavevmode
+
+
+\item[{Return type}] \leavevmode
+nothing
+
+\end{description}\end{quote}
+
+\end{fulllineitems}
+
+\index{smeargle\_disable\_debug() (in module IfA\_Smeargle.meta.errors)@\spxentry{smeargle\_disable\_debug()}\spxextra{in module IfA\_Smeargle.meta.errors}}
+
+\begin{fulllineitems}
+\phantomsection\label{\detokenize{python_docstrings/IfA_Smeargle.meta.errors:IfA_Smeargle.meta.errors.smeargle_disable_debug}}\pysiglinewithargsret{\sphinxcode{\sphinxupquote{IfA\_Smeargle.meta.errors.}}\sphinxbfcode{\sphinxupquote{smeargle\_disable\_debug}}}{}{}
+This context manager turns all debug messages off for the duration of
+the context. Given that debug messages are generally off in the first
+place, usage may be rare.
+
+\end{fulllineitems}
+
+\index{smeargle\_enable\_debug() (in module IfA\_Smeargle.meta.errors)@\spxentry{smeargle\_enable\_debug()}\spxextra{in module IfA\_Smeargle.meta.errors}}
+
+\begin{fulllineitems}
+\phantomsection\label{\detokenize{python_docstrings/IfA_Smeargle.meta.errors:IfA_Smeargle.meta.errors.smeargle_enable_debug}}\pysiglinewithargsret{\sphinxcode{\sphinxupquote{IfA\_Smeargle.meta.errors.}}\sphinxbfcode{\sphinxupquote{smeargle\_enable\_debug}}}{}{}
+This context manager turns all debug messages on for the duration of
+the context.
+
+\end{fulllineitems}
+
 \index{smeargle\_info() (in module IfA\_Smeargle.meta.errors)@\spxentry{smeargle\_info()}\spxextra{in module IfA\_Smeargle.meta.errors}}
 
 \begin{fulllineitems}
@@ -2238,7 +2291,7 @@ histograms made. May also be a fits file.
 \item {} 
 \sphinxstyleliteralstrong{\sphinxupquote{figure\_axes}} (\sphinxstyleliteralemphasis{\sphinxupquote{Matplotlib Axes}}\sphinxstyleliteralemphasis{\sphinxupquote{ (}}\sphinxstyleliteralemphasis{\sphinxupquote{optional}}\sphinxstyleliteralemphasis{\sphinxupquote{)}}) \textendash{} This is a predefined axes variable that the user may desire to have
 the histogram plot to. This defaults to either making new ones, or
-using the currently defined axes. Note: This is not deep-copied!
+using the currently defined axes. This is not deep-copied!
 
 \item {} 
 \sphinxstyleliteralstrong{\sphinxupquote{fit\_gaussian}} (\sphinxstyleliteralemphasis{\sphinxupquote{boolean}}\sphinxstyleliteralemphasis{\sphinxupquote{ (}}\sphinxstyleliteralemphasis{\sphinxupquote{optional}}\sphinxstyleliteralemphasis{\sphinxupquote{)}}) \textendash{} This parameter regulates if the function should replicate the
@@ -2273,11 +2326,12 @@ the computed/fit Gaussian model.
 
 
 \end{description}\end{quote}
-\subsubsection*{Notes}
 
+\begin{sphinxadmonition}{note}{Note:}
 If the \sphinxcode{\sphinxupquote{histogram\_plot\_parameters}} specifies that the histogram plot
 should be logarithmic, the Gaussian function will be disabled because of
 some incompatibilities.
+\end{sphinxadmonition}
 
 \end{fulllineitems}
 
@@ -2465,7 +2519,7 @@ file reading.
 \item[{Parameters}] \leavevmode
 \sphinxstyleliteralstrong{\sphinxupquote{file\_name}} (\sphinxstyleliteralemphasis{\sphinxupquote{string}}) \textendash{} The path and name of the file that contains the configuration
 class. Must have the extension \sphinxcode{\sphinxupquote{.ifaspkl}}. If \sphinxcode{\sphinxupquote{file\_name}}
-is None, then a default configuration class is returned.
+is None, then nothing happens.
 
 \item[{Returns}] \leavevmode
 
@@ -2536,6 +2590,15 @@ By default, all of the entries in the configurations are empty. Moreover,
 each configuration attribute only contains the required entries. Optional
 entries may be added at user discretion (see documentation for such
 entries).
+
+\begin{sphinxadmonition}{note}{Note:}
+All built-in functions of the configuration classes are inherited from the
+{\hyperref[\detokenize{python_docstrings/IfA_Smeargle.yankee.configuration_classes.BaseConfig_file:IfA_Smeargle.yankee.configuration_classes.BaseConfig_file.BaseConfig}]{\sphinxcrossref{\sphinxcode{\sphinxupquote{BaseConfig}}}}}
+class.
+
+Configuration classes such as this one is generally wrapped within the
+{\hyperref[\detokenize{python_docstrings/IfA_Smeargle.yankee.yankee_main:IfA_Smeargle.yankee.yankee_main.SmeargleConfig}]{\sphinxcrossref{\sphinxcode{\sphinxupquote{SmeargleConfig}}}}} class.
+\end{sphinxadmonition}
 \index{detector\_name (IfA\_Smeargle.yankee.configuration\_classes.BravoConfig\_file.BravoConfig attribute)@\spxentry{detector\_name}\spxextra{IfA\_Smeargle.yankee.configuration\_classes.BravoConfig\_file.BravoConfig attribute}}
 
 \begin{fulllineitems}
@@ -2597,6 +2660,15 @@ By default, all of the entries in the configurations are empty.
 Moreover, each configuration attribute only contains the required
 entries. Optional entries may be added at user discretion (see
 documentation for such entries).
+
+\begin{sphinxadmonition}{note}{Note:}
+All built-in functions of the configuration classes are inherited from the
+{\hyperref[\detokenize{python_docstrings/IfA_Smeargle.yankee.configuration_classes.BaseConfig_file:IfA_Smeargle.yankee.configuration_classes.BaseConfig_file.BaseConfig}]{\sphinxcrossref{\sphinxcode{\sphinxupquote{BaseConfig}}}}}
+class.
+
+Configuration classes such as this one is generally wrapped within the
+{\hyperref[\detokenize{python_docstrings/IfA_Smeargle.yankee.yankee_main:IfA_Smeargle.yankee.yankee_main.SmeargleConfig}]{\sphinxcrossref{\sphinxcode{\sphinxupquote{SmeargleConfig}}}}} class.
+\end{sphinxadmonition}
 \index{echo010\_config (IfA\_Smeargle.yankee.configuration\_classes.EchoConfig\_file.EchoConfig attribute)@\spxentry{echo010\_config}\spxextra{IfA\_Smeargle.yankee.configuration\_classes.EchoConfig\_file.EchoConfig attribute}}
 
 \begin{fulllineitems}
@@ -2650,6 +2722,15 @@ By default, all of the entries in the configurations are empty. Moreover,
 each configuration attribute only contains the required entries. Optional
 entries may be added at user discretion (see documentation for such
 entries).
+
+\begin{sphinxadmonition}{note}{Note:}
+All built-in functions of the configuration classes are inherited from the
+{\hyperref[\detokenize{python_docstrings/IfA_Smeargle.yankee.configuration_classes.BaseConfig_file:IfA_Smeargle.yankee.configuration_classes.BaseConfig_file.BaseConfig}]{\sphinxcrossref{\sphinxcode{\sphinxupquote{BaseConfig}}}}}
+class.
+
+Configuration classes such as this one is generally wrapped within the
+{\hyperref[\detokenize{python_docstrings/IfA_Smeargle.yankee.yankee_main:IfA_Smeargle.yankee.yankee_main.SmeargleConfig}]{\sphinxcrossref{\sphinxcode{\sphinxupquote{SmeargleConfig}}}}} class.
+\end{sphinxadmonition}
 \index{heatmap\_config (IfA\_Smeargle.yankee.configuration\_classes.OscarConfig\_file.OscarConfig attribute)@\spxentry{heatmap\_config}\spxextra{IfA\_Smeargle.yankee.configuration\_classes.OscarConfig\_file.OscarConfig attribute}}
 
 \begin{fulllineitems}
@@ -2715,6 +2796,15 @@ each configuration attribute only contains the required entries. Optional
 entries may be added at user  discretion (see documentation for such
 entries).
 
+\begin{sphinxadmonition}{note}{Note:}
+All built-in functions of the configuration classes are inherited from the
+{\hyperref[\detokenize{python_docstrings/IfA_Smeargle.yankee.configuration_classes.BaseConfig_file:IfA_Smeargle.yankee.configuration_classes.BaseConfig_file.BaseConfig}]{\sphinxcrossref{\sphinxcode{\sphinxupquote{BaseConfig}}}}}
+class.
+
+Configuration classes such as this one is generally wrapped within the
+{\hyperref[\detokenize{python_docstrings/IfA_Smeargle.yankee.yankee_main:IfA_Smeargle.yankee.yankee_main.SmeargleConfig}]{\sphinxcrossref{\sphinxcode{\sphinxupquote{SmeargleConfig}}}}} class.
+\end{sphinxadmonition}
+
 \end{fulllineitems}
 
 
@@ -2735,6 +2825,15 @@ By default, all of the entries in the configurations are empty. Moreover,
 each configuration attribute only contains the required entries. Optional
 entries may be added at user discretion (see documentation for such
 entries).
+
+\begin{sphinxadmonition}{note}{Note:}
+All built-in functions of the configuration classes are inherited from the
+{\hyperref[\detokenize{python_docstrings/IfA_Smeargle.yankee.configuration_classes.BaseConfig_file:IfA_Smeargle.yankee.configuration_classes.BaseConfig_file.BaseConfig}]{\sphinxcrossref{\sphinxcode{\sphinxupquote{BaseConfig}}}}}
+class.
+
+Configuration classes such as this one is generally wrapped within the
+{\hyperref[\detokenize{python_docstrings/IfA_Smeargle.yankee.yankee_main:IfA_Smeargle.yankee.yankee_main.SmeargleConfig}]{\sphinxcrossref{\sphinxcode{\sphinxupquote{SmeargleConfig}}}}} class.
+\end{sphinxadmonition}
 
 \end{fulllineitems}
 
@@ -2817,6 +2916,66 @@ It may also be a file name.
 
 \item[{Return type}] \leavevmode
 Any BaseConfig based class (same class as desired class)
+
+\end{description}\end{quote}
+
+\end{fulllineitems}
+
+\index{fast\_forward\_configuration\_class() (in module IfA\_Smeargle.yankee.yankee\_functions)@\spxentry{fast\_forward\_configuration\_class()}\spxextra{in module IfA\_Smeargle.yankee.yankee\_functions}}
+
+\begin{fulllineitems}
+\phantomsection\label{\detokenize{python_docstrings/IfA_Smeargle.yankee.yankee_functions:IfA_Smeargle.yankee.yankee_functions.fast_forward_configuration_class}}\pysiglinewithargsret{\sphinxcode{\sphinxupquote{IfA\_Smeargle.yankee.yankee\_functions.}}\sphinxbfcode{\sphinxupquote{fast\_forward\_configuration\_class}}}{\emph{configuration\_class}}{}
+This functions updates the configuration class to the most compatible
+version.
+
+One of the byproducts of how the YANKEE line is coded is that
+configuration files made in previous versions of IfA-Smeargle will not
+work by default. This function fixes that, returning an updated
+configuration class that can be used with the current installed version.
+\begin{quote}\begin{description}
+\item[{Parameters}] \leavevmode
+\sphinxstyleliteralstrong{\sphinxupquote{configuration\_class}} (\sphinxstyleliteralemphasis{\sphinxupquote{Configuration Class}}) \textendash{} The configuration class that is to be updated and fast-forwarded into
+its future.
+
+\item[{Returns}] \leavevmode
+\sphinxstylestrong{updated\_configuration\_class} \textendash{} The configuration class that should be updated and compatible with
+the current version.
+
+\item[{Return type}] \leavevmode
+Configuration Class
+
+\end{description}\end{quote}
+
+\end{fulllineitems}
+
+\index{overwrite\_configuration\_class() (in module IfA\_Smeargle.yankee.yankee\_functions)@\spxentry{overwrite\_configuration\_class()}\spxextra{in module IfA\_Smeargle.yankee.yankee\_functions}}
+
+\begin{fulllineitems}
+\phantomsection\label{\detokenize{python_docstrings/IfA_Smeargle.yankee.yankee_functions:IfA_Smeargle.yankee.yankee_functions.overwrite_configuration_class}}\pysiglinewithargsret{\sphinxcode{\sphinxupquote{IfA\_Smeargle.yankee.yankee\_functions.}}\sphinxbfcode{\sphinxupquote{overwrite\_configuration\_class}}}{\emph{inferior\_class}, \emph{superior\_class}}{}
+This function combines two configuration classes by overwriting some
+parts with a more recent class.
+
+This function allows for two configuration classes to be combined. Where
+the two configuration classes collide, the \sphinxcode{\sphinxupquote{superior}} class will
+overwrite the \sphinxcode{\sphinxupquote{inferior}} class objects.
+\begin{quote}\begin{description}
+\item[{Parameters}] \leavevmode\begin{itemize}
+\item {} 
+\sphinxstyleliteralstrong{\sphinxupquote{inferior\_class}} (\sphinxstyleliteralemphasis{\sphinxupquote{Configuration Class}}) \textendash{} The configuration class that is to be updated and conflicting
+attributes be overwritten.
+
+\item {} 
+\sphinxstyleliteralstrong{\sphinxupquote{superior\_class}} (\sphinxstyleliteralemphasis{\sphinxupquote{Configuration Class}}) \textendash{} The configuration class that is to be added to and overwrite any
+conflicts to the other class.
+
+\end{itemize}
+
+\item[{Returns}] \leavevmode
+\sphinxstylestrong{combined\_configuration\_class} \textendash{} The configuration class that should be the correct combination of
+both classes.
+
+\item[{Return type}] \leavevmode
+Configuration Class
 
 \end{description}\end{quote}
 
@@ -2926,7 +3085,8 @@ of the Smeargle lines. They are defined in their appropriate files.
 \sphinxstyleliteralstrong{\sphinxupquote{YankeeConfig}} (\sphinxstyleliteralemphasis{\sphinxupquote{Configuration class}}) \textendash{} The configuration class for the YANKEE line.
 
 \item {} 
-\sphinxstyleliteralstrong{\sphinxupquote{BaseConfig}} (\sphinxstyleliteralemphasis{\sphinxupquote{Configuration class}}) \textendash{} The base configuration class, should generally not be used.
+\sphinxstyleliteralstrong{\sphinxupquote{BaseConfig}} (\sphinxstyleliteralemphasis{\sphinxupquote{Configuration class}}) \textendash{} The base configuration class, should generally not be used to store
+parameters.
 
 \end{itemize}
 
@@ -2951,13 +3111,13 @@ of the Smeargle lines. They are defined in their appropriate files.
 \subparagraph{Submodules}
 \label{\detokenize{python_docstrings/IfA_Smeargle.zulu.detector_pipelines:submodules}}
 
-\subparagraph{IfA\_Smeargle.zulu.detector\_pipelines.saphria\_pipeline module}
-\label{\detokenize{python_docstrings/IfA_Smeargle.zulu.detector_pipelines.saphria_pipeline:module-IfA_Smeargle.zulu.detector_pipelines.saphria_pipeline}}\label{\detokenize{python_docstrings/IfA_Smeargle.zulu.detector_pipelines.saphria_pipeline:ifa-smeargle-zulu-detector-pipelines-saphria-pipeline-module}}\label{\detokenize{python_docstrings/IfA_Smeargle.zulu.detector_pipelines.saphria_pipeline::doc}}\index{IfA\_Smeargle.zulu.detector\_pipelines.saphria\_pipeline (module)@\spxentry{IfA\_Smeargle.zulu.detector\_pipelines.saphria\_pipeline}\spxextra{module}}
+\subparagraph{IfA\_Smeargle.zulu.detector\_pipelines.saphira\_pipeline module}
+\label{\detokenize{python_docstrings/IfA_Smeargle.zulu.detector_pipelines.saphira_pipeline:module-IfA_Smeargle.zulu.detector_pipelines.saphira_pipeline}}\label{\detokenize{python_docstrings/IfA_Smeargle.zulu.detector_pipelines.saphira_pipeline:ifa-smeargle-zulu-detector-pipelines-saphira-pipeline-module}}\label{\detokenize{python_docstrings/IfA_Smeargle.zulu.detector_pipelines.saphira_pipeline::doc}}\index{IfA\_Smeargle.zulu.detector\_pipelines.saphira\_pipeline (module)@\spxentry{IfA\_Smeargle.zulu.detector\_pipelines.saphira\_pipeline}\spxextra{module}}
 This is the entire reduction method for the Saphria based infrared arrays.
-\index{SA201907281826\_reduction\_pipeline() (in module IfA\_Smeargle.zulu.detector\_pipelines.saphria\_pipeline)@\spxentry{SA201907281826\_reduction\_pipeline()}\spxextra{in module IfA\_Smeargle.zulu.detector\_pipelines.saphria\_pipeline}}
+\index{SA201907281826\_reduction\_pipeline() (in module IfA\_Smeargle.zulu.detector\_pipelines.saphira\_pipeline)@\spxentry{SA201907281826\_reduction\_pipeline()}\spxextra{in module IfA\_Smeargle.zulu.detector\_pipelines.saphira\_pipeline}}
 
 \begin{fulllineitems}
-\phantomsection\label{\detokenize{python_docstrings/IfA_Smeargle.zulu.detector_pipelines.saphria_pipeline:IfA_Smeargle.zulu.detector_pipelines.saphria_pipeline.SA201907281826_reduction_pipeline}}\pysiglinewithargsret{\sphinxcode{\sphinxupquote{IfA\_Smeargle.zulu.detector\_pipelines.saphria\_pipeline.}}\sphinxbfcode{\sphinxupquote{SA201907281826\_reduction\_pipeline}}}{\emph{data\_directory}, \emph{configuration\_class}}{}
+\phantomsection\label{\detokenize{python_docstrings/IfA_Smeargle.zulu.detector_pipelines.saphira_pipeline:IfA_Smeargle.zulu.detector_pipelines.saphira_pipeline.SA201907281826_reduction_pipeline}}\pysiglinewithargsret{\sphinxcode{\sphinxupquote{IfA\_Smeargle.zulu.detector\_pipelines.saphira\_pipeline.}}\sphinxbfcode{\sphinxupquote{SA201907281826\_reduction\_pipeline}}}{\emph{data\_directory}, \emph{configuration\_class}}{}
 This function is the reduction pipeline instructed on 2019-07-28,
 18:26.
 
@@ -2966,7 +3126,7 @@ warrant itself its own special function. Its variants are also listed here.
 \begin{quote}\begin{description}
 \item[{Parameters}] \leavevmode\begin{itemize}
 \item {} 
-\sphinxstyleliteralstrong{\sphinxupquote{data\_directory}} (\sphinxstyleliteralemphasis{\sphinxupquote{string}}) \textendash{} The data directory straight out of the Saphria array. Data
+\sphinxstyleliteralstrong{\sphinxupquote{data\_directory}} (\sphinxstyleliteralemphasis{\sphinxupquote{string}}) \textendash{} The data directory straight out of the SAPHIRA array. Data
 preprocessing is internally handled.
 
 \item {} 
@@ -2986,20 +3146,20 @@ nothing
 
 \end{fulllineitems}
 
-\index{saphria\_reduction\_pipeline() (in module IfA\_Smeargle.zulu.detector\_pipelines.saphria\_pipeline)@\spxentry{saphria\_reduction\_pipeline()}\spxextra{in module IfA\_Smeargle.zulu.detector\_pipelines.saphria\_pipeline}}
+\index{saphira\_reduction\_pipeline() (in module IfA\_Smeargle.zulu.detector\_pipelines.saphira\_pipeline)@\spxentry{saphira\_reduction\_pipeline()}\spxextra{in module IfA\_Smeargle.zulu.detector\_pipelines.saphira\_pipeline}}
 
 \begin{fulllineitems}
-\phantomsection\label{\detokenize{python_docstrings/IfA_Smeargle.zulu.detector_pipelines.saphria_pipeline:IfA_Smeargle.zulu.detector_pipelines.saphria_pipeline.saphria_reduction_pipeline}}\pysiglinewithargsret{\sphinxcode{\sphinxupquote{IfA\_Smeargle.zulu.detector\_pipelines.saphria\_pipeline.}}\sphinxbfcode{\sphinxupquote{saphria\_reduction\_pipeline}}}{\emph{data\_directory}, \emph{configuration\_class}}{}
+\phantomsection\label{\detokenize{python_docstrings/IfA_Smeargle.zulu.detector_pipelines.saphira_pipeline:IfA_Smeargle.zulu.detector_pipelines.saphira_pipeline.saphira_reduction_pipeline}}\pysiglinewithargsret{\sphinxcode{\sphinxupquote{IfA\_Smeargle.zulu.detector\_pipelines.saphira\_pipeline.}}\sphinxbfcode{\sphinxupquote{saphira\_reduction\_pipeline}}}{\emph{data\_directory}, \emph{configuration\_class}}{}
 This is the entire reduction and analysis pipeline for the SAPHRIA
 arrays.
 
-This is the default reduction pipeline for the Saphria array. The
+This is the default reduction pipeline for the SAPHIRA array. The
 “outputs” are written to file(s) and arranged in their own directory
 instead of a Python output, mostly because of the sheer number of outputs.
 \begin{quote}\begin{description}
 \item[{Parameters}] \leavevmode\begin{itemize}
 \item {} 
-\sphinxstyleliteralstrong{\sphinxupquote{data\_directory}} (\sphinxstyleliteralemphasis{\sphinxupquote{string}}) \textendash{} The data directory straight out of the Saphria array. Data
+\sphinxstyleliteralstrong{\sphinxupquote{data\_directory}} (\sphinxstyleliteralemphasis{\sphinxupquote{string}}) \textendash{} The data directory straight out of the SAPHIRA array. Data
 preprocessing is internally handled.
 
 \item {} 
@@ -3157,7 +3317,7 @@ unknown
 \item\relax\sphinxstyleindexentry{IfA\_Smeargle.yankee.yankee\_main}\sphinxstyleindexpageref{python_docstrings/IfA_Smeargle.yankee.yankee_main:\detokenize{module-IfA_Smeargle.yankee.yankee_main}}
 \item\relax\sphinxstyleindexentry{IfA\_Smeargle.zulu}\sphinxstyleindexpageref{python_docstrings/IfA_Smeargle.zulu:\detokenize{module-IfA_Smeargle.zulu}}
 \item\relax\sphinxstyleindexentry{IfA\_Smeargle.zulu.detector\_pipelines}\sphinxstyleindexpageref{python_docstrings/IfA_Smeargle.zulu.detector_pipelines:\detokenize{module-IfA_Smeargle.zulu.detector_pipelines}}
-\item\relax\sphinxstyleindexentry{IfA\_Smeargle.zulu.detector\_pipelines.saphria\_pipeline}\sphinxstyleindexpageref{python_docstrings/IfA_Smeargle.zulu.detector_pipelines.saphria_pipeline:\detokenize{module-IfA_Smeargle.zulu.detector_pipelines.saphria_pipeline}}
+\item\relax\sphinxstyleindexentry{IfA\_Smeargle.zulu.detector\_pipelines.saphira\_pipeline}\sphinxstyleindexpageref{python_docstrings/IfA_Smeargle.zulu.detector_pipelines.saphira_pipeline:\detokenize{module-IfA_Smeargle.zulu.detector_pipelines.saphira_pipeline}}
 \item\relax\sphinxstyleindexentry{IfA\_Smeargle.zulu.zulu\_main}\sphinxstyleindexpageref{python_docstrings/IfA_Smeargle.zulu.zulu_main:\detokenize{module-IfA_Smeargle.zulu.zulu_main}}
 \end{sphinxtheindex}
 

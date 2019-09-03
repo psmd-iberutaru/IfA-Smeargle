@@ -16,6 +16,15 @@ class YankeeConfig(BaseConfig):
     each configuration attribute only contains the required entries. Optional 
     entries may be added at user  discretion (see documentation for such 
     entries).
+
+    Note
+    ----
+    All built-in functions of the configuration classes are inherited from the 
+    :py:class:`~IfA_Smeargle.yankee.configuration_classes.BaseConfig_file.BaseConfig`
+    class. 
+
+    Configuration classes such as this one is generally wrapped within the 
+    :py:class:`~IfA_Smeargle.yankee.yankee_main.SmeargleConfig` class.
     
 
     Attributes

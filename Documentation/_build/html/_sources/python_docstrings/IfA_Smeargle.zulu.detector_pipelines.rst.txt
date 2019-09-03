@@ -6,7 +6,7 @@ Submodules
 
 .. toctree::
 
-   IfA_Smeargle.zulu.detector_pipelines.saphria_pipeline
+   IfA_Smeargle.zulu.detector_pipelines.saphira_pipeline
 
 Module contents
 ---------------

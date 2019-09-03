@@ -118,7 +118,7 @@ class BaseConfig(object):
         file_name : string
             The path and name of the file that contains the configuration  
             class. Must have the extension ``.ifaspkl``. If ``file_name`` 
-            is None, then a default configuration class is returned. 
+            is None, then nothing happens. 
 
         Returns
         -------
@@ -127,10 +127,9 @@ class BaseConfig(object):
 
         if (file_name is not None):
             if (not isinstance(file_name, str)):
-                smeargle_warning(file_name,("The configuration file name is not a string "
-                                               "type. A default and blank configuration class "
-                                               "will be provided instead."))
-                self = self.__init__()
+                smeargle_warning(InputWarning, ("The configuration file name is not a string "
+                                                "type. Nothing will be done."))
+                pass
 
             elif (isinstance(file_name, str)):
                 read_config_class = yankee.read_config_file(file_name)
@@ -156,10 +155,9 @@ class BaseConfig(object):
                                          "<read_config_file> function.")
         else:
             # File name is not strictly provided, give an empty class.
-            smeargle_warning(InputWarning,("The file name string is None, returning a blank "
-                                           "class instead."))
-            self = self.__init__()
+            smeargle_warning(InputWarning,("The file name string is None, nothing will be done."))
         
         # Finished
         return self
+
 

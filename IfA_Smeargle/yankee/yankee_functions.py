@@ -164,8 +164,9 @@ def extract_proper_configuration_class(configuration_class, desired_class,
 
 
 def fast_forward_configuration_class(configuration_class):
-    """ This function future adapts the provided configuration class.
-    
+    """This functions updates the configuration class to the most compatible
+    version.
+
     One of the byproducts of how the YANKEE line is coded is that 
     configuration files made in previous versions of IfA-Smeargle will not
     work by default. This function fixes that, returning an updated 
@@ -194,33 +195,95 @@ def fast_forward_configuration_class(configuration_class):
     # Extract the default class instance from said list.
     default_class = yankee_classes[class_name]()
 
-    # Dictionaries are easier to use.
-    provided_class_dict = configuration_class.__dict__
-    default_class_dict = default_class.__dict__
+    # Update the old class with the new class, overwriting defaults with the
+    # provided class.
+    updated_configuration_class = overwrite_configuration_class(default_class,
+                                                                configuration_class)
 
-    # Cycle through all of the parameters in the class; replace configuration
-    # class defaults with provided entries. 
-    for default_keydex in default_class_dict.keys():
-        # Replace defaults with existing provided attributes.
-        if (default_keydex in provided_class_dict):
+    # Finished and return
+    return updated_configuration_class
+
+
+def overwrite_configuration_class(inferior_class, superior_class):
+    """ This function combines two configuration classes by overwriting some 
+    parts with a more recent class.
+    
+    This function allows for two configuration classes to be combined. Where
+    the two configuration classes collide, the ``superior`` class will 
+    overwrite the ``inferior`` class objects.
+
+    Parameters
+    ----------
+    inferior_class : Configuration Class
+        The configuration class that is to be updated and conflicting 
+        attributes be overwritten.
+    superior_class : Configuration Class
+        The configuration class that is to be added to and overwrite any 
+        conflicts to the other class.  
+
+    Returns
+    -------
+    combined_configuration_class : Configuration Class
+        The configuration class that should be the correct combination of 
+        both classes.
+    """
+    # Both classes should be YANKEE configuration classes, if not, then this
+    # function doesn't make sense. 
+    if (not isinstance(inferior_class, yankee.BaseConfig)):
+        raise InputError("The inferior class must be a configuration class instance; that is, "
+                         "any inherited class from BaseConfig.")
+    if (not isinstance(superior_class, yankee.BaseConfig)):
+        raise InputError("The superior class must be a configuration class instance; that is, "
+                         "any inherited class from BaseConfig.")
+
+    # Check to see if both classes are the same, if not, then it doesn't make
+    # sense to combine them.
+    if (type(inferior_class) is not type(superior_class)):
+        raise TypeError("Both the inferior and superior class must have the same type. If one "
+                         "is embedded in another, please extract them before combining.")
+
+    # Dictionaries are easier to use.
+    superior_class_dict = superior_class.__dict__
+    inferior_class_dict = inferior_class.__dict__
+
+    # Cycle through all of the parameters in the class; replace inferior
+    # class defaults with superior entries. 
+    for inferior_keydex in inferior_class_dict.keys():
+        # Replace inferior attributes with provided superior attributes.
+        if (inferior_keydex in superior_class_dict):
             # BaseConfig-like objects should not be replaced completely, dig
             # deeper and replace only what is needed. 
-            if (isinstance(provided_class_dict[default_keydex],yankee.BaseConfig)):
+            if (isinstance(superior_class_dict[inferior_keydex], yankee.BaseConfig)):
                 # Iterate deeper, the deep copy may not be needed.
                 replacing_value = copy.deepcopy(
-                    fast_forward_configuration_class(provided_class_dict[default_keydex]))
-                default_class_dict.update({default_keydex:replacing_value})
+                    overwrite_configuration_class(inferior_class_dict[inferior_keydex],
+                                                  superior_class_dict[inferior_keydex]))
+                inferior_class_dict.update({inferior_keydex:replacing_value})
             else:
                 # Deep copy may not be needed.
-                replacing_value = copy.deepcopy(provided_class_dict[default_keydex])
-                default_class_dict.update({default_keydex:replacing_value})
+                replacing_value = copy.deepcopy(superior_class_dict[inferior_keydex])
+                inferior_class_dict.update({inferior_keydex:replacing_value})
         else:
-            # There is no common object, keep defaults.
+            # There is no common object, keep inferior entries.
             pass
 
-    # All done, renaming for documentation sake.
-    updated_configuration_class = default_class
-    return updated_configuration_class
+    # The ZULU configuration class must be handled a bit differently because
+    # by design, there is no "template" that the above method can sort through.
+    try:
+        inferior_zulu = extract_proper_configuration_class(inferior_class, yankee.ZuluConfig)
+        superior_zulu = extract_proper_configuration_class(superior_class, yankee.ZuluConfig)
+        inferior_class.ZuluConfig.__dict__.update({**inferior_zulu.__dict__, 
+                                                   **superior_zulu.__dict__})
+    except AttributeError:
+        # The class to be updated does not contain a ZuluConfig configuration
+        # class.
+        pass
+
+    # All done, renaming for documentation sake. The inferior class elements 
+    # were overwritten with the superior elements. 
+    combined_configuration_class = copy.deepcopy(inferior_class)
+    return combined_configuration_class
+
 
 # Loading/unloading functions.
 def write_config_file(config_class, file_name, 

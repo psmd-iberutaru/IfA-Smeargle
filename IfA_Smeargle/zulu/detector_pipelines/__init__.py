@@ -10,4 +10,4 @@ functions, contained within the file of the detector that they apply to.
 """
 
 # Adding the pipelines.
-from IfA_Smeargle.zulu.detector_pipelines.saphria_pipeline import *
+from IfA_Smeargle.zulu.detector_pipelines.saphira_pipeline import *

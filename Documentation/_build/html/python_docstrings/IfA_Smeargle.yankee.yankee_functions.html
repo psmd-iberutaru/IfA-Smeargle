@@ -235,6 +235,57 @@ It may also be a file name.</p></li>
 </dd></dl>
 
 <dl class="function">
+<dt id="IfA_Smeargle.yankee.yankee_functions.fast_forward_configuration_class">
+<code class="sig-prename descclassname">IfA_Smeargle.yankee.yankee_functions.</code><code class="sig-name descname">fast_forward_configuration_class</code><span class="sig-paren">(</span><em class="sig-param">configuration_class</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/IfA_Smeargle/yankee/yankee_functions.html#fast_forward_configuration_class"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#IfA_Smeargle.yankee.yankee_functions.fast_forward_configuration_class" title="Permalink to this definition">¶</a></dt>
+<dd><p>This functions updates the configuration class to the most compatible
+version.</p>
+<p>One of the byproducts of how the YANKEE line is coded is that
+configuration files made in previous versions of IfA-Smeargle will not
+work by default. This function fixes that, returning an updated
+configuration class that can be used with the current installed version.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>configuration_class</strong> (<em>Configuration Class</em>) – The configuration class that is to be updated and fast-forwarded into
+its future.</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p><strong>updated_configuration_class</strong> – The configuration class that should be updated and compatible with
+the current version.</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>Configuration Class</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="function">
+<dt id="IfA_Smeargle.yankee.yankee_functions.overwrite_configuration_class">
+<code class="sig-prename descclassname">IfA_Smeargle.yankee.yankee_functions.</code><code class="sig-name descname">overwrite_configuration_class</code><span class="sig-paren">(</span><em class="sig-param">inferior_class</em>, <em class="sig-param">superior_class</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/IfA_Smeargle/yankee/yankee_functions.html#overwrite_configuration_class"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#IfA_Smeargle.yankee.yankee_functions.overwrite_configuration_class" title="Permalink to this definition">¶</a></dt>
+<dd><p>This function combines two configuration classes by overwriting some
+parts with a more recent class.</p>
+<p>This function allows for two configuration classes to be combined. Where
+the two configuration classes collide, the <code class="docutils literal notranslate"><span class="pre">superior</span></code> class will
+overwrite the <code class="docutils literal notranslate"><span class="pre">inferior</span></code> class objects.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>inferior_class</strong> (<em>Configuration Class</em>) – The configuration class that is to be updated and conflicting
+attributes be overwritten.</p></li>
+<li><p><strong>superior_class</strong> (<em>Configuration Class</em>) – The configuration class that is to be added to and overwrite any
+conflicts to the other class.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p><strong>combined_configuration_class</strong> – The configuration class that should be the correct combination of
+both classes.</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>Configuration Class</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="function">
 <dt id="IfA_Smeargle.yankee.yankee_functions.read_config_file">
 <code class="sig-prename descclassname">IfA_Smeargle.yankee.yankee_functions.</code><code class="sig-name descname">read_config_file</code><span class="sig-paren">(</span><em class="sig-param">file_name</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/IfA_Smeargle/yankee/yankee_functions.html#read_config_file"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#IfA_Smeargle.yankee.yankee_functions.read_config_file" title="Permalink to this definition">¶</a></dt>
 <dd><p>Function to read a specific configuration class from a normal file.</p>

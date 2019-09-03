@@ -194,7 +194,7 @@ program attempts to fit a Gaussian function.</p>
 histograms made. May also be a fits file.</p></li>
 <li><p><strong>figure_axes</strong> (<em>Matplotlib Axes</em><em> (</em><em>optional</em><em>)</em>) – This is a predefined axes variable that the user may desire to have
 the histogram plot to. This defaults to either making new ones, or
-using the currently defined axes. Note: This is not deep-copied!</p></li>
+using the currently defined axes. This is not deep-copied!</p></li>
 <li><p><strong>fit_gaussian</strong> (<em>boolean</em><em> (</em><em>optional</em><em>)</em>) – This parameter regulates if the function should replicate the
 Gaussian function fitting.</p></li>
 <li><p><strong>bin_width</strong> (<em>boolean</em><em> (</em><em>optional</em><em>)</em>) – Matplotlib is not nice with bin widths, if it is an integer, widths
@@ -216,10 +216,12 @@ the computed/fit Gaussian model.</p></li>
 </p>
 </dd>
 </dl>
-<p class="rubric">Notes</p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
 <p>If the <code class="docutils literal notranslate"><span class="pre">histogram_plot_parameters</span></code> specifies that the histogram plot
 should be logarithmic, the Gaussian function will be disabled because of
 some incompatibilities.</p>
+</div>
 </dd></dl>
 
 </div>

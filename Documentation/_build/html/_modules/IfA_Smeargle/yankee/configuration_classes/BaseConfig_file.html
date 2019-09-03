@@ -268,7 +268,7 @@
 <span class="sd">        file_name : string</span>
 <span class="sd">            The path and name of the file that contains the configuration  </span>
 <span class="sd">            class. Must have the extension ``.ifaspkl``. If ``file_name`` </span>
-<span class="sd">            is None, then a default configuration class is returned. </span>
+<span class="sd">            is None, then nothing happens. </span>
 
 <span class="sd">        Returns</span>
 <span class="sd">        -------</span>
@@ -277,10 +277,9 @@
 
         <span class="k">if</span> <span class="p">(</span><span class="n">file_name</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">):</span>
             <span class="k">if</span> <span class="p">(</span><span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">file_name</span><span class="p">,</span> <span class="nb">str</span><span class="p">)):</span>
-                <span class="n">smeargle_warning</span><span class="p">(</span><span class="n">file_name</span><span class="p">,(</span><span class="s2">&quot;The configuration file name is not a string &quot;</span>
-                                               <span class="s2">&quot;type. A default and blank configuration class &quot;</span>
-                                               <span class="s2">&quot;will be provided instead.&quot;</span><span class="p">))</span>
-                <span class="bp">self</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="fm">__init__</span><span class="p">()</span>
+                <span class="n">smeargle_warning</span><span class="p">(</span><span class="n">InputWarning</span><span class="p">,</span> <span class="p">(</span><span class="s2">&quot;The configuration file name is not a string &quot;</span>
+                                                <span class="s2">&quot;type. Nothing will be done.&quot;</span><span class="p">))</span>
+                <span class="k">pass</span>
 
             <span class="k">elif</span> <span class="p">(</span><span class="nb">isinstance</span><span class="p">(</span><span class="n">file_name</span><span class="p">,</span> <span class="nb">str</span><span class="p">)):</span>
                 <span class="n">read_config_class</span> <span class="o">=</span> <span class="n">yankee</span><span class="o">.</span><span class="n">read_config_file</span><span class="p">(</span><span class="n">file_name</span><span class="p">)</span>
@@ -306,12 +305,11 @@
                                          <span class="s2">&quot;&lt;read_config_file&gt; function.&quot;</span><span class="p">)</span>
         <span class="k">else</span><span class="p">:</span>
             <span class="c1"># File name is not strictly provided, give an empty class.</span>
-            <span class="n">smeargle_warning</span><span class="p">(</span><span class="n">InputWarning</span><span class="p">,(</span><span class="s2">&quot;The file name string is None, returning a blank &quot;</span>
-                                           <span class="s2">&quot;class instead.&quot;</span><span class="p">))</span>
-            <span class="bp">self</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="fm">__init__</span><span class="p">()</span>
+            <span class="n">smeargle_warning</span><span class="p">(</span><span class="n">InputWarning</span><span class="p">,(</span><span class="s2">&quot;The file name string is None, nothing will be done.&quot;</span><span class="p">))</span>
         
         <span class="c1"># Finished</span>
         <span class="k">return</span> <span class="bp">self</span></div></div>
+
 
 </pre></div>
 

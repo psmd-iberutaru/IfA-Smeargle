@@ -416,6 +416,49 @@ if there is some overlap).</p>
 </dd></dl>
 
 <dl class="function">
+<dt id="IfA_Smeargle.meta.errors.smeargle_debug_block">
+<code class="sig-prename descclassname">IfA_Smeargle.meta.errors.</code><code class="sig-name descname">smeargle_debug_block</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/IfA_Smeargle/meta/errors.html#smeargle_debug_block"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#IfA_Smeargle.meta.errors.smeargle_debug_block" title="Permalink to this definition">¶</a></dt>
+<dd><p>This is a wrapper function for encasing debugging code.</p>
+<p>The execution of code within a debug block is used to contain easily
+printed debug information. Debug messages should use the debug function
+<a class="reference internal" href="#IfA_Smeargle.meta.errors.smeargle_debug_message" title="IfA_Smeargle.meta.errors.smeargle_debug_message"><code class="xref py py-func docutils literal notranslate"><span class="pre">smeargle_debug_message()</span></code></a></p>
+</dd></dl>
+
+<dl class="function">
+<dt id="IfA_Smeargle.meta.errors.smeargle_debug_message">
+<code class="sig-prename descclassname">IfA_Smeargle.meta.errors.</code><code class="sig-name descname">smeargle_debug_message</code><span class="sig-paren">(</span><em class="sig-param">message</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/IfA_Smeargle/meta/errors.html#smeargle_debug_message"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#IfA_Smeargle.meta.errors.smeargle_debug_message" title="Permalink to this definition">¶</a></dt>
+<dd><p>This is a wrapper function for the printing of debug messages.</p>
+<p>Given the nature of debug messages, it should be clear that it is a debug
+message, and should also have the proper silencing capabilities.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>message</strong> (<em>string</em>) – The message that is to be sent as the debug message.</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p></p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>nothing</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="function">
+<dt id="IfA_Smeargle.meta.errors.smeargle_disable_debug">
+<code class="sig-prename descclassname">IfA_Smeargle.meta.errors.</code><code class="sig-name descname">smeargle_disable_debug</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/IfA_Smeargle/meta/errors.html#smeargle_disable_debug"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#IfA_Smeargle.meta.errors.smeargle_disable_debug" title="Permalink to this definition">¶</a></dt>
+<dd><p>This context manager turns all debug messages off for the duration of
+the context. Given that debug messages are generally off in the first
+place, usage may be rare.</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="IfA_Smeargle.meta.errors.smeargle_enable_debug">
+<code class="sig-prename descclassname">IfA_Smeargle.meta.errors.</code><code class="sig-name descname">smeargle_enable_debug</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/IfA_Smeargle/meta/errors.html#smeargle_enable_debug"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#IfA_Smeargle.meta.errors.smeargle_enable_debug" title="Permalink to this definition">¶</a></dt>
+<dd><p>This context manager turns all debug messages on for the duration of
+the context.</p>
+</dd></dl>
+
+<dl class="function">
 <dt id="IfA_Smeargle.meta.errors.smeargle_info">
 <code class="sig-prename descclassname">IfA_Smeargle.meta.errors.</code><code class="sig-name descname">smeargle_info</code><span class="sig-paren">(</span><em class="sig-param">message</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/IfA_Smeargle/meta/errors.html#smeargle_info"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#IfA_Smeargle.meta.errors.smeargle_info" title="Permalink to this definition">¶</a></dt>
 <dd><p>This is a wrapper function to print helpful information.</p>

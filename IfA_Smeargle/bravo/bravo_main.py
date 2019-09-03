@@ -13,8 +13,8 @@ from IfA_Smeargle import yankee
 
 from IfA_Smeargle.meta import *
 
-def bravo_execution_saphria(data_directory, configuration_class):
-    """ Reformats data provided by a SAPHRIA array into a form used by this
+def bravo_execution_saphira(data_directory, configuration_class):
+    """ Reformats data provided by a SAPHIRA array into a form used by this
     program.
 
     Each array or data set has their own different forms of representing the 

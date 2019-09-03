@@ -84,7 +84,7 @@ specified.
 .. warning::
    Configuration files and classes are not forward compatible. There 
    is however a function to convert older configuration classes/files to newer
-   versions while preserving the old data.
+   versions while preserving the old data. See the :func:`Fast Forward Configuration Class <IfA_Smeargle.yankee.yankee_functions.fast_forward_configuration_class>` function.
 
 
 Executing Pipelines

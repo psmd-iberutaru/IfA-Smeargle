@@ -192,7 +192,8 @@
 <span class="sd">        The configuration class for the YANKEE line.</span>
 
 <span class="sd">    BaseConfig : Configuration class</span>
-<span class="sd">        The base configuration class, should generally not be used. </span>
+<span class="sd">        The base configuration class, should generally not be used to store</span>
+<span class="sd">        parameters.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
 
     <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">file_name</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
@@ -210,7 +211,9 @@
             <span class="bp">self</span><span class="o">.</span><span class="n">EchoConfig</span> <span class="o">=</span> <span class="n">conclass</span><span class="o">.</span><span class="n">EchoConfig</span><span class="p">()</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">OscarConfig</span> <span class="o">=</span> <span class="n">conclass</span><span class="o">.</span><span class="n">OscarConfig</span><span class="p">()</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">YankeeConfig</span> <span class="o">=</span> <span class="n">conclass</span><span class="o">.</span><span class="n">YankeeConfig</span><span class="p">()</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">ZuluConfig</span> <span class="o">=</span> <span class="n">conclass</span><span class="o">.</span><span class="n">ZuluConfig</span><span class="p">()</span></div>
+            <span class="bp">self</span><span class="o">.</span><span class="n">ZuluConfig</span> <span class="o">=</span> <span class="n">conclass</span><span class="o">.</span><span class="n">ZuluConfig</span><span class="p">()</span>
+
+            <span class="bp">self</span><span class="o">.</span><span class="n">BaseConfig</span> <span class="o">=</span> <span class="n">conclass</span><span class="o">.</span><span class="n">BaseConfig</span><span class="p">()</span></div>
 
 
 

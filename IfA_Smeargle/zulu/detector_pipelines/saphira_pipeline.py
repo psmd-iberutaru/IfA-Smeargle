@@ -15,18 +15,18 @@ from IfA_Smeargle import yankee
 
 from IfA_Smeargle.meta import *
 
-def saphria_reduction_pipeline(data_directory, configuration_class):
+def saphira_reduction_pipeline(data_directory, configuration_class):
     """This is the entire reduction and analysis pipeline for the SAPHRIA 
     arrays.
 
-    This is the default reduction pipeline for the Saphria array. The
+    This is the default reduction pipeline for the SAPHIRA array. The
     "outputs" are written to file(s) and arranged in their own directory 
     instead of a Python output, mostly because of the sheer number of outputs.
 
     Parameters
     ----------
     data_directory : string
-        The data directory straight out of the Saphria array. Data 
+        The data directory straight out of the SAPHIRA array. Data 
         preprocessing is internally handled.
     configuration_class : SmeargleConfig class
         The configuration class/options that go along with this reduction
@@ -38,7 +38,7 @@ def saphria_reduction_pipeline(data_directory, configuration_class):
     """
 
     # First, run the data reorganization program.
-    bravo.bravo_execution_saphria(data_directory, configuration_class)
+    bravo.bravo_execution_saphira(data_directory, configuration_class)
 
     
     # Apply the desired masks as needed. Although, the format provided by
@@ -71,7 +71,7 @@ def SA201907281826_reduction_pipeline(data_directory, configuration_class):
     Parameters
     ----------
     data_directory : string
-        The data directory straight out of the Saphria array. Data 
+        The data directory straight out of the SAPHIRA array. Data 
         preprocessing is internally handled.
     configuration_class : SmeargleConfig class
         The configuration class/options that go along with this reduction
@@ -105,7 +105,7 @@ def SA201907281826_reduction_pipeline(data_directory, configuration_class):
 
 
     # Initial renaming of primary files.
-    def _saphria_renaming(data_directory, configuration_class):
+    def _saphira_renaming(data_directory, configuration_class):
         # Just a inner function to store the new naming routine. 
         # Be adaptive as to which configuration class is given.
         provided_config = yankee.extract_proper_configuration_class(configuration_class,
@@ -150,7 +150,7 @@ def SA201907281826_reduction_pipeline(data_directory, configuration_class):
         return None
     
     # Run the renaming of the files.
-    _saphria_renaming(data_directory, configuration_class)
+    _saphira_renaming(data_directory, configuration_class)
 
     # Re-obtain file names.
     file_names = glob.glob(data_directory + '/*' + '.fits')

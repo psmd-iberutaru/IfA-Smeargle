@@ -32,7 +32,7 @@ def plot_array_histogram(data_array,
     figure_axes : Matplotlib Axes (optional)
         This is a predefined axes variable that the user may desire to have 
         the histogram plot to. This defaults to either making new ones, or 
-        using the currently defined axes. Note: This is not deep-copied!
+        using the currently defined axes. This is not deep-copied!
     fit_gaussian : boolean (optional)
         This parameter regulates if the function should replicate the 
         Gaussian function fitting.
@@ -56,12 +56,12 @@ def plot_array_histogram(data_array,
     gaussian_fit_atributes : dictionary
         This is a dictionary of the mean, stddev, amplitude, and maximum of 
         the computed/fit Gaussian model.
-
-    Notes
-    -----
-    If the ``histogram_plot_parameters`` specifies that the histogram plot 
-    should be logarithmic, the Gaussian function will be disabled because of 
-    some incompatibilities. 
+ 
+    Note
+    ----
+        If the ``histogram_plot_parameters`` specifies that the histogram plot 
+        should be logarithmic, the Gaussian function will be disabled because of 
+        some incompatibilities. 
 
     """
 

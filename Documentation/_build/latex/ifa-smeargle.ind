@@ -6,7 +6,7 @@
 
   \bigletter {\sphinxsymbolsname}
   \item \spxentry{\_\_str\_\_()}\spxextra{IfA\_Smeargle.yankee.configuration\_classes.BaseConfig\_file.BaseConfig method}, 
-		\hyperpage{28}
+		\hyperpage{29}
 
   \indexspace
   \bigletter A
@@ -17,13 +17,13 @@
   \item \spxentry{average\_endpoints\_per\_second()}\spxextra{in module IfA\_Smeargle.bravo.averaging}, 
 		\hyperpage{6}
   \item \spxentry{avg\_endpts\_config}\spxextra{IfA\_Smeargle.yankee.configuration\_classes.BravoConfig\_file.BravoConfig attribute}, 
-		\hyperpage{29}
+		\hyperpage{30}
 
   \indexspace
   \bigletter B
   \item \spxentry{BaseConfig}\spxextra{class in IfA\_Smeargle.yankee.configuration\_classes.BaseConfig\_file}, 
 		\hyperpage{28}
-  \item \spxentry{bravo\_execution\_saphria()}\spxextra{in module IfA\_Smeargle.bravo.bravo\_main}, 
+  \item \spxentry{bravo\_execution\_saphira()}\spxextra{in module IfA\_Smeargle.bravo.bravo\_main}, 
 		\hyperpage{7}
   \item \spxentry{BravoConfig}\spxextra{class in IfA\_Smeargle.yankee.configuration\_classes.BravoConfig\_file}, 
 		\hyperpage{29}
@@ -32,7 +32,7 @@
   \indexspace
   \bigletter C
   \item \spxentry{configuration\_factory\_function()}\spxextra{in module IfA\_Smeargle.yankee.yankee\_functions}, 
-		\hyperpage{31}
+		\hyperpage{32}
   \item \spxentry{ConfigurationError}, \hyperpage{18}
   \item \spxentry{ConfigurationWarning}, \hyperpage{19}
 
@@ -42,7 +42,7 @@
   \item \spxentry{DataWarning}, \hyperpage{19}
   \item \spxentry{DepreciationWarning}, \hyperpage{19}
   \item \spxentry{detector\_name}\spxextra{IfA\_Smeargle.yankee.configuration\_classes.BravoConfig\_file.BravoConfig attribute}, 
-		\hyperpage{29}
+		\hyperpage{30}
   \item \spxentry{duplicate\_archive\_data\_files()}\spxextra{in module IfA\_Smeargle.bravo.archiving}, 
 		\hyperpage{5}
 
@@ -87,30 +87,32 @@
   \item \spxentry{EchoConfig}\spxextra{class in IfA\_Smeargle.yankee.configuration\_classes.EchoConfig\_file}, 
 		\hyperpage{30}
   \item \spxentry{execute\_ifas\_smeargle()}\spxextra{in module IfA\_Smeargle.ifas\_execute}, 
-		\hyperpage{35}
+		\hyperpage{36}
   \item \spxentry{ExportingError}, \hyperpage{19}
   \item \spxentry{extract\_proper\_configuration\_class()}\spxextra{in module IfA\_Smeargle.meta.configuration}, 
 		\hyperpage{18}
   \item \spxentry{extract\_proper\_configuration\_class()}\spxextra{in module IfA\_Smeargle.yankee.yankee\_functions}, 
-		\hyperpage{31}
+		\hyperpage{32}
 
   \indexspace
   \bigletter F
+  \item \spxentry{fast\_forward\_configuration\_class()}\spxextra{in module IfA\_Smeargle.yankee.yankee\_functions}, 
+		\hyperpage{32}
   \item \spxentry{functioned\_mask\_returning()}\spxextra{in module IfA\_Smeargle.echo.echo\_functions}, 
 		\hyperpage{16}
 
   \indexspace
   \bigletter H
   \item \spxentry{heathist\_config}\spxextra{IfA\_Smeargle.yankee.configuration\_classes.OscarConfig\_file.OscarConfig attribute}, 
-		\hyperpage{30}
+		\hyperpage{31}
   \item \spxentry{heatmap\_config}\spxextra{IfA\_Smeargle.yankee.configuration\_classes.OscarConfig\_file.OscarConfig attribute}, 
-		\hyperpage{30}
+		\hyperpage{31}
   \item \spxentry{histogram\_config}\spxextra{IfA\_Smeargle.yankee.configuration\_classes.OscarConfig\_file.OscarConfig attribute}, 
-		\hyperpage{30}
+		\hyperpage{31}
 
   \indexspace
   \bigletter I
-  \item \spxentry{IfA\_Smeargle}\spxextra{module}, \hyperpage{35}
+  \item \spxentry{IfA\_Smeargle}\spxextra{module}, \hyperpage{36}
   \item \spxentry{IfA\_Smeargle.bravo}\spxextra{module}, \hyperpage{9}
   \item \spxentry{IfA\_Smeargle.bravo.archiving}\spxextra{module}, \hyperpage{5}
   \item \spxentry{IfA\_Smeargle.bravo.averaging}\spxextra{module}, \hyperpage{5}
@@ -124,22 +126,22 @@
   \item \spxentry{IfA\_Smeargle.echo.masks.masks\_echo100}\spxextra{module}, \hyperpage{9}
   \item \spxentry{IfA\_Smeargle.echo.masks.masks\_echo200}\spxextra{module}, \hyperpage{11}
   \item \spxentry{IfA\_Smeargle.echo.masks.masks\_echo300}\spxextra{module}, \hyperpage{13}
-  \item \spxentry{IfA\_Smeargle.ifas\_execute}\spxextra{module}, \hyperpage{35}
+  \item \spxentry{IfA\_Smeargle.ifas\_execute}\spxextra{module}, \hyperpage{36}
   \item \spxentry{IfA\_Smeargle.meta}\spxextra{module}, \hyperpage{25}
   \item \spxentry{IfA\_Smeargle.meta.configuration}\spxextra{module}, \hyperpage{18}
   \item \spxentry{IfA\_Smeargle.meta.errors}\spxextra{module}, \hyperpage{18}
   \item \spxentry{IfA\_Smeargle.meta.fits\_and\_arrays}\spxextra{module}, \hyperpage{22}
-  \item \spxentry{IfA\_Smeargle.meta.meta\_main}\spxextra{module}, \hyperpage{23}
-  \item \spxentry{IfA\_Smeargle.meta.modeling\_and\_fitting}\spxextra{module}, \hyperpage{23}
+  \item \spxentry{IfA\_Smeargle.meta.meta\_main}\spxextra{module}, \hyperpage{24}
+  \item \spxentry{IfA\_Smeargle.meta.modeling\_and\_fitting}\spxextra{module}, \hyperpage{24}
   \item \spxentry{IfA\_Smeargle.meta.plotting}\spxextra{module}, \hyperpage{24}
   \item \spxentry{IfA\_Smeargle.oscar}\spxextra{module}, \hyperpage{28}
   \item \spxentry{IfA\_Smeargle.oscar.heatmaps}\spxextra{module}, \hyperpage{25}
   \item \spxentry{IfA\_Smeargle.oscar.histograms}\spxextra{module}, \hyperpage{26}
-  \item \spxentry{IfA\_Smeargle.oscar.multi\_figure}\spxextra{module}, \hyperpage{26}
+  \item \spxentry{IfA\_Smeargle.oscar.multi\_figure}\spxextra{module}, \hyperpage{27}
   \item \spxentry{IfA\_Smeargle.oscar.oscar\_functions}\spxextra{module}, \hyperpage{27}
   \item \spxentry{IfA\_Smeargle.oscar.oscar\_main}\spxextra{module}, \hyperpage{28}
-  \item \spxentry{IfA\_Smeargle.yankee}\spxextra{module}, \hyperpage{33}
-  \item \spxentry{IfA\_Smeargle.yankee.configuration\_classes}\spxextra{module}, \hyperpage{31}
+  \item \spxentry{IfA\_Smeargle.yankee}\spxextra{module}, \hyperpage{34}
+  \item \spxentry{IfA\_Smeargle.yankee.configuration\_classes}\spxextra{module}, \hyperpage{32}
   \item \spxentry{IfA\_Smeargle.yankee.configuration\_classes.BaseConfig\_file}\spxextra{module}, 
 		\hyperpage{28}
   \item \spxentry{IfA\_Smeargle.yankee.configuration\_classes.BravoConfig\_file}\spxextra{module}, 
@@ -149,16 +151,16 @@
   \item \spxentry{IfA\_Smeargle.yankee.configuration\_classes.OscarConfig\_file}\spxextra{module}, 
 		\hyperpage{30}
   \item \spxentry{IfA\_Smeargle.yankee.configuration\_classes.YankeeConfig\_file}\spxextra{module}, 
-		\hyperpage{30}
+		\hyperpage{31}
   \item \spxentry{IfA\_Smeargle.yankee.configuration\_classes.ZuluConfig\_file}\spxextra{module}, 
 		\hyperpage{31}
-  \item \spxentry{IfA\_Smeargle.yankee.yankee\_functions}\spxextra{module}, \hyperpage{31}
-  \item \spxentry{IfA\_Smeargle.yankee.yankee\_main}\spxextra{module}, \hyperpage{32}
-  \item \spxentry{IfA\_Smeargle.zulu}\spxextra{module}, \hyperpage{35}
-  \item \spxentry{IfA\_Smeargle.zulu.detector\_pipelines}\spxextra{module}, \hyperpage{34}
-  \item \spxentry{IfA\_Smeargle.zulu.detector\_pipelines.saphria\_pipeline}\spxextra{module}, 
-		\hyperpage{33}
-  \item \spxentry{IfA\_Smeargle.zulu.zulu\_main}\spxextra{module}, \hyperpage{34}
+  \item \spxentry{IfA\_Smeargle.yankee.yankee\_functions}\spxextra{module}, \hyperpage{32}
+  \item \spxentry{IfA\_Smeargle.yankee.yankee\_main}\spxextra{module}, \hyperpage{34}
+  \item \spxentry{IfA\_Smeargle.zulu}\spxextra{module}, \hyperpage{36}
+  \item \spxentry{IfA\_Smeargle.zulu.detector\_pipelines}\spxextra{module}, \hyperpage{35}
+  \item \spxentry{IfA\_Smeargle.zulu.detector\_pipelines.saphira\_pipeline}\spxextra{module}, 
+		\hyperpage{34}
+  \item \spxentry{IfA\_Smeargle.zulu.zulu\_main}\spxextra{module}, \hyperpage{35}
   \item \spxentry{IllogicalProsedureError}, \hyperpage{19}
   \item \spxentry{ImportingError}, \hyperpage{19}
   \item \spxentry{ImportingWarning}, \hyperpage{19}
@@ -185,10 +187,12 @@
   \item \spxentry{oscar\_bin\_width()}\spxextra{in module IfA\_Smeargle.oscar.oscar\_functions}, 
 		\hyperpage{27}
   \item \spxentry{oscar\_convert\_data\_inputs()}\spxextra{in module IfA\_Smeargle.oscar.oscar\_functions}, 
-		\hyperpage{27}
+		\hyperpage{28}
   \item \spxentry{OscarConfig}\spxextra{class in IfA\_Smeargle.yankee.configuration\_classes.OscarConfig\_file}, 
 		\hyperpage{30}
   \item \spxentry{OutputWarning}, \hyperpage{20}
+  \item \spxentry{overwrite\_configuration\_class()}\spxextra{in module IfA\_Smeargle.yankee.yankee\_functions}, 
+		\hyperpage{33}
   \item \spxentry{OverwriteWarning}, \hyperpage{20}
 
   \indexspace
@@ -200,30 +204,38 @@
   \item \spxentry{plot\_array\_histogram()}\spxextra{in module IfA\_Smeargle.oscar.histograms}, 
 		\hyperpage{26}
   \item \spxentry{plot\_single\_heatmap\_and\_histogram()}\spxextra{in module IfA\_Smeargle.oscar.multi\_figure}, 
-		\hyperpage{26}
+		\hyperpage{27}
 
   \indexspace
   \bigletter R
   \item \spxentry{read\_config\_file()}\spxextra{in module IfA\_Smeargle.yankee.yankee\_functions}, 
-		\hyperpage{32}
+		\hyperpage{33}
   \item \spxentry{read\_from\_file()}\spxextra{IfA\_Smeargle.yankee.configuration\_classes.BaseConfig\_file.BaseConfig method}, 
-		\hyperpage{28}
+		\hyperpage{29}
   \item \spxentry{ReductionWarning}, \hyperpage{20}
 
   \indexspace
   \bigletter S
-  \item \spxentry{SA201907281826\_reduction\_pipeline()}\spxextra{in module IfA\_Smeargle.zulu.detector\_pipelines.saphria\_pipeline}, 
-		\hyperpage{33}
-  \item \spxentry{saphria\_reduction\_pipeline()}\spxextra{in module IfA\_Smeargle.zulu.detector\_pipelines.saphria\_pipeline}, 
+  \item \spxentry{SA201907281826\_reduction\_pipeline()}\spxextra{in module IfA\_Smeargle.zulu.detector\_pipelines.saphira\_pipeline}, 
 		\hyperpage{34}
+  \item \spxentry{saphira\_reduction\_pipeline()}\spxextra{in module IfA\_Smeargle.zulu.detector\_pipelines.saphira\_pipeline}, 
+		\hyperpage{35}
   \item \spxentry{smeargle\_absolute\_silence()}\spxextra{in module IfA\_Smeargle.meta.errors}, 
 		\hyperpage{21}
   \item \spxentry{Smeargle\_BaseException}, \hyperpage{20}
+  \item \spxentry{smeargle\_debug\_block()}\spxextra{in module IfA\_Smeargle.meta.errors}, 
+		\hyperpage{21}
+  \item \spxentry{smeargle\_debug\_message()}\spxextra{in module IfA\_Smeargle.meta.errors}, 
+		\hyperpage{21}
+  \item \spxentry{smeargle\_disable\_debug()}\spxextra{in module IfA\_Smeargle.meta.errors}, 
+		\hyperpage{21}
+  \item \spxentry{smeargle\_enable\_debug()}\spxextra{in module IfA\_Smeargle.meta.errors}, 
+		\hyperpage{21}
   \item \spxentry{Smeargle\_Exception}, \hyperpage{20}
   \item \spxentry{smeargle\_extract\_subarray()}\spxextra{in module IfA\_Smeargle.meta.fits\_and\_arrays}, 
 		\hyperpage{22}
   \item \spxentry{smeargle\_fit\_gaussian\_function()}\spxextra{in module IfA\_Smeargle.meta.modeling\_and\_fitting}, 
-		\hyperpage{23}
+		\hyperpage{24}
   \item \spxentry{smeargle\_fit\_histogram\_gaussian\_function()}\spxextra{in module IfA\_Smeargle.meta.modeling\_and\_fitting}, 
 		\hyperpage{24}
   \item \spxentry{smeargle\_info()}\spxextra{in module IfA\_Smeargle.meta.errors}, \hyperpage{21}
@@ -232,7 +244,7 @@
   \item \spxentry{smeargle\_open\_fits\_file()}\spxextra{in module IfA\_Smeargle.meta.fits\_and\_arrays}, 
 		\hyperpage{22}
   \item \spxentry{smeargle\_save\_figure\_file()}\spxextra{in module IfA\_Smeargle.meta.plotting}, 
-		\hyperpage{24}
+		\hyperpage{25}
   \item \spxentry{smeargle\_silence\_all\_warnings()}\spxextra{in module IfA\_Smeargle.meta.errors}, 
 		\hyperpage{21}
   \item \spxentry{smeargle\_silence\_ifas\_warnings()}\spxextra{in module IfA\_Smeargle.meta.errors}, 
@@ -242,14 +254,14 @@
   \item \spxentry{smeargle\_silence\_nonifas\_warnings()}\spxextra{in module IfA\_Smeargle.meta.errors}, 
 		\hyperpage{21}
   \item \spxentry{smeargle\_silence\_specific\_warnings()}\spxextra{in module IfA\_Smeargle.meta.errors}, 
-		\hyperpage{21}
+		\hyperpage{22}
   \item \spxentry{Smeargle\_Warning}, \hyperpage{20}
   \item \spxentry{smeargle\_warning()}\spxextra{in module IfA\_Smeargle.meta.errors}, 
-		\hyperpage{21}
-  \item \spxentry{smeargle\_write\_fits\_file()}\spxextra{in module IfA\_Smeargle.meta.fits\_and\_arrays}, 
 		\hyperpage{22}
+  \item \spxentry{smeargle\_write\_fits\_file()}\spxextra{in module IfA\_Smeargle.meta.fits\_and\_arrays}, 
+		\hyperpage{23}
   \item \spxentry{SmeargleConfig}\spxextra{class in IfA\_Smeargle.yankee.yankee\_main}, 
-		\hyperpage{32}
+		\hyperpage{34}
   \item \spxentry{sort\_masking\_dictionary()}\spxextra{in module IfA\_Smeargle.echo.echo\_functions}, 
 		\hyperpage{16}
   \item \spxentry{StorageWarning}, \hyperpage{20}
@@ -266,19 +278,19 @@
   \item \spxentry{voltage\_pattern\_rename\_fits()}\spxextra{in module IfA\_Smeargle.bravo.renaming}, 
 		\hyperpage{8}
   \item \spxentry{voltpat\_rename\_config}\spxextra{IfA\_Smeargle.yankee.configuration\_classes.BravoConfig\_file.BravoConfig attribute}, 
-		\hyperpage{29}
+		\hyperpage{30}
 
   \indexspace
   \bigletter W
   \item \spxentry{write\_config\_file()}\spxextra{in module IfA\_Smeargle.yankee.yankee\_functions}, 
-		\hyperpage{32}
+		\hyperpage{33}
   \item \spxentry{write\_to\_file()}\spxextra{IfA\_Smeargle.yankee.configuration\_classes.BaseConfig\_file.BaseConfig method}, 
 		\hyperpage{29}
 
   \indexspace
   \bigletter Y
   \item \spxentry{YankeeConfig}\spxextra{class in IfA\_Smeargle.yankee.configuration\_classes.YankeeConfig\_file}, 
-		\hyperpage{30}
+		\hyperpage{31}
 
   \indexspace
   \bigletter Z

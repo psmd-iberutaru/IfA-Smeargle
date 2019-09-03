@@ -5,7 +5,7 @@
 \indexentry{average\_endpoints\_per\_kilosecond() (in module IfA\_Smeargle.bravo.averaging)@\spxentry{average\_endpoints\_per\_kilosecond()}\spxextra{in module IfA\_Smeargle.bravo.averaging}|hyperpage}{6}
 \indexentry{average\_endpoints\_per\_second() (in module IfA\_Smeargle.bravo.averaging)@\spxentry{average\_endpoints\_per\_second()}\spxextra{in module IfA\_Smeargle.bravo.averaging}|hyperpage}{6}
 \indexentry{IfA\_Smeargle.bravo.bravo\_main (module)@\spxentry{IfA\_Smeargle.bravo.bravo\_main}\spxextra{module}|hyperpage}{7}
-\indexentry{bravo\_execution\_saphria() (in module IfA\_Smeargle.bravo.bravo\_main)@\spxentry{bravo\_execution\_saphria()}\spxextra{in module IfA\_Smeargle.bravo.bravo\_main}|hyperpage}{7}
+\indexentry{bravo\_execution\_saphira() (in module IfA\_Smeargle.bravo.bravo\_main)@\spxentry{bravo\_execution\_saphira()}\spxextra{in module IfA\_Smeargle.bravo.bravo\_main}|hyperpage}{7}
 \indexentry{IfA\_Smeargle.bravo.renaming (module)@\spxentry{IfA\_Smeargle.bravo.renaming}\spxextra{module}|hyperpage}{8}
 \indexentry{parallel\_renaming() (in module IfA\_Smeargle.bravo.renaming)@\spxentry{parallel\_renaming()}\spxextra{in module IfA\_Smeargle.bravo.renaming}|hyperpage}{8}
 \indexentry{voltage\_pattern\_rename\_fits() (in module IfA\_Smeargle.bravo.renaming)@\spxentry{voltage\_pattern\_rename\_fits()}\spxextra{in module IfA\_Smeargle.bravo.renaming}|hyperpage}{8}
@@ -70,74 +70,80 @@
 \indexentry{TerminalError@\spxentry{TerminalError}|hyperpage}{21}
 \indexentry{TimeWarning@\spxentry{TimeWarning}|hyperpage}{21}
 \indexentry{smeargle\_absolute\_silence() (in module IfA\_Smeargle.meta.errors)@\spxentry{smeargle\_absolute\_silence()}\spxextra{in module IfA\_Smeargle.meta.errors}|hyperpage}{21}
+\indexentry{smeargle\_debug\_block() (in module IfA\_Smeargle.meta.errors)@\spxentry{smeargle\_debug\_block()}\spxextra{in module IfA\_Smeargle.meta.errors}|hyperpage}{21}
+\indexentry{smeargle\_debug\_message() (in module IfA\_Smeargle.meta.errors)@\spxentry{smeargle\_debug\_message()}\spxextra{in module IfA\_Smeargle.meta.errors}|hyperpage}{21}
+\indexentry{smeargle\_disable\_debug() (in module IfA\_Smeargle.meta.errors)@\spxentry{smeargle\_disable\_debug()}\spxextra{in module IfA\_Smeargle.meta.errors}|hyperpage}{21}
+\indexentry{smeargle\_enable\_debug() (in module IfA\_Smeargle.meta.errors)@\spxentry{smeargle\_enable\_debug()}\spxextra{in module IfA\_Smeargle.meta.errors}|hyperpage}{21}
 \indexentry{smeargle\_info() (in module IfA\_Smeargle.meta.errors)@\spxentry{smeargle\_info()}\spxextra{in module IfA\_Smeargle.meta.errors}|hyperpage}{21}
 \indexentry{smeargle\_silence\_all\_warnings() (in module IfA\_Smeargle.meta.errors)@\spxentry{smeargle\_silence\_all\_warnings()}\spxextra{in module IfA\_Smeargle.meta.errors}|hyperpage}{21}
 \indexentry{smeargle\_silence\_ifas\_warnings() (in module IfA\_Smeargle.meta.errors)@\spxentry{smeargle\_silence\_ifas\_warnings()}\spxextra{in module IfA\_Smeargle.meta.errors}|hyperpage}{21}
 \indexentry{smeargle\_silence\_info\_message() (in module IfA\_Smeargle.meta.errors)@\spxentry{smeargle\_silence\_info\_message()}\spxextra{in module IfA\_Smeargle.meta.errors}|hyperpage}{21}
 \indexentry{smeargle\_silence\_nonifas\_warnings() (in module IfA\_Smeargle.meta.errors)@\spxentry{smeargle\_silence\_nonifas\_warnings()}\spxextra{in module IfA\_Smeargle.meta.errors}|hyperpage}{21}
-\indexentry{smeargle\_silence\_specific\_warnings() (in module IfA\_Smeargle.meta.errors)@\spxentry{smeargle\_silence\_specific\_warnings()}\spxextra{in module IfA\_Smeargle.meta.errors}|hyperpage}{21}
-\indexentry{smeargle\_warning() (in module IfA\_Smeargle.meta.errors)@\spxentry{smeargle\_warning()}\spxextra{in module IfA\_Smeargle.meta.errors}|hyperpage}{21}
+\indexentry{smeargle\_silence\_specific\_warnings() (in module IfA\_Smeargle.meta.errors)@\spxentry{smeargle\_silence\_specific\_warnings()}\spxextra{in module IfA\_Smeargle.meta.errors}|hyperpage}{22}
+\indexentry{smeargle\_warning() (in module IfA\_Smeargle.meta.errors)@\spxentry{smeargle\_warning()}\spxextra{in module IfA\_Smeargle.meta.errors}|hyperpage}{22}
 \indexentry{IfA\_Smeargle.meta.fits\_and\_arrays (module)@\spxentry{IfA\_Smeargle.meta.fits\_and\_arrays}\spxextra{module}|hyperpage}{22}
 \indexentry{smeargle\_extract\_subarray() (in module IfA\_Smeargle.meta.fits\_and\_arrays)@\spxentry{smeargle\_extract\_subarray()}\spxextra{in module IfA\_Smeargle.meta.fits\_and\_arrays}|hyperpage}{22}
 \indexentry{smeargle\_masked\_array\_min\_max() (in module IfA\_Smeargle.meta.fits\_and\_arrays)@\spxentry{smeargle\_masked\_array\_min\_max()}\spxextra{in module IfA\_Smeargle.meta.fits\_and\_arrays}|hyperpage}{22}
 \indexentry{smeargle\_open\_fits\_file() (in module IfA\_Smeargle.meta.fits\_and\_arrays)@\spxentry{smeargle\_open\_fits\_file()}\spxextra{in module IfA\_Smeargle.meta.fits\_and\_arrays}|hyperpage}{22}
-\indexentry{smeargle\_write\_fits\_file() (in module IfA\_Smeargle.meta.fits\_and\_arrays)@\spxentry{smeargle\_write\_fits\_file()}\spxextra{in module IfA\_Smeargle.meta.fits\_and\_arrays}|hyperpage}{22}
-\indexentry{IfA\_Smeargle.meta.meta\_main (module)@\spxentry{IfA\_Smeargle.meta.meta\_main}\spxextra{module}|hyperpage}{23}
-\indexentry{IfA\_Smeargle.meta.modeling\_and\_fitting (module)@\spxentry{IfA\_Smeargle.meta.modeling\_and\_fitting}\spxextra{module}|hyperpage}{23}
-\indexentry{smeargle\_fit\_gaussian\_function() (in module IfA\_Smeargle.meta.modeling\_and\_fitting)@\spxentry{smeargle\_fit\_gaussian\_function()}\spxextra{in module IfA\_Smeargle.meta.modeling\_and\_fitting}|hyperpage}{23}
+\indexentry{smeargle\_write\_fits\_file() (in module IfA\_Smeargle.meta.fits\_and\_arrays)@\spxentry{smeargle\_write\_fits\_file()}\spxextra{in module IfA\_Smeargle.meta.fits\_and\_arrays}|hyperpage}{23}
+\indexentry{IfA\_Smeargle.meta.meta\_main (module)@\spxentry{IfA\_Smeargle.meta.meta\_main}\spxextra{module}|hyperpage}{24}
+\indexentry{IfA\_Smeargle.meta.modeling\_and\_fitting (module)@\spxentry{IfA\_Smeargle.meta.modeling\_and\_fitting}\spxextra{module}|hyperpage}{24}
+\indexentry{smeargle\_fit\_gaussian\_function() (in module IfA\_Smeargle.meta.modeling\_and\_fitting)@\spxentry{smeargle\_fit\_gaussian\_function()}\spxextra{in module IfA\_Smeargle.meta.modeling\_and\_fitting}|hyperpage}{24}
 \indexentry{smeargle\_fit\_histogram\_gaussian\_function() (in module IfA\_Smeargle.meta.modeling\_and\_fitting)@\spxentry{smeargle\_fit\_histogram\_gaussian\_function()}\spxextra{in module IfA\_Smeargle.meta.modeling\_and\_fitting}|hyperpage}{24}
 \indexentry{IfA\_Smeargle.meta.plotting (module)@\spxentry{IfA\_Smeargle.meta.plotting}\spxextra{module}|hyperpage}{24}
-\indexentry{smeargle\_save\_figure\_file() (in module IfA\_Smeargle.meta.plotting)@\spxentry{smeargle\_save\_figure\_file()}\spxextra{in module IfA\_Smeargle.meta.plotting}|hyperpage}{24}
+\indexentry{smeargle\_save\_figure\_file() (in module IfA\_Smeargle.meta.plotting)@\spxentry{smeargle\_save\_figure\_file()}\spxextra{in module IfA\_Smeargle.meta.plotting}|hyperpage}{25}
 \indexentry{IfA\_Smeargle.meta (module)@\spxentry{IfA\_Smeargle.meta}\spxextra{module}|hyperpage}{25}
 \indexentry{IfA\_Smeargle.oscar.heatmaps (module)@\spxentry{IfA\_Smeargle.oscar.heatmaps}\spxextra{module}|hyperpage}{25}
 \indexentry{plot\_array\_heatmap\_image() (in module IfA\_Smeargle.oscar.heatmaps)@\spxentry{plot\_array\_heatmap\_image()}\spxextra{in module IfA\_Smeargle.oscar.heatmaps}|hyperpage}{25}
 \indexentry{IfA\_Smeargle.oscar.histograms (module)@\spxentry{IfA\_Smeargle.oscar.histograms}\spxextra{module}|hyperpage}{26}
 \indexentry{plot\_array\_histogram() (in module IfA\_Smeargle.oscar.histograms)@\spxentry{plot\_array\_histogram()}\spxextra{in module IfA\_Smeargle.oscar.histograms}|hyperpage}{26}
-\indexentry{IfA\_Smeargle.oscar.multi\_figure (module)@\spxentry{IfA\_Smeargle.oscar.multi\_figure}\spxextra{module}|hyperpage}{26}
-\indexentry{plot\_single\_heatmap\_and\_histogram() (in module IfA\_Smeargle.oscar.multi\_figure)@\spxentry{plot\_single\_heatmap\_and\_histogram()}\spxextra{in module IfA\_Smeargle.oscar.multi\_figure}|hyperpage}{26}
+\indexentry{IfA\_Smeargle.oscar.multi\_figure (module)@\spxentry{IfA\_Smeargle.oscar.multi\_figure}\spxextra{module}|hyperpage}{27}
+\indexentry{plot\_single\_heatmap\_and\_histogram() (in module IfA\_Smeargle.oscar.multi\_figure)@\spxentry{plot\_single\_heatmap\_and\_histogram()}\spxextra{in module IfA\_Smeargle.oscar.multi\_figure}|hyperpage}{27}
 \indexentry{IfA\_Smeargle.oscar.oscar\_functions (module)@\spxentry{IfA\_Smeargle.oscar.oscar\_functions}\spxextra{module}|hyperpage}{27}
 \indexentry{oscar\_bin\_width() (in module IfA\_Smeargle.oscar.oscar\_functions)@\spxentry{oscar\_bin\_width()}\spxextra{in module IfA\_Smeargle.oscar.oscar\_functions}|hyperpage}{27}
-\indexentry{oscar\_convert\_data\_inputs() (in module IfA\_Smeargle.oscar.oscar\_functions)@\spxentry{oscar\_convert\_data\_inputs()}\spxextra{in module IfA\_Smeargle.oscar.oscar\_functions}|hyperpage}{27}
+\indexentry{oscar\_convert\_data\_inputs() (in module IfA\_Smeargle.oscar.oscar\_functions)@\spxentry{oscar\_convert\_data\_inputs()}\spxextra{in module IfA\_Smeargle.oscar.oscar\_functions}|hyperpage}{28}
 \indexentry{IfA\_Smeargle.oscar.oscar\_main (module)@\spxentry{IfA\_Smeargle.oscar.oscar\_main}\spxextra{module}|hyperpage}{28}
 \indexentry{IfA\_Smeargle.oscar (module)@\spxentry{IfA\_Smeargle.oscar}\spxextra{module}|hyperpage}{28}
 \indexentry{IfA\_Smeargle.yankee.configuration\_classes.BaseConfig\_file (module)@\spxentry{IfA\_Smeargle.yankee.configuration\_classes.BaseConfig\_file}\spxextra{module}|hyperpage}{28}
 \indexentry{BaseConfig (class in IfA\_Smeargle.yankee.configuration\_classes.BaseConfig\_file)@\spxentry{BaseConfig}\spxextra{class in IfA\_Smeargle.yankee.configuration\_classes.BaseConfig\_file}|hyperpage}{28}
-\indexentry{\_\_str\_\_() (IfA\_Smeargle.yankee.configuration\_classes.BaseConfig\_file.BaseConfig method)@\spxentry{\_\_str\_\_()}\spxextra{IfA\_Smeargle.yankee.configuration\_classes.BaseConfig\_file.BaseConfig method}|hyperpage}{28}
-\indexentry{read\_from\_file() (IfA\_Smeargle.yankee.configuration\_classes.BaseConfig\_file.BaseConfig method)@\spxentry{read\_from\_file()}\spxextra{IfA\_Smeargle.yankee.configuration\_classes.BaseConfig\_file.BaseConfig method}|hyperpage}{28}
+\indexentry{\_\_str\_\_() (IfA\_Smeargle.yankee.configuration\_classes.BaseConfig\_file.BaseConfig method)@\spxentry{\_\_str\_\_()}\spxextra{IfA\_Smeargle.yankee.configuration\_classes.BaseConfig\_file.BaseConfig method}|hyperpage}{29}
+\indexentry{read\_from\_file() (IfA\_Smeargle.yankee.configuration\_classes.BaseConfig\_file.BaseConfig method)@\spxentry{read\_from\_file()}\spxextra{IfA\_Smeargle.yankee.configuration\_classes.BaseConfig\_file.BaseConfig method}|hyperpage}{29}
 \indexentry{write\_to\_file() (IfA\_Smeargle.yankee.configuration\_classes.BaseConfig\_file.BaseConfig method)@\spxentry{write\_to\_file()}\spxextra{IfA\_Smeargle.yankee.configuration\_classes.BaseConfig\_file.BaseConfig method}|hyperpage}{29}
 \indexentry{IfA\_Smeargle.yankee.configuration\_classes.BravoConfig\_file (module)@\spxentry{IfA\_Smeargle.yankee.configuration\_classes.BravoConfig\_file}\spxextra{module}|hyperpage}{29}
 \indexentry{BravoConfig (class in IfA\_Smeargle.yankee.configuration\_classes.BravoConfig\_file)@\spxentry{BravoConfig}\spxextra{class in IfA\_Smeargle.yankee.configuration\_classes.BravoConfig\_file}|hyperpage}{29}
-\indexentry{detector\_name (IfA\_Smeargle.yankee.configuration\_classes.BravoConfig\_file.BravoConfig attribute)@\spxentry{detector\_name}\spxextra{IfA\_Smeargle.yankee.configuration\_classes.BravoConfig\_file.BravoConfig attribute}|hyperpage}{29}
-\indexentry{voltpat\_rename\_config (IfA\_Smeargle.yankee.configuration\_classes.BravoConfig\_file.BravoConfig attribute)@\spxentry{voltpat\_rename\_config}\spxextra{IfA\_Smeargle.yankee.configuration\_classes.BravoConfig\_file.BravoConfig attribute}|hyperpage}{29}
-\indexentry{avg\_endpts\_config (IfA\_Smeargle.yankee.configuration\_classes.BravoConfig\_file.BravoConfig attribute)@\spxentry{avg\_endpts\_config}\spxextra{IfA\_Smeargle.yankee.configuration\_classes.BravoConfig\_file.BravoConfig attribute}|hyperpage}{29}
+\indexentry{detector\_name (IfA\_Smeargle.yankee.configuration\_classes.BravoConfig\_file.BravoConfig attribute)@\spxentry{detector\_name}\spxextra{IfA\_Smeargle.yankee.configuration\_classes.BravoConfig\_file.BravoConfig attribute}|hyperpage}{30}
+\indexentry{voltpat\_rename\_config (IfA\_Smeargle.yankee.configuration\_classes.BravoConfig\_file.BravoConfig attribute)@\spxentry{voltpat\_rename\_config}\spxextra{IfA\_Smeargle.yankee.configuration\_classes.BravoConfig\_file.BravoConfig attribute}|hyperpage}{30}
+\indexentry{avg\_endpts\_config (IfA\_Smeargle.yankee.configuration\_classes.BravoConfig\_file.BravoConfig attribute)@\spxentry{avg\_endpts\_config}\spxextra{IfA\_Smeargle.yankee.configuration\_classes.BravoConfig\_file.BravoConfig attribute}|hyperpage}{30}
 \indexentry{IfA\_Smeargle.yankee.configuration\_classes.EchoConfig\_file (module)@\spxentry{IfA\_Smeargle.yankee.configuration\_classes.EchoConfig\_file}\spxextra{module}|hyperpage}{30}
 \indexentry{EchoConfig (class in IfA\_Smeargle.yankee.configuration\_classes.EchoConfig\_file)@\spxentry{EchoConfig}\spxextra{class in IfA\_Smeargle.yankee.configuration\_classes.EchoConfig\_file}|hyperpage}{30}
 \indexentry{echo010\_config (IfA\_Smeargle.yankee.configuration\_classes.EchoConfig\_file.EchoConfig attribute)@\spxentry{echo010\_config}\spxextra{IfA\_Smeargle.yankee.configuration\_classes.EchoConfig\_file.EchoConfig attribute}|hyperpage}{30}
 \indexentry{echo120\_config (IfA\_Smeargle.yankee.configuration\_classes.EchoConfig\_file.EchoConfig attribute)@\spxentry{echo120\_config}\spxextra{IfA\_Smeargle.yankee.configuration\_classes.EchoConfig\_file.EchoConfig attribute}|hyperpage}{30}
 \indexentry{IfA\_Smeargle.yankee.configuration\_classes.OscarConfig\_file (module)@\spxentry{IfA\_Smeargle.yankee.configuration\_classes.OscarConfig\_file}\spxextra{module}|hyperpage}{30}
 \indexentry{OscarConfig (class in IfA\_Smeargle.yankee.configuration\_classes.OscarConfig\_file)@\spxentry{OscarConfig}\spxextra{class in IfA\_Smeargle.yankee.configuration\_classes.OscarConfig\_file}|hyperpage}{30}
-\indexentry{heatmap\_config (IfA\_Smeargle.yankee.configuration\_classes.OscarConfig\_file.OscarConfig attribute)@\spxentry{heatmap\_config}\spxextra{IfA\_Smeargle.yankee.configuration\_classes.OscarConfig\_file.OscarConfig attribute}|hyperpage}{30}
-\indexentry{histogram\_config (IfA\_Smeargle.yankee.configuration\_classes.OscarConfig\_file.OscarConfig attribute)@\spxentry{histogram\_config}\spxextra{IfA\_Smeargle.yankee.configuration\_classes.OscarConfig\_file.OscarConfig attribute}|hyperpage}{30}
-\indexentry{heathist\_config (IfA\_Smeargle.yankee.configuration\_classes.OscarConfig\_file.OscarConfig attribute)@\spxentry{heathist\_config}\spxextra{IfA\_Smeargle.yankee.configuration\_classes.OscarConfig\_file.OscarConfig attribute}|hyperpage}{30}
-\indexentry{IfA\_Smeargle.yankee.configuration\_classes.YankeeConfig\_file (module)@\spxentry{IfA\_Smeargle.yankee.configuration\_classes.YankeeConfig\_file}\spxextra{module}|hyperpage}{30}
-\indexentry{YankeeConfig (class in IfA\_Smeargle.yankee.configuration\_classes.YankeeConfig\_file)@\spxentry{YankeeConfig}\spxextra{class in IfA\_Smeargle.yankee.configuration\_classes.YankeeConfig\_file}|hyperpage}{30}
+\indexentry{heatmap\_config (IfA\_Smeargle.yankee.configuration\_classes.OscarConfig\_file.OscarConfig attribute)@\spxentry{heatmap\_config}\spxextra{IfA\_Smeargle.yankee.configuration\_classes.OscarConfig\_file.OscarConfig attribute}|hyperpage}{31}
+\indexentry{histogram\_config (IfA\_Smeargle.yankee.configuration\_classes.OscarConfig\_file.OscarConfig attribute)@\spxentry{histogram\_config}\spxextra{IfA\_Smeargle.yankee.configuration\_classes.OscarConfig\_file.OscarConfig attribute}|hyperpage}{31}
+\indexentry{heathist\_config (IfA\_Smeargle.yankee.configuration\_classes.OscarConfig\_file.OscarConfig attribute)@\spxentry{heathist\_config}\spxextra{IfA\_Smeargle.yankee.configuration\_classes.OscarConfig\_file.OscarConfig attribute}|hyperpage}{31}
+\indexentry{IfA\_Smeargle.yankee.configuration\_classes.YankeeConfig\_file (module)@\spxentry{IfA\_Smeargle.yankee.configuration\_classes.YankeeConfig\_file}\spxextra{module}|hyperpage}{31}
+\indexentry{YankeeConfig (class in IfA\_Smeargle.yankee.configuration\_classes.YankeeConfig\_file)@\spxentry{YankeeConfig}\spxextra{class in IfA\_Smeargle.yankee.configuration\_classes.YankeeConfig\_file}|hyperpage}{31}
 \indexentry{IfA\_Smeargle.yankee.configuration\_classes.ZuluConfig\_file (module)@\spxentry{IfA\_Smeargle.yankee.configuration\_classes.ZuluConfig\_file}\spxextra{module}|hyperpage}{31}
 \indexentry{ZuluConfig (class in IfA\_Smeargle.yankee.configuration\_classes.ZuluConfig\_file)@\spxentry{ZuluConfig}\spxextra{class in IfA\_Smeargle.yankee.configuration\_classes.ZuluConfig\_file}|hyperpage}{31}
-\indexentry{IfA\_Smeargle.yankee.configuration\_classes (module)@\spxentry{IfA\_Smeargle.yankee.configuration\_classes}\spxextra{module}|hyperpage}{31}
-\indexentry{IfA\_Smeargle.yankee.yankee\_functions (module)@\spxentry{IfA\_Smeargle.yankee.yankee\_functions}\spxextra{module}|hyperpage}{31}
-\indexentry{configuration\_factory\_function() (in module IfA\_Smeargle.yankee.yankee\_functions)@\spxentry{configuration\_factory\_function()}\spxextra{in module IfA\_Smeargle.yankee.yankee\_functions}|hyperpage}{31}
-\indexentry{extract\_proper\_configuration\_class() (in module IfA\_Smeargle.yankee.yankee\_functions)@\spxentry{extract\_proper\_configuration\_class()}\spxextra{in module IfA\_Smeargle.yankee.yankee\_functions}|hyperpage}{31}
-\indexentry{read\_config\_file() (in module IfA\_Smeargle.yankee.yankee\_functions)@\spxentry{read\_config\_file()}\spxextra{in module IfA\_Smeargle.yankee.yankee\_functions}|hyperpage}{32}
-\indexentry{write\_config\_file() (in module IfA\_Smeargle.yankee.yankee\_functions)@\spxentry{write\_config\_file()}\spxextra{in module IfA\_Smeargle.yankee.yankee\_functions}|hyperpage}{32}
-\indexentry{IfA\_Smeargle.yankee.yankee\_main (module)@\spxentry{IfA\_Smeargle.yankee.yankee\_main}\spxextra{module}|hyperpage}{32}
-\indexentry{SmeargleConfig (class in IfA\_Smeargle.yankee.yankee\_main)@\spxentry{SmeargleConfig}\spxextra{class in IfA\_Smeargle.yankee.yankee\_main}|hyperpage}{32}
-\indexentry{IfA\_Smeargle.yankee (module)@\spxentry{IfA\_Smeargle.yankee}\spxextra{module}|hyperpage}{33}
-\indexentry{IfA\_Smeargle.zulu.detector\_pipelines.saphria\_pipeline (module)@\spxentry{IfA\_Smeargle.zulu.detector\_pipelines.saphria\_pipeline}\spxextra{module}|hyperpage}{33}
-\indexentry{SA201907281826\_reduction\_pipeline() (in module IfA\_Smeargle.zulu.detector\_pipelines.saphria\_pipeline)@\spxentry{SA201907281826\_reduction\_pipeline()}\spxextra{in module IfA\_Smeargle.zulu.detector\_pipelines.saphria\_pipeline}|hyperpage}{33}
-\indexentry{saphria\_reduction\_pipeline() (in module IfA\_Smeargle.zulu.detector\_pipelines.saphria\_pipeline)@\spxentry{saphria\_reduction\_pipeline()}\spxextra{in module IfA\_Smeargle.zulu.detector\_pipelines.saphria\_pipeline}|hyperpage}{34}
-\indexentry{IfA\_Smeargle.zulu.detector\_pipelines (module)@\spxentry{IfA\_Smeargle.zulu.detector\_pipelines}\spxextra{module}|hyperpage}{34}
-\indexentry{IfA\_Smeargle.zulu.zulu\_main (module)@\spxentry{IfA\_Smeargle.zulu.zulu\_main}\spxextra{module}|hyperpage}{34}
-\indexentry{IfA\_Smeargle.zulu (module)@\spxentry{IfA\_Smeargle.zulu}\spxextra{module}|hyperpage}{35}
-\indexentry{IfA\_Smeargle.ifas\_execute (module)@\spxentry{IfA\_Smeargle.ifas\_execute}\spxextra{module}|hyperpage}{35}
-\indexentry{execute\_ifas\_smeargle() (in module IfA\_Smeargle.ifas\_execute)@\spxentry{execute\_ifas\_smeargle()}\spxextra{in module IfA\_Smeargle.ifas\_execute}|hyperpage}{35}
-\indexentry{IfA\_Smeargle (module)@\spxentry{IfA\_Smeargle}\spxextra{module}|hyperpage}{35}
+\indexentry{IfA\_Smeargle.yankee.configuration\_classes (module)@\spxentry{IfA\_Smeargle.yankee.configuration\_classes}\spxextra{module}|hyperpage}{32}
+\indexentry{IfA\_Smeargle.yankee.yankee\_functions (module)@\spxentry{IfA\_Smeargle.yankee.yankee\_functions}\spxextra{module}|hyperpage}{32}
+\indexentry{configuration\_factory\_function() (in module IfA\_Smeargle.yankee.yankee\_functions)@\spxentry{configuration\_factory\_function()}\spxextra{in module IfA\_Smeargle.yankee.yankee\_functions}|hyperpage}{32}
+\indexentry{extract\_proper\_configuration\_class() (in module IfA\_Smeargle.yankee.yankee\_functions)@\spxentry{extract\_proper\_configuration\_class()}\spxextra{in module IfA\_Smeargle.yankee.yankee\_functions}|hyperpage}{32}
+\indexentry{fast\_forward\_configuration\_class() (in module IfA\_Smeargle.yankee.yankee\_functions)@\spxentry{fast\_forward\_configuration\_class()}\spxextra{in module IfA\_Smeargle.yankee.yankee\_functions}|hyperpage}{32}
+\indexentry{overwrite\_configuration\_class() (in module IfA\_Smeargle.yankee.yankee\_functions)@\spxentry{overwrite\_configuration\_class()}\spxextra{in module IfA\_Smeargle.yankee.yankee\_functions}|hyperpage}{33}
+\indexentry{read\_config\_file() (in module IfA\_Smeargle.yankee.yankee\_functions)@\spxentry{read\_config\_file()}\spxextra{in module IfA\_Smeargle.yankee.yankee\_functions}|hyperpage}{33}
+\indexentry{write\_config\_file() (in module IfA\_Smeargle.yankee.yankee\_functions)@\spxentry{write\_config\_file()}\spxextra{in module IfA\_Smeargle.yankee.yankee\_functions}|hyperpage}{33}
+\indexentry{IfA\_Smeargle.yankee.yankee\_main (module)@\spxentry{IfA\_Smeargle.yankee.yankee\_main}\spxextra{module}|hyperpage}{34}
+\indexentry{SmeargleConfig (class in IfA\_Smeargle.yankee.yankee\_main)@\spxentry{SmeargleConfig}\spxextra{class in IfA\_Smeargle.yankee.yankee\_main}|hyperpage}{34}
+\indexentry{IfA\_Smeargle.yankee (module)@\spxentry{IfA\_Smeargle.yankee}\spxextra{module}|hyperpage}{34}
+\indexentry{IfA\_Smeargle.zulu.detector\_pipelines.saphira\_pipeline (module)@\spxentry{IfA\_Smeargle.zulu.detector\_pipelines.saphira\_pipeline}\spxextra{module}|hyperpage}{34}
+\indexentry{SA201907281826\_reduction\_pipeline() (in module IfA\_Smeargle.zulu.detector\_pipelines.saphira\_pipeline)@\spxentry{SA201907281826\_reduction\_pipeline()}\spxextra{in module IfA\_Smeargle.zulu.detector\_pipelines.saphira\_pipeline}|hyperpage}{34}
+\indexentry{saphira\_reduction\_pipeline() (in module IfA\_Smeargle.zulu.detector\_pipelines.saphira\_pipeline)@\spxentry{saphira\_reduction\_pipeline()}\spxextra{in module IfA\_Smeargle.zulu.detector\_pipelines.saphira\_pipeline}|hyperpage}{35}
+\indexentry{IfA\_Smeargle.zulu.detector\_pipelines (module)@\spxentry{IfA\_Smeargle.zulu.detector\_pipelines}\spxextra{module}|hyperpage}{35}
+\indexentry{IfA\_Smeargle.zulu.zulu\_main (module)@\spxentry{IfA\_Smeargle.zulu.zulu\_main}\spxextra{module}|hyperpage}{35}
+\indexentry{IfA\_Smeargle.zulu (module)@\spxentry{IfA\_Smeargle.zulu}\spxextra{module}|hyperpage}{36}
+\indexentry{IfA\_Smeargle.ifas\_execute (module)@\spxentry{IfA\_Smeargle.ifas\_execute}\spxextra{module}|hyperpage}{36}
+\indexentry{execute\_ifas\_smeargle() (in module IfA\_Smeargle.ifas\_execute)@\spxentry{execute\_ifas\_smeargle()}\spxextra{in module IfA\_Smeargle.ifas\_execute}|hyperpage}{36}
+\indexentry{IfA\_Smeargle (module)@\spxentry{IfA\_Smeargle}\spxextra{module}|hyperpage}{36}

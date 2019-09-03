@@ -441,9 +441,64 @@
     <span class="n">smeargle_info</span><span class="o">.</span><span class="n">_silent_mode</span> <span class="o">=</span> <span class="kc">False</span>
 
 
+<span class="c1"># The context manager is mostly for stylistic purposes. Given that debug </span>
+<span class="c1"># functional printing is more often than not more than one line. </span>
+<div class="viewcode-block" id="smeargle_debug_block"><a class="viewcode-back" href="../../../python_docstrings/IfA_Smeargle.meta.errors.html#IfA_Smeargle.meta.errors.smeargle_debug_block">[docs]</a><span class="nd">@contextlib</span><span class="o">.</span><span class="n">contextmanager</span>
+<span class="k">def</span> <span class="nf">smeargle_debug_block</span><span class="p">():</span>
+    <span class="sd">&quot;&quot;&quot; This is a wrapper function for encasing debugging code. </span>
+
+<span class="sd">    The execution of code within a debug block is used to contain easily </span>
+<span class="sd">    printed debug information. Debug messages should use the debug function</span>
+<span class="sd">    :func:`smeargle_debug_message`</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="k">if</span> <span class="p">(</span><span class="n">smeargle_debug_block</span><span class="o">.</span><span class="n">_silent_mode</span><span class="p">):</span>
+        <span class="k">pass</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="k">yield</span>
+    <span class="k">return</span> <span class="kc">None</span></div>
+<span class="c1"># This is the default and will set the silent mode parameter for debug</span>
+<span class="c1"># printing, but it ensures not to override anything that may already exist.</span>
+<span class="k">if</span> <span class="p">(</span><span class="nb">hasattr</span><span class="p">(</span><span class="n">smeargle_debug_block</span><span class="p">,</span> <span class="s1">&#39;_silent_mode&#39;</span><span class="p">)):</span>
+    <span class="k">pass</span>
+<span class="k">else</span><span class="p">:</span>
+    <span class="n">smeargle_debug_block</span><span class="o">.</span><span class="n">_silent_mode</span> <span class="o">=</span> <span class="kc">True</span>
+
+<span class="c1"># The message form of the debug information. </span>
+<div class="viewcode-block" id="smeargle_debug_message"><a class="viewcode-back" href="../../../python_docstrings/IfA_Smeargle.meta.errors.html#IfA_Smeargle.meta.errors.smeargle_debug_message">[docs]</a><span class="k">def</span> <span class="nf">smeargle_debug_message</span><span class="p">(</span><span class="n">message</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot; This is a wrapper function for the printing of debug messages. </span>
+
+<span class="sd">    Given the nature of debug messages, it should be clear that it is a debug</span>
+<span class="sd">    message, and should also have the proper silencing capabilities.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    message : string</span>
+<span class="sd">        The message that is to be sent as the debug message.</span>
+<span class="sd">    </span>
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    nothing    </span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="c1"># Test if info messages should not be printed given their</span>
+    <span class="k">if</span> <span class="p">(</span><span class="n">smeargle_debug_message</span><span class="o">.</span><span class="n">_silent_mode</span><span class="p">):</span>
+        <span class="c1"># Messages should not be printed in general.</span>
+        <span class="k">pass</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;IFAS Debug: &quot;</span> <span class="o">+</span> <span class="n">message</span><span class="p">)</span>
+    <span class="k">return</span> <span class="kc">None</span></div>
+<span class="c1"># This is the default and will set the silent mode parameter for debug</span>
+<span class="c1"># printing, but it ensures not to override anything that may already exist.</span>
+<span class="k">if</span> <span class="p">(</span><span class="nb">hasattr</span><span class="p">(</span><span class="n">smeargle_debug_message</span><span class="p">,</span> <span class="s1">&#39;_silent_mode&#39;</span><span class="p">)):</span>
+    <span class="k">pass</span>
+<span class="k">else</span><span class="p">:</span>
+    <span class="n">smeargle_debug_message</span><span class="o">.</span><span class="n">_silent_mode</span> <span class="o">=</span> <span class="kc">True</span>
+
+
 <span class="c1">##############################################################################</span>
 <span class="c1">##############################################################################</span>
-<span class="c1"># Silencing Context Managers </span>
+<span class="c1"># Enabling/Silencing Context Managers </span>
 <span class="c1">##############################################################################</span>
 <span class="c1">##############################################################################</span>
 
@@ -516,7 +571,44 @@
     <span class="n">smeargle_info</span><span class="o">.</span><span class="n">_silent_mode</span> <span class="o">=</span> <span class="kc">False</span>
     <span class="k">return</span> <span class="kc">None</span></div>
 
-<span class="c1"># To silence everything, warnings and informational messages.</span>
+<span class="c1"># To enable debug messages.</span>
+<div class="viewcode-block" id="smeargle_enable_debug"><a class="viewcode-back" href="../../../python_docstrings/IfA_Smeargle.meta.errors.html#IfA_Smeargle.meta.errors.smeargle_enable_debug">[docs]</a><span class="nd">@contextlib</span><span class="o">.</span><span class="n">contextmanager</span>
+<span class="k">def</span> <span class="nf">smeargle_enable_debug</span><span class="p">():</span>
+    <span class="sd">&quot;&quot;&quot; This context manager turns all debug messages on for the duration of </span>
+<span class="sd">    the context. </span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="c1"># Turn on debugging (releasing from silence)</span>
+    <span class="n">smeargle_debug_block</span><span class="o">.</span><span class="n">_silent_mode</span> <span class="o">=</span> <span class="kc">False</span>
+    <span class="n">smeargle_debug_message</span><span class="o">.</span><span class="n">_silent_mode</span> <span class="o">=</span> <span class="kc">False</span>
+
+    <span class="k">yield</span>
+    
+    <span class="c1"># Disable by silencing. </span>
+    <span class="n">smeargle_debug_block</span><span class="o">.</span><span class="n">_silent_mode</span> <span class="o">=</span> <span class="kc">True</span>
+    <span class="n">smeargle_debug_message</span><span class="o">.</span><span class="n">_silent_mode</span> <span class="o">=</span> <span class="kc">True</span>
+
+    <span class="k">return</span> <span class="kc">None</span></div>
+
+<span class="c1"># To disable debug messages.</span>
+<div class="viewcode-block" id="smeargle_disable_debug"><a class="viewcode-back" href="../../../python_docstrings/IfA_Smeargle.meta.errors.html#IfA_Smeargle.meta.errors.smeargle_disable_debug">[docs]</a><span class="nd">@contextlib</span><span class="o">.</span><span class="n">contextmanager</span>
+<span class="k">def</span> <span class="nf">smeargle_disable_debug</span><span class="p">():</span>
+    <span class="sd">&quot;&quot;&quot; This context manager turns all debug messages off for the duration of </span>
+<span class="sd">    the context. Given that debug messages are generally off in the first </span>
+<span class="sd">    place, usage may be rare.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="c1"># Disable by silencing. </span>
+    <span class="n">smeargle_debug_block</span><span class="o">.</span><span class="n">_silent_mode</span> <span class="o">=</span> <span class="kc">True</span>
+    <span class="n">smeargle_debug_message</span><span class="o">.</span><span class="n">_silent_mode</span> <span class="o">=</span> <span class="kc">True</span>
+
+    <span class="k">yield</span>
+    
+    <span class="c1"># Disable by silencing. </span>
+    <span class="n">smeargle_debug_block</span><span class="o">.</span><span class="n">_silent_mode</span> <span class="o">=</span> <span class="kc">True</span>
+    <span class="n">smeargle_debug_message</span><span class="o">.</span><span class="n">_silent_mode</span> <span class="o">=</span> <span class="kc">True</span>
+
+    <span class="k">return</span> <span class="kc">None</span></div>
+
+<span class="c1"># To silence everything, warnings, informational, and debug messages.</span>
 <div class="viewcode-block" id="smeargle_absolute_silence"><a class="viewcode-back" href="../../../python_docstrings/IfA_Smeargle.meta.errors.html#IfA_Smeargle.meta.errors.smeargle_absolute_silence">[docs]</a><span class="nd">@contextlib</span><span class="o">.</span><span class="n">contextmanager</span>
 <span class="k">def</span> <span class="nf">smeargle_absolute_silence</span><span class="p">():</span>
     <span class="sd">&quot;&quot;&quot;This context manager silences any and all messages, it basically </span>
@@ -525,7 +617,8 @@
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="k">with</span> <span class="n">smeargle_silence_ifas_warnings</span><span class="p">(),</span> \
          <span class="n">smeargle_silence_all_warnings</span><span class="p">(),</span>  \
-         <span class="n">smeargle_silence_info_message</span><span class="p">():</span>
+         <span class="n">smeargle_silence_info_message</span><span class="p">(),</span>  \
+         <span class="n">smeargle_disable_debug</span><span class="p">():</span>
             <span class="k">yield</span> </div>
 </pre></div>
 

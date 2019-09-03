@@ -36,46 +36,46 @@
 \contentsline {paragraph}{Submodules}{18}{paragraph*.51}% 
 \contentsline {subparagraph}{IfA\_Smeargle.meta.configuration module}{18}{subparagraph*.52}% 
 \contentsline {subparagraph}{IfA\_Smeargle.meta.errors module}{18}{subparagraph*.54}% 
-\contentsline {subparagraph}{IfA\_Smeargle.meta.fits\_and\_arrays module}{22}{subparagraph*.91}% 
-\contentsline {subparagraph}{IfA\_Smeargle.meta.meta\_main module}{23}{subparagraph*.96}% 
-\contentsline {subparagraph}{IfA\_Smeargle.meta.modeling\_and\_fitting module}{23}{subparagraph*.97}% 
-\contentsline {subparagraph}{IfA\_Smeargle.meta.plotting module}{24}{subparagraph*.100}% 
-\contentsline {paragraph}{Module contents}{25}{paragraph*.102}% 
-\contentsline {subsubsection}{IfA\_Smeargle.oscar package}{25}{subsubsection*.103}% 
-\contentsline {paragraph}{Submodules}{25}{paragraph*.104}% 
-\contentsline {subparagraph}{IfA\_Smeargle.oscar.heatmaps module}{25}{subparagraph*.105}% 
-\contentsline {subparagraph}{IfA\_Smeargle.oscar.histograms module}{26}{subparagraph*.107}% 
-\contentsline {subparagraph}{IfA\_Smeargle.oscar.multi\_figure module}{26}{subparagraph*.109}% 
-\contentsline {subparagraph}{IfA\_Smeargle.oscar.oscar\_functions module}{27}{subparagraph*.111}% 
-\contentsline {subparagraph}{IfA\_Smeargle.oscar.oscar\_main module}{28}{subparagraph*.114}% 
-\contentsline {paragraph}{Module contents}{28}{paragraph*.115}% 
-\contentsline {subsubsection}{IfA\_Smeargle.yankee package}{28}{subsubsection*.116}% 
-\contentsline {paragraph}{Subpackages}{28}{paragraph*.117}% 
-\contentsline {subparagraph}{IfA\_Smeargle.yankee.configuration\_classes package}{28}{subparagraph*.118}% 
-\contentsline {subparagraph}{Submodules}{28}{subparagraph*.119}% 
-\contentsline {subparagraph}{IfA\_Smeargle.yankee.configuration\_classes.BaseConfig\_file module}{28}{subparagraph*.120}% 
-\contentsline {subparagraph}{IfA\_Smeargle.yankee.configuration\_classes.BravoConfig\_file module}{29}{subparagraph*.125}% 
-\contentsline {subparagraph}{IfA\_Smeargle.yankee.configuration\_classes.EchoConfig\_file module}{30}{subparagraph*.130}% 
-\contentsline {subparagraph}{IfA\_Smeargle.yankee.configuration\_classes.OscarConfig\_file module}{30}{subparagraph*.134}% 
-\contentsline {subparagraph}{IfA\_Smeargle.yankee.configuration\_classes.YankeeConfig\_file module}{30}{subparagraph*.139}% 
-\contentsline {subparagraph}{IfA\_Smeargle.yankee.configuration\_classes.ZuluConfig\_file module}{31}{subparagraph*.141}% 
-\contentsline {subparagraph}{Module contents}{31}{subparagraph*.143}% 
-\contentsline {paragraph}{Submodules}{31}{paragraph*.144}% 
-\contentsline {subparagraph}{IfA\_Smeargle.yankee.yankee\_functions module}{31}{subparagraph*.145}% 
-\contentsline {subparagraph}{IfA\_Smeargle.yankee.yankee\_main module}{32}{subparagraph*.150}% 
-\contentsline {paragraph}{Module contents}{33}{paragraph*.152}% 
-\contentsline {subsubsection}{IfA\_Smeargle.zulu package}{33}{subsubsection*.153}% 
-\contentsline {paragraph}{Subpackages}{33}{paragraph*.154}% 
-\contentsline {subparagraph}{IfA\_Smeargle.zulu.detector\_pipelines package}{33}{subparagraph*.155}% 
-\contentsline {subparagraph}{Submodules}{33}{subparagraph*.156}% 
-\contentsline {subparagraph}{IfA\_Smeargle.zulu.detector\_pipelines.saphria\_pipeline module}{33}{subparagraph*.157}% 
-\contentsline {subparagraph}{Module contents}{34}{subparagraph*.160}% 
-\contentsline {paragraph}{Submodules}{34}{paragraph*.161}% 
-\contentsline {subparagraph}{IfA\_Smeargle.zulu.zulu\_main module}{34}{subparagraph*.162}% 
-\contentsline {paragraph}{Module contents}{35}{paragraph*.163}% 
-\contentsline {subsection}{\numberline {2.1.2}Submodules}{35}{subsection.2.1.2}% 
-\contentsline {subsubsection}{IfA\_Smeargle.ifas\_execute module}{35}{subsubsection*.164}% 
-\contentsline {subsection}{\numberline {2.1.3}Module contents}{35}{subsection.2.1.3}% 
+\contentsline {subparagraph}{IfA\_Smeargle.meta.fits\_and\_arrays module}{22}{subparagraph*.95}% 
+\contentsline {subparagraph}{IfA\_Smeargle.meta.meta\_main module}{24}{subparagraph*.100}% 
+\contentsline {subparagraph}{IfA\_Smeargle.meta.modeling\_and\_fitting module}{24}{subparagraph*.101}% 
+\contentsline {subparagraph}{IfA\_Smeargle.meta.plotting module}{24}{subparagraph*.104}% 
+\contentsline {paragraph}{Module contents}{25}{paragraph*.106}% 
+\contentsline {subsubsection}{IfA\_Smeargle.oscar package}{25}{subsubsection*.107}% 
+\contentsline {paragraph}{Submodules}{25}{paragraph*.108}% 
+\contentsline {subparagraph}{IfA\_Smeargle.oscar.heatmaps module}{25}{subparagraph*.109}% 
+\contentsline {subparagraph}{IfA\_Smeargle.oscar.histograms module}{26}{subparagraph*.111}% 
+\contentsline {subparagraph}{IfA\_Smeargle.oscar.multi\_figure module}{27}{subparagraph*.113}% 
+\contentsline {subparagraph}{IfA\_Smeargle.oscar.oscar\_functions module}{27}{subparagraph*.115}% 
+\contentsline {subparagraph}{IfA\_Smeargle.oscar.oscar\_main module}{28}{subparagraph*.118}% 
+\contentsline {paragraph}{Module contents}{28}{paragraph*.119}% 
+\contentsline {subsubsection}{IfA\_Smeargle.yankee package}{28}{subsubsection*.120}% 
+\contentsline {paragraph}{Subpackages}{28}{paragraph*.121}% 
+\contentsline {subparagraph}{IfA\_Smeargle.yankee.configuration\_classes package}{28}{subparagraph*.122}% 
+\contentsline {subparagraph}{Submodules}{28}{subparagraph*.123}% 
+\contentsline {subparagraph}{IfA\_Smeargle.yankee.configuration\_classes.BaseConfig\_file module}{28}{subparagraph*.124}% 
+\contentsline {subparagraph}{IfA\_Smeargle.yankee.configuration\_classes.BravoConfig\_file module}{29}{subparagraph*.129}% 
+\contentsline {subparagraph}{IfA\_Smeargle.yankee.configuration\_classes.EchoConfig\_file module}{30}{subparagraph*.134}% 
+\contentsline {subparagraph}{IfA\_Smeargle.yankee.configuration\_classes.OscarConfig\_file module}{30}{subparagraph*.138}% 
+\contentsline {subparagraph}{IfA\_Smeargle.yankee.configuration\_classes.YankeeConfig\_file module}{31}{subparagraph*.143}% 
+\contentsline {subparagraph}{IfA\_Smeargle.yankee.configuration\_classes.ZuluConfig\_file module}{31}{subparagraph*.145}% 
+\contentsline {subparagraph}{Module contents}{32}{subparagraph*.147}% 
+\contentsline {paragraph}{Submodules}{32}{paragraph*.148}% 
+\contentsline {subparagraph}{IfA\_Smeargle.yankee.yankee\_functions module}{32}{subparagraph*.149}% 
+\contentsline {subparagraph}{IfA\_Smeargle.yankee.yankee\_main module}{34}{subparagraph*.156}% 
+\contentsline {paragraph}{Module contents}{34}{paragraph*.158}% 
+\contentsline {subsubsection}{IfA\_Smeargle.zulu package}{34}{subsubsection*.159}% 
+\contentsline {paragraph}{Subpackages}{34}{paragraph*.160}% 
+\contentsline {subparagraph}{IfA\_Smeargle.zulu.detector\_pipelines package}{34}{subparagraph*.161}% 
+\contentsline {subparagraph}{Submodules}{34}{subparagraph*.162}% 
+\contentsline {subparagraph}{IfA\_Smeargle.zulu.detector\_pipelines.saphira\_pipeline module}{34}{subparagraph*.163}% 
+\contentsline {subparagraph}{Module contents}{35}{subparagraph*.166}% 
+\contentsline {paragraph}{Submodules}{35}{paragraph*.167}% 
+\contentsline {subparagraph}{IfA\_Smeargle.zulu.zulu\_main module}{35}{subparagraph*.168}% 
+\contentsline {paragraph}{Module contents}{36}{paragraph*.169}% 
+\contentsline {subsection}{\numberline {2.1.2}Submodules}{36}{subsection.2.1.2}% 
+\contentsline {subsubsection}{IfA\_Smeargle.ifas\_execute module}{36}{subsubsection*.170}% 
+\contentsline {subsection}{\numberline {2.1.3}Module contents}{36}{subsection.2.1.3}% 
 \contentsline {chapter}{\numberline {3}Indices and tables}{37}{chapter.3}% 
-\contentsline {chapter}{Python Module Index}{39}{section*.166}% 
-\contentsline {chapter}{Index}{41}{section*.167}% 
+\contentsline {chapter}{Python Module Index}{39}{section*.172}% 
+\contentsline {chapter}{Index}{41}{section*.173}% 

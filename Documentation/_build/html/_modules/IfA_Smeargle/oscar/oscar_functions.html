@@ -240,11 +240,12 @@
         <span class="n">minimum</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">nanmin</span><span class="p">(</span><span class="n">data_array</span><span class="p">)</span>
         <span class="n">maximum</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">nanmax</span><span class="p">(</span><span class="n">data_array</span><span class="p">)</span>
 
-    
+
     <span class="c1"># Calculate the bins based off of the width provided. Numpy is pretty </span>
     <span class="c1"># good with this.</span>
     <span class="n">bin_list_values</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="n">minimum</span><span class="p">,</span> <span class="n">maximum</span><span class="p">,</span> <span class="n">bin_width</span><span class="p">)</span>
     <span class="n">bin_list_values</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">bin_list_values</span><span class="p">,</span> <span class="n">maximum</span><span class="p">)</span>
+
 
     <span class="c1"># All done.</span>
     <span class="k">return</span> <span class="n">bin_list_values</span></div>

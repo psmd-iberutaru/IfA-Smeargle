@@ -21,7 +21,7 @@
     <EnableUnmanagedDebugging>false</EnableUnmanagedDebugging>
   </PropertyGroup>
   <ItemGroup>
-    <Compile Include="detector_pipelines\saphria_pipeline.py" />
+    <Compile Include="detector_pipelines\saphira_pipeline.py" />
     <Compile Include="zulu_main.py" />
     <Compile Include="__init__.py">
       <SubType>Code</SubType>

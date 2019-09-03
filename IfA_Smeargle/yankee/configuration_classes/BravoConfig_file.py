@@ -18,6 +18,14 @@ class BravoConfig(BaseConfig):
     entries may be added at user discretion (see documentation for such 
     entries).
     
+    Note
+    ----
+    All built-in functions of the configuration classes are inherited from the 
+    :py:class:`~IfA_Smeargle.yankee.configuration_classes.BaseConfig_file.BaseConfig`
+    class. 
+
+    Configuration classes such as this one is generally wrapped within the 
+    :py:class:`~IfA_Smeargle.yankee.yankee_main.SmeargleConfig` class.
 
     Attributes
     ----------
@@ -27,6 +35,7 @@ class BravoConfig(BaseConfig):
         These are the parameters fed into ``voltage_pattern_rename_fits``
     avg_endpts_config : dictionary
         These are the parameters fed into ``average_endpoints``.
+
     """
 
     def __init__(self, file_name=None):

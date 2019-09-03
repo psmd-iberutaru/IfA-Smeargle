@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.14159265-2.6-1.40.20 (TeX Live 2019/W32TeX) (preloaded format=pdflatex 2019.8.9)  13 AUG 2019 14:28
+This is pdfTeX, Version 3.14159265-2.6-1.40.20 (TeX Live 2019/W32TeX) (preloaded format=pdflatex 2019.8.9)  3 SEP 2019 11:41
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -843,6 +843,8 @@ File: t1pcr.fd 2001/06/04 font definitions for T1/pcr.
 ) [1
 
 ]
+LaTeX Font Info:    Font shape `T1/pcr/m/it' in size <10> not available
+(Font)              Font shape `T1/pcr/m/sl' tried instead on input line 177.
 LaTeX Font Info:    Try loading font information for TS1+pcr on input line 212.
 
 
@@ -869,9 +871,6 @@ LaTeX Font Info:    Try loading font information for TS1+ptm on input line 296.
 (c:/texlive/2019/texmf-dist/tex/latex/psnfss/ts1ptm.fd
 File: ts1ptm.fd 2001/06/04 font definitions for TS1/ptm.
 )
-LaTeX Font Info:    Font shape `T1/pcr/m/it' in size <10> not available
-(Font)              Font shape `T1/pcr/m/sl' tried instead on input line 297.
-
 Underfull \hbox (badness 10000) in paragraph at lines 321--321
 []\T1/ptm/m/it/10 fits_file\T1/ptm/m/n/10 , \T1/ptm/m/it/10 start_chunk\T1/ptm/
 m/n/10 , \T1/ptm/m/it/10 end_chunk\T1/ptm/m/n/10 ,
@@ -1284,419 +1283,439 @@ Underfull \hbox (badness 10000) in paragraph at lines 1414--1415
 ased class execpt for
  []
 
-[18] [19] [20]
-Overfull \hbox (14.01399pt too wide) in paragraph at lines 1818--1818
+[18] [19] [20] [21]
+Overfull \hbox (14.01399pt too wide) in paragraph at lines 1871--1871
 []\T1/ptm/m/it/10 silenced_warning_type\T1/pcr/m/n/10 ) 
  []
 
-[21]
-Underfull \hbox (badness 10000) in paragraph at lines 1865--1865
+
+Underfull \hbox (badness 10000) in paragraph at lines 1918--1918
 []\T1/ptm/m/it/10 primary_array\T1/ptm/m/n/10 ,
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 1865--1865
+Underfull \hbox (badness 10000) in paragraph at lines 1918--1918
 \T1/ptm/m/it/10 x_bounds\T1/ptm/m/n/10 ,
  []
 
 
-Overfull \hbox (2.20459pt too wide) in paragraph at lines 1897--1897
+Overfull \hbox (2.20459pt too wide) in paragraph at lines 1950--1950
 []\T1/ptm/m/it/10 masked_array\T1/pcr/m/n/10 ) 
  []
 
-
-Underfull \hbox (badness 10000) in paragraph at lines 1968--1968
+[22]
+Underfull \hbox (badness 10000) in paragraph at lines 2021--2021
 []\T1/ptm/m/it/10 file_name\T1/ptm/m/n/10 ,
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 1968--1968
+Underfull \hbox (badness 10000) in paragraph at lines 2021--2021
 \T1/ptm/m/it/10 hdu_header\T1/ptm/m/n/10 ,
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 1968--1968
+Underfull \hbox (badness 10000) in paragraph at lines 2021--2021
 \T1/ptm/m/it/10 hdu_data\T1/ptm/m/n/10 ,
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 1968--1968
+Underfull \hbox (badness 10000) in paragraph at lines 2021--2021
 \T1/ptm/m/it/10 hdu_object=None\T1/ptm/m/n/10 ,
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 1968--1968
+Underfull \hbox (badness 10000) in paragraph at lines 2021--2021
 \T1/ptm/m/it/10 save_file=True\T1/ptm/m/n/10 ,
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 1968--1968
+Underfull \hbox (badness 10000) in paragraph at lines 2021--2021
 \T1/ptm/m/it/10 over-write=True\T1/ptm/m/n/10 ,
  []
 
-[22]
-Overfull \hbox (4.96484pt too wide) in paragraph at lines 2028--2028
+[23]
+Overfull \hbox (4.96484pt too wide) in paragraph at lines 2081--2081
 []\T1/ptm/m/it/10 x_data\T1/ptm/m/n/10 ,
  []
 
 
-Overfull \hbox (4.96484pt too wide) in paragraph at lines 2028--2028
+Overfull \hbox (4.96484pt too wide) in paragraph at lines 2081--2081
 \T1/ptm/m/it/10 y_data\T1/ptm/m/n/10 ,
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 2028--2028
+Underfull \hbox (badness 10000) in paragraph at lines 2081--2081
 \T1/ptm/m/it/10 ini-
  []
 
 
-Overfull \hbox (27.35435pt too wide) in paragraph at lines 2028--2028
+Overfull \hbox (27.35435pt too wide) in paragraph at lines 2081--2081
 \T1/ptm/m/it/10 tal_guesses\T1/pcr/m/n/10 ) 
  []
 
-[23]
-Overfull \hbox (82.59473pt too wide) in paragraph at lines 2066--2066
+
+Overfull \hbox (82.59473pt too wide) in paragraph at lines 2119--2119
 []\T1/ptm/m/it/10 data_array\T1/ptm/m/n/10 ,
  []
 
 
-Overfull \hbox (98.00461pt too wide) in paragraph at lines 2066--2066
+Overfull \hbox (98.00461pt too wide) in paragraph at lines 2119--2119
 \T1/ptm/m/it/10 bin_width=10\T1/pcr/m/n/10 ) 
  []
 
 [24]
-Underfull \hbox (badness 10000) in paragraph at lines 2170--2170
+Underfull \hbox (badness 10000) in paragraph at lines 2223--2223
 []\T1/ptm/m/it/10 data_array\T1/ptm/m/n/10 , \T1/ptm/m/it/10 fig-
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 2170--2170
+Underfull \hbox (badness 10000) in paragraph at lines 2223--2223
 \T1/ptm/m/it/10 ure_axes=None\T1/ptm/m/n/10 , \T1/ptm/m/it/10 plot=True\T1/ptm/
 m/n/10 ,
  []
 
 
-Overfull \hbox (51.51328pt too wide) in paragraph at lines 2170--2170
+Overfull \hbox (51.51328pt too wide) in paragraph at lines 2223--2223
 \T1/ptm/m/it/10 heatmap_plot_parameters={'interpolation':
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 2170--2170
+Underfull \hbox (badness 10000) in paragraph at lines 2223--2223
 \T1/ptm/m/it/10 'near-est'}\T1/ptm/m/n/10 , \T1/ptm/m/it/10 col-or-
  []
 
 
-Overfull \hbox (18.74353pt too wide) in paragraph at lines 2170--2170
+Overfull \hbox (18.74353pt too wide) in paragraph at lines 2223--2223
 \T1/ptm/m/it/10 bar_plot_paramters={'orientation':
  []
 
-
-Underfull \hbox (badness 10000) in paragraph at lines 2224--2224
+[25]
+Underfull \hbox (badness 10000) in paragraph at lines 2277--2277
 []\T1/ptm/m/it/10 data_array\T1/ptm/m/n/10 , \T1/ptm/m/it/10 fig-ure_axes=None\
 T1/ptm/m/n/10 ,
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 2224--2224
+Underfull \hbox (badness 10000) in paragraph at lines 2277--2277
 \T1/ptm/m/it/10 fit_gaussian=True\T1/ptm/m/n/10 ,
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 2224--2224
+Underfull \hbox (badness 10000) in paragraph at lines 2277--2277
 \T1/ptm/m/it/10 bin_width=None\T1/ptm/m/n/10 , \T1/ptm/m/it/10 plot=True\T1/ptm
 /m/n/10 ,
  []
 
-[25]
-Underfull \hbox (badness 10000) in paragraph at lines 2293--2293
+[26]
+Underfull \hbox (badness 10000) in paragraph at lines 2347--2347
 []\T1/ptm/m/it/10 data_array\T1/ptm/m/n/10 ,
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 2293--2293
+Underfull \hbox (badness 10000) in paragraph at lines 2347--2347
 \T1/ptm/m/it/10 con-fig-u-ra-
  []
 
 
-Overfull \hbox (22.16428pt too wide) in paragraph at lines 2293--2293
+Overfull \hbox (22.16428pt too wide) in paragraph at lines 2347--2347
 \T1/ptm/m/it/10 tion_class=None\T1/ptm/m/n/10 ,
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 2293--2293
+Underfull \hbox (badness 10000) in paragraph at lines 2347--2347
 \T1/ptm/m/it/10 fig-
  []
 
 
-Overfull \hbox (82.22379pt too wide) in paragraph at lines 2293--2293
+Overfull \hbox (82.22379pt too wide) in paragraph at lines 2347--2347
 \T1/ptm/m/it/10 ure_subplot_parameters={'dpi':
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 2293--2293
+Underfull \hbox (badness 10000) in paragraph at lines 2347--2347
 \T1/ptm/m/it/10 100\T1/ptm/m/n/10 , \T1/ptm/m/it/10 'fig-
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 2293--2293
+Underfull \hbox (badness 10000) in paragraph at lines 2347--2347
 \T1/ptm/m/it/10 size': (9\T1/ptm/m/n/10 ,
  []
 
-[26]
-Underfull \hbox (badness 10000) in paragraph at lines 2333--2333
+
+Underfull \hbox (badness 10000) in paragraph at lines 2387--2387
 []\T1/ptm/m/it/10 data_array\T1/ptm/m/n/10 , \T1/ptm/m/it/10 bin_width\T1/ptm/m
 /n/10 , \T1/ptm/m/it/10 lo-
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 2333--2333
+Underfull \hbox (badness 10000) in paragraph at lines 2387--2387
 \T1/ptm/m/it/10 cal_minimum=None\T1/ptm/m/n/10 , \T1/ptm/m/it/10 lo-
  []
 
-
-Underfull \hbox (badness 10000) in paragraph at lines 2375--2375
+[27]
+Underfull \hbox (badness 10000) in paragraph at lines 2429--2429
 []\T1/ptm/m/it/10 data\T1/ptm/m/n/10 , \T1/ptm/m/it/10 de-
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 2375--2375
+Underfull \hbox (badness 10000) in paragraph at lines 2429--2429
 \T1/ptm/m/it/10 sired_form=<class
  []
 
 
-Overfull \hbox (57.91429pt too wide) in paragraph at lines 2375--2375
+Overfull \hbox (57.91429pt too wide) in paragraph at lines 2429--2429
 \T1/ptm/m/it/10 'numpy.ma.core.MaskedArray'>\T1/pcr/m/n/10 ) 
  []
 
-[27] [28]
-Overfull \hbox (89.98462pt too wide) in paragraph at lines 2526--2526
-[]\T1/ptm/m/it/10 file_name=None\T1/pcr/m/n/10 ) 
- []
-
-
-Overfull \hbox (77.98462pt too wide) in paragraph at lines 2587--2587
+[28]
+Overfull \hbox (89.98462pt too wide) in paragraph at lines 2580--2580
 []\T1/ptm/m/it/10 file_name=None\T1/pcr/m/n/10 ) 
  []
 
 [29]
-Overfull \hbox (89.98462pt too wide) in paragraph at lines 2641--2641
+Overfull \hbox (77.98462pt too wide) in paragraph at lines 2650--2650
 []\T1/ptm/m/it/10 file_name=None\T1/pcr/m/n/10 ) 
  []
 
 
-Overfull \hbox (101.98462pt too wide) in paragraph at lines 2704--2704
+Overfull \hbox (89.98462pt too wide) in paragraph at lines 2713--2713
 []\T1/ptm/m/it/10 file_name=None\T1/pcr/m/n/10 ) 
  []
 
 [30]
-Overfull \hbox (77.98462pt too wide) in paragraph at lines 2726--2726
+Overfull \hbox (101.98462pt too wide) in paragraph at lines 2785--2785
 []\T1/ptm/m/it/10 file_name=None\T1/pcr/m/n/10 ) 
  []
 
 
-Overfull \hbox (19.81418pt too wide) in paragraph at lines 2757--2757
+Overfull \hbox (77.98462pt too wide) in paragraph at lines 2816--2816
+[]\T1/ptm/m/it/10 file_name=None\T1/pcr/m/n/10 ) 
+ []
+
+[31]
+Overfull \hbox (19.81418pt too wide) in paragraph at lines 2856--2856
 []\T1/ptm/m/it/10 desired_class\T1/ptm/m/n/10 ,
  []
 
 
-Overfull \hbox (32.48462pt too wide) in paragraph at lines 2757--2757
+Overfull \hbox (32.48462pt too wide) in paragraph at lines 2856--2856
 \T1/ptm/m/it/10 file_name=None\T1/ptm/m/n/10 ,
  []
 
 
-Overfull \hbox (19.13423pt too wide) in paragraph at lines 2757--2757
+Overfull \hbox (19.13423pt too wide) in paragraph at lines 2856--2856
 \T1/ptm/m/it/10 silent=False\T1/pcr/m/n/10 ) 
  []
 
 
-Overfull \hbox (68.48434pt too wide) in paragraph at lines 2794--2794
+Overfull \hbox (68.48434pt too wide) in paragraph at lines 2893--2893
 []\T1/ptm/m/it/10 configuration_class\T1/ptm/m/n/10 ,
  []
 
 
-Overfull \hbox (34.37424pt too wide) in paragraph at lines 2794--2794
+Overfull \hbox (34.37424pt too wide) in paragraph at lines 2893--2893
 \T1/ptm/m/it/10 sired_class\T1/ptm/m/n/10 ,
  []
 
 
-Overfull \hbox (64.22449pt too wide) in paragraph at lines 2794--2794
+Overfull \hbox (64.22449pt too wide) in paragraph at lines 2893--2893
 \T1/ptm/m/it/10 deep_copy=False\T1/pcr/m/n/10 ) 
  []
 
-[31]
-Underfull \hbox (badness 10000) in paragraph at lines 2808--2809
+
+Underfull \hbox (badness 10000) in paragraph at lines 2907--2908
 []\T1/pcr/b/n/10 desired_class \T1/ptm/m/n/10 (\T1/pcr/m/sl/10 Any BaseConfig b
 ased class execpt for
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 2853--2853
+Overfull \hbox (59.98434pt too wide) in paragraph at lines 2927--2927
+[]\T1/ptm/m/it/10 configuration_class\T1/pcr/m/n/10 ) 
+ []
+
+[32]
+Overfull \hbox (15.30403pt too wide) in paragraph at lines 2954--2954
+[]\T1/ptm/m/it/10 inferior_class\T1/ptm/m/n/10 ,
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 2954--2954
+\T1/ptm/m/it/10 su-pe-
+ []
+
+
+Overfull \hbox (3.8043pt too wide) in paragraph at lines 2954--2954
+\T1/ptm/m/it/10 rior_class\T1/pcr/m/n/10 ) 
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 3012--3012
 []\T1/ptm/m/it/10 config_class\T1/ptm/m/n/10 , \T1/ptm/m/it/10 file_name\T1/ptm
 /m/n/10 ,
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 2853--2853
+Underfull \hbox (badness 10000) in paragraph at lines 3012--3012
 \T1/ptm/m/it/10 over-write=False\T1/ptm/m/n/10 , \T1/ptm/m/it/10 pro-to-
  []
 
-[32]
-Overfull \hbox (144.81429pt too wide) in paragraph at lines 2960--2960
-[]\T1/ptm/m/it/10 data_directory\T1/ptm/m/n/10 ,
- []
-
-
-Overfull \hbox (101.01491pt too wide) in paragraph at lines 2960--2960
-\T1/ptm/m/it/10 con-
- []
-
-
-Overfull \hbox (96.57497pt too wide) in paragraph at lines 2960--2960
-\T1/ptm/m/it/10 fig-
- []
-
-
-Overfull \hbox (91.57497pt too wide) in paragraph at lines 2960--2960
-\T1/ptm/m/it/10 u-
- []
-
-
-Overfull \hbox (95.31496pt too wide) in paragraph at lines 2960--2960
-\T1/ptm/m/it/10 ra-
- []
-
-
-Overfull \hbox (129.80441pt too wide) in paragraph at lines 2960--2960
-\T1/ptm/m/it/10 tion_class\T1/pcr/m/n/10 ) 
- []
-
-
-Underfull \hbox (badness 10000) in paragraph at lines 2973--2976
-[]\T1/pcr/b/n/10 configuration_class \T1/ptm/m/n/10 (\T1/pcr/m/sl/10 SmeargleCo
-nfig class\T1/ptm/m/n/10 ) ^^U The con-fig-u-ra-tion
- []
-
 [33]
-Overfull \hbox (102.81429pt too wide) in paragraph at lines 2992--2992
+Overfull \hbox (144.81429pt too wide) in paragraph at lines 3120--3120
 []\T1/ptm/m/it/10 data_directory\T1/ptm/m/n/10 ,
  []
 
 
-Overfull \hbox (59.01491pt too wide) in paragraph at lines 2992--2992
+Overfull \hbox (101.01491pt too wide) in paragraph at lines 3120--3120
 \T1/ptm/m/it/10 con-
  []
 
 
-Overfull \hbox (54.57497pt too wide) in paragraph at lines 2992--2992
+Overfull \hbox (96.57497pt too wide) in paragraph at lines 3120--3120
 \T1/ptm/m/it/10 fig-
  []
 
 
-Overfull \hbox (49.57497pt too wide) in paragraph at lines 2992--2992
+Overfull \hbox (91.57497pt too wide) in paragraph at lines 3120--3120
 \T1/ptm/m/it/10 u-
  []
 
 
-Overfull \hbox (53.31496pt too wide) in paragraph at lines 2992--2992
+Overfull \hbox (95.31496pt too wide) in paragraph at lines 3120--3120
 \T1/ptm/m/it/10 ra-
  []
 
 
-Overfull \hbox (87.80441pt too wide) in paragraph at lines 2992--2992
+Overfull \hbox (129.80441pt too wide) in paragraph at lines 3120--3120
 \T1/ptm/m/it/10 tion_class\T1/pcr/m/n/10 ) 
  []
 
-
-Underfull \hbox (badness 10000) in paragraph at lines 3006--3008
+[34]
+Underfull \hbox (badness 10000) in paragraph at lines 3133--3136
 []\T1/pcr/b/n/10 configuration_class \T1/ptm/m/n/10 (\T1/pcr/m/sl/10 SmeargleCo
 nfig class\T1/ptm/m/n/10 ) ^^U The con-fig-u-ra-tion
  []
 
-[34] [35] [36
 
-]
+Overfull \hbox (102.81429pt too wide) in paragraph at lines 3152--3152
+[]\T1/ptm/m/it/10 data_directory\T1/ptm/m/n/10 ,
+ []
+
+
+Overfull \hbox (59.01491pt too wide) in paragraph at lines 3152--3152
+\T1/ptm/m/it/10 con-
+ []
+
+
+Overfull \hbox (54.57497pt too wide) in paragraph at lines 3152--3152
+\T1/ptm/m/it/10 fig-
+ []
+
+
+Overfull \hbox (49.57497pt too wide) in paragraph at lines 3152--3152
+\T1/ptm/m/it/10 u-
+ []
+
+
+Overfull \hbox (53.31496pt too wide) in paragraph at lines 3152--3152
+\T1/ptm/m/it/10 ra-
+ []
+
+
+Overfull \hbox (87.80441pt too wide) in paragraph at lines 3152--3152
+\T1/ptm/m/it/10 tion_class\T1/pcr/m/n/10 ) 
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 3166--3168
+[]\T1/pcr/b/n/10 configuration_class \T1/ptm/m/n/10 (\T1/pcr/m/sl/10 SmeargleCo
+nfig class\T1/ptm/m/n/10 ) ^^U The con-fig-u-ra-tion
+ []
+
+[35] [36]
 Chapter 3.
-[37] [38
+[37
+
+] [38
 
 ]
-Underfull \hbox (badness 10000) in paragraph at lines 3130--3131
+Underfull \hbox (badness 10000) in paragraph at lines 3290--3291
 []\T1/pcr/m/n/10 IfA_Smeargle.echo.masks.masks_echo000\T1/ptm/m/n/10 ,
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 3131--3132
+Underfull \hbox (badness 10000) in paragraph at lines 3291--3292
 []\T1/pcr/m/n/10 IfA_Smeargle.echo.masks.masks_echo100\T1/ptm/m/n/10 ,
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 3132--3133
+Underfull \hbox (badness 10000) in paragraph at lines 3292--3293
 []\T1/pcr/m/n/10 IfA_Smeargle.echo.masks.masks_echo200\T1/ptm/m/n/10 ,
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 3133--3134
+Underfull \hbox (badness 10000) in paragraph at lines 3293--3294
 []\T1/pcr/m/n/10 IfA_Smeargle.echo.masks.masks_echo300\T1/ptm/m/n/10 ,
  []
 
 
-Overfull \hbox (0.6225pt too wide) in paragraph at lines 3140--3141
+Overfull \hbox (0.6225pt too wide) in paragraph at lines 3300--3301
 []\T1/pcr/m/n/10 IfA_Smeargle.meta.modeling_and_fitting\T1/ptm/m/n/10 ,
  []
 
 
-Overfull \hbox (18.6225pt too wide) in paragraph at lines 3149--3150
+Overfull \hbox (18.6225pt too wide) in paragraph at lines 3309--3310
 []\T1/pcr/m/n/10 IfA_Smeargle.yankee.configuration_classes\T1/ptm/m/n/10 ,
  []
 
 
-Overfull \hbox (114.6225pt too wide) in paragraph at lines 3150--3151
+Overfull \hbox (114.6225pt too wide) in paragraph at lines 3310--3311
 []\T1/pcr/m/n/10 IfA_Smeargle.yankee.configuration_classes.BaseConfig_file\T1/p
 tm/m/n/10 ,
  []
 
 
-Overfull \hbox (120.6225pt too wide) in paragraph at lines 3151--3152
+Overfull \hbox (120.6225pt too wide) in paragraph at lines 3311--3312
 []\T1/pcr/m/n/10 IfA_Smeargle.yankee.configuration_classes.BravoConfig_file\T1/
 ptm/m/n/10 ,
  []
 
 
-Overfull \hbox (114.6225pt too wide) in paragraph at lines 3152--3153
+Overfull \hbox (114.6225pt too wide) in paragraph at lines 3312--3313
 []\T1/pcr/m/n/10 IfA_Smeargle.yankee.configuration_classes.EchoConfig_file\T1/p
 tm/m/n/10 ,
  []
 
 
-Overfull \hbox (120.6225pt too wide) in paragraph at lines 3153--3154
+Overfull \hbox (120.6225pt too wide) in paragraph at lines 3313--3314
 []\T1/pcr/m/n/10 IfA_Smeargle.yankee.configuration_classes.OscarConfig_file\T1/
 ptm/m/n/10 ,
  []
 
 
-Overfull \hbox (126.6225pt too wide) in paragraph at lines 3154--3155
+Overfull \hbox (126.6225pt too wide) in paragraph at lines 3314--3315
 []\T1/pcr/m/n/10 IfA_Smeargle.yankee.configuration_classes.YankeeConfig_file\T1
 /ptm/m/n/10 ,
  []
 
 
-Overfull \hbox (114.6225pt too wide) in paragraph at lines 3155--3156
+Overfull \hbox (114.6225pt too wide) in paragraph at lines 3315--3316
 []\T1/pcr/m/n/10 IfA_Smeargle.yankee.configuration_classes.ZuluConfig_file\T1/p
 tm/m/n/10 ,
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 3156--3157
+Underfull \hbox (badness 10000) in paragraph at lines 3316--3317
 []\T1/pcr/m/n/10 IfA_Smeargle.yankee.yankee_functions\T1/ptm/m/n/10 ,
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 3159--3160
+Underfull \hbox (badness 10000) in paragraph at lines 3319--3320
 []\T1/pcr/m/n/10 IfA_Smeargle.zulu.detector_pipelines\T1/ptm/m/n/10 ,
  []
 
 
-Overfull \hbox (90.6225pt too wide) in paragraph at lines 3160--3161
-[]\T1/pcr/m/n/10 IfA_Smeargle.zulu.detector_pipelines.saphria_pipeline\T1/ptm/m
+Overfull \hbox (90.6225pt too wide) in paragraph at lines 3320--3321
+[]\T1/pcr/m/n/10 IfA_Smeargle.zulu.detector_pipelines.saphira_pipeline\T1/ptm/m
 /n/10 ,
  []
 
@@ -1747,7 +1766,7 @@ m/m/n/10 ),
 
 
 Underfull \hbox (badness 10000) in paragraph at lines 26--28
-[]\T1/pcr/m/n/10 bravo_execution_saphria() \T1/ptm/m/n/10 (\T1/ptm/m/it/10 in m
+[]\T1/pcr/m/n/10 bravo_execution_saphira() \T1/ptm/m/n/10 (\T1/ptm/m/it/10 in m
 od-ule
  []
 
@@ -1943,346 +1962,381 @@ Overfull \hbox (3.601pt too wide) in paragraph at lines 94--96
 
 
 Underfull \hbox (badness 10000) in paragraph at lines 99--101
+[]\T1/pcr/m/n/10 fast_forward_configuration_class() \T1/ptm/m/n/10 (\T1/ptm/m/i
+t/10 in
+ []
+
+
+Overfull \hbox (3.601pt too wide) in paragraph at lines 99--101
+\T1/ptm/m/it/10 mod-ule IfA_Smeargle.yankee.yankee_functions\T1/ptm/m/n/10 ),
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 101--103
 []\T1/pcr/m/n/10 functioned_mask_returning() \T1/ptm/m/n/10 (\T1/ptm/m/it/10 in
  mod-ule
  []
 
 
-Overfull \hbox (163.69025pt too wide) in paragraph at lines 104--106
+Overfull \hbox (163.69025pt too wide) in paragraph at lines 106--108
 []\T1/pcr/m/n/10 heathist_config \T1/ptm/m/n/10 (\T1/ptm/m/it/10 IfA_Smeargle.y
 ankee.configuration_classes.OscarConfig_file.OscarConfig
  []
 
 
-Overfull \hbox (157.69025pt too wide) in paragraph at lines 106--108
+Overfull \hbox (157.69025pt too wide) in paragraph at lines 108--110
 []\T1/pcr/m/n/10 heatmap_config \T1/ptm/m/n/10 (\T1/ptm/m/it/10 IfA_Smeargle.ya
 nkee.configuration_classes.OscarConfig_file.OscarConfig
  []
 
 
-Overfull \hbox (169.69025pt too wide) in paragraph at lines 108--110
+Overfull \hbox (169.69025pt too wide) in paragraph at lines 110--112
 []\T1/pcr/m/n/10 histogram_config \T1/ptm/m/n/10 (\T1/ptm/m/it/10 IfA_Smeargle.
 yankee.configuration_classes.OscarConfig_file.OscarConfig
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 120--121
+Underfull \hbox (badness 10000) in paragraph at lines 122--123
 []\T1/pcr/m/n/10 IfA_Smeargle.echo.echo_functions \T1/ptm/m/n/10 (\T1/ptm/m/it/
 10 mod-
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 123--124
+Underfull \hbox (badness 10000) in paragraph at lines 125--126
 []\T1/pcr/m/n/10 IfA_Smeargle.echo.masks.masks_echo000
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 124--125
+Underfull \hbox (badness 10000) in paragraph at lines 126--127
 []\T1/pcr/m/n/10 IfA_Smeargle.echo.masks.masks_echo100
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 125--126
+Underfull \hbox (badness 10000) in paragraph at lines 127--128
 []\T1/pcr/m/n/10 IfA_Smeargle.echo.masks.masks_echo200
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 126--127
+Underfull \hbox (badness 10000) in paragraph at lines 128--129
 []\T1/pcr/m/n/10 IfA_Smeargle.echo.masks.masks_echo300
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 133--134
+Underfull \hbox (badness 10000) in paragraph at lines 135--136
 []\T1/pcr/m/n/10 IfA_Smeargle.meta.modeling_and_fitting
  []
 
 
-Overfull \hbox (16.1225pt too wide) in paragraph at lines 142--143
+Overfull \hbox (16.1225pt too wide) in paragraph at lines 144--145
 []\T1/pcr/m/n/10 IfA_Smeargle.yankee.configuration_classes
  []
 
 
-Overfull \hbox (112.1225pt too wide) in paragraph at lines 143--145
+Overfull \hbox (112.1225pt too wide) in paragraph at lines 145--147
 []\T1/pcr/m/n/10 IfA_Smeargle.yankee.configuration_classes.BaseConfig_file
  []
 
 
-Overfull \hbox (118.1225pt too wide) in paragraph at lines 145--147
+Overfull \hbox (118.1225pt too wide) in paragraph at lines 147--149
 []\T1/pcr/m/n/10 IfA_Smeargle.yankee.configuration_classes.BravoConfig_file
  []
 
 
-Overfull \hbox (112.1225pt too wide) in paragraph at lines 147--149
+Overfull \hbox (112.1225pt too wide) in paragraph at lines 149--151
 []\T1/pcr/m/n/10 IfA_Smeargle.yankee.configuration_classes.EchoConfig_file
  []
 
 
-Overfull \hbox (118.1225pt too wide) in paragraph at lines 149--151
+Overfull \hbox (118.1225pt too wide) in paragraph at lines 151--153
 []\T1/pcr/m/n/10 IfA_Smeargle.yankee.configuration_classes.OscarConfig_file
  []
 
 
-Overfull \hbox (124.1225pt too wide) in paragraph at lines 151--153
+Overfull \hbox (124.1225pt too wide) in paragraph at lines 153--155
 []\T1/pcr/m/n/10 IfA_Smeargle.yankee.configuration_classes.YankeeConfig_file
  []
 
 
-Overfull \hbox (112.1225pt too wide) in paragraph at lines 153--155
+Overfull \hbox (112.1225pt too wide) in paragraph at lines 155--157
 []\T1/pcr/m/n/10 IfA_Smeargle.yankee.configuration_classes.ZuluConfig_file
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 155--156
+Underfull \hbox (badness 10000) in paragraph at lines 157--158
 []\T1/pcr/m/n/10 IfA_Smeargle.yankee.yankee_functions
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 158--159
+Underfull \hbox (badness 10000) in paragraph at lines 160--161
 []\T1/pcr/m/n/10 IfA_Smeargle.zulu.detector_pipelines
  []
 
 
-Overfull \hbox (88.1225pt too wide) in paragraph at lines 159--161
-[]\T1/pcr/m/n/10 IfA_Smeargle.zulu.detector_pipelines.saphria_pipeline
+Overfull \hbox (88.1225pt too wide) in paragraph at lines 161--163
+[]\T1/pcr/m/n/10 IfA_Smeargle.zulu.detector_pipelines.saphira_pipeline
  []
 
-
-Underfull \hbox (badness 10000) in paragraph at lines 180--182
+[42]
+Underfull \hbox (badness 10000) in paragraph at lines 182--184
 []\T1/pcr/m/n/10 numpy_masked_array() \T1/ptm/m/n/10 (\T1/ptm/m/it/10 in mod-ul
 e
  []
 
-[42]
-Underfull \hbox (badness 10000) in paragraph at lines 185--187
+
+Underfull \hbox (badness 10000) in paragraph at lines 187--189
 []\T1/pcr/m/n/10 oscar_bin_width() \T1/ptm/m/n/10 (\T1/ptm/m/it/10 in mod-ule
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 187--189
+Underfull \hbox (badness 10000) in paragraph at lines 189--191
 []\T1/pcr/m/n/10 oscar_convert_data_inputs() \T1/ptm/m/n/10 (\T1/ptm/m/it/10 in
  mod-ule
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 189--191
+Underfull \hbox (badness 10000) in paragraph at lines 191--193
 []\T1/pcr/m/n/10 OscarConfig \T1/ptm/m/n/10 (\T1/ptm/m/it/10 class in
  []
 
 
-Overfull \hbox (60.8305pt too wide) in paragraph at lines 189--191
+Overfull \hbox (60.8305pt too wide) in paragraph at lines 191--193
 \T1/ptm/m/it/10 IfA_Smeargle.yankee.configuration_classes.OscarConfig_file\T1/p
 tm/m/n/10 ),
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 196--198
+Underfull \hbox (badness 10000) in paragraph at lines 200--202
 []\T1/pcr/m/n/10 parallel_renaming() \T1/ptm/m/n/10 (\T1/ptm/m/it/10 in mod-ule
 
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 198--200
+Underfull \hbox (badness 10000) in paragraph at lines 202--204
 []\T1/pcr/m/n/10 plot_array_heatmap_image() \T1/ptm/m/n/10 (\T1/ptm/m/it/10 in 
 mod-ule
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 200--202
+Underfull \hbox (badness 10000) in paragraph at lines 204--206
 []\T1/pcr/m/n/10 plot_array_histogram() \T1/ptm/m/n/10 (\T1/ptm/m/it/10 in mod-
 ule
  []
 
 
-Underfull \hbox (badness 7291) in paragraph at lines 202--204
+Underfull \hbox (badness 7291) in paragraph at lines 206--208
 []\T1/pcr/m/n/10 plot_single_heatmap_and_histogram() \T1/ptm/m/n/10 (\T1/ptm/m/
 it/10 in
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 207--209
+Underfull \hbox (badness 10000) in paragraph at lines 211--213
 []\T1/pcr/m/n/10 read_config_file() \T1/ptm/m/n/10 (\T1/ptm/m/it/10 in mod-ule
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 207--209
+Underfull \hbox (badness 10000) in paragraph at lines 211--213
 \T1/ptm/m/it/10 IfA_Smeargle.yankee.yankee_functions\T1/ptm/m/n/10 ),
  []
 
 
-Overfull \hbox (159.69049pt too wide) in paragraph at lines 209--211
+Overfull \hbox (159.69049pt too wide) in paragraph at lines 213--215
 []\T1/pcr/m/n/10 read_from_file() \T1/ptm/m/n/10 (\T1/ptm/m/it/10 IfA_Smeargle.
 yankee.configuration_classes.BaseConfig_file.BaseConfig
  []
 
 
-Underfull \hbox (badness 7291) in paragraph at lines 215--217
+Underfull \hbox (badness 7291) in paragraph at lines 219--221
 []\T1/pcr/m/n/10 SA201907281826_reduction_pipeline() \T1/ptm/m/n/10 (\T1/ptm/m/
 it/10 in
  []
 
 
-Overfull \hbox (67.58981pt too wide) in paragraph at lines 215--217
-\T1/ptm/m/it/10 mod-ule IfA_Smeargle.zulu.detector_pipelines.saphria_pipeline\T
+Overfull \hbox (67.43991pt too wide) in paragraph at lines 219--221
+\T1/ptm/m/it/10 mod-ule IfA_Smeargle.zulu.detector_pipelines.saphira_pipeline\T
 1/ptm/m/n/10 ),
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 217--219
-[]\T1/pcr/m/n/10 saphria_reduction_pipeline() \T1/ptm/m/n/10 (\T1/ptm/m/it/10 i
+Underfull \hbox (badness 10000) in paragraph at lines 221--223
+[]\T1/pcr/m/n/10 saphira_reduction_pipeline() \T1/ptm/m/n/10 (\T1/ptm/m/it/10 i
 n mod-ule
  []
 
 
-Overfull \hbox (36.24998pt too wide) in paragraph at lines 217--219
-\T1/ptm/m/it/10 IfA_Smeargle.zulu.detector_pipelines.saphria_pipeline\T1/ptm/m/
+Overfull \hbox (36.10008pt too wide) in paragraph at lines 221--223
+\T1/ptm/m/it/10 IfA_Smeargle.zulu.detector_pipelines.saphira_pipeline\T1/ptm/m/
 n/10 ),
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 219--221
+Underfull \hbox (badness 10000) in paragraph at lines 223--225
 []\T1/pcr/m/n/10 smeargle_absolute_silence() \T1/ptm/m/n/10 (\T1/ptm/m/it/10 in
  mod-ule
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 223--225
+Underfull \hbox (badness 10000) in paragraph at lines 226--228
+[]\T1/pcr/m/n/10 smeargle_debug_block() \T1/ptm/m/n/10 (\T1/ptm/m/it/10 in mod-
+ule
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 228--230
+[]\T1/pcr/m/n/10 smeargle_debug_message() \T1/ptm/m/n/10 (\T1/ptm/m/it/10 in mo
+d-ule
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 230--232
+[]\T1/pcr/m/n/10 smeargle_disable_debug() \T1/ptm/m/n/10 (\T1/ptm/m/it/10 in mo
+d-ule
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 232--234
+[]\T1/pcr/m/n/10 smeargle_enable_debug() \T1/ptm/m/n/10 (\T1/ptm/m/it/10 in mod
+-ule
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 235--237
 []\T1/pcr/m/n/10 smeargle_extract_subarray() \T1/ptm/m/n/10 (\T1/ptm/m/it/10 in
  mod-ule
  []
 
 
-Overfull \hbox (22.1225pt too wide) in paragraph at lines 227--229
+Overfull \hbox (22.1225pt too wide) in paragraph at lines 239--241
 []\T1/pcr/m/n/10 smeargle_fit_histogram_gaussian_function()
  []
 
 
-Overfull \hbox (24.77089pt too wide) in paragraph at lines 227--229
+Overfull \hbox (24.77089pt too wide) in paragraph at lines 239--241
 \T1/ptm/m/n/10 (\T1/ptm/m/it/10 in mod-ule IfA_Smeargle.meta.modeling_and_fitti
 ng\T1/ptm/m/n/10 ),
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 229--230
+Underfull \hbox (badness 10000) in paragraph at lines 241--242
 []\T1/pcr/m/n/10 smeargle_info() \T1/ptm/m/n/10 (\T1/ptm/m/it/10 in mod-ule
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 232--234
+Underfull \hbox (badness 10000) in paragraph at lines 244--246
 []\T1/pcr/m/n/10 smeargle_open_fits_file() \T1/ptm/m/n/10 (\T1/ptm/m/it/10 in m
 od-ule
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 234--236
+Underfull \hbox (badness 10000) in paragraph at lines 246--248
 []\T1/pcr/m/n/10 smeargle_save_figure_file() \T1/ptm/m/n/10 (\T1/ptm/m/it/10 in
  mod-ule
  []
 
 
-Underfull \hbox (badness 7291) in paragraph at lines 242--244
+Underfull \hbox (badness 7291) in paragraph at lines 254--256
 []\T1/pcr/m/n/10 smeargle_silence_nonifas_warnings() \T1/ptm/m/n/10 (\T1/ptm/m/
 it/10 in
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 247--249
+Underfull \hbox (badness 10000) in paragraph at lines 259--261
 []\T1/pcr/m/n/10 smeargle_warning() \T1/ptm/m/n/10 (\T1/ptm/m/it/10 in mod-ule
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 249--251
+Underfull \hbox (badness 10000) in paragraph at lines 261--263
 []\T1/pcr/m/n/10 smeargle_write_fits_file() \T1/ptm/m/n/10 (\T1/ptm/m/it/10 in 
 mod-ule
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 251--253
+Underfull \hbox (badness 10000) in paragraph at lines 263--265
 []\T1/pcr/m/n/10 SmeargleConfig \T1/ptm/m/n/10 (\T1/ptm/m/it/10 class in
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 253--255
+Underfull \hbox (badness 10000) in paragraph at lines 265--267
 []\T1/pcr/m/n/10 sort_masking_dictionary() \T1/ptm/m/n/10 (\T1/ptm/m/it/10 in m
 od-ule
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 256--258
+Underfull \hbox (badness 10000) in paragraph at lines 268--270
 []\T1/pcr/m/n/10 synthesize_mask_dictionary() \T1/ptm/m/n/10 (\T1/ptm/m/it/10 i
 n mod-ule
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 268--270
+Underfull \hbox (badness 10000) in paragraph at lines 280--282
 []\T1/pcr/m/n/10 voltpat_rename_config
  []
 
 
-Overfull \hbox (111.49066pt too wide) in paragraph at lines 268--270
+Overfull \hbox (111.49066pt too wide) in paragraph at lines 280--282
 \T1/ptm/m/n/10 (\T1/ptm/m/it/10 IfA_Smeargle.yankee.configuration_classes.Bravo
 Config_file.BravoConfig
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 273--275
+Underfull \hbox (badness 10000) in paragraph at lines 285--287
 []\T1/pcr/m/n/10 write_config_file() \T1/ptm/m/n/10 (\T1/ptm/m/it/10 in mod-ule
 
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 273--275
+Underfull \hbox (badness 10000) in paragraph at lines 285--287
 \T1/ptm/m/it/10 IfA_Smeargle.yankee.yankee_functions\T1/ptm/m/n/10 ),
  []
 
-
-Overfull \hbox (153.69049pt too wide) in paragraph at lines 275--277
+[43]
+Overfull \hbox (153.69049pt too wide) in paragraph at lines 287--289
 []\T1/pcr/m/n/10 write_to_file() \T1/ptm/m/n/10 (\T1/ptm/m/it/10 IfA_Smeargle.y
 ankee.configuration_classes.BaseConfig_file.BaseConfig
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 280--282
+Underfull \hbox (badness 10000) in paragraph at lines 292--294
 []\T1/pcr/m/n/10 YankeeConfig \T1/ptm/m/n/10 (\T1/ptm/m/it/10 class in
  []
 
 
-Overfull \hbox (64.25064pt too wide) in paragraph at lines 280--282
+Overfull \hbox (64.25064pt too wide) in paragraph at lines 292--294
 \T1/ptm/m/it/10 IfA_Smeargle.yankee.configuration_classes.YankeeConfig_file\T1/
 ptm/m/n/10 ),
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 285--287
+Underfull \hbox (badness 10000) in paragraph at lines 297--299
 []\T1/pcr/m/n/10 ZuluConfig \T1/ptm/m/n/10 (\T1/ptm/m/it/10 class in
  []
 
 
-Overfull \hbox (54.73064pt too wide) in paragraph at lines 285--287
+Overfull \hbox (54.73064pt too wide) in paragraph at lines 297--299
 \T1/ptm/m/it/10 IfA_Smeargle.yankee.configuration_classes.ZuluConfig_file\T1/pt
 m/m/n/10 ),
  []
 
-[43] [44
+[44
 
 ])
-Package atveryend Info: Empty hook `BeforeClearDocument' on input line 3166.
-Package atveryend Info: Empty hook `AfterLastShipout' on input line 3166.
+Package atveryend Info: Empty hook `BeforeClearDocument' on input line 3326.
+Package atveryend Info: Empty hook `AfterLastShipout' on input line 3326.
  (./ifa-smeargle.aux)
-Package atveryend Info: Executing hook `AtVeryEndDocument' on input line 3166.
-Package atveryend Info: Executing hook `AtEndAfterFileList' on input line 3166.
+Package atveryend Info: Executing hook `AtVeryEndDocument' on input line 3326.
+Package atveryend Info: Executing hook `AtEndAfterFileList' on input line 3326.
 
 Package rerunfilecheck Info: File `ifa-smeargle.out' has not changed.
-(rerunfilecheck)             Checksum: C02B39C12A320AA226A9AC56A38999CA;2671.
-Package atveryend Info: Empty hook `AtVeryVeryEnd' on input line 3166.
+(rerunfilecheck)             Checksum: 7B0269E6724D1994ADC82C4403FF795F;2671.
+Package atveryend Info: Empty hook `AtVeryVeryEnd' on input line 3326.
  ) 
 Here is how much of TeX's memory you used:
- 13921 strings out of 494435
- 213355 string characters out of 6174858
- 304278 words of memory out of 5000000
- 17075 multiletter control sequences out of 15000+600000
+ 13933 strings out of 494435
+ 214041 string characters out of 6174858
+ 304678 words of memory out of 5000000
+ 17081 multiletter control sequences out of 15000+600000
  50591 words of font info for 72 fonts, out of 8000000 for 9000
  82 hyphenation exceptions out of 8191
- 37i,12n,45p,822b,599s stack positions out of 5000i,500n,10000p,200000b,80000s
+ 37i,12n,45p,822b,601s stack positions out of 5000i,500n,10000p,200000b,80000s
 {c:/texlive/2019/texmf-dist/fonts/enc/dvips/base/8r.enc}<c:/texlive/2019/texm
 f-dist/fonts/type1/urw/courier/ucrb8a.pfb><c:/texlive/2019/texmf-dist/fonts/typ
 e1/urw/courier/ucrr8a.pfb><c:/texlive/2019/texmf-dist/fonts/type1/urw/courier/u
@@ -2291,10 +2345,10 @@ texlive/2019/texmf-dist/fonts/type1/urw/helvetic/uhvbo8a.pfb><c:/texlive/2019/t
 exmf-dist/fonts/type1/urw/helvetic/uhvr8a.pfb><c:/texlive/2019/texmf-dist/fonts
 /type1/urw/times/utmb8a.pfb><c:/texlive/2019/texmf-dist/fonts/type1/urw/times/u
 tmr8a.pfb><c:/texlive/2019/texmf-dist/fonts/type1/urw/times/utmri8a.pfb>
-Output written on ifa-smeargle.pdf (48 pages, 219417 bytes).
+Output written on ifa-smeargle.pdf (48 pages, 222342 bytes).
 PDF statistics:
- 791 PDF objects out of 1000 (max. 8388607)
- 719 compressed objects within 8 object streams
- 230 named destinations out of 1000 (max. 500000)
+ 817 PDF objects out of 1000 (max. 8388607)
+ 745 compressed objects within 8 object streams
+ 236 named destinations out of 1000 (max. 500000)
  165 words of extra memory for PDF output out of 10000 (max. 10000000)
 

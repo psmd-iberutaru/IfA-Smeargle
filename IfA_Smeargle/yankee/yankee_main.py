@@ -42,7 +42,8 @@ class SmeargleConfig(conclass.BaseConfig):
         The configuration class for the YANKEE line.
 
     BaseConfig : Configuration class
-        The base configuration class, should generally not be used. 
+        The base configuration class, should generally not be used to store
+        parameters.
     """
 
     def __init__(self, file_name=None):

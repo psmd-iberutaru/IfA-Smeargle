@@ -1,7 +1,7 @@
 ::@echo off
 
 :: It might be helpful to remove the inital build.
-del _build /Q
+rmdir _build /S /Q
 
 :: Go out to the primary directory for api compliation
 cd ..

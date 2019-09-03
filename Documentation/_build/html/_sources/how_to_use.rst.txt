@@ -81,10 +81,10 @@ In order to make a configuration file, please use the Jupyter notebook labeled
 ``ifas_configuration_recipe.ipynb``. This writes a configuration file as 
 specified. 
 
-.. note::
+.. warning::
    Configuration files and classes are not forward compatible. There 
    is however a function to convert older configuration classes/files to newer
-   versions while preserving the old data.
+   versions while preserving the old data. See the :func:`Fast Forward Configuration Class <IfA_Smeargle.yankee.yankee_functions.fast_forward_configuration_class>` function.
 
 
 Executing Pipelines
