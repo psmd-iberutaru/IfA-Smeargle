@@ -1,4 +1,4 @@
-How to Use
+Quickstart
 ==========
 
 It is important that it is made clear that this is a module and a collection

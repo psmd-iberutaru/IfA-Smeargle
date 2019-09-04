@@ -64,11 +64,11 @@
 \usepackage{hypcap}% it must be loaded after hyperref.
 % Set up styles of URL: it should be placed after hyperref.
 \urlstyle{same}
-\addto\captionsenglish{\renewcommand{\contentsname}{Contents:}}
+\addto\captionsenglish{\renewcommand{\contentsname}{Usage and Operation:}}
 
 \usepackage{sphinxmessages}
-\setcounter{tocdepth}{2}
-
+\setcounter{tocdepth}{3}
+\setcounter{secnumdepth}{3}
 
 
 \title{IfA-Smeargle}
@@ -89,8 +89,8 @@
 
 
 
-\chapter{How to Use}
-\label{\detokenize{how_to_use:how-to-use}}\label{\detokenize{how_to_use::doc}}
+\chapter{Quickstart}
+\label{\detokenize{quickstart:quickstart}}\label{\detokenize{quickstart::doc}}
 It is important that it is made clear that this is a module and a collection
 of scripts more than a fully packaged program. To attempt to use it as such
 may be a bit hard.
@@ -100,7 +100,7 @@ reduction and analysis of their detector data.
 
 
 \section{Installation}
-\label{\detokenize{how_to_use:installation}}
+\label{\detokenize{quickstart:installation}}
 Installing IfA-Smeargle is not too difficult. It is a Python module like any
 other. Its source can be downloaded from the appropriate \sphinxhref{https://github.com/psmd-iberutaru/IfA-Smeargle}{GitHub IfA-Smeargle
 link}.
@@ -113,14 +113,14 @@ module code itself. It can be imported like any other same directory module
 
 
 \section{Pipelines, Data Directories, and Configuration Files/Classes}
-\label{\detokenize{how_to_use:pipelines-data-directories-and-configuration-files-classes}}
+\label{\detokenize{quickstart:pipelines-data-directories-and-configuration-files-classes}}
 IfA-Smeargle reduction methods are not too difficult. However,
 three elements must be clearly understood for proper usage. In general, they
 are not too complicated.
 
 
 \subsection{Pipelines}
-\label{\detokenize{how_to_use:pipelines}}
+\label{\detokenize{quickstart:pipelines}}
 Pipelines is simply an instructional list of what should be executed, in
 what order and to what quantity. Not every reduction functionality that
 IfA-Smeargle provided is needed for every data set. It is important that
@@ -142,7 +142,7 @@ pipelines should also adhere to this format.
 
 
 \subsection{Data Directories}
-\label{\detokenize{how_to_use:data-directories}}
+\label{\detokenize{quickstart:data-directories}}
 Data directories are most likely the easiest to understand. They are basically
 strings to where the data is being stored. It is generally the design of
 every pipeline that it adapts their document renaming and processing to raw
@@ -155,7 +155,7 @@ built-in pipeline should be able to handle itself afterwards.
 
 
 \subsection{Configuration Files/Classes}
-\label{\detokenize{how_to_use:configuration-files-classes}}
+\label{\detokenize{quickstart:configuration-files-classes}}
 Configuration files/classes are different and a bit more complex. It is a
 general principle of IfA-Smeargle that any and all customization or
 parameters to any reduction functions are contained in a configuration
@@ -179,7 +179,7 @@ versions while preserving the old data. See the {\hyperref[\detokenize{python_do
 
 
 \section{Executing Pipelines}
-\label{\detokenize{how_to_use:executing-pipelines}}
+\label{\detokenize{quickstart:executing-pipelines}}
 We are all well and good now; having learned the three basic elements of this
 module. The only thing left is to combine them into one call so that the
 pipeline will run on the data within the data directory in accordance to
@@ -189,7 +189,7 @@ and suggested ways that pipelines should be executed.
 
 
 \subsection{Jupyter Notebook}
-\label{\detokenize{how_to_use:jupyter-notebook}}
+\label{\detokenize{quickstart:jupyter-notebook}}
 Jupyter notebook is very helpful in sectioning off code and running it
 individually. It is currently the suggested of the three equally valid ways
 to execute a pipeline.
@@ -221,7 +221,7 @@ from there is the suggested way to do it:
 
 
 \subsection{Python Interactive Session}
-\label{\detokenize{how_to_use:python-interactive-session}}
+\label{\detokenize{quickstart:python-interactive-session}}
 This is not too different from Jupyter notebook method. In a similar vein to
 the Jupyter notebook scheme, IfA-Smeargle can be imported into an interactive
 session or a full-fledged Python script using \sphinxcode{\sphinxupquote{import IfA\_Smeargle as ifas}}
@@ -230,12 +230,12 @@ session or a full-fledged Python script using \sphinxcode{\sphinxupquote{import 
 From that point on, as it is within a Python session (like Jupyter notebook),
 to call pipelines and load configuration files and execute them as needed.
 
-See {\hyperref[\detokenize{how_to_use:jupyter-notebook}]{\sphinxcrossref{Jupyter Notebook}}} for more information on how to use IfA-Smeargle within
+See {\hyperref[\detokenize{quickstart:jupyter-notebook}]{\sphinxcrossref{Jupyter Notebook}}} for more information on how to use IfA-Smeargle within
 Python environment.
 
 
 \subsection{Command-line Call}
-\label{\detokenize{how_to_use:command-line-call}}
+\label{\detokenize{quickstart:command-line-call}}
 It is common for Python scripts to be run from from the command-line interface.
 As such, this module allows pipelines to be run from a command-line interface
 via \sphinxcode{\sphinxupquote{ifas\_execute.py}}.

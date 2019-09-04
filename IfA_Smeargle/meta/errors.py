@@ -198,6 +198,14 @@ class InputWarning(Smeargle_Warning):
     """
     pass
 
+class MagicWarning(Smeargle_Warning):
+    """
+    This warning is used when any routine would utilize magic/hard-coded 
+    values for the purposes of any process where said numbers are magic. This
+    is mostly as a programming warning to the user that behavior with magic
+    numbers may not always be expected or logical.
+    """
+
 class MaskingWarning(Smeargle_Warning):
     """
     This warning is used when any masking routine (especially in the ECHO 

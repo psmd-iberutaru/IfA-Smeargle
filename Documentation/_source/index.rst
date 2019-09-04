@@ -7,10 +7,14 @@ Welcome to IfA_Smeargle's documentation!
 ========================================
 
 .. toctree::
-   :maxdepth: 3
-   :caption: Contents:
+   :maxdepth: 4
+   :caption: Usage and Operation:
 
-   how_to_use
+   quickstart
+
+.. toctree::
+   :maxdepth: 5
+   :caption: Code Documentation:
 
    python_docstrings/modules
 

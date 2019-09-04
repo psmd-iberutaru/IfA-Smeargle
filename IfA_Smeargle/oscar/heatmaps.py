@@ -6,6 +6,7 @@ This file contains all of the different methods that a heatmap can be plotted.
 
 import matplotlib.cm as mpl_cm
 import matplotlib.pyplot as plt
+import mpl_toolkits.axes_grid1 as mpltk_axg1
 import numpy.ma as np_ma
 
 from IfA_Smeargle.meta import *
@@ -77,14 +78,28 @@ def plot_array_heatmap_image(data_array,
         heatmap_plot_parameters['cmap'] = colormap
 
     # Finally plotting.
-    heatmap = ax.imshow(data_array, **heatmap_plot_parameters)
-    plt.colorbar(mappable=heatmap, ax=ax, **colorbar_plot_paramters)
+    heatmap = ax.imshow(data_array, origin='lower', **heatmap_plot_parameters)
+
+    # Make color bar match the graph size. There seems to be two ways of doing
+    # this; pragmatically and magically. Default is pragmatically. 
+    _magic = False
+    if (_magic):
+        # See https://stackoverflow.com/a/26720422
+        smeargle_warning(MagicWarning, "The colorbar location and scale are being set by magic " 
+                                       "values. Use this if and only if the pragmatic method "
+                                       "fails.")
+        plt.colorbar(mappable=heatmap, fraction=0.046, pad=0.04)
+    else:
+        # See https://stackoverflow.com/a/18195921
+        divider = mpltk_axg1.make_axes_locatable(ax)
+        cax = divider.append_axes("right", size="5%", pad=0.05)
+        plt.colorbar(mappable=heatmap, cax=cax, ax=ax, **colorbar_plot_paramters)
 
     # Return some information about how much masked pixels there are, if any.
-    ax.text(data_array.shape[1],0,
+    ax.text(data_array.shape[1],data_array.shape[0],
             'Masked: {masked} / {total}'.format(
                 masked=np_ma.count_masked(data_array),total=data_array.size),
-            verticalalignment='bottom',horizontalalignment='right',fontsize='large')
+            verticalalignment='bottom', horizontalalignment='right', fontsize='medium')
 
     return ax
 

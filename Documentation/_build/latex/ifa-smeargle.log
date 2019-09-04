@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.14159265-2.6-1.40.20 (TeX Live 2019/W32TeX) (preloaded format=pdflatex 2019.8.9)  3 SEP 2019 11:41
+This is pdfTeX, Version 3.14159265-2.6-1.40.20 (TeX Live 2019/W32TeX) (preloaded format=pdflatex 2019.8.9)  3 SEP 2019 11:50
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -2326,14 +2326,14 @@ Package atveryend Info: Executing hook `AtVeryEndDocument' on input line 3326.
 Package atveryend Info: Executing hook `AtEndAfterFileList' on input line 3326.
 
 Package rerunfilecheck Info: File `ifa-smeargle.out' has not changed.
-(rerunfilecheck)             Checksum: 7B0269E6724D1994ADC82C4403FF795F;2671.
+(rerunfilecheck)             Checksum: 0BDA5ED169274A1AD8F93296962C9C14;4144.
 Package atveryend Info: Empty hook `AtVeryVeryEnd' on input line 3326.
  ) 
 Here is how much of TeX's memory you used:
- 13933 strings out of 494435
- 214041 string characters out of 6174858
- 304678 words of memory out of 5000000
- 17081 multiletter control sequences out of 15000+600000
+ 13941 strings out of 494435
+ 214262 string characters out of 6174858
+ 305247 words of memory out of 5000000
+ 17089 multiletter control sequences out of 15000+600000
  50591 words of font info for 72 fonts, out of 8000000 for 9000
  82 hyphenation exceptions out of 8191
  37i,12n,45p,822b,601s stack positions out of 5000i,500n,10000p,200000b,80000s
@@ -2345,10 +2345,10 @@ texlive/2019/texmf-dist/fonts/type1/urw/helvetic/uhvbo8a.pfb><c:/texlive/2019/t
 exmf-dist/fonts/type1/urw/helvetic/uhvr8a.pfb><c:/texlive/2019/texmf-dist/fonts
 /type1/urw/times/utmb8a.pfb><c:/texlive/2019/texmf-dist/fonts/type1/urw/times/u
 tmr8a.pfb><c:/texlive/2019/texmf-dist/fonts/type1/urw/times/utmri8a.pfb>
-Output written on ifa-smeargle.pdf (48 pages, 222342 bytes).
+Output written on ifa-smeargle.pdf (48 pages, 223059 bytes).
 PDF statistics:
- 817 PDF objects out of 1000 (max. 8388607)
- 745 compressed objects within 8 object streams
+ 845 PDF objects out of 1000 (max. 8388607)
+ 773 compressed objects within 8 object streams
  236 named destinations out of 1000 (max. 500000)
- 165 words of extra memory for PDF output out of 10000 (max. 10000000)
+ 221 words of extra memory for PDF output out of 10000 (max. 10000000)
 
