@@ -152,6 +152,11 @@ def SA201907281826_reduction_pipeline(data_directory, configuration_class):
     # Run the renaming of the files.
     _saphira_renaming(data_directory, configuration_class)
 
+    # Initial sanitization of files, such as improper or smaller than normal
+    # file size.
+    bravo.sanitize.same_file_size_sanitization(data_directory, method='largest')
+
+
     # Re-obtain file names.
     file_names = glob.glob(data_directory + '/*' + '.fits')
     for filedex in file_names:
@@ -206,11 +211,14 @@ def SA201907281826_reduction_pipeline(data_directory, configuration_class):
     # so the 'simplification' is likely worth it.
     file_names = glob.glob(data_directory + '/*.fits')
     for filedex in file_names:
-        try:
-            oscar_plot = oscar.multi.plot_single_heatmap_and_histogram(filedex, 
-                                                                       configuration_class)
-        except TypeError:
+        
+        # Get rid of annoying 3dim issue with imshow
+        __, __, hdu_data = meta_faa.smeargle_open_fits_file(filedex, silent=True)
+        if (len(hdu_data.shape) >= 3):
             continue
+
+        oscar_plot = oscar.multi.plot_single_heatmap_and_histogram(filedex, 
+                                                                   configuration_class)
         # Save the plot.
         file_name = filedex[:-5] + '__plot.pdf' # UPDATE
         plot_title = filedex[:-5] # UPDATE

@@ -53,6 +53,9 @@ class BravoConfig(BaseConfig):
             # The name of the detector.
             self.detector_name = {'name':None}
 
+            # Sanitizing the data directory input.
+            self.same_file_size_sanitization_config = {'method':None}
+
             # Renaming file
             self.voltpat_rename_config = {'voltage_pattern':None}
 

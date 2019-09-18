@@ -64,7 +64,7 @@ def plot_array_heatmap_image(data_array,
         ax = figure_axes
     else:
         ax = plt.gca()
-
+    
     # Extract proper data.
     data_array = oscar.oscar_convert_data_inputs(data_array)
 

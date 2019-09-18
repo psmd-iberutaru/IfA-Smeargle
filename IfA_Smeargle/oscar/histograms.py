@@ -109,7 +109,7 @@ def plot_array_histogram(data_array,
     if (('range' in histogram_plot_paramters) and 
         (isinstance(histogram_plot_paramters['bins'],np.ndarray))):
         # The user provided their own range parameter, "override" the bin
-        # with parameter by using a different bin width system.
+        # width parameter by using a different bin width system.
         min_range = histogram_plot_paramters['range'][0]
         max_range = histogram_plot_paramters['range'][-1]
 
@@ -132,9 +132,21 @@ def plot_array_histogram(data_array,
         gauss_funt, gauss_param = \
             meta_model.smeargle_fit_histogram_gaussian_function(plotting_data, bin_width)
 
-        # For better plotting resolution.
-        temp_gauss_x_axis = np.linspace(np.nanmin(hist_x) - 1, np.nanmax(hist_x) + 1, 
-                                        hist_x.size * 10)
+        # For better plotting resolution. The histogram, the guassian mean, 
+        # and to smoothen out the two.
+        hist_domain = np.linspace(np.nanmin(hist_x) - 1, np.nanmax(hist_x) + 1, hist_x.size * 10)
+        gaussian_domain = np.linspace(float(gauss_param['mean'] - 2.1*gauss_param['stddev']),
+                                      float(gauss_param['mean'] + 2.1*gauss_param['stddev']),
+                                      int(5*gauss_param['stddev'] * 10))
+        smooth_domain = np.linspace(np.nanmin(np.append(hist_domain, gaussian_domain)),
+                                    np.nanmax(np.append(hist_domain, gaussian_domain)),
+                                    10*np.ptp(np.append(hist_domain, gaussian_domain)))
+
+        temp_gauss_x_axis = np.sort(np.append(hist_domain, 
+                                              np.append(gaussian_domain, smooth_domain)), 
+                                    axis=None)
+
+        # Plotting
         ax.plot(temp_gauss_x_axis, gauss_funt(temp_gauss_x_axis), 
                 linewidth=1.5, color='black')
 
@@ -172,8 +184,8 @@ def plot_array_histogram(data_array,
         # There is no Gaussian information to return.
         gaussian_fit_atributes = None
     else:
-        raise BrokenLogicError("The program should not have entered here. Please contact "
-                               "developers with proper information.")
+        raise BrokenLogicError("The boolean fit_gaussian parameter is not boolean as it "
+                               "surpassed a T/F boolean check.")
     
     # Basic axis labels.
     ax.set_xlabel('Pixel Values')
@@ -182,11 +194,20 @@ def plot_array_histogram(data_array,
     # If the range has been set, adhere to it. Have a fall back in the event 
     # The user may have messed up.
     if ('range' in histogram_plot_paramters):
-        left_range = (np.nanmin(histogram_plot_paramters.get('range', np.nanmin(plotting_data))) 
+        left_range = (np.nanmin(histogram_plot_paramters.get('range', np.nanmin(hist_x))) 
                       - 1)
-        right_range = (np.nanmax(histogram_plot_paramters.get('range', np.nanmax(plotting_data))) 
+        right_range = (np.nanmax(histogram_plot_paramters.get('range', np.nanmax(hist_x))) 
                        + 1)
         ax.set_xlim(left_range, right_range)
+    else:
+        left_range = np.nanmin(hist_x) - np.ptp(hist_x) * 0.1
+        right_range = np.nanmax(hist_x) + np.ptp(hist_x) * 0.1
+        ax.set_xlim(left_range, right_range)
+
+    # Always auto-adjust y-axis to histogram.
+    top_range = 1.1 * np.nanmax(hist_y)
+    bottom_range = 0
+    ax.set_ylim(bottom_range, top_range)
 
     # That should be it.
     return ax, gaussian_fit_atributes

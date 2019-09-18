@@ -134,7 +134,7 @@ class BaseConfig(object):
             elif (isinstance(file_name, str)):
                 read_config_class = yankee.read_config_file(file_name)
             else:
-                raise BrokenLogicError("Somehow config_file_name is both a neither a string or "
+                raise BrokenLogicError("Somehow config_file_name is both and a string and "
                                        "not a string.")
 
             # Ensure that the read configuration file is of the same class.

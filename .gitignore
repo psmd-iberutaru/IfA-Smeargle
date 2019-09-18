@@ -3,6 +3,7 @@
 Data/*
 *.tar.bz2
 *.fits
+*.zip
 
 # Nor do VS config files.
 *.suo

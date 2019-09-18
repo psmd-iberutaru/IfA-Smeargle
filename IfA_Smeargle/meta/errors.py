@@ -20,14 +20,6 @@ class Smeargle_Exception(Exception):
 ##############################################################################
 ##############################################################################
 
-class BrokenLogicError(Smeargle_Exception):
-    """
-    This error is encountered when the program enters in a place it should 
-    not be able to. Incorporated mostly for safety; usually not the fault of 
-    the user. 
-    """
-    pass
-
 class ConfigurationError(Smeargle_Exception):
     """
     This error is normally encountered when there are problems with 
@@ -96,6 +88,22 @@ class ModelingError(Smeargle_Exception):
 # reserved for very critical problems within the code itself (rarely should
 # the fault be the user's).
 
+class BrokenLogicError(Smeargle_BaseException):
+    """
+    This error is encountered when the program enters in a place it should 
+    not be able to. Incorporated mostly for safety; usually not the fault of 
+    the user. 
+    """
+    def __init__(self, message=None):
+        if (isinstance(message, str)):
+            self.message = ("TERMINAL: " + message
+                            + "\n >> Please contact maintainers or Sparrow to resolve this issue.")
+        else:
+            self.message = ("TERMINAL: Something is not right with the code's logic. Please "
+                            "contact maintainers or Sparrow to resolve this issue.")
+
+    pass
+
 class IncompleteError(Smeargle_BaseException):
     """
     This used when the code is trying to use a function that is incomplete or
@@ -104,7 +112,7 @@ class IncompleteError(Smeargle_BaseException):
     def __init__(self):
         self.message = ("TERMINAL: This section of the code is incomplete and likely does not "
                         "work at all. Proceeding is not allowed. Send the call stack to "
-                        "maintainers to resolve this issue.")
+                        "maintainers or Sparrow to resolve this issue.")
     def __str__(self):
         return self.message
 
@@ -116,7 +124,7 @@ class TerminalError(Smeargle_BaseException):
         if (message is None):
             self.message = "TERMINAL: A general TERMINAL error has been raised."
         elif (isinstance(message, str)):
-            self.message = ("TERMINAL:  " + message)
+            self.message = ("TERMINAL: " + message)
         else:
             raise TerminalError("The message for a TERMINAL error must be a string.")
     

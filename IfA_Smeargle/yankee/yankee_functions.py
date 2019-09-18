@@ -159,7 +159,8 @@ def extract_proper_configuration_class(configuration_class, desired_class,
                          "easily understood by this program. We cannot proceed reading it.")
 
     # Function should not get here.
-    raise BrokenLogicError("Something is broken, contact the software maintainers.")
+    raise BrokenLogicError("The configuration class extraction should have failed and raised "
+                           "an InputError.")
     return None
 
 
