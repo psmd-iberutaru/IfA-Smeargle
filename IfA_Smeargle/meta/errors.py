@@ -5,6 +5,7 @@ categories.
 """
 
 import contextlib
+import copy
 import warnings as warn
 
 # Smeargle Bases.
@@ -428,13 +429,16 @@ def smeargle_silence_info_message():
     """ This context manager silences all informational messages that may
     be printed.
     """
+    # Store previous state.
+    previous_state = copy.deepcopy(smeargle_info._silent_mode)
+
     # Trigger silent mode.
     smeargle_info._silent_mode = True
 
     yield
 
-    # Release silent mode, allowing for future messages to be implemented.
-    smeargle_info._silent_mode = False
+    # Release silent mode, return to default.
+    smeargle_info._silent_mode = copy.deepcopy(previous_state)
     return None
 
 # To enable debug messages.
@@ -443,15 +447,19 @@ def smeargle_enable_debug():
     """ This context manager turns all debug messages on for the duration of 
     the context. 
     """
+    # Store previous state.
+    block_previous_state = copy.deepcopy(smeargle_debug_block._silent_mode)
+    message_previous_state = copy.deepcopy(smeargle_debug_message._silent_mode)
+
     # Turn on debugging (releasing from silence)
     smeargle_debug_block._silent_mode = False
     smeargle_debug_message._silent_mode = False
 
     yield
     
-    # Disable by silencing. 
-    smeargle_debug_block._silent_mode = True
-    smeargle_debug_message._silent_mode = True
+    # Release to previous state.
+    smeargle_debug_block._silent_mode = copy.deepcopy(block_previous_state)
+    smeargle_debug_message._silent_mode = copy.deepcopy(message_previous_state)
 
     return None
 
@@ -462,15 +470,19 @@ def smeargle_disable_debug():
     the context. Given that debug messages are generally off in the first 
     place, usage may be rare.
     """
+    # Store previous state.
+    block_previous_state = copy.deepcopy(smeargle_debug_block._silent_mode)
+    message_previous_state = copy.deepcopy(smeargle_debug_message._silent_mode)
+
     # Disable by silencing. 
     smeargle_debug_block._silent_mode = True
     smeargle_debug_message._silent_mode = True
 
     yield
     
-    # Disable by silencing. 
-    smeargle_debug_block._silent_mode = True
-    smeargle_debug_message._silent_mode = True
+    # Release to previous state.
+    smeargle_debug_block._silent_mode = copy.deepcopy(block_previous_state)
+    smeargle_debug_message._silent_mode = copy.deepcopy(message_previous_state)
 
     return None
 
@@ -478,7 +490,7 @@ def smeargle_disable_debug():
 @contextlib.contextmanager
 def smeargle_absolute_silence():
     """This context manager silences any and all messages, it basically 
-    it is wrapper around all other general Smeargle context managers (even 
+    is a wrapper around all other general Smeargle context managers (even 
     if there is some overlap).
     """
     with smeargle_silence_ifas_warnings(), \
@@ -486,3 +498,5 @@ def smeargle_absolute_silence():
          smeargle_silence_info_message(),  \
          smeargle_disable_debug():
             yield 
+
+    return None
