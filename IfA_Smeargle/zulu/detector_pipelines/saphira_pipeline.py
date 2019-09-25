@@ -167,20 +167,11 @@ def SA201907281826_reduction_pipeline(data_directory, configuration_class):
         early_mask = echo.masks.echo170_gaussian_truncation(hdu_data[early_frame], early_sigma, 
                                                             bin_size=10,
                                                             return_mask=True)
+        bravo.avging.auto_avergae_slicing(filedex, ref_frame, sub_avg_frames,
+                                          bravo.avging.average_endpoints,
+                                          function_parameters={},
+                                          post_mask=early_mask)
 
-        # Calculating the differing averaging frames.
-        for subavedex in sub_avg_frames:
-            # Deriving an alternate name.
-            alt_name = (filedex[:-5] 
-                        + '__' + str(subavedex[0]) + '-' + str(subavedex[1]) 
-                        + '.fits')
-            # Executing averaging and writing, saving the mask.
-            hdu_to_be_written = bravo.avging.average_endpoints(filedex, ref_frame, subavedex, 
-                                                               write_file=False,
-                                                               alternate_name=alt_name)
-            temp_header = hdu_to_be_written[0].header 
-            temp_data = np_ma.array(hdu_to_be_written[0].data, mask=early_mask)
-            meta_faa.smeargle_write_fits_file(alt_name, temp_header, temp_data, silent=True)
 
     # Re-obtain file names, again.
     file_names = glob.glob(data_directory + '/*' + '.fits')

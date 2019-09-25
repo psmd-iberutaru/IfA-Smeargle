@@ -41,7 +41,7 @@ def plot_array_histogram(data_array,
         are applied instead.
     plot : boolean (optional)
         A flag to check if this plotting function should be run. A component 
-        in the mutli-plot functions. Defaults to true.
+        in the mutli-plot functions. Defaults to true. 
 
     histogram_plot_parameters : dictionary <config>
         These are options the user may use to pass customization parameters 

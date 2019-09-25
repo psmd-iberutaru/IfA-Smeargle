@@ -33,6 +33,7 @@
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="oscar_main.py" />
+    <Compile Include="voltage_plots.py" />
     <Compile Include="__init__.py" />
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)\Python Tools\Microsoft.PythonTools.targets" />

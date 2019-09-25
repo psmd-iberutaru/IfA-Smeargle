@@ -26,7 +26,7 @@ def plot_single_heatmap_and_histogram(data_array, configuration_class=None,
     data_array : ndarray or string
         This is the data array that is expected to be analyzed and have 
         histograms made. It can also be a fits file if desired. 
-    configuration_class : SmeargleConfig or OscarConfig class.
+    configuration_class : SmeargleConfig or OscarConfig class (optional)
         The configuration options for the plotting functionality.
 
     figure_subplot_parameters : dictionary <config>

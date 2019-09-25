@@ -2,6 +2,7 @@
 import astropy as ap
 import astropy.io.fits as ap_fits
 import numpy as np
+import numpy.ma as np_ma
 import warnings as warn
 
 from IfA_Smeargle.meta import *
@@ -10,6 +11,75 @@ from IfA_Smeargle.meta import *
 This module parses the data cubes, extracting the needed information from the 
 first X and last X frames, adapting them and outputting them. 
 """
+
+def auto_avergae_slicing(fits_file, reference_chunk, split_chunks, averaging_function,
+                         function_parameters={},
+                         write_file=True, post_mask=None):
+    """ This function splits the HDU file into different chunks and applies 
+    averaging functions provided to said data.
+
+    This is mostly a method of automation than a method of actual value. 
+    However, for most pipelines that split data into different chunks, it is
+    preferable that this function is used. 
+
+    Parameters
+    ----------
+    fits_file : string or Astropy HDUList file
+        This is the fits file that will be modified, or at least have its
+        values calculated from.
+    reference_chunk : array-like
+        The exact range of frames from the beginning that will be median-ed
+        and to be used as the reference chunk for all of the split chunks.
+    split_chunks : array-like
+        The list of chunk boundaries that will be processed and written as
+        different files.
+    averaging_function : function
+        The averaging function that will be applied to the data. All BRAVO
+        averaging functions are supported.
+    function_parameters : dictionary
+        Extra parameters required by the averaging function.
+    write_file : boolean (optional)
+        If true, the Astropy HDUL object is written to a fits file with the 
+        split parameter in the name.
+    post_mask : array-like
+        A mask that will be applied at the end of the automatic averaging
+        method. 
+
+    Returns
+    -------
+    nothing
+    """
+
+    # Correct the dimensionality of the split chunks. Embed single chunk 
+    # ranges or throw an error for too many indexes.
+    split_chunks = np.array(split_chunks)
+    if (len(split_chunks.shape) == 1):
+        # Assume that it is only one chunk.
+        split_chunks = np.array([split_chunks])
+    elif (len(split_chunks.shape) == 2):
+        # Assume it is fine.
+        pass
+    else:
+        raise InputError("The dimensions of the split chunks are not yield-able. They should "
+                         "an array of ranges, specifying each chunk; therefore, the number of "
+                         "dimensions shall be three.")
+
+    # Calculating the differing averaging frames.
+    for splitdex in split_chunks:
+        # Deriving an alternate name.
+        alt_name = (fits_file[:-5] 
+                    + '__' + 'slice;' + str(splitdex[0]) + '-' + str(splitdex[1]) 
+                    + fits_file[-5:])
+        # Executing averaging and writing, saving the mask.
+        hdu_to_be_written = averaging_function(fits_file, reference_chunk, splitdex, 
+                                               write_file=False,
+                                               alternate_name=alt_name,
+                                               **function_parameters)
+        temp_header = hdu_to_be_written[0].header 
+        temp_data = np_ma.array(hdu_to_be_written[0].data, mask=post_mask)
+        meta_faa.smeargle_write_fits_file(alt_name, temp_header, temp_data, silent=True)
+
+    return None
 
 
 def average_endpoints(fits_file, start_chunk, end_chunk,
@@ -63,6 +133,7 @@ def average_endpoints(fits_file, start_chunk, end_chunk,
         smeargle_warning(InputWarning,("The number of dimensions in the data array is greater "
                                        "than 3, it is assumed that the 0th axis is the temporal "
                                        "axis."))
+
 
     # Allow for swapped, but valid ranges.
     start_chunk = np.sort(start_chunk)
