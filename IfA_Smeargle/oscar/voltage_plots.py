@@ -32,8 +32,10 @@ def dark_current_over_voltage(data_directory, figure_axes=None, configuration_cl
     Returns
     -------
     final_figure : Matplotlib Figure
-            This is the final figure depicting the dark current change over time.
-
+        This is the final figure depicting the dark current change over time.
+    data_table : Pandas dataframe
+        This is a formal representation of all data of the entire data array 
+        with regards to the plot.
     """
 
     # First, figure out what type of Matplotlib axes to use.
@@ -92,10 +94,15 @@ def dark_current_over_voltage(data_directory, figure_axes=None, configuration_cl
                     configuration_class, yankee.BravoConfig)
                 voltage_pattern = configuration_class.voltpat_rename_config[voltage_pattern]
                 voltage_list = np.sort(np.unique(voltage_pattern, axis=None))
-            except Execption:
-                raise
+            except Exception:
+                raise ConfigurationError("The voltage list cannot be extracted from the "
+                                         "filenames nor the configuration class. This plot "
+                                         "cannot be done without a voltage list.")
         else:
-            raise
+            raise DataError("The voltage list cannot be extracted from filenames. There is no "
+                            "configuration file input to rely on. Ensure that the filenames are "
+                            "formatted by the BRAVO module and that the data is appropriate to "
+                            "this plotting function.")
 
     # Derive all of the metadata needed to determine which set each numbered 
     # data file belongs to, and how it corresponds with their voltage 
@@ -159,4 +166,8 @@ def dark_current_over_voltage(data_directory, figure_axes=None, configuration_cl
         ax.set_xlabel('Detector Bias Voltage (V)')
         ax.set_ylabel('Average Dark Current (ADU)')
         
-    return file_data
+    # For naming conventions per documentation.
+    final_figure = ax
+    data_table = file_data
+
+    return ax, data_table

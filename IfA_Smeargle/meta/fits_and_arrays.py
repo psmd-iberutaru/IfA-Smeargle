@@ -283,7 +283,7 @@ def smeargle_masked_array_min_max(masked_array):
     
     # Sparrow was wrong when coding the function that required this function.
     # It has scene been reduced to the logical answer and is thus depreciated. 
-    smeargle_warning(DepreciationWarning,("This function was built because of the erroneous "
+    smeargle_warning(DeprecatedWarning,("This function was built because of the erroneous "
                                           "understanding that it was difficult to get min-max "
                                           "from Numpy Masked Arrays. This function is a "
                                           "wrapper around the easy and proper method."))

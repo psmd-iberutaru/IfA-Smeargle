@@ -209,7 +209,7 @@ def voltage_pattern_rename_fits(data_directory, voltage_pattern,
     """
 
     if (rename):
-        smeargle_warning(DepreciationWarning,("The renaming method contained works as intended; "
+        smeargle_warning(DeprecatedWarning,("The renaming method contained works as intended; "
                                               "however, it is not optimal and does not play "
                                               "nice with the other naming functions."))
     

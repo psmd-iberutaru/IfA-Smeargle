@@ -178,7 +178,7 @@ class DataWarning(Smeargle_Warning):
     should be able to figure out what is the problem.
     """
 
-class DepreciationWarning(Smeargle_Warning):
+class DeprecatedWarning(Smeargle_Warning):
     """
     This warning is used when there are some functions that are used but
     have since been replaced with better functions, or where the previous 

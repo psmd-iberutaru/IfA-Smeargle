@@ -14,7 +14,7 @@ import scipy as sp
 from IfA_Smeargle.meta import *
 
 
-def numpy_masked_array(data_array,synthesized_mask,
+def numpy_masked_array(data_array, synthesized_mask,
                        masking_dictionary=None):
     """ This function makes a Numpy masked array; a nice built in class for this line.
 
@@ -69,7 +69,7 @@ def synthesize_mask_dictionary(masking_dictionary):
     return synthesized_mask
 
 
-def functioned_mask_returning(pixel_mask,masking_dictionary,filter_name,return_mask_only):
+def functioned_mask_returning(pixel_mask, masking_dictionary, filter_name, return_mask_only):
     """ This function is a single implementation for returning masks.
 
     Because it is an option for the user to return the mask itself, writing the logic for each
@@ -101,11 +101,17 @@ def functioned_mask_returning(pixel_mask,masking_dictionary,filter_name,return_m
                          "The masking routine < {msk_rou} > did not mask any pixels.".format(
                              msk_rou=filter_name))
 
+    # The object that will be returned.
     returning_object = None
 
+    # Switch between the mask itself or the dictionary of the masks as need
+    # be.
     if (return_mask_only):
         returning_object = pixel_mask
     else:
+        if (masking_dictionary == None):
+            masking_dictionary = {}
+
         masking_dictionary[filter_name] = pixel_mask
         returning_object = masking_dictionary
 

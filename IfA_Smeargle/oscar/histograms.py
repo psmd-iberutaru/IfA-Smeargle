@@ -132,8 +132,8 @@ def plot_array_histogram(data_array,
         gauss_funt, gauss_param = \
             meta_model.smeargle_fit_histogram_gaussian_function(plotting_data, bin_width)
 
-        # For better plotting resolution. The histogram, the guassian mean, 
-        # and to smoothen out the two.
+        # For better plotting resolution. The domain of the histogram, the 
+        # guassian mean, and to smoothen out the two.
         hist_domain = np.linspace(np.nanmin(hist_x) - 1, np.nanmax(hist_x) + 1, hist_x.size * 10)
         gaussian_domain = np.linspace(float(gauss_param['mean'] - 2.1*gauss_param['stddev']),
                                       float(gauss_param['mean'] + 2.1*gauss_param['stddev']),
@@ -184,8 +184,8 @@ def plot_array_histogram(data_array,
         # There is no Gaussian information to return.
         gaussian_fit_atributes = None
     else:
-        raise BrokenLogicError("The boolean fit_gaussian parameter is not boolean as it "
-                               "surpassed a T/F boolean check.")
+        raise BrokenLogicError("The boolean fit_gaussian parameter is not reducible to a "
+                               "boolean as it surpassed a T/F boolean check.")
     
     # Basic axis labels.
     ax.set_xlabel('Pixel Values')

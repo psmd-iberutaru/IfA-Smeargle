@@ -124,6 +124,10 @@ def smeargle_fit_histogram_gaussian_function(data_array, bin_width=10):
     cuthist_x = np.array(hist_x[valuecut_index])
     cuthist_y = np.array(hist_y[valuecut_index])
 
+    # Often times the largest bin is just a large collection of bad pixels. 
+    # The fit 
+
+
     # Initial guesses...
     def extract_fwhm_estimate(param_fwhm_esti_list, param_cuthist_y):
         """ This is needed to pragmatically deal with the fact that some 
