@@ -7,3 +7,6 @@ Data/*
 
 # Nor do VS config files.
 *.suo
+
+# Python bytecode files should not be checked. 
+*.pyc
