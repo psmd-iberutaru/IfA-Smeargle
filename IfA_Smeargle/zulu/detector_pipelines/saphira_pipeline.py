@@ -191,7 +191,7 @@ def SA201907281826_reduction_pipeline(data_directory, configuration_class):
         mask_dictionary['early_mask'] = early_mask
 
         # Make the final masked fits file.
-        hdu_data = echo.numpy_masked_array(raw_data, None, masking_dictionary=mask_dictionary)
+        hdu_data = echo.echo_numpy_masked_array(raw_data, None, masking_dictionary=mask_dictionary)
 
         # Write the files once more.
         meta_faa.smeargle_write_fits_file(filedex, hdu_header, hdu_data, silent=True)

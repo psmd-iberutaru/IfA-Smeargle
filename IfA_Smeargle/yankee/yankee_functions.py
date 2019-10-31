@@ -10,10 +10,9 @@ import os
 import pickle
 import warnings as warn
 
-from IfA_Smeargle.meta import *
 import IfA_Smeargle.yankee as yankee
 
-
+from IfA_Smeargle.meta import *
 
 def configuration_factory_function(desired_class, file_name=None, silent=False):
     """ A function that will always open or load the proper configuration
@@ -119,7 +118,7 @@ def extract_proper_configuration_class(configuration_class, desired_class,
     """
 
     # Test to see if it is a file name, if it is: load.
-    if (isinstance(configuration_class,str)):
+    if (isinstance(configuration_class, str)):
         configuration_class = read_config_file(configuration_class)
 
     # Test if the class is a base class, the base class has no configuration
@@ -272,13 +271,25 @@ def overwrite_configuration_class(inferior_class, superior_class):
     # by design, there is no "template" that the above method can sort through.
     try:
         inferior_zulu = extract_proper_configuration_class(inferior_class, yankee.ZuluConfig)
-        superior_zulu = extract_proper_configuration_class(superior_class, yankee.ZuluConfig)
-        inferior_class.ZuluConfig.__dict__.update({**inferior_zulu.__dict__, 
-                                                   **superior_zulu.__dict__})
+        inferior_zulu_dict = inferior_zulu.__dict__
     except AttributeError:
         # The class to be updated does not contain a ZuluConfig configuration
         # class.
-        pass
+        inferior_zulu_dict = {}
+    try:
+        superior_zulu = extract_proper_configuration_class(inferior_class, yankee.ZuluConfig)
+        superior_zulu_dict = superior_zulu.__dict__
+    except AttributeError:
+        # The class to be updated does not contain a ZuluConfig configuration
+        # class.
+        superior_zulu_dict = {}
+    try:
+        superior_zulu = extract_proper_configuration_class(superior_class, yankee.ZuluConfig)
+        inferior_class.ZuluConfig.__dict__.update({**inferior_zulu_dict, 
+                                                   **superior_zulu_dict})
+    except Exception:
+        # This may be handled later.
+        raise
 
     # All done, renaming for documentation sake. The inferior class elements 
     # were overwritten with the superior elements. 
@@ -322,11 +333,11 @@ def write_config_file(config_class, file_name,
 
     # Make sure the proper class is being sent through.
     if (not isinstance(config_class, yankee.BaseConfig)):
-        raise InputError("Provided class is not a Smeargle BaseConfig configuration class. It "
-                         "would be improper to write it as one.")
+        raise ExportingError("Provided class is not a Smeargle BaseConfig configuration class. It "
+                             "would be improper to write it as one.")
 
     # Automatically apply extension for good file hygiene.
-    if (file_name[-8:] == '.ifaspkl'):
+    if (os.path.splitext(file_name)[-1] == '.ifaspkl'):
         pass
     else:
         # It is missing the extension, add, but warn.
@@ -379,7 +390,7 @@ def read_config_file(file_name):
                          "to a file name to read the configuration file.")
     
     # Amateur checking to see the file is associated with IfA-Smeargle.
-    if (file_name[-8:] != '.ifaspkl'):
+    if (os.path.splitext(file_name)[-1] != '.ifaspkl'):
         raise InputError("Provided file name does not have the .ifaspkl extension. This may be "
                          "the wrong file.")
 

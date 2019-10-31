@@ -12,6 +12,6 @@ from IfA_Smeargle import yankee
 
 def extract_proper_configuration_class(configuration_class, desired_class,
                                        deep_copy=False):
-    raise TerminalError("Replace this function with Yankee's version.")
+    raise DeprecatedError("Replace this function with Yankee's version.")
     
     return None

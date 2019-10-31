@@ -105,6 +105,24 @@ class BrokenLogicError(Smeargle_BaseException):
 
     pass
 
+class DeprecatedError(Smeargle_BaseException):
+    """
+    This is used when the code should be using a different equivalent function.
+    This is mostly used for cases where a warning has already been issued, or
+    to clean up the core sections of the code during testing. 
+    """
+
+    def __init__(self, message=None):
+        if (isinstance(message, str)):
+            self.message = ("TERMINAL: " + message
+                            + "\n >> Please contact maintainers or Sparrow to resolve this issue "
+                            "if need be.")
+        else:
+            self.message = ("TERMINAL: This function is terminally deprecated. There exists a "
+                            "different and equivalent function. Use that function. Please "
+                            "contact maintainers or Sparrow to resolve this issue if need be.")
+    pass
+
 class IncompleteError(Smeargle_BaseException):
     """
     This used when the code is trying to use a function that is incomplete or

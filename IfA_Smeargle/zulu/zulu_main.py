@@ -10,9 +10,10 @@ The reduction of the arrays should not generally call the upper lines.
 Each line should be called within a Zulu function, allowing for the 
 consistency and ease of usage of the IfA Smeargle module. Changes should
 only be applied to the configuration classes.
-"""
+""" 
 
 import copy
+import importlib
 import inspect
 import numpy as np
 import numpy.ma as np_ma
@@ -76,6 +77,8 @@ class IfasDataArray():
             smeargle_warning(InputWarning,("The data array file is indicated to return a blank "
                                            "one. Doing so as requested."))
         else:
+            # The file name, for completeness purposes.
+            self.filename = filename
             # Read the fits file data.
             hdul_file, hdu_header, hdu_data = meta_faa.smeargle_open_fits_file(filename)
             self.fits_file = hdul_file
@@ -93,8 +96,10 @@ class IfasDataArray():
         if (configuration_class is not None):
             self._raw_configuration_class = configuration_class
         else:
+            self._raw_configuration_class = None
             smeargle_warning(InputWarning,("There is no configuration class provided for this "
-                                           "array. The attribute will be None."))
+                                           "array. The attribute will be None. The "
+                                           "SmargleConfig class will be the default."))
 
         # Though these may seem like copies, these are the intended mutable 
         # versions of the previous attributes.
@@ -114,29 +119,36 @@ class IfasDataArray():
         
 
     def _echo_functionality(self):
-        """
+        """ This allows for the usage of the ECHO line with this class.
+
         ECHO Attributes
         ---------------
+        echo###_filter_name : method
+            These are methods attached to this class that allows for the 
+            execution of a filter in an object orientated approach. See the
+            :doc:`ECHO masks <python_docstrings/IfA_Smeargle.echo.masks>`) 
+            documentation for more information.
         echo_mask : ndarray
             A boolean array that is the overall mask of this data array.
-            Supercedes, but combines nicely with, the data array masked array.
+            Does not supersedes, but combines nicely with, the data array 
+            masked array.
         echo_mask_dictionary : dictionary
             The ECHO masking dictionary that is relevant to this data array.
-        echo_synthesize_mask_dictionary : method
+        echo_echo_synthesize_mask_dictionary : method
             This method takes the masking dictionary and collapses it down 
             into a single mask and saves it to the ``echo_mask`` attribute.
         echo_apply_mask : method
             This method takes the current mask stored in ``echo_mask`` and 
             applies to the data array, storing the resulting masked array in
-            ``
-            
+            the ``data`` attribute and the mask itself in ``datamask``.
+
         """
         # Needed attributes for the ECHO class.
         self.echo_mask = None
         self.echo_mask_dictionary = {}
 
         # Allow for the usage of the general form of the ECHO line.
-        def _mask_function(**kwargs):
+        def _execute_mask_function(self, **kwargs):
             # Allow for the configuration class to be used.
             if 'configuration_class' in kwargs:
                 pass
@@ -147,57 +159,181 @@ class IfasDataArray():
             temp_mask, temp_dict = echo_execution(data_array=self.data, **kwargs)
             self.echo_mask_dictionary = {**self.echo_mask_dictionary, **temp_dict}
             return temp_mask, temp_dict
-        setattr(self, 'echo_execution', _mask_function)
+        setattr(self, 'echo_execution', _execute_mask_function)
         # Remove for its re-usage.
-        del _mask_function
+        del _execute_mask_function
+
 
         # Gathering all possible filters, given as a dictionary. For valid 
         # filters, add them as a possible function.
-        filter_list = dict(inspect.getmembers(echo.masks, inspect.isfunction))
+        echo_filters_dict = meta_prog.smeargle_avaliable_echo_filter_functions()
 
-        echo_filters = echo.echo_funct.sort_masking_dictionary(copy.deepcopy(filter_list))
-        for keydex, functiondex in filter_list.items():
-            if (not 'echo' in keydex):
-                echo_filters.pop(keydex, None)
-            else:
-                # Making the filter function rely on the data and previous 
-                # dictionary of this class.
-                def _mask_function(**kwargs):
-                    return functiondex(data_array=self.data, 
-                                       previous_mask=self.echo_mask_dictionary,
-                                       return_mask_only=False
-                                       **kwargs)
-                # Attach the masking function to the class.
-                setattr(self, keydex, _mask_function)
-                # Remove for its re-usage in the next iteration of the loop.
-                del _mask_function
+        # Attach the functions to the main data class, using the data from 
+        # this class where appropriate. Keep in mind of the late
+        # binding problem that causes all of the functions to just be copies
+        # of the last function. See https://stackoverflow.com/q/3431676.
+        for keydex, filterdex in echo_filters_dict.items():
+            def _temp_mask_function(filter_funct=filterdex, **kwargs):
+                # The masking dictionary is what shall be mutated, ensure 
+                # that there won't be a conflict with this.
+                filter_dict =  filter_funct(data_array=self.data,
+                                            previous_mask=self.echo_mask_dictionary,
+                                            return_mask=False,
+                                            **kwargs)
+                # Add the filter to the masking dictionary.
+                self.echo_mask_dictionary.update(filter_dict)
+                # All done.
+                return None
+
+            # Attach the function.
+            setattr(self, keydex, meta_prog.smeargle_deepcopy_function(_temp_mask_function))
+            # Allow for the reusing of the temp function
+            del _temp_mask_function
+
                 
         # Allow for the synthesis of the masking dictionary, a wrapper 
         # function around the original function.
-        def _update_function():
-            masked_dict = echo.synthesize_mask_dictionary(self.echo_mask_dictionary)
-            self.echo_mask = masked_dict
-            return masked_dict
-        setattr(self, 'echo_synthesize_mask_dictionary', _update_function)
-        del _update_function
+        def _synthesize_function():
+            masked_array = echo.echo_synthesize_mask_dictionary(self.echo_mask_dictionary)
+            self.echo_mask = masked_array
+            return masked_array
+        setattr(self, 'echo_synthesize_mask_dictionary', _synthesize_function)
+        del _synthesize_function
 
         # Allow for the application of the data mask using the masking 
         # dictionary that is stored in this class.
         def _update_function():
-            masked_array = echo.numpy_masked_array(data_array=self.data,
-                                                   synthesized_mask=self.echo_mask)
+            masked_array = echo.echo_numpy_masked_array(data_array=self.data,
+                                                        synthesized_mask=self.echo_mask,
+                                                        masking_dictionary=None)
             self.data = masked_array
             self.datamask = (np_ma.getmask(masked_array) 
                                   if np_ma.getmask(masked_array) is not np_ma.nomask else None)
             return masked_array
-        setattr(self, 'echo_apply_mask', _update_function)
+        setattr(self, 'echo_numpy_masked_array', _update_function)
         del _update_function
 
+        # All done.
+        return None
 
 
     def _oscar_functionality(self):
-        pass
+        """ This allows for the usage of the OSCAR line with this class.
+
+        OSCAR Attributes
+        ----------------
+        plot_ploting_function_name : method
+            This is just a simple plotting function that is wrapped and 
+            built in from the OSCAR line. 
+        """
+        
+        # Obtain all of the available plotting functions that can be used.
+        oscar_plot_dict = meta_prog.smeargle_avaliable_oscar_plotting_functions()
+
+        # Attach the plotting functions to the class. Keep in mind of the late
+        # binding problem that causes all of the functions to just be copies
+        # of the last function. See https://stackoverflow.com/q/3431676.
+        for keydex, functdex in copy.deepcopy(oscar_plot_dict).items():
+            setattr(self, keydex, meta_prog.smeargle_deepcopy_function(
+                lambda plot_funct=functdex, **kwargs: plot_funct(data_array=self.data, 
+                                                                 **kwargs)))
+
+        # All done.
+        return None
 
     def _yankee_functionality(self):
         """This allows for the usage of the YANKEE line with this class.
+
+        YANKEE Attributes
+        -----------------
+        SmeargleConfig : Configuration Class
+            This is the built in configuration class that goes along with 
+            this data class. 
+        print_configuration : method
+            This allows for the print visualization of the SmeargleConfig
+            configuration class.
+        read_configuration : method
+            Provided a configuration file name, this method reads it from 
+            the provided file. 
+        write_configuration : method
+            Provided a configuration file name, this method writes the 
+            current configuration file to the file name provided. 
+        overwrite_configuration : method
+            Provided a configuration class, all elements in the current
+            configuration class, where similar, are overwritten using the 
+            provided class. 
+        fast_forward_configuration : method
+            Fast forwards the current configuration class to the current 
+            version. 
         """
+
+        # First, test if the configuration class is an actual configuration
+        # class.
+        if (self._raw_configuration_class is None):
+            # There is no need for error, a default one will be assigned.
+            setattr(self, "SmeargleConfig", 
+                    yankee.configuration_factory_function(yankee.SmeargleConfig, None, True))
+        else:
+            # Fast forward just in case the provided configuration class is 
+            # outdated.
+            fast_forwarded_class = None
+            try:
+                fast_forwarded_class = yankee.fast_forward_configuration_class(
+                    self._raw_configuration_class)
+            except Exception:
+                # The raw configuration class may not even be a configuration
+                # class.
+                if (isinstance(self._raw_configuration_class,(yankee.SmeargleConfig,
+                                                              yankee.BaseConfig))):
+                    # Hm... Sparrow is still at a loss for why it would enter 
+                    # here.
+                    raise IncompleteError
+
+                    pass
+                elif (isinstance(self._raw_configuration_class, str)):
+                    # It may be that the user provided a file name.
+                    configuration_file_name = str(copy.deepcopy(self._raw_configuration_class))
+                    fast_forwarded_class = yankee.configuration_factory_function(
+                        yankee.SmeargleConfig, configuration_file_name, False)
+                else:
+                    # It is not a configuration class, it is best that a 
+                    # default one is assigned.
+                    smeargle_warning(ConfigurationWarning,("The initial configuration class "
+                                                            "provided is not an actual "
+                                                            "configuration class and is "
+                                                            "unworkable. A default is being "
+                                                            "provided."))
+                    fast_forwarded_class = yankee.configuration_factory_function(
+                        yankee.SmeargleConfig, None, True)
+            finally:
+                # For naming convention.
+                configuration_class = fast_forwarded_class
+                setattr(self, "SmeargleConfig", configuration_class)
+
+        # Also allow for the printing, reading, writing, and updating of 
+        # the new configuration class. These are mostly aliases.
+        def print_configuration(self):
+            """ Prints the configuration class parameters. """
+            self.SmeargleConfig.print()
+        setattr(self, "print_configuration", print_configuration)
+        def read_configuration(self, file_name):
+            """ Reads the configuration class from a configuration file. """
+            self.SmeargleConfig.read_from_file(file_name)
+        setattr(self, "read_configuration", read_configuration)
+        def write_configuration(self, file_name):
+            """ Writes the configuration class to a configuration file. """
+            self.SmeargleConfig.write_to_file(file_name)
+        setattr(self, "write_configuration", write_configuration)
+        def overwrite_configuration(self, overwriting_configuration):
+            """ Overwrite the configuration class by the provided class. """
+            self.SmeargleConfig = yankee.overwrite_configuration_class(self.SmeargleConfig,
+                                                                       overwriting_configuration)
+        setattr(self, "overwrite_configuration", overwrite_configuration)
+        def fast_forward_configuration():
+            """ Fast forward the configuration class. It is unlikely that 
+                this will be needed, but, it is here. """
+            self.SmeargleConfig = yankee.fast_forward_configuration_class(self.SmeargleConfig)
+        setattr(self, "fast_forward_configuration", fast_forward_configuration)
+
+        # All done.
+        return None

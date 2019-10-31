@@ -53,13 +53,13 @@ def echo120_subarray_mask(data_array, x_range, y_range, previous_mask={}, return
     x_range = np.array(x_range)
     y_range = np.array(y_range)
 
-    # A sub-array mask is practically the opposite of a rectangle mask. As such will be the 
-    # implementation of it.
+    # A sub-array mask is practically the opposite of a rectangle mask. As 
+    # such will be the implementation of it.
     masked_array = masks.echo381_rectangle_mask(data_array,x_range,y_range,return_mask=True)
     masked_array = np.logical_not(masked_array)
 
     # Returning the mask.
-    final_mask = echo_funct.functioned_mask_returning(masked_array,previous_mask,
+    final_mask = echo_funct.echo_functioned_mask_returning(masked_array,previous_mask,
                                                      'echo120_subarray_mask',return_mask)
     
     return final_mask
@@ -118,10 +118,10 @@ def echo170_gaussian_truncation(data_array, sigma_multiple, bin_size,
                                                    (mean + sigma_multiple * stddev),
                                                    previous_mask=temp_mask_dict)
         # Synthesize the top and bottom masks.
-        masked_array = echo_funct.synthesize_mask_dictionary(temp_mask_dict)
+        masked_array = echo_funct.echo_synthesize_mask_dictionary(temp_mask_dict)
 
     # Finally return
-    final_mask = echo_funct.functioned_mask_returning(masked_array, previous_mask,
+    final_mask = echo_funct.echo_functioned_mask_returning(masked_array, previous_mask,
                                                      'echo170_gaussian_truncation', return_mask)
 
     return final_mask

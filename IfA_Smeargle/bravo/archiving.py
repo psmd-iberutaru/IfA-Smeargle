@@ -11,7 +11,8 @@ import time
 from IfA_Smeargle.meta import *
 
 
-def duplicate_archive_data_files(data_directory, archive_extension='bztar'):
+def duplicate_archive_data_files(data_directory, archive_name=None, 
+                                 archive_extension='bztar'):
     """Creates a file archive of a copy of the data files contained within a
     directory.
     
@@ -26,9 +27,14 @@ def duplicate_archive_data_files(data_directory, archive_extension='bztar'):
     ----------
     data_directory : string
         The directory that the data is contained within.
+    archive_name : string (optional)
+        The name of the archive that is to be created. If not provided, a 
+        default is provided that contains the time-stamp of its creation.
     archive_extension : string (optional)
         The extension of the archive. Note that only some archives are 
-        supported. Default is ``bztar``.
+        supported. Default is ``bztar``. See 
+        :py:func:`shutil.get_archive_formats` for more information on 
+        available archive formats.
 
     Returns
     -------
@@ -42,8 +48,15 @@ def duplicate_archive_data_files(data_directory, archive_extension='bztar'):
                                   "but do outside Python. Disable via < copy_data=False >."))
 
     # Preserve the files just in case, work on a copy data set. Date-time 
-    # to distinguish, by format __YYYYMMDD_HHMMSS, from other BravoArchives
-    archive_name = 'IFAS_BravoArchive' + time.strftime("__%Y%m%d_%H%M%S", time.localtime())
+    # to distinguish, by format __YYYYMMDD_HHMMSS, from other BravoArchives 
+    # if an original name has not been given.
+    if (archive_name is not None):
+        pass
+    else:
+        archive_name = 'IFAS_BravoArchive' + time.strftime("__%Y%m%d_%H%M%S", time.localtime())
+    # Check for file conflicts.
+    if (os.path.isfile(archive_name)):
+        raise InputError("The archive name provided already exists. Use a different name.")
     
     # For some reason, if the archive is made in the same directory, it 
     # recursively archives itself and intended files until its way too big. 

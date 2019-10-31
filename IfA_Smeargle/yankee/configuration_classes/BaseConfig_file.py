@@ -77,6 +77,18 @@ class BaseConfig(object):
 
         return print_output
 
+    def print(self):
+        """ This is a silly wrapper function around basic printing; do not ask
+        why.
+
+        P.S. It is fun.
+
+        Parameters
+        ----------
+        nothing
+        """
+        print(self)
+
     def write_to_file(self, file_name, overwrite=False, protocol=pickle.HIGHEST_PROTOCOL):
         """ Wrapper function around configuration file writing. 
         

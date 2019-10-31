@@ -17,28 +17,29 @@ from IfA_Smeargle.meta import *
 def echo380_single_pixels(data_array, pixel_list, previous_mask={}, return_mask=False):
     """ This applies a single mask on a single pixel(s)
 
-    As the name implies, this function masks a single pixel value or a list of single pixel       
-    pairs. 
+    As the name implies, this function masks a single pixel value or a list 
+    of single pixel pairs. 
 
     Parameters
     ----------
     data_array : ndarray
         The data array that the mask will be calculated from.
     pixel_list : array-like, ndarray
-        This is a list/array of pixel pair (x,y) values. The function loops and applies the
-        mask to each pair.
+        This is a list/array of pixel pair (x,y) values. The function loops 
+        and applies the mask to each pair.
     previous_mask : dictionary (optional)
-        Any previous masks done. The new mask made in this function will be added to the 
-        dictionary. Default is to make a new mask dictionary.
+        Any previous masks done. The new mask made in this function will be 
+        added to the dictionary. Default is to make a new mask dictionary.
     return_mask : boolean (optional)
-        If this is true, then the mask itself (rather than the dictionary entry) will be 
-        returned instead.
+        If this is true, then the mask itself (rather than the dictionary 
+        entry) will be returned instead.
 
     Returns
     -------
     final_mask : ndarray -> dictionary
-        A boolean array for pixels that are masked (True) or are valid (False) will be added to 
-        the mask dictionary under the key ``echo380single_pixels``.
+        A boolean array for pixels that are masked (True) or are valid 
+        (False) will be added to the mask dictionary under the 
+        key ``echo380single_pixels``.
 
     """
 
@@ -55,7 +56,7 @@ def echo380_single_pixels(data_array, pixel_list, previous_mask={}, return_mask=
         masked_array[ypix,xpix] = True
 
 
-    final_mask = echo_funct.functioned_mask_returning(masked_array,previous_mask,
+    final_mask = echo_funct.echo_functioned_mask_returning(masked_array,previous_mask,
                                                       'echo380_single_pixels',return_mask)
 
     return final_mask
@@ -64,30 +65,34 @@ def echo380_single_pixels(data_array, pixel_list, previous_mask={}, return_mask=
 def echo381_rectangle_mask(data_array, x_ranges, y_ranges, previous_mask={}, return_mask=False):
     """ This mask function applies rectangular masks to the data array.
 
-    The rectangles defined by subsequent xy-ranges (0-indexed) are masked. Multiple overlapping
-    rectangles may be defined and masked using this function. The rectangle bounds provided are
-    also masked as the rectangle is inclusive of said bounds. 
+    The rectangles defined by subsequent xy-ranges (0-indexed) are masked. 
+    Multiple overlapping rectangles may be defined and masked using this 
+    function. The rectangle bounds provided are also masked as the rectangle 
+    is inclusive of said bounds. 
 
     Parameters
     ----------
     data_array : ndarray
         The data array that the mask will be calculated from. 
     x_ranges : list or ndarray
-        The list of 0-indexed x_ranges to be masked. Must be the same length as y_ranges.
+        The list of 0-indexed x_ranges to be masked. Must be the same length 
+        as y_ranges.
     y_ranges : list or ndarray
-        The list of 0-indexed y_ranges to be masked. Must be the same length as x_ranges.
+        The list of 0-indexed y_ranges to be masked. Must be the same length 
+        as x_ranges.
     previous_mask : dictionary (optional)
-        Any previous masks done. The new mask made in this function will be added to the 
-        dictionary. Default is to make a new mask dictionary.
+        Any previous masks done. The new mask made in this function will be 
+        added to the dictionary. Default is to make a new mask dictionary.
     return_mask : boolean (optional)
-        If this is true, then the mask itself (rather than the dictionary entry) will be 
-        returned instead.
+        If this is true, then the mask itself (rather than the dictionary 
+        entry) will be returned instead.
 
     Returns
     -------
     final_mask : ndarray -> dictionary
-        A boolean array for pixels that are masked (True) or are valid (False) will be added to 
-        the mask dictionary under the key ``echo381_rectangle_mask``.
+        A boolean array for pixels that are masked (True) or are valid 
+        (False) will be added to the mask dictionary under the 
+        key ``echo381_rectangle_mask``.
     """
 
     # Validating the input.
@@ -122,7 +127,7 @@ def echo381_rectangle_mask(data_array, x_ranges, y_ranges, previous_mask={}, ret
         masked_array[yrangedex[0]:yrangedex[-1] + 1,xrangedex[0]:xrangedex[-1] + 1] = True
 
     # And returning.
-    final_mask = echo_funct.functioned_mask_returning(masked_array,previous_mask,
+    final_mask = echo_funct.echo_functioned_mask_returning(masked_array,previous_mask,
                                                       'echo381_rectangle_mask',return_mask)
 
     return final_mask
@@ -131,8 +136,8 @@ def echo381_rectangle_mask(data_array, x_ranges, y_ranges, previous_mask={}, ret
 def echo382_column_mask(data_array, column_list, previous_mask={}, return_mask=False):
     """ This applies a column mask on the data array provided its locations.
 
-    The column mask takes a list of column numbers (0-indexed x-axis values). All pixels within
-    these columns are then masked. 
+    The column mask takes a list of column numbers (0-indexed x-axis 
+    values). All pixels within these columns are then masked. 
 
 
     Parameters
@@ -140,19 +145,21 @@ def echo382_column_mask(data_array, column_list, previous_mask={}, return_mask=F
     data_array : ndarray
         The data array that the mask will be calculated from. 
     column_list : list or ndarray
-        The list of column x-axis values that will be masked. Should be 0-indexed.
+        The list of column x-axis values that will be masked. Should be 
+        0-indexed.
     previous_mask : dictionary (optional)
-        Any previous masks done. The new mask made in this function will be added to the 
-        dictionary. Default is to make a new mask dictionary.
+        Any previous masks done. The new mask made in this function will be 
+        added to the dictionary. Default is to make a new mask dictionary.
     return_mask : boolean (optional)
-        If this is true, then the mask itself (rather than the dictionary entry) will be 
-        returned instead.
+        If this is true, then the mask itself (rather than the dictionary 
+        entry) will be returned instead.
 
     Returns
     -------
     final_mask : ndarray -> dictionary
-        A boolean array for pixels that are masked (True) or are valid (False) will be added to 
-        the mask dictionary under the key ``echo382_column_mask``.
+        A boolean array for pixels that are masked (True) or are valid 
+        (False) will be added to the mask dictionary under the 
+        key ``echo382_column_mask``.
     """
 
     # Extract a blank mask as a template.
@@ -163,7 +170,7 @@ def echo382_column_mask(data_array, column_list, previous_mask={}, return_mask=F
         masked_array[:,columndex] = True
 
     # And returning.
-    final_mask = echo_funct.functioned_mask_returning(masked_array,previous_mask,
+    final_mask = echo_funct.echo_functioned_mask_returning(masked_array,previous_mask,
                                                       'echo382_column_mask',return_mask)
 
     return final_mask
@@ -172,8 +179,8 @@ def echo382_column_mask(data_array, column_list, previous_mask={}, return_mask=F
 def echo383_row_mask(data_array, row_list, previous_mask={}, return_mask=False):
     """ This applies a row mask on the data array provided its locations.
 
-    The row mask takes a list of column numbers (0-indexed x-axis values). All pixels within
-    these rows are then masked. 
+    The row mask takes a list of column numbers (0-indexed x-axis values). 
+    All pixels within these rows are then masked. 
 
 
     Parameters
@@ -181,19 +188,21 @@ def echo383_row_mask(data_array, row_list, previous_mask={}, return_mask=False):
     data_array : ndarray
         The data array that the mask will be calculated from. 
     row_list : list or ndarray
-        The list of row y-axis values that will be masked. Should be 0-indexed.
+        The list of row y-axis values that will be masked. Should be 
+        0-indexed.
     previous_mask : dictionary (optional)
-        Any previous masks done. The new mask made in this function will be added to the 
-        dictionary. Default is to make a new mask dictionary.
+        Any previous masks done. The new mask made in this function will be 
+        added to the dictionary. Default is to make a new mask dictionary.
     return_mask : boolean (optional)
-        If this is true, then the mask itself (rather than the dictionary entry) will be 
-        returned instead.
+        If this is true, then the mask itself (rather than the dictionary 
+        entry) will be returned instead.
 
     Returns
     -------
     final_mask : ndarray -> dictionary
-        A boolean array for pixels that are masked (True) or are valid (False) will be added to 
-        the mask dictionary under the key ``echo383_row_mask``.
+        A boolean array for pixels that are masked (True) or are valid 
+        (False) will be added to the mask dictionary under the 
+        key ``echo383_row_mask``.
     """
 
     # Extract a blank mask as a template.
@@ -204,34 +213,36 @@ def echo383_row_mask(data_array, row_list, previous_mask={}, return_mask=False):
         masked_array[rowdex,:] = True
 
     # And returning.
-    final_mask = echo_funct.functioned_mask_returning(masked_array,previous_mask,
+    final_mask = echo_funct.echo_functioned_mask_returning(masked_array,previous_mask,
                                                       'echo383_row_mask',return_mask)
 
     return final_mask
 
 
 def echo398_nothing(data_array, previous_mask={}, return_mask=False):
-    """ This applies a blanket blank (all pixels are valid) mask on the data array.
+    """ This applies a blanket blank (all pixels are valid) mask on the 
+    data array.
 
-    As the name says, this applies a mask...to...well...nothing. As such, all that is 
-    returned in the mask dictionary is the blank mask.
+    As the name says, this applies a mask...to...well...nothing. As such, 
+    all that is returned in the mask dictionary is the blank mask.
 
     Parameters
     ----------
     data_array : ndarray
         The data array that the mask will be calculated from. 
     previous_mask : dictionary (optional)
-        Any previous masks done. The new mask made in this function will be added to the 
-        dictionary. Default is to make a new mask dictionary.
+        Any previous masks done. The new mask made in this function will be 
+        added to the dictionary. Default is to make a new mask dictionary.
     return_mask : boolean (optional)
-        If this is true, then the mask itself (rather than the dictionary entry) will be 
-        returned instead.
+        If this is true, then the mask itself (rather than the dictionary 
+        entry) will be returned instead.
 
     Returns
     -------
     final_mask : ndarray -> dictionary
-        A boolean array for pixels that are masked (True) or are valid (False) will be added to 
-        the mask dictionary under the key ``echo398_nothing``.
+        A boolean array for pixels that are masked (True) or are valid 
+        (False) will be added to the mask dictionary under the 
+        key ``echo398_nothing``.
     """
 
     array_shape = data_array.shape
@@ -240,40 +251,42 @@ def echo398_nothing(data_array, previous_mask={}, return_mask=False):
     # Warnings are printed when a filter returns zero masked pixels, this 
     # is actually intended for this mask, ignore the filter.
     with smeargle_silence_specific_warnings(MaskingWarning):
-        final_mask = echo_funct.functioned_mask_returning(masked_array,previous_mask,
+        final_mask = echo_funct.echo_functioned_mask_returning(masked_array,previous_mask,
                                                           'echo398_nothing',return_mask)
 
     return final_mask
 
 
 def echo399_everything(data_array, previous_mask={}, return_mask=False):
-    """ This applies a blanket blank (all pixels are invalid) mask on the data array.
+    """ This applies a blanket blank (all pixels are invalid) mask on the 
+    data array.
 
-    As the name says, this applies a mask...to...well...everything. As such, all that is 
-    returned in the mask dictionary is the full mask.
+    As the name says, this applies a mask...to...well...everything. As such, 
+    all that is returned in the mask dictionary is the full mask.
 
     Parameters
     ----------
     data_array : ndarray
         The data array that the mask will be calculated from. 
     previous_mask : dictionary (optional)
-        Any previous masks done. The new mask made in this function will be added to the 
-        dictionary. Default is to make a new mask dictionary.
+        Any previous masks done. The new mask made in this function will be 
+        added to the dictionary. Default is to make a new mask dictionary.
     return_mask : boolean (optional)
-        If this is true, then the mask itself (rather than the dictionary entry) will be 
-        returned instead.
+        If this is true, then the mask itself (rather than the dictionary 
+        entry) will be returned instead.
 
     Returns
     -------
     final_mask : ndarray -> dictionary
-        A boolean array for pixels that are masked (True) or are valid (False) will be added to 
-        the mask dictionary under the key ``echo399_everything``.
+        A boolean array for pixels that are masked (True) or are valid 
+        (False) will be added to the mask dictionary under the 
+        key ``echo399_everything``.
     """
 
     array_shape = data_array.shape
     masked_array = np.full(array_shape, True)
 
-    final_mask = echo_funct.functioned_mask_returning(masked_array,previous_mask,
+    final_mask = echo_funct.echo_functioned_mask_returning(masked_array,previous_mask,
                                                       'echo399_everything',return_mask)
 
     return final_mask

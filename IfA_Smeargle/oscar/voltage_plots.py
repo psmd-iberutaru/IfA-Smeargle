@@ -6,10 +6,12 @@ import numpy.ma as np_ma
 import pandas as pd
 
 from IfA_Smeargle import bravo
-from IfA_Smeargle.meta import *
 from IfA_Smeargle import yankee
 
-def dark_current_over_voltage(data_directory, figure_axes=None, configuration_class=None):
+from IfA_Smeargle.meta import *
+
+def plotdir_dark_current_over_voltage(data_directory, figure_axes=None, configuration_class=None,
+                                   **kwargs):
     """ This function plots the dark current as a function of voltage over
     all frames within a file directory.
 
@@ -27,8 +29,7 @@ def dark_current_over_voltage(data_directory, figure_axes=None, configuration_cl
         using the currently defined axes. This is not deep-copied!
     configuration_class : SmeargleConfig or OscarConfig class (optional)
         The configuration class that would assist in better plotting
-        accuracy. 
-
+        accuracy.
     Returns
     -------
     final_figure : Matplotlib Figure
@@ -44,8 +45,13 @@ def dark_current_over_voltage(data_directory, figure_axes=None, configuration_cl
     else:
         ax = plt.gca()
 
-    # Load all of the fits files specified.
-    file_names = glob.glob(data_directory + '/*' + '.fits')
+    # Load all of the fits files specified. Ensure that it is known that only
+    # data directories are accepted.
+    if (not isinstance(data_directory, str)):
+        raise InputError("This plotting function requires the usage of a data directory path. "
+                         "What has been provided is not a string path. ")
+    else:
+        file_names = glob.glob(data_directory + '/*' + '.fits')
 
     # Convert to the dictionary descriptions
     file_dictionaries = []

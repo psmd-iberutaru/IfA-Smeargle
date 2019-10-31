@@ -16,27 +16,30 @@ from IfA_Smeargle.meta import *
 
 
 def echo010_fixing_invalids(data_array, previous_mask={}, return_mask=False):
-    """ This filter applies a mask to all numerically invalid inputs on a programing side.
+    """ This filter applies a mask to all numerically invalid inputs on a 
+    programing side.
 
-    Numbers that are usually infinite or some other nonsensical quantity serve no real usage in
-    calculations further downstream. Therefore, they are masked here.
+    Numbers that are usually infinite or some other nonsensical quantity 
+    serve no real usage in calculations further downstream. Therefore, they 
+    are masked here.
 
     Parameters
     ----------
     data_array : ndarray
         The data array that the mask will be calculated from.
     previous_mask : dictionary (optional)
-        Any previous masks done. The new mask made in this function will be added to the 
-        dictionary. Default is to make a new mask dictionary.
+        Any previous masks done. The new mask made in this function will be 
+        added to the dictionary. Default is to make a new mask dictionary.
     return_mask : boolean (optional)
-        If this is true, then the mask itself (rather than the dictionary entry) will be 
-        returned instead.
+        If this is true, then the mask itself (rather than the dictionary 
+        entry) will be returned instead.
 
     Returns
     -------
     final_mask : ndarray -> dictionary
-        A boolean array for pixels that are masked (True) or are valid (False) will be added to 
-        the mask dictionary under the key ``echo010_fixing_invalids``.
+        A boolean array for pixels that are masked (True) or are valid 
+        (False) will be added to the mask dictionary under the 
+        key ``echo010_fixing_invalids``.
 
     """
 
@@ -44,7 +47,7 @@ def echo010_fixing_invalids(data_array, previous_mask={}, return_mask=False):
 
     masked_array = np_ma.fix_invalid(data_array)
 
-    final_mask = echo_funct.functioned_mask_returning(masked_array,previous_mask,
+    final_mask = echo_funct.echo_functioned_mask_returning(masked_array,previous_mask,
                                                      'echo010_fixing_invalids',return_mask)
 
     return final_mask

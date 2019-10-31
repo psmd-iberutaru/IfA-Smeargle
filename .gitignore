@@ -9,4 +9,4 @@ Data/*
 *.suo
 
 # Python bytecode files should not be checked. 
-*.pyc
+*.py[cod]

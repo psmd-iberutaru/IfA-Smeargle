@@ -12,13 +12,13 @@ import pickle
 
 from IfA_Smeargle.meta import *
 
-from IfA_Smeargle.yankee import configuration_classes as conclass
+from IfA_Smeargle.yankee import configuration_classes as configclass
 
 # Pulling deeper functions into the light.
 from IfA_Smeargle.yankee.yankee_functions import *
 
 
-class SmeargleConfig(conclass.BaseConfig):
+class SmeargleConfig(configclass.BaseConfig):
     """ Configuration class of the entire Smeargle pipeline and other 
     properties.
     
@@ -57,13 +57,13 @@ class SmeargleConfig(conclass.BaseConfig):
                                                    "function. A blank configuration class has "
                                                    "been provided instead."))
 
-            self.BravoConfig = conclass.BravoConfig()
-            self.EchoConfig = conclass.EchoConfig()
-            self.OscarConfig = conclass.OscarConfig()
-            self.YankeeConfig = conclass.YankeeConfig()
-            self.ZuluConfig = conclass.ZuluConfig()
+            self.BravoConfig = configclass.BravoConfig()
+            self.EchoConfig = configclass.EchoConfig()
+            self.OscarConfig = configclass.OscarConfig()
+            self.YankeeConfig = configclass.YankeeConfig()
+            self.ZuluConfig = configclass.ZuluConfig()
 
-            self.BaseConfig = conclass.BaseConfig()
+            self.BaseConfig = configclass.BaseConfig()
 
 
 

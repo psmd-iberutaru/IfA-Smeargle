@@ -14,27 +14,30 @@ import scipy as sp
 from IfA_Smeargle.meta import *
 
 
-def numpy_masked_array(data_array, synthesized_mask,
-                       masking_dictionary=None):
-    """ This function makes a Numpy masked array; a nice built in class for this line.
+def echo_numpy_masked_array(data_array, synthesized_mask,
+                            masking_dictionary=None):
+    """ This function makes a Numpy masked array; a nice built in class for 
+    this line.
 
-    The Numpy Masked Array class works very well with masking data values in a given array.
-    It is only natural to use such functionality. This is really a wrapper function for ease of
-    usage with familiarity of Smeargle's structures.
+    The Numpy Masked Array class works very well with masking data values in 
+    a given array. It is only natural to use such functionality. This is 
+    really a wrapper function for ease of usage with familiarity of 
+    IfA-Smeargle's structures.
 
     Parameters
     ----------
     data_array : ndarray
         The data that is to have its mask made.
     synthesized_mask : ndarray
-        The mask that should be applied to the data, it is expected that this is post-synthesis.
+        The mask that should be applied to the data, it is expected that 
+        this is post-synthesis.
     masking_dictionary : dictionary (optional)
-        The masking dictionary pre-synthesis. If it is not None, ``synthesized_mask`` is 
-        completely ignored in favor of this parameter.
+        The masking dictionary pre-synthesis. If it is not None, 
+        ``synthesized_mask`` is completely ignored in favor of this parameter.
     """
 
     if (masking_dictionary is not None):
-        synthesized_mask = synthesize_mask_dictionary(masking_dictionary)
+        synthesized_mask = echo_synthesize_mask_dictionary(masking_dictionary)
 
     # Making the masked array.
     np_masked_data = np_ma.array(data_array, mask=synthesized_mask)
@@ -42,15 +45,17 @@ def numpy_masked_array(data_array, synthesized_mask,
     return np_masked_data
 
 
-def synthesize_mask_dictionary(masking_dictionary):
-    """ This function takes a masking dictionary and returns it with a final overall mask.
+def echo_synthesize_mask_dictionary(masking_dictionary):
+    """ This function takes a masking dictionary and returns it with a 
+    final overall mask.
 
-    The masking dictionary is made solely because it is helpful to preserve the information as 
-    to which mask applied to which pixel. However, in actual visualization, it is not really
-    needed. 
+    The masking dictionary is made solely because it is helpful to preserve 
+    the information as to which mask applied to which pixel. However, in 
+    actual visualization, it is not really needed. 
     
-    This function makes a deep copy of the input to ensure it is not damaged. The final 
-    synthesized mask does not have information about each individual mask.
+    This function makes a deep copy of the input to ensure it is not 
+    damaged. The final synthesized mask does not have information about 
+    each individual mask.
 
     Parameters
     ----------
@@ -69,11 +74,11 @@ def synthesize_mask_dictionary(masking_dictionary):
     return synthesized_mask
 
 
-def functioned_mask_returning(pixel_mask, masking_dictionary, filter_name, return_mask_only):
+def echo_functioned_mask_returning(pixel_mask, masking_dictionary, filter_name, return_mask_only):
     """ This function is a single implementation for returning masks.
 
-    Because it is an option for the user to return the mask itself, writing the logic for each
-    of the masks will get really old.
+    Because it is an option for the user to return the mask itself, writing 
+    the logic for each of the masks will get really old.
 
     Parameters
     ----------
@@ -82,16 +87,17 @@ def functioned_mask_returning(pixel_mask, masking_dictionary, filter_name, retur
     masking_dictionary : dictionary
         This is the mask dictionary provided by the user (or blank by default)
     filter_name : string
-        This is the name of the filter that is being applied; should be same as the dictionary
-        entry for this filter.
+        This is the name of the filter that is being applied; should be same 
+        as the dictionary entry for this filter.
     return_mask_only : boolean
-        The decision on if or if not the mask or the dictionary should be returned.
+        The decision on if or if not the mask or the dictionary should be 
+        returned.
 
     Returns
     -------
     returning_object : ndarray or dictionary
-        The object that is to be returned. It is either the mask or the dictionary based on 
-        the boolean value.
+        The object that is to be returned. It is either the mask or the 
+        dictionary based on the boolean value.
     
     """
 
@@ -118,11 +124,11 @@ def functioned_mask_returning(pixel_mask, masking_dictionary, filter_name, retur
     return returning_object
 
 
-def sort_masking_dictionary(mask_dictionary):
+def echo_sort_masking_dictionary(mask_dictionary):
     """ This function just sorts a dictionary by its key.
     
-    As the masking dictionary is expected to be in order by its keys, this is sort of needed. 
-    It is not too efficient, and it can be disabled. 
+    As the masking dictionary is expected to be in order by its keys, this 
+    is sort of needed. It is not too efficient, and it can be disabled. 
 
     Parameters
     ----------

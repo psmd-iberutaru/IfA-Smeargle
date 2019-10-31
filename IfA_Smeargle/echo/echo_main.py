@@ -76,8 +76,8 @@ def echo_execution(data_array, configuration_class,
     
     # This sorting method should suffice; these dictionaries must be 
     # parallel for the below method to work.
-    echo_filters = echo_funct.sort_masking_dictionary(echo_filters)
-    config_param = echo_funct.sort_masking_dictionary(config_param)
+    echo_filters = echo_funct.echo_sort_masking_dictionary(echo_filters)
+    config_param = echo_funct.echo_sort_masking_dictionary(config_param)
 
     # Loop and always add to the masking dictionary.
     masking_dict = {}
@@ -115,7 +115,7 @@ def echo_execution(data_array, configuration_class,
             continue
 
     # Making the masked array.
-    masked_array = echo_funct.numpy_masked_array(data_array,synthesized_mask=None,
+    masked_array = echo_funct.echo_numpy_masked_array(data_array,synthesized_mask=None,
                                                  masking_dictionary=masking_dict)
 
     # And, return

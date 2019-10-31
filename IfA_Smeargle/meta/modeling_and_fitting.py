@@ -167,8 +167,8 @@ def smeargle_fit_histogram_gaussian_function(data_array, bin_width=10):
             try:
                 fwhm_esti = extract_fwhm_estimate(fwhm_esti_list, cuthist_y)
             except ValueError:
-                # Inform the user of the failure of peak-finding. Prevent an Unbound error by
-                # assigning a dummy value.
+                # Inform the user of the failure of peak-finding. Prevent 
+                # an Unbound error by assigning a dummy value.
                 fwhm_esti = 0
                 raise DataError("It seems that there is no peak in the data, suggesting a very "
                                 "flat profile. The Gaussian fit cannot be applied.")
