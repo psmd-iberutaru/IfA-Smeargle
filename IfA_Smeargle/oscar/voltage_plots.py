@@ -96,7 +96,7 @@ def plotdir_dark_current_over_voltage(data_directory, figure_axes=None, configur
         # Try instead with the configuration class.
         if (configuration_class is not None):
             try:
-                configuration_class = yankee.extract_proper_configuration_class(
+                configuration_class = yankee.yankee_extract_proper_configuration_class(
                     configuration_class, yankee.BravoConfig)
                 voltage_pattern = configuration_class.voltpat_rename_config[voltage_pattern]
                 voltage_list = np.sort(np.unique(voltage_pattern, axis=None))

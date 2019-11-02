@@ -14,7 +14,7 @@ import IfA_Smeargle.yankee as yankee
 
 from IfA_Smeargle.meta import *
 
-def configuration_factory_function(desired_class, file_name=None, silent=False):
+def yankee_configuration_factory_function(desired_class, file_name=None, silent=False):
     """ A function that will always open or load the proper configuration
     class.
 
@@ -26,7 +26,7 @@ def configuration_factory_function(desired_class, file_name=None, silent=False):
 
     Parameters
     ----------
-    desired_class : Configuration class
+    desired_class : Configuration class type
         The desired configuration class type that should be extracted from the 
         file.
     file_name : string (optional)
@@ -43,7 +43,7 @@ def configuration_factory_function(desired_class, file_name=None, silent=False):
     # Check if the user didn't want any warnings or info messages.
     if (silent):
         with smeargle_absolute_silence():
-            return configuration_factory_function(desired_class, file_name=file_name)
+            return yankee_configuration_factory_function(desired_class, file_name=file_name)
 
     # Check that the desired class is actually a valid configuration class.
     if (not issubclass(desired_class,yankee.BaseConfig)):
@@ -67,7 +67,7 @@ def configuration_factory_function(desired_class, file_name=None, silent=False):
         # It may or may not be a class?
         if (os.path.isfile(file_name)):
             try:
-                config_class = read_config_file(file_name)
+                config_class = yankee_read_config_file(file_name)
             except Exception:
                 # It did not seem to work.
                 smeargle_warning(InputWarning, ("The file could not be read "
@@ -92,8 +92,8 @@ def configuration_factory_function(desired_class, file_name=None, silent=False):
     return config_class
 
 
-def extract_proper_configuration_class(configuration_class, desired_class,
-                                       deep_copy=False):
+def yankee_extract_proper_configuration_class(configuration_class, desired_class,
+                                              deep_copy=False):
     """ This function extracts the proper configuration class from a 
     collection of configuration classes.
     
@@ -106,7 +106,7 @@ def extract_proper_configuration_class(configuration_class, desired_class,
     configuration_class : Any BaseConfig based class or string
         The main configuration class that should contain the desired class. 
         It may also be a file name.
-    desired_class : Any BaseConfig based class execpt for BaseConfig
+    desired_class : Any BaseConfig based class except for BaseConfig type
         The desired class.
     deep_copy : boolean (optional)
         If a deep copy of the class is desired, then set to True.
@@ -119,7 +119,7 @@ def extract_proper_configuration_class(configuration_class, desired_class,
 
     # Test to see if it is a file name, if it is: load.
     if (isinstance(configuration_class, str)):
-        configuration_class = read_config_file(configuration_class)
+        configuration_class = yankee_read_config_file(configuration_class)
 
     # Test if the class is a base class, the base class has no configuration
     # value.
@@ -129,7 +129,7 @@ def extract_proper_configuration_class(configuration_class, desired_class,
                                  "it is suggested that it is changed.")
     # Test if useless to proceed because it is already finished.
     elif (type(configuration_class) == desired_class):
-        # If the user really wants a deepcopy.
+        # If the user really wants a deep copy.
         if (deep_copy):
             extracted_class = copy.deepcopy(configuration_class)
         else:
@@ -159,11 +159,11 @@ def extract_proper_configuration_class(configuration_class, desired_class,
 
     # Function should not get here.
     raise BrokenLogicError("The configuration class extraction should have failed and raised "
-                           "an InputError.")
+                           "an InputError. It is unknown why this is not the case. ")
     return None
 
 
-def fast_forward_configuration_class(configuration_class):
+def yankee_fast_forward_configuration_class(configuration_class):
     """This functions updates the configuration class to the most compatible
     version.
 
@@ -197,14 +197,14 @@ def fast_forward_configuration_class(configuration_class):
 
     # Update the old class with the new class, overwriting defaults with the
     # provided class.
-    updated_configuration_class = overwrite_configuration_class(default_class,
+    updated_configuration_class = yankee_overwrite_configuration_class(default_class,
                                                                 configuration_class)
 
     # Finished and return
     return updated_configuration_class
 
 
-def overwrite_configuration_class(inferior_class, superior_class):
+def yankee_overwrite_configuration_class(inferior_class, superior_class):
     """ This function combines two configuration classes by overwriting some 
     parts with a more recent class.
     
@@ -227,6 +227,12 @@ def overwrite_configuration_class(inferior_class, superior_class):
         The configuration class that should be the correct combination of 
         both classes.
     """
+    # Dictionaries are easier to use, as are copies.
+    inferior_class = copy.copy(inferior_class)
+    superior_class = copy.copy(superior_class)
+    superior_class_dict = superior_class.__dict__
+    inferior_class_dict = inferior_class.__dict__
+
     # Both classes should be YANKEE configuration classes, if not, then this
     # function doesn't make sense. 
     if (not isinstance(inferior_class, yankee.BaseConfig)):
@@ -242,10 +248,6 @@ def overwrite_configuration_class(inferior_class, superior_class):
         raise TypeError("Both the inferior and superior class must have the same type. If one "
                          "is embedded in another, please extract them before combining.")
 
-    # Dictionaries are easier to use.
-    superior_class_dict = superior_class.__dict__
-    inferior_class_dict = inferior_class.__dict__
-
     # Cycle through all of the parameters in the class; replace inferior
     # class defaults with superior entries. 
     for inferior_keydex in inferior_class_dict.keys():
@@ -256,7 +258,7 @@ def overwrite_configuration_class(inferior_class, superior_class):
             if (isinstance(superior_class_dict[inferior_keydex], yankee.BaseConfig)):
                 # Iterate deeper, the deep copy may not be needed.
                 replacing_value = copy.deepcopy(
-                    overwrite_configuration_class(inferior_class_dict[inferior_keydex],
+                    yankee_overwrite_configuration_class(inferior_class_dict[inferior_keydex],
                                                   superior_class_dict[inferior_keydex]))
                 inferior_class_dict.update({inferior_keydex:replacing_value})
             else:
@@ -270,26 +272,25 @@ def overwrite_configuration_class(inferior_class, superior_class):
     # The ZULU configuration class must be handled a bit differently because
     # by design, there is no "template" that the above method can sort through.
     try:
-        inferior_zulu = extract_proper_configuration_class(inferior_class, yankee.ZuluConfig)
+        inferior_zulu = yankee_extract_proper_configuration_class(inferior_class, yankee.ZuluConfig)
         inferior_zulu_dict = inferior_zulu.__dict__
     except AttributeError:
         # The class to be updated does not contain a ZuluConfig configuration
         # class.
         inferior_zulu_dict = {}
     try:
-        superior_zulu = extract_proper_configuration_class(inferior_class, yankee.ZuluConfig)
+        superior_zulu = yankee_extract_proper_configuration_class(superior_class, yankee.ZuluConfig)
         superior_zulu_dict = superior_zulu.__dict__
     except AttributeError:
         # The class to be updated does not contain a ZuluConfig configuration
         # class.
         superior_zulu_dict = {}
     try:
-        superior_zulu = extract_proper_configuration_class(superior_class, yankee.ZuluConfig)
-        inferior_class.ZuluConfig.__dict__.update({**inferior_zulu_dict, 
-                                                   **superior_zulu_dict})
-    except Exception:
-        # This may be handled later.
-        raise
+        inferior_class.ZuluConfig.__dict__.update({**inferior_zulu_dict, **superior_zulu_dict})
+    except AttributeError:
+        # The to be final class still does not have a ZuluConfig. So, add one.
+        setattr(inferior_class, 'ZuluConfig', yankee.ZuluConfig())
+        inferior_class.ZuluConfig.__dict__.update({**inferior_zulu_dict, **superior_zulu_dict})
 
     # All done, renaming for documentation sake. The inferior class elements 
     # were overwritten with the superior elements. 
@@ -298,8 +299,8 @@ def overwrite_configuration_class(inferior_class, superior_class):
 
 
 # Loading/unloading functions.
-def write_config_file(config_class, file_name, 
-                      overwrite=False, protocol=pickle.HIGHEST_PROTOCOL):
+def yankee_write_config_file(config_class, file_name, 
+                             overwrite=False, protocol=pickle.HIGHEST_PROTOCOL):
     """ Function to write a specific configuration class to a normal file.
 
     As the entire module more or less depends on configuration classes. It 
@@ -363,7 +364,7 @@ def write_config_file(config_class, file_name,
         pickle.dump(config_class, config_file, protocol)
 
 
-def read_config_file(file_name):
+def yankee_read_config_file(file_name):
     """ Function to read a specific configuration class from a normal file.
 
     As the entire module more or less depends on configuration classes. It is 

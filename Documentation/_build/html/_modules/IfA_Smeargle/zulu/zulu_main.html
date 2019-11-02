@@ -1,0 +1,700 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>IfA_Smeargle.zulu.zulu_main &mdash; IfA-Smeargle 2019-08-19 documentation</title>
+  
+
+  
+  
+  
+  
+
+  
+  <script type="text/javascript" src="../../../_static/js/modernizr.min.js"></script>
+  
+    
+      <script type="text/javascript" id="documentation_options" data-url_root="../../../" src="../../../_static/documentation_options.js"></script>
+        <script type="text/javascript" src="../../../_static/jquery.js"></script>
+        <script type="text/javascript" src="../../../_static/underscore.js"></script>
+        <script type="text/javascript" src="../../../_static/doctools.js"></script>
+        <script type="text/javascript" src="../../../_static/language_data.js"></script>
+    
+    <script type="text/javascript" src="../../../_static/js/theme.js"></script>
+
+    
+
+  
+  <link rel="stylesheet" href="../../../_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
+  <link rel="stylesheet" href="../../../_static/css/custom.css" type="text/css" />
+    <link rel="index" title="Index" href="../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../search.html" />
+    <link href="../../../_static/css/ifa_smeargle.css" rel="stylesheet" type="text/css">
+
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+          
+
+          
+            <a href="../../../index.html" class="icon icon-home"> IfA-Smeargle
+          
+
+          
+          </a>
+
+          
+            
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <p class="caption"><span class="caption-text">Usage and Operation:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../quickstart.html">Quickstart</a></li>
+</ul>
+<p class="caption"><span class="caption-text">Code Documentation:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../python_docstrings/modules.html">IfA_Smeargle</a></li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../../index.html">IfA-Smeargle</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="../../../index.html">Docs</a> &raquo;</li>
+        
+          <li><a href="../../index.html">Module code</a> &raquo;</li>
+        
+      <li>IfA_Smeargle.zulu.zulu_main</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <h1>Source code for IfA_Smeargle.zulu.zulu_main</h1><div class="highlight"><pre>
+<span></span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">The ZULU line is the final cumulation of all other lines, in a way, it is</span>
+<span class="sd">the script that dictates how the data should be manipulated. Each array</span>
+<span class="sd">type has its own functional line, while each subset of these arrays should</span>
+<span class="sd">contain their own configuration file (from Yankee). </span>
+
+<span class="sd">Each functional line is contained within their own file.</span>
+
+<span class="sd">The reduction of the arrays should not generally call the upper lines. </span>
+<span class="sd">Each line should be called within a Zulu function, allowing for the </span>
+<span class="sd">consistency and ease of usage of the IfA Smeargle module. Changes should</span>
+<span class="sd">only be applied to the configuration classes.</span>
+<span class="sd">&quot;&quot;&quot;</span> 
+
+<span class="kn">import</span> <span class="nn">copy</span>
+<span class="kn">import</span> <span class="nn">importlib</span>
+<span class="kn">import</span> <span class="nn">inspect</span>
+<span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+<span class="kn">import</span> <span class="nn">numpy.ma</span> <span class="k">as</span> <span class="nn">np_ma</span>
+<span class="kn">import</span> <span class="nn">types</span>
+
+<span class="kn">from</span> <span class="nn">IfA_Smeargle</span> <span class="k">import</span> <span class="n">bravo</span>
+<span class="kn">from</span> <span class="nn">IfA_Smeargle</span> <span class="k">import</span> <span class="n">echo</span>
+<span class="kn">from</span> <span class="nn">IfA_Smeargle</span> <span class="k">import</span> <span class="n">oscar</span>
+<span class="kn">from</span> <span class="nn">IfA_Smeargle</span> <span class="k">import</span> <span class="n">yankee</span>
+
+<span class="kn">from</span> <span class="nn">IfA_Smeargle.meta</span> <span class="k">import</span> <span class="o">*</span>
+
+<div class="viewcode-block" id="IfasDataArray"><a class="viewcode-back" href="../../../python_docstrings/IfA_Smeargle.zulu.zulu_main.html#IfA_Smeargle.zulu.zulu_main.IfasDataArray">[docs]</a><span class="k">class</span> <span class="nc">IfasDataArray</span><span class="p">():</span>
+    <span class="sd">&quot;&quot;&quot; This data frame class is a wrapper object around a data array image.</span>
+<span class="sd">    For the directory version of this class, see </span>
+<span class="sd">    :class:`IfasDirectoryDataArray`.</span>
+
+<span class="sd">    The purpose of this class is to make easier the development of pipelines </span>
+<span class="sd">    and the general flow of the manipulations of data arrays. However, because</span>
+<span class="sd">    this is a wrapper function, not all functionality is guaranteed. For </span>
+<span class="sd">    more basic and known reductions, pipelines are still preferred (see </span>
+<span class="sd">    :doc:`ZULU pipelines &lt;IfA_Smeargle.zulu.detector_pipelines&gt;`)</span>
+<span class="sd">    </span>
+<span class="sd">    New pipelines, however, should always be developed using this object</span>
+<span class="sd">    oriented approach. </span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">filename</span><span class="p">,</span> <span class="n">configuration_class</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+                <span class="n">blank</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot; This initializes a data array by reading a fits file from storage.</span>
+<span class="sd">        </span>
+<span class="sd">        A fits file is required, it is expected to conform to the IFAS naming</span>
+<span class="sd">        conventions imposed upon by the </span>
+<span class="sd">        :doc:`BRAVO module &lt;python_docstrings/IfA_Smeargle.bravo&gt;`)</span>
+<span class="sd">        system. </span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        filename : string</span>
+<span class="sd">            The name of the fits file that is to be read.</span>
+<span class="sd">        configruation_class : SmeargleConfig class (optional)</span>
+<span class="sd">            The appropriate configuration class that is tied to this data </span>
+<span class="sd">            array.</span>
+<span class="sd">        blank : boolean (optional)</span>
+<span class="sd">            If a completely blank class is instead desired. Please note no </span>
+<span class="sd">            function (except for i/o functions) will likely work.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        
+        <span class="c1"># The documentation should reflect the subfunctions.</span>
+        <span class="bp">self</span><span class="o">.</span><span class="vm">__doc__</span> <span class="o">=</span> <span class="s2">&quot;</span><span class="se">\n</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">join</span><span class="p">([</span><span class="bp">self</span><span class="o">.</span><span class="vm">__doc__</span><span class="p">,</span> 
+                                 <span class="bp">self</span><span class="o">.</span><span class="n">_echo_functionality</span><span class="o">.</span><span class="vm">__doc__</span><span class="p">,</span>
+                                 <span class="bp">self</span><span class="o">.</span><span class="n">_oscar_functionality</span><span class="o">.</span><span class="vm">__doc__</span><span class="p">,</span>
+                                 <span class="bp">self</span><span class="o">.</span><span class="n">_yankee_functionality</span><span class="o">.</span><span class="vm">__doc__</span><span class="p">])</span>
+
+        <span class="c1"># Extract the data from the fits file, unless they wanted it blank.</span>
+        <span class="k">if</span> <span class="p">(</span><span class="n">blank</span><span class="p">):</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">fits_file</span> <span class="o">=</span> <span class="kc">None</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">fits_header</span> <span class="o">=</span> <span class="kc">None</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">fits_data</span> <span class="o">=</span> <span class="kc">None</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">fits_rawdata</span> <span class="o">=</span> <span class="kc">None</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">fits_datamask</span> <span class="o">=</span> <span class="kc">None</span>
+            <span class="n">smeargle_warning</span><span class="p">(</span><span class="n">InputWarning</span><span class="p">,(</span><span class="s2">&quot;The data array file is indicated to return a blank &quot;</span>
+                                           <span class="s2">&quot;one. Doing so as requested.&quot;</span><span class="p">))</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="c1"># The file name, for completeness purposes.</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">filename</span> <span class="o">=</span> <span class="n">filename</span>
+            <span class="c1"># Read the fits file data.</span>
+            <span class="n">hdul_file</span><span class="p">,</span> <span class="n">hdu_header</span><span class="p">,</span> <span class="n">hdu_data</span> <span class="o">=</span> <span class="n">meta_faa</span><span class="o">.</span><span class="n">smeargle_open_fits_file</span><span class="p">(</span><span class="n">filename</span><span class="p">)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">fits_file</span> <span class="o">=</span> <span class="n">hdul_file</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">fits_header</span> <span class="o">=</span> <span class="n">hdu_header</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">fits_data</span> <span class="o">=</span> <span class="n">hdu_data</span>
+
+            <span class="c1"># Extract the mask and separate it from the data to hold the </span>
+            <span class="c1"># raw data values. Ternary operator for the change in </span>
+            <span class="c1"># representation of a mask.</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">fits_rawdata</span> <span class="o">=</span> <span class="n">np_ma</span><span class="o">.</span><span class="n">getdata</span><span class="p">(</span><span class="n">hdu_data</span><span class="p">)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">fits_datamask</span> <span class="o">=</span> <span class="p">(</span><span class="n">np_ma</span><span class="o">.</span><span class="n">getmask</span><span class="p">(</span><span class="n">hdu_data</span><span class="p">)</span> 
+                                  <span class="k">if</span> <span class="n">np_ma</span><span class="o">.</span><span class="n">getmask</span><span class="p">(</span><span class="n">hdu_data</span><span class="p">)</span> <span class="ow">is</span> <span class="ow">not</span> <span class="n">np_ma</span><span class="o">.</span><span class="n">nomask</span> <span class="k">else</span> <span class="kc">None</span><span class="p">)</span>
+
+        <span class="c1"># Hold the configuration class also.</span>
+        <span class="k">if</span> <span class="p">(</span><span class="n">configuration_class</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">):</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_raw_configuration_class</span> <span class="o">=</span> <span class="n">configuration_class</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_raw_configuration_class</span> <span class="o">=</span> <span class="kc">None</span>
+            <span class="n">smeargle_warning</span><span class="p">(</span><span class="n">InputWarning</span><span class="p">,(</span><span class="s2">&quot;There is no configuration class provided for this &quot;</span>
+                                           <span class="s2">&quot;array. The attribute will be None. The &quot;</span>
+                                           <span class="s2">&quot;SmargleConfig class will be the default.&quot;</span><span class="p">))</span>
+
+        <span class="c1"># Though these may seem like copies, these are the intended mutable </span>
+        <span class="c1"># versions of the previous attributes.</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">data</span> <span class="o">=</span> <span class="n">copy</span><span class="o">.</span><span class="n">deepcopy</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">fits_data</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">rawdata</span> <span class="o">=</span> <span class="n">copy</span><span class="o">.</span><span class="n">deepcopy</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">fits_rawdata</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">datamask</span> <span class="o">=</span> <span class="n">copy</span><span class="o">.</span><span class="n">deepcopy</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">fits_datamask</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">config</span> <span class="o">=</span> <span class="n">copy</span><span class="o">.</span><span class="n">deepcopy</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_raw_configuration_class</span><span class="p">)</span>
+
+        <span class="c1"># Meta data to test if this is a proper blank fits file.</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_proper_blank</span> <span class="o">=</span> <span class="n">blank</span>
+
+        <span class="c1"># This adds the functions that is responsible for a lot of the </span>
+        <span class="c1"># functionality to this class.</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_echo_functionality</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_oscar_functionality</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_yankee_functionality</span><span class="p">()</span>
+        
+
+    <span class="k">def</span> <span class="nf">_echo_functionality</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot; This allows for the usage of the ECHO line with this class.</span>
+
+<span class="sd">        ECHO Attributes</span>
+<span class="sd">        ---------------</span>
+<span class="sd">        echo###_filter_name : method</span>
+<span class="sd">            These are methods attached to this class that allows for the </span>
+<span class="sd">            execution of a filter in an object orientated approach. See the</span>
+<span class="sd">            :doc:`ECHO masks &lt;python_docstrings/IfA_Smeargle.echo.masks&gt;`) </span>
+<span class="sd">            documentation for more information.</span>
+<span class="sd">        echo_mask : ndarray</span>
+<span class="sd">            A boolean array that is the overall mask of this data array.</span>
+<span class="sd">            Does not supersedes, but combines nicely with, the data array </span>
+<span class="sd">            masked array.</span>
+<span class="sd">        echo_mask_dictionary : dictionary</span>
+<span class="sd">            The ECHO masking dictionary that is relevant to this data array.</span>
+<span class="sd">        echo_echo_synthesize_mask_dictionary : method</span>
+<span class="sd">            This method takes the masking dictionary and collapses it down </span>
+<span class="sd">            into a single mask and saves it to the ``echo_mask`` attribute.</span>
+<span class="sd">        echo_apply_mask : method</span>
+<span class="sd">            This method takes the current mask stored in ``echo_mask`` and </span>
+<span class="sd">            applies to the data array, storing the resulting masked array in</span>
+<span class="sd">            the ``data`` attribute and the mask itself in ``datamask``.</span>
+
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="c1"># Needed attributes for the ECHO class.</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">echo_mask</span> <span class="o">=</span> <span class="kc">None</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">echo_mask_dictionary</span> <span class="o">=</span> <span class="p">{}</span>
+
+        <span class="c1"># Allow for the usage of the general form of the ECHO line.</span>
+        <span class="k">def</span> <span class="nf">_execute_mask_function</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+            <span class="c1"># Allow for the configuration class to be used.</span>
+            <span class="k">if</span> <span class="s1">&#39;configuration_class&#39;</span> <span class="ow">in</span> <span class="n">kwargs</span><span class="p">:</span>
+                <span class="k">pass</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="n">kwargs</span><span class="p">[</span><span class="s1">&#39;configuration_class&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">copy</span><span class="o">.</span><span class="n">deepcopy</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">config</span><span class="p">)</span>
+            <span class="c1"># Change the dictionary of the mask, but, leave the data array.</span>
+            <span class="c1"># Return both normally however.</span>
+            <span class="n">temp_mask</span><span class="p">,</span> <span class="n">temp_dict</span> <span class="o">=</span> <span class="n">echo_execution</span><span class="p">(</span><span class="n">data_array</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">data</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">echo_mask_dictionary</span> <span class="o">=</span> <span class="p">{</span><span class="o">**</span><span class="bp">self</span><span class="o">.</span><span class="n">echo_mask_dictionary</span><span class="p">,</span> <span class="o">**</span><span class="n">temp_dict</span><span class="p">}</span>
+            <span class="k">return</span> <span class="n">temp_mask</span><span class="p">,</span> <span class="n">temp_dict</span>
+        <span class="nb">setattr</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="s1">&#39;echo_execution&#39;</span><span class="p">,</span> <span class="n">_execute_mask_function</span><span class="p">)</span>
+        <span class="c1"># Remove for its re-usage.</span>
+        <span class="k">del</span> <span class="n">_execute_mask_function</span>
+
+
+        <span class="c1"># Gathering all possible filters, given as a dictionary. For valid </span>
+        <span class="c1"># filters, add them as a possible function.</span>
+        <span class="n">echo_filters_dict</span> <span class="o">=</span> <span class="n">meta_prog</span><span class="o">.</span><span class="n">smeargle_avaliable_echo_filter_functions</span><span class="p">()</span>
+
+        <span class="c1"># Attach the functions to the main data class, using the data from </span>
+        <span class="c1"># this class where appropriate. Keep in mind of the late</span>
+        <span class="c1"># binding problem that causes all of the functions to just be copies</span>
+        <span class="c1"># of the last function. See https://stackoverflow.com/q/3431676.</span>
+        <span class="k">for</span> <span class="n">keydex</span><span class="p">,</span> <span class="n">filterdex</span> <span class="ow">in</span> <span class="n">echo_filters_dict</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+            <span class="k">def</span> <span class="nf">_temp_mask_function</span><span class="p">(</span><span class="n">filter_funct</span><span class="o">=</span><span class="n">filterdex</span><span class="p">,</span> <span class="n">filter_key</span><span class="o">=</span><span class="n">keydex</span><span class="p">,</span> 
+                                    <span class="n">configuration</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+                <span class="c1"># This runs on the assumption that the configuration keys</span>
+                <span class="c1"># have been properly named.</span>
+                <span class="n">config_key</span> <span class="o">=</span> <span class="p">((</span><span class="n">filter_key</span><span class="p">[</span><span class="mi">0</span><span class="p">:</span><span class="mi">7</span><span class="p">]</span> <span class="o">+</span> <span class="s1">&#39;_config&#39;</span><span class="p">)</span> 
+                              <span class="k">if</span> <span class="p">(</span><span class="s1">&#39;echo&#39;</span> <span class="ow">in</span> <span class="n">filter_key</span><span class="p">[</span><span class="mi">0</span><span class="p">:</span><span class="mi">7</span><span class="p">])</span> <span class="k">else</span> <span class="kc">None</span><span class="p">)</span>
+                
+                <span class="n">config_params</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_zulu_determine_configuration_parameters</span><span class="p">(</span>
+                    <span class="n">configuration_flag_input</span><span class="o">=</span><span class="n">configuration</span><span class="p">,</span> <span class="n">custom_inputs</span><span class="o">=</span><span class="n">kwargs</span><span class="p">,</span>
+                    <span class="n">subconfig_class</span><span class="o">=</span><span class="n">yankee</span><span class="o">.</span><span class="n">EchoConfig</span><span class="p">,</span> <span class="n">subconfig_key</span><span class="o">=</span><span class="n">config_key</span><span class="p">)</span>
+
+                <span class="c1"># Check for the run parameter, if it is false, this filter</span>
+                <span class="c1"># should not be run.</span>
+                <span class="k">if</span> <span class="p">(</span><span class="n">config_params</span><span class="o">.</span><span class="n">pop</span><span class="p">(</span><span class="s1">&#39;run&#39;</span><span class="p">)):</span>
+                    <span class="c1"># The masking dictionary is what shall be mutated, ensure </span>
+                    <span class="c1"># that there won&#39;t be a conflict with this.</span>
+                    <span class="n">filter_dict</span> <span class="o">=</span>  <span class="n">filter_funct</span><span class="p">(</span><span class="n">data_array</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">data</span><span class="p">,</span>
+                                                <span class="n">previous_mask</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">echo_mask_dictionary</span><span class="p">,</span>
+                                                <span class="n">return_mask</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
+                                                <span class="o">**</span><span class="n">config_params</span><span class="p">)</span>
+                <span class="k">else</span><span class="p">:</span>
+                    <span class="c1"># No filter should be run, and therefore no output.</span>
+                    <span class="n">smeargle_warning</span><span class="p">(</span><span class="n">MaskingWarning</span><span class="p">,(</span><span class="s2">&quot;The &lt;run&gt; parameter for the masking &quot;</span>
+                                                     <span class="s2">&quot;function &lt; </span><span class="si">{filter_name}</span><span class="s2"> &gt; is False. The &quot;</span>
+                                                     <span class="s2">&quot;mask shall not be applied nor added to &quot;</span>
+                                                     <span class="s2">&quot;masking dictionary.&quot;</span>
+                                                     <span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">filter_name</span><span class="o">=</span><span class="n">filter_key</span><span class="p">)))</span>
+                    <span class="n">filter_dict</span> <span class="o">=</span> <span class="p">{}</span>
+                <span class="c1"># Add the filter to the masking dictionary.</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">echo_mask_dictionary</span><span class="o">.</span><span class="n">update</span><span class="p">(</span><span class="n">filter_dict</span><span class="p">)</span>
+                <span class="c1"># All done.</span>
+                <span class="k">return</span> <span class="kc">None</span>
+
+            <span class="c1"># Attach the function.</span>
+            <span class="nb">setattr</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">keydex</span><span class="p">,</span> <span class="n">meta_prog</span><span class="o">.</span><span class="n">smeargle_deepcopy_function</span><span class="p">(</span><span class="n">_temp_mask_function</span><span class="p">))</span>
+            <span class="c1"># Allow for the reusing of the temp function</span>
+            <span class="k">del</span> <span class="n">_temp_mask_function</span>
+
+                
+        <span class="c1"># Allow for the synthesis of the masking dictionary, a wrapper </span>
+        <span class="c1"># function around the original function.</span>
+        <span class="k">def</span> <span class="nf">_synthesize_function</span><span class="p">():</span>
+            <span class="n">masked_array</span> <span class="o">=</span> <span class="n">echo</span><span class="o">.</span><span class="n">echo_synthesize_mask_dictionary</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">echo_mask_dictionary</span><span class="p">)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">echo_mask</span> <span class="o">=</span> <span class="n">masked_array</span>
+            <span class="k">return</span> <span class="n">masked_array</span>
+        <span class="nb">setattr</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="s1">&#39;echo_synthesize_mask_dictionary&#39;</span><span class="p">,</span> <span class="n">_synthesize_function</span><span class="p">)</span>
+        <span class="k">del</span> <span class="n">_synthesize_function</span>
+
+        <span class="c1"># Allow for the application of the data mask using the masking </span>
+        <span class="c1"># dictionary that is stored in this class.</span>
+        <span class="k">def</span> <span class="nf">_update_function</span><span class="p">():</span>
+            <span class="n">masked_array</span> <span class="o">=</span> <span class="n">echo</span><span class="o">.</span><span class="n">echo_numpy_masked_array</span><span class="p">(</span><span class="n">data_array</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">data</span><span class="p">,</span>
+                                                        <span class="n">synthesized_mask</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">echo_mask</span><span class="p">,</span>
+                                                        <span class="n">masking_dictionary</span><span class="o">=</span><span class="kc">None</span><span class="p">)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">data</span> <span class="o">=</span> <span class="n">masked_array</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">datamask</span> <span class="o">=</span> <span class="p">(</span><span class="n">np_ma</span><span class="o">.</span><span class="n">getmask</span><span class="p">(</span><span class="n">masked_array</span><span class="p">)</span> 
+                                  <span class="k">if</span> <span class="n">np_ma</span><span class="o">.</span><span class="n">getmask</span><span class="p">(</span><span class="n">masked_array</span><span class="p">)</span> <span class="ow">is</span> <span class="ow">not</span> <span class="n">np_ma</span><span class="o">.</span><span class="n">nomask</span> <span class="k">else</span> <span class="kc">None</span><span class="p">)</span>
+            <span class="k">return</span> <span class="n">masked_array</span>
+        <span class="nb">setattr</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="s1">&#39;echo_numpy_masked_array&#39;</span><span class="p">,</span> <span class="n">_update_function</span><span class="p">)</span>
+        <span class="k">del</span> <span class="n">_update_function</span>
+
+        <span class="c1"># All done.</span>
+        <span class="k">return</span> <span class="kc">None</span>
+
+
+    <span class="k">def</span> <span class="nf">_oscar_functionality</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot; This allows for the usage of the OSCAR line with this class.</span>
+
+<span class="sd">        OSCAR Attributes</span>
+<span class="sd">        ----------------</span>
+<span class="sd">        plot_ploting_function_name : method</span>
+<span class="sd">            This is just a simple plotting function that is wrapped and </span>
+<span class="sd">            built in from the OSCAR line. </span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        
+        <span class="c1"># Obtain all of the available plotting functions that can be used.</span>
+        <span class="n">oscar_plot_dict</span> <span class="o">=</span> <span class="n">meta_prog</span><span class="o">.</span><span class="n">smeargle_avaliable_oscar_plotting_functions</span><span class="p">()</span>
+
+        <span class="c1"># Attach the plotting functions to the class. Keep in mind of the late</span>
+        <span class="c1"># binding problem that causes all of the functions to just be copies</span>
+        <span class="c1"># of the last function. See https://stackoverflow.com/q/3431676.</span>
+        <span class="k">for</span> <span class="n">keydex</span><span class="p">,</span> <span class="n">functdex</span> <span class="ow">in</span> <span class="n">copy</span><span class="o">.</span><span class="n">deepcopy</span><span class="p">(</span><span class="n">oscar_plot_dict</span><span class="p">)</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+            <span class="nb">setattr</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">keydex</span><span class="p">,</span> <span class="n">meta_prog</span><span class="o">.</span><span class="n">smeargle_deepcopy_function</span><span class="p">(</span>
+                <span class="k">lambda</span> <span class="n">plot_funct</span><span class="o">=</span><span class="n">functdex</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">:</span> <span class="n">plot_funct</span><span class="p">(</span><span class="n">data_array</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">data</span><span class="p">,</span> 
+                                                                 <span class="o">**</span><span class="n">kwargs</span><span class="p">)))</span>
+
+        <span class="c1"># All done.</span>
+        <span class="k">return</span> <span class="kc">None</span>
+
+    <span class="k">def</span> <span class="nf">_yankee_functionality</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;This allows for the usage of the YANKEE line with this class.</span>
+
+<span class="sd">        YANKEE Attributes</span>
+<span class="sd">        -----------------</span>
+<span class="sd">        SmeargleConfig : Configuration Class</span>
+<span class="sd">            This is the built in configuration class that goes along with </span>
+<span class="sd">            this data class. </span>
+<span class="sd">        print_configuration : method</span>
+<span class="sd">            This allows for the print visualization of the SmeargleConfig</span>
+<span class="sd">            configuration class.</span>
+<span class="sd">        read_configuration : method</span>
+<span class="sd">            Provided a configuration file name, this method reads it from </span>
+<span class="sd">            the provided file. </span>
+<span class="sd">        write_configuration : method</span>
+<span class="sd">            Provided a configuration file name, this method writes the </span>
+<span class="sd">            current configuration file to the file name provided. </span>
+<span class="sd">        overwrite_configuration : method</span>
+<span class="sd">            Provided a configuration class, all elements in the current</span>
+<span class="sd">            configuration class, where similar, are overwritten using the </span>
+<span class="sd">            provided class. </span>
+<span class="sd">        fast_forward_configuration : method</span>
+<span class="sd">            Fast forwards the current configuration class to the current </span>
+<span class="sd">            version. </span>
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="c1"># First, test if the configuration class is an actual configuration</span>
+        <span class="c1"># class.</span>
+        <span class="k">if</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_raw_configuration_class</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">):</span>
+            <span class="c1"># There is no need for error, a default one will be assigned.</span>
+            <span class="nb">setattr</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="s2">&quot;SmeargleConfig&quot;</span><span class="p">,</span> 
+                    <span class="n">yankee</span><span class="o">.</span><span class="n">yankee_configuration_factory_function</span><span class="p">(</span><span class="n">yankee</span><span class="o">.</span><span class="n">SmeargleConfig</span><span class="p">,</span> <span class="kc">None</span><span class="p">,</span> <span class="kc">True</span><span class="p">))</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="c1"># Fast forward just in case the provided configuration class is </span>
+            <span class="c1"># outdated.</span>
+            <span class="n">fast_forwarded_class</span> <span class="o">=</span> <span class="kc">None</span>
+            <span class="k">try</span><span class="p">:</span>
+                <span class="n">fast_forwarded_class</span> <span class="o">=</span> <span class="n">yankee</span><span class="o">.</span><span class="n">yankee_fast_forward_configuration_class</span><span class="p">(</span>
+                    <span class="bp">self</span><span class="o">.</span><span class="n">_raw_configuration_class</span><span class="p">)</span>
+            <span class="k">except</span> <span class="ne">Exception</span><span class="p">:</span>
+                <span class="c1"># The raw configuration class may not even be a configuration</span>
+                <span class="c1"># class.</span>
+                <span class="k">if</span> <span class="p">(</span><span class="nb">isinstance</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_raw_configuration_class</span><span class="p">,(</span><span class="n">yankee</span><span class="o">.</span><span class="n">SmeargleConfig</span><span class="p">,</span>
+                                                              <span class="n">yankee</span><span class="o">.</span><span class="n">BaseConfig</span><span class="p">))):</span>
+                    <span class="c1"># Hm... Sparrow is still at a loss for why it would enter </span>
+                    <span class="c1"># here.</span>
+                    <span class="k">raise</span> <span class="n">BugError</span><span class="p">(</span><span class="s2">&quot;The yankee_fast_forward_configuration_class function seemed to &quot;</span>
+                                   <span class="s2">&quot;fail with a valid configuration class input.&quot;</span><span class="p">)</span>
+                <span class="k">elif</span> <span class="p">(</span><span class="nb">isinstance</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_raw_configuration_class</span><span class="p">,</span> <span class="nb">str</span><span class="p">)):</span>
+                    <span class="c1"># It may be that the user provided a file name.</span>
+                    <span class="n">configuration_file_name</span> <span class="o">=</span> <span class="nb">str</span><span class="p">(</span><span class="n">copy</span><span class="o">.</span><span class="n">deepcopy</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_raw_configuration_class</span><span class="p">))</span>
+                    <span class="n">fast_forwarded_class</span> <span class="o">=</span> <span class="n">yankee</span><span class="o">.</span><span class="n">yankee_configuration_factory_function</span><span class="p">(</span>
+                        <span class="n">yankee</span><span class="o">.</span><span class="n">SmeargleConfig</span><span class="p">,</span> <span class="n">configuration_file_name</span><span class="p">,</span> <span class="kc">False</span><span class="p">)</span>
+                <span class="k">else</span><span class="p">:</span>
+                    <span class="c1"># It is not a configuration class, it is best that a </span>
+                    <span class="c1"># default one is assigned.</span>
+                    <span class="n">smeargle_warning</span><span class="p">(</span><span class="n">ConfigurationWarning</span><span class="p">,(</span><span class="s2">&quot;The initial configuration class &quot;</span>
+                                                            <span class="s2">&quot;provided is not an actual &quot;</span>
+                                                            <span class="s2">&quot;configuration class and is &quot;</span>
+                                                            <span class="s2">&quot;unworkable. A default is being &quot;</span>
+                                                            <span class="s2">&quot;provided.&quot;</span><span class="p">))</span>
+                    <span class="n">fast_forwarded_class</span> <span class="o">=</span> <span class="n">yankee</span><span class="o">.</span><span class="n">yankee_configuration_factory_function</span><span class="p">(</span>
+                        <span class="n">yankee</span><span class="o">.</span><span class="n">SmeargleConfig</span><span class="p">,</span> <span class="kc">None</span><span class="p">,</span> <span class="kc">True</span><span class="p">)</span>
+            <span class="k">finally</span><span class="p">:</span>
+                <span class="c1"># For naming convention.</span>
+                <span class="n">configuration_class</span> <span class="o">=</span> <span class="n">fast_forwarded_class</span>
+                <span class="nb">setattr</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="s2">&quot;SmeargleConfig&quot;</span><span class="p">,</span> <span class="n">configuration_class</span><span class="p">)</span>
+                <span class="nb">setattr</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="s2">&quot;config&quot;</span><span class="p">,</span> <span class="n">configuration_class</span><span class="p">)</span>
+
+        <span class="c1"># Also allow for the printing, reading, writing, and updating of </span>
+        <span class="c1"># the new configuration class. These are mostly aliases.</span>
+        <span class="k">def</span> <span class="nf">print_configuration</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+            <span class="sd">&quot;&quot;&quot; Prints the configuration class parameters. &quot;&quot;&quot;</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">SmeargleConfig</span><span class="o">.</span><span class="n">print</span><span class="p">()</span>
+        <span class="nb">setattr</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="s2">&quot;print_configuration&quot;</span><span class="p">,</span> <span class="n">print_configuration</span><span class="p">)</span>
+        <span class="k">def</span> <span class="nf">read_configuration</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">file_name</span><span class="p">):</span>
+            <span class="sd">&quot;&quot;&quot; Reads the configuration class from a configuration file. &quot;&quot;&quot;</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">SmeargleConfig</span><span class="o">.</span><span class="n">read_from_file</span><span class="p">(</span><span class="n">file_name</span><span class="p">)</span>
+        <span class="nb">setattr</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="s2">&quot;read_configuration&quot;</span><span class="p">,</span> <span class="n">read_configuration</span><span class="p">)</span>
+        <span class="k">def</span> <span class="nf">write_configuration</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">file_name</span><span class="p">):</span>
+            <span class="sd">&quot;&quot;&quot; Writes the configuration class to a configuration file. &quot;&quot;&quot;</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">SmeargleConfig</span><span class="o">.</span><span class="n">write_to_file</span><span class="p">(</span><span class="n">file_name</span><span class="p">)</span>
+        <span class="nb">setattr</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="s2">&quot;write_configuration&quot;</span><span class="p">,</span> <span class="n">write_configuration</span><span class="p">)</span>
+        <span class="k">def</span> <span class="nf">overwrite_configuration</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">overwriting_configuration</span><span class="p">):</span>
+            <span class="sd">&quot;&quot;&quot; Overwrite the configuration class by the provided class. &quot;&quot;&quot;</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">SmeargleConfig</span> <span class="o">=</span> <span class="n">yankee</span><span class="o">.</span><span class="n">yankee_overwrite_configuration_class</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">SmeargleConfig</span><span class="p">,</span>
+                                                                       <span class="n">overwriting_configuration</span><span class="p">)</span>
+        <span class="nb">setattr</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="s2">&quot;overwrite_configuration&quot;</span><span class="p">,</span> <span class="n">overwrite_configuration</span><span class="p">)</span>
+        <span class="k">def</span> <span class="nf">fast_forward_configuration</span><span class="p">():</span>
+            <span class="sd">&quot;&quot;&quot; Fast forward the configuration class. It is unlikely that </span>
+<span class="sd">                this will be needed, but, it is here. &quot;&quot;&quot;</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">SmeargleConfig</span> <span class="o">=</span> <span class="n">yankee</span><span class="o">.</span><span class="n">yankee_fast_forward_configuration_class</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">SmeargleConfig</span><span class="p">)</span>
+        <span class="nb">setattr</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="s2">&quot;fast_forward_configuration&quot;</span><span class="p">,</span> <span class="n">fast_forward_configuration</span><span class="p">)</span>
+
+        <span class="c1"># All done.</span>
+        <span class="k">return</span> <span class="kc">None</span>
+
+    <span class="k">def</span> <span class="nf">_zulu_determine_configuration_parameters</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span>
+                                                 <span class="n">configuration_flag_input</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> 
+                                                 <span class="n">custom_inputs</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+                                                 <span class="n">subconfig_class</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> 
+                                                 <span class="n">subconfig_key</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot; This function basically determines and extracts the configuration</span>
+<span class="sd">        option for all of the surrounding structures.</span>
+
+<span class="sd">        The configuration class is built in to the class. It is generally the</span>
+<span class="sd">        case that the user would want to use it. However, the user may also</span>
+<span class="sd">        have their own entries that conflict (and should override) the </span>
+<span class="sd">        built in configuration class. </span>
+
+<span class="sd">        This function takes these issues into account and returns the proper</span>
+<span class="sd">        configuration dictionary for the respective function.        </span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        configuration_flag_input : Configuration Class, string, boolean</span>
+<span class="sd">            This is what the user input for their configuration flag. Note</span>
+<span class="sd">            that this flag can be one of many types (not just a string). The</span>
+<span class="sd">            flags are adapted as follows:</span>
+<span class="sd">                :Configuration Class: </span>
+<span class="sd">                    This becomes the configuration class that will be used </span>
+<span class="sd">                    for the function.</span>
+<span class="sd">                :string:</span>
+<span class="sd">                    It is assumed that the configuration class is in a file.</span>
+<span class="sd">                    The string must be a path that will load the desired</span>
+<span class="sd">                    configuration file.</span>
+<span class="sd">                :boolean:</span>
+<span class="sd">                    If the boolean is true, then the current configuration </span>
+<span class="sd">                    class defined in this structure will be used as the </span>
+<span class="sd">                    default one.</span>
+<span class="sd">        custom_inputs : dictionary</span>
+<span class="sd">            A dictionary of the user&#39;s custom inputs. Custom inputs always</span>
+<span class="sd">            override the provided or default configuration file.</span>
+<span class="sd">        subconfig_class : Configuration class type</span>
+<span class="sd">            The sub-configuration class (e.g. BravoConfig, EchoConfig, etc.) </span>
+<span class="sd">            type that is desired.</span>
+<span class="sd">        subconfig_key : string</span>
+<span class="sd">            The key of the configuration class that corresponds to the correct</span>
+<span class="sd">            parameters.</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        parameter_dictionary : dictionary</span>
+<span class="sd">            The desired parameters after the standard processing.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="c1"># Type check to ensure that there are no bad inputs. This is done as</span>
+        <span class="c1"># the issubclass command may raise an error which is uninformative.</span>
+        <span class="k">try</span><span class="p">:</span>
+            <span class="k">if</span> <span class="p">(</span><span class="ow">not</span> <span class="nb">issubclass</span><span class="p">(</span><span class="n">subconfig_class</span><span class="p">,</span> <span class="n">yankee</span><span class="o">.</span><span class="n">BaseConfig</span><span class="p">)):</span>
+                <span class="k">raise</span> <span class="n">InputError</span><span class="p">(</span><span class="s2">&quot;The subconfig class must be a subset of the YANKEE &quot;</span>
+                                 <span class="s2">&quot;configuration classes.&quot;</span><span class="p">)</span>
+        <span class="k">except</span> <span class="ne">Exception</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="n">InputError</span><span class="p">(</span><span class="s2">&quot;The subconfig class must be a subset of the YANKEE class &quot;</span>
+                             <span class="s2">&quot;family. Moreover, it should be the class itself, not an &quot;</span>
+                             <span class="s2">&quot;instance thereof.&quot;</span><span class="p">)</span>
+        <span class="c1"># Type checking the key.</span>
+        <span class="k">if</span> <span class="p">(</span><span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">subconfig_key</span><span class="p">,</span><span class="nb">str</span><span class="p">)):</span>
+            <span class="k">raise</span> <span class="n">InputError</span><span class="p">(</span><span class="s2">&quot;The sub-configuration class key must be a string as it is a &quot;</span>
+                             <span class="s2">&quot;dictionary key.&quot;</span><span class="p">)</span>
+        <span class="c1"># Then the user&#39;s inputs.</span>
+        <span class="k">try</span><span class="p">:</span>
+            <span class="k">if</span> <span class="p">(</span><span class="n">custom_inputs</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">):</span>
+                <span class="c1"># Nothing is just no configurations.</span>
+                <span class="n">custom_inputs</span> <span class="o">=</span> <span class="p">{}</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="n">custom_inputs</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">(</span><span class="n">custom_inputs</span><span class="p">)</span>
+        <span class="k">except</span> <span class="ne">Exception</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="n">InputError</span><span class="p">(</span><span class="s2">&quot;The custom inputs provided by the user must be a dictionary of &quot;</span>
+                             <span class="s2">&quot;key-value parameters that will be passed to the function. Or, it &quot;</span>
+                             <span class="s2">&quot;must be a None type if there are no custom inputs.&quot;</span><span class="p">)</span>
+
+
+        <span class="c1"># Determine which configuration class to use in the first place</span>
+        <span class="c1"># based on what is provided.</span>
+        <span class="k">try</span><span class="p">:</span>
+            <span class="k">if</span> <span class="p">(</span><span class="nb">isinstance</span><span class="p">(</span><span class="n">configuration_flag_input</span><span class="p">,</span> <span class="n">yankee</span><span class="o">.</span><span class="n">BaseConfig</span><span class="p">)):</span>
+                <span class="n">using_config</span> <span class="o">=</span> <span class="n">yankee</span><span class="o">.</span><span class="n">yankee_extract_proper_configuration_class</span><span class="p">(</span>
+                    <span class="n">configuration_flag_input</span><span class="p">,</span> <span class="n">subconfig_class</span><span class="p">,</span> <span class="n">deep_copy</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+            <span class="k">elif</span> <span class="p">(</span><span class="nb">isinstance</span><span class="p">(</span><span class="n">configuration_flag_input</span><span class="p">,</span> <span class="nb">str</span><span class="p">)):</span>
+                <span class="c1"># Unsurprisingly, the extraction can also work with the</span>
+                <span class="c1"># file path. Marked as a separate check for visual purposes.</span>
+                <span class="n">using_config</span> <span class="o">=</span> <span class="n">yankee</span><span class="o">.</span><span class="n">yankee_extract_proper_configuration_class</span><span class="p">(</span>
+                    <span class="n">configuration_flag_input</span><span class="p">,</span> <span class="n">subconfig_class</span><span class="p">,</span> <span class="n">deep_copy</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+            <span class="k">elif</span> <span class="p">(</span><span class="nb">isinstance</span><span class="p">(</span><span class="n">configuration_flag_input</span><span class="p">,</span> <span class="nb">bool</span><span class="p">)):</span>
+                <span class="k">if</span> <span class="p">(</span><span class="n">configuration_flag_input</span><span class="p">):</span>
+                    <span class="c1"># Assume the user wants to use the built in configuration.</span>
+                    <span class="n">using_config</span> <span class="o">=</span> <span class="n">yankee</span><span class="o">.</span><span class="n">yankee_extract_proper_configuration_class</span><span class="p">(</span>
+                        <span class="bp">self</span><span class="o">.</span><span class="n">config</span><span class="p">,</span> <span class="n">subconfig_class</span><span class="p">,</span> <span class="n">deep_copy</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+                <span class="k">else</span><span class="p">:</span>
+                    <span class="c1"># The built in configuration class should not be used. </span>
+                    <span class="c1"># A blank configuration file is provided.</span>
+                    <span class="n">using_config</span> <span class="o">=</span> <span class="n">yankee</span><span class="o">.</span><span class="n">yankee_configuration_factory_function</span><span class="p">(</span><span class="n">subconfig_class</span><span class="p">,</span> 
+                                                                         <span class="n">silent</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="c1"># They did not specify a valid configuration flag. Just </span>
+                <span class="c1"># returning a blank one.</span>
+                <span class="n">using_config</span> <span class="o">=</span> <span class="n">yankee</span><span class="o">.</span><span class="n">yankee_configuration_factory_function</span><span class="p">(</span><span class="n">subconfig_class</span><span class="p">,</span>
+                                                                            <span class="n">silent</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+        <span class="k">except</span> <span class="ne">Exception</span><span class="p">:</span>
+            <span class="k">raise</span>
+        <span class="k">finally</span><span class="p">:</span>
+            <span class="n">default_configuration</span> <span class="o">=</span> <span class="n">yankee</span><span class="o">.</span><span class="n">yankee_configuration_factory_function</span><span class="p">(</span><span class="n">subconfig_class</span><span class="p">,</span> 
+                                                                               <span class="n">silent</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+            <span class="n">configuration</span> <span class="o">=</span> <span class="n">yankee</span><span class="o">.</span><span class="n">yankee_overwrite_configuration_class</span><span class="p">(</span><span class="n">default_configuration</span><span class="p">,</span>
+                                                                        <span class="n">using_config</span><span class="p">)</span>
+
+        <span class="c1"># Extract the configuration dictionary (the parameters) from the two </span>
+        <span class="c1"># configurations, include the user&#39;s defined configurations.</span>
+        <span class="n">default_params</span> <span class="o">=</span> <span class="nb">getattr</span><span class="p">(</span><span class="n">default_configuration</span><span class="p">,</span> <span class="n">subconfig_key</span><span class="p">,</span> <span class="p">{})</span>
+        <span class="n">config_params</span> <span class="o">=</span> <span class="nb">getattr</span><span class="p">(</span><span class="n">configuration</span><span class="p">,</span> <span class="n">subconfig_key</span><span class="p">,</span> <span class="p">{})</span>
+        <span class="n">custom_params</span> <span class="o">=</span> <span class="n">copy</span><span class="o">.</span><span class="n">deepcopy</span><span class="p">(</span><span class="nb">dict</span><span class="p">(</span><span class="n">custom_inputs</span><span class="p">))</span>
+
+        <span class="c1"># A blank configurations may mean that the subconfig_key is not a </span>
+        <span class="c1"># valid or expected key.</span>
+        <span class="k">if</span> <span class="p">(</span><span class="ow">not</span> <span class="p">(</span><span class="n">default_params</span> <span class="ow">or</span> <span class="n">config_params</span><span class="p">)):</span>
+            <span class="n">smeargle_warning</span><span class="p">(</span><span class="n">ConfigurationWarning</span><span class="p">,(</span><span class="s2">&quot;Both the default package and the data class &quot;</span>
+                                                   <span class="s2">&quot;configurations are blank. This may be &quot;</span>
+                                                   <span class="s2">&quot;indicative of the configuration key being &quot;</span>
+                                                   <span class="s2">&quot;incorrect. &quot;</span><span class="p">))</span>
+        
+        <span class="c1"># Precedence is to the custom inputs, then the system configuration</span>
+        <span class="c1"># then the defaults; mimicking the order of overriding.</span>
+        <span class="n">parameter_dictionary</span> <span class="o">=</span> <span class="p">{</span><span class="o">**</span><span class="n">default_params</span><span class="p">,</span> <span class="o">**</span><span class="p">{</span><span class="o">**</span><span class="n">config_params</span><span class="p">,</span> <span class="o">**</span><span class="n">custom_params</span><span class="p">}}</span> 
+
+        <span class="c1"># There are no actual configurations, user might want to know about</span>
+        <span class="c1"># this.</span>
+        <span class="k">if</span> <span class="p">(</span><span class="ow">not</span> <span class="n">parameter_dictionary</span><span class="p">):</span>
+            <span class="n">smeargle_warning</span><span class="p">(</span><span class="n">ConfigurationWarning</span><span class="p">,(</span><span class="s2">&quot;There are no parameters being returned &quot;</span>
+                                                   <span class="s2">&quot;provided the key &lt;</span><span class="si">{key}</span><span class="s2">&gt; and the user&#39;s &quot;</span>
+                                                   <span class="s2">&quot;custom inputs.&quot;</span>
+                                                   <span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">key</span><span class="o">=</span><span class="nb">str</span><span class="p">(</span><span class="n">subconfig_key</span><span class="p">))))</span>
+        <span class="k">elif</span> <span class="p">(</span><span class="n">parameter_dictionary</span><span class="p">):</span>
+            <span class="c1"># All done.</span>
+            <span class="k">return</span> <span class="n">parameter_dictionary</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="n">BrokenLogicError</span><span class="p">(</span><span class="s2">&quot;The code should not reach here; the parameter_dictionary &quot;</span>
+                                   <span class="s2">&quot;check must have failed, likely due to a change on how &quot;</span>
+                                   <span class="s2">&quot;dictionaries are handled.&quot;</span><span class="p">)</span>
+        <span class="k">return</span> <span class="kc">None</span></div>
+</pre></div>
+
+           </div>
+           
+          </div>
+          <footer>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2019, Sparrow
+
+    </p>
+  </div>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+
+  
+  
+    
+   
+
+</body>
+</html>

@@ -38,7 +38,7 @@ def bravo_execution_saphira(data_directory, configuration_class):
     """
 
     # Be adaptive as to which configuration class is given.
-    provided_config = yankee.extract_proper_configuration_class(configuration_class,
+    provided_config = yankee.yankee_extract_proper_configuration_class(configuration_class,
                                                                 yankee.BravoConfig)
 
     # Determine the detector's name.

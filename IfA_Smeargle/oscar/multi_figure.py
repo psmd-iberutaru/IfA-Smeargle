@@ -45,7 +45,7 @@ def plot_single_heatmap_and_histogram(data_array, configuration_class=None,
     # Extract the proper configurations.
     if (configuration_class is not None):
         # Get the right class.
-        plot_config = yankee.extract_proper_configuration_class(configuration_class,
+        plot_config = yankee.yankee_extract_proper_configuration_class(configuration_class,
                                                                 yankee.OscarConfig)
         heatmap_config = plot_config.general_heatmap_config
         histogram_config = plot_config.general_histogram_config

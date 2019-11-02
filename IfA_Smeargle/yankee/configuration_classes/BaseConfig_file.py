@@ -93,7 +93,7 @@ class BaseConfig(object):
         """ Wrapper function around configuration file writing. 
         
         Writes the configuration class to a pickle file. See 
-        ``write_config_file`` for more information.
+        ``yankee_write_config_file`` for more information.
 
         Parameters
         ----------
@@ -115,14 +115,14 @@ class BaseConfig(object):
 
         """
 
-        yankee.write_config_file(self, file_name, overwrite=overwrite, protocol=protocol)
+        yankee.yankee_write_config_file(self, file_name, overwrite=overwrite, protocol=protocol)
 
 
     def read_from_file(self, file_name):
         """ Wrapper function around configuration file reading.
 
         Reads and assigns a file IfA Smeargle configuration class to this
-        current class. See ``read_config_file`` for more information on
+        current class. See ``yankee_read_config_file`` for more information on
         file reading.
         
         Parameters
@@ -144,7 +144,7 @@ class BaseConfig(object):
                 pass
 
             elif (isinstance(file_name, str)):
-                read_config_class = yankee.read_config_file(file_name)
+                read_config_class = yankee.yankee_read_config_file(file_name)
             else:
                 raise BrokenLogicError("Somehow config_file_name is both and a string and "
                                        "not a string.")
@@ -164,7 +164,7 @@ class BaseConfig(object):
                 except Exception:
                     raise ImportingError("The configuration file cannot be read this way. "
                                          "consider using the factory function for the "
-                                         "<read_config_file> function.")
+                                         "<yankee_read_config_file> function.")
         else:
             # File name is not strictly provided, give an empty class.
             smeargle_warning(InputWarning,("The file name string is None, nothing will be done."))

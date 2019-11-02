@@ -108,7 +108,7 @@ def SA201907281826_reduction_pipeline(data_directory, configuration_class):
     def _saphira_renaming(data_directory, configuration_class):
         # Just a inner function to store the new naming routine. 
         # Be adaptive as to which configuration class is given.
-        provided_config = yankee.extract_proper_configuration_class(configuration_class,
+        provided_config = yankee.yankee_extract_proper_configuration_class(configuration_class,
                                                                     yankee.BravoConfig)
 
         # Determine the detector's name.

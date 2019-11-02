@@ -86,8 +86,8 @@ class ModelingError(Smeargle_Exception):
 #####
 # These are the base exceptions; proper programing protocol dictates that 
 # Python try-except statements should not catch these. As such, they are 
-# reserved for very critical problems within the code itself (rarely should
-# the fault be the user's).
+# reserved for very critical problems within the code itself (it rarely 
+# should be the fault of the user's).
 
 class BrokenLogicError(Smeargle_BaseException):
     """
@@ -102,6 +102,23 @@ class BrokenLogicError(Smeargle_BaseException):
         else:
             self.message = ("TERMINAL: Something is not right with the code's logic. Please "
                             "contact maintainers or Sparrow to resolve this issue.")
+
+    pass
+
+class BugError(Smeargle_BaseException):
+    """
+    This error is mostly used for cases where, if it is triggered, there is 
+    likely a bug. The bug's status should mostly deal with logic flow and a
+    broken program (compared to bad results, which is less obvious to detect).
+    """
+    def __init__(self, message=None):
+        if (isinstance(message, str)):
+            self.message = ("TERMINAL: " + message
+                            + "\n >> Please contact maintainers or Sparrow to resolve this issue.")
+        else:
+            self.message = ("TERMINAL: There seems to be a bug in the code\'s processing. The "
+                            "problem seems to be from a bad program/function execution. Please "
+                            "contact maintainers or Sparrow to resolve the issue.")
 
     pass
 

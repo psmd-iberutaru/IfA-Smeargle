@@ -35,7 +35,7 @@ class ZuluConfig(BaseConfig):
     def __init__(self, file_name=None):
         
         try:
-            provided_config = extract_proper_configuration_class(file_name, YankeeConfig)
+            provided_config = yankee_extract_proper_configuration_class(file_name, YankeeConfig)
             self.__dict__.update(provided_config.__dict__)
         except Exception:
             if (file_name is not None):

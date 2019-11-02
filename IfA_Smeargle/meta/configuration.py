@@ -10,7 +10,7 @@ from IfA_Smeargle.meta import *
 from IfA_Smeargle import yankee
 
 
-def extract_proper_configuration_class(configuration_class, desired_class,
+def yankee_extract_proper_configuration_class(configuration_class, desired_class,
                                        deep_copy=False):
     raise DeprecatedError("Replace this function with Yankee's version.")
     

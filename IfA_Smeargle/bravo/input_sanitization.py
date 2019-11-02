@@ -26,10 +26,11 @@ def same_file_size_sanitization(data_directory, method='largest'):
         proper.
 
             * 'largest' : The largest ``.fits`` file is considered to be the 
-            right file size (default).
+                          right file size (default).
             * 'smallest' : The smallest ``.fits`` file is considered to be the 
-            right file size.
-    
+                           right file size.
+
+
     Returns
     -------
     nothing

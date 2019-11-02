@@ -102,10 +102,10 @@ def echo_functioned_mask_returning(pixel_mask, masking_dictionary, filter_name, 
     """
 
     # Warn if the mask that would be returned is empty.
-    if (np_ma.count_masked(pixel_mask) <= 0):
+    if (not np.any(pixel_mask)):
         smeargle_warning(MaskingWarning,
-                         "The masking routine < {msk_rou} > did not mask any pixels.".format(
-                             msk_rou=filter_name))
+                         ("The masking routine < {msk_rou} > did not mask any pixels."
+                          .format(msk_rou=filter_name)))
 
     # The object that will be returned.
     returning_object = None

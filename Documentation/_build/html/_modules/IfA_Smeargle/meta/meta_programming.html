@@ -1,0 +1,352 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>IfA_Smeargle.meta.meta_programming &mdash; IfA-Smeargle 2019-08-19 documentation</title>
+  
+
+  
+  
+  
+  
+
+  
+  <script type="text/javascript" src="../../../_static/js/modernizr.min.js"></script>
+  
+    
+      <script type="text/javascript" id="documentation_options" data-url_root="../../../" src="../../../_static/documentation_options.js"></script>
+        <script type="text/javascript" src="../../../_static/jquery.js"></script>
+        <script type="text/javascript" src="../../../_static/underscore.js"></script>
+        <script type="text/javascript" src="../../../_static/doctools.js"></script>
+        <script type="text/javascript" src="../../../_static/language_data.js"></script>
+    
+    <script type="text/javascript" src="../../../_static/js/theme.js"></script>
+
+    
+
+  
+  <link rel="stylesheet" href="../../../_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
+  <link rel="stylesheet" href="../../../_static/css/custom.css" type="text/css" />
+    <link rel="index" title="Index" href="../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../search.html" />
+    <link href="../../../_static/css/ifa_smeargle.css" rel="stylesheet" type="text/css">
+
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+          
+
+          
+            <a href="../../../index.html" class="icon icon-home"> IfA-Smeargle
+          
+
+          
+          </a>
+
+          
+            
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <p class="caption"><span class="caption-text">Usage and Operation:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../quickstart.html">Quickstart</a></li>
+</ul>
+<p class="caption"><span class="caption-text">Code Documentation:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../python_docstrings/modules.html">IfA_Smeargle</a></li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../../index.html">IfA-Smeargle</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="../../../index.html">Docs</a> &raquo;</li>
+        
+          <li><a href="../../index.html">Module code</a> &raquo;</li>
+        
+      <li>IfA_Smeargle.meta.meta_programming</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <h1>Source code for IfA_Smeargle.meta.meta_programming</h1><div class="highlight"><pre>
+<span></span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">This is a list of functions that as rather useful in meta-programming.</span>
+
+<span class="sd">&quot;&quot;&quot;</span>
+
+<span class="kn">import</span> <span class="nn">copy</span>
+<span class="kn">import</span> <span class="nn">functools</span>
+<span class="kn">import</span> <span class="nn">importlib</span>
+<span class="kn">import</span> <span class="nn">inspect</span>
+<span class="kn">import</span> <span class="nn">types</span>
+
+<span class="kn">from</span> <span class="nn">IfA_Smeargle.meta</span> <span class="k">import</span> <span class="o">*</span>
+<span class="kn">from</span> <span class="nn">IfA_Smeargle</span> <span class="k">import</span> <span class="n">echo</span>
+<span class="kn">from</span> <span class="nn">IfA_Smeargle</span> <span class="k">import</span> <span class="n">oscar</span>
+
+<div class="viewcode-block" id="smeargle_deepcopy_function"><a class="viewcode-back" href="../../../python_docstrings/IfA_Smeargle.meta.meta_programming.html#IfA_Smeargle.meta.meta_programming.smeargle_deepcopy_function">[docs]</a><span class="k">def</span> <span class="nf">smeargle_deepcopy_function</span><span class="p">(</span><span class="n">original_funct</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot; A function to deep copy another function.</span>
+
+<span class="sd">    The built in Python deep copy function utility does not really deep copy</span>
+<span class="sd">    a function as one would expect, instead just returning the function as is.</span>
+<span class="sd">    This function returns a proper deep copy of the function.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    original_funct : function</span>
+<span class="sd">        The original function.</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    deepcopy_funct : function</span>
+<span class="sd">        The function deep copied.</span>
+
+<span class="sd">    .. note::</span>
+
+<span class="sd">        Based on http://stackoverflow.com/a/6528148/190597 (Glenn Maynard)&quot;&quot;&quot;</span>
+    <span class="n">deepcopy_funct</span> <span class="o">=</span> <span class="n">types</span><span class="o">.</span><span class="n">FunctionType</span><span class="p">(</span><span class="n">original_funct</span><span class="o">.</span><span class="vm">__code__</span><span class="p">,</span> <span class="n">original_funct</span><span class="o">.</span><span class="vm">__globals__</span><span class="p">,</span>
+                                        <span class="n">name</span><span class="o">=</span><span class="n">original_funct</span><span class="o">.</span><span class="vm">__name__</span><span class="p">,</span>
+                                        <span class="n">argdefs</span><span class="o">=</span><span class="n">original_funct</span><span class="o">.</span><span class="vm">__defaults__</span><span class="p">,</span>
+                                        <span class="n">closure</span><span class="o">=</span><span class="n">original_funct</span><span class="o">.</span><span class="vm">__closure__</span><span class="p">)</span>
+    <span class="n">deepcopy_funct</span> <span class="o">=</span> <span class="n">functools</span><span class="o">.</span><span class="n">update_wrapper</span><span class="p">(</span><span class="n">deepcopy_funct</span><span class="p">,</span> <span class="n">original_funct</span><span class="p">)</span>
+    <span class="n">deepcopy_funct</span><span class="o">.</span><span class="vm">__kwdefaults__</span> <span class="o">=</span> <span class="n">deepcopy_funct</span><span class="o">.</span><span class="vm">__kwdefaults__</span>
+
+    <span class="c1"># Just to test if it worked.</span>
+    <span class="k">assert</span> <span class="n">original_funct</span> <span class="ow">is</span> <span class="ow">not</span> <span class="n">deepcopy_funct</span>
+
+    <span class="c1"># All done.</span>
+    <span class="k">return</span> <span class="n">deepcopy_funct</span></div>
+
+
+<div class="viewcode-block" id="smeargle_avaliable_echo_filter_functions"><a class="viewcode-back" href="../../../python_docstrings/IfA_Smeargle.meta.meta_programming.html#IfA_Smeargle.meta.meta_programming.smeargle_avaliable_echo_filter_functions">[docs]</a><span class="k">def</span> <span class="nf">smeargle_avaliable_echo_filter_functions</span><span class="p">():</span>
+    <span class="sd">&quot;&quot;&quot; This returns a dictionary of the available filtering functions found </span>
+<span class="sd">    in ECHO which can be used.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    nothing</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    echo_filter_dict : dictionary</span>
+<span class="sd">        This is a collection of all of the available filtering functions that </span>
+<span class="sd">        are usable.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="c1"># Gathering all possible filters, given as a dictionary. For valid </span>
+    <span class="c1"># filters, add them as a possible function.</span>
+    <span class="n">filter_list</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">(</span><span class="n">inspect</span><span class="o">.</span><span class="n">getmembers</span><span class="p">(</span><span class="n">echo</span><span class="o">.</span><span class="n">masks</span><span class="p">,</span> <span class="n">inspect</span><span class="o">.</span><span class="n">isfunction</span><span class="p">))</span>
+
+    <span class="c1"># Sort these filters, although it is not needed, it is helpful.</span>
+    <span class="n">sorted_filter_list</span> <span class="o">=</span> <span class="n">echo</span><span class="o">.</span><span class="n">echo_funct</span><span class="o">.</span><span class="n">echo_sort_masking_dictionary</span><span class="p">(</span><span class="n">filter_list</span><span class="p">)</span>
+
+    <span class="c1"># Filters are generally required to have the &#39;echo&#39; prefix.</span>
+    <span class="k">for</span> <span class="n">keydex</span><span class="p">,</span> <span class="n">filterdex</span> <span class="ow">in</span> <span class="n">copy</span><span class="o">.</span><span class="n">deepcopy</span><span class="p">(</span><span class="n">sorted_filter_list</span><span class="p">)</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+        <span class="c1"># Remove those that are not filters.</span>
+        <span class="k">if</span> <span class="p">(</span><span class="ow">not</span> <span class="s1">&#39;echo&#39;</span> <span class="ow">in</span> <span class="n">keydex</span><span class="p">):</span>
+                <span class="n">sorted_filter_list</span><span class="o">.</span><span class="n">pop</span><span class="p">(</span><span class="n">keydex</span><span class="p">,</span> <span class="kc">None</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+           <span class="k">continue</span>
+
+    <span class="c1"># Return the filters, rename for documentation purposes. </span>
+    <span class="n">echo_filter_dict</span> <span class="o">=</span> <span class="n">copy</span><span class="o">.</span><span class="n">deepcopy</span><span class="p">(</span><span class="n">sorted_filter_list</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">echo_filter_dict</span></div>
+
+<div class="viewcode-block" id="smeargle_avaliable_oscar_plotting_functions"><a class="viewcode-back" href="../../../python_docstrings/IfA_Smeargle.meta.meta_programming.html#IfA_Smeargle.meta.meta_programming.smeargle_avaliable_oscar_plotting_functions">[docs]</a><span class="k">def</span> <span class="nf">smeargle_avaliable_oscar_plotting_functions</span><span class="p">():</span>
+    <span class="sd">&quot;&quot;&quot; This returns a dictionary of the available plotting functions found </span>
+<span class="sd">    in OSCAR which can be used.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    nothing</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    oscar_plotting_dict : dictionary</span>
+<span class="sd">        This is a collection of all of the available plotting functions that </span>
+<span class="sd">        are usable.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="c1"># Obtain the dictionary of the OSCAR line to process into the </span>
+    <span class="c1"># individual functions and to ignore the other unneeded methods. </span>
+    <span class="n">complete_oscar_dict</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">(</span><span class="n">inspect</span><span class="o">.</span><span class="n">getmembers</span><span class="p">(</span><span class="n">oscar</span><span class="p">,</span> <span class="n">inspect</span><span class="o">.</span><span class="n">ismodule</span><span class="p">))</span>
+
+    <span class="c1"># Filter only those functions belonging to IfA-Smeargle, then OSCAR. </span>
+    <span class="c1"># This is done using the source file location names and the file</span>
+    <span class="c1"># naming conventions of IfA-Smeargle. </span>
+    <span class="n">source_file_list</span> <span class="o">=</span> <span class="p">[</span><span class="n">inspect</span><span class="o">.</span><span class="n">getsourcefile</span><span class="p">(</span><span class="n">complete_oscar_dict</span><span class="p">[</span><span class="n">keydex</span><span class="p">])</span> 
+                        <span class="k">for</span> <span class="n">keydex</span> <span class="ow">in</span> <span class="n">complete_oscar_dict</span><span class="o">.</span><span class="n">keys</span><span class="p">()]</span>
+    <span class="n">ifa_smeargle_file_list</span> <span class="o">=</span> <span class="p">[</span><span class="n">filedex</span> <span class="k">for</span> <span class="n">filedex</span> <span class="ow">in</span> <span class="n">source_file_list</span> 
+                              <span class="k">if</span> <span class="s1">&#39;IfA_Smeargle&#39;</span> <span class="ow">in</span> <span class="n">filedex</span><span class="p">]</span>
+    <span class="n">oscar_file_list</span> <span class="o">=</span> <span class="p">[</span><span class="n">filedex</span> <span class="k">for</span> <span class="n">filedex</span> <span class="ow">in</span> <span class="n">ifa_smeargle_file_list</span> 
+                       <span class="k">if</span> <span class="s1">&#39;oscar&#39;</span> <span class="ow">in</span> <span class="n">filedex</span><span class="p">]</span>
+
+    <span class="c1"># The module names as a normal name, rather than the file path to the</span>
+    <span class="c1"># python file. </span>
+    <span class="n">oscar_mod_name_list</span> <span class="o">=</span> <span class="p">[</span><span class="n">inspect</span><span class="o">.</span><span class="n">getmodulename</span><span class="p">(</span><span class="n">oscardex</span><span class="p">)</span> 
+                           <span class="k">for</span> <span class="n">oscardex</span> <span class="ow">in</span> <span class="n">ifa_smeargle_file_list</span> <span class="k">if</span> <span class="s1">&#39;oscar&#39;</span> <span class="ow">in</span> <span class="n">oscardex</span><span class="p">]</span>
+
+    <span class="c1"># Module specifications and the frozen versions of the modules </span>
+    <span class="c1"># themselves. </span>
+    <span class="n">oscar_modspec</span> <span class="o">=</span> <span class="p">[</span><span class="n">importlib</span><span class="o">.</span><span class="n">util</span><span class="o">.</span><span class="n">spec_from_file_location</span><span class="p">(</span><span class="n">namedex</span><span class="p">,</span> <span class="n">filedex</span><span class="p">)</span> 
+                     <span class="k">for</span> <span class="n">namedex</span><span class="p">,</span> <span class="n">filedex</span> <span class="ow">in</span> <span class="nb">zip</span><span class="p">(</span><span class="n">oscar_mod_name_list</span><span class="p">,</span> <span class="n">oscar_file_list</span><span class="p">)]</span>
+    <span class="n">oscar_modules</span> <span class="o">=</span> <span class="p">[</span><span class="n">importlib</span><span class="o">.</span><span class="n">util</span><span class="o">.</span><span class="n">module_from_spec</span><span class="p">(</span><span class="n">specdex</span><span class="p">)</span> 
+                     <span class="k">for</span> <span class="n">specdex</span> <span class="ow">in</span> <span class="n">oscar_modspec</span><span class="p">]</span>
+
+    <span class="c1"># Un-freezing and loading the OSCAR modules to be used and reloaded</span>
+    <span class="c1"># for its plotting functions. </span>
+    <span class="k">for</span> <span class="n">specdex</span><span class="p">,</span> <span class="n">moduledex</span> <span class="ow">in</span> <span class="nb">zip</span><span class="p">(</span><span class="n">oscar_modspec</span><span class="p">,</span> <span class="n">oscar_modules</span><span class="p">):</span>
+        <span class="n">specdex</span><span class="o">.</span><span class="n">loader</span><span class="o">.</span><span class="n">exec_module</span><span class="p">(</span><span class="n">moduledex</span><span class="p">)</span>
+
+    <span class="c1"># All filtered functions belonging to the OSCAR module that only</span>
+    <span class="c1"># contains the functions from IfA-Smeargle.</span>
+    <span class="n">function_dictionaries</span> <span class="o">=</span> <span class="p">[</span><span class="nb">dict</span><span class="p">(</span><span class="n">inspect</span><span class="o">.</span><span class="n">getmembers</span><span class="p">(</span><span class="n">moduledex</span><span class="p">,</span> <span class="n">inspect</span><span class="o">.</span><span class="n">isfunction</span><span class="p">))</span> 
+                             <span class="k">for</span> <span class="n">moduledex</span> <span class="ow">in</span> <span class="n">oscar_modules</span><span class="p">]</span>
+
+    <span class="c1"># The  function dictionary has some functions from IfA.meta and </span>
+    <span class="c1"># from the OSCAR functions module, that is, it does not contain any </span>
+    <span class="c1"># real significance for the plotting functionality to add a wrapper </span>
+    <span class="c1"># for. </span>
+    <span class="n">oscar_plotting_functions</span> <span class="o">=</span> <span class="p">{}</span>
+    <span class="k">for</span> <span class="n">dictionarydex</span> <span class="ow">in</span> <span class="n">function_dictionaries</span><span class="p">:</span> 
+        <span class="n">oscar_plotting_functions</span> <span class="o">=</span> <span class="p">{</span><span class="o">**</span><span class="n">oscar_plotting_functions</span><span class="p">,</span> <span class="o">**</span><span class="n">dictionarydex</span><span class="p">}</span>
+    <span class="k">for</span> <span class="n">keydex</span><span class="p">,</span> <span class="n">valuedex</span> <span class="ow">in</span> <span class="n">copy</span><span class="o">.</span><span class="n">deepcopy</span><span class="p">(</span><span class="n">oscar_plotting_functions</span><span class="p">)</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+        <span class="c1"># Removing the IfA.meta additives.</span>
+        <span class="k">if</span> <span class="p">(</span><span class="s1">&#39;smeargle&#39;</span> <span class="ow">in</span> <span class="n">keydex</span><span class="p">):</span>
+            <span class="n">oscar_plotting_functions</span><span class="o">.</span><span class="n">pop</span><span class="p">(</span><span class="n">keydex</span><span class="p">,</span> <span class="kc">None</span><span class="p">)</span>
+        <span class="c1"># Plots such as these require the entire directory of data and </span>
+        <span class="c1"># are not applicible for this class. </span>
+        <span class="k">if</span> <span class="p">(</span><span class="s1">&#39;plotdir&#39;</span> <span class="ow">in</span> <span class="n">keydex</span><span class="p">):</span>
+            <span class="n">oscar_plotting_functions</span><span class="o">.</span><span class="n">pop</span><span class="p">(</span><span class="n">keydex</span><span class="p">,</span> <span class="kc">None</span><span class="p">)</span>
+        <span class="c1"># Removing everything else that is not considered a plotting</span>
+        <span class="c1"># function. </span>
+        <span class="k">if</span> <span class="p">(</span><span class="s1">&#39;plot&#39;</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">keydex</span><span class="p">):</span>
+            <span class="n">oscar_plotting_functions</span><span class="o">.</span><span class="n">pop</span><span class="p">(</span><span class="n">keydex</span><span class="p">,</span> <span class="kc">None</span><span class="p">)</span>
+
+    <span class="c1"># For documentation purposes.</span>
+    <span class="n">oscar_plotting_dict</span> <span class="o">=</span> <span class="n">copy</span><span class="o">.</span><span class="n">deepcopy</span><span class="p">(</span><span class="n">oscar_plotting_functions</span><span class="p">)</span> 
+    <span class="k">return</span> <span class="n">oscar_plotting_dict</span></div>
+</pre></div>
+
+           </div>
+           
+          </div>
+          <footer>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2019, Sparrow
+
+    </p>
+  </div>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+
+  
+  
+    
+   
+
+</body>
+</html>

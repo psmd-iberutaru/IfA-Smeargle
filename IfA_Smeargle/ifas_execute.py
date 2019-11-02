@@ -82,7 +82,7 @@ def execute_ifas_smeargle(pipeline_name, data_directory, config_class_path,
     except Exception:
         # It seemed that the standard method could not return a good 
         # configuration class. Attempt to read with the factory function.
-        configuration_class = yankee.configuration_factory_function(yankee.SmeargleConfig, 
+        configuration_class = yankee.yankee_configuration_factory_function(yankee.SmeargleConfig, 
                                                                     file_name=config_class_path)
     
     # Check if the file directory provided is a valid data directory. Be

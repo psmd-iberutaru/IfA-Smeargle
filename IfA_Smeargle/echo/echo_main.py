@@ -55,7 +55,7 @@ def echo_execution(data_array, configuration_class,
         __, __, data_array = meta_faa.smeargle_open_fits_file(data_array)
 
     # Be adaptive as to which configuration class is given.
-    provided_config = yankee.extract_proper_configuration_class(configuration_class,
+    provided_config = yankee.yankee_extract_proper_configuration_class(configuration_class,
                                                                      yankee.EchoConfig)
 
 

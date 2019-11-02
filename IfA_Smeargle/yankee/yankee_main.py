@@ -48,7 +48,7 @@ class SmeargleConfig(configclass.BaseConfig):
 
     def __init__(self, file_name=None):
         try:
-            self.__dict__.update(extract_proper_configuration_class(file_name,
+            self.__dict__.update(yankee_extract_proper_configuration_class(file_name,
                                                                     SmeargleConfig).__dict__)
         except Exception:
             if (file_name is not None):
