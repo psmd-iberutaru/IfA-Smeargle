@@ -184,8 +184,8 @@
 purpose is to allow for the proper reading of different possible arrangements
 of the configuration parameters.</p>
 <dl class="function">
-<dt id="IfA_Smeargle.yankee.yankee_functions.configuration_factory_function">
-<code class="sig-prename descclassname">IfA_Smeargle.yankee.yankee_functions.</code><code class="sig-name descname">configuration_factory_function</code><span class="sig-paren">(</span><em class="sig-param">desired_class</em>, <em class="sig-param">file_name=None</em>, <em class="sig-param">silent=False</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/IfA_Smeargle/yankee/yankee_functions.html#configuration_factory_function"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#IfA_Smeargle.yankee.yankee_functions.configuration_factory_function" title="Permalink to this definition">¶</a></dt>
+<dt id="IfA_Smeargle.yankee.yankee_functions.yankee_configuration_factory_function">
+<code class="sig-prename descclassname">IfA_Smeargle.yankee.yankee_functions.</code><code class="sig-name descname">yankee_configuration_factory_function</code><span class="sig-paren">(</span><em class="sig-param">desired_class</em>, <em class="sig-param">file_name=None</em>, <em class="sig-param">silent=False</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/IfA_Smeargle/yankee/yankee_functions.html#yankee_configuration_factory_function"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#IfA_Smeargle.yankee.yankee_functions.yankee_configuration_factory_function" title="Permalink to this definition">¶</a></dt>
 <dd><p>A function that will always open or load the proper configuration
 class.</p>
 <p>This is considered the safest method of loading a configuration class
@@ -195,7 +195,7 @@ contained within the file; else, it returns a blank configuration.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>desired_class</strong> (<em>Configuration class</em>) – The desired configuration class type that should be extracted from the
+<li><p><strong>desired_class</strong> (<em>Configuration class type</em>) – The desired configuration class type that should be extracted from the
 file.</p></li>
 <li><p><strong>file_name</strong> (<em>string</em><em> (</em><em>optional</em><em>)</em>) – The name of the configuration file.</p></li>
 <li><p><strong>silent</strong> (<em>boolean</em><em> (</em><em>optional</em><em>)</em>) – Turn off all warnings and information sent by this function and
@@ -212,8 +212,8 @@ functions below it.</p></li>
 </dd></dl>
 
 <dl class="function">
-<dt id="IfA_Smeargle.yankee.yankee_functions.extract_proper_configuration_class">
-<code class="sig-prename descclassname">IfA_Smeargle.yankee.yankee_functions.</code><code class="sig-name descname">extract_proper_configuration_class</code><span class="sig-paren">(</span><em class="sig-param">configuration_class</em>, <em class="sig-param">desired_class</em>, <em class="sig-param">deep_copy=False</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/IfA_Smeargle/yankee/yankee_functions.html#extract_proper_configuration_class"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#IfA_Smeargle.yankee.yankee_functions.extract_proper_configuration_class" title="Permalink to this definition">¶</a></dt>
+<dt id="IfA_Smeargle.yankee.yankee_functions.yankee_extract_proper_configuration_class">
+<code class="sig-prename descclassname">IfA_Smeargle.yankee.yankee_functions.</code><code class="sig-name descname">yankee_extract_proper_configuration_class</code><span class="sig-paren">(</span><em class="sig-param">configuration_class</em>, <em class="sig-param">desired_class</em>, <em class="sig-param">deep_copy=False</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/IfA_Smeargle/yankee/yankee_functions.html#yankee_extract_proper_configuration_class"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#IfA_Smeargle.yankee.yankee_functions.yankee_extract_proper_configuration_class" title="Permalink to this definition">¶</a></dt>
 <dd><p>This function extracts the proper configuration class from a
 collection of configuration classes.</p>
 <p>The whole point of this function is to retain the flexibility and ease
@@ -224,7 +224,7 @@ configuration classes themselves.</p>
 <dd class="field-odd"><ul class="simple">
 <li><p><strong>configuration_class</strong> (<em>Any BaseConfig based class</em><em> or </em><em>string</em>) – The main configuration class that should contain the desired class.
 It may also be a file name.</p></li>
-<li><p><strong>desired_class</strong> (<em>Any BaseConfig based class execpt for BaseConfig</em>) – The desired class.</p></li>
+<li><p><strong>desired_class</strong> (<em>Any BaseConfig based class except for BaseConfig type</em>) – The desired class.</p></li>
 <li><p><strong>deep_copy</strong> (<em>boolean</em><em> (</em><em>optional</em><em>)</em>) – If a deep copy of the class is desired, then set to True.</p></li>
 </ul>
 </dd>
@@ -238,8 +238,8 @@ It may also be a file name.</p></li>
 </dd></dl>
 
 <dl class="function">
-<dt id="IfA_Smeargle.yankee.yankee_functions.fast_forward_configuration_class">
-<code class="sig-prename descclassname">IfA_Smeargle.yankee.yankee_functions.</code><code class="sig-name descname">fast_forward_configuration_class</code><span class="sig-paren">(</span><em class="sig-param">configuration_class</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/IfA_Smeargle/yankee/yankee_functions.html#fast_forward_configuration_class"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#IfA_Smeargle.yankee.yankee_functions.fast_forward_configuration_class" title="Permalink to this definition">¶</a></dt>
+<dt id="IfA_Smeargle.yankee.yankee_functions.yankee_fast_forward_configuration_class">
+<code class="sig-prename descclassname">IfA_Smeargle.yankee.yankee_functions.</code><code class="sig-name descname">yankee_fast_forward_configuration_class</code><span class="sig-paren">(</span><em class="sig-param">configuration_class</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/IfA_Smeargle/yankee/yankee_functions.html#yankee_fast_forward_configuration_class"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#IfA_Smeargle.yankee.yankee_functions.yankee_fast_forward_configuration_class" title="Permalink to this definition">¶</a></dt>
 <dd><p>This functions updates the configuration class to the most compatible
 version.</p>
 <p>One of the byproducts of how the YANKEE line is coded is that
@@ -262,8 +262,8 @@ the current version.</p>
 </dd></dl>
 
 <dl class="function">
-<dt id="IfA_Smeargle.yankee.yankee_functions.overwrite_configuration_class">
-<code class="sig-prename descclassname">IfA_Smeargle.yankee.yankee_functions.</code><code class="sig-name descname">overwrite_configuration_class</code><span class="sig-paren">(</span><em class="sig-param">inferior_class</em>, <em class="sig-param">superior_class</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/IfA_Smeargle/yankee/yankee_functions.html#overwrite_configuration_class"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#IfA_Smeargle.yankee.yankee_functions.overwrite_configuration_class" title="Permalink to this definition">¶</a></dt>
+<dt id="IfA_Smeargle.yankee.yankee_functions.yankee_overwrite_configuration_class">
+<code class="sig-prename descclassname">IfA_Smeargle.yankee.yankee_functions.</code><code class="sig-name descname">yankee_overwrite_configuration_class</code><span class="sig-paren">(</span><em class="sig-param">inferior_class</em>, <em class="sig-param">superior_class</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/IfA_Smeargle/yankee/yankee_functions.html#yankee_overwrite_configuration_class"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#IfA_Smeargle.yankee.yankee_functions.yankee_overwrite_configuration_class" title="Permalink to this definition">¶</a></dt>
 <dd><p>This function combines two configuration classes by overwriting some
 parts with a more recent class.</p>
 <p>This function allows for two configuration classes to be combined. Where
@@ -289,8 +289,8 @@ both classes.</p>
 </dd></dl>
 
 <dl class="function">
-<dt id="IfA_Smeargle.yankee.yankee_functions.read_config_file">
-<code class="sig-prename descclassname">IfA_Smeargle.yankee.yankee_functions.</code><code class="sig-name descname">read_config_file</code><span class="sig-paren">(</span><em class="sig-param">file_name</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/IfA_Smeargle/yankee/yankee_functions.html#read_config_file"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#IfA_Smeargle.yankee.yankee_functions.read_config_file" title="Permalink to this definition">¶</a></dt>
+<dt id="IfA_Smeargle.yankee.yankee_functions.yankee_read_config_file">
+<code class="sig-prename descclassname">IfA_Smeargle.yankee.yankee_functions.</code><code class="sig-name descname">yankee_read_config_file</code><span class="sig-paren">(</span><em class="sig-param">file_name</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/IfA_Smeargle/yankee/yankee_functions.html#yankee_read_config_file"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#IfA_Smeargle.yankee.yankee_functions.yankee_read_config_file" title="Permalink to this definition">¶</a></dt>
 <dd><p>Function to read a specific configuration class from a normal file.</p>
 <p>As the entire module more or less depends on configuration classes. It is
 important to be able to save, copy, and reuse configuration classes.
@@ -311,8 +311,8 @@ Must have the extension <code class="docutils literal notranslate"><span class="
 </dd></dl>
 
 <dl class="function">
-<dt id="IfA_Smeargle.yankee.yankee_functions.write_config_file">
-<code class="sig-prename descclassname">IfA_Smeargle.yankee.yankee_functions.</code><code class="sig-name descname">write_config_file</code><span class="sig-paren">(</span><em class="sig-param">config_class</em>, <em class="sig-param">file_name</em>, <em class="sig-param">overwrite=False</em>, <em class="sig-param">protocol=4</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/IfA_Smeargle/yankee/yankee_functions.html#write_config_file"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#IfA_Smeargle.yankee.yankee_functions.write_config_file" title="Permalink to this definition">¶</a></dt>
+<dt id="IfA_Smeargle.yankee.yankee_functions.yankee_write_config_file">
+<code class="sig-prename descclassname">IfA_Smeargle.yankee.yankee_functions.</code><code class="sig-name descname">yankee_write_config_file</code><span class="sig-paren">(</span><em class="sig-param">config_class</em>, <em class="sig-param">file_name</em>, <em class="sig-param">overwrite=False</em>, <em class="sig-param">protocol=4</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/IfA_Smeargle/yankee/yankee_functions.html#yankee_write_config_file"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#IfA_Smeargle.yankee.yankee_functions.yankee_write_config_file" title="Permalink to this definition">¶</a></dt>
 <dd><p>Function to write a specific configuration class to a normal file.</p>
 <p>As the entire module more or less depends on configuration classes. It
 is important to be able to save, copy, and reuse configuration classes.

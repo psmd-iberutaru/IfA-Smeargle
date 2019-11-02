@@ -165,13 +165,13 @@
 
 <span class="kn">from</span> <span class="nn">IfA_Smeargle.meta</span> <span class="k">import</span> <span class="o">*</span>
 
-<span class="kn">from</span> <span class="nn">IfA_Smeargle.yankee</span> <span class="k">import</span> <span class="n">configuration_classes</span> <span class="k">as</span> <span class="n">conclass</span>
+<span class="kn">from</span> <span class="nn">IfA_Smeargle.yankee</span> <span class="k">import</span> <span class="n">configuration_classes</span> <span class="k">as</span> <span class="n">configclass</span>
 
 <span class="c1"># Pulling deeper functions into the light.</span>
 <span class="kn">from</span> <span class="nn">IfA_Smeargle.yankee.yankee_functions</span> <span class="k">import</span> <span class="o">*</span>
 
 
-<div class="viewcode-block" id="SmeargleConfig"><a class="viewcode-back" href="../../../python_docstrings/IfA_Smeargle.yankee.yankee_main.html#IfA_Smeargle.yankee.yankee_main.SmeargleConfig">[docs]</a><span class="k">class</span> <span class="nc">SmeargleConfig</span><span class="p">(</span><span class="n">conclass</span><span class="o">.</span><span class="n">BaseConfig</span><span class="p">):</span>
+<div class="viewcode-block" id="SmeargleConfig"><a class="viewcode-back" href="../../../python_docstrings/IfA_Smeargle.yankee.yankee_main.html#IfA_Smeargle.yankee.yankee_main.SmeargleConfig">[docs]</a><span class="k">class</span> <span class="nc">SmeargleConfig</span><span class="p">(</span><span class="n">configclass</span><span class="o">.</span><span class="n">BaseConfig</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot; Configuration class of the entire Smeargle pipeline and other </span>
 <span class="sd">    properties.</span>
 <span class="sd">    </span>
@@ -201,7 +201,7 @@
 
     <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">file_name</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
         <span class="k">try</span><span class="p">:</span>
-            <span class="bp">self</span><span class="o">.</span><span class="vm">__dict__</span><span class="o">.</span><span class="n">update</span><span class="p">(</span><span class="n">extract_proper_configuration_class</span><span class="p">(</span><span class="n">file_name</span><span class="p">,</span>
+            <span class="bp">self</span><span class="o">.</span><span class="vm">__dict__</span><span class="o">.</span><span class="n">update</span><span class="p">(</span><span class="n">yankee_extract_proper_configuration_class</span><span class="p">(</span><span class="n">file_name</span><span class="p">,</span>
                                                                     <span class="n">SmeargleConfig</span><span class="p">)</span><span class="o">.</span><span class="vm">__dict__</span><span class="p">)</span>
         <span class="k">except</span> <span class="ne">Exception</span><span class="p">:</span>
             <span class="k">if</span> <span class="p">(</span><span class="n">file_name</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">):</span>
@@ -210,13 +210,13 @@
                                                    <span class="s2">&quot;function. A blank configuration class has &quot;</span>
                                                    <span class="s2">&quot;been provided instead.&quot;</span><span class="p">))</span>
 
-            <span class="bp">self</span><span class="o">.</span><span class="n">BravoConfig</span> <span class="o">=</span> <span class="n">conclass</span><span class="o">.</span><span class="n">BravoConfig</span><span class="p">()</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">EchoConfig</span> <span class="o">=</span> <span class="n">conclass</span><span class="o">.</span><span class="n">EchoConfig</span><span class="p">()</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">OscarConfig</span> <span class="o">=</span> <span class="n">conclass</span><span class="o">.</span><span class="n">OscarConfig</span><span class="p">()</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">YankeeConfig</span> <span class="o">=</span> <span class="n">conclass</span><span class="o">.</span><span class="n">YankeeConfig</span><span class="p">()</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">ZuluConfig</span> <span class="o">=</span> <span class="n">conclass</span><span class="o">.</span><span class="n">ZuluConfig</span><span class="p">()</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">BravoConfig</span> <span class="o">=</span> <span class="n">configclass</span><span class="o">.</span><span class="n">BravoConfig</span><span class="p">()</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">EchoConfig</span> <span class="o">=</span> <span class="n">configclass</span><span class="o">.</span><span class="n">EchoConfig</span><span class="p">()</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">OscarConfig</span> <span class="o">=</span> <span class="n">configclass</span><span class="o">.</span><span class="n">OscarConfig</span><span class="p">()</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">YankeeConfig</span> <span class="o">=</span> <span class="n">configclass</span><span class="o">.</span><span class="n">YankeeConfig</span><span class="p">()</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">ZuluConfig</span> <span class="o">=</span> <span class="n">configclass</span><span class="o">.</span><span class="n">ZuluConfig</span><span class="p">()</span>
 
-            <span class="bp">self</span><span class="o">.</span><span class="n">BaseConfig</span> <span class="o">=</span> <span class="n">conclass</span><span class="o">.</span><span class="n">BaseConfig</span><span class="p">()</span></div>
+            <span class="bp">self</span><span class="o">.</span><span class="n">BaseConfig</span> <span class="o">=</span> <span class="n">configclass</span><span class="o">.</span><span class="n">BaseConfig</span><span class="p">()</span></div>
 
 
 

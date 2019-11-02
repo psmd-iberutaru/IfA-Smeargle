@@ -194,7 +194,7 @@
 <span class="sd">        are applied instead.</span>
 <span class="sd">    plot : boolean (optional)</span>
 <span class="sd">        A flag to check if this plotting function should be run. A component </span>
-<span class="sd">        in the mutli-plot functions. Defaults to true.</span>
+<span class="sd">        in the mutli-plot functions. Defaults to true. </span>
 
 <span class="sd">    histogram_plot_parameters : dictionary &lt;config&gt;</span>
 <span class="sd">        These are options the user may use to pass customization parameters </span>
@@ -262,7 +262,7 @@
     <span class="k">if</span> <span class="p">((</span><span class="s1">&#39;range&#39;</span> <span class="ow">in</span> <span class="n">histogram_plot_paramters</span><span class="p">)</span> <span class="ow">and</span> 
         <span class="p">(</span><span class="nb">isinstance</span><span class="p">(</span><span class="n">histogram_plot_paramters</span><span class="p">[</span><span class="s1">&#39;bins&#39;</span><span class="p">],</span><span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">))):</span>
         <span class="c1"># The user provided their own range parameter, &quot;override&quot; the bin</span>
-        <span class="c1"># with parameter by using a different bin width system.</span>
+        <span class="c1"># width parameter by using a different bin width system.</span>
         <span class="n">min_range</span> <span class="o">=</span> <span class="n">histogram_plot_paramters</span><span class="p">[</span><span class="s1">&#39;range&#39;</span><span class="p">][</span><span class="mi">0</span><span class="p">]</span>
         <span class="n">max_range</span> <span class="o">=</span> <span class="n">histogram_plot_paramters</span><span class="p">[</span><span class="s1">&#39;range&#39;</span><span class="p">][</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span>
 
@@ -285,9 +285,21 @@
         <span class="n">gauss_funt</span><span class="p">,</span> <span class="n">gauss_param</span> <span class="o">=</span> \
             <span class="n">meta_model</span><span class="o">.</span><span class="n">smeargle_fit_histogram_gaussian_function</span><span class="p">(</span><span class="n">plotting_data</span><span class="p">,</span> <span class="n">bin_width</span><span class="p">)</span>
 
-        <span class="c1"># For better plotting resolution.</span>
-        <span class="n">temp_gauss_x_axis</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">nanmin</span><span class="p">(</span><span class="n">hist_x</span><span class="p">)</span> <span class="o">-</span> <span class="mi">1</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">nanmax</span><span class="p">(</span><span class="n">hist_x</span><span class="p">)</span> <span class="o">+</span> <span class="mi">1</span><span class="p">,</span> 
-                                        <span class="n">hist_x</span><span class="o">.</span><span class="n">size</span> <span class="o">*</span> <span class="mi">10</span><span class="p">)</span>
+        <span class="c1"># For better plotting resolution. The domain of the histogram, the </span>
+        <span class="c1"># guassian mean, and to smoothen out the two.</span>
+        <span class="n">hist_domain</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">nanmin</span><span class="p">(</span><span class="n">hist_x</span><span class="p">)</span> <span class="o">-</span> <span class="mi">1</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">nanmax</span><span class="p">(</span><span class="n">hist_x</span><span class="p">)</span> <span class="o">+</span> <span class="mi">1</span><span class="p">,</span> <span class="n">hist_x</span><span class="o">.</span><span class="n">size</span> <span class="o">*</span> <span class="mi">10</span><span class="p">)</span>
+        <span class="n">gaussian_domain</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span><span class="nb">float</span><span class="p">(</span><span class="n">gauss_param</span><span class="p">[</span><span class="s1">&#39;mean&#39;</span><span class="p">]</span> <span class="o">-</span> <span class="mf">2.1</span><span class="o">*</span><span class="n">gauss_param</span><span class="p">[</span><span class="s1">&#39;stddev&#39;</span><span class="p">]),</span>
+                                      <span class="nb">float</span><span class="p">(</span><span class="n">gauss_param</span><span class="p">[</span><span class="s1">&#39;mean&#39;</span><span class="p">]</span> <span class="o">+</span> <span class="mf">2.1</span><span class="o">*</span><span class="n">gauss_param</span><span class="p">[</span><span class="s1">&#39;stddev&#39;</span><span class="p">]),</span>
+                                      <span class="nb">int</span><span class="p">(</span><span class="mi">5</span><span class="o">*</span><span class="n">gauss_param</span><span class="p">[</span><span class="s1">&#39;stddev&#39;</span><span class="p">]</span> <span class="o">*</span> <span class="mi">10</span><span class="p">))</span>
+        <span class="n">smooth_domain</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">nanmin</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">hist_domain</span><span class="p">,</span> <span class="n">gaussian_domain</span><span class="p">)),</span>
+                                    <span class="n">np</span><span class="o">.</span><span class="n">nanmax</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">hist_domain</span><span class="p">,</span> <span class="n">gaussian_domain</span><span class="p">)),</span>
+                                    <span class="mi">10</span><span class="o">*</span><span class="n">np</span><span class="o">.</span><span class="n">ptp</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">hist_domain</span><span class="p">,</span> <span class="n">gaussian_domain</span><span class="p">)))</span>
+
+        <span class="n">temp_gauss_x_axis</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">sort</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">hist_domain</span><span class="p">,</span> 
+                                              <span class="n">np</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">gaussian_domain</span><span class="p">,</span> <span class="n">smooth_domain</span><span class="p">)),</span> 
+                                    <span class="n">axis</span><span class="o">=</span><span class="kc">None</span><span class="p">)</span>
+
+        <span class="c1"># Plotting</span>
         <span class="n">ax</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">temp_gauss_x_axis</span><span class="p">,</span> <span class="n">gauss_funt</span><span class="p">(</span><span class="n">temp_gauss_x_axis</span><span class="p">),</span> 
                 <span class="n">linewidth</span><span class="o">=</span><span class="mf">1.5</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s1">&#39;black&#39;</span><span class="p">)</span>
 
@@ -325,8 +337,8 @@
         <span class="c1"># There is no Gaussian information to return.</span>
         <span class="n">gaussian_fit_atributes</span> <span class="o">=</span> <span class="kc">None</span>
     <span class="k">else</span><span class="p">:</span>
-        <span class="k">raise</span> <span class="n">BrokenLogicError</span><span class="p">(</span><span class="s2">&quot;The program should not have entered here. Please contact &quot;</span>
-                               <span class="s2">&quot;developers with proper information.&quot;</span><span class="p">)</span>
+        <span class="k">raise</span> <span class="n">BrokenLogicError</span><span class="p">(</span><span class="s2">&quot;The boolean fit_gaussian parameter is not reducible to a &quot;</span>
+                               <span class="s2">&quot;boolean as it surpassed a T/F boolean check.&quot;</span><span class="p">)</span>
     
     <span class="c1"># Basic axis labels.</span>
     <span class="n">ax</span><span class="o">.</span><span class="n">set_xlabel</span><span class="p">(</span><span class="s1">&#39;Pixel Values&#39;</span><span class="p">)</span>
@@ -335,11 +347,20 @@
     <span class="c1"># If the range has been set, adhere to it. Have a fall back in the event </span>
     <span class="c1"># The user may have messed up.</span>
     <span class="k">if</span> <span class="p">(</span><span class="s1">&#39;range&#39;</span> <span class="ow">in</span> <span class="n">histogram_plot_paramters</span><span class="p">):</span>
-        <span class="n">left_range</span> <span class="o">=</span> <span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">nanmin</span><span class="p">(</span><span class="n">histogram_plot_paramters</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;range&#39;</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">nanmin</span><span class="p">(</span><span class="n">plotting_data</span><span class="p">)))</span> 
+        <span class="n">left_range</span> <span class="o">=</span> <span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">nanmin</span><span class="p">(</span><span class="n">histogram_plot_paramters</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;range&#39;</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">nanmin</span><span class="p">(</span><span class="n">hist_x</span><span class="p">)))</span> 
                       <span class="o">-</span> <span class="mi">1</span><span class="p">)</span>
-        <span class="n">right_range</span> <span class="o">=</span> <span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">nanmax</span><span class="p">(</span><span class="n">histogram_plot_paramters</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;range&#39;</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">nanmax</span><span class="p">(</span><span class="n">plotting_data</span><span class="p">)))</span> 
+        <span class="n">right_range</span> <span class="o">=</span> <span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">nanmax</span><span class="p">(</span><span class="n">histogram_plot_paramters</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;range&#39;</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">nanmax</span><span class="p">(</span><span class="n">hist_x</span><span class="p">)))</span> 
                        <span class="o">+</span> <span class="mi">1</span><span class="p">)</span>
         <span class="n">ax</span><span class="o">.</span><span class="n">set_xlim</span><span class="p">(</span><span class="n">left_range</span><span class="p">,</span> <span class="n">right_range</span><span class="p">)</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">left_range</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">nanmin</span><span class="p">(</span><span class="n">hist_x</span><span class="p">)</span> <span class="o">-</span> <span class="n">np</span><span class="o">.</span><span class="n">ptp</span><span class="p">(</span><span class="n">hist_x</span><span class="p">)</span> <span class="o">*</span> <span class="mf">0.1</span>
+        <span class="n">right_range</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">nanmax</span><span class="p">(</span><span class="n">hist_x</span><span class="p">)</span> <span class="o">+</span> <span class="n">np</span><span class="o">.</span><span class="n">ptp</span><span class="p">(</span><span class="n">hist_x</span><span class="p">)</span> <span class="o">*</span> <span class="mf">0.1</span>
+        <span class="n">ax</span><span class="o">.</span><span class="n">set_xlim</span><span class="p">(</span><span class="n">left_range</span><span class="p">,</span> <span class="n">right_range</span><span class="p">)</span>
+
+    <span class="c1"># Always auto-adjust y-axis to histogram.</span>
+    <span class="n">top_range</span> <span class="o">=</span> <span class="mf">1.1</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">nanmax</span><span class="p">(</span><span class="n">hist_y</span><span class="p">)</span>
+    <span class="n">bottom_range</span> <span class="o">=</span> <span class="mi">0</span>
+    <span class="n">ax</span><span class="o">.</span><span class="n">set_ylim</span><span class="p">(</span><span class="n">bottom_range</span><span class="p">,</span> <span class="n">top_range</span><span class="p">)</span>
 
     <span class="c1"># That should be it.</span>
     <span class="k">return</span> <span class="n">ax</span><span class="p">,</span> <span class="n">gaussian_fit_atributes</span></div>

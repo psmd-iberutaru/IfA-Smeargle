@@ -179,7 +179,7 @@
 <span class="sd">    data_array : ndarray or string</span>
 <span class="sd">        This is the data array that is expected to be analyzed and have </span>
 <span class="sd">        histograms made. It can also be a fits file if desired. </span>
-<span class="sd">    configuration_class : SmeargleConfig or OscarConfig class.</span>
+<span class="sd">    configuration_class : SmeargleConfig or OscarConfig class (optional)</span>
 <span class="sd">        The configuration options for the plotting functionality.</span>
 
 <span class="sd">    figure_subplot_parameters : dictionary &lt;config&gt;</span>
@@ -198,8 +198,8 @@
     <span class="c1"># Extract the proper configurations.</span>
     <span class="k">if</span> <span class="p">(</span><span class="n">configuration_class</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">):</span>
         <span class="c1"># Get the right class.</span>
-        <span class="n">plot_config</span> <span class="o">=</span> <span class="n">meta_config</span><span class="o">.</span><span class="n">extract_proper_configuration_class</span><span class="p">(</span><span class="n">configuration_class</span><span class="p">,</span>
-                                                                     <span class="n">yankee</span><span class="o">.</span><span class="n">OscarConfig</span><span class="p">)</span>
+        <span class="n">plot_config</span> <span class="o">=</span> <span class="n">yankee</span><span class="o">.</span><span class="n">yankee_extract_proper_configuration_class</span><span class="p">(</span><span class="n">configuration_class</span><span class="p">,</span>
+                                                                <span class="n">yankee</span><span class="o">.</span><span class="n">OscarConfig</span><span class="p">)</span>
         <span class="n">heatmap_config</span> <span class="o">=</span> <span class="n">plot_config</span><span class="o">.</span><span class="n">general_heatmap_config</span>
         <span class="n">histogram_config</span> <span class="o">=</span> <span class="n">plot_config</span><span class="o">.</span><span class="n">general_histogram_config</span>
         <span class="c1"># Remove the data array variables and figure axes variables.</span>

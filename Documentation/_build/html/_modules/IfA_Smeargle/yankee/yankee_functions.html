@@ -163,12 +163,11 @@
 <span class="kn">import</span> <span class="nn">pickle</span>
 <span class="kn">import</span> <span class="nn">warnings</span> <span class="k">as</span> <span class="nn">warn</span>
 
-<span class="kn">from</span> <span class="nn">IfA_Smeargle.meta</span> <span class="k">import</span> <span class="o">*</span>
 <span class="kn">import</span> <span class="nn">IfA_Smeargle.yankee</span> <span class="k">as</span> <span class="nn">yankee</span>
 
+<span class="kn">from</span> <span class="nn">IfA_Smeargle.meta</span> <span class="k">import</span> <span class="o">*</span>
 
-
-<div class="viewcode-block" id="configuration_factory_function"><a class="viewcode-back" href="../../../python_docstrings/IfA_Smeargle.yankee.yankee_functions.html#IfA_Smeargle.yankee.yankee_functions.configuration_factory_function">[docs]</a><span class="k">def</span> <span class="nf">configuration_factory_function</span><span class="p">(</span><span class="n">desired_class</span><span class="p">,</span> <span class="n">file_name</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">silent</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
+<div class="viewcode-block" id="yankee_configuration_factory_function"><a class="viewcode-back" href="../../../python_docstrings/IfA_Smeargle.yankee.yankee_functions.html#IfA_Smeargle.yankee.yankee_functions.yankee_configuration_factory_function">[docs]</a><span class="k">def</span> <span class="nf">yankee_configuration_factory_function</span><span class="p">(</span><span class="n">desired_class</span><span class="p">,</span> <span class="n">file_name</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">silent</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot; A function that will always open or load the proper configuration</span>
 <span class="sd">    class.</span>
 
@@ -180,7 +179,7 @@
 
 <span class="sd">    Parameters</span>
 <span class="sd">    ----------</span>
-<span class="sd">    desired_class : Configuration class</span>
+<span class="sd">    desired_class : Configuration class type</span>
 <span class="sd">        The desired configuration class type that should be extracted from the </span>
 <span class="sd">        file.</span>
 <span class="sd">    file_name : string (optional)</span>
@@ -197,7 +196,7 @@
     <span class="c1"># Check if the user didn&#39;t want any warnings or info messages.</span>
     <span class="k">if</span> <span class="p">(</span><span class="n">silent</span><span class="p">):</span>
         <span class="k">with</span> <span class="n">smeargle_absolute_silence</span><span class="p">():</span>
-            <span class="k">return</span> <span class="n">configuration_factory_function</span><span class="p">(</span><span class="n">desired_class</span><span class="p">,</span> <span class="n">file_name</span><span class="o">=</span><span class="n">file_name</span><span class="p">)</span>
+            <span class="k">return</span> <span class="n">yankee_configuration_factory_function</span><span class="p">(</span><span class="n">desired_class</span><span class="p">,</span> <span class="n">file_name</span><span class="o">=</span><span class="n">file_name</span><span class="p">)</span>
 
     <span class="c1"># Check that the desired class is actually a valid configuration class.</span>
     <span class="k">if</span> <span class="p">(</span><span class="ow">not</span> <span class="nb">issubclass</span><span class="p">(</span><span class="n">desired_class</span><span class="p">,</span><span class="n">yankee</span><span class="o">.</span><span class="n">BaseConfig</span><span class="p">)):</span>
@@ -221,7 +220,7 @@
         <span class="c1"># It may or may not be a class?</span>
         <span class="k">if</span> <span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">isfile</span><span class="p">(</span><span class="n">file_name</span><span class="p">)):</span>
             <span class="k">try</span><span class="p">:</span>
-                <span class="n">config_class</span> <span class="o">=</span> <span class="n">read_config_file</span><span class="p">(</span><span class="n">file_name</span><span class="p">)</span>
+                <span class="n">config_class</span> <span class="o">=</span> <span class="n">yankee_read_config_file</span><span class="p">(</span><span class="n">file_name</span><span class="p">)</span>
             <span class="k">except</span> <span class="ne">Exception</span><span class="p">:</span>
                 <span class="c1"># It did not seem to work.</span>
                 <span class="n">smeargle_warning</span><span class="p">(</span><span class="n">InputWarning</span><span class="p">,</span> <span class="p">(</span><span class="s2">&quot;The file could not be read &quot;</span>
@@ -246,8 +245,8 @@
     <span class="k">return</span> <span class="n">config_class</span></div>
 
 
-<div class="viewcode-block" id="extract_proper_configuration_class"><a class="viewcode-back" href="../../../python_docstrings/IfA_Smeargle.yankee.yankee_functions.html#IfA_Smeargle.yankee.yankee_functions.extract_proper_configuration_class">[docs]</a><span class="k">def</span> <span class="nf">extract_proper_configuration_class</span><span class="p">(</span><span class="n">configuration_class</span><span class="p">,</span> <span class="n">desired_class</span><span class="p">,</span>
-                                       <span class="n">deep_copy</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
+<div class="viewcode-block" id="yankee_extract_proper_configuration_class"><a class="viewcode-back" href="../../../python_docstrings/IfA_Smeargle.yankee.yankee_functions.html#IfA_Smeargle.yankee.yankee_functions.yankee_extract_proper_configuration_class">[docs]</a><span class="k">def</span> <span class="nf">yankee_extract_proper_configuration_class</span><span class="p">(</span><span class="n">configuration_class</span><span class="p">,</span> <span class="n">desired_class</span><span class="p">,</span>
+                                              <span class="n">deep_copy</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot; This function extracts the proper configuration class from a </span>
 <span class="sd">    collection of configuration classes.</span>
 <span class="sd">    </span>
@@ -260,7 +259,7 @@
 <span class="sd">    configuration_class : Any BaseConfig based class or string</span>
 <span class="sd">        The main configuration class that should contain the desired class. </span>
 <span class="sd">        It may also be a file name.</span>
-<span class="sd">    desired_class : Any BaseConfig based class execpt for BaseConfig</span>
+<span class="sd">    desired_class : Any BaseConfig based class except for BaseConfig type</span>
 <span class="sd">        The desired class.</span>
 <span class="sd">    deep_copy : boolean (optional)</span>
 <span class="sd">        If a deep copy of the class is desired, then set to True.</span>
@@ -272,8 +271,8 @@
 <span class="sd">    &quot;&quot;&quot;</span>
 
     <span class="c1"># Test to see if it is a file name, if it is: load.</span>
-    <span class="k">if</span> <span class="p">(</span><span class="nb">isinstance</span><span class="p">(</span><span class="n">configuration_class</span><span class="p">,</span><span class="nb">str</span><span class="p">)):</span>
-        <span class="n">configuration_class</span> <span class="o">=</span> <span class="n">read_config_file</span><span class="p">(</span><span class="n">configuration_class</span><span class="p">)</span>
+    <span class="k">if</span> <span class="p">(</span><span class="nb">isinstance</span><span class="p">(</span><span class="n">configuration_class</span><span class="p">,</span> <span class="nb">str</span><span class="p">)):</span>
+        <span class="n">configuration_class</span> <span class="o">=</span> <span class="n">yankee_read_config_file</span><span class="p">(</span><span class="n">configuration_class</span><span class="p">)</span>
 
     <span class="c1"># Test if the class is a base class, the base class has no configuration</span>
     <span class="c1"># value.</span>
@@ -283,7 +282,7 @@
                                  <span class="s2">&quot;it is suggested that it is changed.&quot;</span><span class="p">)</span>
     <span class="c1"># Test if useless to proceed because it is already finished.</span>
     <span class="k">elif</span> <span class="p">(</span><span class="nb">type</span><span class="p">(</span><span class="n">configuration_class</span><span class="p">)</span> <span class="o">==</span> <span class="n">desired_class</span><span class="p">):</span>
-        <span class="c1"># If the user really wants a deepcopy.</span>
+        <span class="c1"># If the user really wants a deep copy.</span>
         <span class="k">if</span> <span class="p">(</span><span class="n">deep_copy</span><span class="p">):</span>
             <span class="n">extracted_class</span> <span class="o">=</span> <span class="n">copy</span><span class="o">.</span><span class="n">deepcopy</span><span class="p">(</span><span class="n">configuration_class</span><span class="p">)</span>
         <span class="k">else</span><span class="p">:</span>
@@ -312,11 +311,12 @@
                          <span class="s2">&quot;easily understood by this program. We cannot proceed reading it.&quot;</span><span class="p">)</span>
 
     <span class="c1"># Function should not get here.</span>
-    <span class="k">raise</span> <span class="n">BrokenLogicError</span><span class="p">(</span><span class="s2">&quot;Something is broken, contact the software maintainers.&quot;</span><span class="p">)</span>
+    <span class="k">raise</span> <span class="n">BrokenLogicError</span><span class="p">(</span><span class="s2">&quot;The configuration class extraction should have failed and raised &quot;</span>
+                           <span class="s2">&quot;an InputError. It is unknown why this is not the case. &quot;</span><span class="p">)</span>
     <span class="k">return</span> <span class="kc">None</span></div>
 
 
-<div class="viewcode-block" id="fast_forward_configuration_class"><a class="viewcode-back" href="../../../python_docstrings/IfA_Smeargle.yankee.yankee_functions.html#IfA_Smeargle.yankee.yankee_functions.fast_forward_configuration_class">[docs]</a><span class="k">def</span> <span class="nf">fast_forward_configuration_class</span><span class="p">(</span><span class="n">configuration_class</span><span class="p">):</span>
+<div class="viewcode-block" id="yankee_fast_forward_configuration_class"><a class="viewcode-back" href="../../../python_docstrings/IfA_Smeargle.yankee.yankee_functions.html#IfA_Smeargle.yankee.yankee_functions.yankee_fast_forward_configuration_class">[docs]</a><span class="k">def</span> <span class="nf">yankee_fast_forward_configuration_class</span><span class="p">(</span><span class="n">configuration_class</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;This functions updates the configuration class to the most compatible</span>
 <span class="sd">    version.</span>
 
@@ -350,14 +350,14 @@
 
     <span class="c1"># Update the old class with the new class, overwriting defaults with the</span>
     <span class="c1"># provided class.</span>
-    <span class="n">updated_configuration_class</span> <span class="o">=</span> <span class="n">overwrite_configuration_class</span><span class="p">(</span><span class="n">default_class</span><span class="p">,</span>
+    <span class="n">updated_configuration_class</span> <span class="o">=</span> <span class="n">yankee_overwrite_configuration_class</span><span class="p">(</span><span class="n">default_class</span><span class="p">,</span>
                                                                 <span class="n">configuration_class</span><span class="p">)</span>
 
     <span class="c1"># Finished and return</span>
     <span class="k">return</span> <span class="n">updated_configuration_class</span></div>
 
 
-<div class="viewcode-block" id="overwrite_configuration_class"><a class="viewcode-back" href="../../../python_docstrings/IfA_Smeargle.yankee.yankee_functions.html#IfA_Smeargle.yankee.yankee_functions.overwrite_configuration_class">[docs]</a><span class="k">def</span> <span class="nf">overwrite_configuration_class</span><span class="p">(</span><span class="n">inferior_class</span><span class="p">,</span> <span class="n">superior_class</span><span class="p">):</span>
+<div class="viewcode-block" id="yankee_overwrite_configuration_class"><a class="viewcode-back" href="../../../python_docstrings/IfA_Smeargle.yankee.yankee_functions.html#IfA_Smeargle.yankee.yankee_functions.yankee_overwrite_configuration_class">[docs]</a><span class="k">def</span> <span class="nf">yankee_overwrite_configuration_class</span><span class="p">(</span><span class="n">inferior_class</span><span class="p">,</span> <span class="n">superior_class</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot; This function combines two configuration classes by overwriting some </span>
 <span class="sd">    parts with a more recent class.</span>
 <span class="sd">    </span>
@@ -380,6 +380,12 @@
 <span class="sd">        The configuration class that should be the correct combination of </span>
 <span class="sd">        both classes.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
+    <span class="c1"># Dictionaries are easier to use, as are copies.</span>
+    <span class="n">inferior_class</span> <span class="o">=</span> <span class="n">copy</span><span class="o">.</span><span class="n">copy</span><span class="p">(</span><span class="n">inferior_class</span><span class="p">)</span>
+    <span class="n">superior_class</span> <span class="o">=</span> <span class="n">copy</span><span class="o">.</span><span class="n">copy</span><span class="p">(</span><span class="n">superior_class</span><span class="p">)</span>
+    <span class="n">superior_class_dict</span> <span class="o">=</span> <span class="n">superior_class</span><span class="o">.</span><span class="vm">__dict__</span>
+    <span class="n">inferior_class_dict</span> <span class="o">=</span> <span class="n">inferior_class</span><span class="o">.</span><span class="vm">__dict__</span>
+
     <span class="c1"># Both classes should be YANKEE configuration classes, if not, then this</span>
     <span class="c1"># function doesn&#39;t make sense. </span>
     <span class="k">if</span> <span class="p">(</span><span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">inferior_class</span><span class="p">,</span> <span class="n">yankee</span><span class="o">.</span><span class="n">BaseConfig</span><span class="p">)):</span>
@@ -395,10 +401,6 @@
         <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span><span class="s2">&quot;Both the inferior and superior class must have the same type. If one &quot;</span>
                          <span class="s2">&quot;is embedded in another, please extract them before combining.&quot;</span><span class="p">)</span>
 
-    <span class="c1"># Dictionaries are easier to use.</span>
-    <span class="n">superior_class_dict</span> <span class="o">=</span> <span class="n">superior_class</span><span class="o">.</span><span class="vm">__dict__</span>
-    <span class="n">inferior_class_dict</span> <span class="o">=</span> <span class="n">inferior_class</span><span class="o">.</span><span class="vm">__dict__</span>
-
     <span class="c1"># Cycle through all of the parameters in the class; replace inferior</span>
     <span class="c1"># class defaults with superior entries. </span>
     <span class="k">for</span> <span class="n">inferior_keydex</span> <span class="ow">in</span> <span class="n">inferior_class_dict</span><span class="o">.</span><span class="n">keys</span><span class="p">():</span>
@@ -409,7 +411,7 @@
             <span class="k">if</span> <span class="p">(</span><span class="nb">isinstance</span><span class="p">(</span><span class="n">superior_class_dict</span><span class="p">[</span><span class="n">inferior_keydex</span><span class="p">],</span> <span class="n">yankee</span><span class="o">.</span><span class="n">BaseConfig</span><span class="p">)):</span>
                 <span class="c1"># Iterate deeper, the deep copy may not be needed.</span>
                 <span class="n">replacing_value</span> <span class="o">=</span> <span class="n">copy</span><span class="o">.</span><span class="n">deepcopy</span><span class="p">(</span>
-                    <span class="n">overwrite_configuration_class</span><span class="p">(</span><span class="n">inferior_class_dict</span><span class="p">[</span><span class="n">inferior_keydex</span><span class="p">],</span>
+                    <span class="n">yankee_overwrite_configuration_class</span><span class="p">(</span><span class="n">inferior_class_dict</span><span class="p">[</span><span class="n">inferior_keydex</span><span class="p">],</span>
                                                   <span class="n">superior_class_dict</span><span class="p">[</span><span class="n">inferior_keydex</span><span class="p">]))</span>
                 <span class="n">inferior_class_dict</span><span class="o">.</span><span class="n">update</span><span class="p">({</span><span class="n">inferior_keydex</span><span class="p">:</span><span class="n">replacing_value</span><span class="p">})</span>
             <span class="k">else</span><span class="p">:</span>
@@ -423,14 +425,25 @@
     <span class="c1"># The ZULU configuration class must be handled a bit differently because</span>
     <span class="c1"># by design, there is no &quot;template&quot; that the above method can sort through.</span>
     <span class="k">try</span><span class="p">:</span>
-        <span class="n">inferior_zulu</span> <span class="o">=</span> <span class="n">extract_proper_configuration_class</span><span class="p">(</span><span class="n">inferior_class</span><span class="p">,</span> <span class="n">yankee</span><span class="o">.</span><span class="n">ZuluConfig</span><span class="p">)</span>
-        <span class="n">superior_zulu</span> <span class="o">=</span> <span class="n">extract_proper_configuration_class</span><span class="p">(</span><span class="n">superior_class</span><span class="p">,</span> <span class="n">yankee</span><span class="o">.</span><span class="n">ZuluConfig</span><span class="p">)</span>
-        <span class="n">inferior_class</span><span class="o">.</span><span class="n">ZuluConfig</span><span class="o">.</span><span class="vm">__dict__</span><span class="o">.</span><span class="n">update</span><span class="p">({</span><span class="o">**</span><span class="n">inferior_zulu</span><span class="o">.</span><span class="vm">__dict__</span><span class="p">,</span> 
-                                                   <span class="o">**</span><span class="n">superior_zulu</span><span class="o">.</span><span class="vm">__dict__</span><span class="p">})</span>
+        <span class="n">inferior_zulu</span> <span class="o">=</span> <span class="n">yankee_extract_proper_configuration_class</span><span class="p">(</span><span class="n">inferior_class</span><span class="p">,</span> <span class="n">yankee</span><span class="o">.</span><span class="n">ZuluConfig</span><span class="p">)</span>
+        <span class="n">inferior_zulu_dict</span> <span class="o">=</span> <span class="n">inferior_zulu</span><span class="o">.</span><span class="vm">__dict__</span>
     <span class="k">except</span> <span class="ne">AttributeError</span><span class="p">:</span>
         <span class="c1"># The class to be updated does not contain a ZuluConfig configuration</span>
         <span class="c1"># class.</span>
-        <span class="k">pass</span>
+        <span class="n">inferior_zulu_dict</span> <span class="o">=</span> <span class="p">{}</span>
+    <span class="k">try</span><span class="p">:</span>
+        <span class="n">superior_zulu</span> <span class="o">=</span> <span class="n">yankee_extract_proper_configuration_class</span><span class="p">(</span><span class="n">superior_class</span><span class="p">,</span> <span class="n">yankee</span><span class="o">.</span><span class="n">ZuluConfig</span><span class="p">)</span>
+        <span class="n">superior_zulu_dict</span> <span class="o">=</span> <span class="n">superior_zulu</span><span class="o">.</span><span class="vm">__dict__</span>
+    <span class="k">except</span> <span class="ne">AttributeError</span><span class="p">:</span>
+        <span class="c1"># The class to be updated does not contain a ZuluConfig configuration</span>
+        <span class="c1"># class.</span>
+        <span class="n">superior_zulu_dict</span> <span class="o">=</span> <span class="p">{}</span>
+    <span class="k">try</span><span class="p">:</span>
+        <span class="n">inferior_class</span><span class="o">.</span><span class="n">ZuluConfig</span><span class="o">.</span><span class="vm">__dict__</span><span class="o">.</span><span class="n">update</span><span class="p">({</span><span class="o">**</span><span class="n">inferior_zulu_dict</span><span class="p">,</span> <span class="o">**</span><span class="n">superior_zulu_dict</span><span class="p">})</span>
+    <span class="k">except</span> <span class="ne">AttributeError</span><span class="p">:</span>
+        <span class="c1"># The to be final class still does not have a ZuluConfig. So, add one.</span>
+        <span class="nb">setattr</span><span class="p">(</span><span class="n">inferior_class</span><span class="p">,</span> <span class="s1">&#39;ZuluConfig&#39;</span><span class="p">,</span> <span class="n">yankee</span><span class="o">.</span><span class="n">ZuluConfig</span><span class="p">())</span>
+        <span class="n">inferior_class</span><span class="o">.</span><span class="n">ZuluConfig</span><span class="o">.</span><span class="vm">__dict__</span><span class="o">.</span><span class="n">update</span><span class="p">({</span><span class="o">**</span><span class="n">inferior_zulu_dict</span><span class="p">,</span> <span class="o">**</span><span class="n">superior_zulu_dict</span><span class="p">})</span>
 
     <span class="c1"># All done, renaming for documentation sake. The inferior class elements </span>
     <span class="c1"># were overwritten with the superior elements. </span>
@@ -439,8 +452,8 @@
 
 
 <span class="c1"># Loading/unloading functions.</span>
-<div class="viewcode-block" id="write_config_file"><a class="viewcode-back" href="../../../python_docstrings/IfA_Smeargle.yankee.yankee_functions.html#IfA_Smeargle.yankee.yankee_functions.write_config_file">[docs]</a><span class="k">def</span> <span class="nf">write_config_file</span><span class="p">(</span><span class="n">config_class</span><span class="p">,</span> <span class="n">file_name</span><span class="p">,</span> 
-                      <span class="n">overwrite</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">protocol</span><span class="o">=</span><span class="n">pickle</span><span class="o">.</span><span class="n">HIGHEST_PROTOCOL</span><span class="p">):</span>
+<div class="viewcode-block" id="yankee_write_config_file"><a class="viewcode-back" href="../../../python_docstrings/IfA_Smeargle.yankee.yankee_functions.html#IfA_Smeargle.yankee.yankee_functions.yankee_write_config_file">[docs]</a><span class="k">def</span> <span class="nf">yankee_write_config_file</span><span class="p">(</span><span class="n">config_class</span><span class="p">,</span> <span class="n">file_name</span><span class="p">,</span> 
+                             <span class="n">overwrite</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">protocol</span><span class="o">=</span><span class="n">pickle</span><span class="o">.</span><span class="n">HIGHEST_PROTOCOL</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot; Function to write a specific configuration class to a normal file.</span>
 
 <span class="sd">    As the entire module more or less depends on configuration classes. It </span>
@@ -474,11 +487,11 @@
 
     <span class="c1"># Make sure the proper class is being sent through.</span>
     <span class="k">if</span> <span class="p">(</span><span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">config_class</span><span class="p">,</span> <span class="n">yankee</span><span class="o">.</span><span class="n">BaseConfig</span><span class="p">)):</span>
-        <span class="k">raise</span> <span class="n">InputError</span><span class="p">(</span><span class="s2">&quot;Provided class is not a Smeargle BaseConfig configuration class. It &quot;</span>
-                         <span class="s2">&quot;would be improper to write it as one.&quot;</span><span class="p">)</span>
+        <span class="k">raise</span> <span class="n">ExportingError</span><span class="p">(</span><span class="s2">&quot;Provided class is not a Smeargle BaseConfig configuration class. It &quot;</span>
+                             <span class="s2">&quot;would be improper to write it as one.&quot;</span><span class="p">)</span>
 
     <span class="c1"># Automatically apply extension for good file hygiene.</span>
-    <span class="k">if</span> <span class="p">(</span><span class="n">file_name</span><span class="p">[</span><span class="o">-</span><span class="mi">8</span><span class="p">:]</span> <span class="o">==</span> <span class="s1">&#39;.ifaspkl&#39;</span><span class="p">):</span>
+    <span class="k">if</span> <span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">splitext</span><span class="p">(</span><span class="n">file_name</span><span class="p">)[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span> <span class="o">==</span> <span class="s1">&#39;.ifaspkl&#39;</span><span class="p">):</span>
         <span class="k">pass</span>
     <span class="k">else</span><span class="p">:</span>
         <span class="c1"># It is missing the extension, add, but warn.</span>
@@ -504,7 +517,7 @@
         <span class="n">pickle</span><span class="o">.</span><span class="n">dump</span><span class="p">(</span><span class="n">config_class</span><span class="p">,</span> <span class="n">config_file</span><span class="p">,</span> <span class="n">protocol</span><span class="p">)</span></div>
 
 
-<div class="viewcode-block" id="read_config_file"><a class="viewcode-back" href="../../../python_docstrings/IfA_Smeargle.yankee.yankee_functions.html#IfA_Smeargle.yankee.yankee_functions.read_config_file">[docs]</a><span class="k">def</span> <span class="nf">read_config_file</span><span class="p">(</span><span class="n">file_name</span><span class="p">):</span>
+<div class="viewcode-block" id="yankee_read_config_file"><a class="viewcode-back" href="../../../python_docstrings/IfA_Smeargle.yankee.yankee_functions.html#IfA_Smeargle.yankee.yankee_functions.yankee_read_config_file">[docs]</a><span class="k">def</span> <span class="nf">yankee_read_config_file</span><span class="p">(</span><span class="n">file_name</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot; Function to read a specific configuration class from a normal file.</span>
 
 <span class="sd">    As the entire module more or less depends on configuration classes. It is </span>
@@ -531,7 +544,7 @@
                          <span class="s2">&quot;to a file name to read the configuration file.&quot;</span><span class="p">)</span>
     
     <span class="c1"># Amateur checking to see the file is associated with IfA-Smeargle.</span>
-    <span class="k">if</span> <span class="p">(</span><span class="n">file_name</span><span class="p">[</span><span class="o">-</span><span class="mi">8</span><span class="p">:]</span> <span class="o">!=</span> <span class="s1">&#39;.ifaspkl&#39;</span><span class="p">):</span>
+    <span class="k">if</span> <span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">splitext</span><span class="p">(</span><span class="n">file_name</span><span class="p">)[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span> <span class="o">!=</span> <span class="s1">&#39;.ifaspkl&#39;</span><span class="p">):</span>
         <span class="k">raise</span> <span class="n">InputError</span><span class="p">(</span><span class="s2">&quot;Provided file name does not have the .ifaspkl extension. This may be &quot;</span>
                          <span class="s2">&quot;the wrong file.&quot;</span><span class="p">)</span>
 

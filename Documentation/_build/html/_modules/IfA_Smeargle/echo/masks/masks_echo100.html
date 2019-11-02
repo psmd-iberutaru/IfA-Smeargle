@@ -206,13 +206,13 @@
     <span class="n">x_range</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">x_range</span><span class="p">)</span>
     <span class="n">y_range</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">y_range</span><span class="p">)</span>
 
-    <span class="c1"># A sub-array mask is practically the opposite of a rectangle mask. As such will be the </span>
-    <span class="c1"># implementation of it.</span>
+    <span class="c1"># A sub-array mask is practically the opposite of a rectangle mask. As </span>
+    <span class="c1"># such will be the implementation of it.</span>
     <span class="n">masked_array</span> <span class="o">=</span> <span class="n">masks</span><span class="o">.</span><span class="n">echo381_rectangle_mask</span><span class="p">(</span><span class="n">data_array</span><span class="p">,</span><span class="n">x_range</span><span class="p">,</span><span class="n">y_range</span><span class="p">,</span><span class="n">return_mask</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
     <span class="n">masked_array</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">logical_not</span><span class="p">(</span><span class="n">masked_array</span><span class="p">)</span>
 
     <span class="c1"># Returning the mask.</span>
-    <span class="n">final_mask</span> <span class="o">=</span> <span class="n">echo_funct</span><span class="o">.</span><span class="n">functioned_mask_returning</span><span class="p">(</span><span class="n">masked_array</span><span class="p">,</span><span class="n">previous_mask</span><span class="p">,</span>
+    <span class="n">final_mask</span> <span class="o">=</span> <span class="n">echo_funct</span><span class="o">.</span><span class="n">echo_functioned_mask_returning</span><span class="p">(</span><span class="n">masked_array</span><span class="p">,</span><span class="n">previous_mask</span><span class="p">,</span>
                                                      <span class="s1">&#39;echo120_subarray_mask&#39;</span><span class="p">,</span><span class="n">return_mask</span><span class="p">)</span>
     
     <span class="k">return</span> <span class="n">final_mask</span></div>
@@ -271,10 +271,10 @@
                                                    <span class="p">(</span><span class="n">mean</span> <span class="o">+</span> <span class="n">sigma_multiple</span> <span class="o">*</span> <span class="n">stddev</span><span class="p">),</span>
                                                    <span class="n">previous_mask</span><span class="o">=</span><span class="n">temp_mask_dict</span><span class="p">)</span>
         <span class="c1"># Synthesize the top and bottom masks.</span>
-        <span class="n">masked_array</span> <span class="o">=</span> <span class="n">echo_funct</span><span class="o">.</span><span class="n">synthesize_mask_dictionary</span><span class="p">(</span><span class="n">temp_mask_dict</span><span class="p">)</span>
+        <span class="n">masked_array</span> <span class="o">=</span> <span class="n">echo_funct</span><span class="o">.</span><span class="n">echo_synthesize_mask_dictionary</span><span class="p">(</span><span class="n">temp_mask_dict</span><span class="p">)</span>
 
     <span class="c1"># Finally return</span>
-    <span class="n">final_mask</span> <span class="o">=</span> <span class="n">echo_funct</span><span class="o">.</span><span class="n">functioned_mask_returning</span><span class="p">(</span><span class="n">masked_array</span><span class="p">,</span> <span class="n">previous_mask</span><span class="p">,</span>
+    <span class="n">final_mask</span> <span class="o">=</span> <span class="n">echo_funct</span><span class="o">.</span><span class="n">echo_functioned_mask_returning</span><span class="p">(</span><span class="n">masked_array</span><span class="p">,</span> <span class="n">previous_mask</span><span class="p">,</span>
                                                      <span class="s1">&#39;echo170_gaussian_truncation&#39;</span><span class="p">,</span> <span class="n">return_mask</span><span class="p">)</span>
 
     <span class="k">return</span> <span class="n">final_mask</span></div>

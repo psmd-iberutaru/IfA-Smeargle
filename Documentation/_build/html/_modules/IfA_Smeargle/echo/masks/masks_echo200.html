@@ -196,7 +196,7 @@
 
     <span class="n">masked_array</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">where</span><span class="p">(</span><span class="n">data_array</span> <span class="o">&lt;</span> <span class="n">minimum_value</span><span class="p">,</span> <span class="kc">True</span><span class="p">,</span> <span class="kc">False</span><span class="p">)</span>
 
-    <span class="n">final_mask</span> <span class="o">=</span> <span class="n">echo_funct</span><span class="o">.</span><span class="n">functioned_mask_returning</span><span class="p">(</span><span class="n">masked_array</span><span class="p">,</span> <span class="n">previous_mask</span><span class="p">,</span>
+    <span class="n">final_mask</span> <span class="o">=</span> <span class="n">echo_funct</span><span class="o">.</span><span class="n">echo_functioned_mask_returning</span><span class="p">(</span><span class="n">masked_array</span><span class="p">,</span> <span class="n">previous_mask</span><span class="p">,</span>
                                                      <span class="s1">&#39;echo270_minimum_cut&#39;</span><span class="p">,</span> <span class="n">return_mask</span><span class="p">)</span>
 
     <span class="k">return</span> <span class="n">final_mask</span></div>
@@ -231,7 +231,7 @@
 
     <span class="n">masked_array</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">where</span><span class="p">(</span><span class="n">data_array</span> <span class="o">&gt;</span> <span class="n">maximum_value</span><span class="p">,</span> <span class="kc">True</span><span class="p">,</span> <span class="kc">False</span><span class="p">)</span>
 
-    <span class="n">final_mask</span> <span class="o">=</span> <span class="n">echo_funct</span><span class="o">.</span><span class="n">functioned_mask_returning</span><span class="p">(</span><span class="n">masked_array</span><span class="p">,</span> <span class="n">previous_mask</span><span class="p">,</span>
+    <span class="n">final_mask</span> <span class="o">=</span> <span class="n">echo_funct</span><span class="o">.</span><span class="n">echo_functioned_mask_returning</span><span class="p">(</span><span class="n">masked_array</span><span class="p">,</span> <span class="n">previous_mask</span><span class="p">,</span>
                                                      <span class="s1">&#39;echo271_maximum_cut&#39;</span><span class="p">,</span> <span class="n">return_mask</span><span class="p">)</span>
 
     <span class="k">return</span> <span class="n">final_mask</span></div>
@@ -285,10 +285,10 @@
     <span class="n">temp_mask_dict</span> <span class="o">=</span> <span class="n">masks</span><span class="o">.</span><span class="n">echo271_maximum_cut</span><span class="p">(</span><span class="n">data_array</span><span class="p">,</span> <span class="n">upper_value</span><span class="p">,</span> 
                                                <span class="n">previous_mask</span><span class="o">=</span><span class="n">temp_mask_dict</span><span class="p">)</span>
 
-    <span class="n">masked_array</span> <span class="o">=</span> <span class="n">echo_funct</span><span class="o">.</span><span class="n">synthesize_mask_dictionary</span><span class="p">(</span><span class="n">temp_mask_dict</span><span class="p">)</span>
+    <span class="n">masked_array</span> <span class="o">=</span> <span class="n">echo_funct</span><span class="o">.</span><span class="n">echo_synthesize_mask_dictionary</span><span class="p">(</span><span class="n">temp_mask_dict</span><span class="p">)</span>
 
     <span class="c1"># Finally return</span>
-    <span class="n">final_mask</span> <span class="o">=</span> <span class="n">echo_funct</span><span class="o">.</span><span class="n">functioned_mask_returning</span><span class="p">(</span><span class="n">masked_array</span><span class="p">,</span> <span class="n">previous_mask</span><span class="p">,</span>
+    <span class="n">final_mask</span> <span class="o">=</span> <span class="n">echo_funct</span><span class="o">.</span><span class="n">echo_functioned_mask_returning</span><span class="p">(</span><span class="n">masked_array</span><span class="p">,</span> <span class="n">previous_mask</span><span class="p">,</span>
                                                      <span class="s1">&#39;echo275_pixel_truncation&#39;</span><span class="p">,</span> <span class="n">return_mask</span><span class="p">)</span>
 
     <span class="k">return</span> <span class="n">final_mask</span></div>
@@ -349,7 +349,7 @@
                                 <span class="s2">&quot;multiplication; percent truncation will be wildly inaccurate.&quot;</span><span class="p">))</span>
 
     <span class="c1"># Otherwise... return</span>
-    <span class="n">final_mask</span> <span class="o">=</span> <span class="n">echo_funct</span><span class="o">.</span><span class="n">functioned_mask_returning</span><span class="p">(</span><span class="n">masked_array</span><span class="p">,</span><span class="n">previous_mask</span><span class="p">,</span>
+    <span class="n">final_mask</span> <span class="o">=</span> <span class="n">echo_funct</span><span class="o">.</span><span class="n">echo_functioned_mask_returning</span><span class="p">(</span><span class="n">masked_array</span><span class="p">,</span><span class="n">previous_mask</span><span class="p">,</span>
                                                      <span class="s1">&#39;echo276_percent_truncation&#39;</span><span class="p">,</span> <span class="n">return_mask</span><span class="p">)</span>
 
     <span class="k">return</span> <span class="n">final_mask</span></div>
@@ -402,7 +402,8 @@
                          <span class="s2">&quot;for the bottom and top sigma multiple bounds. It is unknown how to &quot;</span>
                          <span class="s2">&quot;handle the current input.&quot;</span><span class="p">)</span>
 
-    <span class="c1"># Calculate the mean and the sigma values of the data array. Handle for NaNs.</span>
+    <span class="c1"># Calculate the mean and the sigma values of the data array. Handle </span>
+    <span class="c1"># for NaNs.</span>
     <span class="n">mean</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">nanmean</span><span class="p">(</span><span class="n">data_array</span><span class="p">)</span>
     <span class="n">stddev</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">nanstd</span><span class="p">(</span><span class="n">data_array</span><span class="p">)</span>
         
@@ -417,10 +418,10 @@
                                                    <span class="p">(</span><span class="n">mean</span> <span class="o">+</span> <span class="n">top_sigma_multiple</span> <span class="o">*</span> <span class="n">stddev</span><span class="p">),</span>
                                                    <span class="n">previous_mask</span><span class="o">=</span><span class="n">temp_mask_dict</span><span class="p">)</span>
         <span class="c1"># Synthesize the top and bottom masks.</span>
-        <span class="n">masked_array</span> <span class="o">=</span> <span class="n">echo_funct</span><span class="o">.</span><span class="n">synthesize_mask_dictionary</span><span class="p">(</span><span class="n">temp_mask_dict</span><span class="p">)</span>
+        <span class="n">masked_array</span> <span class="o">=</span> <span class="n">echo_funct</span><span class="o">.</span><span class="n">echo_synthesize_mask_dictionary</span><span class="p">(</span><span class="n">temp_mask_dict</span><span class="p">)</span>
 
     <span class="c1"># Finally return</span>
-    <span class="n">final_mask</span> <span class="o">=</span> <span class="n">echo_funct</span><span class="o">.</span><span class="n">functioned_mask_returning</span><span class="p">(</span><span class="n">masked_array</span><span class="p">,</span> <span class="n">previous_mask</span><span class="p">,</span>
+    <span class="n">final_mask</span> <span class="o">=</span> <span class="n">echo_funct</span><span class="o">.</span><span class="n">echo_functioned_mask_returning</span><span class="p">(</span><span class="n">masked_array</span><span class="p">,</span> <span class="n">previous_mask</span><span class="p">,</span>
                                                      <span class="s1">&#39;echo277_sigma_truncation&#39;</span><span class="p">,</span> <span class="n">return_mask</span><span class="p">)</span>
 
     <span class="k">return</span> <span class="n">final_mask</span></div>

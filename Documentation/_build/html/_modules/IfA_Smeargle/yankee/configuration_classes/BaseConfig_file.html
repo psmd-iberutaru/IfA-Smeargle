@@ -230,11 +230,23 @@
 
         <span class="k">return</span> <span class="n">print_output</span></div>
 
+<div class="viewcode-block" id="BaseConfig.print"><a class="viewcode-back" href="../../../../python_docstrings/IfA_Smeargle.yankee.configuration_classes.BaseConfig_file.html#IfA_Smeargle.yankee.configuration_classes.BaseConfig_file.BaseConfig.print">[docs]</a>    <span class="k">def</span> <span class="nf">print</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot; This is a silly wrapper function around basic printing; do not ask</span>
+<span class="sd">        why.</span>
+
+<span class="sd">        P.S. It is fun.</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        nothing</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="nb">print</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span></div>
+
 <div class="viewcode-block" id="BaseConfig.write_to_file"><a class="viewcode-back" href="../../../../python_docstrings/IfA_Smeargle.yankee.configuration_classes.BaseConfig_file.html#IfA_Smeargle.yankee.configuration_classes.BaseConfig_file.BaseConfig.write_to_file">[docs]</a>    <span class="k">def</span> <span class="nf">write_to_file</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">file_name</span><span class="p">,</span> <span class="n">overwrite</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">protocol</span><span class="o">=</span><span class="n">pickle</span><span class="o">.</span><span class="n">HIGHEST_PROTOCOL</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot; Wrapper function around configuration file writing. </span>
 <span class="sd">        </span>
 <span class="sd">        Writes the configuration class to a pickle file. See </span>
-<span class="sd">        ``write_config_file`` for more information.</span>
+<span class="sd">        ``yankee_write_config_file`` for more information.</span>
 
 <span class="sd">        Parameters</span>
 <span class="sd">        ----------</span>
@@ -256,14 +268,14 @@
 
 <span class="sd">        &quot;&quot;&quot;</span>
 
-        <span class="n">yankee</span><span class="o">.</span><span class="n">write_config_file</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">file_name</span><span class="p">,</span> <span class="n">overwrite</span><span class="o">=</span><span class="n">overwrite</span><span class="p">,</span> <span class="n">protocol</span><span class="o">=</span><span class="n">protocol</span><span class="p">)</span></div>
+        <span class="n">yankee</span><span class="o">.</span><span class="n">yankee_write_config_file</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">file_name</span><span class="p">,</span> <span class="n">overwrite</span><span class="o">=</span><span class="n">overwrite</span><span class="p">,</span> <span class="n">protocol</span><span class="o">=</span><span class="n">protocol</span><span class="p">)</span></div>
 
 
 <div class="viewcode-block" id="BaseConfig.read_from_file"><a class="viewcode-back" href="../../../../python_docstrings/IfA_Smeargle.yankee.configuration_classes.BaseConfig_file.html#IfA_Smeargle.yankee.configuration_classes.BaseConfig_file.BaseConfig.read_from_file">[docs]</a>    <span class="k">def</span> <span class="nf">read_from_file</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">file_name</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot; Wrapper function around configuration file reading.</span>
 
 <span class="sd">        Reads and assigns a file IfA Smeargle configuration class to this</span>
-<span class="sd">        current class. See ``read_config_file`` for more information on</span>
+<span class="sd">        current class. See ``yankee_read_config_file`` for more information on</span>
 <span class="sd">        file reading.</span>
 <span class="sd">        </span>
 <span class="sd">        Parameters</span>
@@ -285,9 +297,9 @@
                 <span class="k">pass</span>
 
             <span class="k">elif</span> <span class="p">(</span><span class="nb">isinstance</span><span class="p">(</span><span class="n">file_name</span><span class="p">,</span> <span class="nb">str</span><span class="p">)):</span>
-                <span class="n">read_config_class</span> <span class="o">=</span> <span class="n">yankee</span><span class="o">.</span><span class="n">read_config_file</span><span class="p">(</span><span class="n">file_name</span><span class="p">)</span>
+                <span class="n">read_config_class</span> <span class="o">=</span> <span class="n">yankee</span><span class="o">.</span><span class="n">yankee_read_config_file</span><span class="p">(</span><span class="n">file_name</span><span class="p">)</span>
             <span class="k">else</span><span class="p">:</span>
-                <span class="k">raise</span> <span class="n">BrokenLogicError</span><span class="p">(</span><span class="s2">&quot;Somehow config_file_name is both a neither a string or &quot;</span>
+                <span class="k">raise</span> <span class="n">BrokenLogicError</span><span class="p">(</span><span class="s2">&quot;Somehow config_file_name is both and a string and &quot;</span>
                                        <span class="s2">&quot;not a string.&quot;</span><span class="p">)</span>
 
             <span class="c1"># Ensure that the read configuration file is of the same class.</span>
@@ -305,7 +317,7 @@
                 <span class="k">except</span> <span class="ne">Exception</span><span class="p">:</span>
                     <span class="k">raise</span> <span class="n">ImportingError</span><span class="p">(</span><span class="s2">&quot;The configuration file cannot be read this way. &quot;</span>
                                          <span class="s2">&quot;consider using the factory function for the &quot;</span>
-                                         <span class="s2">&quot;&lt;read_config_file&gt; function.&quot;</span><span class="p">)</span>
+                                         <span class="s2">&quot;&lt;yankee_read_config_file&gt; function.&quot;</span><span class="p">)</span>
         <span class="k">else</span><span class="p">:</span>
             <span class="c1"># File name is not strictly provided, give an empty class.</span>
             <span class="n">smeargle_warning</span><span class="p">(</span><span class="n">InputWarning</span><span class="p">,(</span><span class="s2">&quot;The file name string is None, nothing will be done.&quot;</span><span class="p">))</span>

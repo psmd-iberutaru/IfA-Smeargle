@@ -188,23 +188,24 @@ in this file is 300; this file only contains ECHO-300 class masks.</p>
 <dt id="IfA_Smeargle.echo.masks.masks_echo300.echo380_single_pixels">
 <code class="sig-prename descclassname">IfA_Smeargle.echo.masks.masks_echo300.</code><code class="sig-name descname">echo380_single_pixels</code><span class="sig-paren">(</span><em class="sig-param">data_array</em>, <em class="sig-param">pixel_list</em>, <em class="sig-param">previous_mask={}</em>, <em class="sig-param">return_mask=False</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/IfA_Smeargle/echo/masks/masks_echo300.html#echo380_single_pixels"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#IfA_Smeargle.echo.masks.masks_echo300.echo380_single_pixels" title="Permalink to this definition">¶</a></dt>
 <dd><p>This applies a single mask on a single pixel(s)</p>
-<p>As the name implies, this function masks a single pixel value or a list of single pixel
-pairs.</p>
+<p>As the name implies, this function masks a single pixel value or a list
+of single pixel pairs.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><ul class="simple">
 <li><p><strong>data_array</strong> (<em>ndarray</em>) – The data array that the mask will be calculated from.</p></li>
-<li><p><strong>pixel_list</strong> (<em>array-like</em><em>, </em><em>ndarray</em>) – This is a list/array of pixel pair (x,y) values. The function loops and applies the
-mask to each pair.</p></li>
-<li><p><strong>previous_mask</strong> (<em>dictionary</em><em> (</em><em>optional</em><em>)</em>) – Any previous masks done. The new mask made in this function will be added to the
-dictionary. Default is to make a new mask dictionary.</p></li>
-<li><p><strong>return_mask</strong> (<em>boolean</em><em> (</em><em>optional</em><em>)</em>) – If this is true, then the mask itself (rather than the dictionary entry) will be
-returned instead.</p></li>
+<li><p><strong>pixel_list</strong> (<em>array-like</em><em>, </em><em>ndarray</em>) – This is a list/array of pixel pair (x,y) values. The function loops
+and applies the mask to each pair.</p></li>
+<li><p><strong>previous_mask</strong> (<em>dictionary</em><em> (</em><em>optional</em><em>)</em>) – Any previous masks done. The new mask made in this function will be
+added to the dictionary. Default is to make a new mask dictionary.</p></li>
+<li><p><strong>return_mask</strong> (<em>boolean</em><em> (</em><em>optional</em><em>)</em>) – If this is true, then the mask itself (rather than the dictionary
+entry) will be returned instead.</p></li>
 </ul>
 </dd>
 <dt class="field-even">Returns</dt>
-<dd class="field-even"><p><strong>final_mask</strong> – A boolean array for pixels that are masked (True) or are valid (False) will be added to
-the mask dictionary under the key <code class="docutils literal notranslate"><span class="pre">echo380single_pixels</span></code>.</p>
+<dd class="field-even"><p><strong>final_mask</strong> – A boolean array for pixels that are masked (True) or are valid
+(False) will be added to the mask dictionary under the
+key <code class="docutils literal notranslate"><span class="pre">echo380single_pixels</span></code>.</p>
 </dd>
 <dt class="field-odd">Return type</dt>
 <dd class="field-odd"><p>ndarray -&gt; dictionary</p>
@@ -216,24 +217,28 @@ the mask dictionary under the key <code class="docutils literal notranslate"><sp
 <dt id="IfA_Smeargle.echo.masks.masks_echo300.echo381_rectangle_mask">
 <code class="sig-prename descclassname">IfA_Smeargle.echo.masks.masks_echo300.</code><code class="sig-name descname">echo381_rectangle_mask</code><span class="sig-paren">(</span><em class="sig-param">data_array</em>, <em class="sig-param">x_ranges</em>, <em class="sig-param">y_ranges</em>, <em class="sig-param">previous_mask={}</em>, <em class="sig-param">return_mask=False</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/IfA_Smeargle/echo/masks/masks_echo300.html#echo381_rectangle_mask"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#IfA_Smeargle.echo.masks.masks_echo300.echo381_rectangle_mask" title="Permalink to this definition">¶</a></dt>
 <dd><p>This mask function applies rectangular masks to the data array.</p>
-<p>The rectangles defined by subsequent xy-ranges (0-indexed) are masked. Multiple overlapping
-rectangles may be defined and masked using this function. The rectangle bounds provided are
-also masked as the rectangle is inclusive of said bounds.</p>
+<p>The rectangles defined by subsequent xy-ranges (0-indexed) are masked.
+Multiple overlapping rectangles may be defined and masked using this
+function. The rectangle bounds provided are also masked as the rectangle
+is inclusive of said bounds.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><ul class="simple">
 <li><p><strong>data_array</strong> (<em>ndarray</em>) – The data array that the mask will be calculated from.</p></li>
-<li><p><strong>x_ranges</strong> (<em>list</em><em> or </em><em>ndarray</em>) – The list of 0-indexed x_ranges to be masked. Must be the same length as y_ranges.</p></li>
-<li><p><strong>y_ranges</strong> (<em>list</em><em> or </em><em>ndarray</em>) – The list of 0-indexed y_ranges to be masked. Must be the same length as x_ranges.</p></li>
-<li><p><strong>previous_mask</strong> (<em>dictionary</em><em> (</em><em>optional</em><em>)</em>) – Any previous masks done. The new mask made in this function will be added to the
-dictionary. Default is to make a new mask dictionary.</p></li>
-<li><p><strong>return_mask</strong> (<em>boolean</em><em> (</em><em>optional</em><em>)</em>) – If this is true, then the mask itself (rather than the dictionary entry) will be
-returned instead.</p></li>
+<li><p><strong>x_ranges</strong> (<em>list</em><em> or </em><em>ndarray</em>) – The list of 0-indexed x_ranges to be masked. Must be the same length
+as y_ranges.</p></li>
+<li><p><strong>y_ranges</strong> (<em>list</em><em> or </em><em>ndarray</em>) – The list of 0-indexed y_ranges to be masked. Must be the same length
+as x_ranges.</p></li>
+<li><p><strong>previous_mask</strong> (<em>dictionary</em><em> (</em><em>optional</em><em>)</em>) – Any previous masks done. The new mask made in this function will be
+added to the dictionary. Default is to make a new mask dictionary.</p></li>
+<li><p><strong>return_mask</strong> (<em>boolean</em><em> (</em><em>optional</em><em>)</em>) – If this is true, then the mask itself (rather than the dictionary
+entry) will be returned instead.</p></li>
 </ul>
 </dd>
 <dt class="field-even">Returns</dt>
-<dd class="field-even"><p><strong>final_mask</strong> – A boolean array for pixels that are masked (True) or are valid (False) will be added to
-the mask dictionary under the key <code class="docutils literal notranslate"><span class="pre">echo381_rectangle_mask</span></code>.</p>
+<dd class="field-even"><p><strong>final_mask</strong> – A boolean array for pixels that are masked (True) or are valid
+(False) will be added to the mask dictionary under the
+key <code class="docutils literal notranslate"><span class="pre">echo381_rectangle_mask</span></code>.</p>
 </dd>
 <dt class="field-odd">Return type</dt>
 <dd class="field-odd"><p>ndarray -&gt; dictionary</p>
@@ -245,22 +250,24 @@ the mask dictionary under the key <code class="docutils literal notranslate"><sp
 <dt id="IfA_Smeargle.echo.masks.masks_echo300.echo382_column_mask">
 <code class="sig-prename descclassname">IfA_Smeargle.echo.masks.masks_echo300.</code><code class="sig-name descname">echo382_column_mask</code><span class="sig-paren">(</span><em class="sig-param">data_array</em>, <em class="sig-param">column_list</em>, <em class="sig-param">previous_mask={}</em>, <em class="sig-param">return_mask=False</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/IfA_Smeargle/echo/masks/masks_echo300.html#echo382_column_mask"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#IfA_Smeargle.echo.masks.masks_echo300.echo382_column_mask" title="Permalink to this definition">¶</a></dt>
 <dd><p>This applies a column mask on the data array provided its locations.</p>
-<p>The column mask takes a list of column numbers (0-indexed x-axis values). All pixels within
-these columns are then masked.</p>
+<p>The column mask takes a list of column numbers (0-indexed x-axis
+values). All pixels within these columns are then masked.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><ul class="simple">
 <li><p><strong>data_array</strong> (<em>ndarray</em>) – The data array that the mask will be calculated from.</p></li>
-<li><p><strong>column_list</strong> (<em>list</em><em> or </em><em>ndarray</em>) – The list of column x-axis values that will be masked. Should be 0-indexed.</p></li>
-<li><p><strong>previous_mask</strong> (<em>dictionary</em><em> (</em><em>optional</em><em>)</em>) – Any previous masks done. The new mask made in this function will be added to the
-dictionary. Default is to make a new mask dictionary.</p></li>
-<li><p><strong>return_mask</strong> (<em>boolean</em><em> (</em><em>optional</em><em>)</em>) – If this is true, then the mask itself (rather than the dictionary entry) will be
-returned instead.</p></li>
+<li><p><strong>column_list</strong> (<em>list</em><em> or </em><em>ndarray</em>) – The list of column x-axis values that will be masked. Should be
+0-indexed.</p></li>
+<li><p><strong>previous_mask</strong> (<em>dictionary</em><em> (</em><em>optional</em><em>)</em>) – Any previous masks done. The new mask made in this function will be
+added to the dictionary. Default is to make a new mask dictionary.</p></li>
+<li><p><strong>return_mask</strong> (<em>boolean</em><em> (</em><em>optional</em><em>)</em>) – If this is true, then the mask itself (rather than the dictionary
+entry) will be returned instead.</p></li>
 </ul>
 </dd>
 <dt class="field-even">Returns</dt>
-<dd class="field-even"><p><strong>final_mask</strong> – A boolean array for pixels that are masked (True) or are valid (False) will be added to
-the mask dictionary under the key <code class="docutils literal notranslate"><span class="pre">echo382_column_mask</span></code>.</p>
+<dd class="field-even"><p><strong>final_mask</strong> – A boolean array for pixels that are masked (True) or are valid
+(False) will be added to the mask dictionary under the
+key <code class="docutils literal notranslate"><span class="pre">echo382_column_mask</span></code>.</p>
 </dd>
 <dt class="field-odd">Return type</dt>
 <dd class="field-odd"><p>ndarray -&gt; dictionary</p>
@@ -272,22 +279,24 @@ the mask dictionary under the key <code class="docutils literal notranslate"><sp
 <dt id="IfA_Smeargle.echo.masks.masks_echo300.echo383_row_mask">
 <code class="sig-prename descclassname">IfA_Smeargle.echo.masks.masks_echo300.</code><code class="sig-name descname">echo383_row_mask</code><span class="sig-paren">(</span><em class="sig-param">data_array</em>, <em class="sig-param">row_list</em>, <em class="sig-param">previous_mask={}</em>, <em class="sig-param">return_mask=False</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/IfA_Smeargle/echo/masks/masks_echo300.html#echo383_row_mask"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#IfA_Smeargle.echo.masks.masks_echo300.echo383_row_mask" title="Permalink to this definition">¶</a></dt>
 <dd><p>This applies a row mask on the data array provided its locations.</p>
-<p>The row mask takes a list of column numbers (0-indexed x-axis values). All pixels within
-these rows are then masked.</p>
+<p>The row mask takes a list of column numbers (0-indexed x-axis values).
+All pixels within these rows are then masked.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><ul class="simple">
 <li><p><strong>data_array</strong> (<em>ndarray</em>) – The data array that the mask will be calculated from.</p></li>
-<li><p><strong>row_list</strong> (<em>list</em><em> or </em><em>ndarray</em>) – The list of row y-axis values that will be masked. Should be 0-indexed.</p></li>
-<li><p><strong>previous_mask</strong> (<em>dictionary</em><em> (</em><em>optional</em><em>)</em>) – Any previous masks done. The new mask made in this function will be added to the
-dictionary. Default is to make a new mask dictionary.</p></li>
-<li><p><strong>return_mask</strong> (<em>boolean</em><em> (</em><em>optional</em><em>)</em>) – If this is true, then the mask itself (rather than the dictionary entry) will be
-returned instead.</p></li>
+<li><p><strong>row_list</strong> (<em>list</em><em> or </em><em>ndarray</em>) – The list of row y-axis values that will be masked. Should be
+0-indexed.</p></li>
+<li><p><strong>previous_mask</strong> (<em>dictionary</em><em> (</em><em>optional</em><em>)</em>) – Any previous masks done. The new mask made in this function will be
+added to the dictionary. Default is to make a new mask dictionary.</p></li>
+<li><p><strong>return_mask</strong> (<em>boolean</em><em> (</em><em>optional</em><em>)</em>) – If this is true, then the mask itself (rather than the dictionary
+entry) will be returned instead.</p></li>
 </ul>
 </dd>
 <dt class="field-even">Returns</dt>
-<dd class="field-even"><p><strong>final_mask</strong> – A boolean array for pixels that are masked (True) or are valid (False) will be added to
-the mask dictionary under the key <code class="docutils literal notranslate"><span class="pre">echo383_row_mask</span></code>.</p>
+<dd class="field-even"><p><strong>final_mask</strong> – A boolean array for pixels that are masked (True) or are valid
+(False) will be added to the mask dictionary under the
+key <code class="docutils literal notranslate"><span class="pre">echo383_row_mask</span></code>.</p>
 </dd>
 <dt class="field-odd">Return type</dt>
 <dd class="field-odd"><p>ndarray -&gt; dictionary</p>
@@ -298,22 +307,24 @@ the mask dictionary under the key <code class="docutils literal notranslate"><sp
 <dl class="function">
 <dt id="IfA_Smeargle.echo.masks.masks_echo300.echo398_nothing">
 <code class="sig-prename descclassname">IfA_Smeargle.echo.masks.masks_echo300.</code><code class="sig-name descname">echo398_nothing</code><span class="sig-paren">(</span><em class="sig-param">data_array</em>, <em class="sig-param">previous_mask={}</em>, <em class="sig-param">return_mask=False</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/IfA_Smeargle/echo/masks/masks_echo300.html#echo398_nothing"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#IfA_Smeargle.echo.masks.masks_echo300.echo398_nothing" title="Permalink to this definition">¶</a></dt>
-<dd><p>This applies a blanket blank (all pixels are valid) mask on the data array.</p>
-<p>As the name says, this applies a mask…to…well…nothing. As such, all that is
-returned in the mask dictionary is the blank mask.</p>
+<dd><p>This applies a blanket blank (all pixels are valid) mask on the
+data array.</p>
+<p>As the name says, this applies a mask…to…well…nothing. As such,
+all that is returned in the mask dictionary is the blank mask.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><ul class="simple">
 <li><p><strong>data_array</strong> (<em>ndarray</em>) – The data array that the mask will be calculated from.</p></li>
-<li><p><strong>previous_mask</strong> (<em>dictionary</em><em> (</em><em>optional</em><em>)</em>) – Any previous masks done. The new mask made in this function will be added to the
-dictionary. Default is to make a new mask dictionary.</p></li>
-<li><p><strong>return_mask</strong> (<em>boolean</em><em> (</em><em>optional</em><em>)</em>) – If this is true, then the mask itself (rather than the dictionary entry) will be
-returned instead.</p></li>
+<li><p><strong>previous_mask</strong> (<em>dictionary</em><em> (</em><em>optional</em><em>)</em>) – Any previous masks done. The new mask made in this function will be
+added to the dictionary. Default is to make a new mask dictionary.</p></li>
+<li><p><strong>return_mask</strong> (<em>boolean</em><em> (</em><em>optional</em><em>)</em>) – If this is true, then the mask itself (rather than the dictionary
+entry) will be returned instead.</p></li>
 </ul>
 </dd>
 <dt class="field-even">Returns</dt>
-<dd class="field-even"><p><strong>final_mask</strong> – A boolean array for pixels that are masked (True) or are valid (False) will be added to
-the mask dictionary under the key <code class="docutils literal notranslate"><span class="pre">echo398_nothing</span></code>.</p>
+<dd class="field-even"><p><strong>final_mask</strong> – A boolean array for pixels that are masked (True) or are valid
+(False) will be added to the mask dictionary under the
+key <code class="docutils literal notranslate"><span class="pre">echo398_nothing</span></code>.</p>
 </dd>
 <dt class="field-odd">Return type</dt>
 <dd class="field-odd"><p>ndarray -&gt; dictionary</p>
@@ -324,22 +335,24 @@ the mask dictionary under the key <code class="docutils literal notranslate"><sp
 <dl class="function">
 <dt id="IfA_Smeargle.echo.masks.masks_echo300.echo399_everything">
 <code class="sig-prename descclassname">IfA_Smeargle.echo.masks.masks_echo300.</code><code class="sig-name descname">echo399_everything</code><span class="sig-paren">(</span><em class="sig-param">data_array</em>, <em class="sig-param">previous_mask={}</em>, <em class="sig-param">return_mask=False</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/IfA_Smeargle/echo/masks/masks_echo300.html#echo399_everything"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#IfA_Smeargle.echo.masks.masks_echo300.echo399_everything" title="Permalink to this definition">¶</a></dt>
-<dd><p>This applies a blanket blank (all pixels are invalid) mask on the data array.</p>
-<p>As the name says, this applies a mask…to…well…everything. As such, all that is
-returned in the mask dictionary is the full mask.</p>
+<dd><p>This applies a blanket blank (all pixels are invalid) mask on the
+data array.</p>
+<p>As the name says, this applies a mask…to…well…everything. As such,
+all that is returned in the mask dictionary is the full mask.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><ul class="simple">
 <li><p><strong>data_array</strong> (<em>ndarray</em>) – The data array that the mask will be calculated from.</p></li>
-<li><p><strong>previous_mask</strong> (<em>dictionary</em><em> (</em><em>optional</em><em>)</em>) – Any previous masks done. The new mask made in this function will be added to the
-dictionary. Default is to make a new mask dictionary.</p></li>
-<li><p><strong>return_mask</strong> (<em>boolean</em><em> (</em><em>optional</em><em>)</em>) – If this is true, then the mask itself (rather than the dictionary entry) will be
-returned instead.</p></li>
+<li><p><strong>previous_mask</strong> (<em>dictionary</em><em> (</em><em>optional</em><em>)</em>) – Any previous masks done. The new mask made in this function will be
+added to the dictionary. Default is to make a new mask dictionary.</p></li>
+<li><p><strong>return_mask</strong> (<em>boolean</em><em> (</em><em>optional</em><em>)</em>) – If this is true, then the mask itself (rather than the dictionary
+entry) will be returned instead.</p></li>
 </ul>
 </dd>
 <dt class="field-even">Returns</dt>
-<dd class="field-even"><p><strong>final_mask</strong> – A boolean array for pixels that are masked (True) or are valid (False) will be added to
-the mask dictionary under the key <code class="docutils literal notranslate"><span class="pre">echo399_everything</span></code>.</p>
+<dd class="field-even"><p><strong>final_mask</strong> – A boolean array for pixels that are masked (True) or are valid
+(False) will be added to the mask dictionary under the
+key <code class="docutils literal notranslate"><span class="pre">echo399_everything</span></code>.</p>
 </dd>
 <dt class="field-odd">Return type</dt>
 <dd class="field-odd"><p>ndarray -&gt; dictionary</p>

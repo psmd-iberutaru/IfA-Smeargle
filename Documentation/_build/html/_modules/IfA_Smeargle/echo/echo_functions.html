@@ -167,27 +167,30 @@
 <span class="kn">from</span> <span class="nn">IfA_Smeargle.meta</span> <span class="k">import</span> <span class="o">*</span>
 
 
-<div class="viewcode-block" id="numpy_masked_array"><a class="viewcode-back" href="../../../python_docstrings/IfA_Smeargle.echo.echo_functions.html#IfA_Smeargle.echo.echo_functions.numpy_masked_array">[docs]</a><span class="k">def</span> <span class="nf">numpy_masked_array</span><span class="p">(</span><span class="n">data_array</span><span class="p">,</span><span class="n">synthesized_mask</span><span class="p">,</span>
-                       <span class="n">masking_dictionary</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot; This function makes a Numpy masked array; a nice built in class for this line.</span>
+<div class="viewcode-block" id="echo_numpy_masked_array"><a class="viewcode-back" href="../../../python_docstrings/IfA_Smeargle.echo.echo_functions.html#IfA_Smeargle.echo.echo_functions.echo_numpy_masked_array">[docs]</a><span class="k">def</span> <span class="nf">echo_numpy_masked_array</span><span class="p">(</span><span class="n">data_array</span><span class="p">,</span> <span class="n">synthesized_mask</span><span class="p">,</span>
+                            <span class="n">masking_dictionary</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot; This function makes a Numpy masked array; a nice built in class for </span>
+<span class="sd">    this line.</span>
 
-<span class="sd">    The Numpy Masked Array class works very well with masking data values in a given array.</span>
-<span class="sd">    It is only natural to use such functionality. This is really a wrapper function for ease of</span>
-<span class="sd">    usage with familiarity of Smeargle&#39;s structures.</span>
+<span class="sd">    The Numpy Masked Array class works very well with masking data values in </span>
+<span class="sd">    a given array. It is only natural to use such functionality. This is </span>
+<span class="sd">    really a wrapper function for ease of usage with familiarity of </span>
+<span class="sd">    IfA-Smeargle&#39;s structures.</span>
 
 <span class="sd">    Parameters</span>
 <span class="sd">    ----------</span>
 <span class="sd">    data_array : ndarray</span>
 <span class="sd">        The data that is to have its mask made.</span>
 <span class="sd">    synthesized_mask : ndarray</span>
-<span class="sd">        The mask that should be applied to the data, it is expected that this is post-synthesis.</span>
+<span class="sd">        The mask that should be applied to the data, it is expected that </span>
+<span class="sd">        this is post-synthesis.</span>
 <span class="sd">    masking_dictionary : dictionary (optional)</span>
-<span class="sd">        The masking dictionary pre-synthesis. If it is not None, ``synthesized_mask`` is </span>
-<span class="sd">        completely ignored in favor of this parameter.</span>
+<span class="sd">        The masking dictionary pre-synthesis. If it is not None, </span>
+<span class="sd">        ``synthesized_mask`` is completely ignored in favor of this parameter.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
 
     <span class="k">if</span> <span class="p">(</span><span class="n">masking_dictionary</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">):</span>
-        <span class="n">synthesized_mask</span> <span class="o">=</span> <span class="n">synthesize_mask_dictionary</span><span class="p">(</span><span class="n">masking_dictionary</span><span class="p">)</span>
+        <span class="n">synthesized_mask</span> <span class="o">=</span> <span class="n">echo_synthesize_mask_dictionary</span><span class="p">(</span><span class="n">masking_dictionary</span><span class="p">)</span>
 
     <span class="c1"># Making the masked array.</span>
     <span class="n">np_masked_data</span> <span class="o">=</span> <span class="n">np_ma</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">data_array</span><span class="p">,</span> <span class="n">mask</span><span class="o">=</span><span class="n">synthesized_mask</span><span class="p">)</span>
@@ -195,15 +198,17 @@
     <span class="k">return</span> <span class="n">np_masked_data</span></div>
 
 
-<div class="viewcode-block" id="synthesize_mask_dictionary"><a class="viewcode-back" href="../../../python_docstrings/IfA_Smeargle.echo.echo_functions.html#IfA_Smeargle.echo.echo_functions.synthesize_mask_dictionary">[docs]</a><span class="k">def</span> <span class="nf">synthesize_mask_dictionary</span><span class="p">(</span><span class="n">masking_dictionary</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot; This function takes a masking dictionary and returns it with a final overall mask.</span>
+<div class="viewcode-block" id="echo_synthesize_mask_dictionary"><a class="viewcode-back" href="../../../python_docstrings/IfA_Smeargle.echo.echo_functions.html#IfA_Smeargle.echo.echo_functions.echo_synthesize_mask_dictionary">[docs]</a><span class="k">def</span> <span class="nf">echo_synthesize_mask_dictionary</span><span class="p">(</span><span class="n">masking_dictionary</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot; This function takes a masking dictionary and returns it with a </span>
+<span class="sd">    final overall mask.</span>
 
-<span class="sd">    The masking dictionary is made solely because it is helpful to preserve the information as </span>
-<span class="sd">    to which mask applied to which pixel. However, in actual visualization, it is not really</span>
-<span class="sd">    needed. </span>
+<span class="sd">    The masking dictionary is made solely because it is helpful to preserve </span>
+<span class="sd">    the information as to which mask applied to which pixel. However, in </span>
+<span class="sd">    actual visualization, it is not really needed. </span>
 <span class="sd">    </span>
-<span class="sd">    This function makes a deep copy of the input to ensure it is not damaged. The final </span>
-<span class="sd">    synthesized mask does not have information about each individual mask.</span>
+<span class="sd">    This function makes a deep copy of the input to ensure it is not </span>
+<span class="sd">    damaged. The final synthesized mask does not have information about </span>
+<span class="sd">    each individual mask.</span>
 
 <span class="sd">    Parameters</span>
 <span class="sd">    ----------</span>
@@ -222,11 +227,11 @@
     <span class="k">return</span> <span class="n">synthesized_mask</span></div>
 
 
-<div class="viewcode-block" id="functioned_mask_returning"><a class="viewcode-back" href="../../../python_docstrings/IfA_Smeargle.echo.echo_functions.html#IfA_Smeargle.echo.echo_functions.functioned_mask_returning">[docs]</a><span class="k">def</span> <span class="nf">functioned_mask_returning</span><span class="p">(</span><span class="n">pixel_mask</span><span class="p">,</span><span class="n">masking_dictionary</span><span class="p">,</span><span class="n">filter_name</span><span class="p">,</span><span class="n">return_mask_only</span><span class="p">):</span>
+<div class="viewcode-block" id="echo_functioned_mask_returning"><a class="viewcode-back" href="../../../python_docstrings/IfA_Smeargle.echo.echo_functions.html#IfA_Smeargle.echo.echo_functions.echo_functioned_mask_returning">[docs]</a><span class="k">def</span> <span class="nf">echo_functioned_mask_returning</span><span class="p">(</span><span class="n">pixel_mask</span><span class="p">,</span> <span class="n">masking_dictionary</span><span class="p">,</span> <span class="n">filter_name</span><span class="p">,</span> <span class="n">return_mask_only</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot; This function is a single implementation for returning masks.</span>
 
-<span class="sd">    Because it is an option for the user to return the mask itself, writing the logic for each</span>
-<span class="sd">    of the masks will get really old.</span>
+<span class="sd">    Because it is an option for the user to return the mask itself, writing </span>
+<span class="sd">    the logic for each of the masks will get really old.</span>
 
 <span class="sd">    Parameters</span>
 <span class="sd">    ----------</span>
@@ -235,41 +240,48 @@
 <span class="sd">    masking_dictionary : dictionary</span>
 <span class="sd">        This is the mask dictionary provided by the user (or blank by default)</span>
 <span class="sd">    filter_name : string</span>
-<span class="sd">        This is the name of the filter that is being applied; should be same as the dictionary</span>
-<span class="sd">        entry for this filter.</span>
+<span class="sd">        This is the name of the filter that is being applied; should be same </span>
+<span class="sd">        as the dictionary entry for this filter.</span>
 <span class="sd">    return_mask_only : boolean</span>
-<span class="sd">        The decision on if or if not the mask or the dictionary should be returned.</span>
+<span class="sd">        The decision on if or if not the mask or the dictionary should be </span>
+<span class="sd">        returned.</span>
 
 <span class="sd">    Returns</span>
 <span class="sd">    -------</span>
 <span class="sd">    returning_object : ndarray or dictionary</span>
-<span class="sd">        The object that is to be returned. It is either the mask or the dictionary based on </span>
-<span class="sd">        the boolean value.</span>
+<span class="sd">        The object that is to be returned. It is either the mask or the </span>
+<span class="sd">        dictionary based on the boolean value.</span>
 <span class="sd">    </span>
 <span class="sd">    &quot;&quot;&quot;</span>
 
     <span class="c1"># Warn if the mask that would be returned is empty.</span>
-    <span class="k">if</span> <span class="p">(</span><span class="n">np_ma</span><span class="o">.</span><span class="n">count_masked</span><span class="p">(</span><span class="n">pixel_mask</span><span class="p">)</span> <span class="o">&lt;=</span> <span class="mi">0</span><span class="p">):</span>
+    <span class="k">if</span> <span class="p">(</span><span class="ow">not</span> <span class="n">np</span><span class="o">.</span><span class="n">any</span><span class="p">(</span><span class="n">pixel_mask</span><span class="p">)):</span>
         <span class="n">smeargle_warning</span><span class="p">(</span><span class="n">MaskingWarning</span><span class="p">,</span>
-                         <span class="s2">&quot;The masking routine &lt; </span><span class="si">{msk_rou}</span><span class="s2"> &gt; did not mask any pixels.&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span>
-                             <span class="n">msk_rou</span><span class="o">=</span><span class="n">filter_name</span><span class="p">))</span>
+                         <span class="p">(</span><span class="s2">&quot;The masking routine &lt; </span><span class="si">{msk_rou}</span><span class="s2"> &gt; did not mask any pixels.&quot;</span>
+                          <span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">msk_rou</span><span class="o">=</span><span class="n">filter_name</span><span class="p">)))</span>
 
+    <span class="c1"># The object that will be returned.</span>
     <span class="n">returning_object</span> <span class="o">=</span> <span class="kc">None</span>
 
+    <span class="c1"># Switch between the mask itself or the dictionary of the masks as need</span>
+    <span class="c1"># be.</span>
     <span class="k">if</span> <span class="p">(</span><span class="n">return_mask_only</span><span class="p">):</span>
         <span class="n">returning_object</span> <span class="o">=</span> <span class="n">pixel_mask</span>
     <span class="k">else</span><span class="p">:</span>
+        <span class="k">if</span> <span class="p">(</span><span class="n">masking_dictionary</span> <span class="o">==</span> <span class="kc">None</span><span class="p">):</span>
+            <span class="n">masking_dictionary</span> <span class="o">=</span> <span class="p">{}</span>
+
         <span class="n">masking_dictionary</span><span class="p">[</span><span class="n">filter_name</span><span class="p">]</span> <span class="o">=</span> <span class="n">pixel_mask</span>
         <span class="n">returning_object</span> <span class="o">=</span> <span class="n">masking_dictionary</span>
 
     <span class="k">return</span> <span class="n">returning_object</span></div>
 
 
-<div class="viewcode-block" id="sort_masking_dictionary"><a class="viewcode-back" href="../../../python_docstrings/IfA_Smeargle.echo.echo_functions.html#IfA_Smeargle.echo.echo_functions.sort_masking_dictionary">[docs]</a><span class="k">def</span> <span class="nf">sort_masking_dictionary</span><span class="p">(</span><span class="n">mask_dictionary</span><span class="p">):</span>
+<div class="viewcode-block" id="echo_sort_masking_dictionary"><a class="viewcode-back" href="../../../python_docstrings/IfA_Smeargle.echo.echo_functions.html#IfA_Smeargle.echo.echo_functions.echo_sort_masking_dictionary">[docs]</a><span class="k">def</span> <span class="nf">echo_sort_masking_dictionary</span><span class="p">(</span><span class="n">mask_dictionary</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot; This function just sorts a dictionary by its key.</span>
 <span class="sd">    </span>
-<span class="sd">    As the masking dictionary is expected to be in order by its keys, this is sort of needed. </span>
-<span class="sd">    It is not too efficient, and it can be disabled. </span>
+<span class="sd">    As the masking dictionary is expected to be in order by its keys, this </span>
+<span class="sd">    is sort of needed. It is not too efficient, and it can be disabled. </span>
 
 <span class="sd">    Parameters</span>
 <span class="sd">    ----------</span>

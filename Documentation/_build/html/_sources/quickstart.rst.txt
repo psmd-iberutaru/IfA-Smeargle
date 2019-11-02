@@ -105,9 +105,9 @@ individually. It is currently the suggested of the three equally valid ways
 to execute a pipeline. 
 
 Like any other Python module, IfA-Smeargle can be imported as a local module 
-into the Jupyter notebook Python script using ``import IfA_Smeargle as ifas``
-(as per Python imports, the ``ifas`` isn't needed, but it is the suggested 
-abbreviation for this module.) Please note that this is local import rather
+into the Jupyter notebook Python script using ``import IfA_Smeargle as ifas``.
+(As per Python imports, the ``ifas`` isn't needed, but it is the suggested 
+abbreviation for this module.) Please note that this is a local import rather
 than a package import. Feel free to add this module into your Python package
 directory at your own risk. 
 
@@ -156,6 +156,6 @@ All command-line calls will likely be in a format similar to the one below::
 
    python ifas_execute.py 'pipeline_name' 'data_directory' 'configuration_file'
 
-Note that all parameters should be strings which contain the paths (on in the 
+Note that all parameters should be strings which contain the paths (or in the 
 case of ``pipeline_name``, the exact name of the pipeline itself.) There is 
-an optional silent flag (``-s`` or ``--silent``), it defaults to False.
+an optional silent flag (``-s`` or ``--silent``); it defaults to False.

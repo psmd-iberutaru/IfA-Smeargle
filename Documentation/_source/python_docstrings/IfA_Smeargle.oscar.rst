@@ -11,11 +11,11 @@ Submodules
    IfA_Smeargle.oscar.multi_figure
    IfA_Smeargle.oscar.oscar_functions
    IfA_Smeargle.oscar.oscar_main
+   IfA_Smeargle.oscar.voltage_plots
 
 Module contents
 ---------------
 
 .. automodule:: IfA_Smeargle.oscar
    :members:
-   :undoc-members:
    :show-inheritance:

@@ -181,6 +181,41 @@
   <div class="section" id="module-IfA_Smeargle.bravo.averaging">
 <span id="ifa-smeargle-bravo-averaging-module"></span><h1>IfA_Smeargle.bravo.averaging module<a class="headerlink" href="#module-IfA_Smeargle.bravo.averaging" title="Permalink to this headline">¶</a></h1>
 <dl class="function">
+<dt id="IfA_Smeargle.bravo.averaging.auto_avergae_slicing">
+<code class="sig-prename descclassname">IfA_Smeargle.bravo.averaging.</code><code class="sig-name descname">auto_avergae_slicing</code><span class="sig-paren">(</span><em class="sig-param">fits_file</em>, <em class="sig-param">reference_chunk</em>, <em class="sig-param">split_chunks</em>, <em class="sig-param">averaging_function</em>, <em class="sig-param">function_parameters={}</em>, <em class="sig-param">write_file=True</em>, <em class="sig-param">post_mask=None</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/IfA_Smeargle/bravo/averaging.html#auto_avergae_slicing"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#IfA_Smeargle.bravo.averaging.auto_avergae_slicing" title="Permalink to this definition">¶</a></dt>
+<dd><p>This function splits the HDU file into different chunks and applies
+averaging functions provided to said data.</p>
+<p>This is mostly a method of automation than a method of actual value.
+However, for most pipelines that split data into different chunks, it is
+preferable that this function is used.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>fits_file</strong> (<em>string</em><em> or </em><em>Astropy HDUList file</em>) – This is the fits file that will be modified, or at least have its
+values calculated from.</p></li>
+<li><p><strong>reference_chunk</strong> (<em>array-like</em>) – The exact range of frames from the beginning that will be median-ed
+and to be used as the reference chunk for all of the split chunks.</p></li>
+<li><p><strong>split_chunks</strong> (<em>array-like</em>) – The list of chunk boundaries that will be processed and written as
+different files.</p></li>
+<li><p><strong>averaging_function</strong> (<em>function</em>) – The averaging function that will be applied to the data. All BRAVO
+averaging functions are supported.</p></li>
+<li><p><strong>function_parameters</strong> (<em>dictionary</em>) – Extra parameters required by the averaging function.</p></li>
+<li><p><strong>write_file</strong> (<em>boolean</em><em> (</em><em>optional</em><em>)</em>) – If true, the Astropy HDUL object is written to a fits file with the
+split parameter in the name.</p></li>
+<li><p><strong>post_mask</strong> (<em>array-like</em>) – A mask that will be applied at the end of the automatic averaging
+method.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p></p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>nothing</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="function">
 <dt id="IfA_Smeargle.bravo.averaging.average_endpoints">
 <code class="sig-prename descclassname">IfA_Smeargle.bravo.averaging.</code><code class="sig-name descname">average_endpoints</code><span class="sig-paren">(</span><em class="sig-param">fits_file</em>, <em class="sig-param">start_chunk</em>, <em class="sig-param">end_chunk</em>, <em class="sig-param">write_file=True</em>, <em class="sig-param">alternate_name=None</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/IfA_Smeargle/bravo/averaging.html#average_endpoints"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#IfA_Smeargle.bravo.averaging.average_endpoints" title="Permalink to this definition">¶</a></dt>
 <dd><p>This function reads a fits file and computes its end section values.</p>

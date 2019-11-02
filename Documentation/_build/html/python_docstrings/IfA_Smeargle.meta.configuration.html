@@ -183,31 +183,6 @@
 <p>These functions just provide a nice and easy place to put functions whose
 purpose is to allow for the proper reading of different possible arrangements
 of the configuration parameters.</p>
-<dl class="function">
-<dt id="IfA_Smeargle.meta.configuration.extract_proper_configuration_class">
-<code class="sig-prename descclassname">IfA_Smeargle.meta.configuration.</code><code class="sig-name descname">extract_proper_configuration_class</code><span class="sig-paren">(</span><em class="sig-param">configuration_class</em>, <em class="sig-param">desired_class</em>, <em class="sig-param">deep_copy=False</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/IfA_Smeargle/meta/configuration.html#extract_proper_configuration_class"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#IfA_Smeargle.meta.configuration.extract_proper_configuration_class" title="Permalink to this definition">¶</a></dt>
-<dd><p>This function extracts the proper configuration class from a
-collection of configuration classes.</p>
-<p>The whole point of this function is to retain the flexibility and ease
-of using differing configuration classes and the structure of the
-configuration classes themselves.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
-<dd class="field-odd"><ul class="simple">
-<li><p><strong>configuration_class</strong> (<em>Any BaseConfig based class</em>) – The main configuration class that should contain the desired class.</p></li>
-<li><p><strong>desired_class</strong> (<em>Any BaseConfig based class execpt for BaseConfig</em>) – The desired class.</p></li>
-<li><p><strong>deep_copy</strong> (<em>boolean</em><em> (</em><em>optional</em><em>)</em>) – If a deep copy of the class is desired, then set to True.</p></li>
-</ul>
-</dd>
-<dt class="field-even">Returns</dt>
-<dd class="field-even"><p><strong>extracted_class</strong> – A copy of the desired configuration class.</p>
-</dd>
-<dt class="field-odd">Return type</dt>
-<dd class="field-odd"><p>Any BaseConfig based class (same class as desired class)</p>
-</dd>
-</dl>
-</dd></dl>
-
 </div>
 
 

@@ -21,5 +21,4 @@ Module contents
 
 .. automodule:: IfA_Smeargle.yankee
    :members:
-   :undoc-members:
    :show-inheritance:

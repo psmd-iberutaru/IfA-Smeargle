@@ -240,7 +240,7 @@ specified.</p>
 <p class="admonition-title">Warning</p>
 <p>Configuration files and classes are not forward compatible. There
 is however a function to convert older configuration classes/files to newer
-versions while preserving the old data. See the <a class="reference internal" href="python_docstrings/IfA_Smeargle.yankee.yankee_functions.html#IfA_Smeargle.yankee.yankee_functions.fast_forward_configuration_class" title="IfA_Smeargle.yankee.yankee_functions.fast_forward_configuration_class"><code class="xref py py-func docutils literal notranslate"><span class="pre">Fast</span> <span class="pre">Forward</span> <span class="pre">Configuration</span> <span class="pre">Class</span></code></a> function.</p>
+versions while preserving the old data. See the <code class="xref py py-func docutils literal notranslate"><span class="pre">Fast</span> <span class="pre">Forward</span> <span class="pre">Configuration</span> <span class="pre">Class</span></code> function.</p>
 </div>
 </div>
 </div>
@@ -258,9 +258,9 @@ and suggested ways that pipelines should be executed.</p>
 individually. It is currently the suggested of the three equally valid ways
 to execute a pipeline.</p>
 <p>Like any other Python module, IfA-Smeargle can be imported as a local module
-into the Jupyter notebook Python script using <code class="docutils literal notranslate"><span class="pre">import</span> <span class="pre">IfA_Smeargle</span> <span class="pre">as</span> <span class="pre">ifas</span></code>
-(as per Python imports, the <code class="docutils literal notranslate"><span class="pre">ifas</span></code> isn’t needed, but it is the suggested
-abbreviation for this module.) Please note that this is local import rather
+into the Jupyter notebook Python script using <code class="docutils literal notranslate"><span class="pre">import</span> <span class="pre">IfA_Smeargle</span> <span class="pre">as</span> <span class="pre">ifas</span></code>.
+(As per Python imports, the <code class="docutils literal notranslate"><span class="pre">ifas</span></code> isn’t needed, but it is the suggested
+abbreviation for this module.) Please note that this is a local import rather
 than a package import. Feel free to add this module into your Python package
 directory at your own risk.</p>
 <p>You can then load your configuration files as one would load normal files in
@@ -302,9 +302,9 @@ restrictions.</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">python</span> <span class="n">ifas_execute</span><span class="o">.</span><span class="n">py</span> <span class="s1">&#39;pipeline_name&#39;</span> <span class="s1">&#39;data_directory&#39;</span> <span class="s1">&#39;configuration_file&#39;</span>
 </pre></div>
 </div>
-<p>Note that all parameters should be strings which contain the paths (on in the
+<p>Note that all parameters should be strings which contain the paths (or in the
 case of <code class="docutils literal notranslate"><span class="pre">pipeline_name</span></code>, the exact name of the pipeline itself.) There is
-an optional silent flag (<code class="docutils literal notranslate"><span class="pre">-s</span></code> or <code class="docutils literal notranslate"><span class="pre">--silent</span></code>), it defaults to False.</p>
+an optional silent flag (<code class="docutils literal notranslate"><span class="pre">-s</span></code> or <code class="docutils literal notranslate"><span class="pre">--silent</span></code>); it defaults to False.</p>
 </div>
 </div>
 </div>

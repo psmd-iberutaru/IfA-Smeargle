@@ -155,6 +155,7 @@
 <span class="kn">import</span> <span class="nn">astropy</span> <span class="k">as</span> <span class="nn">ap</span>
 <span class="kn">import</span> <span class="nn">astropy.io.fits</span> <span class="k">as</span> <span class="nn">ap_fits</span>
 <span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+<span class="kn">import</span> <span class="nn">numpy.ma</span> <span class="k">as</span> <span class="nn">np_ma</span>
 <span class="kn">import</span> <span class="nn">warnings</span> <span class="k">as</span> <span class="nn">warn</span>
 
 <span class="kn">from</span> <span class="nn">IfA_Smeargle.meta</span> <span class="k">import</span> <span class="o">*</span>
@@ -163,6 +164,75 @@
 <span class="sd">This module parses the data cubes, extracting the needed information from the </span>
 <span class="sd">first X and last X frames, adapting them and outputting them. </span>
 <span class="sd">&quot;&quot;&quot;</span>
+
+<div class="viewcode-block" id="auto_avergae_slicing"><a class="viewcode-back" href="../../../python_docstrings/IfA_Smeargle.bravo.averaging.html#IfA_Smeargle.bravo.averaging.auto_avergae_slicing">[docs]</a><span class="k">def</span> <span class="nf">auto_avergae_slicing</span><span class="p">(</span><span class="n">fits_file</span><span class="p">,</span> <span class="n">reference_chunk</span><span class="p">,</span> <span class="n">split_chunks</span><span class="p">,</span> <span class="n">averaging_function</span><span class="p">,</span>
+                         <span class="n">function_parameters</span><span class="o">=</span><span class="p">{},</span>
+                         <span class="n">write_file</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">post_mask</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot; This function splits the HDU file into different chunks and applies </span>
+<span class="sd">    averaging functions provided to said data.</span>
+
+<span class="sd">    This is mostly a method of automation than a method of actual value. </span>
+<span class="sd">    However, for most pipelines that split data into different chunks, it is</span>
+<span class="sd">    preferable that this function is used. </span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    fits_file : string or Astropy HDUList file</span>
+<span class="sd">        This is the fits file that will be modified, or at least have its</span>
+<span class="sd">        values calculated from.</span>
+<span class="sd">    reference_chunk : array-like</span>
+<span class="sd">        The exact range of frames from the beginning that will be median-ed</span>
+<span class="sd">        and to be used as the reference chunk for all of the split chunks.</span>
+<span class="sd">    split_chunks : array-like</span>
+<span class="sd">        The list of chunk boundaries that will be processed and written as</span>
+<span class="sd">        different files.</span>
+<span class="sd">    averaging_function : function</span>
+<span class="sd">        The averaging function that will be applied to the data. All BRAVO</span>
+<span class="sd">        averaging functions are supported.</span>
+<span class="sd">    function_parameters : dictionary</span>
+<span class="sd">        Extra parameters required by the averaging function.</span>
+<span class="sd">    write_file : boolean (optional)</span>
+<span class="sd">        If true, the Astropy HDUL object is written to a fits file with the </span>
+<span class="sd">        split parameter in the name.</span>
+<span class="sd">    post_mask : array-like</span>
+<span class="sd">        A mask that will be applied at the end of the automatic averaging</span>
+<span class="sd">        method. </span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    nothing</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="c1"># Correct the dimensionality of the split chunks. Embed single chunk </span>
+    <span class="c1"># ranges or throw an error for too many indexes.</span>
+    <span class="n">split_chunks</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">split_chunks</span><span class="p">)</span>
+    <span class="k">if</span> <span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">split_chunks</span><span class="o">.</span><span class="n">shape</span><span class="p">)</span> <span class="o">==</span> <span class="mi">1</span><span class="p">):</span>
+        <span class="c1"># Assume that it is only one chunk.</span>
+        <span class="n">split_chunks</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="n">split_chunks</span><span class="p">])</span>
+    <span class="k">elif</span> <span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">split_chunks</span><span class="o">.</span><span class="n">shape</span><span class="p">)</span> <span class="o">==</span> <span class="mi">2</span><span class="p">):</span>
+        <span class="c1"># Assume it is fine.</span>
+        <span class="k">pass</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="k">raise</span> <span class="n">InputError</span><span class="p">(</span><span class="s2">&quot;The dimensions of the split chunks are not yield-able. They should &quot;</span>
+                         <span class="s2">&quot;an array of ranges, specifying each chunk; therefore, the number of &quot;</span>
+                         <span class="s2">&quot;dimensions shall be three.&quot;</span><span class="p">)</span>
+
+    <span class="c1"># Calculating the differing averaging frames.</span>
+    <span class="k">for</span> <span class="n">splitdex</span> <span class="ow">in</span> <span class="n">split_chunks</span><span class="p">:</span>
+        <span class="c1"># Deriving an alternate name.</span>
+        <span class="n">alt_name</span> <span class="o">=</span> <span class="p">(</span><span class="n">fits_file</span><span class="p">[:</span><span class="o">-</span><span class="mi">5</span><span class="p">]</span> 
+                    <span class="o">+</span> <span class="s1">&#39;__&#39;</span> <span class="o">+</span> <span class="s1">&#39;slice;&#39;</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">splitdex</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span> <span class="o">+</span> <span class="s1">&#39;-&#39;</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">splitdex</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span> 
+                    <span class="o">+</span> <span class="n">fits_file</span><span class="p">[</span><span class="o">-</span><span class="mi">5</span><span class="p">:])</span>
+        <span class="c1"># Executing averaging and writing, saving the mask.</span>
+        <span class="n">hdu_to_be_written</span> <span class="o">=</span> <span class="n">averaging_function</span><span class="p">(</span><span class="n">fits_file</span><span class="p">,</span> <span class="n">reference_chunk</span><span class="p">,</span> <span class="n">splitdex</span><span class="p">,</span> 
+                                               <span class="n">write_file</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
+                                               <span class="n">alternate_name</span><span class="o">=</span><span class="n">alt_name</span><span class="p">,</span>
+                                               <span class="o">**</span><span class="n">function_parameters</span><span class="p">)</span>
+        <span class="n">temp_header</span> <span class="o">=</span> <span class="n">hdu_to_be_written</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">header</span> 
+        <span class="n">temp_data</span> <span class="o">=</span> <span class="n">np_ma</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">hdu_to_be_written</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">data</span><span class="p">,</span> <span class="n">mask</span><span class="o">=</span><span class="n">post_mask</span><span class="p">)</span>
+        <span class="n">meta_faa</span><span class="o">.</span><span class="n">smeargle_write_fits_file</span><span class="p">(</span><span class="n">alt_name</span><span class="p">,</span> <span class="n">temp_header</span><span class="p">,</span> <span class="n">temp_data</span><span class="p">,</span> <span class="n">silent</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+
+    <span class="k">return</span> <span class="kc">None</span></div>
 
 
 <div class="viewcode-block" id="average_endpoints"><a class="viewcode-back" href="../../../python_docstrings/IfA_Smeargle.bravo.averaging.html#IfA_Smeargle.bravo.averaging.average_endpoints">[docs]</a><span class="k">def</span> <span class="nf">average_endpoints</span><span class="p">(</span><span class="n">fits_file</span><span class="p">,</span> <span class="n">start_chunk</span><span class="p">,</span> <span class="n">end_chunk</span><span class="p">,</span>
@@ -216,6 +286,7 @@
         <span class="n">smeargle_warning</span><span class="p">(</span><span class="n">InputWarning</span><span class="p">,(</span><span class="s2">&quot;The number of dimensions in the data array is greater &quot;</span>
                                        <span class="s2">&quot;than 3, it is assumed that the 0th axis is the temporal &quot;</span>
                                        <span class="s2">&quot;axis.&quot;</span><span class="p">))</span>
+
 
     <span class="c1"># Allow for swapped, but valid ranges.</span>
     <span class="n">start_chunk</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">sort</span><span class="p">(</span><span class="n">start_chunk</span><span class="p">)</span>

@@ -184,11 +184,20 @@
 categories.</p>
 <dl class="exception">
 <dt id="IfA_Smeargle.meta.errors.BrokenLogicError">
-<em class="property">exception </em><code class="sig-prename descclassname">IfA_Smeargle.meta.errors.</code><code class="sig-name descname">BrokenLogicError</code><a class="reference internal" href="../_modules/IfA_Smeargle/meta/errors.html#BrokenLogicError"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#IfA_Smeargle.meta.errors.BrokenLogicError" title="Permalink to this definition">¶</a></dt>
-<dd><p>Bases: <a class="reference internal" href="#IfA_Smeargle.meta.errors.Smeargle_Exception" title="IfA_Smeargle.meta.errors.Smeargle_Exception"><code class="xref py py-class docutils literal notranslate"><span class="pre">IfA_Smeargle.meta.errors.Smeargle_Exception</span></code></a></p>
+<em class="property">exception </em><code class="sig-prename descclassname">IfA_Smeargle.meta.errors.</code><code class="sig-name descname">BrokenLogicError</code><span class="sig-paren">(</span><em class="sig-param">message=None</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/IfA_Smeargle/meta/errors.html#BrokenLogicError"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#IfA_Smeargle.meta.errors.BrokenLogicError" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="#IfA_Smeargle.meta.errors.Smeargle_BaseException" title="IfA_Smeargle.meta.errors.Smeargle_BaseException"><code class="xref py py-class docutils literal notranslate"><span class="pre">IfA_Smeargle.meta.errors.Smeargle_BaseException</span></code></a></p>
 <p>This error is encountered when the program enters in a place it should
 not be able to. Incorporated mostly for safety; usually not the fault of
 the user.</p>
+</dd></dl>
+
+<dl class="exception">
+<dt id="IfA_Smeargle.meta.errors.BugError">
+<em class="property">exception </em><code class="sig-prename descclassname">IfA_Smeargle.meta.errors.</code><code class="sig-name descname">BugError</code><span class="sig-paren">(</span><em class="sig-param">message=None</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/IfA_Smeargle/meta/errors.html#BugError"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#IfA_Smeargle.meta.errors.BugError" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="#IfA_Smeargle.meta.errors.Smeargle_BaseException" title="IfA_Smeargle.meta.errors.Smeargle_BaseException"><code class="xref py py-class docutils literal notranslate"><span class="pre">IfA_Smeargle.meta.errors.Smeargle_BaseException</span></code></a></p>
+<p>This error is mostly used for cases where, if it is triggered, there is
+likely a bug. The bug’s status should mostly deal with logic flow and a
+broken program (compared to bad results, which is less obvious to detect).</p>
 </dd></dl>
 
 <dl class="exception">
@@ -228,8 +237,17 @@ should be able to figure out what is the problem.</p>
 </dd></dl>
 
 <dl class="exception">
-<dt id="IfA_Smeargle.meta.errors.DepreciationWarning">
-<em class="property">exception </em><code class="sig-prename descclassname">IfA_Smeargle.meta.errors.</code><code class="sig-name descname">DepreciationWarning</code><a class="reference internal" href="../_modules/IfA_Smeargle/meta/errors.html#DepreciationWarning"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#IfA_Smeargle.meta.errors.DepreciationWarning" title="Permalink to this definition">¶</a></dt>
+<dt id="IfA_Smeargle.meta.errors.DeprecatedError">
+<em class="property">exception </em><code class="sig-prename descclassname">IfA_Smeargle.meta.errors.</code><code class="sig-name descname">DeprecatedError</code><span class="sig-paren">(</span><em class="sig-param">message=None</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/IfA_Smeargle/meta/errors.html#DeprecatedError"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#IfA_Smeargle.meta.errors.DeprecatedError" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="#IfA_Smeargle.meta.errors.Smeargle_BaseException" title="IfA_Smeargle.meta.errors.Smeargle_BaseException"><code class="xref py py-class docutils literal notranslate"><span class="pre">IfA_Smeargle.meta.errors.Smeargle_BaseException</span></code></a></p>
+<p>This is used when the code should be using a different equivalent function.
+This is mostly used for cases where a warning has already been issued, or
+to clean up the core sections of the code during testing.</p>
+</dd></dl>
+
+<dl class="exception">
+<dt id="IfA_Smeargle.meta.errors.DeprecatedWarning">
+<em class="property">exception </em><code class="sig-prename descclassname">IfA_Smeargle.meta.errors.</code><code class="sig-name descname">DeprecatedWarning</code><a class="reference internal" href="../_modules/IfA_Smeargle/meta/errors.html#DeprecatedWarning"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#IfA_Smeargle.meta.errors.DeprecatedWarning" title="Permalink to this definition">¶</a></dt>
 <dd><p>Bases: <a class="reference internal" href="#IfA_Smeargle.meta.errors.Smeargle_Warning" title="IfA_Smeargle.meta.errors.Smeargle_Warning"><code class="xref py py-class docutils literal notranslate"><span class="pre">IfA_Smeargle.meta.errors.Smeargle_Warning</span></code></a></p>
 <p>This warning is used when there are some functions that are used but
 have since been replaced with better functions, or where the previous
@@ -307,6 +325,16 @@ not usable.</p>
 <dd><p>Bases: <a class="reference internal" href="#IfA_Smeargle.meta.errors.Smeargle_Warning" title="IfA_Smeargle.meta.errors.Smeargle_Warning"><code class="xref py py-class docutils literal notranslate"><span class="pre">IfA_Smeargle.meta.errors.Smeargle_Warning</span></code></a></p>
 <p>This warning is used when the user inputs something that is questionable,
 but not wrong.</p>
+</dd></dl>
+
+<dl class="exception">
+<dt id="IfA_Smeargle.meta.errors.MagicWarning">
+<em class="property">exception </em><code class="sig-prename descclassname">IfA_Smeargle.meta.errors.</code><code class="sig-name descname">MagicWarning</code><a class="reference internal" href="../_modules/IfA_Smeargle/meta/errors.html#MagicWarning"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#IfA_Smeargle.meta.errors.MagicWarning" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="#IfA_Smeargle.meta.errors.Smeargle_Warning" title="IfA_Smeargle.meta.errors.Smeargle_Warning"><code class="xref py py-class docutils literal notranslate"><span class="pre">IfA_Smeargle.meta.errors.Smeargle_Warning</span></code></a></p>
+<p>This warning is used when any routine would utilize magic/hard-coded
+values for the purposes of any process where said numbers are magic. This
+is mostly as a programming warning to the user that behavior with magic
+numbers may not always be expected or logical.</p>
 </dd></dl>
 
 <dl class="exception">
@@ -414,7 +442,7 @@ compute or execute. This allows the user to stop and change if desired.</p>
 <dt id="IfA_Smeargle.meta.errors.smeargle_absolute_silence">
 <code class="sig-prename descclassname">IfA_Smeargle.meta.errors.</code><code class="sig-name descname">smeargle_absolute_silence</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/IfA_Smeargle/meta/errors.html#smeargle_absolute_silence"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#IfA_Smeargle.meta.errors.smeargle_absolute_silence" title="Permalink to this definition">¶</a></dt>
 <dd><p>This context manager silences any and all messages, it basically
-it is wrapper around all other general Smeargle context managers (even
+is a wrapper around all other general Smeargle context managers (even
 if there is some overlap).</p>
 </dd></dl>
 

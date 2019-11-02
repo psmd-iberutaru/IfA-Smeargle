@@ -189,6 +189,22 @@ contain their own configuration file (from Yankee).</p>
 Each line should be called within a Zulu function, allowing for the
 consistency and ease of usage of the IfA Smeargle module. Changes should
 only be applied to the configuration classes.</p>
+<dl class="class">
+<dt id="IfA_Smeargle.zulu.zulu_main.IfasDataArray">
+<em class="property">class </em><code class="sig-prename descclassname">IfA_Smeargle.zulu.zulu_main.</code><code class="sig-name descname">IfasDataArray</code><span class="sig-paren">(</span><em class="sig-param">filename</em>, <em class="sig-param">configuration_class=None</em>, <em class="sig-param">blank=False</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/IfA_Smeargle/zulu/zulu_main.html#IfasDataArray"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#IfA_Smeargle.zulu.zulu_main.IfasDataArray" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+<p>This data frame class is a wrapper object around a data array image.
+For the directory version of this class, see
+<code class="xref py py-class docutils literal notranslate"><span class="pre">IfasDirectoryDataArray</span></code>.</p>
+<p>The purpose of this class is to make easier the development of pipelines
+and the general flow of the manipulations of data arrays. However, because
+this is a wrapper function, not all functionality is guaranteed. For
+more basic and known reductions, pipelines are still preferred (see
+<a class="reference internal" href="IfA_Smeargle.zulu.detector_pipelines.html"><span class="doc">ZULU pipelines</span></a>)</p>
+<p>New pipelines, however, should always be developed using this object
+oriented approach.</p>
+</dd></dl>
+
 </div>
 
 

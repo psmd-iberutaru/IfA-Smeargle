@@ -16,5 +16,4 @@ Module contents
 
 .. automodule:: IfA_Smeargle.echo.masks
    :members:
-   :undoc-members:
    :show-inheritance:

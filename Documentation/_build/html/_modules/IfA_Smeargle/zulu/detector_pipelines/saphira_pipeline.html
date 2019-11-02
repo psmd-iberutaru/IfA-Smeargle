@@ -261,7 +261,7 @@
     <span class="k">def</span> <span class="nf">_saphira_renaming</span><span class="p">(</span><span class="n">data_directory</span><span class="p">,</span> <span class="n">configuration_class</span><span class="p">):</span>
         <span class="c1"># Just a inner function to store the new naming routine. </span>
         <span class="c1"># Be adaptive as to which configuration class is given.</span>
-        <span class="n">provided_config</span> <span class="o">=</span> <span class="n">yankee</span><span class="o">.</span><span class="n">extract_proper_configuration_class</span><span class="p">(</span><span class="n">configuration_class</span><span class="p">,</span>
+        <span class="n">provided_config</span> <span class="o">=</span> <span class="n">yankee</span><span class="o">.</span><span class="n">yankee_extract_proper_configuration_class</span><span class="p">(</span><span class="n">configuration_class</span><span class="p">,</span>
                                                                     <span class="n">yankee</span><span class="o">.</span><span class="n">BravoConfig</span><span class="p">)</span>
 
         <span class="c1"># Determine the detector&#39;s name.</span>
@@ -305,6 +305,11 @@
     <span class="c1"># Run the renaming of the files.</span>
     <span class="n">_saphira_renaming</span><span class="p">(</span><span class="n">data_directory</span><span class="p">,</span> <span class="n">configuration_class</span><span class="p">)</span>
 
+    <span class="c1"># Initial sanitization of files, such as improper or smaller than normal</span>
+    <span class="c1"># file size.</span>
+    <span class="n">bravo</span><span class="o">.</span><span class="n">sanitize</span><span class="o">.</span><span class="n">same_file_size_sanitization</span><span class="p">(</span><span class="n">data_directory</span><span class="p">,</span> <span class="n">method</span><span class="o">=</span><span class="s1">&#39;largest&#39;</span><span class="p">)</span>
+
+
     <span class="c1"># Re-obtain file names.</span>
     <span class="n">file_names</span> <span class="o">=</span> <span class="n">glob</span><span class="o">.</span><span class="n">glob</span><span class="p">(</span><span class="n">data_directory</span> <span class="o">+</span> <span class="s1">&#39;/*&#39;</span> <span class="o">+</span> <span class="s1">&#39;.fits&#39;</span><span class="p">)</span>
     <span class="k">for</span> <span class="n">filedex</span> <span class="ow">in</span> <span class="n">file_names</span><span class="p">:</span>
@@ -315,20 +320,11 @@
         <span class="n">early_mask</span> <span class="o">=</span> <span class="n">echo</span><span class="o">.</span><span class="n">masks</span><span class="o">.</span><span class="n">echo170_gaussian_truncation</span><span class="p">(</span><span class="n">hdu_data</span><span class="p">[</span><span class="n">early_frame</span><span class="p">],</span> <span class="n">early_sigma</span><span class="p">,</span> 
                                                             <span class="n">bin_size</span><span class="o">=</span><span class="mi">10</span><span class="p">,</span>
                                                             <span class="n">return_mask</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+        <span class="n">bravo</span><span class="o">.</span><span class="n">avging</span><span class="o">.</span><span class="n">auto_avergae_slicing</span><span class="p">(</span><span class="n">filedex</span><span class="p">,</span> <span class="n">ref_frame</span><span class="p">,</span> <span class="n">sub_avg_frames</span><span class="p">,</span>
+                                          <span class="n">bravo</span><span class="o">.</span><span class="n">avging</span><span class="o">.</span><span class="n">average_endpoints</span><span class="p">,</span>
+                                          <span class="n">function_parameters</span><span class="o">=</span><span class="p">{},</span>
+                                          <span class="n">post_mask</span><span class="o">=</span><span class="n">early_mask</span><span class="p">)</span>
 
-        <span class="c1"># Calculating the differing averaging frames.</span>
-        <span class="k">for</span> <span class="n">subavedex</span> <span class="ow">in</span> <span class="n">sub_avg_frames</span><span class="p">:</span>
-            <span class="c1"># Deriving an alternate name.</span>
-            <span class="n">alt_name</span> <span class="o">=</span> <span class="p">(</span><span class="n">filedex</span><span class="p">[:</span><span class="o">-</span><span class="mi">5</span><span class="p">]</span> 
-                        <span class="o">+</span> <span class="s1">&#39;__&#39;</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">subavedex</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span> <span class="o">+</span> <span class="s1">&#39;-&#39;</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">subavedex</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span> 
-                        <span class="o">+</span> <span class="s1">&#39;.fits&#39;</span><span class="p">)</span>
-            <span class="c1"># Executing averaging and writing, saving the mask.</span>
-            <span class="n">hdu_to_be_written</span> <span class="o">=</span> <span class="n">bravo</span><span class="o">.</span><span class="n">avging</span><span class="o">.</span><span class="n">average_endpoints</span><span class="p">(</span><span class="n">filedex</span><span class="p">,</span> <span class="n">ref_frame</span><span class="p">,</span> <span class="n">subavedex</span><span class="p">,</span> 
-                                                               <span class="n">write_file</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
-                                                               <span class="n">alternate_name</span><span class="o">=</span><span class="n">alt_name</span><span class="p">)</span>
-            <span class="n">temp_header</span> <span class="o">=</span> <span class="n">hdu_to_be_written</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">header</span> 
-            <span class="n">temp_data</span> <span class="o">=</span> <span class="n">np_ma</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">hdu_to_be_written</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">data</span><span class="p">,</span> <span class="n">mask</span><span class="o">=</span><span class="n">early_mask</span><span class="p">)</span>
-            <span class="n">meta_faa</span><span class="o">.</span><span class="n">smeargle_write_fits_file</span><span class="p">(</span><span class="n">alt_name</span><span class="p">,</span> <span class="n">temp_header</span><span class="p">,</span> <span class="n">temp_data</span><span class="p">,</span> <span class="n">silent</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
 
     <span class="c1"># Re-obtain file names, again.</span>
     <span class="n">file_names</span> <span class="o">=</span> <span class="n">glob</span><span class="o">.</span><span class="n">glob</span><span class="p">(</span><span class="n">data_directory</span> <span class="o">+</span> <span class="s1">&#39;/*&#39;</span> <span class="o">+</span> <span class="s1">&#39;.fits&#39;</span><span class="p">)</span>
@@ -348,7 +344,7 @@
         <span class="n">mask_dictionary</span><span class="p">[</span><span class="s1">&#39;early_mask&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">early_mask</span>
 
         <span class="c1"># Make the final masked fits file.</span>
-        <span class="n">hdu_data</span> <span class="o">=</span> <span class="n">echo</span><span class="o">.</span><span class="n">numpy_masked_array</span><span class="p">(</span><span class="n">raw_data</span><span class="p">,</span> <span class="kc">None</span><span class="p">,</span> <span class="n">masking_dictionary</span><span class="o">=</span><span class="n">mask_dictionary</span><span class="p">)</span>
+        <span class="n">hdu_data</span> <span class="o">=</span> <span class="n">echo</span><span class="o">.</span><span class="n">echo_numpy_masked_array</span><span class="p">(</span><span class="n">raw_data</span><span class="p">,</span> <span class="kc">None</span><span class="p">,</span> <span class="n">masking_dictionary</span><span class="o">=</span><span class="n">mask_dictionary</span><span class="p">)</span>
 
         <span class="c1"># Write the files once more.</span>
         <span class="n">meta_faa</span><span class="o">.</span><span class="n">smeargle_write_fits_file</span><span class="p">(</span><span class="n">filedex</span><span class="p">,</span> <span class="n">hdu_header</span><span class="p">,</span> <span class="n">hdu_data</span><span class="p">,</span> <span class="n">silent</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
@@ -359,11 +355,14 @@
     <span class="c1"># so the &#39;simplification&#39; is likely worth it.</span>
     <span class="n">file_names</span> <span class="o">=</span> <span class="n">glob</span><span class="o">.</span><span class="n">glob</span><span class="p">(</span><span class="n">data_directory</span> <span class="o">+</span> <span class="s1">&#39;/*.fits&#39;</span><span class="p">)</span>
     <span class="k">for</span> <span class="n">filedex</span> <span class="ow">in</span> <span class="n">file_names</span><span class="p">:</span>
-        <span class="k">try</span><span class="p">:</span>
-            <span class="n">oscar_plot</span> <span class="o">=</span> <span class="n">oscar</span><span class="o">.</span><span class="n">multi</span><span class="o">.</span><span class="n">plot_single_heatmap_and_histogram</span><span class="p">(</span><span class="n">filedex</span><span class="p">,</span> 
-                                                                       <span class="n">configuration_class</span><span class="p">)</span>
-        <span class="k">except</span> <span class="ne">TypeError</span><span class="p">:</span>
+        
+        <span class="c1"># Get rid of annoying 3dim issue with imshow</span>
+        <span class="n">__</span><span class="p">,</span> <span class="n">__</span><span class="p">,</span> <span class="n">hdu_data</span> <span class="o">=</span> <span class="n">meta_faa</span><span class="o">.</span><span class="n">smeargle_open_fits_file</span><span class="p">(</span><span class="n">filedex</span><span class="p">,</span> <span class="n">silent</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+        <span class="k">if</span> <span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">hdu_data</span><span class="o">.</span><span class="n">shape</span><span class="p">)</span> <span class="o">&gt;=</span> <span class="mi">3</span><span class="p">):</span>
             <span class="k">continue</span>
+
+        <span class="n">oscar_plot</span> <span class="o">=</span> <span class="n">oscar</span><span class="o">.</span><span class="n">multi</span><span class="o">.</span><span class="n">plot_single_heatmap_and_histogram</span><span class="p">(</span><span class="n">filedex</span><span class="p">,</span> 
+                                                                   <span class="n">configuration_class</span><span class="p">)</span>
         <span class="c1"># Save the plot.</span>
         <span class="n">file_name</span> <span class="o">=</span> <span class="n">filedex</span><span class="p">[:</span><span class="o">-</span><span class="mi">5</span><span class="p">]</span> <span class="o">+</span> <span class="s1">&#39;__plot.pdf&#39;</span> <span class="c1"># UPDATE</span>
         <span class="n">plot_title</span> <span class="o">=</span> <span class="n">filedex</span><span class="p">[:</span><span class="o">-</span><span class="mi">5</span><span class="p">]</span> <span class="c1"># UPDATE</span>

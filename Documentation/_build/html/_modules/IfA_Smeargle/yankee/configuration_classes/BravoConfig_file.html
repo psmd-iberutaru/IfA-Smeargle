@@ -194,7 +194,7 @@
     <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">file_name</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
 
         <span class="k">try</span><span class="p">:</span>
-            <span class="n">provided_config</span> <span class="o">=</span> <span class="n">extract_proper_configuration_class</span><span class="p">(</span><span class="n">file_name</span><span class="p">,</span> <span class="n">BravoConfig</span><span class="p">)</span>
+            <span class="n">provided_config</span> <span class="o">=</span> <span class="n">yankee_extract_proper_configuration_class</span><span class="p">(</span><span class="n">file_name</span><span class="p">,</span> <span class="n">BravoConfig</span><span class="p">)</span>
             <span class="bp">self</span><span class="o">.</span><span class="vm">__dict__</span><span class="o">.</span><span class="n">update</span><span class="p">(</span><span class="n">provided_config</span><span class="o">.</span><span class="vm">__dict__</span><span class="p">)</span>
         <span class="k">except</span> <span class="ne">Exception</span><span class="p">:</span>
             <span class="k">if</span> <span class="p">(</span><span class="n">file_name</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">):</span>
@@ -206,11 +206,17 @@
             <span class="c1"># The name of the detector.</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">detector_name</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;name&#39;</span><span class="p">:</span><span class="kc">None</span><span class="p">}</span>
 
+            <span class="c1"># Sanitizing the data directory input.</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">same_file_size_sanitization_config</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;method&#39;</span><span class="p">:</span><span class="kc">None</span><span class="p">}</span>
+
             <span class="c1"># Renaming file</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">voltpat_rename_config</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;voltage_pattern&#39;</span><span class="p">:</span><span class="kc">None</span><span class="p">}</span>
 
 
             <span class="c1"># Preprocessing of beginning/end data for analysis.</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">auto_avg_slicing_config</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;reference_chunk&#39;</span><span class="p">:</span><span class="kc">None</span><span class="p">,</span> <span class="s1">&#39;split_chunks&#39;</span><span class="p">:</span><span class="kc">None</span><span class="p">,</span> 
+                                            <span class="s1">&#39;averaging_function&#39;</span><span class="p">:</span><span class="kc">None</span><span class="p">}</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">avg_endpoints_config</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;start_chunk&#39;</span><span class="p">:</span><span class="kc">None</span><span class="p">,</span> <span class="s1">&#39;end_chunk&#39;</span><span class="p">:</span><span class="kc">None</span><span class="p">}</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">avg_endpts_persec_config</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;start_chunk&#39;</span><span class="p">:</span><span class="kc">None</span><span class="p">,</span> <span class="s1">&#39;end_chunk&#39;</span><span class="p">:</span><span class="kc">None</span><span class="p">,</span> 
                                              <span class="s1">&#39;frame_exposure_time&#39;</span><span class="p">:</span><span class="kc">None</span><span class="p">}</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">avg_endpts_perksec_config</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;start_chunk&#39;</span><span class="p">:</span><span class="kc">None</span><span class="p">,</span> <span class="s1">&#39;end_chunk&#39;</span><span class="p">:</span><span class="kc">None</span><span class="p">,</span> 

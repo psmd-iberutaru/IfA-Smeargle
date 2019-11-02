@@ -187,22 +187,25 @@ in this file is 000; this file only contains ECHO-000 class masks.</p>
 <dl class="function">
 <dt id="IfA_Smeargle.echo.masks.masks_echo000.echo010_fixing_invalids">
 <code class="sig-prename descclassname">IfA_Smeargle.echo.masks.masks_echo000.</code><code class="sig-name descname">echo010_fixing_invalids</code><span class="sig-paren">(</span><em class="sig-param">data_array</em>, <em class="sig-param">previous_mask={}</em>, <em class="sig-param">return_mask=False</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/IfA_Smeargle/echo/masks/masks_echo000.html#echo010_fixing_invalids"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#IfA_Smeargle.echo.masks.masks_echo000.echo010_fixing_invalids" title="Permalink to this definition">¶</a></dt>
-<dd><p>This filter applies a mask to all numerically invalid inputs on a programing side.</p>
-<p>Numbers that are usually infinite or some other nonsensical quantity serve no real usage in
-calculations further downstream. Therefore, they are masked here.</p>
+<dd><p>This filter applies a mask to all numerically invalid inputs on a
+programing side.</p>
+<p>Numbers that are usually infinite or some other nonsensical quantity
+serve no real usage in calculations further downstream. Therefore, they
+are masked here.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><ul class="simple">
 <li><p><strong>data_array</strong> (<em>ndarray</em>) – The data array that the mask will be calculated from.</p></li>
-<li><p><strong>previous_mask</strong> (<em>dictionary</em><em> (</em><em>optional</em><em>)</em>) – Any previous masks done. The new mask made in this function will be added to the
-dictionary. Default is to make a new mask dictionary.</p></li>
-<li><p><strong>return_mask</strong> (<em>boolean</em><em> (</em><em>optional</em><em>)</em>) – If this is true, then the mask itself (rather than the dictionary entry) will be
-returned instead.</p></li>
+<li><p><strong>previous_mask</strong> (<em>dictionary</em><em> (</em><em>optional</em><em>)</em>) – Any previous masks done. The new mask made in this function will be
+added to the dictionary. Default is to make a new mask dictionary.</p></li>
+<li><p><strong>return_mask</strong> (<em>boolean</em><em> (</em><em>optional</em><em>)</em>) – If this is true, then the mask itself (rather than the dictionary
+entry) will be returned instead.</p></li>
 </ul>
 </dd>
 <dt class="field-even">Returns</dt>
-<dd class="field-even"><p><strong>final_mask</strong> – A boolean array for pixels that are masked (True) or are valid (False) will be added to
-the mask dictionary under the key <code class="docutils literal notranslate"><span class="pre">echo010_fixing_invalids</span></code>.</p>
+<dd class="field-even"><p><strong>final_mask</strong> – A boolean array for pixels that are masked (True) or are valid
+(False) will be added to the mask dictionary under the
+key <code class="docutils literal notranslate"><span class="pre">echo010_fixing_invalids</span></code>.</p>
 </dd>
 <dt class="field-odd">Return type</dt>
 <dd class="field-odd"><p>ndarray -&gt; dictionary</p>

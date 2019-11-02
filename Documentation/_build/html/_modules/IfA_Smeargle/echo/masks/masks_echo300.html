@@ -170,28 +170,29 @@
 <div class="viewcode-block" id="echo380_single_pixels"><a class="viewcode-back" href="../../../../python_docstrings/IfA_Smeargle.echo.masks.masks_echo300.html#IfA_Smeargle.echo.masks.masks_echo300.echo380_single_pixels">[docs]</a><span class="k">def</span> <span class="nf">echo380_single_pixels</span><span class="p">(</span><span class="n">data_array</span><span class="p">,</span> <span class="n">pixel_list</span><span class="p">,</span> <span class="n">previous_mask</span><span class="o">=</span><span class="p">{},</span> <span class="n">return_mask</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot; This applies a single mask on a single pixel(s)</span>
 
-<span class="sd">    As the name implies, this function masks a single pixel value or a list of single pixel       </span>
-<span class="sd">    pairs. </span>
+<span class="sd">    As the name implies, this function masks a single pixel value or a list </span>
+<span class="sd">    of single pixel pairs. </span>
 
 <span class="sd">    Parameters</span>
 <span class="sd">    ----------</span>
 <span class="sd">    data_array : ndarray</span>
 <span class="sd">        The data array that the mask will be calculated from.</span>
 <span class="sd">    pixel_list : array-like, ndarray</span>
-<span class="sd">        This is a list/array of pixel pair (x,y) values. The function loops and applies the</span>
-<span class="sd">        mask to each pair.</span>
+<span class="sd">        This is a list/array of pixel pair (x,y) values. The function loops </span>
+<span class="sd">        and applies the mask to each pair.</span>
 <span class="sd">    previous_mask : dictionary (optional)</span>
-<span class="sd">        Any previous masks done. The new mask made in this function will be added to the </span>
-<span class="sd">        dictionary. Default is to make a new mask dictionary.</span>
+<span class="sd">        Any previous masks done. The new mask made in this function will be </span>
+<span class="sd">        added to the dictionary. Default is to make a new mask dictionary.</span>
 <span class="sd">    return_mask : boolean (optional)</span>
-<span class="sd">        If this is true, then the mask itself (rather than the dictionary entry) will be </span>
-<span class="sd">        returned instead.</span>
+<span class="sd">        If this is true, then the mask itself (rather than the dictionary </span>
+<span class="sd">        entry) will be returned instead.</span>
 
 <span class="sd">    Returns</span>
 <span class="sd">    -------</span>
 <span class="sd">    final_mask : ndarray -&gt; dictionary</span>
-<span class="sd">        A boolean array for pixels that are masked (True) or are valid (False) will be added to </span>
-<span class="sd">        the mask dictionary under the key ``echo380single_pixels``.</span>
+<span class="sd">        A boolean array for pixels that are masked (True) or are valid </span>
+<span class="sd">        (False) will be added to the mask dictionary under the </span>
+<span class="sd">        key ``echo380single_pixels``.</span>
 
 <span class="sd">    &quot;&quot;&quot;</span>
 
@@ -208,7 +209,7 @@
         <span class="n">masked_array</span><span class="p">[</span><span class="n">ypix</span><span class="p">,</span><span class="n">xpix</span><span class="p">]</span> <span class="o">=</span> <span class="kc">True</span>
 
 
-    <span class="n">final_mask</span> <span class="o">=</span> <span class="n">echo_funct</span><span class="o">.</span><span class="n">functioned_mask_returning</span><span class="p">(</span><span class="n">masked_array</span><span class="p">,</span><span class="n">previous_mask</span><span class="p">,</span>
+    <span class="n">final_mask</span> <span class="o">=</span> <span class="n">echo_funct</span><span class="o">.</span><span class="n">echo_functioned_mask_returning</span><span class="p">(</span><span class="n">masked_array</span><span class="p">,</span><span class="n">previous_mask</span><span class="p">,</span>
                                                       <span class="s1">&#39;echo380_single_pixels&#39;</span><span class="p">,</span><span class="n">return_mask</span><span class="p">)</span>
 
     <span class="k">return</span> <span class="n">final_mask</span></div>
@@ -217,30 +218,34 @@
 <div class="viewcode-block" id="echo381_rectangle_mask"><a class="viewcode-back" href="../../../../python_docstrings/IfA_Smeargle.echo.masks.masks_echo300.html#IfA_Smeargle.echo.masks.masks_echo300.echo381_rectangle_mask">[docs]</a><span class="k">def</span> <span class="nf">echo381_rectangle_mask</span><span class="p">(</span><span class="n">data_array</span><span class="p">,</span> <span class="n">x_ranges</span><span class="p">,</span> <span class="n">y_ranges</span><span class="p">,</span> <span class="n">previous_mask</span><span class="o">=</span><span class="p">{},</span> <span class="n">return_mask</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot; This mask function applies rectangular masks to the data array.</span>
 
-<span class="sd">    The rectangles defined by subsequent xy-ranges (0-indexed) are masked. Multiple overlapping</span>
-<span class="sd">    rectangles may be defined and masked using this function. The rectangle bounds provided are</span>
-<span class="sd">    also masked as the rectangle is inclusive of said bounds. </span>
+<span class="sd">    The rectangles defined by subsequent xy-ranges (0-indexed) are masked. </span>
+<span class="sd">    Multiple overlapping rectangles may be defined and masked using this </span>
+<span class="sd">    function. The rectangle bounds provided are also masked as the rectangle </span>
+<span class="sd">    is inclusive of said bounds. </span>
 
 <span class="sd">    Parameters</span>
 <span class="sd">    ----------</span>
 <span class="sd">    data_array : ndarray</span>
 <span class="sd">        The data array that the mask will be calculated from. </span>
 <span class="sd">    x_ranges : list or ndarray</span>
-<span class="sd">        The list of 0-indexed x_ranges to be masked. Must be the same length as y_ranges.</span>
+<span class="sd">        The list of 0-indexed x_ranges to be masked. Must be the same length </span>
+<span class="sd">        as y_ranges.</span>
 <span class="sd">    y_ranges : list or ndarray</span>
-<span class="sd">        The list of 0-indexed y_ranges to be masked. Must be the same length as x_ranges.</span>
+<span class="sd">        The list of 0-indexed y_ranges to be masked. Must be the same length </span>
+<span class="sd">        as x_ranges.</span>
 <span class="sd">    previous_mask : dictionary (optional)</span>
-<span class="sd">        Any previous masks done. The new mask made in this function will be added to the </span>
-<span class="sd">        dictionary. Default is to make a new mask dictionary.</span>
+<span class="sd">        Any previous masks done. The new mask made in this function will be </span>
+<span class="sd">        added to the dictionary. Default is to make a new mask dictionary.</span>
 <span class="sd">    return_mask : boolean (optional)</span>
-<span class="sd">        If this is true, then the mask itself (rather than the dictionary entry) will be </span>
-<span class="sd">        returned instead.</span>
+<span class="sd">        If this is true, then the mask itself (rather than the dictionary </span>
+<span class="sd">        entry) will be returned instead.</span>
 
 <span class="sd">    Returns</span>
 <span class="sd">    -------</span>
 <span class="sd">    final_mask : ndarray -&gt; dictionary</span>
-<span class="sd">        A boolean array for pixels that are masked (True) or are valid (False) will be added to </span>
-<span class="sd">        the mask dictionary under the key ``echo381_rectangle_mask``.</span>
+<span class="sd">        A boolean array for pixels that are masked (True) or are valid </span>
+<span class="sd">        (False) will be added to the mask dictionary under the </span>
+<span class="sd">        key ``echo381_rectangle_mask``.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
 
     <span class="c1"># Validating the input.</span>
@@ -275,7 +280,7 @@
         <span class="n">masked_array</span><span class="p">[</span><span class="n">yrangedex</span><span class="p">[</span><span class="mi">0</span><span class="p">]:</span><span class="n">yrangedex</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span> <span class="o">+</span> <span class="mi">1</span><span class="p">,</span><span class="n">xrangedex</span><span class="p">[</span><span class="mi">0</span><span class="p">]:</span><span class="n">xrangedex</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span> <span class="o">+</span> <span class="mi">1</span><span class="p">]</span> <span class="o">=</span> <span class="kc">True</span>
 
     <span class="c1"># And returning.</span>
-    <span class="n">final_mask</span> <span class="o">=</span> <span class="n">echo_funct</span><span class="o">.</span><span class="n">functioned_mask_returning</span><span class="p">(</span><span class="n">masked_array</span><span class="p">,</span><span class="n">previous_mask</span><span class="p">,</span>
+    <span class="n">final_mask</span> <span class="o">=</span> <span class="n">echo_funct</span><span class="o">.</span><span class="n">echo_functioned_mask_returning</span><span class="p">(</span><span class="n">masked_array</span><span class="p">,</span><span class="n">previous_mask</span><span class="p">,</span>
                                                       <span class="s1">&#39;echo381_rectangle_mask&#39;</span><span class="p">,</span><span class="n">return_mask</span><span class="p">)</span>
 
     <span class="k">return</span> <span class="n">final_mask</span></div>
@@ -284,8 +289,8 @@
 <div class="viewcode-block" id="echo382_column_mask"><a class="viewcode-back" href="../../../../python_docstrings/IfA_Smeargle.echo.masks.masks_echo300.html#IfA_Smeargle.echo.masks.masks_echo300.echo382_column_mask">[docs]</a><span class="k">def</span> <span class="nf">echo382_column_mask</span><span class="p">(</span><span class="n">data_array</span><span class="p">,</span> <span class="n">column_list</span><span class="p">,</span> <span class="n">previous_mask</span><span class="o">=</span><span class="p">{},</span> <span class="n">return_mask</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot; This applies a column mask on the data array provided its locations.</span>
 
-<span class="sd">    The column mask takes a list of column numbers (0-indexed x-axis values). All pixels within</span>
-<span class="sd">    these columns are then masked. </span>
+<span class="sd">    The column mask takes a list of column numbers (0-indexed x-axis </span>
+<span class="sd">    values). All pixels within these columns are then masked. </span>
 
 
 <span class="sd">    Parameters</span>
@@ -293,19 +298,21 @@
 <span class="sd">    data_array : ndarray</span>
 <span class="sd">        The data array that the mask will be calculated from. </span>
 <span class="sd">    column_list : list or ndarray</span>
-<span class="sd">        The list of column x-axis values that will be masked. Should be 0-indexed.</span>
+<span class="sd">        The list of column x-axis values that will be masked. Should be </span>
+<span class="sd">        0-indexed.</span>
 <span class="sd">    previous_mask : dictionary (optional)</span>
-<span class="sd">        Any previous masks done. The new mask made in this function will be added to the </span>
-<span class="sd">        dictionary. Default is to make a new mask dictionary.</span>
+<span class="sd">        Any previous masks done. The new mask made in this function will be </span>
+<span class="sd">        added to the dictionary. Default is to make a new mask dictionary.</span>
 <span class="sd">    return_mask : boolean (optional)</span>
-<span class="sd">        If this is true, then the mask itself (rather than the dictionary entry) will be </span>
-<span class="sd">        returned instead.</span>
+<span class="sd">        If this is true, then the mask itself (rather than the dictionary </span>
+<span class="sd">        entry) will be returned instead.</span>
 
 <span class="sd">    Returns</span>
 <span class="sd">    -------</span>
 <span class="sd">    final_mask : ndarray -&gt; dictionary</span>
-<span class="sd">        A boolean array for pixels that are masked (True) or are valid (False) will be added to </span>
-<span class="sd">        the mask dictionary under the key ``echo382_column_mask``.</span>
+<span class="sd">        A boolean array for pixels that are masked (True) or are valid </span>
+<span class="sd">        (False) will be added to the mask dictionary under the </span>
+<span class="sd">        key ``echo382_column_mask``.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
 
     <span class="c1"># Extract a blank mask as a template.</span>
@@ -316,7 +323,7 @@
         <span class="n">masked_array</span><span class="p">[:,</span><span class="n">columndex</span><span class="p">]</span> <span class="o">=</span> <span class="kc">True</span>
 
     <span class="c1"># And returning.</span>
-    <span class="n">final_mask</span> <span class="o">=</span> <span class="n">echo_funct</span><span class="o">.</span><span class="n">functioned_mask_returning</span><span class="p">(</span><span class="n">masked_array</span><span class="p">,</span><span class="n">previous_mask</span><span class="p">,</span>
+    <span class="n">final_mask</span> <span class="o">=</span> <span class="n">echo_funct</span><span class="o">.</span><span class="n">echo_functioned_mask_returning</span><span class="p">(</span><span class="n">masked_array</span><span class="p">,</span><span class="n">previous_mask</span><span class="p">,</span>
                                                       <span class="s1">&#39;echo382_column_mask&#39;</span><span class="p">,</span><span class="n">return_mask</span><span class="p">)</span>
 
     <span class="k">return</span> <span class="n">final_mask</span></div>
@@ -325,8 +332,8 @@
 <div class="viewcode-block" id="echo383_row_mask"><a class="viewcode-back" href="../../../../python_docstrings/IfA_Smeargle.echo.masks.masks_echo300.html#IfA_Smeargle.echo.masks.masks_echo300.echo383_row_mask">[docs]</a><span class="k">def</span> <span class="nf">echo383_row_mask</span><span class="p">(</span><span class="n">data_array</span><span class="p">,</span> <span class="n">row_list</span><span class="p">,</span> <span class="n">previous_mask</span><span class="o">=</span><span class="p">{},</span> <span class="n">return_mask</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot; This applies a row mask on the data array provided its locations.</span>
 
-<span class="sd">    The row mask takes a list of column numbers (0-indexed x-axis values). All pixels within</span>
-<span class="sd">    these rows are then masked. </span>
+<span class="sd">    The row mask takes a list of column numbers (0-indexed x-axis values). </span>
+<span class="sd">    All pixels within these rows are then masked. </span>
 
 
 <span class="sd">    Parameters</span>
@@ -334,19 +341,21 @@
 <span class="sd">    data_array : ndarray</span>
 <span class="sd">        The data array that the mask will be calculated from. </span>
 <span class="sd">    row_list : list or ndarray</span>
-<span class="sd">        The list of row y-axis values that will be masked. Should be 0-indexed.</span>
+<span class="sd">        The list of row y-axis values that will be masked. Should be </span>
+<span class="sd">        0-indexed.</span>
 <span class="sd">    previous_mask : dictionary (optional)</span>
-<span class="sd">        Any previous masks done. The new mask made in this function will be added to the </span>
-<span class="sd">        dictionary. Default is to make a new mask dictionary.</span>
+<span class="sd">        Any previous masks done. The new mask made in this function will be </span>
+<span class="sd">        added to the dictionary. Default is to make a new mask dictionary.</span>
 <span class="sd">    return_mask : boolean (optional)</span>
-<span class="sd">        If this is true, then the mask itself (rather than the dictionary entry) will be </span>
-<span class="sd">        returned instead.</span>
+<span class="sd">        If this is true, then the mask itself (rather than the dictionary </span>
+<span class="sd">        entry) will be returned instead.</span>
 
 <span class="sd">    Returns</span>
 <span class="sd">    -------</span>
 <span class="sd">    final_mask : ndarray -&gt; dictionary</span>
-<span class="sd">        A boolean array for pixels that are masked (True) or are valid (False) will be added to </span>
-<span class="sd">        the mask dictionary under the key ``echo383_row_mask``.</span>
+<span class="sd">        A boolean array for pixels that are masked (True) or are valid </span>
+<span class="sd">        (False) will be added to the mask dictionary under the </span>
+<span class="sd">        key ``echo383_row_mask``.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
 
     <span class="c1"># Extract a blank mask as a template.</span>
@@ -357,34 +366,36 @@
         <span class="n">masked_array</span><span class="p">[</span><span class="n">rowdex</span><span class="p">,:]</span> <span class="o">=</span> <span class="kc">True</span>
 
     <span class="c1"># And returning.</span>
-    <span class="n">final_mask</span> <span class="o">=</span> <span class="n">echo_funct</span><span class="o">.</span><span class="n">functioned_mask_returning</span><span class="p">(</span><span class="n">masked_array</span><span class="p">,</span><span class="n">previous_mask</span><span class="p">,</span>
+    <span class="n">final_mask</span> <span class="o">=</span> <span class="n">echo_funct</span><span class="o">.</span><span class="n">echo_functioned_mask_returning</span><span class="p">(</span><span class="n">masked_array</span><span class="p">,</span><span class="n">previous_mask</span><span class="p">,</span>
                                                       <span class="s1">&#39;echo383_row_mask&#39;</span><span class="p">,</span><span class="n">return_mask</span><span class="p">)</span>
 
     <span class="k">return</span> <span class="n">final_mask</span></div>
 
 
 <div class="viewcode-block" id="echo398_nothing"><a class="viewcode-back" href="../../../../python_docstrings/IfA_Smeargle.echo.masks.masks_echo300.html#IfA_Smeargle.echo.masks.masks_echo300.echo398_nothing">[docs]</a><span class="k">def</span> <span class="nf">echo398_nothing</span><span class="p">(</span><span class="n">data_array</span><span class="p">,</span> <span class="n">previous_mask</span><span class="o">=</span><span class="p">{},</span> <span class="n">return_mask</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot; This applies a blanket blank (all pixels are valid) mask on the data array.</span>
+    <span class="sd">&quot;&quot;&quot; This applies a blanket blank (all pixels are valid) mask on the </span>
+<span class="sd">    data array.</span>
 
-<span class="sd">    As the name says, this applies a mask...to...well...nothing. As such, all that is </span>
-<span class="sd">    returned in the mask dictionary is the blank mask.</span>
+<span class="sd">    As the name says, this applies a mask...to...well...nothing. As such, </span>
+<span class="sd">    all that is returned in the mask dictionary is the blank mask.</span>
 
 <span class="sd">    Parameters</span>
 <span class="sd">    ----------</span>
 <span class="sd">    data_array : ndarray</span>
 <span class="sd">        The data array that the mask will be calculated from. </span>
 <span class="sd">    previous_mask : dictionary (optional)</span>
-<span class="sd">        Any previous masks done. The new mask made in this function will be added to the </span>
-<span class="sd">        dictionary. Default is to make a new mask dictionary.</span>
+<span class="sd">        Any previous masks done. The new mask made in this function will be </span>
+<span class="sd">        added to the dictionary. Default is to make a new mask dictionary.</span>
 <span class="sd">    return_mask : boolean (optional)</span>
-<span class="sd">        If this is true, then the mask itself (rather than the dictionary entry) will be </span>
-<span class="sd">        returned instead.</span>
+<span class="sd">        If this is true, then the mask itself (rather than the dictionary </span>
+<span class="sd">        entry) will be returned instead.</span>
 
 <span class="sd">    Returns</span>
 <span class="sd">    -------</span>
 <span class="sd">    final_mask : ndarray -&gt; dictionary</span>
-<span class="sd">        A boolean array for pixels that are masked (True) or are valid (False) will be added to </span>
-<span class="sd">        the mask dictionary under the key ``echo398_nothing``.</span>
+<span class="sd">        A boolean array for pixels that are masked (True) or are valid </span>
+<span class="sd">        (False) will be added to the mask dictionary under the </span>
+<span class="sd">        key ``echo398_nothing``.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
 
     <span class="n">array_shape</span> <span class="o">=</span> <span class="n">data_array</span><span class="o">.</span><span class="n">shape</span>
@@ -393,40 +404,42 @@
     <span class="c1"># Warnings are printed when a filter returns zero masked pixels, this </span>
     <span class="c1"># is actually intended for this mask, ignore the filter.</span>
     <span class="k">with</span> <span class="n">smeargle_silence_specific_warnings</span><span class="p">(</span><span class="n">MaskingWarning</span><span class="p">):</span>
-        <span class="n">final_mask</span> <span class="o">=</span> <span class="n">echo_funct</span><span class="o">.</span><span class="n">functioned_mask_returning</span><span class="p">(</span><span class="n">masked_array</span><span class="p">,</span><span class="n">previous_mask</span><span class="p">,</span>
+        <span class="n">final_mask</span> <span class="o">=</span> <span class="n">echo_funct</span><span class="o">.</span><span class="n">echo_functioned_mask_returning</span><span class="p">(</span><span class="n">masked_array</span><span class="p">,</span><span class="n">previous_mask</span><span class="p">,</span>
                                                           <span class="s1">&#39;echo398_nothing&#39;</span><span class="p">,</span><span class="n">return_mask</span><span class="p">)</span>
 
     <span class="k">return</span> <span class="n">final_mask</span></div>
 
 
 <div class="viewcode-block" id="echo399_everything"><a class="viewcode-back" href="../../../../python_docstrings/IfA_Smeargle.echo.masks.masks_echo300.html#IfA_Smeargle.echo.masks.masks_echo300.echo399_everything">[docs]</a><span class="k">def</span> <span class="nf">echo399_everything</span><span class="p">(</span><span class="n">data_array</span><span class="p">,</span> <span class="n">previous_mask</span><span class="o">=</span><span class="p">{},</span> <span class="n">return_mask</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot; This applies a blanket blank (all pixels are invalid) mask on the data array.</span>
+    <span class="sd">&quot;&quot;&quot; This applies a blanket blank (all pixels are invalid) mask on the </span>
+<span class="sd">    data array.</span>
 
-<span class="sd">    As the name says, this applies a mask...to...well...everything. As such, all that is </span>
-<span class="sd">    returned in the mask dictionary is the full mask.</span>
+<span class="sd">    As the name says, this applies a mask...to...well...everything. As such, </span>
+<span class="sd">    all that is returned in the mask dictionary is the full mask.</span>
 
 <span class="sd">    Parameters</span>
 <span class="sd">    ----------</span>
 <span class="sd">    data_array : ndarray</span>
 <span class="sd">        The data array that the mask will be calculated from. </span>
 <span class="sd">    previous_mask : dictionary (optional)</span>
-<span class="sd">        Any previous masks done. The new mask made in this function will be added to the </span>
-<span class="sd">        dictionary. Default is to make a new mask dictionary.</span>
+<span class="sd">        Any previous masks done. The new mask made in this function will be </span>
+<span class="sd">        added to the dictionary. Default is to make a new mask dictionary.</span>
 <span class="sd">    return_mask : boolean (optional)</span>
-<span class="sd">        If this is true, then the mask itself (rather than the dictionary entry) will be </span>
-<span class="sd">        returned instead.</span>
+<span class="sd">        If this is true, then the mask itself (rather than the dictionary </span>
+<span class="sd">        entry) will be returned instead.</span>
 
 <span class="sd">    Returns</span>
 <span class="sd">    -------</span>
 <span class="sd">    final_mask : ndarray -&gt; dictionary</span>
-<span class="sd">        A boolean array for pixels that are masked (True) or are valid (False) will be added to </span>
-<span class="sd">        the mask dictionary under the key ``echo399_everything``.</span>
+<span class="sd">        A boolean array for pixels that are masked (True) or are valid </span>
+<span class="sd">        (False) will be added to the mask dictionary under the </span>
+<span class="sd">        key ``echo399_everything``.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
 
     <span class="n">array_shape</span> <span class="o">=</span> <span class="n">data_array</span><span class="o">.</span><span class="n">shape</span>
     <span class="n">masked_array</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">full</span><span class="p">(</span><span class="n">array_shape</span><span class="p">,</span> <span class="kc">True</span><span class="p">)</span>
 
-    <span class="n">final_mask</span> <span class="o">=</span> <span class="n">echo_funct</span><span class="o">.</span><span class="n">functioned_mask_returning</span><span class="p">(</span><span class="n">masked_array</span><span class="p">,</span><span class="n">previous_mask</span><span class="p">,</span>
+    <span class="n">final_mask</span> <span class="o">=</span> <span class="n">echo_funct</span><span class="o">.</span><span class="n">echo_functioned_mask_returning</span><span class="p">(</span><span class="n">masked_array</span><span class="p">,</span><span class="n">previous_mask</span><span class="p">,</span>
                                                       <span class="s1">&#39;echo399_everything&#39;</span><span class="p">,</span><span class="n">return_mask</span><span class="p">)</span>
 
     <span class="k">return</span> <span class="n">final_mask</span></div>

@@ -37,7 +37,7 @@
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
     <link rel="next" title="IfA_Smeargle.echo package" href="IfA_Smeargle.echo.html" />
-    <link rel="prev" title="IfA_Smeargle.bravo.bravo_main module" href="IfA_Smeargle.bravo.bravo_main.html" />
+    <link rel="prev" title="IfA_Smeargle.bravo.input_sanitization module" href="IfA_Smeargle.bravo.input_sanitization.html" />
     <link href="../_static/css/ifa_smeargle.css" rel="stylesheet" type="text/css">
 
 </head>
@@ -184,6 +184,32 @@
 to reformat the fits file names from raw output  (often just timestamps) to
 something more useful and accurate to the data.</p>
 <dl class="function">
+<dt id="IfA_Smeargle.bravo.renaming.filename_split_by_parameter">
+<code class="sig-prename descclassname">IfA_Smeargle.bravo.renaming.</code><code class="sig-name descname">filename_split_by_parameter</code><span class="sig-paren">(</span><em class="sig-param">path_file_name</em>, <em class="sig-param">ignore_mismatch=False</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/IfA_Smeargle/bravo/renaming.html#filename_split_by_parameter"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#IfA_Smeargle.bravo.renaming.filename_split_by_parameter" title="Permalink to this definition">¶</a></dt>
+<dd><p>Takes a standard file name made by the BRAVO class and splits it into
+a more workable dictionary.</p>
+<p>The filenames of each and every .fits file that comes from BRAVO contains
+information. This functions allows for the extraction of the information
+based on the standard file name tags.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>path_file_name</strong> (<em>string</em>) – The name of the file that is to be split.</p></li>
+<li><p><strong>ignore_mismatch</strong> (<em>boolean</em><em> (</em><em>optional</em><em>)</em>) – If true, this function will raise a warning rather than an error if
+there is a parameter that is in the filename, but not processable in
+the dictionary. Defaults to False.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p><strong>file_dictionary</strong> – The dictionary that contains all of the file parameters.</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>dictionary</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="function">
 <dt id="IfA_Smeargle.bravo.renaming.parallel_renaming">
 <code class="sig-prename descclassname">IfA_Smeargle.bravo.renaming.</code><code class="sig-name descname">parallel_renaming</code><span class="sig-paren">(</span><em class="sig-param">file_names</em>, <em class="sig-param">file_renames</em>, <em class="sig-param">data_directory=None</em>, <em class="sig-param">file_extensions='.fits'</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/IfA_Smeargle/bravo/renaming.html#parallel_renaming"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#IfA_Smeargle.bravo.renaming.parallel_renaming" title="Permalink to this definition">¶</a></dt>
 <dd><p>Renames files provided parallel name arrays.</p>
@@ -261,7 +287,7 @@ ordered form. Does not include prefixes/suffixes.</p>
         <a href="IfA_Smeargle.echo.html" class="btn btn-neutral float-right" title="IfA_Smeargle.echo package" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
       
       
-        <a href="IfA_Smeargle.bravo.bravo_main.html" class="btn btn-neutral float-left" title="IfA_Smeargle.bravo.bravo_main module" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+        <a href="IfA_Smeargle.bravo.input_sanitization.html" class="btn btn-neutral float-left" title="IfA_Smeargle.bravo.input_sanitization module" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
       
     </div>
   
