@@ -39,6 +39,10 @@ def oscar_convert_data_inputs(data, desired_form=np.ma.MaskedArray):
             # Read the fits file.
             __, __, temp_data = meta_faa.smeargle_open_fits_file(data)
             converted_data = np_ma.array(temp_data)
+        else:
+            raise DataError("There doesn't seem a proper way to convert the data types of  "
+                            "{type_data}  to  {type_desired}. Please check the data types."
+                            .format(type_data=type(data),type_desired=type(desired_form)))
 
 
 

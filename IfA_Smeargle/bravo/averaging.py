@@ -149,8 +149,8 @@ def average_endpoints(fits_file, start_chunk, end_chunk,
                                            "different sizes, this is unusual but acceptable."))
 
     # Calculate the medians.
-    start_median = np.median(data[start_chunk[0]:start_chunk[-1]],axis=0)
-    end_median = np.median(data[end_chunk[0]:end_chunk[-1]],axis=0)
+    start_median = np.nanmedian(data[start_chunk[0]:start_chunk[-1]],axis=0)
+    end_median = np.nanmedian(data[end_chunk[0]:end_chunk[-1]],axis=0)
 
     # Subtracting and normalizing over the time span, starting and ending
     # at respective midpoints; integer multiplication/division is required  
@@ -253,8 +253,8 @@ def average_endpoints_per_second(fits_file, start_chunk, end_chunk, frame_exposu
                                            "different sizes, this is unusual but acceptable."))
 
     # Calculate the medians.
-    start_median = np.median(data[start_chunk[0]:start_chunk[-1]],axis=0)
-    end_median = np.median(data[end_chunk[0]:end_chunk[-1]],axis=0)
+    start_median = np.nanmedian(data[start_chunk[0]:start_chunk[-1]],axis=0)
+    end_median = np.nanmedian(data[end_chunk[0]:end_chunk[-1]],axis=0)
 
     # Subtracting and normalizing over the time span, starting and ending
     # at respective midpoints; integer multiplication/division is required  

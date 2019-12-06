@@ -236,10 +236,10 @@ def yankee_overwrite_configuration_class(inferior_class, superior_class):
     # Both classes should be YANKEE configuration classes, if not, then this
     # function doesn't make sense. 
     if (not isinstance(inferior_class, yankee.BaseConfig)):
-        raise InputError("The inferior class must be a configuration class instance; that is, "
+        raise InputError("The inferior class must be a configuration class instance, that is, "
                          "any inherited class from BaseConfig.")
     if (not isinstance(superior_class, yankee.BaseConfig)):
-        raise InputError("The superior class must be a configuration class instance; that is, "
+        raise InputError("The superior class must be a configuration class instance, that is, "
                          "any inherited class from BaseConfig.")
 
     # Check to see if both classes are the same, if not, then it doesn't make

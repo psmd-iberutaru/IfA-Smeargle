@@ -41,7 +41,9 @@ def smeargle_deepcopy_function(original_funct):
     deepcopy_funct.__kwdefaults__ = deepcopy_funct.__kwdefaults__
 
     # Just to test if it worked.
-    assert original_funct is not deepcopy_funct
+    if (original_funct is not deepcopy_funct):
+        raise BugError("There should be no reason for the original and the "
+                       "deep copy function to be the same.")
 
     # All done.
     return deepcopy_funct

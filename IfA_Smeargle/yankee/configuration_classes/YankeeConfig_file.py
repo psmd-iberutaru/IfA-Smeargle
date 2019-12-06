@@ -1,6 +1,7 @@
 
 from IfA_Smeargle.yankee.configuration_classes.BaseConfig_file import BaseConfig
 
+from IfA_Smeargle.meta import *
 # Pulling deeper functions into the light.
 from IfA_Smeargle.yankee.yankee_functions import *
 
@@ -39,10 +40,8 @@ class YankeeConfig(BaseConfig):
             self.__dict__.update(provided_config.__dict__)
         except Exception:
             if (file_name is not None):
-                smeargle_warning(ImportingWarning,("The configuration file could not be "
-                                                   "properly read. Consider using the factory "
-                                                   "function. A blank configuration class has "
-                                                   "been provided instead."))
+                raise ImportingError("The configuration file could not be properly read. "
+                                     "Consider using the factory function.")
 
             pass
         

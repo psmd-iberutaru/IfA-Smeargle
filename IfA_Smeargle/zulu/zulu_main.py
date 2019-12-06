@@ -256,6 +256,12 @@ class IfasDataArray():
         # binding problem that causes all of the functions to just be copies
         # of the last function. See https://stackoverflow.com/q/3431676.
         for keydex, functdex in copy.deepcopy(oscar_plot_dict).items():
+            # Allow for runtime modification of parameters.
+            def plot_function(plot_funt=functdex, **kwargs):
+                config_params = self._zulu_determine_configuration_parameters(
+                    configuration_flag_input=configuration, custom_inputs=kwargs,
+                    subconfig_class=yankee.OscaConfig, subconfig_key=config_key)
+
             setattr(self, keydex, meta_prog.smeargle_deepcopy_function(
                 lambda plot_funct=functdex, **kwargs: plot_funct(data_array=self.data, 
                                                                  **kwargs)))

@@ -11,7 +11,7 @@ from IfA_Smeargle import yankee
 from IfA_Smeargle.meta import *
 
 def plotdir_dark_current_over_voltage(data_directory, figure_axes=None, configuration_class=None,
-                                   **kwargs):
+                                      **kwargs):
     """ This function plots the dark current as a function of voltage over
     all frames within a file directory.
 
@@ -135,8 +135,8 @@ def plotdir_dark_current_over_voltage(data_directory, figure_axes=None, configur
     set_count = np.flip(np.unique(set_metadata['metaset']))\
         [np.flip(np.unique(set_metadata['metaset'],return_counts=True)[1]).argmax()]
 
-    # Create different plots per set (really over-plotting on the same figure
-    # however). All data is within the 'file_data' object, and the metadata
+    # Create different plots per set (over-plotting on the same figure).
+    # All data is within the 'file_data' object, and the metadata
     # that helps extract said data is within the 'set_metadata' object.
     for setdex in (np.arange(set_count) + 1):
         # Extract only the current set.

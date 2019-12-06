@@ -14,7 +14,9 @@ import warnings as warn
 
 from IfA_Smeargle.meta import *
 
-def smeargle_open_fits_file(file_name, extension=0, silent=False):
+def smeargle_open_fits_file(file_name, extension=0, 
+                            null_min=-1e6, null_max=1e6,
+                            silent=False):
     """ A function to ensure proper loading/reading of fits files.
 
     This function, as its name, opens a fits file. It returns the Astropy HDU 
@@ -28,6 +30,14 @@ def smeargle_open_fits_file(file_name, extension=0, silent=False):
         This is the path of the file to be read, either relative or absolute.
     extension : int or string (optional)
         The desired extension of the fits file. Defaults to primary structure. 
+    null_min : float (optional)
+        The minimum value an element (pixel) in the file that will be 
+        considered to be valid. Else, the containing frame may be flagged for 
+        nullification. Defaults to -1e6.
+    null_max : float (optional)
+        The maximum value an element (pixel) in the file that will be 
+        considered to be valid. Else, the containing frame may be flagged for 
+        nullification. Defaults to +1e6.
     silent : boolean (optional)
         Turn off all warnings and information sent by this function and 
         functions below it.
@@ -63,40 +73,54 @@ def smeargle_open_fits_file(file_name, extension=0, silent=False):
     # a warning.
     # Check first for nans.
     if (np.any(np.isnan(hdu_data))):
-        nan_index = np.argwhere(np.isnan(hdu_data))
+        # Test for bad or nan/null values. Of course, there is not need for repeat frames.
+        nan_index_data = np.argwhere(np.isnan(hdu_data))
+        nan_frames = np.unique(nan_index_data.T[0])
         # Check for 3D or 2D file.
-        if (nan_index.shape[1] == 2):
+        if (nan_index_data.shape[1] == 2):
             smeargle_warning(DataWarning,("This a 2D data frame with nan/null values. They "
                                           "will be kept; but, functions down the line may "
-                                          "break."))
-        elif (nan_index.shape[1] == 3):
+                                          "break."
+                                          "\nFile name: {f_name} | 'Null' frames: {fr_list}."
+                                          .format(f_name=file_name, fr_list=nan_frames)))
+        elif (nan_index_data.shape[1] == 3):
             smeargle_warning(DataWarning,("This a 3D data frame with nan/null values. Frames "
-                                          "with nan/null values have been completely nulled."))
+                                          "with nan/null values have been completely nulled. "
+                                          "\nFile name: {f_name}    Null frames: {fr_list}."
+                                          .format(f_name=file_name, fr_list=nan_frames)))
             # Null all of the frames with null values.
-            for framedex in nan_index.T[0]:
+            for framedex in nan_frames:
                 hdu_data[framedex] = np.full_like(hdu_data[framedex], np.nan)
         else:
             raise DataError("The fits file exists, but is 1D or 4D+, this module cannot handle "
                             "such data.")
+
     # Check for unnaturally large or small values which are a glitch more 
-    # than actual data.
-    illogical_low = -1e6
-    illogical_high = 1e6
+    # than actual data. The values are provided by `null_min` and `null_max`.
     with np.errstate(invalid='ignore'):
-        if (np.any(np.where(np.logical_or(illogical_low > hdu_data, 
-                                          hdu_data > illogical_high)))):
-            illegal_value_index = np.argwhere(np.logical_or(illogical_low > hdu_data, 
-                                                             hdu_data > illogical_high))
-            if (illegal_value_index.shape[1] == 2):
+        if (np.any(np.where(np.logical_or(null_min > hdu_data, 
+                                          hdu_data > null_max)))):
+            # For the values that are greater than the max, or less than the
+            # min. There is also no need to have repeat index frame data.
+            illegal_value_data = np.argwhere(np.logical_or(null_min > hdu_data, 
+                                                           hdu_data > null_max))
+            illegal_value_frames = np.unique(illegal_value_data.T[0])
+            if (illegal_value_data.shape[1] == 2):
                 smeargle_warning(DataWarning,("This a 2D data frame with +/- large values. They "
                                               "will be kept; but, functions down the line may "
-                                              "easily break."))
-            elif (illegal_value_index.shape[1] == 3):
+                                              "easily break."
+                                              "\nFile name: {f_name} | Nulled frames: {fr_list}."
+                                              .format(f_name=file_name, 
+                                                      fr_list=illegal_value_frames)))
+            elif (illegal_value_data.shape[1] == 3):
                 smeargle_warning(DataWarning,("This a 3D data frame with +/- large values. "
                                               "Frames with +/- large values have been "
-                                              "completely nulled."))
+                                              "completely nulled."
+                                              "\nFile name: {f_name} | Nulled frames: {fr_list}."
+                                              .format(f_name=file_name, 
+                                                      fr_list=illegal_value_frames)))
                 # Null all of the frames that have really big +/- values.
-                for framedex in illegal_value_index.T[0]:
+                for framedex in illegal_value_frames:
                     hdu_data[framedex] = np.full_like(hdu_data[framedex], np.nan)
             else:
                 raise DataError("The fits file exists, but is 1D or 4D+, this module cannot "
