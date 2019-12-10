@@ -4,6 +4,8 @@ This is the entire reduction method for the Saphria based infrared arrays.
 
 """
 import glob
+import matplotlib as mpl
+import matplotlib.pyplot as plt
 import numpy as np
 import numpy.ma as np_ma
 import warnings as warn
@@ -214,6 +216,34 @@ def SA201907281826_reduction_pipeline(data_directory, configuration_class):
         file_name = filedex[:-5] + '__plot.pdf' # UPDATE
         plot_title = filedex[:-5] # UPDATE
         meta_plting.smeargle_save_figure_file(oscar_plot, file_name, title=plot_title)
+
+    # Next, the voltage plots. THIS IS VERY BAD AND GROSS.
+    #======================================================
+    vlt_filename_1 = data_directory + '/' + 'dc_volt_allplt__' + configuration_class.BravoConfig.detector_name['name']
+    vlt_filename_2 = data_directory + '/' + 'dc_volt_partplt__' + configuration_class.BravoConfig.detector_name['name']
+
+    fig, vltplt = plt.subplots(dpi=300)
+    vltplt, data_table, __ = oscar.volt_plot.plotdir_dark_current_over_voltage(data_directory,
+                                                                               figure_axes=vltplt)
+    vltplt.set_ylim((-250,250))
+    meta_plting.smeargle_save_figure_file(fig, vlt_filename_1)
+
+
+    fig2, vltplt2 = plt.subplots(dpi=300)
+    vltplt2.errorbar(data_table['voltage_set1'][0:5], data_table['value_set1'][0:5], yerr=data_table['error_set1'][0:5],
+                        fmt='.-', elinewidth=0.25, capsize=3, capthick=0.25,
+                        label=('Set ' + str(1)))
+    vltplt2.errorbar(data_table['voltage_set2'][0:5], data_table['value_set2'][0:5], yerr=data_table['error_set2'][0:5],
+                        fmt='.-', elinewidth=0.25, capsize=3, capthick=0.25,
+                        label=('Set ' + str(2)))
+
+    title=configuration_class.BravoConfig.detector_name['name']
+    vltplt2.set_title(title)
+    vltplt2.legend(loc='upper left')
+    vltplt2.set_xticks(np.append(data_table['voltage_set1'][0:5], 0))
+    vltplt2.set_xlabel('Detector Bias Voltage (V)')
+    vltplt2.set_ylabel('Average Dark Current (ADU)')
+    meta_plting.smeargle_save_figure_file(fig2, vlt_filename_2)
 
     # All finished
     return None 

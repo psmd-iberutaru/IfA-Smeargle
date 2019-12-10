@@ -57,8 +57,8 @@ def bravo_execution_saphira(data_directory, configuration_class):
                                  "the name value referenced by the key <name>.")
 
     # Getting the voltage renames
-    voltage_names = bravo.rename.voltage_pattern_rename_fits(data_directory,
-                                                         **provided_config.voltpat_rename_config)
+    voltage_names = bravo.rename.voltage_pattern_renaming(data_directory,
+                                                          **provided_config.voltpat_rename_config)
     n_files = len(voltage_names)
 
 

@@ -255,8 +255,8 @@ def echo277_sigma_truncation(data_array, sigma_limits,
     stddev = np.nanstd(data_array)
         
     # Compute which pixels to be masked out. 
-    with warn.catch_warnings():
-        warn.simplefilter("ignore", MaskingWarning)
+    with smeargle_silence_ifas_warnings():
+
         temp_mask_dict = {}
         temp_mask_dict = masks.echo270_minimum_cut(data_array, 
                                                    (mean - bottom_sigma_multiple * stddev),

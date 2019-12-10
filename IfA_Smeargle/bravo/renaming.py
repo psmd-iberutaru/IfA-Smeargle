@@ -98,6 +98,20 @@ def filename_split_by_parameter(path_file_name, ignore_mismatch=False):
     return file_dictionary
 
 
+def number_renaming(data_directory, begin_garbage=0):
+    """ Renames files according to their number in order.
+
+    Some data filename outputs only give timestamps. This function renames
+    said filenames for better processing.  
+    
+    Parameters
+    ----------
+    data_directory : string
+        This is the directory that contain all of the data files to be 
+        renamed.
+
+    """
+
 
 def parallel_renaming(file_names, file_renames, data_directory=None,
                       file_extensions='.fits'):
@@ -166,14 +180,13 @@ def parallel_renaming(file_names, file_renames, data_directory=None,
     return None
 
 
-def voltage_pattern_rename_fits(data_directory, voltage_pattern, 
-                                begin_garbage=0,
-                                common_prefix='', common_suffix='',
-                                rename=False, archive_data=True):
+def voltage_pattern_renaming(data_directory, voltage_pattern, 
+                             begin_garbage=0, archive_data=True):
     """ Renames files according to their voltage pattern specified.
 
     Some data filename outputs only give timestamps. This function renames
-    
+    said filenames for better processing.
+
     The output files created are according to the voltage pattern that the 
     user specified. This function assumes that the pattern provided is one 
     'set', where a set contains some amount of fits files. Moreover, this
@@ -189,13 +202,6 @@ def voltage_pattern_rename_fits(data_directory, voltage_pattern,
         first voltage element to be used, proceeding from there in order.
     begin_garbage : int (optional)
         The number of files, in the beginning, that should not count as data.
-    common_prefix : string (optional)
-        All file renames will contain this prefix before the voltage data.
-    common_suffix : string (optional)
-        All file renames will contain this suffix after the voltage data.
-    rename : boolean (optional)
-        If true, the program renames the files as specified, else, it leaves 
-        the files untouched; still archived, however, if ``copy_data=True``.
     archive_data : boolean (optional)
         Execute the renaming on a copy of the data, the original data 
         is archived and preserved.
@@ -207,20 +213,7 @@ def voltage_pattern_rename_fits(data_directory, voltage_pattern,
         ordered form. Does not include prefixes/suffixes.
 
     """
-
-    if (rename):
-        smeargle_warning(DeprecatedWarning,("The renaming method contained works as intended; "
-                                              "however, it is not optimal and does not play "
-                                              "nice with the other naming functions."))
     
-    # Minor and fragile input sanitation.
-    if (data_directory[-1] == '/'):
-        data_directory = copy.deepcopy(data_directory[:-1])
-    if ((common_suffix[-5:] != '.fits') and (rename)):
-        common_suffix += '.fits'
-        smeargle_warning(InputWarning, ("The < common_suffix > does not have a .fits extension; "
-                                        "it has been automatically added."))
-
     # If the user wanted to preserve their data.
     if (archive_data):
         bravo.arc.duplicate_archive_data_files(data_directory)
@@ -289,25 +282,11 @@ def voltage_pattern_rename_fits(data_directory, voltage_pattern,
         garbage_string = 'Garbage' + str(fileindex + 1).zfill(3)
         garbage_string_list.append(garbage_string)
 
-        # If renaming is needed.
-        if (rename):
-            os.rename(filenamedex,os.path.join(pathdex, garbage_string))
-        
-        
     # Compile the renames, assume that the sets repeat themselves if there 
     # are more files than voltages . Then actually rename the file.
     voltage_string_list = []
     for fileindex,filenamedex,pathdex in zip(range(n_files),original_names,original_paths):
         volt_string = str(voltage_strings[fileindex%n_voltages])
-        # To prevent file name clashes
-        if (rename):
-            volt_string += (',' + str(fileindex + 1).zfill(3))
-        voltage_string_list.append(volt_string)
-        
-        # Renaming if needed.
-        if (rename):
-            renamed_file = (common_prefix + '__' + volt_string + '__' + common_suffix)
-            os.rename(filenamedex, os.path.join(pathdex, renamed_file))
 
     # Finished, it is also helpful to return the garbage file names.
     voltage_string_list = garbage_string_list + voltage_string_list

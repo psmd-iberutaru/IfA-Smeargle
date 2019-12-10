@@ -108,8 +108,8 @@ def echo170_gaussian_truncation(data_array, sigma_multiple, bin_size,
     stddev = gauss_param['stddev']
 
     # Compute which pixels to be masked out. 
-    with warn.catch_warnings():
-        warn.simplefilter("ignore", MaskingWarning)
+    with smeargle_silence_ifas_warnings():
+
         temp_mask_dict = {}
         temp_mask_dict = masks.echo270_minimum_cut(data_array, 
                                                    (mean - sigma_multiple * stddev),

@@ -34,7 +34,10 @@ def plotdir_dark_current_over_voltage(data_directory, figure_axes=None, configur
     -------
     final_figure : Matplotlib Figure
         This is the final figure depicting the dark current change over time.
-    data_table : Pandas dataframe
+    data_arrays : dictionary
+        This is a dictionary of the voltages, values, and error values as 
+        processed.
+    data_frame : Pandas dataframe
         This is a formal representation of all data of the entire data array 
         with regards to the plot.
     """
@@ -135,6 +138,9 @@ def plotdir_dark_current_over_voltage(data_directory, figure_axes=None, configur
     set_count = np.flip(np.unique(set_metadata['metaset']))\
         [np.flip(np.unique(set_metadata['metaset'],return_counts=True)[1]).argmax()]
 
+    # For storing the information in 'data_arrays'.
+    data_arrays = {}
+
     # Create different plots per set (over-plotting on the same figure).
     # All data is within the 'file_data' object, and the metadata
     # that helps extract said data is within the 'set_metadata' object.
@@ -169,11 +175,18 @@ def plotdir_dark_current_over_voltage(data_directory, figure_axes=None, configur
         # name.
         ax.set_title(file_data['detector'][0])
         ax.legend(loc='upper left')
+        ax.set_xticks(x_axis_voltage)
         ax.set_xlabel('Detector Bias Voltage (V)')
         ax.set_ylabel('Average Dark Current (ADU)')
+
+        # Store the information.
+        data_arrays.update({'voltage_set' + str(setdex):x_axis_voltage, 
+                            'value_set' + str(setdex): y_axis_data, 
+                            'error_set' + str(setdex):y_axis_error})
         
     # For naming conventions per documentation.
     final_figure = ax
-    data_table = file_data
+    data_arrays = data_arrays
+    data_frame = file_data
 
-    return ax, data_table
+    return ax, data_arrays, data_frame
