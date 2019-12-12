@@ -28,6 +28,9 @@
     <Compile Include="averaging.py">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="bravo_functions.py">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Include="input_sanitization.py" />
     <Compile Include="renaming.py" />
     <Compile Include="__init__.py" />

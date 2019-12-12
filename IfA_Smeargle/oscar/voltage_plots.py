@@ -59,7 +59,7 @@ def plotdir_dark_current_over_voltage(data_directory, figure_axes=None, configur
     # Convert to the dictionary descriptions
     file_dictionaries = []
     for filenamedex in file_names:
-        temp_dict = bravo.rename.filename_split_by_parameter(filenamedex)
+        temp_dict = bravo.bravo_filename_split_by_parameter(filenamedex)
         if (temp_dict is None):
             # This generally means that the file is considered garbage and
             # should not be included.

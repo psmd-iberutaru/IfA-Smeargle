@@ -36,7 +36,7 @@ def plot_array_histogram(data_array,
     fit_gaussian : boolean (optional)
         This parameter regulates if the function should replicate the 
         Gaussian function fitting.
-    bin_width : boolean (optional)
+    bin_width : float (optional)
         Matplotlib is not nice with bin widths, if it is an integer, widths 
         are applied instead.
     plot : boolean (optional)
@@ -84,9 +84,11 @@ def plot_array_histogram(data_array,
         # In the event that the value they gave is not strictly boolean.
         if (histogram_plot_paramters['log'] == True):
             fit_gaussian = False
+        elif (histogram_plot_paramters['log'] == False):
+            pass
         else:
             smeargle_warning(InputWarning,("The histogram plot parameter for log plotting is not "
-                                           "None or True; the unreadable input is ignored. "))
+                                           "None or boolean; the unreadable input is ignored. "))
     except KeyError:
         # It does not exist.
         pass

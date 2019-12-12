@@ -75,7 +75,7 @@ def smeargle_avaliable_echo_filter_functions():
     for keydex, filterdex in copy.deepcopy(sorted_filter_list).items():
         # Remove those that are not filters.
         if (not 'echo' in keydex):
-                sorted_filter_list.pop(keydex, None)
+            __ = sorted_filter_list.pop(keydex, None)
         else:
            continue
 

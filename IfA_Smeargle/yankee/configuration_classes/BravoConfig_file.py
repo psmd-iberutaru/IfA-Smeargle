@@ -56,6 +56,8 @@ class BravoConfig(BaseConfig):
             self.same_file_size_sanitization_config = {'method':None}
 
             # Renaming file
+            self.number_rename_config = {}
+            self.set_determine_rename_config = {'set_length':None}
             self.voltpat_rename_config = {'voltage_pattern':None}
 
 

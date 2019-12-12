@@ -1,5 +1,6 @@
 
 from IfA_Smeargle.bravo.bravo_main import *
+from IfA_Smeargle.bravo.bravo_functions import *
 
 from IfA_Smeargle.bravo import archiving as arc
 

@@ -57,23 +57,25 @@ def bravo_execution_saphira(data_directory, configuration_class):
                                  "the name value referenced by the key <name>.")
 
     # Getting the voltage renames
+    number_names = bravo.rename.number_renaming(data_directory,
+                                                **provided_config.number_rename_config)
     voltage_names = bravo.rename.voltage_pattern_renaming(data_directory,
                                                           **provided_config.voltpat_rename_config)
-    n_files = len(voltage_names)
+    n_files = len(number_names)
 
 
     # Rename all of the files. The directory structure seems fine.
     final_names = []
-    for index, detectdex, voltdex in zip(range(len(voltage_names)),
+    for numdex, detectdex, voltdex in zip(number_names,
                                          [detector_name for index in range(n_files)],
                                          voltage_names):
         final_names.append(detectdex
-                           + '__' + 'num;' + str(index + 1) 
+                           + '__' + numdex
                            + '__' + voltdex 
                            # + '__'
                            + '.fits')
 
-    bravo.rename.parallel_renaming(None, final_names, data_directory, file_extensions='.fits')
+    bravo.bravo_rename_parallel(None, final_names, data_directory, file_extensions='.fits')
 
 
     # Next, modifying the data to its own standard format. 
