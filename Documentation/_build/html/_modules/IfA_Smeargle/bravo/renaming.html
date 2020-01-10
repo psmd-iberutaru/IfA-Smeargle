@@ -172,161 +172,143 @@
 
 
 <div class="viewcode-block" id="filename_split_by_parameter"><a class="viewcode-back" href="../../../python_docstrings/IfA_Smeargle.bravo.renaming.html#IfA_Smeargle.bravo.renaming.filename_split_by_parameter">[docs]</a><span class="k">def</span> <span class="nf">filename_split_by_parameter</span><span class="p">(</span><span class="n">path_file_name</span><span class="p">,</span> <span class="n">ignore_mismatch</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot; Takes a standard file name made by the BRAVO class and splits it into</span>
-<span class="sd">    a more workable dictionary.</span>
-
-<span class="sd">    The filenames of each and every .fits file that comes from BRAVO contains </span>
-<span class="sd">    information. This functions allows for the extraction of the information</span>
-<span class="sd">    based on the standard file name tags.</span>
-
-<span class="sd">    Parameters</span>
-<span class="sd">    ----------</span>
-<span class="sd">    path_file_name : string</span>
-<span class="sd">        The name of the file that is to be split.</span>
-<span class="sd">    ignore_mismatch : boolean (optional)</span>
-<span class="sd">        If true, this function will raise a warning rather than an error if </span>
-<span class="sd">        there is a parameter that is in the filename, but not processable in </span>
-<span class="sd">        the dictionary. Defaults to False.</span>
-
-<span class="sd">    Returns</span>
-<span class="sd">    -------</span>
-<span class="sd">    file_dictionary : dictionary</span>
-<span class="sd">        The dictionary that contains all of the file parameters.</span>
-<span class="sd">    &quot;&quot;&quot;</span>
-    <span class="c1"># All that is needed is the actual data filename, not the entire path.</span>
-    <span class="n">file_name</span> <span class="o">=</span> <span class="n">copy</span><span class="o">.</span><span class="n">deepcopy</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">splitext</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="n">path_file_name</span><span class="p">)[</span><span class="o">-</span><span class="mi">1</span><span class="p">])[</span><span class="mi">0</span><span class="p">])</span>
-
-    <span class="c1"># If the file is considered garbage, then it doesn&#39;t have any purpose </span>
-    <span class="c1"># being split upon.</span>
-    <span class="k">if</span> <span class="p">((</span><span class="s1">&#39;garbage&#39;</span> <span class="ow">in</span> <span class="n">file_name</span><span class="o">.</span><span class="n">lower</span><span class="p">())</span> <span class="ow">and</span> <span class="p">(</span><span class="ow">not</span> <span class="n">ignore_mismatch</span><span class="p">)):</span>
-        <span class="n">smeargle_warning</span><span class="p">(</span><span class="n">InputWarning</span><span class="p">,(</span><span class="s2">&quot;The filename has been marked as garbage. The splitting &quot;</span>
-                                       <span class="s2">&quot;will yield good or bad information about a bad data &quot;</span>
-                                       <span class="s2">&quot;set. Nothing will be done.&quot;</span><span class="p">))</span>
-        <span class="k">return</span> <span class="kc">None</span>
-
-    <span class="c1"># Split by the BRAVO standard method of separating elements.</span>
-    <span class="n">split_filename</span> <span class="o">=</span> <span class="nb">str</span><span class="p">(</span><span class="n">file_name</span><span class="p">)</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s1">&#39;__&#39;</span><span class="p">)</span>
-
-    <span class="c1"># The name of the detector is always the first element, the others are not</span>
-    <span class="c1"># always the order.</span>
-    <span class="n">det_name</span> <span class="o">=</span> <span class="n">split_filename</span><span class="o">.</span><span class="n">pop</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>
-
-    <span class="c1"># Cycle through all of the other elements</span>
-    <span class="n">file_dictionary</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;detName&#39;</span><span class="p">:</span> <span class="n">det_name</span><span class="p">}</span>
-    <span class="k">for</span> <span class="n">paramdex</span> <span class="ow">in</span> <span class="n">split_filename</span><span class="p">:</span>
-        <span class="c1"># Data file number.</span>
-        <span class="k">if</span> <span class="p">(</span><span class="s1">&#39;num&#39;</span> <span class="ow">in</span> <span class="n">paramdex</span><span class="p">):</span>
-            <span class="c1"># Extract the data number knowing that the semicolon separates.</span>
-            <span class="n">datafile_num</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">paramdex</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s1">&#39;;&#39;</span><span class="p">)[</span><span class="o">-</span><span class="mi">1</span><span class="p">])</span>
-            <span class="n">file_dictionary</span><span class="p">[</span><span class="s1">&#39;num&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">datafile_num</span>
-        <span class="c1"># Detector voltage, return as a tuple of value and up.down,etc</span>
-        <span class="k">elif</span> <span class="p">(</span><span class="s1">&#39;detBias&#39;</span> <span class="ow">in</span> <span class="n">paramdex</span><span class="p">):</span>
-            <span class="c1"># Extract based on separators semicolon and the V for up,down,etc</span>
-            <span class="n">voltage</span> <span class="o">=</span> <span class="p">(</span><span class="n">paramdex</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s1">&#39;;&#39;</span><span class="p">)[</span><span class="o">-</span><span class="mi">1</span><span class="p">])</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s1">&#39;V&#39;</span><span class="p">)</span>
-            <span class="n">file_dictionary</span><span class="p">[</span><span class="s1">&#39;detBias&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="p">(</span><span class="nb">float</span><span class="p">(</span><span class="n">voltage</span><span class="p">[</span><span class="mi">0</span><span class="p">]),</span> <span class="nb">str</span><span class="p">(</span><span class="n">voltage</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]))</span>
-        <span class="c1"># The detector slice range.</span>
-        <span class="k">elif</span> <span class="p">(</span><span class="s1">&#39;slice&#39;</span> <span class="ow">in</span> <span class="n">paramdex</span><span class="p">):</span>
-            <span class="c1"># The subsection of data the data frame focuses on.</span>
-            <span class="n">slice_range</span> <span class="o">=</span> <span class="p">(</span><span class="n">paramdex</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s1">&#39;;&#39;</span><span class="p">)[</span><span class="o">-</span><span class="mi">1</span><span class="p">])</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s1">&#39;-&#39;</span><span class="p">)</span>
-            <span class="n">file_dictionary</span><span class="p">[</span><span class="s1">&#39;slice&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="p">(</span><span class="nb">int</span><span class="p">(</span><span class="n">slice_range</span><span class="p">[</span><span class="mi">0</span><span class="p">]),</span> <span class="nb">int</span><span class="p">(</span><span class="n">slice_range</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]))</span>
-        <span class="c1"># The element doesn&#39;t fit into the standard naming conventions of BRAVO.</span>
-        <span class="k">else</span><span class="p">:</span>
-            <span class="c1"># The user likely knows this is the case, so, stopping is not </span>
-            <span class="c1"># warranted.</span>
-            <span class="k">if</span> <span class="p">(</span><span class="n">ignore_mismatch</span><span class="p">):</span>
-                <span class="n">smeargle_warning</span><span class="p">(</span><span class="n">InputWarning</span><span class="p">,(</span><span class="s2">&quot;The filename parameter &lt;</span><span class="si">{param}</span><span class="s2">&gt; does not have &quot;</span>
-                                               <span class="s2">&quot;a corresponding BRAVO line interpretation, it &quot;</span>
-                                               <span class="s2">&quot;is being ignored as stipulated.&quot;</span>
-                                               <span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">param</span><span class="o">=</span><span class="nb">str</span><span class="p">(</span><span class="n">paramdex</span><span class="p">))))</span>
-            <span class="k">else</span><span class="p">:</span>
-                <span class="k">raise</span> <span class="n">InputError</span><span class="p">(</span><span class="s2">&quot;The filename parameter &lt;</span><span class="si">{param}</span><span class="s2">&gt; does not have a &quot;</span>
-                                 <span class="s2">&quot;corresponding BRAVO line interpretation, it cannot be &quot;</span>
-                                 <span class="s2">&quot;processed.&quot;</span>
-                                 <span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">param</span><span class="o">=</span><span class="nb">str</span><span class="p">(</span><span class="n">paramdex</span><span class="p">)))</span>
-
-    <span class="c1"># Always include the file name too for completeness.</span>
-    <span class="n">file_dictionary</span><span class="p">[</span><span class="s1">&#39;filename&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">path_file_name</span>
-
-    <span class="c1"># Finally return.</span>
-    <span class="k">return</span> <span class="n">file_dictionary</span></div>
-
-
+    
+    <span class="k">raise</span> <span class="n">TerminalError</span><span class="p">(</span><span class="s2">&quot;Use Bravo function version&quot;</span><span class="p">)</span></div>
 
 <div class="viewcode-block" id="parallel_renaming"><a class="viewcode-back" href="../../../python_docstrings/IfA_Smeargle.bravo.renaming.html#IfA_Smeargle.bravo.renaming.parallel_renaming">[docs]</a><span class="k">def</span> <span class="nf">parallel_renaming</span><span class="p">(</span><span class="n">file_names</span><span class="p">,</span> <span class="n">file_renames</span><span class="p">,</span> <span class="n">data_directory</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
                       <span class="n">file_extensions</span><span class="o">=</span><span class="s1">&#39;.fits&#39;</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot; Renames files provided parallel name arrays.</span>
+    <span class="k">raise</span> <span class="n">TerminalError</span><span class="p">(</span><span class="s2">&quot;Use Bravo function version&quot;</span><span class="p">)</span></div>
 
-<span class="sd">    Given two same length lists of file names, one pre-rename and one </span>
-<span class="sd">    post-rename, this function renames them accordingly. A directory is also</span>
-<span class="sd">    an option, and the file name list will be derived from that.</span>
 
-<span class="sd">    This only works for one type of file extension, or leave the string blank</span>
-<span class="sd">    for all files.</span>
 
+
+<div class="viewcode-block" id="number_renaming"><a class="viewcode-back" href="../../../python_docstrings/IfA_Smeargle.bravo.renaming.html#IfA_Smeargle.bravo.renaming.number_renaming">[docs]</a><span class="k">def</span> <span class="nf">number_renaming</span><span class="p">(</span><span class="n">data_directory</span><span class="p">,</span> <span class="n">begin_garbage</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">archive_data</span><span class="o">=</span><span class="kc">True</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot; Renames files according to their number in order.</span>
+
+<span class="sd">    Some data filename outputs only give timestamps. This function renames</span>
+<span class="sd">    said filenames for better processing.  </span>
+<span class="sd">    </span>
 <span class="sd">    Parameters</span>
 <span class="sd">    ----------</span>
-<span class="sd">    file_names : array_like</span>
-<span class="sd">        The list of the file names that is to be renamed.</span>
-<span class="sd">    file_renames : array_like</span>
-<span class="sd">        The list of the file names that are going to be used for the renaming</span>
-<span class="sd">        process.</span>
-<span class="sd">    data_directory : string (optional)</span>
-<span class="sd">        A directory that contains all of the files that are going to be </span>
-<span class="sd">        renamed. Does not handle directories recursively. </span>
-<span class="sd">    file_extensions : string (optional)</span>
-<span class="sd">        The file extension of the files that are going to be renamed. Defaults</span>
-<span class="sd">        to a .fits file.</span>
+<span class="sd">    data_directory : string</span>
+<span class="sd">        This is the directory that contain all of the data files to be </span>
+<span class="sd">        renamed.</span>
+<span class="sd">    begin_garbage : int (optional)</span>
+<span class="sd">        The number of files, in the beginning, that should not count as data.</span>
+<span class="sd">    archive_data : boolean (optional)</span>
+<span class="sd">        Execute the renaming on a copy of the data, the original data </span>
+<span class="sd">        is archived and preserved.</span>
 
 <span class="sd">    Returns</span>
 <span class="sd">    -------</span>
-<span class="sd">    nothing</span>
+<span class="sd">    number_string_list : list</span>
+<span class="sd">        This is the list of the numbered strings applied, given in a parallel </span>
+<span class="sd">        ordered form. Does not include prefixes/suffixes.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
 
-    <span class="c1"># Extraction of the directory if provided. Paths should be conserved.</span>
-    <span class="k">if</span> <span class="p">(</span><span class="n">data_directory</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">):</span>
-        <span class="c1"># For the files to be renamed.</span>
-        <span class="n">original_names</span> <span class="o">=</span> <span class="n">glob</span><span class="o">.</span><span class="n">glob</span><span class="p">(</span><span class="n">data_directory</span> <span class="o">+</span> <span class="s1">&#39;/*&#39;</span> <span class="o">+</span> <span class="n">file_extensions</span><span class="p">)</span>
-        <span class="n">original_paths</span> <span class="o">=</span> <span class="p">[</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="n">pathdex</span><span class="p">)[</span><span class="mi">0</span><span class="p">]</span> <span class="k">for</span> <span class="n">pathdex</span> <span class="ow">in</span> <span class="n">original_names</span><span class="p">]</span>
-        <span class="n">n_files</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">original_names</span><span class="p">)</span>
-        
-        <span class="c1"># Overwrite</span>
-        <span class="n">file_names</span> <span class="o">=</span> <span class="n">original_names</span>
+    <span class="c1"># If the user wanted to preserve their data.</span>
+    <span class="k">if</span> <span class="p">(</span><span class="n">archive_data</span><span class="p">):</span>
+        <span class="n">bravo</span><span class="o">.</span><span class="n">arc</span><span class="o">.</span><span class="n">duplicate_archive_data_files</span><span class="p">(</span><span class="n">data_directory</span><span class="p">)</span>
 
-    <span class="c1"># Check for length issues.</span>
-    <span class="k">if</span> <span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">file_names</span><span class="p">)</span> <span class="o">!=</span> <span class="nb">len</span><span class="p">(</span><span class="n">file_renames</span><span class="p">)):</span>
-        <span class="k">raise</span> <span class="ne">RuntimeError</span><span class="p">(</span><span class="s2">&quot;The number of file names and the number of file renames are not &quot;</span>
-                           <span class="s2">&quot;the same; therefore, these are not parallel arrays.&quot;</span><span class="p">)</span>
-    
-    <span class="c1"># Rename, the two cases are needed for the presence of the data directory</span>
-    <span class="c1"># or not.</span>
-    <span class="k">if</span> <span class="p">(</span><span class="n">data_directory</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">):</span>
-        <span class="k">for</span> <span class="n">pathdex</span><span class="p">,</span><span class="n">filenamedex</span><span class="p">,</span><span class="n">filerenamedex</span> <span class="ow">in</span> <span class="nb">zip</span><span class="p">(</span><span class="n">original_paths</span><span class="p">,</span>
-                                                     <span class="n">file_names</span><span class="p">,</span>
-                                                     <span class="n">file_renames</span><span class="p">):</span>
-            <span class="c1"># Check for automatic file name extension.</span>
-            <span class="k">if</span> <span class="p">(</span><span class="n">filerenamedex</span><span class="p">[</span><span class="o">-</span><span class="nb">len</span><span class="p">(</span><span class="n">file_extensions</span><span class="p">):]</span> <span class="o">!=</span> <span class="n">file_extensions</span><span class="p">):</span>
-                <span class="n">os</span><span class="o">.</span><span class="n">rename</span><span class="p">(</span><span class="n">filenamedex</span><span class="p">,</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">pathdex</span><span class="p">,</span> <span class="n">filerenamedex</span> <span class="o">+</span> <span class="n">file_extensions</span><span class="p">))</span>
-            <span class="k">else</span><span class="p">:</span>
-                <span class="n">os</span><span class="o">.</span><span class="n">rename</span><span class="p">(</span><span class="n">filenamedex</span><span class="p">,</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">pathdex</span><span class="p">,</span> <span class="n">filerenamedex</span><span class="p">))</span>
-    <span class="k">else</span><span class="p">:</span>
-        <span class="k">for</span> <span class="n">filenamedex</span><span class="p">,</span><span class="n">filerenamedex</span> <span class="ow">in</span> <span class="nb">zip</span><span class="p">(</span><span class="n">file_names</span><span class="p">,</span><span class="n">file_renames</span><span class="p">):</span>
-           <span class="c1"># Check for automatic file name extension.</span>
-            <span class="k">if</span> <span class="p">(</span><span class="n">filerenamedex</span><span class="p">[</span><span class="o">-</span><span class="nb">len</span><span class="p">(</span><span class="n">file_extensions</span><span class="p">):]</span> <span class="o">!=</span> <span class="n">file_extensions</span><span class="p">):</span>
-                <span class="n">os</span><span class="o">.</span><span class="n">rename</span><span class="p">(</span><span class="n">filenamedex</span><span class="p">,</span> <span class="n">filerenamedex</span> <span class="o">+</span> <span class="n">file_extensions</span><span class="p">)</span>
-            <span class="k">else</span><span class="p">:</span>
-                <span class="n">os</span><span class="o">.</span><span class="n">rename</span><span class="p">(</span><span class="n">filenamedex</span><span class="p">,</span> <span class="n">filerenamedex</span><span class="p">)</span>
-
-    <span class="k">return</span> <span class="kc">None</span></div>
+    <span class="c1"># The files that are before the garbage denotation should be labeled as</span>
+    <span class="c1"># such.</span>
+    <span class="n">garbage_names</span> <span class="o">=</span> <span class="n">glob</span><span class="o">.</span><span class="n">glob</span><span class="p">(</span><span class="n">data_directory</span> <span class="o">+</span> <span class="s1">&#39;/*.fits&#39;</span><span class="p">)[:</span><span class="n">begin_garbage</span><span class="p">]</span>
+    <span class="n">garbage_paths</span> <span class="o">=</span> <span class="p">[</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="n">garbagepathdex</span><span class="p">)[</span><span class="mi">0</span><span class="p">]</span> <span class="k">for</span> <span class="n">garbagepathdex</span> <span class="ow">in</span> <span class="n">garbage_names</span><span class="p">]</span>
+    <span class="n">n_garbage_files</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">garbage_names</span><span class="p">)</span>
 
 
-<div class="viewcode-block" id="voltage_pattern_rename_fits"><a class="viewcode-back" href="../../../python_docstrings/IfA_Smeargle.bravo.renaming.html#IfA_Smeargle.bravo.renaming.voltage_pattern_rename_fits">[docs]</a><span class="k">def</span> <span class="nf">voltage_pattern_rename_fits</span><span class="p">(</span><span class="n">data_directory</span><span class="p">,</span> <span class="n">voltage_pattern</span><span class="p">,</span> 
-                                <span class="n">begin_garbage</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span>
-                                <span class="n">common_prefix</span><span class="o">=</span><span class="s1">&#39;&#39;</span><span class="p">,</span> <span class="n">common_suffix</span><span class="o">=</span><span class="s1">&#39;&#39;</span><span class="p">,</span>
-                                <span class="n">rename</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">archive_data</span><span class="o">=</span><span class="kc">True</span><span class="p">):</span>
+    <span class="c1"># For the files to be renamed.</span>
+    <span class="n">original_names</span> <span class="o">=</span> <span class="n">glob</span><span class="o">.</span><span class="n">glob</span><span class="p">(</span><span class="n">data_directory</span> <span class="o">+</span> <span class="s1">&#39;/*.fits&#39;</span><span class="p">)[</span><span class="n">begin_garbage</span><span class="p">:]</span>
+    <span class="n">original_paths</span> <span class="o">=</span> <span class="p">[</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="n">pathdex</span><span class="p">)[</span><span class="mi">0</span><span class="p">]</span> <span class="k">for</span> <span class="n">pathdex</span> <span class="ow">in</span> <span class="n">original_names</span><span class="p">]</span>
+    <span class="n">n_files</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">original_names</span><span class="p">)</span>
+
+    <span class="c1"># Each file number, separating the garbage and the non-garbage numbers.</span>
+    <span class="c1"># There is no reason to lump the two together without denotation.</span>
+    <span class="n">garbage_numbers</span> <span class="o">=</span> <span class="p">[(</span><span class="n">index</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)</span> <span class="k">for</span> <span class="n">index</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">n_garbage_files</span><span class="p">)]</span>
+    <span class="n">file_numbers</span> <span class="o">=</span> <span class="p">[(</span><span class="n">index</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)</span> <span class="k">for</span> <span class="n">index</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">n_files</span><span class="p">)]</span>
+
+    <span class="c1"># Converting the numbers to their new names. The &#39;garbage&#39; prefix to the </span>
+    <span class="c1"># number is a standard. Any file with garbage in the name is not </span>
+    <span class="c1"># processed.</span>
+    <span class="n">garbage_string_list</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;num;garbage&#39;</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">numdex</span><span class="p">)</span> <span class="k">for</span> <span class="n">numdex</span> <span class="ow">in</span> <span class="n">garbage_numbers</span><span class="p">]</span>
+    <span class="n">file_string_list</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;num;&#39;</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">numdex</span><span class="p">)</span> <span class="k">for</span> <span class="n">numdex</span> <span class="ow">in</span> <span class="n">file_numbers</span><span class="p">]</span>
+
+    <span class="c1"># The completed list.</span>
+    <span class="n">number_file_list</span> <span class="o">=</span> <span class="n">garbage_string_list</span> <span class="o">+</span> <span class="n">file_string_list</span>
+
+    <span class="k">return</span> <span class="n">number_file_list</span></div>
+
+
+<div class="viewcode-block" id="set_determinization_renaming"><a class="viewcode-back" href="../../../python_docstrings/IfA_Smeargle.bravo.renaming.html#IfA_Smeargle.bravo.renaming.set_determinization_renaming">[docs]</a><span class="k">def</span> <span class="nf">set_determinization_renaming</span><span class="p">(</span><span class="n">data_directory</span><span class="p">,</span> <span class="n">set_length</span><span class="p">,</span> 
+                                 <span class="n">begin_garbage</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">archive_data</span><span class="o">=</span><span class="kc">True</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot; Renames files according to their set number, as determined by the</span>
+<span class="sd">    number of files in a set. Sets are assumed to be consecutive.</span>
+
+<span class="sd">    Some data filename outputs only give timestamps. This function renames</span>
+<span class="sd">    said filenames for better processing.  </span>
+<span class="sd">    </span>
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    data_directory : string</span>
+<span class="sd">        This is the directory that contain all of the data files to be </span>
+<span class="sd">        renamed.</span>
+<span class="sd">    set_length : int </span>
+<span class="sd">        This is the length of a set. </span>
+<span class="sd">    begin_garbage : int (optional)</span>
+<span class="sd">        The number of files, in the beginning, that should not count as data.</span>
+<span class="sd">    archive_data : boolean (optional)</span>
+<span class="sd">        Execute the renaming on a copy of the data, the original data </span>
+<span class="sd">        is archived and preserved.</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    set_string_list : list</span>
+<span class="sd">        This is the list of the numbered strings applied, given in a parallel </span>
+<span class="sd">        ordered form. Does not include prefixes/suffixes.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="c1"># If the user wanted to preserve their data.</span>
+    <span class="k">if</span> <span class="p">(</span><span class="n">archive_data</span><span class="p">):</span>
+        <span class="n">bravo</span><span class="o">.</span><span class="n">arc</span><span class="o">.</span><span class="n">duplicate_archive_data_files</span><span class="p">(</span><span class="n">data_directory</span><span class="p">)</span>
+
+    <span class="c1"># The files that are before the garbage denotation should be labeled as</span>
+    <span class="c1"># such.</span>
+    <span class="n">garbage_names</span> <span class="o">=</span> <span class="n">glob</span><span class="o">.</span><span class="n">glob</span><span class="p">(</span><span class="n">data_directory</span> <span class="o">+</span> <span class="s1">&#39;/*.fits&#39;</span><span class="p">)[:</span><span class="n">begin_garbage</span><span class="p">]</span>
+    <span class="n">garbage_paths</span> <span class="o">=</span> <span class="p">[</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="n">garbagepathdex</span><span class="p">)[</span><span class="mi">0</span><span class="p">]</span> <span class="k">for</span> <span class="n">garbagepathdex</span> <span class="ow">in</span> <span class="n">garbage_names</span><span class="p">]</span>
+    <span class="n">n_garbage_files</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">garbage_names</span><span class="p">)</span>
+
+
+    <span class="c1"># For the files to be renamed.</span>
+    <span class="n">original_names</span> <span class="o">=</span> <span class="n">glob</span><span class="o">.</span><span class="n">glob</span><span class="p">(</span><span class="n">data_directory</span> <span class="o">+</span> <span class="s1">&#39;/*.fits&#39;</span><span class="p">)[</span><span class="n">begin_garbage</span><span class="p">:]</span>
+    <span class="n">original_paths</span> <span class="o">=</span> <span class="p">[</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="n">pathdex</span><span class="p">)[</span><span class="mi">0</span><span class="p">]</span> <span class="k">for</span> <span class="n">pathdex</span> <span class="ow">in</span> <span class="n">original_names</span><span class="p">]</span>
+    <span class="n">n_files</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">original_names</span><span class="p">)</span>
+
+    <span class="c1"># Each file number, separating the garbage and the non-garbage numbers.</span>
+    <span class="c1"># There is no reason to lump the two together without denotation.</span>
+    <span class="n">garbage_numbers</span> <span class="o">=</span> <span class="p">[(</span><span class="n">index</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)</span> <span class="k">for</span> <span class="n">index</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">n_garbage_files</span><span class="p">)]</span>
+    <span class="n">file_numbers</span> <span class="o">=</span> <span class="p">[(</span><span class="n">index</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)</span> <span class="k">for</span> <span class="n">index</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">n_files</span><span class="p">)]</span>
+
+    <span class="c1"># Converting the numbers to their new names. The &#39;garbage&#39; prefix to the </span>
+    <span class="c1"># number is a standard. Any file with garbage in the name is not </span>
+    <span class="c1"># processed.</span>
+    <span class="n">garbage_string_list</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;set;garbage&#39;</span> <span class="o">+</span> <span class="nb">str</span><span class="p">((</span><span class="n">numdex</span><span class="o">-</span><span class="mi">1</span><span class="p">)</span><span class="o">//</span><span class="n">set_length</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)</span> 
+                           <span class="k">for</span> <span class="n">numdex</span> <span class="ow">in</span> <span class="n">garbage_numbers</span><span class="p">]</span>
+    <span class="n">file_string_list</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;set;&#39;</span> <span class="o">+</span> <span class="nb">str</span><span class="p">((</span><span class="n">numdex</span><span class="o">-</span><span class="mi">1</span><span class="p">)</span><span class="o">//</span><span class="n">set_length</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)</span> 
+                        <span class="k">for</span> <span class="n">numdex</span> <span class="ow">in</span> <span class="n">file_numbers</span><span class="p">]</span>
+
+    <span class="c1"># The completed list.</span>
+    <span class="n">set_file_list</span> <span class="o">=</span> <span class="n">garbage_string_list</span> <span class="o">+</span> <span class="n">file_string_list</span>
+
+    <span class="k">return</span> <span class="n">set_file_list</span></div>
+
+
+<div class="viewcode-block" id="voltage_pattern_renaming"><a class="viewcode-back" href="../../../python_docstrings/IfA_Smeargle.bravo.renaming.html#IfA_Smeargle.bravo.renaming.voltage_pattern_renaming">[docs]</a><span class="k">def</span> <span class="nf">voltage_pattern_renaming</span><span class="p">(</span><span class="n">data_directory</span><span class="p">,</span> <span class="n">voltage_pattern</span><span class="p">,</span> 
+                             <span class="n">begin_garbage</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">archive_data</span><span class="o">=</span><span class="kc">True</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot; Renames files according to their voltage pattern specified.</span>
 
 <span class="sd">    Some data filename outputs only give timestamps. This function renames</span>
-<span class="sd">    </span>
+<span class="sd">    said filenames for better processing.</span>
+
 <span class="sd">    The output files created are according to the voltage pattern that the </span>
 <span class="sd">    user specified. This function assumes that the pattern provided is one </span>
 <span class="sd">    &#39;set&#39;, where a set contains some amount of fits files. Moreover, this</span>
@@ -342,13 +324,6 @@
 <span class="sd">        first voltage element to be used, proceeding from there in order.</span>
 <span class="sd">    begin_garbage : int (optional)</span>
 <span class="sd">        The number of files, in the beginning, that should not count as data.</span>
-<span class="sd">    common_prefix : string (optional)</span>
-<span class="sd">        All file renames will contain this prefix before the voltage data.</span>
-<span class="sd">    common_suffix : string (optional)</span>
-<span class="sd">        All file renames will contain this suffix after the voltage data.</span>
-<span class="sd">    rename : boolean (optional)</span>
-<span class="sd">        If true, the program renames the files as specified, else, it leaves </span>
-<span class="sd">        the files untouched; still archived, however, if ``copy_data=True``.</span>
 <span class="sd">    archive_data : boolean (optional)</span>
 <span class="sd">        Execute the renaming on a copy of the data, the original data </span>
 <span class="sd">        is archived and preserved.</span>
@@ -360,20 +335,7 @@
 <span class="sd">        ordered form. Does not include prefixes/suffixes.</span>
 
 <span class="sd">    &quot;&quot;&quot;</span>
-
-    <span class="k">if</span> <span class="p">(</span><span class="n">rename</span><span class="p">):</span>
-        <span class="n">smeargle_warning</span><span class="p">(</span><span class="n">DeprecatedWarning</span><span class="p">,(</span><span class="s2">&quot;The renaming method contained works as intended; &quot;</span>
-                                              <span class="s2">&quot;however, it is not optimal and does not play &quot;</span>
-                                              <span class="s2">&quot;nice with the other naming functions.&quot;</span><span class="p">))</span>
     
-    <span class="c1"># Minor and fragile input sanitation.</span>
-    <span class="k">if</span> <span class="p">(</span><span class="n">data_directory</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span> <span class="o">==</span> <span class="s1">&#39;/&#39;</span><span class="p">):</span>
-        <span class="n">data_directory</span> <span class="o">=</span> <span class="n">copy</span><span class="o">.</span><span class="n">deepcopy</span><span class="p">(</span><span class="n">data_directory</span><span class="p">[:</span><span class="o">-</span><span class="mi">1</span><span class="p">])</span>
-    <span class="k">if</span> <span class="p">((</span><span class="n">common_suffix</span><span class="p">[</span><span class="o">-</span><span class="mi">5</span><span class="p">:]</span> <span class="o">!=</span> <span class="s1">&#39;.fits&#39;</span><span class="p">)</span> <span class="ow">and</span> <span class="p">(</span><span class="n">rename</span><span class="p">)):</span>
-        <span class="n">common_suffix</span> <span class="o">+=</span> <span class="s1">&#39;.fits&#39;</span>
-        <span class="n">smeargle_warning</span><span class="p">(</span><span class="n">InputWarning</span><span class="p">,</span> <span class="p">(</span><span class="s2">&quot;The &lt; common_suffix &gt; does not have a .fits extension; &quot;</span>
-                                        <span class="s2">&quot;it has been automatically added.&quot;</span><span class="p">))</span>
-
     <span class="c1"># If the user wanted to preserve their data.</span>
     <span class="k">if</span> <span class="p">(</span><span class="n">archive_data</span><span class="p">):</span>
         <span class="n">bravo</span><span class="o">.</span><span class="n">arc</span><span class="o">.</span><span class="n">duplicate_archive_data_files</span><span class="p">(</span><span class="n">data_directory</span><span class="p">)</span>
@@ -435,32 +397,21 @@
         <span class="c1"># Save and record.</span>
         <span class="n">voltage_strings</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">temp_voltage_string</span><span class="p">)</span>
 
-    <span class="c1"># Compile the garbage files.</span>
+    <span class="c1"># Compile the garbage files. The garbage &#39;prefix&#39; to the </span>
+    <span class="c1"># number is a standard. Any file with garbage in the name is not </span>
+    <span class="c1"># processed.</span>
     <span class="n">garbage_string_list</span> <span class="o">=</span> <span class="p">[]</span>
     <span class="k">for</span> <span class="n">fileindex</span><span class="p">,</span> <span class="n">filenamedex</span><span class="p">,</span> <span class="n">pathdex</span> <span class="ow">in</span> <span class="nb">zip</span><span class="p">(</span><span class="nb">range</span><span class="p">(</span><span class="n">n_garbage_files</span><span class="p">),</span>
                                                <span class="n">garbage_names</span><span class="p">,</span> <span class="n">garbage_paths</span><span class="p">):</span>
-        <span class="n">garbage_string</span> <span class="o">=</span> <span class="s1">&#39;Garbage&#39;</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">fileindex</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)</span><span class="o">.</span><span class="n">zfill</span><span class="p">(</span><span class="mi">3</span><span class="p">)</span>
+        <span class="n">garbage_string</span> <span class="o">=</span> <span class="s1">&#39;garbage&#39;</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">fileindex</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)</span><span class="o">.</span><span class="n">zfill</span><span class="p">(</span><span class="mi">3</span><span class="p">)</span>
         <span class="n">garbage_string_list</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">garbage_string</span><span class="p">)</span>
 
-        <span class="c1"># If renaming is needed.</span>
-        <span class="k">if</span> <span class="p">(</span><span class="n">rename</span><span class="p">):</span>
-            <span class="n">os</span><span class="o">.</span><span class="n">rename</span><span class="p">(</span><span class="n">filenamedex</span><span class="p">,</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">pathdex</span><span class="p">,</span> <span class="n">garbage_string</span><span class="p">))</span>
-        
-        
     <span class="c1"># Compile the renames, assume that the sets repeat themselves if there </span>
     <span class="c1"># are more files than voltages . Then actually rename the file.</span>
     <span class="n">voltage_string_list</span> <span class="o">=</span> <span class="p">[]</span>
     <span class="k">for</span> <span class="n">fileindex</span><span class="p">,</span><span class="n">filenamedex</span><span class="p">,</span><span class="n">pathdex</span> <span class="ow">in</span> <span class="nb">zip</span><span class="p">(</span><span class="nb">range</span><span class="p">(</span><span class="n">n_files</span><span class="p">),</span><span class="n">original_names</span><span class="p">,</span><span class="n">original_paths</span><span class="p">):</span>
         <span class="n">volt_string</span> <span class="o">=</span> <span class="nb">str</span><span class="p">(</span><span class="n">voltage_strings</span><span class="p">[</span><span class="n">fileindex</span><span class="o">%</span><span class="n">n_voltages</span><span class="p">])</span>
-        <span class="c1"># To prevent file name clashes</span>
-        <span class="k">if</span> <span class="p">(</span><span class="n">rename</span><span class="p">):</span>
-            <span class="n">volt_string</span> <span class="o">+=</span> <span class="p">(</span><span class="s1">&#39;,&#39;</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">fileindex</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)</span><span class="o">.</span><span class="n">zfill</span><span class="p">(</span><span class="mi">3</span><span class="p">))</span>
         <span class="n">voltage_string_list</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">volt_string</span><span class="p">)</span>
-        
-        <span class="c1"># Renaming if needed.</span>
-        <span class="k">if</span> <span class="p">(</span><span class="n">rename</span><span class="p">):</span>
-            <span class="n">renamed_file</span> <span class="o">=</span> <span class="p">(</span><span class="n">common_prefix</span> <span class="o">+</span> <span class="s1">&#39;__&#39;</span> <span class="o">+</span> <span class="n">volt_string</span> <span class="o">+</span> <span class="s1">&#39;__&#39;</span> <span class="o">+</span> <span class="n">common_suffix</span><span class="p">)</span>
-            <span class="n">os</span><span class="o">.</span><span class="n">rename</span><span class="p">(</span><span class="n">filenamedex</span><span class="p">,</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">pathdex</span><span class="p">,</span> <span class="n">renamed_file</span><span class="p">))</span>
 
     <span class="c1"># Finished, it is also helpful to return the garbage file names.</span>
     <span class="n">voltage_string_list</span> <span class="o">=</span> <span class="n">garbage_string_list</span> <span class="o">+</span> <span class="n">voltage_string_list</span>

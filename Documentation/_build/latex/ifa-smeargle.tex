@@ -72,7 +72,7 @@
 
 
 \title{IfA-Smeargle}
-\date{Nov 01, 2019}
+\date{Dec 26, 2019}
 \release{2019-08-19}
 \author{Sparrow}
 \newcommand{\sphinxlogo}{\vbox{}}
@@ -174,7 +174,7 @@ specified.
 \begin{sphinxadmonition}{warning}{Warning:}
 Configuration files and classes are not forward compatible. There
 is however a function to convert older configuration classes/files to newer
-versions while preserving the old data. See the \sphinxcode{\sphinxupquote{Fast Forward Configuration Class}} function.
+versions while preserving the old data. See the {\hyperref[\detokenize{python_docstrings/IfA_Smeargle.yankee.yankee_functions:IfA_Smeargle.yankee.yankee_functions.yankee_fast_forward_configuration_class}]{\sphinxcrossref{\sphinxcode{\sphinxupquote{Fast Forward Configuration Class}}}}} function.
 \end{sphinxadmonition}
 
 
@@ -506,6 +506,82 @@ Astropy HDUList file
 
 
 
+\subparagraph{IfA\_Smeargle.bravo.bravo\_functions module}
+\label{\detokenize{python_docstrings/IfA_Smeargle.bravo.bravo_functions:module-IfA_Smeargle.bravo.bravo_functions}}\label{\detokenize{python_docstrings/IfA_Smeargle.bravo.bravo_functions:ifa-smeargle-bravo-bravo-functions-module}}\label{\detokenize{python_docstrings/IfA_Smeargle.bravo.bravo_functions::doc}}\index{IfA\_Smeargle.bravo.bravo\_functions (module)@\spxentry{IfA\_Smeargle.bravo.bravo\_functions}\spxextra{module}}\index{bravo\_filename\_split\_by\_parameter() (in module IfA\_Smeargle.bravo.bravo\_functions)@\spxentry{bravo\_filename\_split\_by\_parameter()}\spxextra{in module IfA\_Smeargle.bravo.bravo\_functions}}
+
+\begin{fulllineitems}
+\phantomsection\label{\detokenize{python_docstrings/IfA_Smeargle.bravo.bravo_functions:IfA_Smeargle.bravo.bravo_functions.bravo_filename_split_by_parameter}}\pysiglinewithargsret{\sphinxcode{\sphinxupquote{IfA\_Smeargle.bravo.bravo\_functions.}}\sphinxbfcode{\sphinxupquote{bravo\_filename\_split\_by\_parameter}}}{\emph{path\_file\_name}, \emph{ignore\_mismatch=False}}{}
+Takes a standard file name made by the BRAVO class and splits it into
+a more workable dictionary.
+
+The filenames of each and every .fits file that comes from BRAVO contains
+information. This functions allows for the extraction of the information
+based on the standard file name tags.
+\begin{quote}\begin{description}
+\item[{Parameters}] \leavevmode\begin{itemize}
+\item {} 
+\sphinxstyleliteralstrong{\sphinxupquote{path\_file\_name}} (\sphinxstyleliteralemphasis{\sphinxupquote{string}}) \textendash{} The name of the file that is to be split.
+
+\item {} 
+\sphinxstyleliteralstrong{\sphinxupquote{ignore\_mismatch}} (\sphinxstyleliteralemphasis{\sphinxupquote{boolean}}\sphinxstyleliteralemphasis{\sphinxupquote{ (}}\sphinxstyleliteralemphasis{\sphinxupquote{optional}}\sphinxstyleliteralemphasis{\sphinxupquote{)}}) \textendash{} If true, this function will raise a warning rather than an error if
+there is a parameter that is in the filename, but not processable in
+the dictionary. Defaults to False.
+
+\end{itemize}
+
+\item[{Returns}] \leavevmode
+\sphinxstylestrong{file\_dictionary} \textendash{} The dictionary that contains all of the file parameters.
+
+\item[{Return type}] \leavevmode
+dictionary
+
+\end{description}\end{quote}
+
+\end{fulllineitems}
+
+\index{bravo\_rename\_parallel() (in module IfA\_Smeargle.bravo.bravo\_functions)@\spxentry{bravo\_rename\_parallel()}\spxextra{in module IfA\_Smeargle.bravo.bravo\_functions}}
+
+\begin{fulllineitems}
+\phantomsection\label{\detokenize{python_docstrings/IfA_Smeargle.bravo.bravo_functions:IfA_Smeargle.bravo.bravo_functions.bravo_rename_parallel}}\pysiglinewithargsret{\sphinxcode{\sphinxupquote{IfA\_Smeargle.bravo.bravo\_functions.}}\sphinxbfcode{\sphinxupquote{bravo\_rename\_parallel}}}{\emph{file\_names}, \emph{file\_renames}, \emph{data\_directory=None}, \emph{file\_extensions='.fits'}}{}
+Renames files provided parallel name arrays.
+
+Given two same length lists of file names, one pre-rename and one
+post-rename, this function renames them accordingly. A directory is also
+an option, and the file name list will be derived from that.
+
+This only works for one type of file extension, or leave the string blank
+for all files.
+\begin{quote}\begin{description}
+\item[{Parameters}] \leavevmode\begin{itemize}
+\item {} 
+\sphinxstyleliteralstrong{\sphinxupquote{file\_names}} (\sphinxstyleliteralemphasis{\sphinxupquote{array\_like}}) \textendash{} The list of the file names that is to be renamed.
+
+\item {} 
+\sphinxstyleliteralstrong{\sphinxupquote{file\_renames}} (\sphinxstyleliteralemphasis{\sphinxupquote{array\_like}}) \textendash{} The list of the file names that are going to be used for the renaming
+process.
+
+\item {} 
+\sphinxstyleliteralstrong{\sphinxupquote{data\_directory}} (\sphinxstyleliteralemphasis{\sphinxupquote{string}}\sphinxstyleliteralemphasis{\sphinxupquote{ (}}\sphinxstyleliteralemphasis{\sphinxupquote{optional}}\sphinxstyleliteralemphasis{\sphinxupquote{)}}) \textendash{} A directory that contains all of the files that are going to be
+renamed. Does not handle directories recursively.
+
+\item {} 
+\sphinxstyleliteralstrong{\sphinxupquote{file\_extensions}} (\sphinxstyleliteralemphasis{\sphinxupquote{string}}\sphinxstyleliteralemphasis{\sphinxupquote{ (}}\sphinxstyleliteralemphasis{\sphinxupquote{optional}}\sphinxstyleliteralemphasis{\sphinxupquote{)}}) \textendash{} The file extension of the files that are going to be renamed. Defaults
+to a .fits file.
+
+\end{itemize}
+
+\item[{Returns}] \leavevmode
+
+
+\item[{Return type}] \leavevmode
+nothing
+
+\end{description}\end{quote}
+
+\end{fulllineitems}
+
+
+
 \subparagraph{IfA\_Smeargle.bravo.bravo\_main module}
 \label{\detokenize{python_docstrings/IfA_Smeargle.bravo.bravo_main:module-IfA_Smeargle.bravo.bravo_main}}\label{\detokenize{python_docstrings/IfA_Smeargle.bravo.bravo_main:ifa-smeargle-bravo-bravo-main-module}}\label{\detokenize{python_docstrings/IfA_Smeargle.bravo.bravo_main::doc}}\index{IfA\_Smeargle.bravo.bravo\_main (module)@\spxentry{IfA\_Smeargle.bravo.bravo\_main}\spxextra{module}}
 Contains all of the methods used for renaming and reformatting data.
@@ -609,29 +685,37 @@ something more useful and accurate to the data.
 
 \begin{fulllineitems}
 \phantomsection\label{\detokenize{python_docstrings/IfA_Smeargle.bravo.renaming:IfA_Smeargle.bravo.renaming.filename_split_by_parameter}}\pysiglinewithargsret{\sphinxcode{\sphinxupquote{IfA\_Smeargle.bravo.renaming.}}\sphinxbfcode{\sphinxupquote{filename\_split\_by\_parameter}}}{\emph{path\_file\_name}, \emph{ignore\_mismatch=False}}{}
-Takes a standard file name made by the BRAVO class and splits it into
-a more workable dictionary.
+\end{fulllineitems}
 
-The filenames of each and every .fits file that comes from BRAVO contains
-information. This functions allows for the extraction of the information
-based on the standard file name tags.
+\index{number\_renaming() (in module IfA\_Smeargle.bravo.renaming)@\spxentry{number\_renaming()}\spxextra{in module IfA\_Smeargle.bravo.renaming}}
+
+\begin{fulllineitems}
+\phantomsection\label{\detokenize{python_docstrings/IfA_Smeargle.bravo.renaming:IfA_Smeargle.bravo.renaming.number_renaming}}\pysiglinewithargsret{\sphinxcode{\sphinxupquote{IfA\_Smeargle.bravo.renaming.}}\sphinxbfcode{\sphinxupquote{number\_renaming}}}{\emph{data\_directory}, \emph{begin\_garbage=0}, \emph{archive\_data=True}}{}
+Renames files according to their number in order.
+
+Some data filename outputs only give timestamps. This function renames
+said filenames for better processing.
 \begin{quote}\begin{description}
 \item[{Parameters}] \leavevmode\begin{itemize}
 \item {} 
-\sphinxstyleliteralstrong{\sphinxupquote{path\_file\_name}} (\sphinxstyleliteralemphasis{\sphinxupquote{string}}) \textendash{} The name of the file that is to be split.
+\sphinxstyleliteralstrong{\sphinxupquote{data\_directory}} (\sphinxstyleliteralemphasis{\sphinxupquote{string}}) \textendash{} This is the directory that contain all of the data files to be
+renamed.
 
 \item {} 
-\sphinxstyleliteralstrong{\sphinxupquote{ignore\_mismatch}} (\sphinxstyleliteralemphasis{\sphinxupquote{boolean}}\sphinxstyleliteralemphasis{\sphinxupquote{ (}}\sphinxstyleliteralemphasis{\sphinxupquote{optional}}\sphinxstyleliteralemphasis{\sphinxupquote{)}}) \textendash{} If true, this function will raise a warning rather than an error if
-there is a parameter that is in the filename, but not processable in
-the dictionary. Defaults to False.
+\sphinxstyleliteralstrong{\sphinxupquote{begin\_garbage}} (\sphinxstyleliteralemphasis{\sphinxupquote{int}}\sphinxstyleliteralemphasis{\sphinxupquote{ (}}\sphinxstyleliteralemphasis{\sphinxupquote{optional}}\sphinxstyleliteralemphasis{\sphinxupquote{)}}) \textendash{} The number of files, in the beginning, that should not count as data.
+
+\item {} 
+\sphinxstyleliteralstrong{\sphinxupquote{archive\_data}} (\sphinxstyleliteralemphasis{\sphinxupquote{boolean}}\sphinxstyleliteralemphasis{\sphinxupquote{ (}}\sphinxstyleliteralemphasis{\sphinxupquote{optional}}\sphinxstyleliteralemphasis{\sphinxupquote{)}}) \textendash{} Execute the renaming on a copy of the data, the original data
+is archived and preserved.
 
 \end{itemize}
 
 \item[{Returns}] \leavevmode
-\sphinxstylestrong{file\_dictionary} \textendash{} The dictionary that contains all of the file parameters.
+\sphinxstylestrong{number\_string\_list} \textendash{} This is the list of the numbered strings applied, given in a parallel
+ordered form. Does not include prefixes/suffixes.
 
 \item[{Return type}] \leavevmode
-dictionary
+list
 
 \end{description}\end{quote}
 
@@ -641,50 +725,54 @@ dictionary
 
 \begin{fulllineitems}
 \phantomsection\label{\detokenize{python_docstrings/IfA_Smeargle.bravo.renaming:IfA_Smeargle.bravo.renaming.parallel_renaming}}\pysiglinewithargsret{\sphinxcode{\sphinxupquote{IfA\_Smeargle.bravo.renaming.}}\sphinxbfcode{\sphinxupquote{parallel\_renaming}}}{\emph{file\_names}, \emph{file\_renames}, \emph{data\_directory=None}, \emph{file\_extensions='.fits'}}{}
-Renames files provided parallel name arrays.
+\end{fulllineitems}
 
-Given two same length lists of file names, one pre-rename and one
-post-rename, this function renames them accordingly. A directory is also
-an option, and the file name list will be derived from that.
+\index{set\_determinization\_renaming() (in module IfA\_Smeargle.bravo.renaming)@\spxentry{set\_determinization\_renaming()}\spxextra{in module IfA\_Smeargle.bravo.renaming}}
 
-This only works for one type of file extension, or leave the string blank
-for all files.
+\begin{fulllineitems}
+\phantomsection\label{\detokenize{python_docstrings/IfA_Smeargle.bravo.renaming:IfA_Smeargle.bravo.renaming.set_determinization_renaming}}\pysiglinewithargsret{\sphinxcode{\sphinxupquote{IfA\_Smeargle.bravo.renaming.}}\sphinxbfcode{\sphinxupquote{set\_determinization\_renaming}}}{\emph{data\_directory}, \emph{set\_length}, \emph{begin\_garbage=0}, \emph{archive\_data=True}}{}
+Renames files according to their set number, as determined by the
+number of files in a set. Sets are assumed to be consecutive.
+
+Some data filename outputs only give timestamps. This function renames
+said filenames for better processing.
 \begin{quote}\begin{description}
 \item[{Parameters}] \leavevmode\begin{itemize}
 \item {} 
-\sphinxstyleliteralstrong{\sphinxupquote{file\_names}} (\sphinxstyleliteralemphasis{\sphinxupquote{array\_like}}) \textendash{} The list of the file names that is to be renamed.
+\sphinxstyleliteralstrong{\sphinxupquote{data\_directory}} (\sphinxstyleliteralemphasis{\sphinxupquote{string}}) \textendash{} This is the directory that contain all of the data files to be
+renamed.
 
 \item {} 
-\sphinxstyleliteralstrong{\sphinxupquote{file\_renames}} (\sphinxstyleliteralemphasis{\sphinxupquote{array\_like}}) \textendash{} The list of the file names that are going to be used for the renaming
-process.
+\sphinxstyleliteralstrong{\sphinxupquote{set\_length}} (\sphinxstyleliteralemphasis{\sphinxupquote{int}}) \textendash{} This is the length of a set.
 
 \item {} 
-\sphinxstyleliteralstrong{\sphinxupquote{data\_directory}} (\sphinxstyleliteralemphasis{\sphinxupquote{string}}\sphinxstyleliteralemphasis{\sphinxupquote{ (}}\sphinxstyleliteralemphasis{\sphinxupquote{optional}}\sphinxstyleliteralemphasis{\sphinxupquote{)}}) \textendash{} A directory that contains all of the files that are going to be
-renamed. Does not handle directories recursively.
+\sphinxstyleliteralstrong{\sphinxupquote{begin\_garbage}} (\sphinxstyleliteralemphasis{\sphinxupquote{int}}\sphinxstyleliteralemphasis{\sphinxupquote{ (}}\sphinxstyleliteralemphasis{\sphinxupquote{optional}}\sphinxstyleliteralemphasis{\sphinxupquote{)}}) \textendash{} The number of files, in the beginning, that should not count as data.
 
 \item {} 
-\sphinxstyleliteralstrong{\sphinxupquote{file\_extensions}} (\sphinxstyleliteralemphasis{\sphinxupquote{string}}\sphinxstyleliteralemphasis{\sphinxupquote{ (}}\sphinxstyleliteralemphasis{\sphinxupquote{optional}}\sphinxstyleliteralemphasis{\sphinxupquote{)}}) \textendash{} The file extension of the files that are going to be renamed. Defaults
-to a .fits file.
+\sphinxstyleliteralstrong{\sphinxupquote{archive\_data}} (\sphinxstyleliteralemphasis{\sphinxupquote{boolean}}\sphinxstyleliteralemphasis{\sphinxupquote{ (}}\sphinxstyleliteralemphasis{\sphinxupquote{optional}}\sphinxstyleliteralemphasis{\sphinxupquote{)}}) \textendash{} Execute the renaming on a copy of the data, the original data
+is archived and preserved.
 
 \end{itemize}
 
 \item[{Returns}] \leavevmode
-
+\sphinxstylestrong{set\_string\_list} \textendash{} This is the list of the numbered strings applied, given in a parallel
+ordered form. Does not include prefixes/suffixes.
 
 \item[{Return type}] \leavevmode
-nothing
+list
 
 \end{description}\end{quote}
 
 \end{fulllineitems}
 
-\index{voltage\_pattern\_rename\_fits() (in module IfA\_Smeargle.bravo.renaming)@\spxentry{voltage\_pattern\_rename\_fits()}\spxextra{in module IfA\_Smeargle.bravo.renaming}}
+\index{voltage\_pattern\_renaming() (in module IfA\_Smeargle.bravo.renaming)@\spxentry{voltage\_pattern\_renaming()}\spxextra{in module IfA\_Smeargle.bravo.renaming}}
 
 \begin{fulllineitems}
-\phantomsection\label{\detokenize{python_docstrings/IfA_Smeargle.bravo.renaming:IfA_Smeargle.bravo.renaming.voltage_pattern_rename_fits}}\pysiglinewithargsret{\sphinxcode{\sphinxupquote{IfA\_Smeargle.bravo.renaming.}}\sphinxbfcode{\sphinxupquote{voltage\_pattern\_rename\_fits}}}{\emph{data\_directory}, \emph{voltage\_pattern}, \emph{begin\_garbage=0}, \emph{common\_prefix=''}, \emph{common\_suffix=''}, \emph{rename=False}, \emph{archive\_data=True}}{}
+\phantomsection\label{\detokenize{python_docstrings/IfA_Smeargle.bravo.renaming:IfA_Smeargle.bravo.renaming.voltage_pattern_renaming}}\pysiglinewithargsret{\sphinxcode{\sphinxupquote{IfA\_Smeargle.bravo.renaming.}}\sphinxbfcode{\sphinxupquote{voltage\_pattern\_renaming}}}{\emph{data\_directory}, \emph{voltage\_pattern}, \emph{begin\_garbage=0}, \emph{archive\_data=True}}{}
 Renames files according to their voltage pattern specified.
 
 Some data filename outputs only give timestamps. This function renames
+said filenames for better processing.
 
 The output files created are according to the voltage pattern that the
 user specified. This function assumes that the pattern provided is one
@@ -702,16 +790,6 @@ first voltage element to be used, proceeding from there in order.
 
 \item {} 
 \sphinxstyleliteralstrong{\sphinxupquote{begin\_garbage}} (\sphinxstyleliteralemphasis{\sphinxupquote{int}}\sphinxstyleliteralemphasis{\sphinxupquote{ (}}\sphinxstyleliteralemphasis{\sphinxupquote{optional}}\sphinxstyleliteralemphasis{\sphinxupquote{)}}) \textendash{} The number of files, in the beginning, that should not count as data.
-
-\item {} 
-\sphinxstyleliteralstrong{\sphinxupquote{common\_prefix}} (\sphinxstyleliteralemphasis{\sphinxupquote{string}}\sphinxstyleliteralemphasis{\sphinxupquote{ (}}\sphinxstyleliteralemphasis{\sphinxupquote{optional}}\sphinxstyleliteralemphasis{\sphinxupquote{)}}) \textendash{} All file renames will contain this prefix before the voltage data.
-
-\item {} 
-\sphinxstyleliteralstrong{\sphinxupquote{common\_suffix}} (\sphinxstyleliteralemphasis{\sphinxupquote{string}}\sphinxstyleliteralemphasis{\sphinxupquote{ (}}\sphinxstyleliteralemphasis{\sphinxupquote{optional}}\sphinxstyleliteralemphasis{\sphinxupquote{)}}) \textendash{} All file renames will contain this suffix after the voltage data.
-
-\item {} 
-\sphinxstyleliteralstrong{\sphinxupquote{rename}} (\sphinxstyleliteralemphasis{\sphinxupquote{boolean}}\sphinxstyleliteralemphasis{\sphinxupquote{ (}}\sphinxstyleliteralemphasis{\sphinxupquote{optional}}\sphinxstyleliteralemphasis{\sphinxupquote{)}}) \textendash{} If true, the program renames the files as specified, else, it leaves
-the files untouched; still archived, however, if \sphinxcode{\sphinxupquote{copy\_data=True}}.
 
 \item {} 
 \sphinxstyleliteralstrong{\sphinxupquote{archive\_data}} (\sphinxstyleliteralemphasis{\sphinxupquote{boolean}}\sphinxstyleliteralemphasis{\sphinxupquote{ (}}\sphinxstyleliteralemphasis{\sphinxupquote{optional}}\sphinxstyleliteralemphasis{\sphinxupquote{)}}) \textendash{} Execute the renaming on a copy of the data, the original data
@@ -1558,6 +1636,12 @@ configuration parameters.
 These functions just provide a nice and easy place to put functions whose
 purpose is to allow for the proper reading of different possible arrangements
 of the configuration parameters.
+\index{yankee\_extract\_proper\_configuration\_class() (in module IfA\_Smeargle.meta.configuration)@\spxentry{yankee\_extract\_proper\_configuration\_class()}\spxextra{in module IfA\_Smeargle.meta.configuration}}
+
+\begin{fulllineitems}
+\phantomsection\label{\detokenize{python_docstrings/IfA_Smeargle.meta.configuration:IfA_Smeargle.meta.configuration.yankee_extract_proper_configuration_class}}\pysiglinewithargsret{\sphinxcode{\sphinxupquote{IfA\_Smeargle.meta.configuration.}}\sphinxbfcode{\sphinxupquote{yankee\_extract\_proper\_configuration\_class}}}{\emph{configuration\_class}, \emph{desired\_class}, \emph{deep\_copy=False}}{}
+\end{fulllineitems}
+
 
 
 \subparagraph{IfA\_Smeargle.meta.errors module}
@@ -2143,7 +2227,7 @@ min max calculated.
 \index{smeargle\_open\_fits\_file() (in module IfA\_Smeargle.meta.fits\_and\_arrays)@\spxentry{smeargle\_open\_fits\_file()}\spxextra{in module IfA\_Smeargle.meta.fits\_and\_arrays}}
 
 \begin{fulllineitems}
-\phantomsection\label{\detokenize{python_docstrings/IfA_Smeargle.meta.fits_and_arrays:IfA_Smeargle.meta.fits_and_arrays.smeargle_open_fits_file}}\pysiglinewithargsret{\sphinxcode{\sphinxupquote{IfA\_Smeargle.meta.fits\_and\_arrays.}}\sphinxbfcode{\sphinxupquote{smeargle\_open\_fits\_file}}}{\emph{file\_name}, \emph{extension=0}, \emph{silent=False}}{}
+\phantomsection\label{\detokenize{python_docstrings/IfA_Smeargle.meta.fits_and_arrays:IfA_Smeargle.meta.fits_and_arrays.smeargle_open_fits_file}}\pysiglinewithargsret{\sphinxcode{\sphinxupquote{IfA\_Smeargle.meta.fits\_and\_arrays.}}\sphinxbfcode{\sphinxupquote{smeargle\_open\_fits\_file}}}{\emph{file\_name}, \emph{extension=0}, \emph{null\_min=-1000000.0}, \emph{null\_max=1000000.0}, \emph{silent=False}}{}
 A function to ensure proper loading/reading of fits files.
 
 This function, as its name, opens a fits file. It returns the Astropy HDU
@@ -2157,6 +2241,16 @@ file.
 
 \item {} 
 \sphinxstyleliteralstrong{\sphinxupquote{extension}} (\sphinxstyleliteralemphasis{\sphinxupquote{int}}\sphinxstyleliteralemphasis{\sphinxupquote{ or }}\sphinxstyleliteralemphasis{\sphinxupquote{string}}\sphinxstyleliteralemphasis{\sphinxupquote{ (}}\sphinxstyleliteralemphasis{\sphinxupquote{optional}}\sphinxstyleliteralemphasis{\sphinxupquote{)}}) \textendash{} The desired extension of the fits file. Defaults to primary structure.
+
+\item {} 
+\sphinxstyleliteralstrong{\sphinxupquote{null\_min}} (\sphinxstyleliteralemphasis{\sphinxupquote{float}}\sphinxstyleliteralemphasis{\sphinxupquote{ (}}\sphinxstyleliteralemphasis{\sphinxupquote{optional}}\sphinxstyleliteralemphasis{\sphinxupquote{)}}) \textendash{} The minimum value an element (pixel) in the file that will be
+considered to be valid. Else, the containing frame may be flagged for
+nullification. Defaults to -1e6.
+
+\item {} 
+\sphinxstyleliteralstrong{\sphinxupquote{null\_max}} (\sphinxstyleliteralemphasis{\sphinxupquote{float}}\sphinxstyleliteralemphasis{\sphinxupquote{ (}}\sphinxstyleliteralemphasis{\sphinxupquote{optional}}\sphinxstyleliteralemphasis{\sphinxupquote{)}}) \textendash{} The maximum value an element (pixel) in the file that will be
+considered to be valid. Else, the containing frame may be flagged for
+nullification. Defaults to +1e6.
 
 \item {} 
 \sphinxstyleliteralstrong{\sphinxupquote{silent}} (\sphinxstyleliteralemphasis{\sphinxupquote{boolean}}\sphinxstyleliteralemphasis{\sphinxupquote{ (}}\sphinxstyleliteralemphasis{\sphinxupquote{optional}}\sphinxstyleliteralemphasis{\sphinxupquote{)}}) \textendash{} Turn off all warnings and information sent by this function and
@@ -2540,7 +2634,7 @@ using the currently defined axes. This is not deep-copied!
 Gaussian function fitting.
 
 \item {} 
-\sphinxstyleliteralstrong{\sphinxupquote{bin\_width}} (\sphinxstyleliteralemphasis{\sphinxupquote{boolean}}\sphinxstyleliteralemphasis{\sphinxupquote{ (}}\sphinxstyleliteralemphasis{\sphinxupquote{optional}}\sphinxstyleliteralemphasis{\sphinxupquote{)}}) \textendash{} Matplotlib is not nice with bin widths, if it is an integer, widths
+\sphinxstyleliteralstrong{\sphinxupquote{bin\_width}} (\sphinxstyleliteralemphasis{\sphinxupquote{float}}\sphinxstyleliteralemphasis{\sphinxupquote{ (}}\sphinxstyleliteralemphasis{\sphinxupquote{optional}}\sphinxstyleliteralemphasis{\sphinxupquote{)}}) \textendash{} Matplotlib is not nice with bin widths, if it is an integer, widths
 are applied instead.
 
 \item {} 
@@ -2739,7 +2833,11 @@ accuracy.
 \sphinxstylestrong{final\_figure} (\sphinxstyleemphasis{Matplotlib Figure}) \textendash{} This is the final figure depicting the dark current change over time.
 
 \item {} 
-\sphinxstylestrong{data\_table} (\sphinxstyleemphasis{Pandas dataframe}) \textendash{} This is a formal representation of all data of the entire data array
+\sphinxstylestrong{data\_arrays} (\sphinxstyleemphasis{dictionary}) \textendash{} This is a dictionary of the voltages, values, and error values as
+processed.
+
+\item {} 
+\sphinxstylestrong{data\_frame} (\sphinxstyleemphasis{Pandas dataframe}) \textendash{} This is a formal representation of all data of the entire data array
 with regards to the plot.
 
 \end{itemize}
@@ -3605,6 +3703,7 @@ unknown
 \item\relax\sphinxstyleindexentry{IfA\_Smeargle.bravo}\sphinxstyleindexpageref{python_docstrings/IfA_Smeargle.bravo:\detokenize{module-IfA_Smeargle.bravo}}
 \item\relax\sphinxstyleindexentry{IfA\_Smeargle.bravo.archiving}\sphinxstyleindexpageref{python_docstrings/IfA_Smeargle.bravo.archiving:\detokenize{module-IfA_Smeargle.bravo.archiving}}
 \item\relax\sphinxstyleindexentry{IfA\_Smeargle.bravo.averaging}\sphinxstyleindexpageref{python_docstrings/IfA_Smeargle.bravo.averaging:\detokenize{module-IfA_Smeargle.bravo.averaging}}
+\item\relax\sphinxstyleindexentry{IfA\_Smeargle.bravo.bravo\_functions}\sphinxstyleindexpageref{python_docstrings/IfA_Smeargle.bravo.bravo_functions:\detokenize{module-IfA_Smeargle.bravo.bravo_functions}}
 \item\relax\sphinxstyleindexentry{IfA\_Smeargle.bravo.bravo\_main}\sphinxstyleindexpageref{python_docstrings/IfA_Smeargle.bravo.bravo_main:\detokenize{module-IfA_Smeargle.bravo.bravo_main}}
 \item\relax\sphinxstyleindexentry{IfA\_Smeargle.bravo.input\_sanitization}\sphinxstyleindexpageref{python_docstrings/IfA_Smeargle.bravo.input_sanitization:\detokenize{module-IfA_Smeargle.bravo.input_sanitization}}
 \item\relax\sphinxstyleindexentry{IfA\_Smeargle.bravo.renaming}\sphinxstyleindexpageref{python_docstrings/IfA_Smeargle.bravo.renaming:\detokenize{module-IfA_Smeargle.bravo.renaming}}

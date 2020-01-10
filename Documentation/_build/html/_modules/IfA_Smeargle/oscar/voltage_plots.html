@@ -164,7 +164,7 @@
 <span class="kn">from</span> <span class="nn">IfA_Smeargle.meta</span> <span class="k">import</span> <span class="o">*</span>
 
 <div class="viewcode-block" id="plotdir_dark_current_over_voltage"><a class="viewcode-back" href="../../../python_docstrings/IfA_Smeargle.oscar.voltage_plots.html#IfA_Smeargle.oscar.voltage_plots.plotdir_dark_current_over_voltage">[docs]</a><span class="k">def</span> <span class="nf">plotdir_dark_current_over_voltage</span><span class="p">(</span><span class="n">data_directory</span><span class="p">,</span> <span class="n">figure_axes</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">configuration_class</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
-                                   <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+                                      <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot; This function plots the dark current as a function of voltage over</span>
 <span class="sd">    all frames within a file directory.</span>
 
@@ -187,7 +187,10 @@
 <span class="sd">    -------</span>
 <span class="sd">    final_figure : Matplotlib Figure</span>
 <span class="sd">        This is the final figure depicting the dark current change over time.</span>
-<span class="sd">    data_table : Pandas dataframe</span>
+<span class="sd">    data_arrays : dictionary</span>
+<span class="sd">        This is a dictionary of the voltages, values, and error values as </span>
+<span class="sd">        processed.</span>
+<span class="sd">    data_frame : Pandas dataframe</span>
 <span class="sd">        This is a formal representation of all data of the entire data array </span>
 <span class="sd">        with regards to the plot.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
@@ -209,7 +212,7 @@
     <span class="c1"># Convert to the dictionary descriptions</span>
     <span class="n">file_dictionaries</span> <span class="o">=</span> <span class="p">[]</span>
     <span class="k">for</span> <span class="n">filenamedex</span> <span class="ow">in</span> <span class="n">file_names</span><span class="p">:</span>
-        <span class="n">temp_dict</span> <span class="o">=</span> <span class="n">bravo</span><span class="o">.</span><span class="n">rename</span><span class="o">.</span><span class="n">filename_split_by_parameter</span><span class="p">(</span><span class="n">filenamedex</span><span class="p">)</span>
+        <span class="n">temp_dict</span> <span class="o">=</span> <span class="n">bravo</span><span class="o">.</span><span class="n">bravo_filename_split_by_parameter</span><span class="p">(</span><span class="n">filenamedex</span><span class="p">)</span>
         <span class="k">if</span> <span class="p">(</span><span class="n">temp_dict</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">):</span>
             <span class="c1"># This generally means that the file is considered garbage and</span>
             <span class="c1"># should not be included.</span>
@@ -288,8 +291,11 @@
     <span class="n">set_count</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">flip</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">unique</span><span class="p">(</span><span class="n">set_metadata</span><span class="p">[</span><span class="s1">&#39;metaset&#39;</span><span class="p">]))</span>\
         <span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">flip</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">unique</span><span class="p">(</span><span class="n">set_metadata</span><span class="p">[</span><span class="s1">&#39;metaset&#39;</span><span class="p">],</span><span class="n">return_counts</span><span class="o">=</span><span class="kc">True</span><span class="p">)[</span><span class="mi">1</span><span class="p">])</span><span class="o">.</span><span class="n">argmax</span><span class="p">()]</span>
 
-    <span class="c1"># Create different plots per set (really over-plotting on the same figure</span>
-    <span class="c1"># however). All data is within the &#39;file_data&#39; object, and the metadata</span>
+    <span class="c1"># For storing the information in &#39;data_arrays&#39;.</span>
+    <span class="n">data_arrays</span> <span class="o">=</span> <span class="p">{}</span>
+
+    <span class="c1"># Create different plots per set (over-plotting on the same figure).</span>
+    <span class="c1"># All data is within the &#39;file_data&#39; object, and the metadata</span>
     <span class="c1"># that helps extract said data is within the &#39;set_metadata&#39; object.</span>
     <span class="k">for</span> <span class="n">setdex</span> <span class="ow">in</span> <span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="n">set_count</span><span class="p">)</span> <span class="o">+</span> <span class="mi">1</span><span class="p">):</span>
         <span class="c1"># Extract only the current set.</span>
@@ -322,14 +328,21 @@
         <span class="c1"># name.</span>
         <span class="n">ax</span><span class="o">.</span><span class="n">set_title</span><span class="p">(</span><span class="n">file_data</span><span class="p">[</span><span class="s1">&#39;detector&#39;</span><span class="p">][</span><span class="mi">0</span><span class="p">])</span>
         <span class="n">ax</span><span class="o">.</span><span class="n">legend</span><span class="p">(</span><span class="n">loc</span><span class="o">=</span><span class="s1">&#39;upper left&#39;</span><span class="p">)</span>
+        <span class="n">ax</span><span class="o">.</span><span class="n">set_xticks</span><span class="p">(</span><span class="n">x_axis_voltage</span><span class="p">)</span>
         <span class="n">ax</span><span class="o">.</span><span class="n">set_xlabel</span><span class="p">(</span><span class="s1">&#39;Detector Bias Voltage (V)&#39;</span><span class="p">)</span>
         <span class="n">ax</span><span class="o">.</span><span class="n">set_ylabel</span><span class="p">(</span><span class="s1">&#39;Average Dark Current (ADU)&#39;</span><span class="p">)</span>
+
+        <span class="c1"># Store the information.</span>
+        <span class="n">data_arrays</span><span class="o">.</span><span class="n">update</span><span class="p">({</span><span class="s1">&#39;voltage_set&#39;</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">setdex</span><span class="p">):</span><span class="n">x_axis_voltage</span><span class="p">,</span> 
+                            <span class="s1">&#39;value_set&#39;</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">setdex</span><span class="p">):</span> <span class="n">y_axis_data</span><span class="p">,</span> 
+                            <span class="s1">&#39;error_set&#39;</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">setdex</span><span class="p">):</span><span class="n">y_axis_error</span><span class="p">})</span>
         
     <span class="c1"># For naming conventions per documentation.</span>
     <span class="n">final_figure</span> <span class="o">=</span> <span class="n">ax</span>
-    <span class="n">data_table</span> <span class="o">=</span> <span class="n">file_data</span>
+    <span class="n">data_arrays</span> <span class="o">=</span> <span class="n">data_arrays</span>
+    <span class="n">data_frame</span> <span class="o">=</span> <span class="n">file_data</span>
 
-    <span class="k">return</span> <span class="n">ax</span><span class="p">,</span> <span class="n">data_table</span></div>
+    <span class="k">return</span> <span class="n">ax</span><span class="p">,</span> <span class="n">data_arrays</span><span class="p">,</span> <span class="n">data_frame</span></div>
 </pre></div>
 
            </div>

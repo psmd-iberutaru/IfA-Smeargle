@@ -19,4 +19,5 @@ Module contents
 
 .. automodule:: IfA_Smeargle.meta
    :members:
+   :undoc-members:
    :show-inheritance:

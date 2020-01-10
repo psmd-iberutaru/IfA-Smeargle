@@ -156,6 +156,7 @@
 
 <span class="kn">from</span> <span class="nn">.BaseConfig_file</span> <span class="k">import</span> <span class="n">BaseConfig</span>
 
+<span class="kn">from</span> <span class="nn">IfA_Smeargle.meta</span> <span class="k">import</span> <span class="o">*</span>
 <span class="c1"># Pulling deeper functions into the light.</span>
 <span class="kn">from</span> <span class="nn">IfA_Smeargle.yankee.yankee_functions</span> <span class="k">import</span> <span class="o">*</span>
 
@@ -198,10 +199,8 @@
             <span class="bp">self</span><span class="o">.</span><span class="vm">__dict__</span><span class="o">.</span><span class="n">update</span><span class="p">(</span><span class="n">provided_config</span><span class="o">.</span><span class="vm">__dict__</span><span class="p">)</span>
         <span class="k">except</span> <span class="ne">Exception</span><span class="p">:</span>
             <span class="k">if</span> <span class="p">(</span><span class="n">file_name</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">):</span>
-                <span class="n">smeargle_warning</span><span class="p">(</span><span class="n">ImportingWarning</span><span class="p">,(</span><span class="s2">&quot;The configuration file could not be &quot;</span>
-                                                   <span class="s2">&quot;properly read. Consider using the factory &quot;</span>
-                                                   <span class="s2">&quot;function. A blank configuration class has &quot;</span>
-                                                   <span class="s2">&quot;been provided instead.&quot;</span><span class="p">))</span>
+                <span class="k">raise</span> <span class="n">ImportingError</span><span class="p">(</span><span class="s2">&quot;The configuration file could not be properly read. &quot;</span>
+                                     <span class="s2">&quot;Consider using the factory function.&quot;</span><span class="p">)</span>
 
             <span class="c1"># The name of the detector.</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">detector_name</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;name&#39;</span><span class="p">:</span><span class="kc">None</span><span class="p">}</span>
@@ -210,6 +209,8 @@
             <span class="bp">self</span><span class="o">.</span><span class="n">same_file_size_sanitization_config</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;method&#39;</span><span class="p">:</span><span class="kc">None</span><span class="p">}</span>
 
             <span class="c1"># Renaming file</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">number_rename_config</span> <span class="o">=</span> <span class="p">{}</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">set_determine_rename_config</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;set_length&#39;</span><span class="p">:</span><span class="kc">None</span><span class="p">}</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">voltpat_rename_config</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;voltage_pattern&#39;</span><span class="p">:</span><span class="kc">None</span><span class="p">}</span>
 
 

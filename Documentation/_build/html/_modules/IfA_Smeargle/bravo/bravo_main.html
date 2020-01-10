@@ -210,23 +210,25 @@
                                  <span class="s2">&quot;the name value referenced by the key &lt;name&gt;.&quot;</span><span class="p">)</span>
 
     <span class="c1"># Getting the voltage renames</span>
-    <span class="n">voltage_names</span> <span class="o">=</span> <span class="n">bravo</span><span class="o">.</span><span class="n">rename</span><span class="o">.</span><span class="n">voltage_pattern_rename_fits</span><span class="p">(</span><span class="n">data_directory</span><span class="p">,</span>
-                                                         <span class="o">**</span><span class="n">provided_config</span><span class="o">.</span><span class="n">voltpat_rename_config</span><span class="p">)</span>
-    <span class="n">n_files</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">voltage_names</span><span class="p">)</span>
+    <span class="n">number_names</span> <span class="o">=</span> <span class="n">bravo</span><span class="o">.</span><span class="n">rename</span><span class="o">.</span><span class="n">number_renaming</span><span class="p">(</span><span class="n">data_directory</span><span class="p">,</span>
+                                                <span class="o">**</span><span class="n">provided_config</span><span class="o">.</span><span class="n">number_rename_config</span><span class="p">)</span>
+    <span class="n">voltage_names</span> <span class="o">=</span> <span class="n">bravo</span><span class="o">.</span><span class="n">rename</span><span class="o">.</span><span class="n">voltage_pattern_renaming</span><span class="p">(</span><span class="n">data_directory</span><span class="p">,</span>
+                                                          <span class="o">**</span><span class="n">provided_config</span><span class="o">.</span><span class="n">voltpat_rename_config</span><span class="p">)</span>
+    <span class="n">n_files</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">number_names</span><span class="p">)</span>
 
 
     <span class="c1"># Rename all of the files. The directory structure seems fine.</span>
     <span class="n">final_names</span> <span class="o">=</span> <span class="p">[]</span>
-    <span class="k">for</span> <span class="n">index</span><span class="p">,</span> <span class="n">detectdex</span><span class="p">,</span> <span class="n">voltdex</span> <span class="ow">in</span> <span class="nb">zip</span><span class="p">(</span><span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">voltage_names</span><span class="p">)),</span>
+    <span class="k">for</span> <span class="n">numdex</span><span class="p">,</span> <span class="n">detectdex</span><span class="p">,</span> <span class="n">voltdex</span> <span class="ow">in</span> <span class="nb">zip</span><span class="p">(</span><span class="n">number_names</span><span class="p">,</span>
                                          <span class="p">[</span><span class="n">detector_name</span> <span class="k">for</span> <span class="n">index</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">n_files</span><span class="p">)],</span>
                                          <span class="n">voltage_names</span><span class="p">):</span>
         <span class="n">final_names</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">detectdex</span>
-                           <span class="o">+</span> <span class="s1">&#39;__&#39;</span> <span class="o">+</span> <span class="s1">&#39;num;&#39;</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">index</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)</span> 
+                           <span class="o">+</span> <span class="s1">&#39;__&#39;</span> <span class="o">+</span> <span class="n">numdex</span>
                            <span class="o">+</span> <span class="s1">&#39;__&#39;</span> <span class="o">+</span> <span class="n">voltdex</span> 
                            <span class="c1"># + &#39;__&#39;</span>
                            <span class="o">+</span> <span class="s1">&#39;.fits&#39;</span><span class="p">)</span>
 
-    <span class="n">bravo</span><span class="o">.</span><span class="n">rename</span><span class="o">.</span><span class="n">parallel_renaming</span><span class="p">(</span><span class="kc">None</span><span class="p">,</span> <span class="n">final_names</span><span class="p">,</span> <span class="n">data_directory</span><span class="p">,</span> <span class="n">file_extensions</span><span class="o">=</span><span class="s1">&#39;.fits&#39;</span><span class="p">)</span>
+    <span class="n">bravo</span><span class="o">.</span><span class="n">bravo_rename_parallel</span><span class="p">(</span><span class="kc">None</span><span class="p">,</span> <span class="n">final_names</span><span class="p">,</span> <span class="n">data_directory</span><span class="p">,</span> <span class="n">file_extensions</span><span class="o">=</span><span class="s1">&#39;.fits&#39;</span><span class="p">)</span>
 
 
     <span class="c1"># Next, modifying the data to its own standard format. </span>

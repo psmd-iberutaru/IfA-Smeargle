@@ -20,4 +20,5 @@ Module contents
 
 .. automodule:: IfA_Smeargle.zulu
    :members:
+   :undoc-members:
    :show-inheritance:

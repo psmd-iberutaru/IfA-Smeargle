@@ -1,0 +1,359 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>IfA_Smeargle.bravo.bravo_functions &mdash; IfA-Smeargle 2019-08-19 documentation</title>
+  
+
+  
+  
+  
+  
+
+  
+  <script type="text/javascript" src="../../../_static/js/modernizr.min.js"></script>
+  
+    
+      <script type="text/javascript" id="documentation_options" data-url_root="../../../" src="../../../_static/documentation_options.js"></script>
+        <script type="text/javascript" src="../../../_static/jquery.js"></script>
+        <script type="text/javascript" src="../../../_static/underscore.js"></script>
+        <script type="text/javascript" src="../../../_static/doctools.js"></script>
+        <script type="text/javascript" src="../../../_static/language_data.js"></script>
+    
+    <script type="text/javascript" src="../../../_static/js/theme.js"></script>
+
+    
+
+  
+  <link rel="stylesheet" href="../../../_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
+  <link rel="stylesheet" href="../../../_static/css/custom.css" type="text/css" />
+    <link rel="index" title="Index" href="../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../search.html" />
+    <link href="../../../_static/css/ifa_smeargle.css" rel="stylesheet" type="text/css">
+
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+          
+
+          
+            <a href="../../../index.html" class="icon icon-home"> IfA-Smeargle
+          
+
+          
+          </a>
+
+          
+            
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <p class="caption"><span class="caption-text">Usage and Operation:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../quickstart.html">Quickstart</a></li>
+</ul>
+<p class="caption"><span class="caption-text">Code Documentation:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../python_docstrings/modules.html">IfA_Smeargle</a></li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../../index.html">IfA-Smeargle</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="../../../index.html">Docs</a> &raquo;</li>
+        
+          <li><a href="../../index.html">Module code</a> &raquo;</li>
+        
+      <li>IfA_Smeargle.bravo.bravo_functions</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <h1>Source code for IfA_Smeargle.bravo.bravo_functions</h1><div class="highlight"><pre>
+<span></span><span class="kn">import</span> <span class="nn">copy</span>
+<span class="kn">import</span> <span class="nn">glob</span>
+<span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+<span class="kn">import</span> <span class="nn">os</span> 
+<span class="kn">import</span> <span class="nn">shutil</span>
+<span class="kn">import</span> <span class="nn">time</span>
+
+
+<span class="kn">from</span> <span class="nn">IfA_Smeargle</span> <span class="k">import</span> <span class="n">bravo</span>
+<span class="kn">from</span> <span class="nn">IfA_Smeargle.meta</span> <span class="k">import</span> <span class="o">*</span>
+
+
+<div class="viewcode-block" id="bravo_filename_split_by_parameter"><a class="viewcode-back" href="../../../python_docstrings/IfA_Smeargle.bravo.bravo_functions.html#IfA_Smeargle.bravo.bravo_functions.bravo_filename_split_by_parameter">[docs]</a><span class="k">def</span> <span class="nf">bravo_filename_split_by_parameter</span><span class="p">(</span><span class="n">path_file_name</span><span class="p">,</span> <span class="n">ignore_mismatch</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot; Takes a standard file name made by the BRAVO class and splits it into</span>
+<span class="sd">    a more workable dictionary.</span>
+
+<span class="sd">    The filenames of each and every .fits file that comes from BRAVO contains </span>
+<span class="sd">    information. This functions allows for the extraction of the information</span>
+<span class="sd">    based on the standard file name tags.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    path_file_name : string</span>
+<span class="sd">        The name of the file that is to be split.</span>
+<span class="sd">    ignore_mismatch : boolean (optional)</span>
+<span class="sd">        If true, this function will raise a warning rather than an error if </span>
+<span class="sd">        there is a parameter that is in the filename, but not processable in </span>
+<span class="sd">        the dictionary. Defaults to False.</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    file_dictionary : dictionary</span>
+<span class="sd">        The dictionary that contains all of the file parameters.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="c1"># All that is needed is the actual data filename, not the entire path.</span>
+    <span class="n">file_name</span> <span class="o">=</span> <span class="n">copy</span><span class="o">.</span><span class="n">deepcopy</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">splitext</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="n">path_file_name</span><span class="p">)[</span><span class="o">-</span><span class="mi">1</span><span class="p">])[</span><span class="mi">0</span><span class="p">])</span>
+
+    <span class="c1"># If the file is considered garbage, then it doesn&#39;t have any purpose </span>
+    <span class="c1"># being split upon.</span>
+    <span class="k">if</span> <span class="p">((</span><span class="s1">&#39;garbage&#39;</span> <span class="ow">in</span> <span class="n">file_name</span><span class="o">.</span><span class="n">lower</span><span class="p">())</span> <span class="ow">and</span> <span class="p">(</span><span class="ow">not</span> <span class="n">ignore_mismatch</span><span class="p">)):</span>
+        <span class="n">smeargle_warning</span><span class="p">(</span><span class="n">InputWarning</span><span class="p">,(</span><span class="s2">&quot;The filename has been marked as garbage. The splitting &quot;</span>
+                                       <span class="s2">&quot;will yield good or bad information about a bad data &quot;</span>
+                                       <span class="s2">&quot;set. Nothing will be done.&quot;</span><span class="p">))</span>
+        <span class="k">return</span> <span class="kc">None</span>
+
+    <span class="c1"># Split by the BRAVO standard method of separating elements.</span>
+    <span class="n">split_filename</span> <span class="o">=</span> <span class="nb">str</span><span class="p">(</span><span class="n">file_name</span><span class="p">)</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s1">&#39;__&#39;</span><span class="p">)</span>
+
+    <span class="c1"># The name of the detector is always the first element, the others are not</span>
+    <span class="c1"># always the order.</span>
+    <span class="n">det_name</span> <span class="o">=</span> <span class="n">split_filename</span><span class="o">.</span><span class="n">pop</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>
+
+    <span class="c1"># Cycle through all of the other elements</span>
+    <span class="n">file_dictionary</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;detName&#39;</span><span class="p">:</span> <span class="n">det_name</span><span class="p">}</span>
+    <span class="k">for</span> <span class="n">paramdex</span> <span class="ow">in</span> <span class="n">split_filename</span><span class="p">:</span>
+        <span class="c1"># Data file number.</span>
+        <span class="k">if</span> <span class="p">(</span><span class="s1">&#39;num&#39;</span> <span class="ow">in</span> <span class="n">paramdex</span><span class="p">):</span>
+            <span class="c1"># Extract the data number knowing that the semicolon separates.</span>
+            <span class="n">datafile_num</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">paramdex</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s1">&#39;;&#39;</span><span class="p">)[</span><span class="o">-</span><span class="mi">1</span><span class="p">])</span>
+            <span class="n">file_dictionary</span><span class="p">[</span><span class="s1">&#39;num&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">datafile_num</span>
+        <span class="c1"># Data set number.</span>
+        <span class="k">elif</span> <span class="p">(</span><span class="s1">&#39;set&#39;</span> <span class="ow">in</span> <span class="n">paramdex</span><span class="p">):</span>
+            <span class="c1"># Extract the data set number knowing that the semicolon separates.</span>
+            <span class="n">datafile_set</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">paramdex</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s1">&#39;;&#39;</span><span class="p">)[</span><span class="o">-</span><span class="mi">1</span><span class="p">])</span>
+            <span class="n">file_dictionary</span><span class="p">[</span><span class="s1">&#39;set&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">datafile_set</span>
+        <span class="c1"># Detector voltage, return as a tuple of value and up.down,etc</span>
+        <span class="k">elif</span> <span class="p">(</span><span class="s1">&#39;detBias&#39;</span> <span class="ow">in</span> <span class="n">paramdex</span><span class="p">):</span>
+            <span class="c1"># Extract based on separators semicolon and the V for up,down,etc</span>
+            <span class="n">voltage</span> <span class="o">=</span> <span class="p">(</span><span class="n">paramdex</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s1">&#39;;&#39;</span><span class="p">)[</span><span class="o">-</span><span class="mi">1</span><span class="p">])</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s1">&#39;V&#39;</span><span class="p">)</span>
+            <span class="n">file_dictionary</span><span class="p">[</span><span class="s1">&#39;detBias&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="p">(</span><span class="nb">float</span><span class="p">(</span><span class="n">voltage</span><span class="p">[</span><span class="mi">0</span><span class="p">]),</span> <span class="nb">str</span><span class="p">(</span><span class="n">voltage</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]))</span>
+        <span class="c1"># The detector slice range.</span>
+        <span class="k">elif</span> <span class="p">(</span><span class="s1">&#39;slice&#39;</span> <span class="ow">in</span> <span class="n">paramdex</span><span class="p">):</span>
+            <span class="c1"># The subsection of data the data frame focuses on.</span>
+            <span class="n">slice_range</span> <span class="o">=</span> <span class="p">(</span><span class="n">paramdex</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s1">&#39;;&#39;</span><span class="p">)[</span><span class="o">-</span><span class="mi">1</span><span class="p">])</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s1">&#39;-&#39;</span><span class="p">)</span>
+            <span class="n">file_dictionary</span><span class="p">[</span><span class="s1">&#39;slice&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="p">(</span><span class="nb">int</span><span class="p">(</span><span class="n">slice_range</span><span class="p">[</span><span class="mi">0</span><span class="p">]),</span> <span class="nb">int</span><span class="p">(</span><span class="n">slice_range</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]))</span>
+        <span class="c1"># The element doesn&#39;t fit into the standard naming conventions of BRAVO.</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="c1"># The user likely knows this is the case, so, stopping is not </span>
+            <span class="c1"># warranted.</span>
+            <span class="k">if</span> <span class="p">(</span><span class="n">ignore_mismatch</span><span class="p">):</span>
+                <span class="n">smeargle_warning</span><span class="p">(</span><span class="n">InputWarning</span><span class="p">,(</span><span class="s2">&quot;The filename parameter &lt;</span><span class="si">{param}</span><span class="s2">&gt; does not have &quot;</span>
+                                               <span class="s2">&quot;a corresponding BRAVO line interpretation, it &quot;</span>
+                                               <span class="s2">&quot;is being ignored as stipulated.&quot;</span>
+                                               <span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">param</span><span class="o">=</span><span class="nb">str</span><span class="p">(</span><span class="n">paramdex</span><span class="p">))))</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="k">raise</span> <span class="n">InputError</span><span class="p">(</span><span class="s2">&quot;The filename parameter &lt;</span><span class="si">{param}</span><span class="s2">&gt; does not have a &quot;</span>
+                                 <span class="s2">&quot;corresponding BRAVO line interpretation, it cannot be &quot;</span>
+                                 <span class="s2">&quot;processed.&quot;</span>
+                                 <span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">param</span><span class="o">=</span><span class="nb">str</span><span class="p">(</span><span class="n">paramdex</span><span class="p">)))</span>
+
+    <span class="c1"># Always include the file name too for completeness.</span>
+    <span class="n">file_dictionary</span><span class="p">[</span><span class="s1">&#39;filename&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">path_file_name</span>
+
+    <span class="c1"># Finally return.</span>
+    <span class="k">return</span> <span class="n">file_dictionary</span></div>
+
+
+<div class="viewcode-block" id="bravo_rename_parallel"><a class="viewcode-back" href="../../../python_docstrings/IfA_Smeargle.bravo.bravo_functions.html#IfA_Smeargle.bravo.bravo_functions.bravo_rename_parallel">[docs]</a><span class="k">def</span> <span class="nf">bravo_rename_parallel</span><span class="p">(</span><span class="n">file_names</span><span class="p">,</span> <span class="n">file_renames</span><span class="p">,</span> <span class="n">data_directory</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+                          <span class="n">file_extensions</span><span class="o">=</span><span class="s1">&#39;.fits&#39;</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot; Renames files provided parallel name arrays.</span>
+
+<span class="sd">    Given two same length lists of file names, one pre-rename and one </span>
+<span class="sd">    post-rename, this function renames them accordingly. A directory is also</span>
+<span class="sd">    an option, and the file name list will be derived from that.</span>
+
+<span class="sd">    This only works for one type of file extension, or leave the string blank</span>
+<span class="sd">    for all files.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    file_names : array_like</span>
+<span class="sd">        The list of the file names that is to be renamed.</span>
+<span class="sd">    file_renames : array_like</span>
+<span class="sd">        The list of the file names that are going to be used for the renaming</span>
+<span class="sd">        process.</span>
+<span class="sd">    data_directory : string (optional)</span>
+<span class="sd">        A directory that contains all of the files that are going to be </span>
+<span class="sd">        renamed. Does not handle directories recursively. </span>
+<span class="sd">    file_extensions : string (optional)</span>
+<span class="sd">        The file extension of the files that are going to be renamed. Defaults</span>
+<span class="sd">        to a .fits file.</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    nothing</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="c1"># Extraction of the directory if provided. Paths should be conserved.</span>
+    <span class="k">if</span> <span class="p">(</span><span class="n">data_directory</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">):</span>
+        <span class="c1"># For the files to be renamed.</span>
+        <span class="n">original_names</span> <span class="o">=</span> <span class="n">glob</span><span class="o">.</span><span class="n">glob</span><span class="p">(</span><span class="n">data_directory</span> <span class="o">+</span> <span class="s1">&#39;/*&#39;</span> <span class="o">+</span> <span class="n">file_extensions</span><span class="p">)</span>
+        <span class="n">original_paths</span> <span class="o">=</span> <span class="p">[</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="n">pathdex</span><span class="p">)[</span><span class="mi">0</span><span class="p">]</span> <span class="k">for</span> <span class="n">pathdex</span> <span class="ow">in</span> <span class="n">original_names</span><span class="p">]</span>
+        <span class="n">n_files</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">original_names</span><span class="p">)</span>
+        
+        <span class="c1"># Overwrite</span>
+        <span class="n">file_names</span> <span class="o">=</span> <span class="n">original_names</span>
+
+    <span class="c1"># Check for length issues.</span>
+    <span class="k">if</span> <span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">file_names</span><span class="p">)</span> <span class="o">!=</span> <span class="nb">len</span><span class="p">(</span><span class="n">file_renames</span><span class="p">)):</span>
+        <span class="k">raise</span> <span class="ne">RuntimeError</span><span class="p">(</span><span class="s2">&quot;The number of file names and the number of file renames are not &quot;</span>
+                           <span class="s2">&quot;the same; therefore, these are not parallel arrays.&quot;</span><span class="p">)</span>
+
+
+    <span class="c1"># Rename, the two cases are needed for the presence of the data directory</span>
+    <span class="c1"># or not.</span>
+    <span class="k">if</span> <span class="p">(</span><span class="n">data_directory</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">):</span>
+        <span class="k">for</span> <span class="n">pathdex</span><span class="p">,</span><span class="n">filenamedex</span><span class="p">,</span><span class="n">filerenamedex</span> <span class="ow">in</span> <span class="nb">zip</span><span class="p">(</span><span class="n">original_paths</span><span class="p">,</span>
+                                                     <span class="n">file_names</span><span class="p">,</span>
+                                                     <span class="n">file_renames</span><span class="p">):</span>
+            <span class="c1"># Check for automatic file name extension.</span>
+            <span class="k">if</span> <span class="p">(</span><span class="n">filerenamedex</span><span class="p">[</span><span class="o">-</span><span class="nb">len</span><span class="p">(</span><span class="n">file_extensions</span><span class="p">):]</span> <span class="o">!=</span> <span class="n">file_extensions</span><span class="p">):</span>
+                <span class="n">os</span><span class="o">.</span><span class="n">rename</span><span class="p">(</span><span class="n">filenamedex</span><span class="p">,</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">pathdex</span><span class="p">,</span> <span class="n">filerenamedex</span> <span class="o">+</span> <span class="n">file_extensions</span><span class="p">))</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="n">os</span><span class="o">.</span><span class="n">rename</span><span class="p">(</span><span class="n">filenamedex</span><span class="p">,</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">pathdex</span><span class="p">,</span> <span class="n">filerenamedex</span><span class="p">))</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="k">for</span> <span class="n">filenamedex</span><span class="p">,</span><span class="n">filerenamedex</span> <span class="ow">in</span> <span class="nb">zip</span><span class="p">(</span><span class="n">file_names</span><span class="p">,</span><span class="n">file_renames</span><span class="p">):</span>
+           <span class="c1"># Check for automatic file name extension.</span>
+            <span class="k">if</span> <span class="p">(</span><span class="n">filerenamedex</span><span class="p">[</span><span class="o">-</span><span class="nb">len</span><span class="p">(</span><span class="n">file_extensions</span><span class="p">):]</span> <span class="o">!=</span> <span class="n">file_extensions</span><span class="p">):</span>
+                <span class="n">os</span><span class="o">.</span><span class="n">rename</span><span class="p">(</span><span class="n">filenamedex</span><span class="p">,</span> <span class="n">filerenamedex</span> <span class="o">+</span> <span class="n">file_extensions</span><span class="p">)</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="n">os</span><span class="o">.</span><span class="n">rename</span><span class="p">(</span><span class="n">filenamedex</span><span class="p">,</span> <span class="n">filerenamedex</span><span class="p">)</span>
+
+    <span class="k">return</span> <span class="kc">None</span></div>
+
+</pre></div>
+
+           </div>
+           
+          </div>
+          <footer>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2019, Sparrow
+
+    </p>
+  </div>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+
+  
+  
+    
+   
+
+</body>
+</html>

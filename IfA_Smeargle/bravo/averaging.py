@@ -148,9 +148,10 @@ def average_endpoints(fits_file, start_chunk, end_chunk,
         smeargle_warning(ReductionWarning,("The size of the start chunk and end chunk are "
                                            "different sizes, this is unusual but acceptable."))
 
-    # Calculate the medians.
-    start_median = np.nanmedian(data[start_chunk[0]:start_chunk[-1]],axis=0)
-    end_median = np.nanmedian(data[end_chunk[0]:end_chunk[-1]],axis=0)
+    # Calculate the medians. The custom median functions are needed to handle
+    # both nans and masked arrays.
+    start_median = meta_math.smeargle_median(data[start_chunk[0]:start_chunk[-1]],axis=0)
+    end_median = meta_math.smeargle_median(data[end_chunk[0]:end_chunk[-1]],axis=0)
 
     # Subtracting and normalizing over the time span, starting and ending
     # at respective midpoints; integer multiplication/division is required  
@@ -252,14 +253,16 @@ def average_endpoints_per_second(fits_file, start_chunk, end_chunk, frame_exposu
         smeargle_warning(ReductionWarning,("The size of the start chunk and end chunk are "
                                            "different sizes, this is unusual but acceptable."))
 
-    # Calculate the medians.
-    start_median = np.nanmedian(data[start_chunk[0]:start_chunk[-1]],axis=0)
-    end_median = np.nanmedian(data[end_chunk[0]:end_chunk[-1]],axis=0)
+    # Calculate the medians. The custom median functions are needed to handle
+    # both nans and masked arrays.
+    start_median = meta_math.smeargle_median(data[start_chunk[0]:start_chunk[-1]],axis=0)
+    end_median = meta_math.smeargle_median(data[end_chunk[0]:end_chunk[-1]],axis=0)
 
     # Subtracting and normalizing over the time span, starting and ending
     # at respective midpoints; integer multiplication/division is required  
     # because  of the discrete nature of frames.
-    integration_time = ((np.mean(end_chunk) - np.mean(start_chunk)) * frame_exposure_time)
+    integration_time = ((meta_math.smeargle_mean(end_chunk)-meta_math.smeargle_mean(start_chunk)) 
+                        * frame_exposure_time)
     final_data = (end_median-start_median)/integration_time
 
     # Check to see if the user provided an alternate name.

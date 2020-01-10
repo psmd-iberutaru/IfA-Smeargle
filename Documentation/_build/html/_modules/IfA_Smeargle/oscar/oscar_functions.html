@@ -192,6 +192,10 @@
             <span class="c1"># Read the fits file.</span>
             <span class="n">__</span><span class="p">,</span> <span class="n">__</span><span class="p">,</span> <span class="n">temp_data</span> <span class="o">=</span> <span class="n">meta_faa</span><span class="o">.</span><span class="n">smeargle_open_fits_file</span><span class="p">(</span><span class="n">data</span><span class="p">)</span>
             <span class="n">converted_data</span> <span class="o">=</span> <span class="n">np_ma</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">temp_data</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="n">DataError</span><span class="p">(</span><span class="s2">&quot;There doesn&#39;t seem a proper way to convert the data types of  &quot;</span>
+                            <span class="s2">&quot;</span><span class="si">{type_data}</span><span class="s2">  to  </span><span class="si">{type_desired}</span><span class="s2">. Please check the data types.&quot;</span>
+                            <span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">type_data</span><span class="o">=</span><span class="nb">type</span><span class="p">(</span><span class="n">data</span><span class="p">),</span><span class="n">type_desired</span><span class="o">=</span><span class="nb">type</span><span class="p">(</span><span class="n">desired_form</span><span class="p">)))</span>
 
 
 

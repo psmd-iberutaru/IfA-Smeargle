@@ -389,10 +389,10 @@
     <span class="c1"># Both classes should be YANKEE configuration classes, if not, then this</span>
     <span class="c1"># function doesn&#39;t make sense. </span>
     <span class="k">if</span> <span class="p">(</span><span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">inferior_class</span><span class="p">,</span> <span class="n">yankee</span><span class="o">.</span><span class="n">BaseConfig</span><span class="p">)):</span>
-        <span class="k">raise</span> <span class="n">InputError</span><span class="p">(</span><span class="s2">&quot;The inferior class must be a configuration class instance; that is, &quot;</span>
+        <span class="k">raise</span> <span class="n">InputError</span><span class="p">(</span><span class="s2">&quot;The inferior class must be a configuration class instance, that is, &quot;</span>
                          <span class="s2">&quot;any inherited class from BaseConfig.&quot;</span><span class="p">)</span>
     <span class="k">if</span> <span class="p">(</span><span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">superior_class</span><span class="p">,</span> <span class="n">yankee</span><span class="o">.</span><span class="n">BaseConfig</span><span class="p">)):</span>
-        <span class="k">raise</span> <span class="n">InputError</span><span class="p">(</span><span class="s2">&quot;The superior class must be a configuration class instance; that is, &quot;</span>
+        <span class="k">raise</span> <span class="n">InputError</span><span class="p">(</span><span class="s2">&quot;The superior class must be a configuration class instance, that is, &quot;</span>
                          <span class="s2">&quot;any inherited class from BaseConfig.&quot;</span><span class="p">)</span>
 
     <span class="c1"># Check to see if both classes are the same, if not, then it doesn&#39;t make</span>

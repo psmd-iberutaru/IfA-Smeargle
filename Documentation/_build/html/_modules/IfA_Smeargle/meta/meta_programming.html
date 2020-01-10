@@ -194,7 +194,9 @@
     <span class="n">deepcopy_funct</span><span class="o">.</span><span class="vm">__kwdefaults__</span> <span class="o">=</span> <span class="n">deepcopy_funct</span><span class="o">.</span><span class="vm">__kwdefaults__</span>
 
     <span class="c1"># Just to test if it worked.</span>
-    <span class="k">assert</span> <span class="n">original_funct</span> <span class="ow">is</span> <span class="ow">not</span> <span class="n">deepcopy_funct</span>
+    <span class="k">if</span> <span class="p">(</span><span class="n">original_funct</span> <span class="ow">is</span> <span class="ow">not</span> <span class="n">deepcopy_funct</span><span class="p">):</span>
+        <span class="k">raise</span> <span class="n">BugError</span><span class="p">(</span><span class="s2">&quot;There should be no reason for the original and the &quot;</span>
+                       <span class="s2">&quot;deep copy function to be the same.&quot;</span><span class="p">)</span>
 
     <span class="c1"># All done.</span>
     <span class="k">return</span> <span class="n">deepcopy_funct</span></div>
@@ -226,7 +228,7 @@
     <span class="k">for</span> <span class="n">keydex</span><span class="p">,</span> <span class="n">filterdex</span> <span class="ow">in</span> <span class="n">copy</span><span class="o">.</span><span class="n">deepcopy</span><span class="p">(</span><span class="n">sorted_filter_list</span><span class="p">)</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
         <span class="c1"># Remove those that are not filters.</span>
         <span class="k">if</span> <span class="p">(</span><span class="ow">not</span> <span class="s1">&#39;echo&#39;</span> <span class="ow">in</span> <span class="n">keydex</span><span class="p">):</span>
-                <span class="n">sorted_filter_list</span><span class="o">.</span><span class="n">pop</span><span class="p">(</span><span class="n">keydex</span><span class="p">,</span> <span class="kc">None</span><span class="p">)</span>
+            <span class="n">__</span> <span class="o">=</span> <span class="n">sorted_filter_list</span><span class="o">.</span><span class="n">pop</span><span class="p">(</span><span class="n">keydex</span><span class="p">,</span> <span class="kc">None</span><span class="p">)</span>
         <span class="k">else</span><span class="p">:</span>
            <span class="k">continue</span>
 

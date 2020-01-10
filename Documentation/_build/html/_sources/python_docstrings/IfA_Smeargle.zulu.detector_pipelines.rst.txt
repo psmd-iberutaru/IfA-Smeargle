@@ -13,4 +13,5 @@ Module contents
 
 .. automodule:: IfA_Smeargle.zulu.detector_pipelines
    :members:
+   :undoc-members:
    :show-inheritance:

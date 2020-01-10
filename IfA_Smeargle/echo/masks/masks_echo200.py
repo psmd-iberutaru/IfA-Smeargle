@@ -250,9 +250,9 @@ def echo277_sigma_truncation(data_array, sigma_limits,
                          "handle the current input.")
 
     # Calculate the mean and the sigma values of the data array. Handle 
-    # for NaNs.
-    mean = np.nanmean(data_array)
-    stddev = np.nanstd(data_array)
+    # for NaNs and masked arrays using the custom functions.
+    mean = meta_math.smeargle_mean(data_array)
+    stddev = meta_math.smeargle_std(data_array)
         
     # Compute which pixels to be masked out. 
     with smeargle_silence_ifas_warnings():

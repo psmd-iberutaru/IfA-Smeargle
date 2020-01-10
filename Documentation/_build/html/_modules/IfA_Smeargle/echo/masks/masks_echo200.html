@@ -408,8 +408,8 @@
     <span class="n">stddev</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">nanstd</span><span class="p">(</span><span class="n">data_array</span><span class="p">)</span>
         
     <span class="c1"># Compute which pixels to be masked out. </span>
-    <span class="k">with</span> <span class="n">warn</span><span class="o">.</span><span class="n">catch_warnings</span><span class="p">():</span>
-        <span class="n">warn</span><span class="o">.</span><span class="n">simplefilter</span><span class="p">(</span><span class="s2">&quot;ignore&quot;</span><span class="p">,</span> <span class="n">MaskingWarning</span><span class="p">)</span>
+    <span class="k">with</span> <span class="n">smeargle_silence_ifas_warnings</span><span class="p">():</span>
+
         <span class="n">temp_mask_dict</span> <span class="o">=</span> <span class="p">{}</span>
         <span class="n">temp_mask_dict</span> <span class="o">=</span> <span class="n">masks</span><span class="o">.</span><span class="n">echo270_minimum_cut</span><span class="p">(</span><span class="n">data_array</span><span class="p">,</span> 
                                                    <span class="p">(</span><span class="n">mean</span> <span class="o">-</span> <span class="n">bottom_sigma_multiple</span> <span class="o">*</span> <span class="n">stddev</span><span class="p">),</span>

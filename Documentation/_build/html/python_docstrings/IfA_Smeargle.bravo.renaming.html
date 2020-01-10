@@ -186,25 +186,30 @@ something more useful and accurate to the data.</p>
 <dl class="function">
 <dt id="IfA_Smeargle.bravo.renaming.filename_split_by_parameter">
 <code class="sig-prename descclassname">IfA_Smeargle.bravo.renaming.</code><code class="sig-name descname">filename_split_by_parameter</code><span class="sig-paren">(</span><em class="sig-param">path_file_name</em>, <em class="sig-param">ignore_mismatch=False</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/IfA_Smeargle/bravo/renaming.html#filename_split_by_parameter"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#IfA_Smeargle.bravo.renaming.filename_split_by_parameter" title="Permalink to this definition">¶</a></dt>
-<dd><p>Takes a standard file name made by the BRAVO class and splits it into
-a more workable dictionary.</p>
-<p>The filenames of each and every .fits file that comes from BRAVO contains
-information. This functions allows for the extraction of the information
-based on the standard file name tags.</p>
+<dd></dd></dl>
+
+<dl class="function">
+<dt id="IfA_Smeargle.bravo.renaming.number_renaming">
+<code class="sig-prename descclassname">IfA_Smeargle.bravo.renaming.</code><code class="sig-name descname">number_renaming</code><span class="sig-paren">(</span><em class="sig-param">data_directory</em>, <em class="sig-param">begin_garbage=0</em>, <em class="sig-param">archive_data=True</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/IfA_Smeargle/bravo/renaming.html#number_renaming"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#IfA_Smeargle.bravo.renaming.number_renaming" title="Permalink to this definition">¶</a></dt>
+<dd><p>Renames files according to their number in order.</p>
+<p>Some data filename outputs only give timestamps. This function renames
+said filenames for better processing.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>path_file_name</strong> (<em>string</em>) – The name of the file that is to be split.</p></li>
-<li><p><strong>ignore_mismatch</strong> (<em>boolean</em><em> (</em><em>optional</em><em>)</em>) – If true, this function will raise a warning rather than an error if
-there is a parameter that is in the filename, but not processable in
-the dictionary. Defaults to False.</p></li>
+<li><p><strong>data_directory</strong> (<em>string</em>) – This is the directory that contain all of the data files to be
+renamed.</p></li>
+<li><p><strong>begin_garbage</strong> (<em>int</em><em> (</em><em>optional</em><em>)</em>) – The number of files, in the beginning, that should not count as data.</p></li>
+<li><p><strong>archive_data</strong> (<em>boolean</em><em> (</em><em>optional</em><em>)</em>) – Execute the renaming on a copy of the data, the original data
+is archived and preserved.</p></li>
 </ul>
 </dd>
 <dt class="field-even">Returns</dt>
-<dd class="field-even"><p><strong>file_dictionary</strong> – The dictionary that contains all of the file parameters.</p>
+<dd class="field-even"><p><strong>number_string_list</strong> – This is the list of the numbered strings applied, given in a parallel
+ordered form. Does not include prefixes/suffixes.</p>
 </dd>
 <dt class="field-odd">Return type</dt>
-<dd class="field-odd"><p>dictionary</p>
+<dd class="field-odd"><p>list</p>
 </dd>
 </dl>
 </dd></dl>
@@ -212,38 +217,42 @@ the dictionary. Defaults to False.</p></li>
 <dl class="function">
 <dt id="IfA_Smeargle.bravo.renaming.parallel_renaming">
 <code class="sig-prename descclassname">IfA_Smeargle.bravo.renaming.</code><code class="sig-name descname">parallel_renaming</code><span class="sig-paren">(</span><em class="sig-param">file_names</em>, <em class="sig-param">file_renames</em>, <em class="sig-param">data_directory=None</em>, <em class="sig-param">file_extensions='.fits'</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/IfA_Smeargle/bravo/renaming.html#parallel_renaming"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#IfA_Smeargle.bravo.renaming.parallel_renaming" title="Permalink to this definition">¶</a></dt>
-<dd><p>Renames files provided parallel name arrays.</p>
-<p>Given two same length lists of file names, one pre-rename and one
-post-rename, this function renames them accordingly. A directory is also
-an option, and the file name list will be derived from that.</p>
-<p>This only works for one type of file extension, or leave the string blank
-for all files.</p>
+<dd></dd></dl>
+
+<dl class="function">
+<dt id="IfA_Smeargle.bravo.renaming.set_determinization_renaming">
+<code class="sig-prename descclassname">IfA_Smeargle.bravo.renaming.</code><code class="sig-name descname">set_determinization_renaming</code><span class="sig-paren">(</span><em class="sig-param">data_directory</em>, <em class="sig-param">set_length</em>, <em class="sig-param">begin_garbage=0</em>, <em class="sig-param">archive_data=True</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/IfA_Smeargle/bravo/renaming.html#set_determinization_renaming"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#IfA_Smeargle.bravo.renaming.set_determinization_renaming" title="Permalink to this definition">¶</a></dt>
+<dd><p>Renames files according to their set number, as determined by the
+number of files in a set. Sets are assumed to be consecutive.</p>
+<p>Some data filename outputs only give timestamps. This function renames
+said filenames for better processing.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>file_names</strong> (<em>array_like</em>) – The list of the file names that is to be renamed.</p></li>
-<li><p><strong>file_renames</strong> (<em>array_like</em>) – The list of the file names that are going to be used for the renaming
-process.</p></li>
-<li><p><strong>data_directory</strong> (<em>string</em><em> (</em><em>optional</em><em>)</em>) – A directory that contains all of the files that are going to be
-renamed. Does not handle directories recursively.</p></li>
-<li><p><strong>file_extensions</strong> (<em>string</em><em> (</em><em>optional</em><em>)</em>) – The file extension of the files that are going to be renamed. Defaults
-to a .fits file.</p></li>
+<li><p><strong>data_directory</strong> (<em>string</em>) – This is the directory that contain all of the data files to be
+renamed.</p></li>
+<li><p><strong>set_length</strong> (<em>int</em>) – This is the length of a set.</p></li>
+<li><p><strong>begin_garbage</strong> (<em>int</em><em> (</em><em>optional</em><em>)</em>) – The number of files, in the beginning, that should not count as data.</p></li>
+<li><p><strong>archive_data</strong> (<em>boolean</em><em> (</em><em>optional</em><em>)</em>) – Execute the renaming on a copy of the data, the original data
+is archived and preserved.</p></li>
 </ul>
 </dd>
 <dt class="field-even">Returns</dt>
-<dd class="field-even"><p></p>
+<dd class="field-even"><p><strong>set_string_list</strong> – This is the list of the numbered strings applied, given in a parallel
+ordered form. Does not include prefixes/suffixes.</p>
 </dd>
 <dt class="field-odd">Return type</dt>
-<dd class="field-odd"><p>nothing</p>
+<dd class="field-odd"><p>list</p>
 </dd>
 </dl>
 </dd></dl>
 
 <dl class="function">
-<dt id="IfA_Smeargle.bravo.renaming.voltage_pattern_rename_fits">
-<code class="sig-prename descclassname">IfA_Smeargle.bravo.renaming.</code><code class="sig-name descname">voltage_pattern_rename_fits</code><span class="sig-paren">(</span><em class="sig-param">data_directory</em>, <em class="sig-param">voltage_pattern</em>, <em class="sig-param">begin_garbage=0</em>, <em class="sig-param">common_prefix=''</em>, <em class="sig-param">common_suffix=''</em>, <em class="sig-param">rename=False</em>, <em class="sig-param">archive_data=True</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/IfA_Smeargle/bravo/renaming.html#voltage_pattern_rename_fits"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#IfA_Smeargle.bravo.renaming.voltage_pattern_rename_fits" title="Permalink to this definition">¶</a></dt>
+<dt id="IfA_Smeargle.bravo.renaming.voltage_pattern_renaming">
+<code class="sig-prename descclassname">IfA_Smeargle.bravo.renaming.</code><code class="sig-name descname">voltage_pattern_renaming</code><span class="sig-paren">(</span><em class="sig-param">data_directory</em>, <em class="sig-param">voltage_pattern</em>, <em class="sig-param">begin_garbage=0</em>, <em class="sig-param">archive_data=True</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/IfA_Smeargle/bravo/renaming.html#voltage_pattern_renaming"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#IfA_Smeargle.bravo.renaming.voltage_pattern_renaming" title="Permalink to this definition">¶</a></dt>
 <dd><p>Renames files according to their voltage pattern specified.</p>
-<p>Some data filename outputs only give timestamps. This function renames</p>
+<p>Some data filename outputs only give timestamps. This function renames
+said filenames for better processing.</p>
 <p>The output files created are according to the voltage pattern that the
 user specified. This function assumes that the pattern provided is one
 ‘set’, where a set contains some amount of fits files. Moreover, this
@@ -256,10 +265,6 @@ renamed.</p></li>
 <li><p><strong>voltage_pattern</strong> (<em>array_like</em>) – These are voltage values, assuming that the first element is the
 first voltage element to be used, proceeding from there in order.</p></li>
 <li><p><strong>begin_garbage</strong> (<em>int</em><em> (</em><em>optional</em><em>)</em>) – The number of files, in the beginning, that should not count as data.</p></li>
-<li><p><strong>common_prefix</strong> (<em>string</em><em> (</em><em>optional</em><em>)</em>) – All file renames will contain this prefix before the voltage data.</p></li>
-<li><p><strong>common_suffix</strong> (<em>string</em><em> (</em><em>optional</em><em>)</em>) – All file renames will contain this suffix after the voltage data.</p></li>
-<li><p><strong>rename</strong> (<em>boolean</em><em> (</em><em>optional</em><em>)</em>) – If true, the program renames the files as specified, else, it leaves
-the files untouched; still archived, however, if <code class="docutils literal notranslate"><span class="pre">copy_data=True</span></code>.</p></li>
 <li><p><strong>archive_data</strong> (<em>boolean</em><em> (</em><em>optional</em><em>)</em>) – Execute the renaming on a copy of the data, the original data
 is archived and preserved.</p></li>
 </ul>

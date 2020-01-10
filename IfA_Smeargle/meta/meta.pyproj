@@ -32,6 +32,9 @@
     <Compile Include="fits_and_arrays.py">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="mathematics.py">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Include="meta_main.py" />
     <Compile Include="meta_programming.py">
       <SubType>Code</SubType>

@@ -230,7 +230,7 @@ min max calculated.</p>
 
 <dl class="function">
 <dt id="IfA_Smeargle.meta.fits_and_arrays.smeargle_open_fits_file">
-<code class="sig-prename descclassname">IfA_Smeargle.meta.fits_and_arrays.</code><code class="sig-name descname">smeargle_open_fits_file</code><span class="sig-paren">(</span><em class="sig-param">file_name</em>, <em class="sig-param">extension=0</em>, <em class="sig-param">silent=False</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/IfA_Smeargle/meta/fits_and_arrays.html#smeargle_open_fits_file"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#IfA_Smeargle.meta.fits_and_arrays.smeargle_open_fits_file" title="Permalink to this definition">¶</a></dt>
+<code class="sig-prename descclassname">IfA_Smeargle.meta.fits_and_arrays.</code><code class="sig-name descname">smeargle_open_fits_file</code><span class="sig-paren">(</span><em class="sig-param">file_name</em>, <em class="sig-param">extension=0</em>, <em class="sig-param">null_min=-1000000.0</em>, <em class="sig-param">null_max=1000000.0</em>, <em class="sig-param">silent=False</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/IfA_Smeargle/meta/fits_and_arrays.html#smeargle_open_fits_file"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#IfA_Smeargle.meta.fits_and_arrays.smeargle_open_fits_file" title="Permalink to this definition">¶</a></dt>
 <dd><p>A function to ensure proper loading/reading of fits files.</p>
 <p>This function, as its name, opens a fits file. It returns the Astropy HDU
 file. This function is mostly done to ensure that files are properly
@@ -241,6 +241,12 @@ file.</p>
 <dd class="field-odd"><ul class="simple">
 <li><p><strong>file_name</strong> (<em>string</em>) – This is the path of the file to be read, either relative or absolute.</p></li>
 <li><p><strong>extension</strong> (<em>int</em><em> or </em><em>string</em><em> (</em><em>optional</em><em>)</em>) – The desired extension of the fits file. Defaults to primary structure.</p></li>
+<li><p><strong>null_min</strong> (<em>float</em><em> (</em><em>optional</em><em>)</em>) – The minimum value an element (pixel) in the file that will be
+considered to be valid. Else, the containing frame may be flagged for
+nullification. Defaults to -1e6.</p></li>
+<li><p><strong>null_max</strong> (<em>float</em><em> (</em><em>optional</em><em>)</em>) – The maximum value an element (pixel) in the file that will be
+considered to be valid. Else, the containing frame may be flagged for
+nullification. Defaults to +1e6.</p></li>
 <li><p><strong>silent</strong> (<em>boolean</em><em> (</em><em>optional</em><em>)</em>) – Turn off all warnings and information sent by this function and
 functions below it.</p></li>
 </ul>

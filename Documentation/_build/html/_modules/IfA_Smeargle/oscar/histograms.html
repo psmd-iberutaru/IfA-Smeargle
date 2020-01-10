@@ -189,7 +189,7 @@
 <span class="sd">    fit_gaussian : boolean (optional)</span>
 <span class="sd">        This parameter regulates if the function should replicate the </span>
 <span class="sd">        Gaussian function fitting.</span>
-<span class="sd">    bin_width : boolean (optional)</span>
+<span class="sd">    bin_width : float (optional)</span>
 <span class="sd">        Matplotlib is not nice with bin widths, if it is an integer, widths </span>
 <span class="sd">        are applied instead.</span>
 <span class="sd">    plot : boolean (optional)</span>
@@ -237,9 +237,11 @@
         <span class="c1"># In the event that the value they gave is not strictly boolean.</span>
         <span class="k">if</span> <span class="p">(</span><span class="n">histogram_plot_paramters</span><span class="p">[</span><span class="s1">&#39;log&#39;</span><span class="p">]</span> <span class="o">==</span> <span class="kc">True</span><span class="p">):</span>
             <span class="n">fit_gaussian</span> <span class="o">=</span> <span class="kc">False</span>
+        <span class="k">elif</span> <span class="p">(</span><span class="n">histogram_plot_paramters</span><span class="p">[</span><span class="s1">&#39;log&#39;</span><span class="p">]</span> <span class="o">==</span> <span class="kc">False</span><span class="p">):</span>
+            <span class="k">pass</span>
         <span class="k">else</span><span class="p">:</span>
             <span class="n">smeargle_warning</span><span class="p">(</span><span class="n">InputWarning</span><span class="p">,(</span><span class="s2">&quot;The histogram plot parameter for log plotting is not &quot;</span>
-                                           <span class="s2">&quot;None or True; the unreadable input is ignored. &quot;</span><span class="p">))</span>
+                                           <span class="s2">&quot;None or boolean; the unreadable input is ignored. &quot;</span><span class="p">))</span>
     <span class="k">except</span> <span class="ne">KeyError</span><span class="p">:</span>
         <span class="c1"># It does not exist.</span>
         <span class="k">pass</span>

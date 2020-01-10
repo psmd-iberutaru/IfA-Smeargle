@@ -18,4 +18,5 @@ Module contents
 
 .. automodule:: IfA_Smeargle.oscar
    :members:
+   :undoc-members:
    :show-inheritance:

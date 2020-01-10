@@ -82,9 +82,10 @@ def plotdir_dark_current_over_voltage(data_directory, figure_axes=None, configur
             __, __, data_array = meta_faa.smeargle_open_fits_file(filedictdex['filename'])
             __, gaussian_data = meta_model.smeargle_fit_histogram_gaussian_function(data_array,
                                                                                    bin_width=10)
-            file_datadict = {'mean':np_ma.mean(data_array), 
-                             'median':np_ma.median(data_array),
-                             'stddev':np_ma.std(data_array), 
+            # The custom statistical functions are needed to handle both nans and masked arrays.
+            file_datadict = {'mean':meta_math.smeargle_mean(data_array), 
+                             'median':meta_math.smeargle_median(data_array),
+                             'stddev':meta_math.smeargle_std(data_array), 
                              'g_mean':gaussian_data['mean'], 'g_stddev':gaussian_data['stddev'],
                              'g_amp':gaussian_data['amplitude'], 'g_max':gaussian_data['max']}
             file_data.append({**file_metadict, **file_datadict})
@@ -159,8 +160,10 @@ def plotdir_dark_current_over_voltage(data_directory, figure_axes=None, configur
             voltset_data = file_data.query('num == @fits_file_numbers')
             
             x_axis_voltage.append(voltdex)
-            y_axis_data.append(np.nanmedian(voltset_data['g_mean']))
-            y_axis_error.append(np.nanmedian(voltset_data['g_stddev']))
+            # The custom functions are needed to handle masked arrays and 
+            # nans.
+            y_axis_data.append(meta_math.smeargle_median(voltset_data['g_mean']))
+            y_axis_error.append(meta_math.smeargle_median(voltset_data['g_stddev']))
             
         # Plot the data from this set as needed. Reuse the previous set's 
         # canvas for the overplotting. 

@@ -4,6 +4,7 @@ This contains all of the histogram plotting methods.
 """
 
 import astropy.modeling as ap_mod
+import copy
 import matplotlib.patches as mpl_patch
 import matplotlib.pyplot as plt
 import numpy as np
@@ -72,6 +73,11 @@ def plot_array_histogram(data_array,
 
     # Extract proper data.
     data_array = oscar.oscar_convert_data_inputs(data_array)
+
+    # The configurations are sometimes modified in-code. It is not optimal
+    # to change the user's configuration without their express action. 
+    # Operating on a copy.
+    histogram_plot_paramters = copy.deepcopy(histogram_plot_paramters)
 
     # First, figure out what type of Matplotlib axes to use.
     if (figure_axes is not None):
