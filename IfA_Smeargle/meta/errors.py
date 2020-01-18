@@ -154,7 +154,8 @@ class IncompleteError(Smeargle_BaseException):
 
 class TerminalError(Smeargle_BaseException):
     """
-    Something has gone terribly wrong. It is best to contact Sparrow. 
+    Something has gone terribly wrong. It is best to contact the maintainers 
+    or Sparrow. 
     """
     def __init__(self, message=None):
         if (message is None):

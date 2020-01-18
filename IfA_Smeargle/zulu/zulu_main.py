@@ -70,6 +70,7 @@ class IfasDataArray():
 
         # Extract the data from the fits file, unless they wanted it blank.
         if (blank):
+            self.filename = None
             self.fits_file = None
             self.fits_header = None
             self.fits_data = None
@@ -114,9 +115,39 @@ class IfasDataArray():
 
         # This adds the functions that is responsible for a lot of the 
         # functionality to this class.
+        self._bravo_functionality()
         self._echo_functionality()
         self._oscar_functionality()
         self._yankee_functionality()
+
+
+    def _bravo_functionality(self):
+        """ This allows for the usage of some BRAVO line functions within
+        this class.
+
+        BRAVO Attributes
+        ----------------
+        bravo_filename_split_by_parameter : dictionary
+            Takes a standard file name made by the BRAVO class and splits 
+            it into a more workable dictionary.
+        median_endpoints : method
+            Reads the fits file values and computes the new result using 
+            end points calculations.
+        median_endpoints_per_second : method
+            Reads the fits file values and computes the new result using 
+            end points calculations.
+        median_endpoints_per_kilosecond : method
+            Reads the fits file values and computes the new result using 
+            end points calculations.
+        """
+
+        # File name parameter splitting.
+        setattr(self, 'bravo_filename_split_by_parameter', 
+                bravo.bravo_filename_split_by_parameter(path_file_name=self.filename, 
+                                                        ignore_mismatch=False))
+
+        # End point median calculation creation.
+        raise IncompleteError
         
 
     def _echo_functionality(self):

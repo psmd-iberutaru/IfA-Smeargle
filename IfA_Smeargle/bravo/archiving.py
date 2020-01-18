@@ -5,6 +5,7 @@ that are used to ensure that modifications to data do not harm the original
 data. Of course, the usage of these methods usually involve creating a 
 copy of data. The usage of these functions are optional.
 """
+
 import shutil
 import time
 
@@ -54,9 +55,6 @@ def duplicate_archive_data_files(data_directory, archive_name=None,
         pass
     else:
         archive_name = 'IFAS_BravoArchive' + time.strftime("__%Y%m%d_%H%M%S", time.localtime())
-    # Check for file conflicts.
-    if (os.path.isfile(archive_name)):
-        raise InputError("The archive name provided already exists. Use a different name.")
     
     # For some reason, if the archive is made in the same directory, it 
     # recursively archives itself and intended files until its way too big. 

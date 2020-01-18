@@ -36,6 +36,50 @@ def same_file_size_sanitization(data_directory, method='largest'):
     nothing
     """
 
+    # Ensure there are fits files to use in the data directory.
+    if (len(glob.glob(data_directory + '/*.fits', recursive=True)) == 0):
+        raise DataError("There is no usable data to run. Please check that there are .fits "
+                        "files in the data directory.")
+
+    # Deciding on how to calculate the proper file size.
+    proper_file_size = None
+    if (method == 'largest'):
+        # The largest fits file is the right one.
+        data_files = glob.glob(data_directory + '/*.fits', recursive=True)
+        # Obtaining file sizes.
+        file_sizes = []
+        for filedex in data_files:
+            file_sizes.append(os.path.getsize(filedex))
+        file_sizes = np.array(file_sizes)
+        # Largest file size.
+        proper_file_size = np.nanmax(file_sizes)
+    elif (method == 'smallest'):
+        # The smallest fits file is the right one.
+        data_files = glob.glob(data_directory + '*.fits', recursive=True)
+        # Obtaining file sizes.
+        file_sizes = []
+        for filedex in data_files:
+            file_sizes.append(os.path.getsize(filedex))
+        file_sizes = np.array(file_sizes)
+        # Largest file size.
+        proper_file_size = np.nanmin(file_sizes)
+
+    # None of the methods were valid, this likely means that the user did not
+    # input the correct method.
+    else:
+        # There are two different types of errors that it could be depending
+        # on input.
+        if (isinstance(method,str)):
+            raise InputError("There is no method selection that matches the input. Please "
+                             "check and try again.")
+        else:
+            # Assume the user wanted to execute the function more than the
+            # mistaken input's error chance.
+            smeargle_warning("The method input cannot be understood in its current form. "
+                             "defaulting to the default.")
+            return same_file_size_sanitization(data_directory)
+
+
     def delete_improper_file_sizes(data_directory, proper_file_size):
         """ This is the main deleting method for removing the improper file
         sizes.
@@ -98,50 +142,6 @@ def same_file_size_sanitization(data_directory, method='largest'):
         _log_sanitization(data_directory, message)
 
         return None
-
-    # Ensure there are fits files to use in the data directory.
-    if (len(glob.glob(data_directory + '/*.fits', recursive=True)) == 0):
-        raise DataError("There is no usable data to run. Please check that there are .fits "
-                        "files in the data directory.")
-
-    # Deciding on how to calculate the proper file size.
-    proper_file_size = None
-    if (method == 'largest'):
-        # The largest fits file is the right one.
-        data_files = glob.glob(data_directory + '/*.fits', recursive=True)
-        # Obtaining file sizes.
-        file_sizes = []
-        for filedex in data_files:
-            file_sizes.append(os.path.getsize(filedex))
-        file_sizes = np.array(file_sizes)
-        # Largest file size.
-        proper_file_size = np.nanmax(file_sizes)
-    elif (method == 'smallest'):
-        # The smallest fits file is the right one.
-        data_files = glob.glob(data_directory + '*.fits', recursive=True)
-        # Obtaining file sizes.
-        file_sizes = []
-        for filedex in data_files:
-            file_sizes.append(os.path.getsize(filedex))
-        file_sizes = np.array(file_sizes)
-        # Largest file size.
-        proper_file_size = np.nanmin(file_sizes)
-
-    # None of the methods were valid, this likely means that the user did not
-    # input the correct method.
-    else:
-        # There are two different types of errors that it could be depending
-        # on input.
-        if (isinstance(method,str)):
-            raise InputError("There is no method selection that matches the input. Please "
-                             "check and try again.")
-        else:
-            # Assume the user wanted to execute the function more than the
-            # mistaken input's error chance.
-            smeargle_warning("The method input cannot be understood in its current form. "
-                             "defaulting to the default.")
-            return same_file_size_sanitization(data_directory)
-
     # Execute the deleting of non-conforming files.
     output = delete_improper_file_sizes(data_directory, proper_file_size=proper_file_size)
 

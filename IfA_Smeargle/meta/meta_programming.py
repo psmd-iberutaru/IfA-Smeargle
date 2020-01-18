@@ -32,21 +32,63 @@ def smeargle_deepcopy_function(original_funct):
 
     .. note::
 
-        Based on http://stackoverflow.com/a/6528148/190597 (Glenn Maynard)"""
-    deepcopy_funct = types.FunctionType(original_funct.__code__, original_funct.__globals__,
-                                        name=original_funct.__name__,
-                                        argdefs=original_funct.__defaults__,
-                                        closure=original_funct.__closure__)
-    deepcopy_funct = functools.update_wrapper(deepcopy_funct, original_funct)
-    deepcopy_funct.__kwdefaults__ = deepcopy_funct.__kwdefaults__
+        Based on https://stackoverflow.com/a/30714299 (Aaron Hall)"""
+
+    def _copy_func(f, name=None):
+        """
+        return a function with same code, globals, defaults, closure, and 
+        name (or provide a new name)
+        """
+        fn = types.FunctionType(f.__code__, f.__globals__, name or f.__name__,
+            f.__defaults__, f.__closure__)
+        # in case f was given attrs (note this dict is a shallow copy):
+        fn.__dict__.update(f.__dict__) 
+        return fn
+
+    deepcopy_funct = _copy_func(original_funct)
 
     # Just to test if it worked.
-    if (original_funct is not deepcopy_funct):
-        raise BugError("There should be no reason for the original and the "
-                       "deep copy function to be the same.")
+    try:
+        assert original_funct is not deepcopy_funct
+    except AssertionError:
+        original_funct.copy_status = False
+        deepcopy_funct.copy_status = True
+        if ((deepcopy_funct.copy_status == original_funct.copy_status) or
+            (deepcopy_funct.copy_status is original_funct.copy_status)):
+            raise BugError("There should be no reason for the original and the "
+                           "deep copy function to be the same.")
+        else:
+            pass
 
     # All done.
     return deepcopy_funct
+
+
+def smeargle_avaliable_bravo_processing_functions():
+    """ This returns a dictionary of the available processing functions found
+    in BRAVO which can be used. 
+    
+    Parameters
+    ----------
+    nothing
+
+    Returns
+    -------
+    bravo_filter_dict : dictionary
+        This is a collection of all of the available processing functions that 
+        are usable.
+    """
+    bravo_filter_dict = {}
+
+    # Given the limited nature of the BRAVO processing functions; this is 
+    # mostly obsolete and should not be used.
+    raise DeprecatedError("This function should not used, there does not "
+                          "seem to be any good use for this function as "
+                          "BRAVO is built for the entire data directory.")
+    # Also, to be honest, Sparrow is lazy...
+    raise IncompleteError
+
+    return bravo_filter_dict
 
 
 def smeargle_avaliable_echo_filter_functions():

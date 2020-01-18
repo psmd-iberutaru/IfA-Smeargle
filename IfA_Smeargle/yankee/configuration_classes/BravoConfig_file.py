@@ -62,12 +62,10 @@ class BravoConfig(BaseConfig):
 
 
             # Preprocessing of beginning/end data for analysis.
-            self.auto_avg_slicing_config = {'reference_chunk':None, 'split_chunks':None, 
-                                            'averaging_function':None}
-            self.avg_endpoints_config = {'start_chunk':None, 'end_chunk':None}
-            self.avg_endpts_persec_config = {'start_chunk':None, 'end_chunk':None, 
+            self.median_endpoints_config = {'start_chunk':None, 'end_chunk':None}
+            self.median_endpts_persec_config = {'start_chunk':None, 'end_chunk':None, 
                                              'frame_exposure_time':None}
-            self.avg_endpts_perksec_config = {'start_chunk':None, 'end_chunk':None, 
+            self.median_endpts_perksec_config = {'start_chunk':None, 'end_chunk':None, 
                                               'frame_exposure_time':None}
 
     pass
