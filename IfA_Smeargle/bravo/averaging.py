@@ -229,20 +229,20 @@ def _primary_median_function(*args, **kwargs):
     return _primary_combination_function(combining_function=meta_math.smeargle_median, 
                                          *args, **kwargs)
 
-def _primary_combination_function(fits_file, start_chunk, end_chunk, 
+def _primary_combination_function(data_array, start_chunk, end_chunk, 
                                   divisor, combining_function, 
                                   write_file=False, alternate_name=None):
-    """ This function reads a fits file and computes its end section values.
+    """ This function takes a 3D array and computes its end section values.
 
-    This function reads in a fits file of 3 dimensions, averaging some 
+    This function reads in an array of 3 dimensions, averaging some 
     top chunk and bottom chunk of their "temporal" axis.
 
     If there is no temporal axis, this program raises an error.
     
     Parameters
     ----------
-    fits_file : string or Astropy HDUList file
-        This is the fits file that will be modified, or at least have its
+    data_array : ndarray
+        This is the data array that will be modified, or at least have its
         values calculated from.
     start_chunk : array-like
         The exact range of frames from the beginning that will be median-ed.
@@ -265,24 +265,12 @@ def _primary_combination_function(fits_file, start_chunk, end_chunk,
         The HDUList object of the written file.
     """
 
-    # Test for the different cases of the fits file.
-    if (isinstance(fits_file, str)):
-        hdu_obj, header, data = meta_faa.smeargle_open_fits_file(fits_file)
-    elif (isinstance(fits_file, ap_fits.HDUList)):
-        hdu_obj = fits_file 
-        header = fits_file[0].header
-        data = fits_file[0].data
-    elif (isinstance(fits_file, ap_fits.PrimaryHDU)):
-        hdu_obj = ap_fits.HDUList([fits_file])
-        header = fits_file.header
-        data = fits_file.data
-
     # Check and adapt for a masked array.
-    if (np_ma.isMaskedArray(data)):
-        raw_data = np_ma.get_data(data)
-        data_mask = np_ma.get_mask(data)
+    if (np_ma.isMaskedArray(data_array)):
+        raw_data = np_ma.get_data(data_array)
+        data_mask = np_ma.get_mask(data_array)
     else:
-        raw_data = np.array(data)
+        raw_data = np.array(data_array)
         data_mask = None
 
     # Check for too many or too little dimensions; it is important as the 
@@ -330,11 +318,4 @@ def _primary_combination_function(fits_file, start_chunk, end_chunk,
     else:
         final_data = np.array(final_raw_data)
 
-    # Write the file. Also, it is expected that the fits files are 
-    # overwritten, suppress the warning that comes with it.
-    with warn.catch_warnings():
-        warn.simplefilter("ignore", category=OverwriteWarning)
-        hdu_file = meta_faa.smeargle_write_fits_file(writing_file_name, header, final_data,
-                                                     save_file=write_file)
-
-    return hdu_file
+    return final_data
