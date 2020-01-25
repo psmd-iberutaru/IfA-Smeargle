@@ -32,6 +32,13 @@ def bravo_filename_split_by_parameter(path_file_name, ignore_mismatch=False):
     file_dictionary : dictionary
         The dictionary that contains all of the file parameters.
     """
+    if (path_file_name is None):
+        raise InputError("The path does not exist, it doesn't make sense to call this function "
+                         "on an non-existent path file name.")
+    elif (not isinstance(path_file_name,str)):
+        raise TypeError("The path must be a string detailing the path to the file name to "
+                        "read and split into its parts.")
+
     # All that is needed is the actual data filename, not the entire path.
     file_name = copy.deepcopy(os.path.splitext(os.path.split(path_file_name)[-1])[0])
 

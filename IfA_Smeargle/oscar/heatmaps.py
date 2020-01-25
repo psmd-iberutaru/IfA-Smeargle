@@ -7,6 +7,7 @@ This file contains all of the different methods that a heatmap can be plotted.
 import matplotlib.cm as mpl_cm
 import matplotlib.pyplot as plt
 import mpl_toolkits.axes_grid1 as mpltk_axg1
+import numpy as np
 import numpy.ma as np_ma
 
 from IfA_Smeargle.meta import *
@@ -57,6 +58,32 @@ def plot_array_heatmap_image(data_array,
     if (not plot):
         # We're not plotting today.
         return None
+
+    # The rest of the computations require a Numpy array. Forcibly 
+    # establishing it. Adapt for masked arrays.
+    data_array = meta_faa.smeargle_remake_array(data_array, np_ma.masked_array)
+
+    # If the data array is not the proper dimensions. Rewriting the Astropy
+    # error for context.
+    if (data_array.ndim == 0):
+        raise DataError("This data array has no dimensions (ndim=0). A heatmap cannot be "
+                        "logically constructed.")
+    elif (data_array.ndim == 1):
+        # This is technically a valid data set, but, still warn as it is 
+        # unusual.
+        smeargle_warning(DataWarning, ("This data array only has one dimension. Plotting will "
+                                       "continue despite this unusual data input."))
+    elif (data_array.ndim == 2):
+        # Normal operations
+        pass
+    elif (data_array.ndim >= 3):
+        raise DataError("A heat map cannot be logically constructed from a 3+ dimensional "
+                        "data set. Current number of dimensions of data set is:  {ndim}"
+                        .format(ndim=str(data_array.ndim)))
+    else:
+        raise BrokenLogicError("The data array apparently doesn't have a compatible "
+                               "dimensional number. The dimensional number is:  {ndim}"
+                               .format(ndim=data_array.ndim))
 
 
     # First, figure out what type of Matplotlib axes to use. 

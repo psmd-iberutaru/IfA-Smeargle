@@ -7,6 +7,7 @@ associated header and data arrays.
 import astropy as ap
 import astropy.io.fits as ap_fits
 import copy
+import inspect
 import numpy as np
 import numpy.ma as np_ma
 import os
@@ -323,3 +324,43 @@ def smeargle_masked_array_min_max(masked_array):
 
     return masked_min, masked_max
 
+
+def smeargle_remake_array(array, new_array_type):
+    """  This function is built to remake an array into any array type.
+    
+    Having to deal with both masked arrays and normal arrays, and mixing the
+    two up, is not optimal. This function makes the desired array type,
+    switching as needed.
+
+    Parameters
+    ----------
+    array : array-like
+        The "array" that will be turned into the proper format.
+    new_array_type
+        The new array type. It must be supported by this function.
+
+    Returns
+    -------
+    new_array : "new_array_type"
+        The final array in the specified type.
+    """
+
+
+    if (not inspect.isclass(new_array_type)):
+        raise InputError("The new array type must be a class.")
+
+    try:
+        # Determine the desired form and convert based on it.
+        if (new_array_type is np.ndarray):
+            return np.array(array)
+        elif (new_array_type is np_ma.masked_array):
+            return np_ma.array(data=np.array(array), mask=np_ma.getmask(array))
+        else:
+            # The type provided doesn't seem to be a supported type. 
+            raise InputError("The new array type provided is not supported. ")
+    except InputError:
+        raise
+    except Exception:
+        raise TypeError("The conversion cannot take place. The two types <{type1}> and <type2> "
+                        "seem to be incompatible."
+                        .format(type1=type(array),type2=new_array_type))

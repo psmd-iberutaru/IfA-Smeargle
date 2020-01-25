@@ -110,6 +110,8 @@ class IfasDataArray():
         self.datamask = copy.deepcopy(self.fits_datamask)
         self.config = copy.deepcopy(self._raw_configuration_class)
 
+        self.get_data = lambda: self.data
+
         # Meta data to test if this is a proper blank fits file.
         self._proper_blank = blank
 
@@ -143,11 +145,34 @@ class IfasDataArray():
 
         # File name parameter splitting.
         setattr(self, 'bravo_filename_split_by_parameter', 
-                bravo.bravo_filename_split_by_parameter(path_file_name=self.filename, 
+                lambda: bravo.bravo_filename_split_by_parameter(path_file_name=self.filename, 
                                                         ignore_mismatch=False))
+        
+        # The median functions, to act on this data file.
+        def median_endpoints(start_chunk, end_chunk):
+            resulting_data = bravo.avging.median_endpoints(self.data, 
+                                                           start_chunk=start_chunk, 
+                                                           end_chunk=end_chunk)
+            self.data = resulting_data
+            return resulting_data
+        setattr(self, 'median_endpoints', median_endpoints)
+        # The two other median endpoints functions.
+        def median_endpoints_per_second(start_chunk, end_chunk, frame_exposure_time):
+            resulting_data = bravo.avging.median_endpoints_per_second(
+                self.data, start_chunk=start_chunk, 
+                end_chunk=end_chunk, frame_exposure_time=frame_exposure_time)
+            self.data = resulting_data
+            return resulting_data
+        setattr(self, 'median_endpoints_per_second', median_endpoints_per_second)
+        def median_endpoints_per_kilosecond(start_chunk, end_chunk, frame_exposure_time):
+            resulting_data = bravo.avging.median_endpoints_per_kilosecond(
+                self.data, start_chunk=start_chunk, 
+                end_chunk=end_chunk, frame_exposure_time=frame_exposure_time)
+            self.data = resulting_data
+            return resulting_data
+        setattr(self, 'median_endpoints_per_kilosecond', median_endpoints_per_kilosecond)
 
-        # End point median calculation creation.
-        raise IncompleteError
+        return None
         
 
     def _echo_functionality(self):
@@ -206,37 +231,22 @@ class IfasDataArray():
         # of the last function. See https://stackoverflow.com/q/3431676.
         for keydex, filterdex in echo_filters_dict.items():
             def _temp_mask_function(filter_funct=filterdex, filter_key=keydex, 
-                                    configuration=None, **kwargs):
-                # This runs on the assumption that the configuration keys
-                # have been properly named.
-                config_key = ((filter_key[0:7] + '_config') 
-                              if ('echo' in filter_key[0:7]) else None)
-                
-                config_params = self._zulu_determine_configuration_parameters(
-                    configuration_flag_input=configuration, custom_inputs=kwargs,
-                    subconfig_class=yankee.EchoConfig, subconfig_key=config_key)
-
-                # Check for the run parameter, if it is false, this filter
-                # should not be run.
-                if (config_params.pop('run')):
-                    # The masking dictionary is what shall be mutated, ensure 
-                    # that there won't be a conflict with this.
-                    filter_dict =  filter_funct(data_array=self.data,
-                                                previous_mask=self.echo_mask_dictionary,
-                                                return_mask=False,
-                                                **config_params)
-                else:
-                    # No filter should be run, and therefore no output.
-                    smeargle_warning(MaskingWarning,("The <run> parameter for the masking "
-                                                     "function < {filter_name} > is False. The "
-                                                     "mask shall not be applied nor added to "
-                                                     "masking dictionary."
-                                                     .format(filter_name=filter_key)))
-                    filter_dict = {}
+                                    **kwargs):
+                # Run the filter.
+                filter_dict =  filter_funct(data_array=self.data,
+                                            previous_mask=self.echo_mask_dictionary,
+                                            return_mask=False,
+                                            **kwargs)
                 # Add the filter to the masking dictionary.
                 self.echo_mask_dictionary.update(filter_dict)
+
+                # Also, for the sake of extra data if needed.
+                filter_array =  filter_funct(data_array=self.data,
+                                            previous_mask={},
+                                            return_mask=True,
+                                            **kwargs)
                 # All done.
-                return None
+                return filter_array
 
             # Attach the function.
             setattr(self, keydex, meta_prog.smeargle_deepcopy_function(_temp_mask_function))
@@ -256,14 +266,14 @@ class IfasDataArray():
         # Allow for the application of the data mask using the masking 
         # dictionary that is stored in this class.
         def _update_function():
-            masked_array = echo.echo_numpy_masked_array(data_array=self.data,
+            masked_array = echo.echo_create_masked_array(data_array=self.data,
                                                         synthesized_mask=self.echo_mask,
                                                         masking_dictionary=None)
             self.data = masked_array
             self.datamask = (np_ma.getmask(masked_array) 
                                   if np_ma.getmask(masked_array) is not np_ma.nomask else None)
             return masked_array
-        setattr(self, 'echo_numpy_masked_array', _update_function)
+        setattr(self, 'echo_create_masked_array', _update_function)
         del _update_function
 
         # All done.
@@ -288,14 +298,10 @@ class IfasDataArray():
         # of the last function. See https://stackoverflow.com/q/3431676.
         for keydex, functdex in copy.deepcopy(oscar_plot_dict).items():
             # Allow for runtime modification of parameters.
-            def plot_function(plot_funt=functdex, **kwargs):
-                config_params = self._zulu_determine_configuration_parameters(
-                    configuration_flag_input=configuration, custom_inputs=kwargs,
-                    subconfig_class=yankee.OscaConfig, subconfig_key=config_key)
-
-            setattr(self, keydex, meta_prog.smeargle_deepcopy_function(
-                lambda plot_funct=functdex, **kwargs: plot_funct(data_array=self.data, 
-                                                                 **kwargs)))
+            def plotting_function(_function=functdex, **kwargs):
+                return _function(data_array=self.data, **kwargs)
+            setattr(self, keydex, plotting_function)
+            del plotting_function
 
         # All done.
         return None
@@ -331,14 +337,18 @@ class IfasDataArray():
         if (self._raw_configuration_class is None):
             # There is no need for error, a default one will be assigned.
             setattr(self, "SmeargleConfig", 
-                    yankee.yankee_configuration_factory_function(yankee.SmeargleConfig, None, True))
+                    yankee.yankee_configuration_factory_function(
+                        desired_class=yankee.SmeargleConfig, file_name=None, silent=True))
+            # But, warn...
+            smeargle_warning(InputWarning,("There is no input configuration class. A blank one "
+                                           "will be assigned."))
         else:
             # Fast forward just in case the provided configuration class is 
             # outdated.
             fast_forwarded_class = None
             try:
                 fast_forwarded_class = yankee.yankee_fast_forward_configuration_class(
-                    self._raw_configuration_class)
+                    configuration_class=self._raw_configuration_class)
             except Exception:
                 # The raw configuration class may not even be a configuration
                 # class.
@@ -352,7 +362,8 @@ class IfasDataArray():
                     # It may be that the user provided a file name.
                     configuration_file_name = str(copy.deepcopy(self._raw_configuration_class))
                     fast_forwarded_class = yankee.yankee_configuration_factory_function(
-                        yankee.SmeargleConfig, configuration_file_name, False)
+                        desired_class=yankee.SmeargleConfig, 
+                        file_name=configuration_file_name, silent=False)
                 else:
                     # It is not a configuration class, it is best that a 
                     # default one is assigned.
@@ -362,7 +373,7 @@ class IfasDataArray():
                                                             "unworkable. A default is being "
                                                             "provided."))
                     fast_forwarded_class = yankee.yankee_configuration_factory_function(
-                        yankee.SmeargleConfig, None, True)
+                        desired_class=yankee.SmeargleConfig, file_name=None, silent=True)
             finally:
                 # For naming convention.
                 configuration_class = fast_forwarded_class
@@ -377,21 +388,22 @@ class IfasDataArray():
         setattr(self, "print_configuration", print_configuration)
         def read_configuration(self, file_name):
             """ Reads the configuration class from a configuration file. """
-            self.SmeargleConfig.read_from_file(file_name)
+            self.SmeargleConfig.read_from_file(file_name=file_name)
         setattr(self, "read_configuration", read_configuration)
         def write_configuration(self, file_name):
             """ Writes the configuration class to a configuration file. """
-            self.SmeargleConfig.write_to_file(file_name)
+            self.SmeargleConfig.write_to_file(file_name=file_name)
         setattr(self, "write_configuration", write_configuration)
         def overwrite_configuration(self, overwriting_configuration):
             """ Overwrite the configuration class by the provided class. """
-            self.SmeargleConfig = yankee.yankee_overwrite_configuration_class(self.SmeargleConfig,
-                                                                       overwriting_configuration)
+            self.SmeargleConfig = yankee.yankee_overwrite_configuration_class(
+                inferior_class=self.SmeargleConfig, superior_class=overwriting_configuration)
         setattr(self, "overwrite_configuration", overwrite_configuration)
         def fast_forward_configuration():
             """ Fast forward the configuration class. It is unlikely that 
                 this will be needed, but, it is here. """
-            self.SmeargleConfig = yankee.yankee_fast_forward_configuration_class(self.SmeargleConfig)
+            self.SmeargleConfig = yankee.yankee_fast_forward_configuration_class(
+                configuration_class=self.SmeargleConfig)
         setattr(self, "fast_forward_configuration", fast_forward_configuration)
 
         # All done.

@@ -14,7 +14,7 @@ import scipy as sp
 from IfA_Smeargle.meta import *
 
 
-def echo_numpy_masked_array(data_array, synthesized_mask,
+def echo_create_masked_array(data_array, synthesized_mask,
                             masking_dictionary=None):
     """ This function makes a Numpy masked array; a nice built in class for 
     this line.
@@ -43,7 +43,6 @@ def echo_numpy_masked_array(data_array, synthesized_mask,
     np_masked_data = np_ma.array(data_array, mask=synthesized_mask)
 
     return np_masked_data
-
 
 def echo_synthesize_mask_dictionary(masking_dictionary):
     """ This function takes a masking dictionary and returns it with a 
@@ -148,5 +147,4 @@ def echo_sort_masking_dictionary(mask_dictionary):
         sorted_mask_dictionary[keydex] = copy.deepcopy(mask_dictionary[keydex])
 
     return sorted_mask_dictionary
-
 
