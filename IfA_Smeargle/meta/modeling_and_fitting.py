@@ -110,7 +110,7 @@ def smeargle_fit_histogram_gaussian_function(data_array, bin_width=10):
     # For consistent measurements have a lot of bins throughout the values. 
     # Extracting function temporarily.
     from IfA_Smeargle.oscar.oscar_functions import oscar_bin_width
-    hist_bins = oscar_bin_width(flat_data, bin_width)
+    hist_bins = oscar_bin_width(data_array=flat_data, bin_width=bin_width)
     del oscar_bin_width
 
     # Extract histogram data from the data.

@@ -5,6 +5,7 @@ This contains all of the histogram plotting methods.
 
 import astropy.modeling as ap_mod
 import copy
+import matplotlib as mpl
 import matplotlib.patches as mpl_patch
 import matplotlib.pyplot as plt
 import numpy as np
@@ -107,10 +108,38 @@ def plot_array_histogram(data_array,
         plotting_data = data_array.flatten()
 
     # Test for bin width instead of numbers.
-    if (isinstance(bin_width,(int,float))):
-        histogram_plot_paramters['bins'] = oscar.oscar_bin_width(plotting_data, bin_width)
-    else:
+    if (isinstance(bin_width, (int,float))):
+        histogram_plot_paramters['bins'] = oscar.oscar_bin_width(data_array=plotting_data, 
+                                                                 bin_width=bin_width)
+    elif (('bins' in histogram_plot_paramters) and 
+          isinstance(histogram_plot_paramters.get('bins', None), (int,float))):
+        # Default to standard number of uniform bins.
         bin_width = data_array.ptp() / float(np.nanmax(histogram_plot_paramters['bins']))
+    elif (('bins' in histogram_plot_paramters)):
+        # Assume that the bins parameter is correct; pass through as an array.
+        try:
+            bin_sequence = np.array(histogram_plot_paramters['bins'], dtype=float)
+            histogram_plot_paramters['bins'] = bin_sequence
+        except Exception:
+            # Conversion failed. The only other option is that it is a string.
+            if (isinstance(histogram_plot_paramters.get('bins', None), str)):
+                # Assume that the proper string was passed as per 
+                # https://matplotlib.org/3.1.0/api/_as_gen/matplotlib.pyplot.hist.html
+                pass
+            else:
+                raise ConfigurationError("The `bins` parameter cannot be interpreted by this "
+                                         "function. It is also predicted to not work with the "
+                                         "matplotlib.pyplot.hist function.")
+    else:
+        # The user doesn't seem to be using any bin parameters.
+        if (histogram_plot_paramters.get('bin', None) is None):
+            bin_width = data_array.ptp() / float(mpl.rcParams['hist.bins'])
+        else:
+            raise BrokenLogicError("There is a `bins` plot parameter type that has not been "
+                                   "caught by the previous checks. The program should not have "
+                                   "entered here.")
+
+
 
     # Range is not used when bin sequences are provided. Allow for a patch 
     # that would return data as expected.
@@ -122,7 +151,8 @@ def plot_array_histogram(data_array,
         max_range = histogram_plot_paramters['range'][-1]
 
         # Apply the bins
-        histogram_plot_paramters['bins'] = oscar.oscar_bin_width(None, bin_width,
+        histogram_plot_paramters['bins'] = oscar.oscar_bin_width(data_array=None, 
+                                                                 bin_width=bin_width,
                                                                  local_minimum=min_range,
                                                                  local_maximum=max_range)
     else:
@@ -138,7 +168,8 @@ def plot_array_histogram(data_array,
     if (fit_gaussian):
         # Fit a Gaussian to the data.
         gauss_funt, gauss_param = \
-            meta_model.smeargle_fit_histogram_gaussian_function(plotting_data, bin_width)
+            meta_model.smeargle_fit_histogram_gaussian_function(data_array=plotting_data, 
+                                                                bin_width=bin_width)
 
         # For better plotting resolution. The domain of the histogram, the 
         # guassian mean, and to smoothen out the two.

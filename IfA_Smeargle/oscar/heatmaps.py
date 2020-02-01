@@ -100,7 +100,7 @@ def plot_array_heatmap_image(data_array,
     if ('cmap' in heatmap_plot_parameters):
         pass
     else:
-        colormap = mpl_cm.plasma
+        colormap = mpl_cm.rainbow
         colormap.set_bad('black',1.)
         heatmap_plot_parameters['cmap'] = colormap
 
