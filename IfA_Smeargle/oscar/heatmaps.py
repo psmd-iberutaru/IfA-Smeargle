@@ -16,7 +16,8 @@ from IfA_Smeargle import oscar
 def plot_array_heatmap_image(data_array,
                              figure_axes=None, plot=True,
                              heatmap_plot_parameters={'interpolation':'nearest'},
-                             colorbar_plot_paramters={'orientation':'vertical'}):
+                             colorbar_plot_paramters={'orientation':'vertical'},
+                             **kwargs):
     """ A function to create a heatmap image of the data array provided.
     
     This function replicates the image plotting functionality of Tino Well's 

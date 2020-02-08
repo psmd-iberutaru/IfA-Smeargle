@@ -11,7 +11,8 @@ from IfA_Smeargle import oscar
 from IfA_Smeargle import yankee
 
 def plot_single_heatmap_and_histogram(data_array, configuration_class=None,
-                                      figure_subplot_parameters={'figsize':(9,3.5), 'dpi':100}):
+                                      figure_subplot_parameters={'figsize':(9,3.5), 'dpi':100},
+                                      **kwargs):
     """ This extracts data from a single data array, plotting a histogram 
     and heatmap.
 
@@ -50,8 +51,8 @@ def plot_single_heatmap_and_histogram(data_array, configuration_class=None,
         heatmap_config = plot_config.general_heatmap_config
         histogram_config = plot_config.general_histogram_config
         # Remove the data array variables and figure axes variables.
-        heatmap_config.pop('data_array', None)
-        histogram_config.pop('data_array', None)
+        __ = heatmap_config.pop('data_array', None)
+        __ = histogram_config.pop('data_array', None)
     else:
         # Use built-in defaults.
         heatmap_config = {}
@@ -65,9 +66,9 @@ def plot_single_heatmap_and_histogram(data_array, configuration_class=None,
     # Plotting both figures in their respective areas side by side. 
     # Again, use user specifications.
     oscar.heatmaps.plot_array_heatmap_image(data_array, 
-                                            figure_axes=ax[0], **heatmap_config)
+                                            figure_axes=ax[0], **heatmap_config, **kwargs)
     oscar.histograms.plot_array_histogram(data_array, 
-                                          figure_axes=ax[1], **histogram_config)
+                                          figure_axes=ax[1], **histogram_config, **kwargs)
     
     # The histogram feels squished unless the axes ratios are modified.
     ax[1].set_aspect(1/(ax[1].get_data_ratio() * 1.5))

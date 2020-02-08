@@ -17,6 +17,7 @@ import importlib
 import inspect
 import numpy as np
 import numpy.ma as np_ma
+import os
 import types
 
 from IfA_Smeargle import bravo
@@ -41,7 +42,7 @@ class IfasDataArray():
     oriented approach. 
     """
 
-    def __init__(self, filename, configuration_class=None,
+    def __init__(self, pathname, configuration_class=None,
                 blank=False):
         """ This initializes a data array by reading a fits file from storage.
         
@@ -71,6 +72,9 @@ class IfasDataArray():
         # Extract the data from the fits file, unless they wanted it blank.
         if (blank):
             self.filename = None
+            self.filedirectory = None
+            self.fileextension = None
+            self.filepathname = None
             self.fits_file = None
             self.fits_header = None
             self.fits_data = None
@@ -80,9 +84,12 @@ class IfasDataArray():
                                            "one. Doing so as requested."))
         else:
             # The file name, for completeness purposes.
-            self.filename = filename
+            self.filename = os.path.splitext(os.path.basename(pathname))[0]
+            self.filedirectory = os.path.dirname(pathname)
+            self.fileextension = os.path.splitext(os.path.basename(pathname))[-1]
+            self.filepathname = pathname
             # Read the fits file data.
-            hdul_file, hdu_header, hdu_data = meta_faa.smeargle_open_fits_file(filename)
+            hdul_file, hdu_header, hdu_data = meta_faa.smeargle_open_fits_file(pathname)
             self.fits_file = hdul_file
             self.fits_header = hdu_header
             self.fits_data = hdu_data
@@ -105,6 +112,7 @@ class IfasDataArray():
 
         # Though these may seem like copies, these are the intended mutable 
         # versions of the previous attributes.
+        self.header = copy.deepcopy(self.fits_header)
         self.data = copy.deepcopy(self.fits_data)
         self.rawdata = copy.deepcopy(self.fits_rawdata)
         self.datamask = copy.deepcopy(self.fits_datamask)
@@ -145,8 +153,8 @@ class IfasDataArray():
 
         # File name parameter splitting.
         setattr(self, 'bravo_filename_split_by_parameter', 
-                lambda: bravo.bravo_filename_split_by_parameter(path_file_name=self.filename, 
-                                                        ignore_mismatch=False))
+                lambda: bravo.bravo_filename_split_by_parameter(path_file_name=self.filename,
+                                                                ignore_mismatch=False))
         
         # The median functions, to act on this data file.
         def median_endpoints(start_chunk, end_chunk):
@@ -205,15 +213,19 @@ class IfasDataArray():
         self.echo_mask_dictionary = {}
 
         # Allow for the usage of the general form of the ECHO line.
-        def _execute_mask_function(self, **kwargs):
+        def _execute_mask_function(self, frame=None, **kwargs):
             # Allow for the configuration class to be used.
-            if 'configuration_class' in kwargs:
+            if ('configuration_class' in kwargs):
                 pass
             else:
                 kwargs['configuration_class'] = copy.deepcopy(self.config)
             # Change the dictionary of the mask, but, leave the data array.
-            # Return both normally however.
-            temp_mask, temp_dict = echo_execution(data_array=self.data, **kwargs)
+            # Return both normally however. Also, if the process is to only
+            # be done on a specific frame.
+            if ((self.data.ndim >= 3) and (isinstance(frame, int))):
+                temp_mask, temp_dict = echo_execution(data_array=self.data[frame], **kwargs)
+            else:
+                temp_mask, temp_dict = echo_execution(data_array=self.data, **kwargs)
             self.echo_mask_dictionary = {**self.echo_mask_dictionary, **temp_dict}
             return temp_mask, temp_dict
         setattr(self, 'echo_execution', _execute_mask_function)
@@ -552,3 +564,94 @@ class IfasDataArray():
                                    "check must have failed, likely due to a change on how "
                                    "dictionaries are handled.")
         return None
+
+    def write_fits_file(self, overwrite=True, silent=False):
+        """ This writes the fits file to, well, file.
+
+        Parameters
+        ----------
+        pathname : string (optional)
+            The path where the file will be stored.
+        overwrite : boolean (optional)
+            If ``True``, if there exists a file of the same name, overwrite.
+        silent : boolean (optional)
+            Turn off all warnings and information sent by this function and 
+            functions below it.
+
+        Returns
+        -------
+        hdul_file : Astropy HDUList
+            The file object that was written to disk. If ``hdu_object`` was 
+            provided, it is returned untouched.
+        """
+        # Write the file.
+        hdul_file = meta_io.smeargle_write_fits_file(file_name=self.filepathname,
+                                                     hdu_header=self.header, hdu_data=self.data,
+                                                     hdu_object=None, save_file=True,
+                                                     overwrite=overwrite, silent=silent)
+        # Return the hdul.
+        return hdul_file
+
+    def update_pathname(self, directory=None, filename=None, extension=None,
+                        prepend_directory=None, prepend_filename=None,
+                        append_directory=None, append_filename=None):
+        """ This allows for the updating of the file directory and filename.
+        
+        Parameters
+        ----------
+        directory : string (optional)
+            A replacement string that will replace the directory section
+            of the pathname.
+        filename : string (optional)
+            A replacement string that will replace the filename section
+            of the pathname.
+        extension : string (optional)
+            A replacement string that will replace the extension section
+            of the pathname.
+        prepend_directory : string (optional)
+            A string that will be prepended onto the directory string.
+        prepend_filename : string (optional)
+            A string that will be prepended onto the filename string.
+        append_directory : string (optional)
+            A string that will be appended onto the directory string.
+        append_filename : string (optional)
+            A string that will be appended onto the filename string.
+
+        Returns
+        -------
+        new_pathname : string
+            The new pathname of this file.
+        """
+        
+        # Apply a basic type checking and replace None with blank strings for
+        # the main purpose of concatenation.
+        directory = str(directory) if isinstance(directory, str) else ''
+        filename = str(filename) if isinstance(filename, str) else ''
+        extension = str(extension) if isinstance(extension, str) else ''
+        prepend_directory = str(prepend_directory) if isinstance(prepend_directory, str) else ''
+        prepend_filename = str(prepend_filename) if isinstance(prepend_filename, str) else ''
+        append_directory = str(append_directory) if isinstance(append_directory, str) else ''
+        append_filename = str(append_filename) if isinstance(append_filename, str) else ''
+
+        # Create the new directory as per the user created.
+        if (len(directory) != 0):
+            new_directory = ''.join([prepend_directory, directory, append_directory])
+        else:
+            new_directory = ''.join([prepend_directory, self.filedirectory, append_directory])
+        # Create the new filename as per the user created.
+        if (len(filename) != 0):
+            new_filename = ''.join([prepend_filename, filename, append_filename])
+        else:
+            new_filename = ''.join([prepend_filename, self.filename, append_filename])
+        # Update the extension as per the user inputted.
+        new_extension = extension if (len(extension) != 0) else self.fileextension
+        # Update the pathname.
+        new_pathname = ''.join([new_directory, new_filename, new_extension])
+
+        # Update all of the variables.
+        self.filepathname = copy.deepcopy(new_pathname)
+        self.filename = os.path.splitext(os.path.basename(self.filepathname))[0]
+        self.filedirectory = os.path.dirname(self.filepathname)
+        self.fileextension = os.path.splitext(os.path.basename(self.filepathname))[-1]
+
+        return new_pathname

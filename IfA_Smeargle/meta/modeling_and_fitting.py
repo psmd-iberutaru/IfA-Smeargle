@@ -77,7 +77,7 @@ def smeargle_fit_gaussian_function(x_data, y_data, inital_guesses):
 
     return gaussian_function, gaussian_parameters
 
-def smeargle_fit_histogram_gaussian_function(data_array, bin_width=10):
+def smeargle_fit_histogram_gaussian_function(data_array, bin_width):
     """ This function fits a Gaussian function to a specific set of data.
 
     Gaussian fitting is hard, this function exists as a port so that 
@@ -88,7 +88,7 @@ def smeargle_fit_histogram_gaussian_function(data_array, bin_width=10):
     ----------
     data_array : ndarray
         The data that the histogram Gaussian function is fitting.
-    bin_width : float (optional)
+    bin_width : float
         The width of the bins to use for the histogram fitting function.
 
     Returns

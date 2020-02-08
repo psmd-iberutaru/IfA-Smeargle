@@ -84,6 +84,8 @@ def bravo_execution_saphira(data_directory, configuration_class):
         bravo.avging.average_endpoints_per_second(fitsdex, 
                                                   **provided_config.avg_endpts_persec_config) 
 
+    raise DeprecatedError("There should not be any sub-pipeline processes inside the library.")
+
     return None
 
 

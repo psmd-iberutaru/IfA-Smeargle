@@ -3,6 +3,7 @@
 This is the entire reduction method for the Saphria based infrared arrays.
 
 """
+import copy
 import glob
 import matplotlib as mpl
 import matplotlib.pyplot as plt
@@ -14,6 +15,7 @@ from IfA_Smeargle import bravo
 from IfA_Smeargle import echo
 from IfA_Smeargle import oscar
 from IfA_Smeargle import yankee
+from IfA_Smeargle import zulu
 
 from IfA_Smeargle.meta import *
 
@@ -85,170 +87,106 @@ def SA201907281826_reduction_pipeline(data_directory, configuration_class):
     nothing
     """
 
-    # Obtain parameters, else use hard coded default values.
-    try:
-        early_frame = configuration_class.ZuluConfig.SA201907281826['early_frame']
-        ref_frame = configuration_class.ZuluConfig.SA201907281826['ref_frame']
-        sub_avg_frames = configuration_class.ZuluConfig.SA201907281826['sub_avg_frames']
-        frame_exposure = configuration_class.ZuluConfig.SA201907281826['frame_exposure']
-        early_sigma = configuration_class.ZuluConfig.SA201907281826['early_sigma']
-    except (AttributeError, KeyError):
-        # Frame 4, account for 0-indexing.
-        early_frame = 3
+    # Determine the detector's name.
+    if (isinstance(configuration_class.BravoConfig.detector_name,str)):
+        detector_name = configuration_class.BravoConfig.detector_name
+    elif (isinstance(configuration_class.BravoConfig.detector_name,dict)):
+        try:
+            detector_name = configuration_class.BravoConfig.detector_name['name']
+        except KeyError:
+            raise ConfigurationError("The detector name cannot be found in the "
+                                     "configuration file. It must either be a string or a "
+                                     "dictionary with the name value referenced by the key "
+                                     "<name>.")
+    else:
+        raise ConfigurationError("The detector name cannot be found in the configuration "
+                                 "file. It must either be a string or a dictionary with "
+                                 "the name value referenced by the key <name>.")
 
-        # Frame index values provided by Don Hall.
-        ref_frame = np.array([17,32], dtype=int)
-        sub_avg_frames = np.array([(257,272), (513,528), (1025,1040), (2049,2064), (4097,4112)],
-                                  dtype=int)
+    # Getting the voltage renames
+    number_names = bravo.rename.number_renaming(
+        data_directory=data_directory, **configuration_class.BravoConfig.number_rename_config)
+    set_names = bravo.rename.set_determinization_renaming(
+        data_directory=data_directory, 
+        **configuration_class.BravoConfig.set_determine_rename_config)
+    voltage_names = bravo.rename.voltage_pattern_renaming(
+        data_directory=data_directory, **configuration_class.BravoConfig.voltpat_rename_config)
+    n_files = len(number_names)
 
-        # How long each frame was exposed for in seconds.
-        frame_exposure = 5
-        early_sigma = 2
+    # Rename all of the files. The directory structure seems fine.
+    final_names = []
+    for numdex, setdex, detectdex, voltdex in \
+        zip(number_names, set_names, [detector_name for index in range(n_files)], voltage_names):
+        # Loop for the name of all files.
+        final_names.append(detectdex
+                           + '__' + numdex
+                           + '__' + setdex
+                           + '__' + voltdex 
+                           # + '__'
+                           + '.fits')
+    bravo.bravo_rename_parallel(None, final_names, data_directory, file_extensions='.fits')
 
+    # Process all of the files, grabbing the names first.
+    fits_file_names = glob.glob(data_directory + '/*' + '.fits')
 
-    # Initial renaming of primary files.
-    def _saphira_renaming(data_directory, configuration_class):
-        # Just a inner function to store the new naming routine. 
-        # Be adaptive as to which configuration class is given.
-        provided_config = yankee.yankee_extract_proper_configuration_class(configuration_class,
-                                                                    yankee.BravoConfig)
+    for filedex in fits_file_names:
+        # Reading the file and providing it with its configuration file, the 
+        # proper Zulu IfasDataArray class should always be used with 
+        # pipelines.
+        detector_frame = IfasDataArray(filename=filedex, configuration_class=configuration_class,
+                                       blank=False)
 
-        # Determine the detector's name.
-        if (isinstance(provided_config.detector_name,str)):
-            detector_name = provided_config.detector_name
-        elif (isinstance(provided_config.detector_name,dict)):
-            try:
-                detector_name = provided_config.detector_name['name']
-            except KeyError:
-                raise ConfigurationError("The detector name cannot be found in the "
-                                         "configuration file. It must either be a string or a "
-                                         "dictionary with the name value referenced by the key "
-                                         "<name>.")
-        else:
-            raise ConfigurationError("The detector name cannot be found in the configuration "
-                                     "file. It must either be a string or a dictionary with "
-                                     "the name value referenced by the key <name>.")
+        # Applying a premask, provided the defined premask parameters in 
+        # the configuration class.
+        __ = detector_frame.echo170_gaussian_truncation(
+            frame=detector_frame.config.ZuluConfig.SA201907281826['early_frame'],
+            sigma_multiple=detector_frame.config.ZuluConfig.SA201907281826['early_sigma'],
+            bin_size=detector_frame.config.ZuluConfig.SA201907281826['early_bin_size'])
+        # Compile and synthesize the early mask.
+        __ = detector_frame.echo_synthesize_mask_dictionary()
+        __ = detector_frame.echo_create_masked_array()
 
-        # Getting the voltage renames
-        number_names = bravo.rename.number_renaming(data_directory,
-                                                    **provided_config.number_rename_config)
-        set_names = bravo.rename.set_determinization_renaming(data_directory,
-                                                    **provided_config.set_determine_rename_config)
-        voltage_names = bravo.rename.voltage_pattern_renaming(data_directory,
-                                                              **provided_config.voltpat_rename_config)
-        n_files = len(number_names)
+        # The files now need to be split up according to their reference and 
+        # analysis chunks.
+        for subframedex in detector_frame.config.ZuluConfig.SA201907281826['averaging_frames']:
+            # Extracting a copy for analysis.
+            detector_subframe = copy.deepcopy(detector_frame)
+            # Taking the average of the frames provided in the configuration.
+            __ = detector_subframe.median_endpoints_per_second(
+                start_chunk=detector_subframe.config.ZuluConfig.SA201907281826['refrence_frame'],
+                end_chunk=subframedex, 
+                frame_exposure_time=detector_subframe.config.ZuluConfig.SA201907281826['frame_exposure'])
+            # Updating the file name for differentiation and to record the 
+            # chunk. Formatting must match the bravo format.
+            detector_subframe.update_pathname(
+                append_filename=''.join('__', bravo.rename._string_format_slice(
+                    reference_frame=detector_subframe.config.ZuluConfig.SA201907281826['refrence_frame'],
+                    averaging_frame=subframedex)))
 
+            # Applying the next Gaussian mask on each subframe, using the 
+            # configuration parameters.
+            __ = detector_subframe.echo170_gaussian_truncation(
+                sigma_multiple=detector_subframe.config.EchoConfig.echo170_config['sigma_multiple'],
+                bin_size=detector_subframe.config.EchoConfig.echo170_config['bin_size'])
+            # Compile and synthesize the early mask.
+            __ = detector_subframe.echo_synthesize_mask_dictionary()
+            __ = detector_subframe.echo_create_masked_array()
 
-        # Rename all of the files. The directory structure seems fine.
-        final_names = []
-        for numdex, setdex, detectdex, voltdex in zip(number_names,
-                                              set_names,
-                                             [detector_name for index in range(n_files)],
-                                             voltage_names):
-            final_names.append(detectdex
-                               + '__' + numdex
-                               + '__' + setdex
-                               + '__' + voltdex 
-                               # + '__'
-                               + '.fits')
+            # Create the heatmap and histogram plot, also write it to file.
+            figure = detector_subframe.plot_single_heatmap_and_histogram(
+                configuration_class=detector_subframe.config)
+            meta_io.smeargle_save_figure_file(figure=figure, 
+                                              file_name=''.join([detector_subframe.filedirectory,
+                                                                 detector_subframe.filename, 
+                                                                 "__plot.pdf"]),
+                                              title=detector_subframe.filename)
+            # Save the fits file. too.
+            detector_subframe.write_fits_file()
 
-        bravo.bravo_rename_parallel(None, final_names, data_directory, file_extensions='.fits')
+    # All of the frame based analysis should be complete. Dark current
+    # over voltage plots are next. 
+    plotdir_dark_current_over_voltage(data_directory=data_directory, 
+                                      configuration_class=configuration_class)
 
-        return None
-    
-    # Run the renaming of the files.
-    _saphira_renaming(data_directory, configuration_class)
-
-    # Initial sanitization of files, such as improper or smaller than normal
-    # file size.
-    bravo.sanitize.same_file_size_sanitization(data_directory, method='largest')
-
-
-    # Re-obtain file names.
-    file_names = glob.glob(data_directory + '/*' + '.fits')
-    for filedex in file_names:
-        # Load fits file.
-        hdul_file, hdu_header, hdu_data = meta_faa.smeargle_open_fits_file(filedex, silent=True)
-
-        # Early frame masking.
-        early_mask = echo.masks.echo170_gaussian_truncation(hdu_data[early_frame], early_sigma, 
-                                                            bin_size=10,
-                                                            return_mask=True)
-        bravo.avging.auto_avergae_slicing(filedex, ref_frame, sub_avg_frames,
-                                          bravo.avging.average_endpoints,
-                                          function_parameters={},
-                                          post_mask=early_mask)
-
-
-    # Re-obtain file names, again.
-    file_names = glob.glob(data_directory + '/*' + '.fits')
-    for filedex in file_names:
-
-        # Extract the fits file, keeping track of the early mask and raw data.
-        __, hdu_header, hdu_data = meta_faa.smeargle_open_fits_file(filedex, silent=True)
-        raw_data = np_ma.getdata(hdu_data)
-        early_mask = np_ma.getmaskarray(hdu_data)
-
-        # Execute the main masks as specified by the EchoConfig.
-        __, mask_dictionary = echo.echo_execution(hdu_data, configuration_class, silent=True)
-
-
-        # Add an entry to the masking dictionary corresponding to the early 
-        # mask.
-        mask_dictionary['early_mask'] = early_mask
-
-        # Make the final masked fits file.
-        hdu_data = echo.echo_numpy_masked_array(raw_data, None, masking_dictionary=mask_dictionary)
-
-        # Write the files once more.
-        meta_faa.smeargle_write_fits_file(filedex, hdu_header, hdu_data, silent=True)
-
-
-    # Re-obtain file names, once again. This is unneeded and can be condensed
-    # into the upper loop. However, the loops do not take too much more time
-    # so the 'simplification' is likely worth it.
-    file_names = glob.glob(data_directory + '/*.fits')
-    for filedex in file_names:
-        
-        # Get rid of annoying 3dim issue with imshow
-        __, __, hdu_data = meta_faa.smeargle_open_fits_file(filedex, silent=True)
-        if (len(hdu_data.shape) >= 3):
-            continue
-
-        oscar_plot = oscar.multi.plot_single_heatmap_and_histogram(filedex, 
-                                                                   configuration_class)
-        # Save the plot.
-        file_name = filedex[:-5] + '__plot.pdf' # UPDATE
-        plot_title = filedex[:-5] # UPDATE
-        meta_plting.smeargle_save_figure_file(oscar_plot, file_name, title=plot_title)
-
-    # Next, the voltage plots. THIS IS VERY BAD AND GROSS.
-    #======================================================
-    vlt_filename_1 = data_directory + '/' + 'dc_volt_allplt__' + configuration_class.BravoConfig.detector_name['name']
-    vlt_filename_2 = data_directory + '/' + 'dc_volt_partplt__' + configuration_class.BravoConfig.detector_name['name']
-
-    fig, vltplt = plt.subplots(dpi=300)
-    vltplt, data_table, __ = oscar.volt_plot.plotdir_dark_current_over_voltage(data_directory,
-                                                                               figure_axes=vltplt)
-    vltplt.set_ylim((-250,250))
-    meta_plting.smeargle_save_figure_file(fig, vlt_filename_1)
-
-
-    fig2, vltplt2 = plt.subplots(dpi=300)
-    vltplt2.errorbar(data_table['voltage_set1'][0:5], data_table['value_set1'][0:5], yerr=data_table['error_set1'][0:5],
-                        fmt='.-', elinewidth=0.25, capsize=3, capthick=0.25,
-                        label=('Set ' + str(1)))
-    vltplt2.errorbar(data_table['voltage_set2'][0:5], data_table['value_set2'][0:5], yerr=data_table['error_set2'][0:5],
-                        fmt='.-', elinewidth=0.25, capsize=3, capthick=0.25,
-                        label=('Set ' + str(2)))
-
-    title=configuration_class.BravoConfig.detector_name['name']
-    vltplt2.set_title(title)
-    vltplt2.legend(loc='upper left')
-    vltplt2.set_xticks(np.append(data_table['voltage_set1'][0:5], 0))
-    vltplt2.set_xlabel('Detector Bias Voltage (V)')
-    vltplt2.set_ylabel('Average Dark Current (ADU)')
-    meta_plting.smeargle_save_figure_file(fig2, vlt_filename_2)
-
-    # All finished
-    return None 
+    # All done.
+    return None

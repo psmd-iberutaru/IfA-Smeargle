@@ -265,3 +265,9 @@ def voltage_pattern_renaming(data_directory, voltage_pattern,
 
     return voltage_string_list
     
+
+def _string_format_slice(reference_frame, averaging_frame):
+    """ The formatting for the string alignment for slices. """
+    slice_string = ''.join(['slice;', str(reference_frame[0]), ',', str(reference_frame[-1]), 
+                            '-', str(averaging_frame[0]), ',', str(averaging_frame[-1])])
+    return slice_string

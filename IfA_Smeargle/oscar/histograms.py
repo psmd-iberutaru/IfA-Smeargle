@@ -17,7 +17,8 @@ from IfA_Smeargle import oscar
 def plot_array_histogram(data_array, 
                          figure_axes=None, fit_gaussian=True, bin_width=None,
                          plot=True,
-                         histogram_plot_paramters={}):
+                         histogram_plot_paramters={},
+                         **kwargs):
     """ A function to create and plot histogram plots for better analysis of 
     a given array.
 

@@ -98,12 +98,12 @@ def echo381_rectangle_mask(data_array, x_ranges, y_ranges, previous_mask={}, ret
     # Validating the input.
     x_ranges = np.array(x_ranges)
     y_ranges = np.array(y_ranges)
-
+    
     if (x_ranges.shape != y_ranges.shape):
         raise InputError("The x-range and y-range lists are not the same shape.")
-    if (len(x_ranges.shape) == 0):
+    if (x_ranges.ndim == 0):
         raise InputError("You gave me nothing, the x-range and y-range is empty.")
-    elif (len(x_ranges.shape) == 1):
+    elif (x_ranges.ndim == 1):
         # Test to see if it is a single rectangle.
         if (x_ranges.size == 2):
             # It seems to be a single rectangle, embed one dimension further.
@@ -111,11 +111,14 @@ def echo381_rectangle_mask(data_array, x_ranges, y_ranges, previous_mask={}, ret
             y_ranges = np.array([y_ranges])
         else:
             raise InputError("The x-range and y-range is not the correct shape.")
-    elif (len(x_ranges.shape) == 2):
+    elif (x_ranges.ndim == 2):
         # Assume they know what they are doing?
         pass
-    else:
+    elif (x_ranges.ndim >= 3):
         raise InputError("The x-range and y-range has too many dimensions to parse logically.")
+    else:
+        raise BrokenLogicError("The x-range dimension check did not catch a proper dimension "
+                               "value.")
 
     # Extract a blank mask as a template.
     masked_array = masks.echo398_nothing(data_array, return_mask=True)

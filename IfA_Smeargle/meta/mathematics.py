@@ -120,3 +120,40 @@ def smeargle_std(array, axis=None):
     true_std = np_ma.std(array, axis=axis)
 
     return true_std
+
+
+def smeargle_where(condition, truthy=None, falsy=None):
+    """ This returns the output of a standard Numpy where function but it 
+    accounts for masked arrays.
+
+    There are always outstanding problems when masked arrays or non-masked
+    arrays are handled with Numpy. This function is a unified hyrbid function
+    that takes care of both.
+    
+    Parameters
+    ----------
+    condition : array-like, bool
+        The condition that will be analyzed by the where function.
+    truthy : array-like
+        The object or value returned when the condition is satisfied. 
+    falsy : array-like
+        The object or value returned when the condition is not satisfied.
+
+    Returns
+    -------
+    out : ndarray
+        The return of the where function.
+    """
+
+    if (np_ma.isMaskedArray(condition)):
+        if ((truthy is not None) and (falsy is not None)):
+            out = np_ma.where(condition, truthy, falsy)
+        else:
+            out = np_ma.where(condition)
+    else:
+        if ((truthy is not None) and (falsy is not None)):
+            out = np.where(condition, truthy, falsy)
+        else:
+            out = np.where(condition)
+    
+    return out

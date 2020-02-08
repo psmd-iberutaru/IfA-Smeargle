@@ -41,7 +41,7 @@ def echo270_minimum_cut(data_array, minimum_value, previous_mask={}, return_mask
         ``echo270_minimum_cut``.
     """
 
-    masked_array = np.where(data_array < minimum_value, True, False)
+    masked_array = meta_math.smeargle_where(data_array < minimum_value, True, False)
 
     final_mask = echo_funct.echo_functioned_mask_returning(masked_array, previous_mask,
                                                      'echo270_minimum_cut', return_mask)
@@ -76,7 +76,7 @@ def echo271_maximum_cut(data_array, maximum_value, previous_mask={}, return_mask
         ``echo271_maximum_cut``.
     """
 
-    masked_array = np.where(data_array > maximum_value, True, False)
+    masked_array = meta_math.smeargle_where(data_array > maximum_value, True, False)
 
     final_mask = echo_funct.echo_functioned_mask_returning(masked_array, previous_mask,
                                                      'echo271_maximum_cut', return_mask)

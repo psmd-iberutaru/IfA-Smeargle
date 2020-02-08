@@ -204,15 +204,15 @@ def _primary_combination_function(data_array, start_chunk, end_chunk,
         smeargle_warning(ReductionWarning,("The size of the start chunk and end chunk are "
                                            "different sizes, this is unusual but acceptable."))
 
-    # Calculate the medians. The custom median functions are needed to handle
-    # both nans and masked arrays.
-    start_median = combining_function(raw_data[start_chunk[0]:start_chunk[-1]],axis=0)
-    end_median = combining_function(raw_data[end_chunk[0]:end_chunk[-1]],axis=0)
+    # Calculate the combinations. The custom combinations functions are needed 
+    # to handle both nans and masked arrays.
+    start_combinations = combining_function(raw_data[start_chunk[0]:start_chunk[-1]],axis=0)
+    end_combinations = combining_function(raw_data[end_chunk[0]:end_chunk[-1]],axis=0)
 
     # Subtracting and normalizing over the time span, starting and ending
     # at respective midpoints; integer multiplication/division is required  
     # because of the discrete nature of frames.
-    final_raw_data = (end_median - start_median) / divisor
+    final_raw_data = (end_combinations - start_combinations) / divisor
 
     # Reapply the mask if there was a mask.
     if (data_mask is not None):

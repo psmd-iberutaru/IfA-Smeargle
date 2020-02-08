@@ -79,7 +79,10 @@ def bravo_filename_split_by_parameter(path_file_name, ignore_mismatch=False):
         elif ('slice' in paramdex):
             # The subsection of data the data frame focuses on.
             slice_range = (paramdex.split(';')[-1]).split('-')
-            file_dictionary['slice'] = (int(slice_range[0]), int(slice_range[-1]))
+            file_dictionary['ref_slice'] = (int(slice_range[0].split(',')[0]),
+                                            int(slice_range[0].split(',')[-1]))
+            file_dictionary['slice'] = (int(slice_range[-1].split(',')[0]), 
+                                        int(slice_range[-1].split(',')[-1]))
         # The element doesn't fit into the standard naming conventions of BRAVO.
         else:
             # The user likely knows this is the case, so, stopping is not 

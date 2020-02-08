@@ -42,7 +42,7 @@
     <Compile Include="modeling_and_fitting.py">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="plotting.py">
+    <Compile Include="io.py">
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="__init__.py">
