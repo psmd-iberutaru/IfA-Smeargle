@@ -77,14 +77,13 @@ def median_endpoints_per_second(data_array, start_chunk, end_chunk, frame_exposu
 
     # The divisor is naturally the integration time, in seconds, for this
     # function.
-    integration_time = ((meta_math.smeargle_mean(end_chunk)-meta_math.smeargle_mean(start_chunk)) 
-                        * frame_exposure_time)
+    integration_time = (frame_exposure_time * (meta_math.smeargle_median(array=end_chunk)
+                                               - meta_math.smeargle_median(array=start_chunk)))
 
     # Evaluate the averaging.
     final_data = _primary_median_function(data_array=data_array, 
                                         start_chunk=start_chunk, end_chunk=end_chunk, 
-                                        divisor=integration_time,
-                                        write_file=write_file, alternate_name=alternate_name)
+                                        divisor=integration_time)
     return final_data
 
 
@@ -117,8 +116,8 @@ def median_endpoints_per_kilosecond(data_array, start_chunk, end_chunk, frame_ex
     """
 
     # The divisor is naturally the integration time, in seconds.
-    integration_time = ((meta_math.smeargle_mean(end_chunk)-meta_math.smeargle_mean(start_chunk)) 
-                        * frame_exposure_time)
+    iintegration_time = (frame_exposure_time * (meta_math.smeargle_median(array=end_chunk)
+                                               - meta_math.smeargle_median(array=start_chunk)))
     # However, this function desires kiloseconds, therefore, integration time 
     # should be factored down.
     integration_time_kilosecond = integration_time / 1000.0
@@ -126,8 +125,7 @@ def median_endpoints_per_kilosecond(data_array, start_chunk, end_chunk, frame_ex
     # Evaluate the averaging.
     final_data = _primary_median_function(data_array=data_array, 
                                         start_chunk=start_chunk, end_chunk=end_chunk, 
-                                        divisor=integration_time_kilosecond,
-                                        write_file=write_file, alternate_name=alternate_name)
+                                        divisor=integration_time_kilosecond)
 
     return final_data
 
@@ -175,18 +173,20 @@ def _primary_combination_function(data_array, start_chunk, end_chunk,
 
     # Check and adapt for a masked array.
     if (np_ma.isMaskedArray(data_array)):
-        raw_data = np_ma.get_data(data_array)
-        data_mask = np_ma.get_mask(data_array)
+        raw_data = np_ma.getdata(data_array)
+        data_mask = np_ma.getmask(data_array)
     else:
         raw_data = np.array(data_array)
         data_mask = None
 
     # Check for too many or too little dimensions; it is important as the 
     # array shape of data is assumed.
-    if (len(np.array(raw_data).shape) <= 2):
+    if (raw_data.ndim == 0):
+        raise InputError("There is no data to analyze as the array is zero dimensional.")
+    elif (raw_data.ndim <= 2):
         raise InputError("The data of the input fits file does not have any wavelength or "
                          "temporal axis; to collapse spatially would be incorrect.")
-    elif (len(np.array(raw_data).shape) > 3):
+    elif (raw_data.ndim > 3):
         smeargle_warning(InputWarning,("The number of dimensions in the data array is greater "
                                        "than 3, it is assumed that the 0th axis is the temporal "
                                        "axis."))

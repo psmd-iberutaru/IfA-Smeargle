@@ -9,6 +9,7 @@ it is still suggested that these functions be used over custom approaches when a
 """
 
 import astropy as ap
+import astropy.io.fits as ap_fits
 import astropy.modeling as ap_mod
 import numpy as np
 import numpy.ma as np_ma

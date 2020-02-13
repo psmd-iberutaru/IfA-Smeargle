@@ -89,6 +89,24 @@ class ModelingError(Smeargle_Exception):
 # reserved for very critical problems within the code itself (it rarely 
 # should be the fault of the user's).
 
+class AssumptionError(Smeargle_BaseException):
+    """
+    This error is reserved for instances where something unexpected has 
+    occurred because of a flaw in the understanding of assumptions about
+    Python or module functions.
+    """
+    def __init__(self, message=None):
+        if (isinstance(message, str)):
+            self.message = ("TERMINAL: " + message
+                            + "\n >> Please contact maintainers or Sparrow to resolve this issue.")
+        else:
+            self.message = ("TERMINAL: An errinous result has transpired because of an "
+                            "incorrect assumption about how Python or other Python modules or "
+                            "functions work. Please contact maintainers or Sparrow to resolve "
+                            "this issue.")
+
+    pass
+
 class BrokenLogicError(Smeargle_BaseException):
     """
     This error is encountered when the program enters in a place it should 
@@ -102,23 +120,6 @@ class BrokenLogicError(Smeargle_BaseException):
         else:
             self.message = ("TERMINAL: Something is not right with the code's logic. Please "
                             "contact maintainers or Sparrow to resolve this issue.")
-
-    pass
-
-class BugError(Smeargle_BaseException):
-    """
-    This error is mostly used for cases where, if it is triggered, there is 
-    likely a bug. The bug's status should mostly deal with logic flow and a
-    broken program (compared to bad results, which is less obvious to detect).
-    """
-    def __init__(self, message=None):
-        if (isinstance(message, str)):
-            self.message = ("TERMINAL: " + message
-                            + "\n >> Please contact maintainers or Sparrow to resolve this issue.")
-        else:
-            self.message = ("TERMINAL: There seems to be a bug in the code\'s processing. The "
-                            "problem seems to be from a bad program/function execution. Please "
-                            "contact maintainers or Sparrow to resolve the issue.")
 
     pass
 
@@ -137,7 +138,7 @@ class DeprecatedError(Smeargle_BaseException):
         else:
             self.message = ("TERMINAL: This function is terminally deprecated. There exists a "
                             "different and equivalent function. Use that function. Please "
-                            "contact maintainers or Sparrow to resolve this issue if need be.")
+                            "contact maintainers or Sparrow to resolve this issue.")
     pass
 
 class IncompleteError(Smeargle_BaseException):
@@ -147,8 +148,8 @@ class IncompleteError(Smeargle_BaseException):
     """
     def __init__(self):
         self.message = ("TERMINAL: This section of the code is incomplete and likely does not "
-                        "work at all. Proceeding is not allowed. Send the call stack to "
-                        "maintainers or Sparrow to resolve this issue.")
+                        "work at all. Proceeding is not allowed. Please contact maintainers "
+                        "or Sparrow to resolve this issue.")
     def __str__(self):
         return self.message
 
@@ -163,7 +164,9 @@ class TerminalError(Smeargle_BaseException):
         elif (isinstance(message, str)):
             self.message = ("TERMINAL: " + message)
         else:
-            raise TerminalError("The message for a TERMINAL error must be a string.")
+            raise InputError("The message for a TERMINAL error must be a string.")
+            raise TerminalError("The message for a TERMINAL error must be a string. The "
+                                "previous InputError was likely caught by a try-except block.")
     
     def __str__(self):
         return self.message

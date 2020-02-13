@@ -9,8 +9,9 @@ import warnings as warn
 from IfA_Smeargle import echo
 from IfA_Smeargle.echo import echo_functions as echo_funct
 from IfA_Smeargle.echo import masks
-from IfA_Smeargle.meta import *
 from IfA_Smeargle import yankee
+
+from IfA_Smeargle.meta import *
 
 
 

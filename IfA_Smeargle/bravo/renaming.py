@@ -29,7 +29,7 @@ def parallel_renaming(file_names, file_renames, data_directory=None,
 
 
 
-def number_renaming(data_directory, begin_garbage=0, archive_data=True):
+def number_renaming(data_directory, begin_garbage=0):
     """ Renames files according to their number in order.
 
     Some data filename outputs only give timestamps. This function renames
@@ -42,9 +42,6 @@ def number_renaming(data_directory, begin_garbage=0, archive_data=True):
         renamed.
     begin_garbage : int (optional)
         The number of files, in the beginning, that should not count as data.
-    archive_data : boolean (optional)
-        Execute the renaming on a copy of the data, the original data 
-        is archived and preserved.
 
     Returns
     -------
@@ -53,19 +50,15 @@ def number_renaming(data_directory, begin_garbage=0, archive_data=True):
         ordered form. Does not include prefixes/suffixes.
     """
 
-    # If the user wanted to preserve their data.
-    if (archive_data):
-        bravo.arc.duplicate_archive_data_files(data_directory)
-
     # The files that are before the garbage denotation should be labeled as
     # such.
-    garbage_names = glob.glob(data_directory + '/*.fits')[:begin_garbage]
+    garbage_names = glob.glob(os.path.join(data_directory, '*.fits'))[:begin_garbage]
     garbage_paths = [os.path.split(garbagepathdex)[0] for garbagepathdex in garbage_names]
     n_garbage_files = len(garbage_names)
 
 
     # For the files to be renamed.
-    original_names = glob.glob(data_directory + '/*.fits')[begin_garbage:]
+    original_names = glob.glob(os.path.join(data_directory, '*.fits'))[begin_garbage:]
     original_paths = [os.path.split(pathdex)[0] for pathdex in original_names]
     n_files = len(original_names)
 
@@ -87,7 +80,7 @@ def number_renaming(data_directory, begin_garbage=0, archive_data=True):
 
 
 def set_determinization_renaming(data_directory, set_length, 
-                                 begin_garbage=0, archive_data=True):
+                                 begin_garbage=0):
     """ Renames files according to their set number, as determined by the
     number of files in a set. Sets are assumed to be consecutive.
 
@@ -103,9 +96,6 @@ def set_determinization_renaming(data_directory, set_length,
         This is the length of a set. 
     begin_garbage : int (optional)
         The number of files, in the beginning, that should not count as data.
-    archive_data : boolean (optional)
-        Execute the renaming on a copy of the data, the original data 
-        is archived and preserved.
 
     Returns
     -------
@@ -114,19 +104,15 @@ def set_determinization_renaming(data_directory, set_length,
         ordered form. Does not include prefixes/suffixes.
     """
 
-    # If the user wanted to preserve their data.
-    if (archive_data):
-        bravo.arc.duplicate_archive_data_files(data_directory)
-
     # The files that are before the garbage denotation should be labeled as
     # such.
-    garbage_names = glob.glob(data_directory + '/*.fits')[:begin_garbage]
+    garbage_names = glob.glob(os.path.join(data_directory, '*.fits'))[:begin_garbage]
     garbage_paths = [os.path.split(garbagepathdex)[0] for garbagepathdex in garbage_names]
     n_garbage_files = len(garbage_names)
 
 
     # For the files to be renamed.
-    original_names = glob.glob(data_directory + '/*.fits')[begin_garbage:]
+    original_names = glob.glob(os.path.join(data_directory, '*.fits'))[begin_garbage:]
     original_paths = [os.path.split(pathdex)[0] for pathdex in original_names]
     n_files = len(original_names)
 
@@ -150,7 +136,7 @@ def set_determinization_renaming(data_directory, set_length,
 
 
 def voltage_pattern_renaming(data_directory, voltage_pattern, 
-                             begin_garbage=0, archive_data=True):
+                             begin_garbage=0):
     """ Renames files according to their voltage pattern specified.
 
     Some data filename outputs only give timestamps. This function renames
@@ -171,9 +157,6 @@ def voltage_pattern_renaming(data_directory, voltage_pattern,
         first voltage element to be used, proceeding from there in order.
     begin_garbage : int (optional)
         The number of files, in the beginning, that should not count as data.
-    archive_data : boolean (optional)
-        Execute the renaming on a copy of the data, the original data 
-        is archived and preserved.
 
     Returns
     -------
@@ -182,20 +165,16 @@ def voltage_pattern_renaming(data_directory, voltage_pattern,
         ordered form. Does not include prefixes/suffixes.
 
     """
-    
-    # If the user wanted to preserve their data.
-    if (archive_data):
-        bravo.arc.duplicate_archive_data_files(data_directory)
 
     # The files that are before the garbage denotation should be labeled as
     # such.
-    garbage_names = glob.glob(data_directory + '/*.fits')[:begin_garbage]
+    garbage_names = glob.glob(os.path.join(data_directory, '*.fits'))[:begin_garbage]
     garbage_paths = [os.path.split(garbagepathdex)[0] for garbagepathdex in garbage_names]
     n_garbage_files = len(garbage_names)
 
 
     # For the files to be renamed.
-    original_names = glob.glob(data_directory + '/*.fits')[begin_garbage:]
+    original_names = glob.glob(os.path.join(data_directory, '*.fits'))[begin_garbage:]
     original_paths = [os.path.split(pathdex)[0] for pathdex in original_names]
     n_files = len(original_names)
 

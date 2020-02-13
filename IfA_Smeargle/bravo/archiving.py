@@ -7,13 +7,14 @@ copy of data. The usage of these functions are optional.
 """
 
 import shutil
+import os
 import time
 
 from IfA_Smeargle.meta import *
 
 
-def duplicate_archive_data_files(data_directory, archive_name=None, 
-                                 archive_extension='bztar'):
+def bravo_archive_data_duplicates(data_directory, archive_name=None, 
+                                  archive_extension='bztar'):
     """Creates a file archive of a copy of the data files contained within a
     directory.
     
@@ -42,11 +43,14 @@ def duplicate_archive_data_files(data_directory, archive_name=None,
     nothing
     """
 
+    raise DeprecationError("Use BRAVO's version")
+
 
     # Warn just in case.
     smeargle_warning(TimeWarning,("Archiving and copying particularly a lot of large fits "
                                   "files may take a very long time. It is still suggested, "
-                                  "but do outside Python. Disable via < copy_data=False >."))
+                                  "but archive outside of Python. Disable archiving prosedures"
+                                  "via < copy_data=False >."))
 
     # Preserve the files just in case, work on a copy data set. Date-time 
     # to distinguish, by format __YYYYMMDD_HHMMSS, from other BravoArchives 
@@ -59,26 +63,29 @@ def duplicate_archive_data_files(data_directory, archive_name=None,
     # For some reason, if the archive is made in the same directory, it 
     # recursively archives itself and intended files until its way too big. 
     # Making it outside then moving it is a workaround. 
-    shutil.make_archive(data_directory + '/../' + archive_name, 
-                        archive_extension, data_directory + '/')
+    shutil.make_archive(os.path.join(data_directory, '..', archive_name), 
+                        archive_extension, os.path.join(data_directory, ''))
 
     # Be adaptive for the tar based file extensions, the notation used for 
     # shutil is not exactly the same as the file extension. This is required
     # for the moving workaround.
     if (archive_extension == 'gztar'):
-        archive_extension = 'tar.gz'
+        archive_extension = '.tar.gz'
     elif (archive_extension == 'bztar'):
-        archive_extension = 'tar.bz2'
+        archive_extension = '.tar.bz2'
     elif (archive_extension == 'xztar'):
-        archive_extension = 'tar.xz'
+        archive_extension = '.tar.xz'
 
     # Proceed with the move.
     shutil.move(data_directory + '/../' + archive_name + '.' + archive_extension, 
                 data_directory + '/' + archive_name + '.' + archive_extension)
 
+    shutil.move(os.path.join(data_directory, '..', ''.join([archive_name, archive_extension]),
+                os.path.join(data_directory, ''.join([archive_name, archive_extension]))))
+
     # Inform the user where the archive is (just in case).
     smeargle_info("Raw archive of data is stored in  < {arc_dir} >"
-                  .format(arc_dir=(data_directory + '/' 
-                                   + archive_name + '.' + archive_extension)))
+                  .format(arc_dir=os.path.join(data_directory, 
+                                               ''.join([archive_name, archive_extension]))))
 
     return None

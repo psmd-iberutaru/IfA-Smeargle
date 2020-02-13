@@ -14,7 +14,8 @@ from IfA_Smeargle.echo import echo_functions as echo_funct
 from IfA_Smeargle.echo import masks
 from IfA_Smeargle.meta import *
 
-def echo270_minimum_cut(data_array, minimum_value, previous_mask={}, return_mask=False):
+def echo270_minimum_cut(data_array, minimum_value, previous_mask={}, return_mask=False,
+                        mask_key='echo270_minimum_cut'):
     """ This applies a mask on all pixels lower than some value.
 
     As the name implies, this function masks all pixels with some value 
@@ -32,24 +33,30 @@ def echo270_minimum_cut(data_array, minimum_value, previous_mask={}, return_mask
     return_mask : boolean (optional)
         If this is true, then the mask itself (rather than the dictionary  
         entry) will be returned instead.
+    mask_key : string (optional)
+        The key that will be used to denote this mask. It defaults to the
+        standard name.
 
     Returns
     -------
     final_mask : ndarray -> dictionary
         A boolean array for pixels that are masked (True) or are valid (False)  
         will be added to the mask dictionary under the key 
-        ``echo270_minimum_cut``.
+        ``echo270_minimum_cut`` unless otherwise specified.
     """
 
     masked_array = meta_math.smeargle_where(data_array < minimum_value, True, False)
 
-    final_mask = echo_funct.echo_functioned_mask_returning(masked_array, previous_mask,
-                                                     'echo270_minimum_cut', return_mask)
+    final_mask = echo_funct.echo_functioned_mask_returning(pixel_mask=masked_array,
+                                                           masking_dictionary=previous_mask,
+                                                           filter_name=mask_key, 
+                                                           return_mask_only=return_mask)
 
     return final_mask
 
 
-def echo271_maximum_cut(data_array, maximum_value, previous_mask={}, return_mask=False):
+def echo271_maximum_cut(data_array, maximum_value, previous_mask={}, return_mask=False,
+                        mask_key='echo271_maximum_cut'):
     """ This applies a mask on all pixels lower than some value.
 
     As the name implies, this function masks all pixels with some value 
@@ -67,25 +74,32 @@ def echo271_maximum_cut(data_array, maximum_value, previous_mask={}, return_mask
     return_mask : boolean (optional)
         If this is true, then the mask itself (rather than the dictionary  
         entry) will be returned instead.
+    mask_key : string (optional)
+        The key that will be used to denote this mask. It defaults to the
+        standard name.
 
     Returns
     -------
     final_mask : ndarray -> dictionary
         A boolean array for pixels that are masked (True) or are valid (False)  
         will be added to the mask dictionary under the key 
-        ``echo271_maximum_cut``.
+        ``echo271_maximum_cut`` unless otherwise specified.
     """
 
+    
     masked_array = meta_math.smeargle_where(data_array > maximum_value, True, False)
 
-    final_mask = echo_funct.echo_functioned_mask_returning(masked_array, previous_mask,
-                                                     'echo271_maximum_cut', return_mask)
+    final_mask = echo_funct.echo_functioned_mask_returning(pixel_mask=masked_array,
+                                                           masking_dictionary=previous_mask,
+                                                           filter_name=mask_key, 
+                                                           return_mask_only=return_mask)
 
     return final_mask
 
 
 def echo275_pixel_truncation(data_array, top_count, bottom_count, 
-                             previous_mask={}, return_mask=False):
+                             previous_mask={}, return_mask=False,
+                             mask_key='echo275_pixel_truncation'):
     """ This filter truncates the top and bottom number of pixels provided.
 
     The values ``top_count`` and ``bottom_count`` notate the number of pixels 
@@ -108,13 +122,16 @@ def echo275_pixel_truncation(data_array, top_count, bottom_count,
     return_mask : boolean (optional)
         If this is true, then the mask itself (rather than the dictionary  
         entry) will be returned instead.
+    mask_key : string (optional)
+        The key that will be used to denote this mask. It defaults to the
+        standard name.
 
     Returns
     -------
     final_mask : ndarray -> dictionary
         A boolean array for pixels that are masked (True) or are valid (False)  
         will be added to the mask dictionary under the key 
-        ``echo275_pixel_truncation``.
+        ``echo275_pixel_truncation`` unless otherwise specified.
     """
     
     # Sort the data.
@@ -135,13 +152,16 @@ def echo275_pixel_truncation(data_array, top_count, bottom_count,
     masked_array = echo_funct.echo_synthesize_mask_dictionary(temp_mask_dict)
 
     # Finally return
-    final_mask = echo_funct.echo_functioned_mask_returning(masked_array, previous_mask,
-                                                     'echo275_pixel_truncation', return_mask)
+    final_mask = echo_funct.echo_functioned_mask_returning(pixel_mask=masked_array,
+                                                           masking_dictionary=previous_mask,
+                                                           filter_name=mask_key, 
+                                                           return_mask_only=return_mask)
 
     return final_mask
 
 
-def echo276_percent_truncation(data_array, kept_range, previous_mask={}, return_mask=False):
+def echo276_percent_truncation(data_array, kept_range, previous_mask={}, return_mask=False,
+                               mask_key='echo276_percent_truncation'):
     """ This filter truncates the top and bottom percent of pixels from the 
     data array.
 
@@ -162,13 +182,16 @@ def echo276_percent_truncation(data_array, kept_range, previous_mask={}, return_
     return_mask : boolean (optional)
         If this is true, then the mask itself (rather than the dictionary  
         entry) will be returned instead.
+    mask_key : string (optional)
+        The key that will be used to denote this mask. It defaults to the
+        standard name.
 
     Returns
     -------
     final_mask : ndarray -> dictionary
         A boolean array for pixels that are masked (True) or are valid (False)  
         will be added to the mask dictionary under the key 
-        ``echo276_percent_truncation``.
+        ``echo276_percent_truncation`` unless otherwise specified.
     """
     data_array = np.array(data_array)
     kept_range = np.array(kept_range, dtype=np.longdouble)
@@ -196,14 +219,17 @@ def echo276_percent_truncation(data_array, kept_range, previous_mask={}, return_
                                 "multiplication; percent truncation will be wildly inaccurate."))
 
     # Otherwise... return
-    final_mask = echo_funct.echo_functioned_mask_returning(masked_array,previous_mask,
-                                                     'echo276_percent_truncation', return_mask)
+    final_mask = echo_funct.echo_functioned_mask_returning(pixel_mask=masked_array,
+                                                           masking_dictionary=previous_mask,
+                                                           filter_name=mask_key, 
+                                                           return_mask_only=return_mask)
 
     return final_mask
 
 
 def echo277_sigma_truncation(data_array, sigma_limits,
-                             previous_mask={}, return_mask=False):
+                             previous_mask={}, return_mask=False,
+                             mask_key='echo277_sigma_truncation'):
     """ This applies a mask on pixels outside a given multiple of a sigma 
     value.
     
@@ -224,13 +250,16 @@ def echo277_sigma_truncation(data_array, sigma_limits,
     return_mask : boolean (optional)
         If this is true, then the mask itself (rather than the dictionary  
         entry) will be returned instead.
+    mask_key : string (optional)
+        The key that will be used to denote this mask. It defaults to the
+        standard name.
 
     Returns
     -------
     final_mask : ndarray -> dictionary
         A boolean array for pixels that are masked (True) or are valid (False)  
         will be added to the mask dictionary under the key 
-        ``echo277_sigma_truncation``.
+        ``echo277_sigma_truncation`` unless otherwise specified.
     """
 
     # Check if the sigma limits are the same, or the user provided for a lower
@@ -268,7 +297,9 @@ def echo277_sigma_truncation(data_array, sigma_limits,
         masked_array = echo_funct.echo_synthesize_mask_dictionary(temp_mask_dict)
 
     # Finally return
-    final_mask = echo_funct.echo_functioned_mask_returning(masked_array, previous_mask,
-                                                     'echo277_sigma_truncation', return_mask)
+    final_mask = echo_funct.echo_functioned_mask_returning(pixel_mask=masked_array,
+                                                           masking_dictionary=previous_mask,
+                                                           filter_name=mask_key, 
+                                                           return_mask_only=return_mask)
 
     return final_mask

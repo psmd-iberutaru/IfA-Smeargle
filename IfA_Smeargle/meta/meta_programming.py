@@ -55,14 +55,13 @@ def smeargle_deepcopy_function(original_funct):
         deepcopy_funct.copy_status = True
         if ((deepcopy_funct.copy_status == original_funct.copy_status) or
             (deepcopy_funct.copy_status is original_funct.copy_status)):
-            raise BugError("There should be no reason for the original and the "
-                           "deep copy function to be the same.")
+            raise AssumptionError("There should be no reason for the original and the "
+                                  "deep copy function to be the same.")
         else:
             pass
 
     # All done.
     return deepcopy_funct
-
 
 def smeargle_avaliable_bravo_processing_functions():
     """ This returns a dictionary of the available processing functions found

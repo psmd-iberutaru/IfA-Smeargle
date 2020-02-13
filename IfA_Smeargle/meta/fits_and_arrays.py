@@ -111,7 +111,7 @@ def smeargle_remake_array(array, new_array_type):
     new_array : "new_array_type"
         The final array in the specified type.
     """
-    raise DeprecationError
+    raise DeprecationError("A dedicated function for this is not needed.")
 
     if (not inspect.isclass(new_array_type)):
         raise InputError("The new array type must be a class.")

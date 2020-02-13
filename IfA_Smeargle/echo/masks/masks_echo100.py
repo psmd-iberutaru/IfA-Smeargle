@@ -19,7 +19,8 @@ from IfA_Smeargle.meta import *
 from IfA_Smeargle import oscar
 
 
-def echo120_subarray_mask(data_array, x_range, y_range, previous_mask={}, return_mask=False):
+def echo120_subarray_mask(data_array, x_range, y_range, previous_mask={}, 
+                          return_mask=False, mask_key='echo120_subarray_mask'):
     """ This applies a mask on the entire array except for a single sub-array 
     rectangle. 
 
@@ -41,13 +42,16 @@ def echo120_subarray_mask(data_array, x_range, y_range, previous_mask={}, return
     return_mask : boolean (optional)
         If this is true, then the mask itself (rather than the dictionary 
         entry) will be returned instead.
+    mask_key : string (optional)
+        The key that will be used to denote this mask. It defaults to the
+        standard name.
 
     Returns
     -------
     final_mask : ndarray -> dictionary
         A boolean array for pixels that are masked (True) or are valid 
         (False) will be added to the mask dictionary under the 
-        key ``echo120_subarray_mask``.
+        key ``echo120_subarray_mask`` unless otherwise specified.
     """
     # Data validation.
     x_range = np.array(x_range)
@@ -59,14 +63,17 @@ def echo120_subarray_mask(data_array, x_range, y_range, previous_mask={}, return
     masked_array = np.logical_not(masked_array)
 
     # Returning the mask.
-    final_mask = echo_funct.echo_functioned_mask_returning(masked_array,previous_mask,
-                                                     'echo120_subarray_mask',return_mask)
+    final_mask = echo_funct.echo_functioned_mask_returning(pixel_mask=masked_array,
+                                                           masking_dictionary=previous_mask,
+                                                           filter_name=mask_key, 
+                                                           return_mask_only=return_mask)
     
     return final_mask
 
 
-def echo170_gaussian_truncation(data_array, sigma_multiple, bin_size, 
-                                previous_mask={}, return_mask=False):
+def echo170_gaussian_truncation(data_array, sigma_multiple, bin_width, 
+                                previous_mask={}, return_mask=False, 
+                                mask_key='echo170_gaussian_truncation'):
     """ This applies a mask on pixel values outside some Gaussian profile.
 
     This function is similar to echo277_sigma_truncation, but instead the
@@ -89,19 +96,22 @@ def echo170_gaussian_truncation(data_array, sigma_multiple, bin_size,
     return_mask : boolean (optional)
         If this is true, then the mask itself (rather than the dictionary 
         entry) will be returned instead.
+    mask_key : string (optional)
+        The key that will be used to denote this mask. It defaults to the
+        standard name.
 
     Returns
     -------
     final_mask : ndarray -> dictionary
         A boolean array for pixels that are masked (True) or are valid 
         (False) will be added to the mask dictionary under the 
-        key ``echo170_gaussian_truncation``.
+        key ``echo170_gaussian_truncation`` unless otherwise specified.
     """
 
 
     # Fitting the Gaussian function. 
     __, gauss_param = meta_model.smeargle_fit_histogram_gaussian_function(data_array, 
-                                                                          bin_width=bin_size)   
+                                                                          bin_width=bin_width)   
 
     # Basic Gaussian information.
     mean = gauss_param['mean']
@@ -121,7 +131,9 @@ def echo170_gaussian_truncation(data_array, sigma_multiple, bin_size,
         masked_array = echo_funct.echo_synthesize_mask_dictionary(temp_mask_dict)
 
     # Finally return
-    final_mask = echo_funct.echo_functioned_mask_returning(masked_array, previous_mask,
-                                                     'echo170_gaussian_truncation', return_mask)
+    final_mask = echo_funct.echo_functioned_mask_returning(pixel_mask=masked_array,
+                                                           masking_dictionary=previous_mask,
+                                                           filter_name=mask_key, 
+                                                           return_mask_only=return_mask)
 
     return final_mask

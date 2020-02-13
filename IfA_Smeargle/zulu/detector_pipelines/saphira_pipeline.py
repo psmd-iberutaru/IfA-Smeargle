@@ -9,6 +9,7 @@ import matplotlib as mpl
 import matplotlib.pyplot as plt
 import numpy as np
 import numpy.ma as np_ma
+import os
 import warnings as warn
 
 from IfA_Smeargle import bravo
@@ -127,30 +128,32 @@ def SA201907281826_reduction_pipeline(data_directory, configuration_class):
     bravo.bravo_rename_parallel(None, final_names, data_directory, file_extensions='.fits')
 
     # Process all of the files, grabbing the names first.
-    fits_file_names = glob.glob(data_directory + '/*' + '.fits')
-
+    fits_file_names = glob.glob(os.path.join(data_directory, '*.fits'))
     for filedex in fits_file_names:
         # Reading the file and providing it with its configuration file, the 
         # proper Zulu IfasDataArray class should always be used with 
         # pipelines.
-        detector_frame = IfasDataArray(filename=filedex, configuration_class=configuration_class,
-                                       blank=False)
+        detector_frame = zulu.IfasDataArray(pathname=filedex, 
+                                            configuration_class=configuration_class,
+                                            blank=False)
 
         # Applying a premask, provided the defined premask parameters in 
         # the configuration class.
-        __ = detector_frame.echo170_gaussian_truncation(
+        early_mask = detector_frame.echo170_gaussian_truncation(
             frame=detector_frame.config.ZuluConfig.SA201907281826['early_frame'],
             sigma_multiple=detector_frame.config.ZuluConfig.SA201907281826['early_sigma'],
-            bin_size=detector_frame.config.ZuluConfig.SA201907281826['early_bin_size'])
-        # Compile and synthesize the early mask.
-        __ = detector_frame.echo_synthesize_mask_dictionary()
-        __ = detector_frame.echo_create_masked_array()
+            bin_width=detector_frame.config.ZuluConfig.SA201907281826['early_bin_size'],
+            mask_key='premask')        
 
         # The files now need to be split up according to their reference and 
         # analysis chunks.
-        for subframedex in detector_frame.config.ZuluConfig.SA201907281826['averaging_frames']:
-            # Extracting a copy for analysis.
-            detector_subframe = copy.deepcopy(detector_frame)
+        averaging_frames = copy.deepcopy(
+            detector_frame.config.ZuluConfig.SA201907281826['averaging_frames'])
+        for subframedex in averaging_frames:
+            # Extracting a copy for analysis. The normal python deepcopy 
+            # may have a bug that made this unusable.
+            detector_subframe = detector_frame.deepcopy()
+
             # Taking the average of the frames provided in the configuration.
             __ = detector_subframe.median_endpoints_per_second(
                 start_chunk=detector_subframe.config.ZuluConfig.SA201907281826['refrence_frame'],
@@ -159,10 +162,10 @@ def SA201907281826_reduction_pipeline(data_directory, configuration_class):
             # Updating the file name for differentiation and to record the 
             # chunk. Formatting must match the bravo format.
             detector_subframe.update_pathname(
-                append_filename=''.join('__', bravo.rename._string_format_slice(
+                append_filename=''.join(['__', bravo.rename._string_format_slice(
                     reference_frame=detector_subframe.config.ZuluConfig.SA201907281826['refrence_frame'],
-                    averaging_frame=subframedex)))
-
+                    averaging_frame=subframedex)]))
+            return {'sub':detector_subframe, 'orig':detector_frame}
             # Applying the next Gaussian mask on each subframe, using the 
             # configuration parameters.
             __ = detector_subframe.echo170_gaussian_truncation(
@@ -171,6 +174,7 @@ def SA201907281826_reduction_pipeline(data_directory, configuration_class):
             # Compile and synthesize the early mask.
             __ = detector_subframe.echo_synthesize_mask_dictionary()
             __ = detector_subframe.echo_create_masked_array()
+
 
             # Create the heatmap and histogram plot, also write it to file.
             figure = detector_subframe.plot_single_heatmap_and_histogram(
@@ -183,10 +187,15 @@ def SA201907281826_reduction_pipeline(data_directory, configuration_class):
             # Save the fits file. too.
             detector_subframe.write_fits_file()
 
+            # Freeing memory
+            del detector_subframe
+        # Freeing memory.
+        del detector_frame
+
     # All of the frame based analysis should be complete. Dark current
     # over voltage plots are next. 
-    plotdir_dark_current_over_voltage(data_directory=data_directory, 
-                                      configuration_class=configuration_class)
+    oscar.volt_plot.plotdir_dark_current_over_voltage(data_directory=data_directory, 
+                                                      configuration_class=configuration_class)
 
     # All done.
     return None

@@ -62,7 +62,10 @@ def plot_array_heatmap_image(data_array,
 
     # The rest of the computations require a Numpy array. Forcibly 
     # establishing it. Adapt for masked arrays.
-    data_array = meta_faa.smeargle_remake_array(data_array, np_ma.masked_array)
+    if (np_ma.isMaskedArray(data_array)):
+        data_array = np_ma.array(np_ma.getdata(data_array), mask=np_ma.getmask(data_array)) 
+    else:
+        data_array = np.array(data_array)
 
     # If the data array is not the proper dimensions. Rewriting the Astropy
     # error for context.

@@ -41,7 +41,7 @@ def smeargle_mean(array, axis=None):
 
     # Calculate and return the mean. The masked array version of the 
     # functions seems to properly ignore masks as intended.
-    true_mean = np_ma.mean(array, axis=axis)
+    true_mean = np_ma.mean(valid_array, axis=axis)
 
     return true_mean
 
@@ -78,7 +78,7 @@ def smeargle_median(array, axis=None):
 
     # Calculate and return the median. The masked array version of the 
     # functions seems to properly ignore masks as intended.
-    true_median = np_ma.median(array, axis=axis)
+    true_median = np_ma.median(valid_array, axis=axis)
 
     return true_median
 
@@ -117,7 +117,7 @@ def smeargle_std(array, axis=None):
 
     # Calculate and return the standard deviation. The masked array version 
     # of the functions seems to properly ignore masks as intended.
-    true_std = np_ma.std(array, axis=axis)
+    true_std = np_ma.std(valid_array, axis=axis)
 
     return true_std
 
@@ -146,6 +146,7 @@ def smeargle_where(condition, truthy=None, falsy=None):
     """
 
     if (np_ma.isMaskedArray(condition)):
+        raise TerminalError
         if ((truthy is not None) and (falsy is not None)):
             out = np_ma.where(condition, truthy, falsy)
         else:

@@ -10,6 +10,86 @@ from IfA_Smeargle import bravo
 from IfA_Smeargle.meta import *
 
 
+def bravo_archive_data_duplicates(data_directory, archive_name=None, 
+                                  archive_extension='bztar'):
+    """Creates a file archive of a copy of the data files contained within a
+    directory.
+    
+    This function creates an archive of a data directory, preserving a copy
+    of data. However, note that this function generally takes a bit of time
+    if there are a lot of files or if the files are particularly large.
+
+    Please note that this function archives recursively. Non-data files and 
+    non-required files should not be in the a given Data directory.
+
+    Parameters
+    ----------
+    data_directory : string
+        The directory that the data is contained within.
+    archive_name : string (optional)
+        The name of the archive that is to be created. If not provided, a 
+        default is provided that contains the time-stamp of its creation.
+    archive_extension : string (optional)
+        The extension of the archive. Note that only some archives are 
+        supported. Default is ``bztar``. See 
+        :py:func:`shutil.get_archive_formats` for more information on 
+        available archive formats.
+
+    Returns
+    -------
+    nothing
+    """
+
+
+    # Warn just in case.
+    smeargle_warning(TimeWarning,("Archiving and copying particularly a lot of large fits "
+                                  "files may take a very long time. It is still suggested, "
+                                  "but archive outside of Python. Disable archiving procedures "
+                                  "via < copy_data=False >."))
+
+    # Preserve the files just in case, work on a copy data set. Date-time 
+    # to distinguish, by format __YYYYMMDD_HHMMSS, from other BravoArchives 
+    # if an original name has not been given.
+    if (archive_name is not None):
+        pass
+    else:
+        archive_name = 'IFAS_BravoArchive' + time.strftime("__%Y%m%d_%H%M%S", time.localtime())
+    
+    # For some reason, if the archive is made in the same directory, it 
+    # recursively archives itself and intended files until its way too big. 
+    # Making it outside then moving it is a workaround. 
+    shutil.make_archive(os.path.join(data_directory, '..', archive_name), 
+                        archive_extension, os.path.join(data_directory, ''))
+
+    # Be adaptive for the tar based file extensions, the notation used for 
+    # shutil is not exactly the same as the file extension. This is required
+    # for the moving workaround.
+    if (archive_extension == 'zip'):
+        archive_extension = '.zip'
+    elif (archive_extension == 'tar'):
+        archive_extension = '.tar'
+    elif (archive_extension == 'gztar'):
+        archive_extension = '.tar.gz'
+    elif (archive_extension == 'bztar'):
+        archive_extension = '.tar.bz2'
+    elif (archive_extension == 'xztar'):
+        archive_extension = '.tar.xz'
+    else:
+        raise InputError("The archive extension type is not supported. Please change the "
+                         "extension type to a supported archive format.")
+
+    # Proceed with the move.
+    shutil.move(os.path.join(data_directory, '..', ''.join([archive_name, archive_extension])),
+                os.path.join(data_directory, ''.join([archive_name, archive_extension])))
+
+    # Inform the user where the archive is (just in case).
+    smeargle_info("Raw archive of data is stored in  < {arc_dir} >"
+                  .format(arc_dir=os.path.join(data_directory, 
+                                               ''.join([archive_name, archive_extension]))))
+
+    return None
+
+
 def bravo_filename_split_by_parameter(path_file_name, ignore_mismatch=False):
     """ Takes a standard file name made by the BRAVO class and splits it into
     a more workable dictionary.
@@ -137,8 +217,8 @@ def bravo_rename_parallel(file_names, file_renames, data_directory=None,
 
     # Extraction of the directory if provided. Paths should be conserved.
     if (data_directory is not None):
-        # For the files to be renamed.
-        original_names = glob.glob(data_directory + '/*' + file_extensions)
+        # For the files to be renamed. os.path.join(data_directory, ''.join(['*', '.fits']))
+        original_names = glob.glob(os.path.join(data_directory, ''.join(['*', '.fits'])))
         original_paths = [os.path.split(pathdex)[0] for pathdex in original_names]
         n_files = len(original_names)
         
@@ -159,14 +239,15 @@ def bravo_rename_parallel(file_names, file_renames, data_directory=None,
                                                      file_renames):
             # Check for automatic file name extension.
             if (filerenamedex[-len(file_extensions):] != file_extensions):
-                os.rename(filenamedex, os.path.join(pathdex, filerenamedex + file_extensions))
+                os.rename(filenamedex, os.path.join(pathdex, ''.join([filerenamedex, 
+                                                                      file_extensions])))
             else:
                 os.rename(filenamedex, os.path.join(pathdex, filerenamedex))
-    else:
+    else: 
         for filenamedex,filerenamedex in zip(file_names,file_renames):
            # Check for automatic file name extension.
             if (filerenamedex[-len(file_extensions):] != file_extensions):
-                os.rename(filenamedex, filerenamedex + file_extensions)
+                os.rename(filenamedex, ''.join([filerenamedex, file_extensions]))
             else:
                 os.rename(filenamedex, filerenamedex)
 
