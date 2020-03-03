@@ -13,7 +13,8 @@ first X and last X frames, adapting them and outputting them.
 """
 
 
-def median_endpoints(data_array, start_chunk, end_chunk):
+def median_endpoints(data_array, start_chunk, end_chunk, 
+                     frame_exposure_time=None):
     """ This function reads a fits file and computes its end section values.
 
     This function reads in a fits file of 3 dimensions, averaging some 
@@ -30,11 +31,10 @@ def median_endpoints(data_array, start_chunk, end_chunk):
         The exact range of frames from the beginning that will be median-ed.
     end_chunk : array-like
         The exact range of frames from the bottom that will be median-ed.
-    write_file : boolean (optional)
-        If true, the Astropy HDUL object is written to a fits file.
-    alternate_name : string (optional)
-        An alternate fits file name to write the data too instead of the 
-        first provided one.
+    frame_exposure_time : float
+        The duration, per frame (in seconds), of each exposure. This is 
+        really not used in this function, but, it is added for uniformity with
+        the other functions.
 
     Returns
     -------
@@ -116,7 +116,7 @@ def median_endpoints_per_kilosecond(data_array, start_chunk, end_chunk, frame_ex
     """
 
     # The divisor is naturally the integration time, in seconds.
-    iintegration_time = (frame_exposure_time * (meta_math.smeargle_median(array=end_chunk)
+    integration_time = (frame_exposure_time * (meta_math.smeargle_median(array=end_chunk)
                                                - meta_math.smeargle_median(array=start_chunk)))
     # However, this function desires kiloseconds, therefore, integration time 
     # should be factored down.
@@ -203,6 +203,7 @@ def _primary_combination_function(data_array, start_chunk, end_chunk,
     if (start_chunk.ptp() != end_chunk.ptp()):
         smeargle_warning(ReductionWarning,("The size of the start chunk and end chunk are "
                                            "different sizes, this is unusual but acceptable."))
+
 
     # Calculate the combinations. The custom combinations functions are needed 
     # to handle both nans and masked arrays.

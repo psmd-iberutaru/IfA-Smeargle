@@ -155,7 +155,7 @@ def SA201907281826_reduction_pipeline(data_directory, configuration_class):
             detector_subframe = detector_frame.deepcopy()
 
             # Taking the average of the frames provided in the configuration.
-            __ = detector_subframe.median_endpoints_per_second(
+            __ = detector_subframe.median_endpoints(
                 start_chunk=detector_subframe.config.ZuluConfig.SA201907281826['refrence_frame'],
                 end_chunk=subframedex, 
                 frame_exposure_time=detector_subframe.config.ZuluConfig.SA201907281826['frame_exposure'])
@@ -165,25 +165,24 @@ def SA201907281826_reduction_pipeline(data_directory, configuration_class):
                 append_filename=''.join(['__', bravo.rename._string_format_slice(
                     reference_frame=detector_subframe.config.ZuluConfig.SA201907281826['refrence_frame'],
                     averaging_frame=subframedex)]))
-            return {'sub':detector_subframe, 'orig':detector_frame}
+            #return detector_subframe
             # Applying the next Gaussian mask on each subframe, using the 
             # configuration parameters.
             __ = detector_subframe.echo170_gaussian_truncation(
                 sigma_multiple=detector_subframe.config.EchoConfig.echo170_config['sigma_multiple'],
-                bin_size=detector_subframe.config.EchoConfig.echo170_config['bin_size'])
+                bin_width=detector_subframe.config.EchoConfig.echo170_config['bin_width'])
             # Compile and synthesize the early mask.
             __ = detector_subframe.echo_synthesize_mask_dictionary()
             __ = detector_subframe.echo_create_masked_array()
 
 
             # Create the heatmap and histogram plot, also write it to file.
-            figure = detector_subframe.plot_single_heatmap_and_histogram(
-                configuration_class=detector_subframe.config)
-            meta_io.smeargle_save_figure_file(figure=figure, 
-                                              file_name=''.join([detector_subframe.filedirectory,
-                                                                 detector_subframe.filename, 
-                                                                 "__plot.pdf"]),
-                                              title=detector_subframe.filename)
+            meta_io.smeargle_save_figure_file(
+                figure=detector_subframe.plot_single_heatmap_and_histogram(
+                    configuration_class=detector_subframe.config),
+                file_name=os.path.join(detector_subframe.filedirectory, 
+                                       ''.join([detector_subframe.filename, "__plot.pdf"])),
+                title=detector_subframe.filename)
             # Save the fits file. too.
             detector_subframe.write_fits_file()
 

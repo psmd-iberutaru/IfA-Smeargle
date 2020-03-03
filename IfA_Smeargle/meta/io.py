@@ -8,17 +8,11 @@ it is still suggested that these functions be used over custom approaches when a
 
 """
 
-import astropy as ap
 import astropy.io.fits as ap_fits
-import astropy.modeling as ap_mod
 import numpy as np
 import numpy.ma as np_ma
-import matplotlib as mpl
 import matplotlib.pyplot as plt
-import scipy as sp
-import scipy.signal as sp_sig
-import scipy.stats as sp_stat
-import sys
+import os
 
 from IfA_Smeargle.meta import *
 

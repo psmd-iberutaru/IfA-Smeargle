@@ -79,7 +79,7 @@ def plotdir_dark_current_over_voltage(data_directory, figure_axes=None, configur
                              'botslice':filedictdex['slice'][-1],
                              'filename':filedictdex['filename']}
             # The actual computed data for each of the data frames.
-            __, __, data_array = meta_faa.smeargle_open_fits_file(filedictdex['filename'])
+            __, __, data_array = meta_io.smeargle_open_fits_file(filedictdex['filename'])
             __, gaussian_data = meta_model.smeargle_fit_histogram_gaussian_function(data_array,
                                                                                    bin_width=10)
             # The custom statistical functions are needed to handle both nans and masked arrays.

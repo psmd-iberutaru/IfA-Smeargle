@@ -84,16 +84,18 @@ class IfasDataArray():
                 smeargle_warning(InputWarning,("The data array file is indicated to return a "
                                                "blank one. Doing so as requested."))
             else:
-                # Clean up the file path nane such that there are no directory
+                # Clean up the file path name such that there are no directory
                 # slash problems.
-                pathname = os.path.join(pathname)
+                self._original_pathname = os.path.join(pathname)
                 # The file name, for completeness purposes.
-                self.filename = os.path.splitext(os.path.basename(pathname))[0]
-                self.filedirectory = os.path.dirname(pathname)
-                self.fileextension = os.path.splitext(os.path.basename(pathname))[-1]
-                self.filepathname = pathname
+                self.filename = os.path.splitext(os.path.basename(self._original_pathname))[0]
+                self.filedirectory = os.path.dirname(self._original_pathname)
+                self.fileextension = \
+                    os.path.splitext(os.path.basename(self._original_pathname))[-1]
+                self.filepathname = self._original_pathname
                 # Read the fits file data.
-                hdul_file, hdu_header, hdu_data = meta_io.smeargle_open_fits_file(pathname)
+                hdul_file, hdu_header, hdu_data = meta_io.smeargle_open_fits_file(
+                    self._original_pathname, silent=True)
                 self.fits_file = hdul_file
                 self.fits_header = hdu_header
                 self.fits_data = hdu_data
@@ -148,6 +150,7 @@ class IfasDataArray():
                                blank=blank)
 
         return None
+
 
 
     # Property variables and for the mutable attributes for the data and
@@ -207,10 +210,10 @@ class IfasDataArray():
                                                                 ignore_mismatch=False))
         
         # The median functions, to act on this data file.
-        def median_endpoints(start_chunk, end_chunk):
-            resulting_data = bravo.avging.median_endpoints(data_array=self.data, 
-                                                           start_chunk=start_chunk, 
-                                                           end_chunk=end_chunk)
+        def median_endpoints(start_chunk, end_chunk, frame_exposure_time):
+            resulting_data = bravo.avging.median_endpoints(
+                data_array=self.data, start_chunk=start_chunk, 
+                end_chunk=end_chunk, frame_exposure_time=frame_exposure_time)
             self.data = resulting_data
             return resulting_data
         setattr(self, 'median_endpoints', median_endpoints)

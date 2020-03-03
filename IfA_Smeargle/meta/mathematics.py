@@ -64,7 +64,6 @@ def smeargle_median(array, axis=None):
     true_median : float or ndarray
         The median of the array along which ever axis was given. 
     """
-
     # Fix all invalid data before taking the median.
     valid_array = np_ma.fix_invalid(array)
 
