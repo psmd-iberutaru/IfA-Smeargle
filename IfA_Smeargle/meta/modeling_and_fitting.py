@@ -157,18 +157,19 @@ def smeargle_fit_histogram_gaussian_function(data_array, bin_width):
             smeargle_warning(DataWarning,("Nyquist peaks cannot be found, relying on 1-bin "
                                           "wide peaks for estimates. Estimates may be very "
                                           "off."))
-            peak_index, __ = sp_sig.find_peaks(cuthist_y)
+            peak_index, __ = sp_sig.find_peaks(cuthist_y, width=1, rel_height=1)
             fwhm_esti_list = sp_sig.peak_widths(cuthist_y, peak_index, rel_height=0.5)[0]
             try:
                 fwhm_esti = extract_fwhm_estimate(fwhm_esti_list, cuthist_y)
             except ValueError:
                 # Inform the user of the failure of peak-finding. Prevent 
                 # an Unbound error by assigning a dummy value.
-                fwhm_esti = 0
-                raise DataError("It seems that there is no peak in the data, suggesting a very "
-                                "flat profile. The Gaussian fit cannot be applied.")
+                fwhm_esti = 2.3548200450309493 # For stddev guess to be 1.
+                smeargle_warning(DataWarning,("It seems that there is no peak in the data, "
+                                              "suggesting a very flat or sparse profile. The "
+                                              "Gaussian fit may not be applied correctly."))
     finally:
-        guess_stddev = fwhm_esti / 2.35482 # 2 sqrt(2 ln 2)
+        guess_stddev = fwhm_esti / 2.3548200450309493 # 2 sqrt(2 ln 2)
     # The peak location where the stddev estimate was calculated is as good 
     # as any.
     try:
@@ -176,7 +177,7 @@ def smeargle_fit_histogram_gaussian_function(data_array, bin_width):
     except ValueError:
         # Just in case the guessing of peaks completely failed, this is an
         # acceptable backup.
-        guess_mean = cuthist_x[np.argmax[cuthist_y]]
+        guess_mean = cuthist_x[np.argmax(cuthist_y)]
     # The highest value is as good as any guess for the amplitude.
     try:
         guess_amplitude = cuthist_y[peak_index[np.argmax(cuthist_y[peak_index])]]

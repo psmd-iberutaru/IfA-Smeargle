@@ -641,10 +641,11 @@ class IfasDataArray():
         if (not isinstance(self, IfasDataArray)):
             raise TypeError("Deepcopy functionality is not supported for instances that are "
                             "not derived from IfasDataArray.")
-        elif (type(self) == IfasDataArray):
+        elif (type(self) != IfasDataArray):
             smeargle_warning(OutputWarning,("Deepcopy functionality is not officially supported "
                                             "for non-direct instances of IfasDataArray."))
-
+        else:
+            pass
 
         # The best way to resolve unwanted references is just to make a new
         # class.
@@ -652,7 +653,7 @@ class IfasDataArray():
                                      blank=True, silent=True)
 
         # Extract the needed data to copy over and do so.
-        original_instance = copy.deepcopy(self)
+        original_instance = copy.copy(self)
         original_dictionary = copy.deepcopy(vars(original_instance))
         for keydex, valuedex in copy.deepcopy(original_dictionary).items():
             if (callable(valuedex)):
