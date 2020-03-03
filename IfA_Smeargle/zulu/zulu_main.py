@@ -151,7 +151,14 @@ class IfasDataArray():
 
         return None
 
-
+    def __deepcopy__(self, memo=None):
+        """ The deepcopy function from the copy module doesn't behave as 
+        expected. So, it is important to be cautious.
+        """
+        raise AssumptionError("The deepcopy functionality doesn't produce a true deepcopy. "
+                              "Use the self.deepcopy function for true deepcopy "
+                              "functionality.")
+        return None
 
     # Property variables and for the mutable attributes for the data and
     # the global data mask.
@@ -635,6 +642,14 @@ class IfasDataArray():
             new_instance : IfasDataArray
                 The new copied instance of this class.
         """
+        # Check if the provided class is the correct type. 
+        if (not isinstance(self, IfasDataArray)):
+            raise TypeError("Deepcopy functionality is not supported for instances that are "
+                            "not derived from IfasDataArray.")
+        elif (type(self) == IfasDataArray):
+            smeargle_warning(OutputWarning,("Deepcopy functionality is not officially supported "
+                                            "for non-direct instances of IfasDataArray."))
+
 
         # The best way to resolve unwanted references is just to make a new
         # class.
