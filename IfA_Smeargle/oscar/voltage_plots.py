@@ -2,7 +2,6 @@
 import glob
 import matplotlib.pyplot as plt
 import numpy as np
-import numpy.ma as np_ma
 import pandas as pd
 
 from IfA_Smeargle import bravo

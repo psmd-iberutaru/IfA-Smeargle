@@ -4,7 +4,6 @@ This is a list of functions that as rather useful in meta-programming.
 """
 
 import copy
-import functools
 import importlib
 import inspect
 import types

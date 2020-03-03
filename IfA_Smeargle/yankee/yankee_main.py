@@ -7,8 +7,6 @@ Though technically a meta-line, as it is a full line in itself, it is not consid
 in the meta functionality.
 """
 
-import copy
-import pickle
 
 from IfA_Smeargle.meta import *
 

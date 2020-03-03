@@ -3,7 +3,6 @@
 This contains all of the histogram plotting methods.
 """
 
-import astropy.modeling as ap_mod
 import copy
 import matplotlib as mpl
 import matplotlib.patches as mpl_patch

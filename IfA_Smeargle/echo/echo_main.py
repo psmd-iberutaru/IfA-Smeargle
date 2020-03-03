@@ -2,7 +2,6 @@
 import copy
 import glob
 import inspect
-import numpy as np
 import warnings as warn
 
 

@@ -1,14 +1,9 @@
 
-import astropy as ap
 import astropy.modeling as ap_mod
 import numpy as np
 import numpy.ma as np_ma
-import matplotlib as mpl
-import matplotlib.pyplot as plt
-import scipy as sp
 import scipy.signal as sp_sig
 import scipy.stats as sp_stat
-import sys
 
 from IfA_Smeargle.meta import *
 
