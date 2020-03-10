@@ -1,0 +1,13 @@
+{
+	"folders": [
+		{
+			"path": "C:\\Users\\Tripp\\Desktop\\PROGRAM\\Documentation"
+		}
+	],
+	"settings": {
+		// This is to allow for the /r/n carrage returns.
+		"restructuredtext.linter.extraArgs": [
+			"--ignore D002",
+			"--ignore D004"]
+	},
+}

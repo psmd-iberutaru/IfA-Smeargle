@@ -48,7 +48,8 @@ def echo_execution(data_array, configuration_class,
     # Check if the user wanted it to be silent.
     if (silent):
         with smeargle_absolute_silence():
-            return echo_execution(data_array, configuration_class)
+            return echo_execution(data_array=data_array, configuration_class=configuration_class,
+                                  silent=False)
 
 
     # Be adaptive with accepting a fits file.
