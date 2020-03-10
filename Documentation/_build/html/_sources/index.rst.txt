@@ -11,9 +11,11 @@ Welcome to IfA_Smeargle's documentation!
    :caption: Usage and Operation:
 
    quickstart
+   creating_pipelines
+
 
 .. toctree::
-   :maxdepth: 5
+   :maxdepth: 4
    :caption: Code Documentation:
 
    python_docstrings/modules

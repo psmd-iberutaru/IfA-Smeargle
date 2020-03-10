@@ -86,6 +86,7 @@
               <p class="caption"><span class="caption-text">Usage and Operation:</span></p>
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="../quickstart.html">Quickstart</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../creating_pipelines.html">Creating Pipelines</a></li>
 </ul>
 <p class="caption"><span class="caption-text">Code Documentation:</span></p>
 <ul class="current">
@@ -182,6 +183,28 @@
 <span id="ifa-smeargle-echo-echo-functions-module"></span><h1>IfA_Smeargle.echo.echo_functions module<a class="headerlink" href="#module-IfA_Smeargle.echo.echo_functions" title="Permalink to this headline">¶</a></h1>
 <p>These are some functions for the ECHO line that are helpful.</p>
 <dl class="function">
+<dt id="IfA_Smeargle.echo.echo_functions.echo_create_masked_array">
+<code class="sig-prename descclassname">IfA_Smeargle.echo.echo_functions.</code><code class="sig-name descname">echo_create_masked_array</code><span class="sig-paren">(</span><em class="sig-param">data_array</em>, <em class="sig-param">synthesized_mask</em>, <em class="sig-param">masking_dictionary=None</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/IfA_Smeargle/echo/echo_functions.html#echo_create_masked_array"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#IfA_Smeargle.echo.echo_functions.echo_create_masked_array" title="Permalink to this definition">¶</a></dt>
+<dd><p>This function makes a Numpy masked array; a nice built in class for
+this line.</p>
+<p>The Numpy Masked Array class works very well with masking data values in
+a given array. It is only natural to use such functionality. This is
+really a wrapper function for ease of usage with familiarity of
+IfA-Smeargle’s structures.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>data_array</strong> (<em>ndarray</em>) – The data that is to have its mask made.</p></li>
+<li><p><strong>synthesized_mask</strong> (<em>ndarray</em>) – The mask that should be applied to the data, it is expected that
+this is post-synthesis.</p></li>
+<li><p><strong>masking_dictionary</strong> (<em>dictionary</em><em> (</em><em>optional</em><em>)</em>) – The masking dictionary pre-synthesis. If it is not None,
+<code class="docutils literal notranslate"><span class="pre">synthesized_mask</span></code> is completely ignored in favor of this parameter.</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="function">
 <dt id="IfA_Smeargle.echo.echo_functions.echo_functioned_mask_returning">
 <code class="sig-prename descclassname">IfA_Smeargle.echo.echo_functions.</code><code class="sig-name descname">echo_functioned_mask_returning</code><span class="sig-paren">(</span><em class="sig-param">pixel_mask</em>, <em class="sig-param">masking_dictionary</em>, <em class="sig-param">filter_name</em>, <em class="sig-param">return_mask_only</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/IfA_Smeargle/echo/echo_functions.html#echo_functioned_mask_returning"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#IfA_Smeargle.echo.echo_functions.echo_functioned_mask_returning" title="Permalink to this definition">¶</a></dt>
 <dd><p>This function is a single implementation for returning masks.</p>
@@ -204,28 +227,6 @@ dictionary based on the boolean value.</p>
 </dd>
 <dt class="field-odd">Return type</dt>
 <dd class="field-odd"><p>ndarray or dictionary</p>
-</dd>
-</dl>
-</dd></dl>
-
-<dl class="function">
-<dt id="IfA_Smeargle.echo.echo_functions.echo_numpy_masked_array">
-<code class="sig-prename descclassname">IfA_Smeargle.echo.echo_functions.</code><code class="sig-name descname">echo_numpy_masked_array</code><span class="sig-paren">(</span><em class="sig-param">data_array</em>, <em class="sig-param">synthesized_mask</em>, <em class="sig-param">masking_dictionary=None</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/IfA_Smeargle/echo/echo_functions.html#echo_numpy_masked_array"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#IfA_Smeargle.echo.echo_functions.echo_numpy_masked_array" title="Permalink to this definition">¶</a></dt>
-<dd><p>This function makes a Numpy masked array; a nice built in class for
-this line.</p>
-<p>The Numpy Masked Array class works very well with masking data values in
-a given array. It is only natural to use such functionality. This is
-really a wrapper function for ease of usage with familiarity of
-IfA-Smeargle’s structures.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
-<dd class="field-odd"><ul class="simple">
-<li><p><strong>data_array</strong> (<em>ndarray</em>) – The data that is to have its mask made.</p></li>
-<li><p><strong>synthesized_mask</strong> (<em>ndarray</em>) – The mask that should be applied to the data, it is expected that
-this is post-synthesis.</p></li>
-<li><p><strong>masking_dictionary</strong> (<em>dictionary</em><em> (</em><em>optional</em><em>)</em>) – The masking dictionary pre-synthesis. If it is not None,
-<code class="docutils literal notranslate"><span class="pre">synthesized_mask</span></code> is completely ignored in favor of this parameter.</p></li>
-</ul>
 </dd>
 </dl>
 </dd></dl>

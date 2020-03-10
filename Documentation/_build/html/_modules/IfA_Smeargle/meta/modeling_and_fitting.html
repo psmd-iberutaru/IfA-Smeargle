@@ -84,6 +84,7 @@
               <p class="caption"><span class="caption-text">Usage and Operation:</span></p>
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="../../../quickstart.html">Quickstart</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../creating_pipelines.html">Creating Pipelines</a></li>
 </ul>
 <p class="caption"><span class="caption-text">Code Documentation:</span></p>
 <ul>
@@ -152,16 +153,11 @@
             
   <h1>Source code for IfA_Smeargle.meta.modeling_and_fitting</h1><div class="highlight"><pre>
 <span></span>
-<span class="kn">import</span> <span class="nn">astropy</span> <span class="k">as</span> <span class="nn">ap</span>
 <span class="kn">import</span> <span class="nn">astropy.modeling</span> <span class="k">as</span> <span class="nn">ap_mod</span>
 <span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
 <span class="kn">import</span> <span class="nn">numpy.ma</span> <span class="k">as</span> <span class="nn">np_ma</span>
-<span class="kn">import</span> <span class="nn">matplotlib</span> <span class="k">as</span> <span class="nn">mpl</span>
-<span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="nn">plt</span>
-<span class="kn">import</span> <span class="nn">scipy</span> <span class="k">as</span> <span class="nn">sp</span>
 <span class="kn">import</span> <span class="nn">scipy.signal</span> <span class="k">as</span> <span class="nn">sp_sig</span>
 <span class="kn">import</span> <span class="nn">scipy.stats</span> <span class="k">as</span> <span class="nn">sp_stat</span>
-<span class="kn">import</span> <span class="nn">sys</span>
 
 <span class="kn">from</span> <span class="nn">IfA_Smeargle.meta</span> <span class="k">import</span> <span class="o">*</span>
 
@@ -230,7 +226,7 @@
 
     <span class="k">return</span> <span class="n">gaussian_function</span><span class="p">,</span> <span class="n">gaussian_parameters</span></div>
 
-<div class="viewcode-block" id="smeargle_fit_histogram_gaussian_function"><a class="viewcode-back" href="../../../python_docstrings/IfA_Smeargle.meta.modeling_and_fitting.html#IfA_Smeargle.meta.modeling_and_fitting.smeargle_fit_histogram_gaussian_function">[docs]</a><span class="k">def</span> <span class="nf">smeargle_fit_histogram_gaussian_function</span><span class="p">(</span><span class="n">data_array</span><span class="p">,</span> <span class="n">bin_width</span><span class="o">=</span><span class="mi">10</span><span class="p">):</span>
+<div class="viewcode-block" id="smeargle_fit_histogram_gaussian_function"><a class="viewcode-back" href="../../../python_docstrings/IfA_Smeargle.meta.modeling_and_fitting.html#IfA_Smeargle.meta.modeling_and_fitting.smeargle_fit_histogram_gaussian_function">[docs]</a><span class="k">def</span> <span class="nf">smeargle_fit_histogram_gaussian_function</span><span class="p">(</span><span class="n">data_array</span><span class="p">,</span> <span class="n">bin_width</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot; This function fits a Gaussian function to a specific set of data.</span>
 
 <span class="sd">    Gaussian fitting is hard, this function exists as a port so that </span>
@@ -241,7 +237,7 @@
 <span class="sd">    ----------</span>
 <span class="sd">    data_array : ndarray</span>
 <span class="sd">        The data that the histogram Gaussian function is fitting.</span>
-<span class="sd">    bin_width : float (optional)</span>
+<span class="sd">    bin_width : float</span>
 <span class="sd">        The width of the bins to use for the histogram fitting function.</span>
 
 <span class="sd">    Returns</span>
@@ -263,7 +259,7 @@
     <span class="c1"># For consistent measurements have a lot of bins throughout the values. </span>
     <span class="c1"># Extracting function temporarily.</span>
     <span class="kn">from</span> <span class="nn">IfA_Smeargle.oscar.oscar_functions</span> <span class="k">import</span> <span class="n">oscar_bin_width</span>
-    <span class="n">hist_bins</span> <span class="o">=</span> <span class="n">oscar_bin_width</span><span class="p">(</span><span class="n">flat_data</span><span class="p">,</span> <span class="n">bin_width</span><span class="p">)</span>
+    <span class="n">hist_bins</span> <span class="o">=</span> <span class="n">oscar_bin_width</span><span class="p">(</span><span class="n">data_array</span><span class="o">=</span><span class="n">flat_data</span><span class="p">,</span> <span class="n">bin_width</span><span class="o">=</span><span class="n">bin_width</span><span class="p">)</span>
     <span class="k">del</span> <span class="n">oscar_bin_width</span>
 
     <span class="c1"># Extract histogram data from the data.</span>
@@ -315,18 +311,19 @@
             <span class="n">smeargle_warning</span><span class="p">(</span><span class="n">DataWarning</span><span class="p">,(</span><span class="s2">&quot;Nyquist peaks cannot be found, relying on 1-bin &quot;</span>
                                           <span class="s2">&quot;wide peaks for estimates. Estimates may be very &quot;</span>
                                           <span class="s2">&quot;off.&quot;</span><span class="p">))</span>
-            <span class="n">peak_index</span><span class="p">,</span> <span class="n">__</span> <span class="o">=</span> <span class="n">sp_sig</span><span class="o">.</span><span class="n">find_peaks</span><span class="p">(</span><span class="n">cuthist_y</span><span class="p">)</span>
+            <span class="n">peak_index</span><span class="p">,</span> <span class="n">__</span> <span class="o">=</span> <span class="n">sp_sig</span><span class="o">.</span><span class="n">find_peaks</span><span class="p">(</span><span class="n">cuthist_y</span><span class="p">,</span> <span class="n">width</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">rel_height</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
             <span class="n">fwhm_esti_list</span> <span class="o">=</span> <span class="n">sp_sig</span><span class="o">.</span><span class="n">peak_widths</span><span class="p">(</span><span class="n">cuthist_y</span><span class="p">,</span> <span class="n">peak_index</span><span class="p">,</span> <span class="n">rel_height</span><span class="o">=</span><span class="mf">0.5</span><span class="p">)[</span><span class="mi">0</span><span class="p">]</span>
             <span class="k">try</span><span class="p">:</span>
                 <span class="n">fwhm_esti</span> <span class="o">=</span> <span class="n">extract_fwhm_estimate</span><span class="p">(</span><span class="n">fwhm_esti_list</span><span class="p">,</span> <span class="n">cuthist_y</span><span class="p">)</span>
             <span class="k">except</span> <span class="ne">ValueError</span><span class="p">:</span>
                 <span class="c1"># Inform the user of the failure of peak-finding. Prevent </span>
                 <span class="c1"># an Unbound error by assigning a dummy value.</span>
-                <span class="n">fwhm_esti</span> <span class="o">=</span> <span class="mi">0</span>
-                <span class="k">raise</span> <span class="n">DataError</span><span class="p">(</span><span class="s2">&quot;It seems that there is no peak in the data, suggesting a very &quot;</span>
-                                <span class="s2">&quot;flat profile. The Gaussian fit cannot be applied.&quot;</span><span class="p">)</span>
+                <span class="n">fwhm_esti</span> <span class="o">=</span> <span class="mf">2.3548200450309493</span> <span class="c1"># For stddev guess to be 1.</span>
+                <span class="n">smeargle_warning</span><span class="p">(</span><span class="n">DataWarning</span><span class="p">,(</span><span class="s2">&quot;It seems that there is no peak in the data, &quot;</span>
+                                              <span class="s2">&quot;suggesting a very flat or sparse profile. The &quot;</span>
+                                              <span class="s2">&quot;Gaussian fit may not be applied correctly.&quot;</span><span class="p">))</span>
     <span class="k">finally</span><span class="p">:</span>
-        <span class="n">guess_stddev</span> <span class="o">=</span> <span class="n">fwhm_esti</span> <span class="o">/</span> <span class="mf">2.35482</span> <span class="c1"># 2 sqrt(2 ln 2)</span>
+        <span class="n">guess_stddev</span> <span class="o">=</span> <span class="n">fwhm_esti</span> <span class="o">/</span> <span class="mf">2.3548200450309493</span> <span class="c1"># 2 sqrt(2 ln 2)</span>
     <span class="c1"># The peak location where the stddev estimate was calculated is as good </span>
     <span class="c1"># as any.</span>
     <span class="k">try</span><span class="p">:</span>
@@ -334,7 +331,7 @@
     <span class="k">except</span> <span class="ne">ValueError</span><span class="p">:</span>
         <span class="c1"># Just in case the guessing of peaks completely failed, this is an</span>
         <span class="c1"># acceptable backup.</span>
-        <span class="n">guess_mean</span> <span class="o">=</span> <span class="n">cuthist_x</span><span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">argmax</span><span class="p">[</span><span class="n">cuthist_y</span><span class="p">]]</span>
+        <span class="n">guess_mean</span> <span class="o">=</span> <span class="n">cuthist_x</span><span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">argmax</span><span class="p">(</span><span class="n">cuthist_y</span><span class="p">)]</span>
     <span class="c1"># The highest value is as good as any guess for the amplitude.</span>
     <span class="k">try</span><span class="p">:</span>
         <span class="n">guess_amplitude</span> <span class="o">=</span> <span class="n">cuthist_y</span><span class="p">[</span><span class="n">peak_index</span><span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">argmax</span><span class="p">(</span><span class="n">cuthist_y</span><span class="p">[</span><span class="n">peak_index</span><span class="p">])]]</span>

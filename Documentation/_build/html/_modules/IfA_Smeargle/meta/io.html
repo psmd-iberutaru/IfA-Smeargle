@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>IfA_Smeargle.meta.fits_and_arrays &mdash; IfA-Smeargle 2019-08-19 documentation</title>
+  <title>IfA_Smeargle.meta.io &mdash; IfA-Smeargle 2019-08-19 documentation</title>
   
 
   
@@ -84,6 +84,7 @@
               <p class="caption"><span class="caption-text">Usage and Operation:</span></p>
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="../../../quickstart.html">Quickstart</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../creating_pipelines.html">Creating Pipelines</a></li>
 </ul>
 <p class="caption"><span class="caption-text">Code Documentation:</span></p>
 <ul>
@@ -135,7 +136,7 @@
         
           <li><a href="../../index.html">Module code</a> &raquo;</li>
         
-      <li>IfA_Smeargle.meta.fits_and_arrays</li>
+      <li>IfA_Smeargle.meta.io</li>
     
     
       <li class="wy-breadcrumbs-aside">
@@ -150,24 +151,27 @@
           <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
            <div itemprop="articleBody">
             
-  <h1>Source code for IfA_Smeargle.meta.fits_and_arrays</h1><div class="highlight"><pre>
-<span></span>
-<span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">This file contains functions dealing with the loading and handling of fits files and their </span>
-<span class="sd">associated header and data arrays.</span>
+  <h1>Source code for IfA_Smeargle.meta.io</h1><div class="highlight"><pre>
+<span></span><span class="sd">&quot;&quot;&quot;</span>
+
+<span class="sd">This module just adds some shortcut calling functions to functionality of plotting functions</span>
+<span class="sd">and related methods. </span>
+
+<span class="sd">Although the implementation of the entire functionality module is supposed to be untouched,</span>
+<span class="sd">it is still suggested that these functions be used over custom approaches when applicable. </span>
+
 <span class="sd">&quot;&quot;&quot;</span>
 
-<span class="kn">import</span> <span class="nn">astropy</span> <span class="k">as</span> <span class="nn">ap</span>
 <span class="kn">import</span> <span class="nn">astropy.io.fits</span> <span class="k">as</span> <span class="nn">ap_fits</span>
-<span class="kn">import</span> <span class="nn">copy</span>
 <span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
 <span class="kn">import</span> <span class="nn">numpy.ma</span> <span class="k">as</span> <span class="nn">np_ma</span>
+<span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="nn">plt</span>
 <span class="kn">import</span> <span class="nn">os</span>
-<span class="kn">import</span> <span class="nn">warnings</span> <span class="k">as</span> <span class="nn">warn</span>
 
 <span class="kn">from</span> <span class="nn">IfA_Smeargle.meta</span> <span class="k">import</span> <span class="o">*</span>
 
-<div class="viewcode-block" id="smeargle_open_fits_file"><a class="viewcode-back" href="../../../python_docstrings/IfA_Smeargle.meta.fits_and_arrays.html#IfA_Smeargle.meta.fits_and_arrays.smeargle_open_fits_file">[docs]</a><span class="k">def</span> <span class="nf">smeargle_open_fits_file</span><span class="p">(</span><span class="n">file_name</span><span class="p">,</span> <span class="n">extension</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> 
+
+<div class="viewcode-block" id="smeargle_open_fits_file"><a class="viewcode-back" href="../../../python_docstrings/IfA_Smeargle.meta.io.html#IfA_Smeargle.meta.io.smeargle_open_fits_file">[docs]</a><span class="k">def</span> <span class="nf">smeargle_open_fits_file</span><span class="p">(</span><span class="n">file_name</span><span class="p">,</span> <span class="n">extension</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> 
                             <span class="n">null_min</span><span class="o">=-</span><span class="mf">1e6</span><span class="p">,</span> <span class="n">null_max</span><span class="o">=</span><span class="mf">1e6</span><span class="p">,</span>
                             <span class="n">silent</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot; A function to ensure proper loading/reading of fits files.</span>
@@ -304,8 +308,7 @@
     <span class="c1"># Finally return</span>
     <span class="k">return</span> <span class="n">hdul_file</span><span class="p">,</span> <span class="n">hdu_header</span><span class="p">,</span> <span class="n">hdu_data</span></div>
 
-
-<div class="viewcode-block" id="smeargle_write_fits_file"><a class="viewcode-back" href="../../../python_docstrings/IfA_Smeargle.meta.fits_and_arrays.html#IfA_Smeargle.meta.fits_and_arrays.smeargle_write_fits_file">[docs]</a><span class="k">def</span> <span class="nf">smeargle_write_fits_file</span><span class="p">(</span><span class="n">file_name</span><span class="p">,</span> <span class="n">hdu_header</span><span class="p">,</span> <span class="n">hdu_data</span><span class="p">,</span>
+<div class="viewcode-block" id="smeargle_write_fits_file"><a class="viewcode-back" href="../../../python_docstrings/IfA_Smeargle.meta.io.html#IfA_Smeargle.meta.io.smeargle_write_fits_file">[docs]</a><span class="k">def</span> <span class="nf">smeargle_write_fits_file</span><span class="p">(</span><span class="n">file_name</span><span class="p">,</span> <span class="n">hdu_header</span><span class="p">,</span> <span class="n">hdu_data</span><span class="p">,</span>
                              <span class="n">hdu_object</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">save_file</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">overwrite</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
                              <span class="n">silent</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot; A function to ensure proper writing of fits files.</span>
@@ -402,79 +405,81 @@
         <span class="n">hdul_file</span><span class="o">.</span><span class="n">writeto</span><span class="p">(</span><span class="n">file_name</span><span class="p">,</span> <span class="n">overwrite</span><span class="o">=</span><span class="n">overwrite</span><span class="p">)</span>
 
     <span class="k">return</span> <span class="n">hdul_file</span></div>
-    
 
 
-<div class="viewcode-block" id="smeargle_extract_subarray"><a class="viewcode-back" href="../../../python_docstrings/IfA_Smeargle.meta.fits_and_arrays.html#IfA_Smeargle.meta.fits_and_arrays.smeargle_extract_subarray">[docs]</a><span class="k">def</span> <span class="nf">smeargle_extract_subarray</span><span class="p">(</span><span class="n">primary_array</span><span class="p">,</span><span class="n">x_bounds</span><span class="p">,</span><span class="n">y_bounds</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot; A function to extract a smaller array copy from a larger array.</span>
 
-<span class="sd">    Sub-arrays are rather important in the analysis of specific arrays. </span>
-<span class="sd">    This function extracts a sub-array from a given primary array specified </span>
-<span class="sd">    by the x_bounds and y_bounds.</span>
+<div class="viewcode-block" id="smeargle_save_figure_file"><a class="viewcode-back" href="../../../python_docstrings/IfA_Smeargle.meta.io.html#IfA_Smeargle.meta.io.smeargle_save_figure_file">[docs]</a><span class="k">def</span> <span class="nf">smeargle_save_figure_file</span><span class="p">(</span><span class="n">figure</span><span class="p">,</span> <span class="n">file_name</span><span class="p">,</span>
+                              <span class="n">title</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">close_figure</span><span class="o">=</span><span class="kc">True</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot; This function just saves a figure to a file to a name provided.</span>
+
+<span class="sd">    Because of some oddities with Matplotlib, saving a file within a function </span>
+<span class="sd">    and exiting said function (or overwriting in a loop its variable) with a </span>
+<span class="sd">    new figure causes two figures to be saved in parallel. This is very </span>
+<span class="sd">    memory intensive, so closing a saved figure is ideal.</span>
+<span class="sd">    </span>
+<span class="sd">    This function does it so the user or Smeargle lines do not need to care </span>
+<span class="sd">    about it.</span>
 
 <span class="sd">    Parameters</span>
 <span class="sd">    ----------</span>
-<span class="sd">    primary_array : ndarray</span>
-<span class="sd">        This is the data array that is desired to be sliced.</span>
-<span class="sd">    x_bounds : list-like</span>
-<span class="sd">        The bounds of the x-axis of a given array. </span>
-<span class="sd">    y_bounds : list-like</span>
-<span class="sd">        The bounds of the y-axis of a given array.</span>
+<span class="sd">    figure : Matplotlib Figure</span>
+<span class="sd">        This is the figure to be saved to a file.</span>
+<span class="sd">    file_name : string</span>
+<span class="sd">        This is the file string name for the figure to be saved. It should </span>
+<span class="sd">        already have the appropriate extension. If not, it defaults to pdf. </span>
+<span class="sd">    title : string (optional)</span>
+<span class="sd">        This is the title for the figure plot. Although it can be added from </span>
+<span class="sd">        here, it is not advised.</span>
+<span class="sd">    close_figure : boolean (optional)</span>
+<span class="sd">        This specifies if the figure should be closed. Given that this </span>
+<span class="sd">        function is built for that, this should not be changed.</span>
 
 <span class="sd">    Returns</span>
 <span class="sd">    -------</span>
-<span class="sd">    sub_array : ndarray</span>
-<span class="sd">        An array containing only data within the xy-bounds provided.</span>
+<span class="sd">    return_none : None</span>
+<span class="sd">        Nothing</span>
+
+<span class="sd">    Note</span>
+<span class="sd">    ----</span>
+<span class="sd">    The file type checking logic is not the smartest implementation.</span>
 <span class="sd">    </span>
 <span class="sd">    &quot;&quot;&quot;</span>
 
-    <span class="c1"># Be verbose in accepting reversed (but valid) bounds.</span>
-    <span class="n">x_bounds</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">sort</span><span class="p">(</span><span class="n">x_bounds</span><span class="p">)</span>
-    <span class="n">y_bounds</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">sort</span><span class="p">(</span><span class="n">y_bounds</span><span class="p">)</span>
+    <span class="c1"># Warn about the build up of memory if the figure is not closed.</span>
+    <span class="k">if</span> <span class="p">(</span><span class="ow">not</span> <span class="n">close_figure</span><span class="p">):</span>
+        <span class="n">smeargle_warning</span><span class="p">(</span><span class="n">MemoryWarning</span><span class="p">,</span> <span class="p">(</span><span class="s2">&quot;The figure will not be released from RAM. An &quot;</span>
+                                         <span class="s2">&quot;excessive amount of figures will be very memory &quot;</span>
+                                         <span class="s2">&quot;intensive. Why this function is being used without &quot;</span>
+                                         <span class="s2">&quot;its closing functionality is beyond Sparrow.&quot;</span><span class="p">))</span>
 
-    <span class="n">sub_array</span> <span class="o">=</span> <span class="n">primary_array</span><span class="p">[</span><span class="n">y_bounds</span><span class="p">[</span><span class="mi">0</span><span class="p">]:</span><span class="n">y_bounds</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">],</span><span class="n">x_bounds</span><span class="p">[</span><span class="mi">0</span><span class="p">]:</span><span class="n">x_bounds</span><span class="p">[</span><span class="mi">1</span><span class="p">]]</span>
+    <span class="c1"># Checking or applying file ending configuration.</span>
+    <span class="n">supported_file_types</span> <span class="o">=</span> <span class="n">figure</span><span class="o">.</span><span class="n">canvas</span><span class="o">.</span><span class="n">get_supported_filetypes</span><span class="p">()</span>
+    <span class="n">supported_file_types</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="n">supported_file_types</span><span class="o">.</span><span class="n">keys</span><span class="p">())</span>
+    <span class="k">if</span> <span class="nb">any</span><span class="p">((</span><span class="s1">&#39;.&#39;</span> <span class="o">+</span> <span class="n">typedex</span><span class="p">)</span> <span class="ow">in</span> <span class="n">file_name</span><span class="p">[</span><span class="o">-</span><span class="mi">7</span><span class="p">:]</span> <span class="k">for</span> <span class="n">typedex</span> <span class="ow">in</span> <span class="n">supported_file_types</span><span class="p">):</span>
+        <span class="c1"># The there seems to be a supported file type already in here.</span>
+        <span class="k">pass</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="c1"># There does not seem to be an appropriate file extension. </span>
+        <span class="c1"># Add one (pdf).</span>
+        <span class="n">file_name</span> <span class="o">+=</span> <span class="s1">&#39;.pdf&#39;</span>
 
-    <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">sub_array</span><span class="p">)</span></div>
+    <span class="c1"># Apply the title if provided, if the format isn&#39;t applicable, trash.</span>
+    <span class="k">if</span> <span class="p">(</span><span class="n">title</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">):</span>
+        <span class="k">if</span> <span class="p">(</span><span class="nb">isinstance</span><span class="p">(</span><span class="n">title</span><span class="p">,</span> <span class="nb">str</span><span class="p">)):</span>
+            <span class="n">figure</span><span class="o">.</span><span class="n">suptitle</span><span class="p">(</span><span class="n">title</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="c1"># Doesn&#39;t seem to be a string...</span>
+            <span class="n">smeargle_warning</span><span class="p">(</span><span class="n">InputWarning</span><span class="p">,</span> <span class="p">(</span><span class="s2">&quot;The title parameter has been provided, but as it &quot;</span>
+                                            <span class="s2">&quot;is not a string, it cannot be applied to the &quot;</span>
+                                            <span class="s2">&quot;figure. The title will not be applied.&quot;</span><span class="p">))</span>
 
+    <span class="c1"># Save to file then remove figure from RAM if specified.</span>
+    <span class="n">figure</span><span class="o">.</span><span class="n">savefig</span><span class="p">(</span><span class="n">file_name</span><span class="p">)</span>
+    <span class="k">if</span> <span class="p">(</span><span class="n">close_figure</span><span class="p">):</span>
+        <span class="n">plt</span><span class="o">.</span><span class="n">close</span><span class="p">(</span><span class="n">figure</span><span class="p">)</span>
+        <span class="k">del</span> <span class="n">figure</span>
 
-<div class="viewcode-block" id="smeargle_masked_array_min_max"><a class="viewcode-back" href="../../../python_docstrings/IfA_Smeargle.meta.fits_and_arrays.html#IfA_Smeargle.meta.fits_and_arrays.smeargle_masked_array_min_max">[docs]</a><span class="k">def</span> <span class="nf">smeargle_masked_array_min_max</span><span class="p">(</span><span class="n">masked_array</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot; This function returns a masked array&#39;s minimum and maximum value.</span>
-
-<span class="sd">    This function determines the minimum and maximum of a masked arrays </span>
-<span class="sd">    between valid, unmasked, values only. Masked values are not considered </span>
-<span class="sd">    for min-max evaluation.</span>
-<span class="sd">    </span>
-<span class="sd">    Parameters</span>
-<span class="sd">    ----------</span>
-<span class="sd">    masked_array : masked ndarray </span>
-<span class="sd">        The array that has a mask, and is also the one that will have a </span>
-<span class="sd">        min max calculated.</span>
-
-<span class="sd">    Returns</span>
-<span class="sd">    -------</span>
-<span class="sd">    masked_min : float</span>
-<span class="sd">        The value of the minimum of the masked array ignoring masking.</span>
-<span class="sd">    masked_max : float</span>
-<span class="sd">        The value of the maximum of the masked array ignoring masking.</span>
-<span class="sd">    &quot;&quot;&quot;</span>
-    
-    <span class="c1"># Sparrow was wrong when coding the function that required this function.</span>
-    <span class="c1"># It has scene been reduced to the logical answer and is thus depreciated. </span>
-    <span class="n">smeargle_warning</span><span class="p">(</span><span class="n">DeprecatedWarning</span><span class="p">,(</span><span class="s2">&quot;This function was built because of the erroneous &quot;</span>
-                                          <span class="s2">&quot;understanding that it was difficult to get min-max &quot;</span>
-                                          <span class="s2">&quot;from Numpy Masked Arrays. This function is a &quot;</span>
-                                          <span class="s2">&quot;wrapper around the easy and proper method.&quot;</span><span class="p">))</span>
-
-    <span class="c1"># Execute a copy just in case of damage to the array.</span>
-    <span class="n">masked_array</span> <span class="o">=</span> <span class="n">copy</span><span class="o">.</span><span class="n">deepcopy</span><span class="p">(</span><span class="n">masked_array</span><span class="p">)</span>
-
-    <span class="c1"># Finding the minimum of the array.</span>
-    <span class="n">masked_min</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">nanmin</span><span class="p">(</span><span class="n">masked_array</span><span class="p">)</span>
-
-    <span class="c1"># Finding the maximum of the array</span>
-    <span class="n">masked_max</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">nanmax</span><span class="p">(</span><span class="n">masked_array</span><span class="p">)</span>
-
-    <span class="k">return</span> <span class="n">masked_min</span><span class="p">,</span> <span class="n">masked_max</span></div>
+    <span class="k">return</span> <span class="kc">None</span></div>
 
 </pre></div>
 

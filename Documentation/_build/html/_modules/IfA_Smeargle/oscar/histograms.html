@@ -84,6 +84,7 @@
               <p class="caption"><span class="caption-text">Usage and Operation:</span></p>
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="../../../quickstart.html">Quickstart</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../creating_pipelines.html">Creating Pipelines</a></li>
 </ul>
 <p class="caption"><span class="caption-text">Code Documentation:</span></p>
 <ul>
@@ -156,7 +157,8 @@
 <span class="sd">This contains all of the histogram plotting methods.</span>
 <span class="sd">&quot;&quot;&quot;</span>
 
-<span class="kn">import</span> <span class="nn">astropy.modeling</span> <span class="k">as</span> <span class="nn">ap_mod</span>
+<span class="kn">import</span> <span class="nn">copy</span>
+<span class="kn">import</span> <span class="nn">matplotlib</span> <span class="k">as</span> <span class="nn">mpl</span>
 <span class="kn">import</span> <span class="nn">matplotlib.patches</span> <span class="k">as</span> <span class="nn">mpl_patch</span>
 <span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="nn">plt</span>
 <span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
@@ -168,7 +170,8 @@
 <div class="viewcode-block" id="plot_array_histogram"><a class="viewcode-back" href="../../../python_docstrings/IfA_Smeargle.oscar.histograms.html#IfA_Smeargle.oscar.histograms.plot_array_histogram">[docs]</a><span class="k">def</span> <span class="nf">plot_array_histogram</span><span class="p">(</span><span class="n">data_array</span><span class="p">,</span> 
                          <span class="n">figure_axes</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">fit_gaussian</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">bin_width</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
                          <span class="n">plot</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
-                         <span class="n">histogram_plot_paramters</span><span class="o">=</span><span class="p">{}):</span>
+                         <span class="n">histogram_plot_paramters</span><span class="o">=</span><span class="p">{},</span>
+                         <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot; A function to create and plot histogram plots for better analysis of </span>
 <span class="sd">    a given array.</span>
 
@@ -226,6 +229,11 @@
     <span class="c1"># Extract proper data.</span>
     <span class="n">data_array</span> <span class="o">=</span> <span class="n">oscar</span><span class="o">.</span><span class="n">oscar_convert_data_inputs</span><span class="p">(</span><span class="n">data_array</span><span class="p">)</span>
 
+    <span class="c1"># The configurations are sometimes modified in-code. It is not optimal</span>
+    <span class="c1"># to change the user&#39;s configuration without their express action. </span>
+    <span class="c1"># Operating on a copy.</span>
+    <span class="n">histogram_plot_paramters</span> <span class="o">=</span> <span class="n">copy</span><span class="o">.</span><span class="n">deepcopy</span><span class="p">(</span><span class="n">histogram_plot_paramters</span><span class="p">)</span>
+
     <span class="c1"># First, figure out what type of Matplotlib axes to use.</span>
     <span class="k">if</span> <span class="p">(</span><span class="n">figure_axes</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">):</span>
         <span class="n">ax</span> <span class="o">=</span> <span class="n">figure_axes</span>
@@ -254,10 +262,38 @@
         <span class="n">plotting_data</span> <span class="o">=</span> <span class="n">data_array</span><span class="o">.</span><span class="n">flatten</span><span class="p">()</span>
 
     <span class="c1"># Test for bin width instead of numbers.</span>
-    <span class="k">if</span> <span class="p">(</span><span class="nb">isinstance</span><span class="p">(</span><span class="n">bin_width</span><span class="p">,(</span><span class="nb">int</span><span class="p">,</span><span class="nb">float</span><span class="p">))):</span>
-        <span class="n">histogram_plot_paramters</span><span class="p">[</span><span class="s1">&#39;bins&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">oscar</span><span class="o">.</span><span class="n">oscar_bin_width</span><span class="p">(</span><span class="n">plotting_data</span><span class="p">,</span> <span class="n">bin_width</span><span class="p">)</span>
-    <span class="k">else</span><span class="p">:</span>
+    <span class="k">if</span> <span class="p">(</span><span class="nb">isinstance</span><span class="p">(</span><span class="n">bin_width</span><span class="p">,</span> <span class="p">(</span><span class="nb">int</span><span class="p">,</span><span class="nb">float</span><span class="p">))):</span>
+        <span class="n">histogram_plot_paramters</span><span class="p">[</span><span class="s1">&#39;bins&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">oscar</span><span class="o">.</span><span class="n">oscar_bin_width</span><span class="p">(</span><span class="n">data_array</span><span class="o">=</span><span class="n">plotting_data</span><span class="p">,</span> 
+                                                                 <span class="n">bin_width</span><span class="o">=</span><span class="n">bin_width</span><span class="p">)</span>
+    <span class="k">elif</span> <span class="p">((</span><span class="s1">&#39;bins&#39;</span> <span class="ow">in</span> <span class="n">histogram_plot_paramters</span><span class="p">)</span> <span class="ow">and</span> 
+          <span class="nb">isinstance</span><span class="p">(</span><span class="n">histogram_plot_paramters</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;bins&#39;</span><span class="p">,</span> <span class="kc">None</span><span class="p">),</span> <span class="p">(</span><span class="nb">int</span><span class="p">,</span><span class="nb">float</span><span class="p">))):</span>
+        <span class="c1"># Default to standard number of uniform bins.</span>
         <span class="n">bin_width</span> <span class="o">=</span> <span class="n">data_array</span><span class="o">.</span><span class="n">ptp</span><span class="p">()</span> <span class="o">/</span> <span class="nb">float</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">nanmax</span><span class="p">(</span><span class="n">histogram_plot_paramters</span><span class="p">[</span><span class="s1">&#39;bins&#39;</span><span class="p">]))</span>
+    <span class="k">elif</span> <span class="p">((</span><span class="s1">&#39;bins&#39;</span> <span class="ow">in</span> <span class="n">histogram_plot_paramters</span><span class="p">)):</span>
+        <span class="c1"># Assume that the bins parameter is correct; pass through as an array.</span>
+        <span class="k">try</span><span class="p">:</span>
+            <span class="n">bin_sequence</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">histogram_plot_paramters</span><span class="p">[</span><span class="s1">&#39;bins&#39;</span><span class="p">],</span> <span class="n">dtype</span><span class="o">=</span><span class="nb">float</span><span class="p">)</span>
+            <span class="n">histogram_plot_paramters</span><span class="p">[</span><span class="s1">&#39;bins&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">bin_sequence</span>
+        <span class="k">except</span> <span class="ne">Exception</span><span class="p">:</span>
+            <span class="c1"># Conversion failed. The only other option is that it is a string.</span>
+            <span class="k">if</span> <span class="p">(</span><span class="nb">isinstance</span><span class="p">(</span><span class="n">histogram_plot_paramters</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;bins&#39;</span><span class="p">,</span> <span class="kc">None</span><span class="p">),</span> <span class="nb">str</span><span class="p">)):</span>
+                <span class="c1"># Assume that the proper string was passed as per </span>
+                <span class="c1"># https://matplotlib.org/3.1.0/api/_as_gen/matplotlib.pyplot.hist.html</span>
+                <span class="k">pass</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="k">raise</span> <span class="n">ConfigurationError</span><span class="p">(</span><span class="s2">&quot;The `bins` parameter cannot be interpreted by this &quot;</span>
+                                         <span class="s2">&quot;function. It is also predicted to not work with the &quot;</span>
+                                         <span class="s2">&quot;matplotlib.pyplot.hist function.&quot;</span><span class="p">)</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="c1"># The user doesn&#39;t seem to be using any bin parameters.</span>
+        <span class="k">if</span> <span class="p">(</span><span class="n">histogram_plot_paramters</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;bin&#39;</span><span class="p">,</span> <span class="kc">None</span><span class="p">)</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">):</span>
+            <span class="n">bin_width</span> <span class="o">=</span> <span class="n">data_array</span><span class="o">.</span><span class="n">ptp</span><span class="p">()</span> <span class="o">/</span> <span class="nb">float</span><span class="p">(</span><span class="n">mpl</span><span class="o">.</span><span class="n">rcParams</span><span class="p">[</span><span class="s1">&#39;hist.bins&#39;</span><span class="p">])</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="n">BrokenLogicError</span><span class="p">(</span><span class="s2">&quot;There is a `bins` plot parameter type that has not been &quot;</span>
+                                   <span class="s2">&quot;caught by the previous checks. The program should not have &quot;</span>
+                                   <span class="s2">&quot;entered here.&quot;</span><span class="p">)</span>
+
+
 
     <span class="c1"># Range is not used when bin sequences are provided. Allow for a patch </span>
     <span class="c1"># that would return data as expected.</span>
@@ -269,7 +305,8 @@
         <span class="n">max_range</span> <span class="o">=</span> <span class="n">histogram_plot_paramters</span><span class="p">[</span><span class="s1">&#39;range&#39;</span><span class="p">][</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span>
 
         <span class="c1"># Apply the bins</span>
-        <span class="n">histogram_plot_paramters</span><span class="p">[</span><span class="s1">&#39;bins&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">oscar</span><span class="o">.</span><span class="n">oscar_bin_width</span><span class="p">(</span><span class="kc">None</span><span class="p">,</span> <span class="n">bin_width</span><span class="p">,</span>
+        <span class="n">histogram_plot_paramters</span><span class="p">[</span><span class="s1">&#39;bins&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">oscar</span><span class="o">.</span><span class="n">oscar_bin_width</span><span class="p">(</span><span class="n">data_array</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> 
+                                                                 <span class="n">bin_width</span><span class="o">=</span><span class="n">bin_width</span><span class="p">,</span>
                                                                  <span class="n">local_minimum</span><span class="o">=</span><span class="n">min_range</span><span class="p">,</span>
                                                                  <span class="n">local_maximum</span><span class="o">=</span><span class="n">max_range</span><span class="p">)</span>
     <span class="k">else</span><span class="p">:</span>
@@ -285,7 +322,8 @@
     <span class="k">if</span> <span class="p">(</span><span class="n">fit_gaussian</span><span class="p">):</span>
         <span class="c1"># Fit a Gaussian to the data.</span>
         <span class="n">gauss_funt</span><span class="p">,</span> <span class="n">gauss_param</span> <span class="o">=</span> \
-            <span class="n">meta_model</span><span class="o">.</span><span class="n">smeargle_fit_histogram_gaussian_function</span><span class="p">(</span><span class="n">plotting_data</span><span class="p">,</span> <span class="n">bin_width</span><span class="p">)</span>
+            <span class="n">meta_model</span><span class="o">.</span><span class="n">smeargle_fit_histogram_gaussian_function</span><span class="p">(</span><span class="n">data_array</span><span class="o">=</span><span class="n">plotting_data</span><span class="p">,</span> 
+                                                                <span class="n">bin_width</span><span class="o">=</span><span class="n">bin_width</span><span class="p">)</span>
 
         <span class="c1"># For better plotting resolution. The domain of the histogram, the </span>
         <span class="c1"># guassian mean, and to smoothen out the two.</span>

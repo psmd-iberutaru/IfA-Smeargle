@@ -1,0 +1,295 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>Creating Pipelines &mdash; IfA-Smeargle 2019-08-19 documentation</title>
+  
+
+  
+  
+  
+  
+
+  
+  <script type="text/javascript" src="_static/js/modernizr.min.js"></script>
+  
+    
+      <script type="text/javascript" id="documentation_options" data-url_root="./" src="_static/documentation_options.js"></script>
+        <script type="text/javascript" src="_static/jquery.js"></script>
+        <script type="text/javascript" src="_static/underscore.js"></script>
+        <script type="text/javascript" src="_static/doctools.js"></script>
+        <script type="text/javascript" src="_static/language_data.js"></script>
+    
+    <script type="text/javascript" src="_static/js/theme.js"></script>
+
+    
+
+  
+  <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+  <link rel="stylesheet" href="_static/css/custom.css" type="text/css" />
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="IfA_Smeargle" href="python_docstrings/modules.html" />
+    <link rel="prev" title="Quickstart" href="quickstart.html" />
+    <link href="_static/css/ifa_smeargle.css" rel="stylesheet" type="text/css">
+
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+          
+
+          
+            <a href="index.html" class="icon icon-home"> IfA-Smeargle
+          
+
+          
+          </a>
+
+          
+            
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <p class="caption"><span class="caption-text">Usage and Operation:</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="quickstart.html">Quickstart</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Creating Pipelines</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#imperative-pipelines">Imperative Pipelines</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#structured-pipelines">Structured Pipelines</a></li>
+</ul>
+</li>
+</ul>
+<p class="caption"><span class="caption-text">Code Documentation:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="python_docstrings/modules.html">IfA_Smeargle</a></li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="index.html">IfA-Smeargle</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="index.html">Docs</a> &raquo;</li>
+        
+      <li>Creating Pipelines</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+            
+            
+              <a href="https://github.com/psmd-iberutaru/IfA-Smeargle/blob/master/Documentation/_source/creating_pipelines.rst" class="fa fa-github"> Edit on GitHub</a>
+            
+          
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <div class="section" id="creating-pipelines">
+<h1>Creating Pipelines<a class="headerlink" href="#creating-pipelines" title="Permalink to this headline">¶</a></h1>
+<p>As highlighted in the <a class="reference internal" href="quickstart.html"><span class="doc">Quickstart Guide</span></a> that pipelines
+are the core of this library. In general, many of pipelines provided for
+you are ready and configured for usage.</p>
+<p>However, often the default pipeline will not work for everyone. In this
+case, pipelines can be created. There are two ways to create the pipeline.
+The first way is to use this library in an imperative manner, and code
+as so. The second way, the preferred method, is to use the library’s built
+in structure class.</p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>The structure class is still in development. Most of its
+functionality is present, but, there may be some caveats. If you
+encounter one, please contact the maintainers of this library.</p>
+</div>
+<div class="section" id="imperative-pipelines">
+<h2>Imperative Pipelines<a class="headerlink" href="#imperative-pipelines" title="Permalink to this headline">¶</a></h2>
+<p>There is no supported infrastructure for imperative pipeline programming.
+Though, this is by design.</p>
+<p>In order to allow for the greatest flexibility
+when programming other pipelines, this library tried to use the <a class="reference external" href="https://www.scipy.org/">Numpy/Scipy</a> and <a class="reference external" href="https://www.astropy.org/">Astropy</a>
+libraries as much as it could.</p>
+<p>To code a pipeline using this library and those libraries, please read the
+library documentation for each of the functions and methods. These
+routines use standard Python objects and standard Scipy objects for
+greatest flexibility.</p>
+<p>You can find the entire library documentation here: <a class="reference internal" href="python_docstrings/IfA_Smeargle.html"><span class="doc">IfA-Smeargle Function Documentation</span></a>.</p>
+</div>
+<div class="section" id="structured-pipelines">
+<h2>Structured Pipelines<a class="headerlink" href="#structured-pipelines" title="Permalink to this headline">¶</a></h2>
+<p>Structured pipelines are pipelines that are created using the data array
+class provided by this module. The class is the
+<a class="reference internal" href="python_docstrings/IfA_Smeargle.zulu.zulu_main.html#IfA_Smeargle.zulu.zulu_main.IfasDataArray" title="IfA_Smeargle.zulu.zulu_main.IfasDataArray"><code class="xref py py-class docutils literal notranslate"><span class="pre">IfasDataArray</span></code></a>
+class. It acts as a IfA-Smeargle wrapper around a standard <code class="docutils literal notranslate"><span class="pre">.fits</span></code> file.</p>
+<p>In general, this class is representative of a data array. It is specific
+to this library. All of the important functions (in regards to pipeline
+creation) that the IfA-Smeargle library provides can be called via this
+class. However, most of the functions of the
+<a class="reference internal" href="python_docstrings/IfA_Smeargle.bravo.html"><span class="doc">BRAVO module</span></a> cannot
+interact with the IfasDataArray class as the BRAVO module focuses on the
+entire data directory.</p>
+<p>In order to load a <code class="docutils literal notranslate"><span class="pre">.fits</span></code> file into a IfasDataArray class, it can
+be called directly.</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">IfA_Smeargle</span> <span class="kn">as</span> <span class="nn">ifas</span>
+
+<span class="n">data_array</span> <span class="o">=</span> <span class="n">ifas</span><span class="o">.</span><span class="n">zulu</span><span class="o">.</span><span class="n">IfasDataArray</span><span class="p">(</span><span class="n">pathname</span><span class="o">=</span><span class="s1">&#39;path/to/fits_file.fits&#39;</span><span class="p">,</span>
+                                     <span class="n">configuration_class</span><span class="o">=</span><span class="bp">None</span><span class="p">,</span> <span class="n">blank</span><span class="o">=</span><span class="bp">False</span><span class="p">)</span>
+<span class="c1"># A blank IfasDataArray class can also be created if need be.</span>
+<span class="n">blank_data_array</span> <span class="o">=</span> <span class="n">ifas</span><span class="o">.</span><span class="n">zulu</span><span class="o">.</span><span class="n">IfasDataArray</span><span class="p">(</span><span class="n">pathname</span><span class="o">=</span><span class="bp">None</span><span class="p">,</span>
+                                           <span class="n">configuration_class</span><span class="o">=</span><span class="bp">None</span><span class="p">,</span> <span class="n">blank</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>The IfasDataArray class implements interfaces with the important parts
+of the imported file. These atributes may be directly interfaced with
+as they are standard Python/Scipy/Astropy objects and may be overwritten
+accordingly.</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">IfA_Smeargle</span> <span class="kn">as</span> <span class="nn">ifas</span>
+
+<span class="c1"># This is the &#39;.fits&#39; file header.</span>
+<span class="n">data_array</span><span class="o">.</span><span class="n">header</span>
+<span class="c1"># This is the &#39;.fits&#39; file data; it may be a ndarray or a masked array.</span>
+<span class="n">data_array</span><span class="o">.</span><span class="n">data</span>
+<span class="n">data_array</span><span class="o">.</span><span class="n">datamask</span> <span class="c1"># If it has a data mask, it is represented here.</span>
+<span class="c1"># This is the configuration class.</span>
+<span class="n">data_array</span><span class="o">.</span><span class="n">config</span>
+</pre></div>
+</div>
+<p>The IfasDataArray, with its modifications, can also be written to file.
+The output is unsurprisingly a <code class="docutils literal notranslate"><span class="pre">.fits</span></code> file.</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">IfA_Smeargle</span> <span class="kn">as</span> <span class="nn">ifas</span>
+
+<span class="c1"># The pathname is the file name that will be written.</span>
+<span class="k">print</span><span class="p">(</span><span class="n">data_array</span><span class="o">.</span><span class="n">filepathname</span><span class="p">)</span>
+<span class="c1"># Saved to a .fits file.</span>
+<span class="n">astropy_hdul_file</span> <span class="o">=</span> <span class="n">data_array</span><span class="o">.</span><span class="n">write_fits_file</span><span class="p">(</span><span class="n">overwrite</span><span class="o">=</span><span class="bp">True</span><span class="p">,</span> <span class="n">silent</span><span class="o">=</span><span class="bp">False</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>More information of the built in functions can be found by running <code class="code docutils literal notranslate"><span class="pre">data_array.help()</span></code></p>
+</div>
+</div>
+
+
+           </div>
+           
+          </div>
+          <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+        <a href="python_docstrings/modules.html" class="btn btn-neutral float-right" title="IfA_Smeargle" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
+      
+      
+        <a href="quickstart.html" class="btn btn-neutral float-left" title="Quickstart" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+      
+    </div>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2019, Sparrow
+
+    </p>
+  </div>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+
+  
+  
+    
+   
+
+</body>
+</html>

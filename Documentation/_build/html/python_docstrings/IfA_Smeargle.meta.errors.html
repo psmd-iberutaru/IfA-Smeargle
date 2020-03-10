@@ -36,8 +36,8 @@
   <link rel="stylesheet" href="../_static/css/custom.css" type="text/css" />
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
-    <link rel="next" title="IfA_Smeargle.meta.fits_and_arrays module" href="IfA_Smeargle.meta.fits_and_arrays.html" />
-    <link rel="prev" title="IfA_Smeargle.meta.configuration module" href="IfA_Smeargle.meta.configuration.html" />
+    <link rel="next" title="IfA_Smeargle.meta.io module" href="IfA_Smeargle.meta.io.html" />
+    <link rel="prev" title="IfA_Smeargle.meta package" href="IfA_Smeargle.meta.html" />
     <link href="../_static/css/ifa_smeargle.css" rel="stylesheet" type="text/css">
 
 </head>
@@ -86,6 +86,7 @@
               <p class="caption"><span class="caption-text">Usage and Operation:</span></p>
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="../quickstart.html">Quickstart</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../creating_pipelines.html">Creating Pipelines</a></li>
 </ul>
 <p class="caption"><span class="caption-text">Code Documentation:</span></p>
 <ul class="current">
@@ -183,21 +184,21 @@
 <p>Defining custom errors because Python does not have all of the needed error
 categories.</p>
 <dl class="exception">
+<dt id="IfA_Smeargle.meta.errors.AssumptionError">
+<em class="property">exception </em><code class="sig-prename descclassname">IfA_Smeargle.meta.errors.</code><code class="sig-name descname">AssumptionError</code><span class="sig-paren">(</span><em class="sig-param">message=None</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/IfA_Smeargle/meta/errors.html#AssumptionError"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#IfA_Smeargle.meta.errors.AssumptionError" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="#IfA_Smeargle.meta.errors.Smeargle_BaseException" title="IfA_Smeargle.meta.errors.Smeargle_BaseException"><code class="xref py py-class docutils literal notranslate"><span class="pre">IfA_Smeargle.meta.errors.Smeargle_BaseException</span></code></a></p>
+<p>This error is reserved for instances where something unexpected has
+occurred because of a flaw in the understanding of assumptions about
+Python or module functions.</p>
+</dd></dl>
+
+<dl class="exception">
 <dt id="IfA_Smeargle.meta.errors.BrokenLogicError">
 <em class="property">exception </em><code class="sig-prename descclassname">IfA_Smeargle.meta.errors.</code><code class="sig-name descname">BrokenLogicError</code><span class="sig-paren">(</span><em class="sig-param">message=None</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/IfA_Smeargle/meta/errors.html#BrokenLogicError"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#IfA_Smeargle.meta.errors.BrokenLogicError" title="Permalink to this definition">¶</a></dt>
 <dd><p>Bases: <a class="reference internal" href="#IfA_Smeargle.meta.errors.Smeargle_BaseException" title="IfA_Smeargle.meta.errors.Smeargle_BaseException"><code class="xref py py-class docutils literal notranslate"><span class="pre">IfA_Smeargle.meta.errors.Smeargle_BaseException</span></code></a></p>
 <p>This error is encountered when the program enters in a place it should
 not be able to. Incorporated mostly for safety; usually not the fault of
 the user.</p>
-</dd></dl>
-
-<dl class="exception">
-<dt id="IfA_Smeargle.meta.errors.BugError">
-<em class="property">exception </em><code class="sig-prename descclassname">IfA_Smeargle.meta.errors.</code><code class="sig-name descname">BugError</code><span class="sig-paren">(</span><em class="sig-param">message=None</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/IfA_Smeargle/meta/errors.html#BugError"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#IfA_Smeargle.meta.errors.BugError" title="Permalink to this definition">¶</a></dt>
-<dd><p>Bases: <a class="reference internal" href="#IfA_Smeargle.meta.errors.Smeargle_BaseException" title="IfA_Smeargle.meta.errors.Smeargle_BaseException"><code class="xref py py-class docutils literal notranslate"><span class="pre">IfA_Smeargle.meta.errors.Smeargle_BaseException</span></code></a></p>
-<p>This error is mostly used for cases where, if it is triggered, there is
-likely a bug. The bug’s status should mostly deal with logic flow and a
-broken program (compared to bad results, which is less obvious to detect).</p>
 </dd></dl>
 
 <dl class="exception">
@@ -427,7 +428,8 @@ MemoryWarning.</p>
 <dt id="IfA_Smeargle.meta.errors.TerminalError">
 <em class="property">exception </em><code class="sig-prename descclassname">IfA_Smeargle.meta.errors.</code><code class="sig-name descname">TerminalError</code><span class="sig-paren">(</span><em class="sig-param">message=None</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/IfA_Smeargle/meta/errors.html#TerminalError"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#IfA_Smeargle.meta.errors.TerminalError" title="Permalink to this definition">¶</a></dt>
 <dd><p>Bases: <a class="reference internal" href="#IfA_Smeargle.meta.errors.Smeargle_BaseException" title="IfA_Smeargle.meta.errors.Smeargle_BaseException"><code class="xref py py-class docutils literal notranslate"><span class="pre">IfA_Smeargle.meta.errors.Smeargle_BaseException</span></code></a></p>
-<p>Something has gone terribly wrong. It is best to contact Sparrow.</p>
+<p>Something has gone terribly wrong. It is best to contact the maintainers
+or Sparrow.</p>
 </dd></dl>
 
 <dl class="exception">
@@ -580,10 +582,10 @@ on what was inputed.</p>
   
     <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
       
-        <a href="IfA_Smeargle.meta.fits_and_arrays.html" class="btn btn-neutral float-right" title="IfA_Smeargle.meta.fits_and_arrays module" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
+        <a href="IfA_Smeargle.meta.io.html" class="btn btn-neutral float-right" title="IfA_Smeargle.meta.io module" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
       
       
-        <a href="IfA_Smeargle.meta.configuration.html" class="btn btn-neutral float-left" title="IfA_Smeargle.meta.configuration module" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+        <a href="IfA_Smeargle.meta.html" class="btn btn-neutral float-left" title="IfA_Smeargle.meta package" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
       
     </div>
   

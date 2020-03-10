@@ -84,6 +84,7 @@
               <p class="caption"><span class="caption-text">Usage and Operation:</span></p>
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="../../../../quickstart.html">Quickstart</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../creating_pipelines.html">Creating Pipelines</a></li>
 </ul>
 <p class="caption"><span class="caption-text">Code Documentation:</span></p>
 <ul>
@@ -215,12 +216,10 @@
 
 
             <span class="c1"># Preprocessing of beginning/end data for analysis.</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">auto_avg_slicing_config</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;reference_chunk&#39;</span><span class="p">:</span><span class="kc">None</span><span class="p">,</span> <span class="s1">&#39;split_chunks&#39;</span><span class="p">:</span><span class="kc">None</span><span class="p">,</span> 
-                                            <span class="s1">&#39;averaging_function&#39;</span><span class="p">:</span><span class="kc">None</span><span class="p">}</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">avg_endpoints_config</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;start_chunk&#39;</span><span class="p">:</span><span class="kc">None</span><span class="p">,</span> <span class="s1">&#39;end_chunk&#39;</span><span class="p">:</span><span class="kc">None</span><span class="p">}</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">avg_endpts_persec_config</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;start_chunk&#39;</span><span class="p">:</span><span class="kc">None</span><span class="p">,</span> <span class="s1">&#39;end_chunk&#39;</span><span class="p">:</span><span class="kc">None</span><span class="p">,</span> 
+            <span class="bp">self</span><span class="o">.</span><span class="n">median_endpoints_config</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;start_chunk&#39;</span><span class="p">:</span><span class="kc">None</span><span class="p">,</span> <span class="s1">&#39;end_chunk&#39;</span><span class="p">:</span><span class="kc">None</span><span class="p">}</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">median_endpts_persec_config</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;start_chunk&#39;</span><span class="p">:</span><span class="kc">None</span><span class="p">,</span> <span class="s1">&#39;end_chunk&#39;</span><span class="p">:</span><span class="kc">None</span><span class="p">,</span> 
                                              <span class="s1">&#39;frame_exposure_time&#39;</span><span class="p">:</span><span class="kc">None</span><span class="p">}</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">avg_endpts_perksec_config</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;start_chunk&#39;</span><span class="p">:</span><span class="kc">None</span><span class="p">,</span> <span class="s1">&#39;end_chunk&#39;</span><span class="p">:</span><span class="kc">None</span><span class="p">,</span> 
+            <span class="bp">self</span><span class="o">.</span><span class="n">median_endpts_perksec_config</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;start_chunk&#39;</span><span class="p">:</span><span class="kc">None</span><span class="p">,</span> <span class="s1">&#39;end_chunk&#39;</span><span class="p">:</span><span class="kc">None</span><span class="p">,</span> 
                                               <span class="s1">&#39;frame_exposure_time&#39;</span><span class="p">:</span><span class="kc">None</span><span class="p">}</span>
 
     <span class="k">pass</span></div>

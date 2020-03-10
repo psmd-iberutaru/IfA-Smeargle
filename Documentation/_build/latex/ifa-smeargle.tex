@@ -72,7 +72,7 @@
 
 
 \title{IfA-Smeargle}
-\date{Dec 26, 2019}
+\date{Mar 09, 2020}
 \release{2019-08-19}
 \author{Sparrow}
 \newcommand{\sphinxlogo}{\vbox{}}
@@ -161,11 +161,11 @@ general principle of IfA-Smeargle that any and all customization or
 parameters to any reduction functions are contained in a configuration
 file/class.
 
-A configuration file just stores a configuration class; all configuration files
-have the \sphinxcode{\sphinxupquote{.ifaspkl}} file extension. IfA-Smeargle is hard-coded to reject
-any file without such extension and to always write configuration classes
-with such extension. Do not rename any file not made by IfA-Smeargle with
-such file extension.
+A configuration file just stores a configuration class; all configuration
+files have the \sphinxcode{\sphinxupquote{.ifaspkl}} file extension. IfA-Smeargle is hard-coded to
+reject any file without such extension and to always write configuration
+classes with such extension. Do not rename any file not made by IfA-Smeargle
+with such file extension.
 
 In order to make a configuration file, please use the Jupyter notebook labeled
 \sphinxcode{\sphinxupquote{ifas\_configuration\_recipe.ipynb}}. This writes a configuration file as
@@ -174,7 +174,7 @@ specified.
 \begin{sphinxadmonition}{warning}{Warning:}
 Configuration files and classes are not forward compatible. There
 is however a function to convert older configuration classes/files to newer
-versions while preserving the old data. See the {\hyperref[\detokenize{python_docstrings/IfA_Smeargle.yankee.yankee_functions:IfA_Smeargle.yankee.yankee_functions.yankee_fast_forward_configuration_class}]{\sphinxcrossref{\sphinxcode{\sphinxupquote{Fast Forward Configuration Class}}}}} function.
+versions while preserving the old configuration data. See the {\hyperref[\detokenize{python_docstrings/IfA_Smeargle.yankee.yankee_functions:IfA_Smeargle.yankee.yankee_functions.yankee_fast_forward_configuration_class}]{\sphinxcrossref{\sphinxcode{\sphinxupquote{Fast Forward Configuration Class}}}}} function for more information.
 \end{sphinxadmonition}
 
 
@@ -205,8 +205,8 @@ You can then load your configuration files as one would load normal files in
 Jupyter notebook via the YANKEE line; then run built-in pipelines found in the
 ZULU line like normal function call.
 
-To load a configuration file and have it be a configuration class, the simplest
-way is likely to invoke the following function call:
+To load a configuration file and have it be a configuration class, the
+simplest way is likely to invoke the following function call:
 
 \begin{sphinxVerbatim}[commandchars=\\\{\}]
 \PYG{n}{config\PYGZus{}class} \PYG{o}{=} \PYG{n}{ifas}\PYG{o}{.}\PYG{n}{yankee}\PYG{o}{.}\PYG{n}{SmeargleConfig}\PYG{p}{(}\PYG{l+s+s1}{\PYGZsq{}}\PYG{l+s+s1}{path/to/ifas\PYGZus{}config.ifaspkl}\PYG{l+s+s1}{\PYGZsq{}}\PYG{p}{)}
@@ -236,15 +236,15 @@ Python environment.
 
 \subsection{Command-line Call}
 \label{\detokenize{quickstart:command-line-call}}
-It is common for Python scripts to be run from from the command-line interface.
-As such, this module allows pipelines to be run from a command-line interface
-via \sphinxcode{\sphinxupquote{ifas\_execute.py}}.
+It is common for Python scripts to be run from from the command-line
+interface. As such, this module allows pipelines to be run from a
+command-line interface via \sphinxcode{\sphinxupquote{ifas\_execute.py}}.
 
-The command-call for \sphinxcode{\sphinxupquote{ifas\_execute.py}} must be done within the same directory
-as the Python file, or one parent directory above it. It will likely be unable
-to import local directories if it is executed outside of these areas. The
-data directory and configuration file directory paths should not have theses
-restrictions.
+The command-call for \sphinxcode{\sphinxupquote{ifas\_execute.py}} must be done within the same
+directory as the Python file, or one parent directory above it. It will
+likely be unable to import local directories if it is executed outside of
+these areas. The data directory and configuration file directory paths
+should not have theses restrictions.
 
 All command-line calls will likely be in a format similar to the one below:
 
@@ -255,6 +255,102 @@ All command-line calls will likely be in a format similar to the one below:
 Note that all parameters should be strings which contain the paths (or in the
 case of \sphinxcode{\sphinxupquote{pipeline\_name}}, the exact name of the pipeline itself.) There is
 an optional silent flag (\sphinxcode{\sphinxupquote{-s}} or \sphinxcode{\sphinxupquote{-{-}silent}}); it defaults to False.
+
+
+\chapter{Creating Pipelines}
+\label{\detokenize{creating_pipelines:creating-pipelines}}\label{\detokenize{creating_pipelines::doc}}
+As highlighted in the {\hyperref[\detokenize{quickstart::doc}]{\sphinxcrossref{\DUrole{doc}{Quickstart Guide}}}} that pipelines
+are the core of this library. In general, many of pipelines provided for
+you are ready and configured for usage.
+
+However, often the default pipeline will not work for everyone. In this
+case, pipelines can be created. There are two ways to create the pipeline.
+The first way is to use this library in an imperative manner, and code
+as so. The second way, the preferred method, is to use the library’s built
+in structure class.
+
+\begin{sphinxadmonition}{note}{Note:}
+The structure class is still in development. Most of its
+functionality is present, but, there may be some caveats. If you
+encounter one, please contact the maintainers of this library.
+\end{sphinxadmonition}
+
+
+\section{Imperative Pipelines}
+\label{\detokenize{creating_pipelines:imperative-pipelines}}
+There is no supported infrastructure for imperative pipeline programming.
+Though, this is by design.
+
+In order to allow for the greatest flexibility
+when programming other pipelines, this library tried to use the \sphinxhref{https://www.scipy.org/}{Numpy/Scipy} and \sphinxhref{https://www.astropy.org/}{Astropy}
+libraries as much as it could.
+
+To code a pipeline using this library and those libraries, please read the
+library documentation for each of the functions and methods. These
+routines use standard Python objects and standard Scipy objects for
+greatest flexibility.
+
+You can find the entire library documentation here: {\hyperref[\detokenize{python_docstrings/IfA_Smeargle::doc}]{\sphinxcrossref{\DUrole{doc}{IfA-Smeargle Function Documentation}}}}.
+
+
+\section{Structured Pipelines}
+\label{\detokenize{creating_pipelines:structured-pipelines}}
+Structured pipelines are pipelines that are created using the data array
+class provided by this module. The class is the
+{\hyperref[\detokenize{python_docstrings/IfA_Smeargle.zulu.zulu_main:IfA_Smeargle.zulu.zulu_main.IfasDataArray}]{\sphinxcrossref{\sphinxcode{\sphinxupquote{IfasDataArray}}}}}
+class. It acts as a IfA-Smeargle wrapper around a standard \sphinxcode{\sphinxupquote{.fits}} file.
+
+In general, this class is representative of a data array. It is specific
+to this library. All of the important functions (in regards to pipeline
+creation) that the IfA-Smeargle library provides can be called via this
+class. However, most of the functions of the
+{\hyperref[\detokenize{python_docstrings/IfA_Smeargle.bravo::doc}]{\sphinxcrossref{\DUrole{doc}{BRAVO module}}}} cannot
+interact with the IfasDataArray class as the BRAVO module focuses on the
+entire data directory.
+
+In order to load a \sphinxcode{\sphinxupquote{.fits}} file into a IfasDataArray class, it can
+be called directly.
+
+\begin{sphinxVerbatim}[commandchars=\\\{\}]
+\PYG{k+kn}{import} \PYG{n+nn}{IfA\PYGZus{}Smeargle} \PYG{k+kn}{as} \PYG{n+nn}{ifas}
+
+\PYG{n}{data\PYGZus{}array} \PYG{o}{=} \PYG{n}{ifas}\PYG{o}{.}\PYG{n}{zulu}\PYG{o}{.}\PYG{n}{IfasDataArray}\PYG{p}{(}\PYG{n}{pathname}\PYG{o}{=}\PYG{l+s+s1}{\PYGZsq{}}\PYG{l+s+s1}{path/to/fits\PYGZus{}file.fits}\PYG{l+s+s1}{\PYGZsq{}}\PYG{p}{,}
+                                     \PYG{n}{configuration\PYGZus{}class}\PYG{o}{=}\PYG{n+nb+bp}{None}\PYG{p}{,} \PYG{n}{blank}\PYG{o}{=}\PYG{n+nb+bp}{False}\PYG{p}{)}
+\PYG{c+c1}{\PYGZsh{} A blank IfasDataArray class can also be created if need be.}
+\PYG{n}{blank\PYGZus{}data\PYGZus{}array} \PYG{o}{=} \PYG{n}{ifas}\PYG{o}{.}\PYG{n}{zulu}\PYG{o}{.}\PYG{n}{IfasDataArray}\PYG{p}{(}\PYG{n}{pathname}\PYG{o}{=}\PYG{n+nb+bp}{None}\PYG{p}{,}
+                                           \PYG{n}{configuration\PYGZus{}class}\PYG{o}{=}\PYG{n+nb+bp}{None}\PYG{p}{,} \PYG{n}{blank}\PYG{o}{=}\PYG{n+nb+bp}{True}\PYG{p}{)}
+\end{sphinxVerbatim}
+
+The IfasDataArray class implements interfaces with the important parts
+of the imported file. These atributes may be directly interfaced with
+as they are standard Python/Scipy/Astropy objects and may be overwritten
+accordingly.
+
+\begin{sphinxVerbatim}[commandchars=\\\{\}]
+\PYG{k+kn}{import} \PYG{n+nn}{IfA\PYGZus{}Smeargle} \PYG{k+kn}{as} \PYG{n+nn}{ifas}
+
+\PYG{c+c1}{\PYGZsh{} This is the \PYGZsq{}.fits\PYGZsq{} file header.}
+\PYG{n}{data\PYGZus{}array}\PYG{o}{.}\PYG{n}{header}
+\PYG{c+c1}{\PYGZsh{} This is the \PYGZsq{}.fits\PYGZsq{} file data; it may be a ndarray or a masked array.}
+\PYG{n}{data\PYGZus{}array}\PYG{o}{.}\PYG{n}{data}
+\PYG{n}{data\PYGZus{}array}\PYG{o}{.}\PYG{n}{datamask} \PYG{c+c1}{\PYGZsh{} If it has a data mask, it is represented here.}
+\PYG{c+c1}{\PYGZsh{} This is the configuration class.}
+\PYG{n}{data\PYGZus{}array}\PYG{o}{.}\PYG{n}{config}
+\end{sphinxVerbatim}
+
+The IfasDataArray, with its modifications, can also be written to file.
+The output is unsurprisingly a \sphinxcode{\sphinxupquote{.fits}} file.
+
+\begin{sphinxVerbatim}[commandchars=\\\{\}]
+\PYG{k+kn}{import} \PYG{n+nn}{IfA\PYGZus{}Smeargle} \PYG{k+kn}{as} \PYG{n+nn}{ifas}
+
+\PYG{c+c1}{\PYGZsh{} The pathname is the file name that will be written.}
+\PYG{k}{print}\PYG{p}{(}\PYG{n}{data\PYGZus{}array}\PYG{o}{.}\PYG{n}{filepathname}\PYG{p}{)}
+\PYG{c+c1}{\PYGZsh{} Saved to a .fits file.}
+\PYG{n}{astropy\PYGZus{}hdul\PYGZus{}file} \PYG{o}{=} \PYG{n}{data\PYGZus{}array}\PYG{o}{.}\PYG{n}{write\PYGZus{}fits\PYGZus{}file}\PYG{p}{(}\PYG{n}{overwrite}\PYG{o}{=}\PYG{n+nb+bp}{True}\PYG{p}{,} \PYG{n}{silent}\PYG{o}{=}\PYG{n+nb+bp}{False}\PYG{p}{)}
+\end{sphinxVerbatim}
+
+More information of the built in functions can be found by running \sphinxcode{\sphinxupquote{data\_array.help()}}
 
 
 \chapter{IfA\_Smeargle}
@@ -278,10 +374,10 @@ The purpose of this file is to contain all of the data conservation methods
 that are used to ensure that modifications to data do not harm the original
 data. Of course, the usage of these methods usually involve creating a
 copy of data. The usage of these functions are optional.
-\index{duplicate\_archive\_data\_files() (in module IfA\_Smeargle.bravo.archiving)@\spxentry{duplicate\_archive\_data\_files()}\spxextra{in module IfA\_Smeargle.bravo.archiving}}
+\index{bravo\_archive\_data\_duplicates() (in module IfA\_Smeargle.bravo.archiving)@\spxentry{bravo\_archive\_data\_duplicates()}\spxextra{in module IfA\_Smeargle.bravo.archiving}}
 
 \begin{fulllineitems}
-\phantomsection\label{\detokenize{python_docstrings/IfA_Smeargle.bravo.archiving:IfA_Smeargle.bravo.archiving.duplicate_archive_data_files}}\pysiglinewithargsret{\sphinxcode{\sphinxupquote{IfA\_Smeargle.bravo.archiving.}}\sphinxbfcode{\sphinxupquote{duplicate\_archive\_data\_files}}}{\emph{data\_directory}, \emph{archive\_name=None}, \emph{archive\_extension='bztar'}}{}
+\phantomsection\label{\detokenize{python_docstrings/IfA_Smeargle.bravo.archiving:IfA_Smeargle.bravo.archiving.bravo_archive_data_duplicates}}\pysiglinewithargsret{\sphinxcode{\sphinxupquote{IfA\_Smeargle.bravo.archiving.}}\sphinxbfcode{\sphinxupquote{bravo\_archive\_data\_duplicates}}}{\emph{data\_directory}, \emph{archive\_name=None}, \emph{archive\_extension='bztar'}}{}
 Creates a file archive of a copy of the data files contained within a
 directory.
 
@@ -321,61 +417,10 @@ nothing
 
 
 \subparagraph{IfA\_Smeargle.bravo.averaging module}
-\label{\detokenize{python_docstrings/IfA_Smeargle.bravo.averaging:module-IfA_Smeargle.bravo.averaging}}\label{\detokenize{python_docstrings/IfA_Smeargle.bravo.averaging:ifa-smeargle-bravo-averaging-module}}\label{\detokenize{python_docstrings/IfA_Smeargle.bravo.averaging::doc}}\index{IfA\_Smeargle.bravo.averaging (module)@\spxentry{IfA\_Smeargle.bravo.averaging}\spxextra{module}}\index{auto\_avergae\_slicing() (in module IfA\_Smeargle.bravo.averaging)@\spxentry{auto\_avergae\_slicing()}\spxextra{in module IfA\_Smeargle.bravo.averaging}}
+\label{\detokenize{python_docstrings/IfA_Smeargle.bravo.averaging:module-IfA_Smeargle.bravo.averaging}}\label{\detokenize{python_docstrings/IfA_Smeargle.bravo.averaging:ifa-smeargle-bravo-averaging-module}}\label{\detokenize{python_docstrings/IfA_Smeargle.bravo.averaging::doc}}\index{IfA\_Smeargle.bravo.averaging (module)@\spxentry{IfA\_Smeargle.bravo.averaging}\spxextra{module}}\index{median\_endpoints() (in module IfA\_Smeargle.bravo.averaging)@\spxentry{median\_endpoints()}\spxextra{in module IfA\_Smeargle.bravo.averaging}}
 
 \begin{fulllineitems}
-\phantomsection\label{\detokenize{python_docstrings/IfA_Smeargle.bravo.averaging:IfA_Smeargle.bravo.averaging.auto_avergae_slicing}}\pysiglinewithargsret{\sphinxcode{\sphinxupquote{IfA\_Smeargle.bravo.averaging.}}\sphinxbfcode{\sphinxupquote{auto\_avergae\_slicing}}}{\emph{fits\_file}, \emph{reference\_chunk}, \emph{split\_chunks}, \emph{averaging\_function}, \emph{function\_parameters=\{\}}, \emph{write\_file=True}, \emph{post\_mask=None}}{}
-This function splits the HDU file into different chunks and applies
-averaging functions provided to said data.
-
-This is mostly a method of automation than a method of actual value.
-However, for most pipelines that split data into different chunks, it is
-preferable that this function is used.
-\begin{quote}\begin{description}
-\item[{Parameters}] \leavevmode\begin{itemize}
-\item {} 
-\sphinxstyleliteralstrong{\sphinxupquote{fits\_file}} (\sphinxstyleliteralemphasis{\sphinxupquote{string}}\sphinxstyleliteralemphasis{\sphinxupquote{ or }}\sphinxstyleliteralemphasis{\sphinxupquote{Astropy HDUList file}}) \textendash{} This is the fits file that will be modified, or at least have its
-values calculated from.
-
-\item {} 
-\sphinxstyleliteralstrong{\sphinxupquote{reference\_chunk}} (\sphinxstyleliteralemphasis{\sphinxupquote{array-like}}) \textendash{} The exact range of frames from the beginning that will be median-ed
-and to be used as the reference chunk for all of the split chunks.
-
-\item {} 
-\sphinxstyleliteralstrong{\sphinxupquote{split\_chunks}} (\sphinxstyleliteralemphasis{\sphinxupquote{array-like}}) \textendash{} The list of chunk boundaries that will be processed and written as
-different files.
-
-\item {} 
-\sphinxstyleliteralstrong{\sphinxupquote{averaging\_function}} (\sphinxstyleliteralemphasis{\sphinxupquote{function}}) \textendash{} The averaging function that will be applied to the data. All BRAVO
-averaging functions are supported.
-
-\item {} 
-\sphinxstyleliteralstrong{\sphinxupquote{function\_parameters}} (\sphinxstyleliteralemphasis{\sphinxupquote{dictionary}}) \textendash{} Extra parameters required by the averaging function.
-
-\item {} 
-\sphinxstyleliteralstrong{\sphinxupquote{write\_file}} (\sphinxstyleliteralemphasis{\sphinxupquote{boolean}}\sphinxstyleliteralemphasis{\sphinxupquote{ (}}\sphinxstyleliteralemphasis{\sphinxupquote{optional}}\sphinxstyleliteralemphasis{\sphinxupquote{)}}) \textendash{} If true, the Astropy HDUL object is written to a fits file with the
-split parameter in the name.
-
-\item {} 
-\sphinxstyleliteralstrong{\sphinxupquote{post\_mask}} (\sphinxstyleliteralemphasis{\sphinxupquote{array-like}}) \textendash{} A mask that will be applied at the end of the automatic averaging
-method.
-
-\end{itemize}
-
-\item[{Returns}] \leavevmode
-
-
-\item[{Return type}] \leavevmode
-nothing
-
-\end{description}\end{quote}
-
-\end{fulllineitems}
-
-\index{average\_endpoints() (in module IfA\_Smeargle.bravo.averaging)@\spxentry{average\_endpoints()}\spxextra{in module IfA\_Smeargle.bravo.averaging}}
-
-\begin{fulllineitems}
-\phantomsection\label{\detokenize{python_docstrings/IfA_Smeargle.bravo.averaging:IfA_Smeargle.bravo.averaging.average_endpoints}}\pysiglinewithargsret{\sphinxcode{\sphinxupquote{IfA\_Smeargle.bravo.averaging.}}\sphinxbfcode{\sphinxupquote{average\_endpoints}}}{\emph{fits\_file}, \emph{start\_chunk}, \emph{end\_chunk}, \emph{write\_file=True}, \emph{alternate\_name=None}}{}
+\phantomsection\label{\detokenize{python_docstrings/IfA_Smeargle.bravo.averaging:IfA_Smeargle.bravo.averaging.median_endpoints}}\pysiglinewithargsret{\sphinxcode{\sphinxupquote{IfA\_Smeargle.bravo.averaging.}}\sphinxbfcode{\sphinxupquote{median\_endpoints}}}{\emph{data\_array}, \emph{start\_chunk}, \emph{end\_chunk}, \emph{frame\_exposure\_time=None}}{}
 This function reads a fits file and computes its end section values.
 
 This function reads in a fits file of 3 dimensions, averaging some
@@ -395,28 +440,26 @@ values calculated from.
 \sphinxstyleliteralstrong{\sphinxupquote{end\_chunk}} (\sphinxstyleliteralemphasis{\sphinxupquote{array-like}}) \textendash{} The exact range of frames from the bottom that will be median-ed.
 
 \item {} 
-\sphinxstyleliteralstrong{\sphinxupquote{write\_file}} (\sphinxstyleliteralemphasis{\sphinxupquote{boolean}}\sphinxstyleliteralemphasis{\sphinxupquote{ (}}\sphinxstyleliteralemphasis{\sphinxupquote{optional}}\sphinxstyleliteralemphasis{\sphinxupquote{)}}) \textendash{} If true, the Astropy HDUL object is written to a fits file.
-
-\item {} 
-\sphinxstyleliteralstrong{\sphinxupquote{alternate\_name}} (\sphinxstyleliteralemphasis{\sphinxupquote{string}}\sphinxstyleliteralemphasis{\sphinxupquote{ (}}\sphinxstyleliteralemphasis{\sphinxupquote{optional}}\sphinxstyleliteralemphasis{\sphinxupquote{)}}) \textendash{} An alternate fits file name to write the data too instead of the
-first provided one.
+\sphinxstyleliteralstrong{\sphinxupquote{frame\_exposure\_time}} (\sphinxstyleliteralemphasis{\sphinxupquote{float}}) \textendash{} The duration, per frame (in seconds), of each exposure. This is
+really not used in this function, but, it is added for uniformity with
+the other functions.
 
 \end{itemize}
 
 \item[{Returns}] \leavevmode
-\sphinxstylestrong{hdu\_file} \textendash{} The HDUList object of the written file.
+\sphinxstylestrong{final\_data} \textendash{} The final data array of the median-ed frames as desired.
 
 \item[{Return type}] \leavevmode
-Astropy HDUList file
+ndarray
 
 \end{description}\end{quote}
 
 \end{fulllineitems}
 
-\index{average\_endpoints\_per\_kilosecond() (in module IfA\_Smeargle.bravo.averaging)@\spxentry{average\_endpoints\_per\_kilosecond()}\spxextra{in module IfA\_Smeargle.bravo.averaging}}
+\index{median\_endpoints\_per\_kilosecond() (in module IfA\_Smeargle.bravo.averaging)@\spxentry{median\_endpoints\_per\_kilosecond()}\spxextra{in module IfA\_Smeargle.bravo.averaging}}
 
 \begin{fulllineitems}
-\phantomsection\label{\detokenize{python_docstrings/IfA_Smeargle.bravo.averaging:IfA_Smeargle.bravo.averaging.average_endpoints_per_kilosecond}}\pysiglinewithargsret{\sphinxcode{\sphinxupquote{IfA\_Smeargle.bravo.averaging.}}\sphinxbfcode{\sphinxupquote{average\_endpoints\_per\_kilosecond}}}{\emph{fits\_file}, \emph{start\_chunk}, \emph{end\_chunk}, \emph{frame\_exposure\_time}, \emph{write\_file=True}, \emph{alternate\_name=None}}{}
+\phantomsection\label{\detokenize{python_docstrings/IfA_Smeargle.bravo.averaging:IfA_Smeargle.bravo.averaging.median_endpoints_per_kilosecond}}\pysiglinewithargsret{\sphinxcode{\sphinxupquote{IfA\_Smeargle.bravo.averaging.}}\sphinxbfcode{\sphinxupquote{median\_endpoints\_per\_kilosecond}}}{\emph{data\_array}, \emph{start\_chunk}, \emph{end\_chunk}, \emph{frame\_exposure\_time}}{}
 This function reads a fits file and computes its end section values.
 
 This function reads in a fits file of 3 dimensions, averaging some
@@ -440,29 +483,22 @@ values calculated from.
 \item {} 
 \sphinxstyleliteralstrong{\sphinxupquote{frame\_exposure\_time}} (\sphinxstyleliteralemphasis{\sphinxupquote{float}}) \textendash{} The duration, per frame (in seconds), of each exposure.
 
-\item {} 
-\sphinxstyleliteralstrong{\sphinxupquote{write\_file}} (\sphinxstyleliteralemphasis{\sphinxupquote{boolean}}\sphinxstyleliteralemphasis{\sphinxupquote{ (}}\sphinxstyleliteralemphasis{\sphinxupquote{optional}}\sphinxstyleliteralemphasis{\sphinxupquote{)}}) \textendash{} If true, the Astropy HDUL object is written to a fits file.
-
-\item {} 
-\sphinxstyleliteralstrong{\sphinxupquote{alternate\_name}} (\sphinxstyleliteralemphasis{\sphinxupquote{string}}\sphinxstyleliteralemphasis{\sphinxupquote{ (}}\sphinxstyleliteralemphasis{\sphinxupquote{optional}}\sphinxstyleliteralemphasis{\sphinxupquote{)}}) \textendash{} An alternate fits file name to write the data too instead of the
-first provided one.
-
 \end{itemize}
 
 \item[{Returns}] \leavevmode
-\sphinxstylestrong{hdu\_file} \textendash{} The HDUList object of the written file.
+\sphinxstylestrong{final\_data} \textendash{} The final data array of the median-ed frames as desired.
 
 \item[{Return type}] \leavevmode
-Astropy HDUList file
+ndarray
 
 \end{description}\end{quote}
 
 \end{fulllineitems}
 
-\index{average\_endpoints\_per\_second() (in module IfA\_Smeargle.bravo.averaging)@\spxentry{average\_endpoints\_per\_second()}\spxextra{in module IfA\_Smeargle.bravo.averaging}}
+\index{median\_endpoints\_per\_second() (in module IfA\_Smeargle.bravo.averaging)@\spxentry{median\_endpoints\_per\_second()}\spxextra{in module IfA\_Smeargle.bravo.averaging}}
 
 \begin{fulllineitems}
-\phantomsection\label{\detokenize{python_docstrings/IfA_Smeargle.bravo.averaging:IfA_Smeargle.bravo.averaging.average_endpoints_per_second}}\pysiglinewithargsret{\sphinxcode{\sphinxupquote{IfA\_Smeargle.bravo.averaging.}}\sphinxbfcode{\sphinxupquote{average\_endpoints\_per\_second}}}{\emph{fits\_file}, \emph{start\_chunk}, \emph{end\_chunk}, \emph{frame\_exposure\_time}, \emph{write\_file=True}, \emph{alternate\_name=None}}{}
+\phantomsection\label{\detokenize{python_docstrings/IfA_Smeargle.bravo.averaging:IfA_Smeargle.bravo.averaging.median_endpoints_per_second}}\pysiglinewithargsret{\sphinxcode{\sphinxupquote{IfA\_Smeargle.bravo.averaging.}}\sphinxbfcode{\sphinxupquote{median\_endpoints\_per\_second}}}{\emph{data\_array}, \emph{start\_chunk}, \emph{end\_chunk}, \emph{frame\_exposure\_time}}{}
 This function reads a fits file and computes its end section values.
 
 This function reads in a fits file of 3 dimensions, averaging some
@@ -485,20 +521,13 @@ values calculated from.
 \item {} 
 \sphinxstyleliteralstrong{\sphinxupquote{frame\_exposure\_time}} (\sphinxstyleliteralemphasis{\sphinxupquote{float}}) \textendash{} The duration, per frame (in seconds), of each exposure.
 
-\item {} 
-\sphinxstyleliteralstrong{\sphinxupquote{write\_file}} (\sphinxstyleliteralemphasis{\sphinxupquote{boolean}}\sphinxstyleliteralemphasis{\sphinxupquote{ (}}\sphinxstyleliteralemphasis{\sphinxupquote{optional}}\sphinxstyleliteralemphasis{\sphinxupquote{)}}) \textendash{} If true, the Astropy HDUL object is written to a fits file.
-
-\item {} 
-\sphinxstyleliteralstrong{\sphinxupquote{alternate\_name}} (\sphinxstyleliteralemphasis{\sphinxupquote{string}}\sphinxstyleliteralemphasis{\sphinxupquote{ (}}\sphinxstyleliteralemphasis{\sphinxupquote{optional}}\sphinxstyleliteralemphasis{\sphinxupquote{)}}) \textendash{} An alternate fits file name to write the data too instead of the
-first provided one.
-
 \end{itemize}
 
 \item[{Returns}] \leavevmode
-\sphinxstylestrong{hdu\_file} \textendash{} The HDUList object of the written file.
+\sphinxstylestrong{final\_data} \textendash{} The final data array of the median-ed frames as desired.
 
 \item[{Return type}] \leavevmode
-Astropy HDUList file
+ndarray
 
 \end{description}\end{quote}
 
@@ -507,7 +536,47 @@ Astropy HDUList file
 
 
 \subparagraph{IfA\_Smeargle.bravo.bravo\_functions module}
-\label{\detokenize{python_docstrings/IfA_Smeargle.bravo.bravo_functions:module-IfA_Smeargle.bravo.bravo_functions}}\label{\detokenize{python_docstrings/IfA_Smeargle.bravo.bravo_functions:ifa-smeargle-bravo-bravo-functions-module}}\label{\detokenize{python_docstrings/IfA_Smeargle.bravo.bravo_functions::doc}}\index{IfA\_Smeargle.bravo.bravo\_functions (module)@\spxentry{IfA\_Smeargle.bravo.bravo\_functions}\spxextra{module}}\index{bravo\_filename\_split\_by\_parameter() (in module IfA\_Smeargle.bravo.bravo\_functions)@\spxentry{bravo\_filename\_split\_by\_parameter()}\spxextra{in module IfA\_Smeargle.bravo.bravo\_functions}}
+\label{\detokenize{python_docstrings/IfA_Smeargle.bravo.bravo_functions:module-IfA_Smeargle.bravo.bravo_functions}}\label{\detokenize{python_docstrings/IfA_Smeargle.bravo.bravo_functions:ifa-smeargle-bravo-bravo-functions-module}}\label{\detokenize{python_docstrings/IfA_Smeargle.bravo.bravo_functions::doc}}\index{IfA\_Smeargle.bravo.bravo\_functions (module)@\spxentry{IfA\_Smeargle.bravo.bravo\_functions}\spxextra{module}}\index{bravo\_archive\_data\_duplicates() (in module IfA\_Smeargle.bravo.bravo\_functions)@\spxentry{bravo\_archive\_data\_duplicates()}\spxextra{in module IfA\_Smeargle.bravo.bravo\_functions}}
+
+\begin{fulllineitems}
+\phantomsection\label{\detokenize{python_docstrings/IfA_Smeargle.bravo.bravo_functions:IfA_Smeargle.bravo.bravo_functions.bravo_archive_data_duplicates}}\pysiglinewithargsret{\sphinxcode{\sphinxupquote{IfA\_Smeargle.bravo.bravo\_functions.}}\sphinxbfcode{\sphinxupquote{bravo\_archive\_data\_duplicates}}}{\emph{data\_directory}, \emph{archive\_name=None}, \emph{archive\_extension='bztar'}}{}
+Creates a file archive of a copy of the data files contained within a
+directory.
+
+This function creates an archive of a data directory, preserving a copy
+of data. However, note that this function generally takes a bit of time
+if there are a lot of files or if the files are particularly large.
+
+Please note that this function archives recursively. Non-data files and
+non-required files should not be in the a given Data directory.
+\begin{quote}\begin{description}
+\item[{Parameters}] \leavevmode\begin{itemize}
+\item {} 
+\sphinxstyleliteralstrong{\sphinxupquote{data\_directory}} (\sphinxstyleliteralemphasis{\sphinxupquote{string}}) \textendash{} The directory that the data is contained within.
+
+\item {} 
+\sphinxstyleliteralstrong{\sphinxupquote{archive\_name}} (\sphinxstyleliteralemphasis{\sphinxupquote{string}}\sphinxstyleliteralemphasis{\sphinxupquote{ (}}\sphinxstyleliteralemphasis{\sphinxupquote{optional}}\sphinxstyleliteralemphasis{\sphinxupquote{)}}) \textendash{} The name of the archive that is to be created. If not provided, a
+default is provided that contains the time-stamp of its creation.
+
+\item {} 
+\sphinxstyleliteralstrong{\sphinxupquote{archive\_extension}} (\sphinxstyleliteralemphasis{\sphinxupquote{string}}\sphinxstyleliteralemphasis{\sphinxupquote{ (}}\sphinxstyleliteralemphasis{\sphinxupquote{optional}}\sphinxstyleliteralemphasis{\sphinxupquote{)}}) \textendash{} The extension of the archive. Note that only some archives are
+supported. Default is \sphinxcode{\sphinxupquote{bztar}}. See
+\sphinxcode{\sphinxupquote{shutil.get\_archive\_formats()}} for more information on
+available archive formats.
+
+\end{itemize}
+
+\item[{Returns}] \leavevmode
+
+
+\item[{Return type}] \leavevmode
+nothing
+
+\end{description}\end{quote}
+
+\end{fulllineitems}
+
+\index{bravo\_filename\_split\_by\_parameter() (in module IfA\_Smeargle.bravo.bravo\_functions)@\spxentry{bravo\_filename\_split\_by\_parameter()}\spxextra{in module IfA\_Smeargle.bravo.bravo\_functions}}
 
 \begin{fulllineitems}
 \phantomsection\label{\detokenize{python_docstrings/IfA_Smeargle.bravo.bravo_functions:IfA_Smeargle.bravo.bravo_functions.bravo_filename_split_by_parameter}}\pysiglinewithargsret{\sphinxcode{\sphinxupquote{IfA\_Smeargle.bravo.bravo\_functions.}}\sphinxbfcode{\sphinxupquote{bravo\_filename\_split\_by\_parameter}}}{\emph{path\_file\_name}, \emph{ignore\_mismatch=False}}{}
@@ -690,7 +759,7 @@ something more useful and accurate to the data.
 \index{number\_renaming() (in module IfA\_Smeargle.bravo.renaming)@\spxentry{number\_renaming()}\spxextra{in module IfA\_Smeargle.bravo.renaming}}
 
 \begin{fulllineitems}
-\phantomsection\label{\detokenize{python_docstrings/IfA_Smeargle.bravo.renaming:IfA_Smeargle.bravo.renaming.number_renaming}}\pysiglinewithargsret{\sphinxcode{\sphinxupquote{IfA\_Smeargle.bravo.renaming.}}\sphinxbfcode{\sphinxupquote{number\_renaming}}}{\emph{data\_directory}, \emph{begin\_garbage=0}, \emph{archive\_data=True}}{}
+\phantomsection\label{\detokenize{python_docstrings/IfA_Smeargle.bravo.renaming:IfA_Smeargle.bravo.renaming.number_renaming}}\pysiglinewithargsret{\sphinxcode{\sphinxupquote{IfA\_Smeargle.bravo.renaming.}}\sphinxbfcode{\sphinxupquote{number\_renaming}}}{\emph{data\_directory}, \emph{begin\_garbage=0}}{}
 Renames files according to their number in order.
 
 Some data filename outputs only give timestamps. This function renames
@@ -703,10 +772,6 @@ renamed.
 
 \item {} 
 \sphinxstyleliteralstrong{\sphinxupquote{begin\_garbage}} (\sphinxstyleliteralemphasis{\sphinxupquote{int}}\sphinxstyleliteralemphasis{\sphinxupquote{ (}}\sphinxstyleliteralemphasis{\sphinxupquote{optional}}\sphinxstyleliteralemphasis{\sphinxupquote{)}}) \textendash{} The number of files, in the beginning, that should not count as data.
-
-\item {} 
-\sphinxstyleliteralstrong{\sphinxupquote{archive\_data}} (\sphinxstyleliteralemphasis{\sphinxupquote{boolean}}\sphinxstyleliteralemphasis{\sphinxupquote{ (}}\sphinxstyleliteralemphasis{\sphinxupquote{optional}}\sphinxstyleliteralemphasis{\sphinxupquote{)}}) \textendash{} Execute the renaming on a copy of the data, the original data
-is archived and preserved.
 
 \end{itemize}
 
@@ -730,7 +795,7 @@ list
 \index{set\_determinization\_renaming() (in module IfA\_Smeargle.bravo.renaming)@\spxentry{set\_determinization\_renaming()}\spxextra{in module IfA\_Smeargle.bravo.renaming}}
 
 \begin{fulllineitems}
-\phantomsection\label{\detokenize{python_docstrings/IfA_Smeargle.bravo.renaming:IfA_Smeargle.bravo.renaming.set_determinization_renaming}}\pysiglinewithargsret{\sphinxcode{\sphinxupquote{IfA\_Smeargle.bravo.renaming.}}\sphinxbfcode{\sphinxupquote{set\_determinization\_renaming}}}{\emph{data\_directory}, \emph{set\_length}, \emph{begin\_garbage=0}, \emph{archive\_data=True}}{}
+\phantomsection\label{\detokenize{python_docstrings/IfA_Smeargle.bravo.renaming:IfA_Smeargle.bravo.renaming.set_determinization_renaming}}\pysiglinewithargsret{\sphinxcode{\sphinxupquote{IfA\_Smeargle.bravo.renaming.}}\sphinxbfcode{\sphinxupquote{set\_determinization\_renaming}}}{\emph{data\_directory}, \emph{set\_length}, \emph{begin\_garbage=0}}{}
 Renames files according to their set number, as determined by the
 number of files in a set. Sets are assumed to be consecutive.
 
@@ -748,10 +813,6 @@ renamed.
 \item {} 
 \sphinxstyleliteralstrong{\sphinxupquote{begin\_garbage}} (\sphinxstyleliteralemphasis{\sphinxupquote{int}}\sphinxstyleliteralemphasis{\sphinxupquote{ (}}\sphinxstyleliteralemphasis{\sphinxupquote{optional}}\sphinxstyleliteralemphasis{\sphinxupquote{)}}) \textendash{} The number of files, in the beginning, that should not count as data.
 
-\item {} 
-\sphinxstyleliteralstrong{\sphinxupquote{archive\_data}} (\sphinxstyleliteralemphasis{\sphinxupquote{boolean}}\sphinxstyleliteralemphasis{\sphinxupquote{ (}}\sphinxstyleliteralemphasis{\sphinxupquote{optional}}\sphinxstyleliteralemphasis{\sphinxupquote{)}}) \textendash{} Execute the renaming on a copy of the data, the original data
-is archived and preserved.
-
 \end{itemize}
 
 \item[{Returns}] \leavevmode
@@ -768,7 +829,7 @@ list
 \index{voltage\_pattern\_renaming() (in module IfA\_Smeargle.bravo.renaming)@\spxentry{voltage\_pattern\_renaming()}\spxextra{in module IfA\_Smeargle.bravo.renaming}}
 
 \begin{fulllineitems}
-\phantomsection\label{\detokenize{python_docstrings/IfA_Smeargle.bravo.renaming:IfA_Smeargle.bravo.renaming.voltage_pattern_renaming}}\pysiglinewithargsret{\sphinxcode{\sphinxupquote{IfA\_Smeargle.bravo.renaming.}}\sphinxbfcode{\sphinxupquote{voltage\_pattern\_renaming}}}{\emph{data\_directory}, \emph{voltage\_pattern}, \emph{begin\_garbage=0}, \emph{archive\_data=True}}{}
+\phantomsection\label{\detokenize{python_docstrings/IfA_Smeargle.bravo.renaming:IfA_Smeargle.bravo.renaming.voltage_pattern_renaming}}\pysiglinewithargsret{\sphinxcode{\sphinxupquote{IfA\_Smeargle.bravo.renaming.}}\sphinxbfcode{\sphinxupquote{voltage\_pattern\_renaming}}}{\emph{data\_directory}, \emph{voltage\_pattern}, \emph{begin\_garbage=0}}{}
 Renames files according to their voltage pattern specified.
 
 Some data filename outputs only give timestamps. This function renames
@@ -790,10 +851,6 @@ first voltage element to be used, proceeding from there in order.
 
 \item {} 
 \sphinxstyleliteralstrong{\sphinxupquote{begin\_garbage}} (\sphinxstyleliteralemphasis{\sphinxupquote{int}}\sphinxstyleliteralemphasis{\sphinxupquote{ (}}\sphinxstyleliteralemphasis{\sphinxupquote{optional}}\sphinxstyleliteralemphasis{\sphinxupquote{)}}) \textendash{} The number of files, in the beginning, that should not count as data.
-
-\item {} 
-\sphinxstyleliteralstrong{\sphinxupquote{archive\_data}} (\sphinxstyleliteralemphasis{\sphinxupquote{boolean}}\sphinxstyleliteralemphasis{\sphinxupquote{ (}}\sphinxstyleliteralemphasis{\sphinxupquote{optional}}\sphinxstyleliteralemphasis{\sphinxupquote{)}}) \textendash{} Execute the renaming on a copy of the data, the original data
-is archived and preserved.
 
 \end{itemize}
 
@@ -832,7 +889,7 @@ in this file is 000; this file only contains ECHO-000 class masks.
 \index{echo010\_fixing\_invalids() (in module IfA\_Smeargle.echo.masks.masks\_echo000)@\spxentry{echo010\_fixing\_invalids()}\spxextra{in module IfA\_Smeargle.echo.masks.masks\_echo000}}
 
 \begin{fulllineitems}
-\phantomsection\label{\detokenize{python_docstrings/IfA_Smeargle.echo.masks.masks_echo000:IfA_Smeargle.echo.masks.masks_echo000.echo010_fixing_invalids}}\pysiglinewithargsret{\sphinxcode{\sphinxupquote{IfA\_Smeargle.echo.masks.masks\_echo000.}}\sphinxbfcode{\sphinxupquote{echo010\_fixing\_invalids}}}{\emph{data\_array}, \emph{previous\_mask=\{\}}, \emph{return\_mask=False}}{}
+\phantomsection\label{\detokenize{python_docstrings/IfA_Smeargle.echo.masks.masks_echo000:IfA_Smeargle.echo.masks.masks_echo000.echo010_fixing_invalids}}\pysiglinewithargsret{\sphinxcode{\sphinxupquote{IfA\_Smeargle.echo.masks.masks\_echo000.}}\sphinxbfcode{\sphinxupquote{echo010\_fixing\_invalids}}}{\emph{data\_array}, \emph{previous\_mask=\{\}}, \emph{return\_mask=False}, \emph{mask\_key='echo010\_fixing\_invalids'}}{}
 This filter applies a mask to all numerically invalid inputs on a
 programing side.
 
@@ -852,12 +909,16 @@ added to the dictionary. Default is to make a new mask dictionary.
 \sphinxstyleliteralstrong{\sphinxupquote{return\_mask}} (\sphinxstyleliteralemphasis{\sphinxupquote{boolean}}\sphinxstyleliteralemphasis{\sphinxupquote{ (}}\sphinxstyleliteralemphasis{\sphinxupquote{optional}}\sphinxstyleliteralemphasis{\sphinxupquote{)}}) \textendash{} If this is true, then the mask itself (rather than the dictionary
 entry) will be returned instead.
 
+\item {} 
+\sphinxstyleliteralstrong{\sphinxupquote{mask\_key}} (\sphinxstyleliteralemphasis{\sphinxupquote{string}}\sphinxstyleliteralemphasis{\sphinxupquote{ (}}\sphinxstyleliteralemphasis{\sphinxupquote{optional}}\sphinxstyleliteralemphasis{\sphinxupquote{)}}) \textendash{} The key that will be used to denote this mask. It defaults to the
+standard name.
+
 \end{itemize}
 
 \item[{Returns}] \leavevmode
 \sphinxstylestrong{final\_mask} \textendash{} A boolean array for pixels that are masked (True) or are valid
 (False) will be added to the mask dictionary under the
-key \sphinxcode{\sphinxupquote{echo010\_fixing\_invalids}}.
+key \sphinxcode{\sphinxupquote{echo010\_fixing\_invalids}} unless otherwise specified.
 
 \item[{Return type}] \leavevmode
 ndarray -\textgreater{} dictionary
@@ -875,7 +936,7 @@ in this file is 100; this file only contains ECHO-100 class masks.
 \index{echo120\_subarray\_mask() (in module IfA\_Smeargle.echo.masks.masks\_echo100)@\spxentry{echo120\_subarray\_mask()}\spxextra{in module IfA\_Smeargle.echo.masks.masks\_echo100}}
 
 \begin{fulllineitems}
-\phantomsection\label{\detokenize{python_docstrings/IfA_Smeargle.echo.masks.masks_echo100:IfA_Smeargle.echo.masks.masks_echo100.echo120_subarray_mask}}\pysiglinewithargsret{\sphinxcode{\sphinxupquote{IfA\_Smeargle.echo.masks.masks\_echo100.}}\sphinxbfcode{\sphinxupquote{echo120\_subarray\_mask}}}{\emph{data\_array}, \emph{x\_range}, \emph{y\_range}, \emph{previous\_mask=\{\}}, \emph{return\_mask=False}}{}
+\phantomsection\label{\detokenize{python_docstrings/IfA_Smeargle.echo.masks.masks_echo100:IfA_Smeargle.echo.masks.masks_echo100.echo120_subarray_mask}}\pysiglinewithargsret{\sphinxcode{\sphinxupquote{IfA\_Smeargle.echo.masks.masks\_echo100.}}\sphinxbfcode{\sphinxupquote{echo120\_subarray\_mask}}}{\emph{data\_array}, \emph{x\_range}, \emph{y\_range}, \emph{previous\_mask=\{\}}, \emph{return\_mask=False}, \emph{mask\_key='echo120\_subarray\_mask'}}{}
 This applies a mask on the entire array except for a single sub-array
 rectangle.
 
@@ -901,12 +962,16 @@ added to the dictionary. Default is to make a new mask dictionary.
 \sphinxstyleliteralstrong{\sphinxupquote{return\_mask}} (\sphinxstyleliteralemphasis{\sphinxupquote{boolean}}\sphinxstyleliteralemphasis{\sphinxupquote{ (}}\sphinxstyleliteralemphasis{\sphinxupquote{optional}}\sphinxstyleliteralemphasis{\sphinxupquote{)}}) \textendash{} If this is true, then the mask itself (rather than the dictionary
 entry) will be returned instead.
 
+\item {} 
+\sphinxstyleliteralstrong{\sphinxupquote{mask\_key}} (\sphinxstyleliteralemphasis{\sphinxupquote{string}}\sphinxstyleliteralemphasis{\sphinxupquote{ (}}\sphinxstyleliteralemphasis{\sphinxupquote{optional}}\sphinxstyleliteralemphasis{\sphinxupquote{)}}) \textendash{} The key that will be used to denote this mask. It defaults to the
+standard name.
+
 \end{itemize}
 
 \item[{Returns}] \leavevmode
 \sphinxstylestrong{final\_mask} \textendash{} A boolean array for pixels that are masked (True) or are valid
 (False) will be added to the mask dictionary under the
-key \sphinxcode{\sphinxupquote{echo120\_subarray\_mask}}.
+key \sphinxcode{\sphinxupquote{echo120\_subarray\_mask}} unless otherwise specified.
 
 \item[{Return type}] \leavevmode
 ndarray -\textgreater{} dictionary
@@ -918,7 +983,7 @@ ndarray -\textgreater{} dictionary
 \index{echo170\_gaussian\_truncation() (in module IfA\_Smeargle.echo.masks.masks\_echo100)@\spxentry{echo170\_gaussian\_truncation()}\spxextra{in module IfA\_Smeargle.echo.masks.masks\_echo100}}
 
 \begin{fulllineitems}
-\phantomsection\label{\detokenize{python_docstrings/IfA_Smeargle.echo.masks.masks_echo100:IfA_Smeargle.echo.masks.masks_echo100.echo170_gaussian_truncation}}\pysiglinewithargsret{\sphinxcode{\sphinxupquote{IfA\_Smeargle.echo.masks.masks\_echo100.}}\sphinxbfcode{\sphinxupquote{echo170\_gaussian\_truncation}}}{\emph{data\_array}, \emph{sigma\_multiple}, \emph{bin\_size}, \emph{previous\_mask=\{\}}, \emph{return\_mask=False}}{}
+\phantomsection\label{\detokenize{python_docstrings/IfA_Smeargle.echo.masks.masks_echo100:IfA_Smeargle.echo.masks.masks_echo100.echo170_gaussian_truncation}}\pysiglinewithargsret{\sphinxcode{\sphinxupquote{IfA\_Smeargle.echo.masks.masks\_echo100.}}\sphinxbfcode{\sphinxupquote{echo170\_gaussian\_truncation}}}{\emph{data\_array}, \emph{sigma\_multiple}, \emph{bin\_width}, \emph{previous\_mask=\{\}}, \emph{return\_mask=False}, \emph{mask\_key='echo170\_gaussian\_truncation'}}{}
 This applies a mask on pixel values outside some Gaussian profile.
 
 This function is similar to echo277\_sigma\_truncation, but instead the
@@ -945,12 +1010,16 @@ added to the dictionary. Default is to make a new mask dictionary.
 \sphinxstyleliteralstrong{\sphinxupquote{return\_mask}} (\sphinxstyleliteralemphasis{\sphinxupquote{boolean}}\sphinxstyleliteralemphasis{\sphinxupquote{ (}}\sphinxstyleliteralemphasis{\sphinxupquote{optional}}\sphinxstyleliteralemphasis{\sphinxupquote{)}}) \textendash{} If this is true, then the mask itself (rather than the dictionary
 entry) will be returned instead.
 
+\item {} 
+\sphinxstyleliteralstrong{\sphinxupquote{mask\_key}} (\sphinxstyleliteralemphasis{\sphinxupquote{string}}\sphinxstyleliteralemphasis{\sphinxupquote{ (}}\sphinxstyleliteralemphasis{\sphinxupquote{optional}}\sphinxstyleliteralemphasis{\sphinxupquote{)}}) \textendash{} The key that will be used to denote this mask. It defaults to the
+standard name.
+
 \end{itemize}
 
 \item[{Returns}] \leavevmode
 \sphinxstylestrong{final\_mask} \textendash{} A boolean array for pixels that are masked (True) or are valid
 (False) will be added to the mask dictionary under the
-key \sphinxcode{\sphinxupquote{echo170\_gaussian\_truncation}}.
+key \sphinxcode{\sphinxupquote{echo170\_gaussian\_truncation}} unless otherwise specified.
 
 \item[{Return type}] \leavevmode
 ndarray -\textgreater{} dictionary
@@ -968,7 +1037,7 @@ in this file is 200; this file only contains ECHO-200 class masks.
 \index{echo270\_minimum\_cut() (in module IfA\_Smeargle.echo.masks.masks\_echo200)@\spxentry{echo270\_minimum\_cut()}\spxextra{in module IfA\_Smeargle.echo.masks.masks\_echo200}}
 
 \begin{fulllineitems}
-\phantomsection\label{\detokenize{python_docstrings/IfA_Smeargle.echo.masks.masks_echo200:IfA_Smeargle.echo.masks.masks_echo200.echo270_minimum_cut}}\pysiglinewithargsret{\sphinxcode{\sphinxupquote{IfA\_Smeargle.echo.masks.masks\_echo200.}}\sphinxbfcode{\sphinxupquote{echo270\_minimum\_cut}}}{\emph{data\_array}, \emph{minimum\_value}, \emph{previous\_mask=\{\}}, \emph{return\_mask=False}}{}
+\phantomsection\label{\detokenize{python_docstrings/IfA_Smeargle.echo.masks.masks_echo200:IfA_Smeargle.echo.masks.masks_echo200.echo270_minimum_cut}}\pysiglinewithargsret{\sphinxcode{\sphinxupquote{IfA\_Smeargle.echo.masks.masks\_echo200.}}\sphinxbfcode{\sphinxupquote{echo270\_minimum\_cut}}}{\emph{data\_array}, \emph{minimum\_value}, \emph{previous\_mask=\{\}}, \emph{return\_mask=False}, \emph{mask\_key='echo270\_minimum\_cut'}}{}
 This applies a mask on all pixels lower than some value.
 
 As the name implies, this function masks all pixels with some value
@@ -989,12 +1058,16 @@ added to the dictionary. Default is to make a new mask dictionary.
 \sphinxstyleliteralstrong{\sphinxupquote{return\_mask}} (\sphinxstyleliteralemphasis{\sphinxupquote{boolean}}\sphinxstyleliteralemphasis{\sphinxupquote{ (}}\sphinxstyleliteralemphasis{\sphinxupquote{optional}}\sphinxstyleliteralemphasis{\sphinxupquote{)}}) \textendash{} If this is true, then the mask itself (rather than the dictionary
 entry) will be returned instead.
 
+\item {} 
+\sphinxstyleliteralstrong{\sphinxupquote{mask\_key}} (\sphinxstyleliteralemphasis{\sphinxupquote{string}}\sphinxstyleliteralemphasis{\sphinxupquote{ (}}\sphinxstyleliteralemphasis{\sphinxupquote{optional}}\sphinxstyleliteralemphasis{\sphinxupquote{)}}) \textendash{} The key that will be used to denote this mask. It defaults to the
+standard name.
+
 \end{itemize}
 
 \item[{Returns}] \leavevmode
 \sphinxstylestrong{final\_mask} \textendash{} A boolean array for pixels that are masked (True) or are valid (False)
 will be added to the mask dictionary under the key
-\sphinxcode{\sphinxupquote{echo270\_minimum\_cut}}.
+\sphinxcode{\sphinxupquote{echo270\_minimum\_cut}} unless otherwise specified.
 
 \item[{Return type}] \leavevmode
 ndarray -\textgreater{} dictionary
@@ -1006,7 +1079,7 @@ ndarray -\textgreater{} dictionary
 \index{echo271\_maximum\_cut() (in module IfA\_Smeargle.echo.masks.masks\_echo200)@\spxentry{echo271\_maximum\_cut()}\spxextra{in module IfA\_Smeargle.echo.masks.masks\_echo200}}
 
 \begin{fulllineitems}
-\phantomsection\label{\detokenize{python_docstrings/IfA_Smeargle.echo.masks.masks_echo200:IfA_Smeargle.echo.masks.masks_echo200.echo271_maximum_cut}}\pysiglinewithargsret{\sphinxcode{\sphinxupquote{IfA\_Smeargle.echo.masks.masks\_echo200.}}\sphinxbfcode{\sphinxupquote{echo271\_maximum\_cut}}}{\emph{data\_array}, \emph{maximum\_value}, \emph{previous\_mask=\{\}}, \emph{return\_mask=False}}{}
+\phantomsection\label{\detokenize{python_docstrings/IfA_Smeargle.echo.masks.masks_echo200:IfA_Smeargle.echo.masks.masks_echo200.echo271_maximum_cut}}\pysiglinewithargsret{\sphinxcode{\sphinxupquote{IfA\_Smeargle.echo.masks.masks\_echo200.}}\sphinxbfcode{\sphinxupquote{echo271\_maximum\_cut}}}{\emph{data\_array}, \emph{maximum\_value}, \emph{previous\_mask=\{\}}, \emph{return\_mask=False}, \emph{mask\_key='echo271\_maximum\_cut'}}{}
 This applies a mask on all pixels lower than some value.
 
 As the name implies, this function masks all pixels with some value
@@ -1027,12 +1100,16 @@ added to the dictionary. Default is to make a new mask dictionary.
 \sphinxstyleliteralstrong{\sphinxupquote{return\_mask}} (\sphinxstyleliteralemphasis{\sphinxupquote{boolean}}\sphinxstyleliteralemphasis{\sphinxupquote{ (}}\sphinxstyleliteralemphasis{\sphinxupquote{optional}}\sphinxstyleliteralemphasis{\sphinxupquote{)}}) \textendash{} If this is true, then the mask itself (rather than the dictionary
 entry) will be returned instead.
 
+\item {} 
+\sphinxstyleliteralstrong{\sphinxupquote{mask\_key}} (\sphinxstyleliteralemphasis{\sphinxupquote{string}}\sphinxstyleliteralemphasis{\sphinxupquote{ (}}\sphinxstyleliteralemphasis{\sphinxupquote{optional}}\sphinxstyleliteralemphasis{\sphinxupquote{)}}) \textendash{} The key that will be used to denote this mask. It defaults to the
+standard name.
+
 \end{itemize}
 
 \item[{Returns}] \leavevmode
 \sphinxstylestrong{final\_mask} \textendash{} A boolean array for pixels that are masked (True) or are valid (False)
 will be added to the mask dictionary under the key
-\sphinxcode{\sphinxupquote{echo271\_maximum\_cut}}.
+\sphinxcode{\sphinxupquote{echo271\_maximum\_cut}} unless otherwise specified.
 
 \item[{Return type}] \leavevmode
 ndarray -\textgreater{} dictionary
@@ -1044,7 +1121,7 @@ ndarray -\textgreater{} dictionary
 \index{echo275\_pixel\_truncation() (in module IfA\_Smeargle.echo.masks.masks\_echo200)@\spxentry{echo275\_pixel\_truncation()}\spxextra{in module IfA\_Smeargle.echo.masks.masks\_echo200}}
 
 \begin{fulllineitems}
-\phantomsection\label{\detokenize{python_docstrings/IfA_Smeargle.echo.masks.masks_echo200:IfA_Smeargle.echo.masks.masks_echo200.echo275_pixel_truncation}}\pysiglinewithargsret{\sphinxcode{\sphinxupquote{IfA\_Smeargle.echo.masks.masks\_echo200.}}\sphinxbfcode{\sphinxupquote{echo275\_pixel\_truncation}}}{\emph{data\_array}, \emph{top\_count}, \emph{bottom\_count}, \emph{previous\_mask=\{\}}, \emph{return\_mask=False}}{}
+\phantomsection\label{\detokenize{python_docstrings/IfA_Smeargle.echo.masks.masks_echo200:IfA_Smeargle.echo.masks.masks_echo200.echo275_pixel_truncation}}\pysiglinewithargsret{\sphinxcode{\sphinxupquote{IfA\_Smeargle.echo.masks.masks\_echo200.}}\sphinxbfcode{\sphinxupquote{echo275\_pixel\_truncation}}}{\emph{data\_array}, \emph{top\_count}, \emph{bottom\_count}, \emph{previous\_mask=\{\}}, \emph{return\_mask=False}, \emph{mask\_key='echo275\_pixel\_truncation'}}{}
 This filter truncates the top and bottom number of pixels provided.
 
 The values \sphinxcode{\sphinxupquote{top\_count}} and \sphinxcode{\sphinxupquote{bottom\_count}} notate the number of pixels
@@ -1071,12 +1148,16 @@ added to the dictionary. Default is to make a new mask dictionary.
 \sphinxstyleliteralstrong{\sphinxupquote{return\_mask}} (\sphinxstyleliteralemphasis{\sphinxupquote{boolean}}\sphinxstyleliteralemphasis{\sphinxupquote{ (}}\sphinxstyleliteralemphasis{\sphinxupquote{optional}}\sphinxstyleliteralemphasis{\sphinxupquote{)}}) \textendash{} If this is true, then the mask itself (rather than the dictionary
 entry) will be returned instead.
 
+\item {} 
+\sphinxstyleliteralstrong{\sphinxupquote{mask\_key}} (\sphinxstyleliteralemphasis{\sphinxupquote{string}}\sphinxstyleliteralemphasis{\sphinxupquote{ (}}\sphinxstyleliteralemphasis{\sphinxupquote{optional}}\sphinxstyleliteralemphasis{\sphinxupquote{)}}) \textendash{} The key that will be used to denote this mask. It defaults to the
+standard name.
+
 \end{itemize}
 
 \item[{Returns}] \leavevmode
 \sphinxstylestrong{final\_mask} \textendash{} A boolean array for pixels that are masked (True) or are valid (False)
 will be added to the mask dictionary under the key
-\sphinxcode{\sphinxupquote{echo275\_pixel\_truncation}}.
+\sphinxcode{\sphinxupquote{echo275\_pixel\_truncation}} unless otherwise specified.
 
 \item[{Return type}] \leavevmode
 ndarray -\textgreater{} dictionary
@@ -1088,7 +1169,7 @@ ndarray -\textgreater{} dictionary
 \index{echo276\_percent\_truncation() (in module IfA\_Smeargle.echo.masks.masks\_echo200)@\spxentry{echo276\_percent\_truncation()}\spxextra{in module IfA\_Smeargle.echo.masks.masks\_echo200}}
 
 \begin{fulllineitems}
-\phantomsection\label{\detokenize{python_docstrings/IfA_Smeargle.echo.masks.masks_echo200:IfA_Smeargle.echo.masks.masks_echo200.echo276_percent_truncation}}\pysiglinewithargsret{\sphinxcode{\sphinxupquote{IfA\_Smeargle.echo.masks.masks\_echo200.}}\sphinxbfcode{\sphinxupquote{echo276\_percent\_truncation}}}{\emph{data\_array}, \emph{kept\_range}, \emph{previous\_mask=\{\}}, \emph{return\_mask=False}}{}
+\phantomsection\label{\detokenize{python_docstrings/IfA_Smeargle.echo.masks.masks_echo200:IfA_Smeargle.echo.masks.masks_echo200.echo276_percent_truncation}}\pysiglinewithargsret{\sphinxcode{\sphinxupquote{IfA\_Smeargle.echo.masks.masks\_echo200.}}\sphinxbfcode{\sphinxupquote{echo276\_percent\_truncation}}}{\emph{data\_array}, \emph{kept\_range}, \emph{previous\_mask=\{\}}, \emph{return\_mask=False}, \emph{mask\_key='echo276\_percent\_truncation'}}{}
 This filter truncates the top and bottom percent of pixels from the
 data array.
 
@@ -1112,12 +1193,16 @@ added to the dictionary. Default is to make a new mask dictionary.
 \sphinxstyleliteralstrong{\sphinxupquote{return\_mask}} (\sphinxstyleliteralemphasis{\sphinxupquote{boolean}}\sphinxstyleliteralemphasis{\sphinxupquote{ (}}\sphinxstyleliteralemphasis{\sphinxupquote{optional}}\sphinxstyleliteralemphasis{\sphinxupquote{)}}) \textendash{} If this is true, then the mask itself (rather than the dictionary
 entry) will be returned instead.
 
+\item {} 
+\sphinxstyleliteralstrong{\sphinxupquote{mask\_key}} (\sphinxstyleliteralemphasis{\sphinxupquote{string}}\sphinxstyleliteralemphasis{\sphinxupquote{ (}}\sphinxstyleliteralemphasis{\sphinxupquote{optional}}\sphinxstyleliteralemphasis{\sphinxupquote{)}}) \textendash{} The key that will be used to denote this mask. It defaults to the
+standard name.
+
 \end{itemize}
 
 \item[{Returns}] \leavevmode
 \sphinxstylestrong{final\_mask} \textendash{} A boolean array for pixels that are masked (True) or are valid (False)
 will be added to the mask dictionary under the key
-\sphinxcode{\sphinxupquote{echo276\_percent\_truncation}}.
+\sphinxcode{\sphinxupquote{echo276\_percent\_truncation}} unless otherwise specified.
 
 \item[{Return type}] \leavevmode
 ndarray -\textgreater{} dictionary
@@ -1129,7 +1214,7 @@ ndarray -\textgreater{} dictionary
 \index{echo277\_sigma\_truncation() (in module IfA\_Smeargle.echo.masks.masks\_echo200)@\spxentry{echo277\_sigma\_truncation()}\spxextra{in module IfA\_Smeargle.echo.masks.masks\_echo200}}
 
 \begin{fulllineitems}
-\phantomsection\label{\detokenize{python_docstrings/IfA_Smeargle.echo.masks.masks_echo200:IfA_Smeargle.echo.masks.masks_echo200.echo277_sigma_truncation}}\pysiglinewithargsret{\sphinxcode{\sphinxupquote{IfA\_Smeargle.echo.masks.masks\_echo200.}}\sphinxbfcode{\sphinxupquote{echo277\_sigma\_truncation}}}{\emph{data\_array}, \emph{sigma\_limits}, \emph{previous\_mask=\{\}}, \emph{return\_mask=False}}{}
+\phantomsection\label{\detokenize{python_docstrings/IfA_Smeargle.echo.masks.masks_echo200:IfA_Smeargle.echo.masks.masks_echo200.echo277_sigma_truncation}}\pysiglinewithargsret{\sphinxcode{\sphinxupquote{IfA\_Smeargle.echo.masks.masks\_echo200.}}\sphinxbfcode{\sphinxupquote{echo277\_sigma\_truncation}}}{\emph{data\_array}, \emph{sigma\_limits}, \emph{previous\_mask=\{\}}, \emph{return\_mask=False}, \emph{mask\_key='echo277\_sigma\_truncation'}}{}
 This applies a mask on pixels outside a given multiple of a sigma
 value.
 
@@ -1153,12 +1238,16 @@ added to the dictionary. Default is to make a new mask dictionary.
 \sphinxstyleliteralstrong{\sphinxupquote{return\_mask}} (\sphinxstyleliteralemphasis{\sphinxupquote{boolean}}\sphinxstyleliteralemphasis{\sphinxupquote{ (}}\sphinxstyleliteralemphasis{\sphinxupquote{optional}}\sphinxstyleliteralemphasis{\sphinxupquote{)}}) \textendash{} If this is true, then the mask itself (rather than the dictionary
 entry) will be returned instead.
 
+\item {} 
+\sphinxstyleliteralstrong{\sphinxupquote{mask\_key}} (\sphinxstyleliteralemphasis{\sphinxupquote{string}}\sphinxstyleliteralemphasis{\sphinxupquote{ (}}\sphinxstyleliteralemphasis{\sphinxupquote{optional}}\sphinxstyleliteralemphasis{\sphinxupquote{)}}) \textendash{} The key that will be used to denote this mask. It defaults to the
+standard name.
+
 \end{itemize}
 
 \item[{Returns}] \leavevmode
 \sphinxstylestrong{final\_mask} \textendash{} A boolean array for pixels that are masked (True) or are valid (False)
 will be added to the mask dictionary under the key
-\sphinxcode{\sphinxupquote{echo277\_sigma\_truncation}}.
+\sphinxcode{\sphinxupquote{echo277\_sigma\_truncation}} unless otherwise specified.
 
 \item[{Return type}] \leavevmode
 ndarray -\textgreater{} dictionary
@@ -1176,7 +1265,7 @@ in this file is 300; this file only contains ECHO-300 class masks.
 \index{echo380\_single\_pixels() (in module IfA\_Smeargle.echo.masks.masks\_echo300)@\spxentry{echo380\_single\_pixels()}\spxextra{in module IfA\_Smeargle.echo.masks.masks\_echo300}}
 
 \begin{fulllineitems}
-\phantomsection\label{\detokenize{python_docstrings/IfA_Smeargle.echo.masks.masks_echo300:IfA_Smeargle.echo.masks.masks_echo300.echo380_single_pixels}}\pysiglinewithargsret{\sphinxcode{\sphinxupquote{IfA\_Smeargle.echo.masks.masks\_echo300.}}\sphinxbfcode{\sphinxupquote{echo380\_single\_pixels}}}{\emph{data\_array}, \emph{pixel\_list}, \emph{previous\_mask=\{\}}, \emph{return\_mask=False}}{}
+\phantomsection\label{\detokenize{python_docstrings/IfA_Smeargle.echo.masks.masks_echo300:IfA_Smeargle.echo.masks.masks_echo300.echo380_single_pixels}}\pysiglinewithargsret{\sphinxcode{\sphinxupquote{IfA\_Smeargle.echo.masks.masks\_echo300.}}\sphinxbfcode{\sphinxupquote{echo380\_single\_pixels}}}{\emph{data\_array}, \emph{pixel\_list}, \emph{previous\_mask=\{\}}, \emph{return\_mask=False}, \emph{mask\_key='echo380single\_pixels'}}{}
 This applies a single mask on a single pixel(s)
 
 As the name implies, this function masks a single pixel value or a list
@@ -1198,12 +1287,16 @@ added to the dictionary. Default is to make a new mask dictionary.
 \sphinxstyleliteralstrong{\sphinxupquote{return\_mask}} (\sphinxstyleliteralemphasis{\sphinxupquote{boolean}}\sphinxstyleliteralemphasis{\sphinxupquote{ (}}\sphinxstyleliteralemphasis{\sphinxupquote{optional}}\sphinxstyleliteralemphasis{\sphinxupquote{)}}) \textendash{} If this is true, then the mask itself (rather than the dictionary
 entry) will be returned instead.
 
+\item {} 
+\sphinxstyleliteralstrong{\sphinxupquote{mask\_key}} (\sphinxstyleliteralemphasis{\sphinxupquote{string}}\sphinxstyleliteralemphasis{\sphinxupquote{ (}}\sphinxstyleliteralemphasis{\sphinxupquote{optional}}\sphinxstyleliteralemphasis{\sphinxupquote{)}}) \textendash{} The key that will be used to denote this mask. It defaults to the
+standard name.
+
 \end{itemize}
 
 \item[{Returns}] \leavevmode
 \sphinxstylestrong{final\_mask} \textendash{} A boolean array for pixels that are masked (True) or are valid
 (False) will be added to the mask dictionary under the
-key \sphinxcode{\sphinxupquote{echo380single\_pixels}}.
+key \sphinxcode{\sphinxupquote{echo380single\_pixels}} unless otherwise specified.
 
 \item[{Return type}] \leavevmode
 ndarray -\textgreater{} dictionary
@@ -1215,7 +1308,7 @@ ndarray -\textgreater{} dictionary
 \index{echo381\_rectangle\_mask() (in module IfA\_Smeargle.echo.masks.masks\_echo300)@\spxentry{echo381\_rectangle\_mask()}\spxextra{in module IfA\_Smeargle.echo.masks.masks\_echo300}}
 
 \begin{fulllineitems}
-\phantomsection\label{\detokenize{python_docstrings/IfA_Smeargle.echo.masks.masks_echo300:IfA_Smeargle.echo.masks.masks_echo300.echo381_rectangle_mask}}\pysiglinewithargsret{\sphinxcode{\sphinxupquote{IfA\_Smeargle.echo.masks.masks\_echo300.}}\sphinxbfcode{\sphinxupquote{echo381\_rectangle\_mask}}}{\emph{data\_array}, \emph{x\_ranges}, \emph{y\_ranges}, \emph{previous\_mask=\{\}}, \emph{return\_mask=False}}{}
+\phantomsection\label{\detokenize{python_docstrings/IfA_Smeargle.echo.masks.masks_echo300:IfA_Smeargle.echo.masks.masks_echo300.echo381_rectangle_mask}}\pysiglinewithargsret{\sphinxcode{\sphinxupquote{IfA\_Smeargle.echo.masks.masks\_echo300.}}\sphinxbfcode{\sphinxupquote{echo381\_rectangle\_mask}}}{\emph{data\_array}, \emph{x\_ranges}, \emph{y\_ranges}, \emph{previous\_mask=\{\}}, \emph{return\_mask=False}, \emph{mask\_key='echo381\_rectangle\_mask'}}{}
 This mask function applies rectangular masks to the data array.
 
 The rectangles defined by subsequent xy-ranges (0-indexed) are masked.
@@ -1243,12 +1336,16 @@ added to the dictionary. Default is to make a new mask dictionary.
 \sphinxstyleliteralstrong{\sphinxupquote{return\_mask}} (\sphinxstyleliteralemphasis{\sphinxupquote{boolean}}\sphinxstyleliteralemphasis{\sphinxupquote{ (}}\sphinxstyleliteralemphasis{\sphinxupquote{optional}}\sphinxstyleliteralemphasis{\sphinxupquote{)}}) \textendash{} If this is true, then the mask itself (rather than the dictionary
 entry) will be returned instead.
 
+\item {} 
+\sphinxstyleliteralstrong{\sphinxupquote{mask\_key}} (\sphinxstyleliteralemphasis{\sphinxupquote{string}}\sphinxstyleliteralemphasis{\sphinxupquote{ (}}\sphinxstyleliteralemphasis{\sphinxupquote{optional}}\sphinxstyleliteralemphasis{\sphinxupquote{)}}) \textendash{} The key that will be used to denote this mask. It defaults to the
+standard name.
+
 \end{itemize}
 
 \item[{Returns}] \leavevmode
 \sphinxstylestrong{final\_mask} \textendash{} A boolean array for pixels that are masked (True) or are valid
 (False) will be added to the mask dictionary under the
-key \sphinxcode{\sphinxupquote{echo381\_rectangle\_mask}}.
+key \sphinxcode{\sphinxupquote{echo381\_rectangle\_mask}} unless otherwise specified.
 
 \item[{Return type}] \leavevmode
 ndarray -\textgreater{} dictionary
@@ -1260,7 +1357,7 @@ ndarray -\textgreater{} dictionary
 \index{echo382\_column\_mask() (in module IfA\_Smeargle.echo.masks.masks\_echo300)@\spxentry{echo382\_column\_mask()}\spxextra{in module IfA\_Smeargle.echo.masks.masks\_echo300}}
 
 \begin{fulllineitems}
-\phantomsection\label{\detokenize{python_docstrings/IfA_Smeargle.echo.masks.masks_echo300:IfA_Smeargle.echo.masks.masks_echo300.echo382_column_mask}}\pysiglinewithargsret{\sphinxcode{\sphinxupquote{IfA\_Smeargle.echo.masks.masks\_echo300.}}\sphinxbfcode{\sphinxupquote{echo382\_column\_mask}}}{\emph{data\_array}, \emph{column\_list}, \emph{previous\_mask=\{\}}, \emph{return\_mask=False}}{}
+\phantomsection\label{\detokenize{python_docstrings/IfA_Smeargle.echo.masks.masks_echo300:IfA_Smeargle.echo.masks.masks_echo300.echo382_column_mask}}\pysiglinewithargsret{\sphinxcode{\sphinxupquote{IfA\_Smeargle.echo.masks.masks\_echo300.}}\sphinxbfcode{\sphinxupquote{echo382\_column\_mask}}}{\emph{data\_array}, \emph{column\_list}, \emph{previous\_mask=\{\}}, \emph{return\_mask=False}, \emph{mask\_key='echo382\_column\_mask'}}{}
 This applies a column mask on the data array provided its locations.
 
 The column mask takes a list of column numbers (0-indexed x-axis
@@ -1282,12 +1379,16 @@ added to the dictionary. Default is to make a new mask dictionary.
 \sphinxstyleliteralstrong{\sphinxupquote{return\_mask}} (\sphinxstyleliteralemphasis{\sphinxupquote{boolean}}\sphinxstyleliteralemphasis{\sphinxupquote{ (}}\sphinxstyleliteralemphasis{\sphinxupquote{optional}}\sphinxstyleliteralemphasis{\sphinxupquote{)}}) \textendash{} If this is true, then the mask itself (rather than the dictionary
 entry) will be returned instead.
 
+\item {} 
+\sphinxstyleliteralstrong{\sphinxupquote{mask\_key}} (\sphinxstyleliteralemphasis{\sphinxupquote{string}}\sphinxstyleliteralemphasis{\sphinxupquote{ (}}\sphinxstyleliteralemphasis{\sphinxupquote{optional}}\sphinxstyleliteralemphasis{\sphinxupquote{)}}) \textendash{} The key that will be used to denote this mask. It defaults to the
+standard name.
+
 \end{itemize}
 
 \item[{Returns}] \leavevmode
 \sphinxstylestrong{final\_mask} \textendash{} A boolean array for pixels that are masked (True) or are valid
 (False) will be added to the mask dictionary under the
-key \sphinxcode{\sphinxupquote{echo382\_column\_mask}}.
+key \sphinxcode{\sphinxupquote{echo382\_column\_mask}} unless otherwise specified.
 
 \item[{Return type}] \leavevmode
 ndarray -\textgreater{} dictionary
@@ -1299,7 +1400,7 @@ ndarray -\textgreater{} dictionary
 \index{echo383\_row\_mask() (in module IfA\_Smeargle.echo.masks.masks\_echo300)@\spxentry{echo383\_row\_mask()}\spxextra{in module IfA\_Smeargle.echo.masks.masks\_echo300}}
 
 \begin{fulllineitems}
-\phantomsection\label{\detokenize{python_docstrings/IfA_Smeargle.echo.masks.masks_echo300:IfA_Smeargle.echo.masks.masks_echo300.echo383_row_mask}}\pysiglinewithargsret{\sphinxcode{\sphinxupquote{IfA\_Smeargle.echo.masks.masks\_echo300.}}\sphinxbfcode{\sphinxupquote{echo383\_row\_mask}}}{\emph{data\_array}, \emph{row\_list}, \emph{previous\_mask=\{\}}, \emph{return\_mask=False}}{}
+\phantomsection\label{\detokenize{python_docstrings/IfA_Smeargle.echo.masks.masks_echo300:IfA_Smeargle.echo.masks.masks_echo300.echo383_row_mask}}\pysiglinewithargsret{\sphinxcode{\sphinxupquote{IfA\_Smeargle.echo.masks.masks\_echo300.}}\sphinxbfcode{\sphinxupquote{echo383\_row\_mask}}}{\emph{data\_array}, \emph{row\_list}, \emph{previous\_mask=\{\}}, \emph{return\_mask=False}, \emph{mask\_key='echo383\_row\_mask'}}{}
 This applies a row mask on the data array provided its locations.
 
 The row mask takes a list of column numbers (0-indexed x-axis values).
@@ -1321,12 +1422,16 @@ added to the dictionary. Default is to make a new mask dictionary.
 \sphinxstyleliteralstrong{\sphinxupquote{return\_mask}} (\sphinxstyleliteralemphasis{\sphinxupquote{boolean}}\sphinxstyleliteralemphasis{\sphinxupquote{ (}}\sphinxstyleliteralemphasis{\sphinxupquote{optional}}\sphinxstyleliteralemphasis{\sphinxupquote{)}}) \textendash{} If this is true, then the mask itself (rather than the dictionary
 entry) will be returned instead.
 
+\item {} 
+\sphinxstyleliteralstrong{\sphinxupquote{mask\_key}} (\sphinxstyleliteralemphasis{\sphinxupquote{string}}\sphinxstyleliteralemphasis{\sphinxupquote{ (}}\sphinxstyleliteralemphasis{\sphinxupquote{optional}}\sphinxstyleliteralemphasis{\sphinxupquote{)}}) \textendash{} The key that will be used to denote this mask. It defaults to the
+standard name.
+
 \end{itemize}
 
 \item[{Returns}] \leavevmode
 \sphinxstylestrong{final\_mask} \textendash{} A boolean array for pixels that are masked (True) or are valid
 (False) will be added to the mask dictionary under the
-key \sphinxcode{\sphinxupquote{echo383\_row\_mask}}.
+key \sphinxcode{\sphinxupquote{echo383\_row\_mask}} unless otherwise specified.
 
 \item[{Return type}] \leavevmode
 ndarray -\textgreater{} dictionary
@@ -1338,7 +1443,7 @@ ndarray -\textgreater{} dictionary
 \index{echo398\_nothing() (in module IfA\_Smeargle.echo.masks.masks\_echo300)@\spxentry{echo398\_nothing()}\spxextra{in module IfA\_Smeargle.echo.masks.masks\_echo300}}
 
 \begin{fulllineitems}
-\phantomsection\label{\detokenize{python_docstrings/IfA_Smeargle.echo.masks.masks_echo300:IfA_Smeargle.echo.masks.masks_echo300.echo398_nothing}}\pysiglinewithargsret{\sphinxcode{\sphinxupquote{IfA\_Smeargle.echo.masks.masks\_echo300.}}\sphinxbfcode{\sphinxupquote{echo398\_nothing}}}{\emph{data\_array}, \emph{previous\_mask=\{\}}, \emph{return\_mask=False}}{}
+\phantomsection\label{\detokenize{python_docstrings/IfA_Smeargle.echo.masks.masks_echo300:IfA_Smeargle.echo.masks.masks_echo300.echo398_nothing}}\pysiglinewithargsret{\sphinxcode{\sphinxupquote{IfA\_Smeargle.echo.masks.masks\_echo300.}}\sphinxbfcode{\sphinxupquote{echo398\_nothing}}}{\emph{data\_array}, \emph{previous\_mask=\{\}}, \emph{return\_mask=False}, \emph{mask\_key='echo398\_nothing'}}{}
 This applies a blanket blank (all pixels are valid) mask on the
 data array.
 
@@ -1357,12 +1462,16 @@ added to the dictionary. Default is to make a new mask dictionary.
 \sphinxstyleliteralstrong{\sphinxupquote{return\_mask}} (\sphinxstyleliteralemphasis{\sphinxupquote{boolean}}\sphinxstyleliteralemphasis{\sphinxupquote{ (}}\sphinxstyleliteralemphasis{\sphinxupquote{optional}}\sphinxstyleliteralemphasis{\sphinxupquote{)}}) \textendash{} If this is true, then the mask itself (rather than the dictionary
 entry) will be returned instead.
 
+\item {} 
+\sphinxstyleliteralstrong{\sphinxupquote{mask\_key}} (\sphinxstyleliteralemphasis{\sphinxupquote{string}}\sphinxstyleliteralemphasis{\sphinxupquote{ (}}\sphinxstyleliteralemphasis{\sphinxupquote{optional}}\sphinxstyleliteralemphasis{\sphinxupquote{)}}) \textendash{} The key that will be used to denote this mask. It defaults to the
+standard name.
+
 \end{itemize}
 
 \item[{Returns}] \leavevmode
 \sphinxstylestrong{final\_mask} \textendash{} A boolean array for pixels that are masked (True) or are valid
 (False) will be added to the mask dictionary under the
-key \sphinxcode{\sphinxupquote{echo398\_nothing}}.
+key \sphinxcode{\sphinxupquote{echo398\_nothing}} unless otherwise specified.
 
 \item[{Return type}] \leavevmode
 ndarray -\textgreater{} dictionary
@@ -1374,7 +1483,7 @@ ndarray -\textgreater{} dictionary
 \index{echo399\_everything() (in module IfA\_Smeargle.echo.masks.masks\_echo300)@\spxentry{echo399\_everything()}\spxextra{in module IfA\_Smeargle.echo.masks.masks\_echo300}}
 
 \begin{fulllineitems}
-\phantomsection\label{\detokenize{python_docstrings/IfA_Smeargle.echo.masks.masks_echo300:IfA_Smeargle.echo.masks.masks_echo300.echo399_everything}}\pysiglinewithargsret{\sphinxcode{\sphinxupquote{IfA\_Smeargle.echo.masks.masks\_echo300.}}\sphinxbfcode{\sphinxupquote{echo399\_everything}}}{\emph{data\_array}, \emph{previous\_mask=\{\}}, \emph{return\_mask=False}}{}
+\phantomsection\label{\detokenize{python_docstrings/IfA_Smeargle.echo.masks.masks_echo300:IfA_Smeargle.echo.masks.masks_echo300.echo399_everything}}\pysiglinewithargsret{\sphinxcode{\sphinxupquote{IfA\_Smeargle.echo.masks.masks\_echo300.}}\sphinxbfcode{\sphinxupquote{echo399\_everything}}}{\emph{data\_array}, \emph{previous\_mask=\{\}}, \emph{return\_mask=False}, \emph{mask\_key='echo399\_everything'}}{}
 This applies a blanket blank (all pixels are invalid) mask on the
 data array.
 
@@ -1393,12 +1502,16 @@ added to the dictionary. Default is to make a new mask dictionary.
 \sphinxstyleliteralstrong{\sphinxupquote{return\_mask}} (\sphinxstyleliteralemphasis{\sphinxupquote{boolean}}\sphinxstyleliteralemphasis{\sphinxupquote{ (}}\sphinxstyleliteralemphasis{\sphinxupquote{optional}}\sphinxstyleliteralemphasis{\sphinxupquote{)}}) \textendash{} If this is true, then the mask itself (rather than the dictionary
 entry) will be returned instead.
 
+\item {} 
+\sphinxstyleliteralstrong{\sphinxupquote{mask\_key}} (\sphinxstyleliteralemphasis{\sphinxupquote{string}}\sphinxstyleliteralemphasis{\sphinxupquote{ (}}\sphinxstyleliteralemphasis{\sphinxupquote{optional}}\sphinxstyleliteralemphasis{\sphinxupquote{)}}) \textendash{} The key that will be used to denote this mask. It defaults to the
+standard name.
+
 \end{itemize}
 
 \item[{Returns}] \leavevmode
 \sphinxstylestrong{final\_mask} \textendash{} A boolean array for pixels that are masked (True) or are valid
 (False) will be added to the mask dictionary under the
-key \sphinxcode{\sphinxupquote{echo399\_everything}}.
+key \sphinxcode{\sphinxupquote{echo399\_everything}} unless otherwise specified.
 
 \item[{Return type}] \leavevmode
 ndarray -\textgreater{} dictionary
@@ -1420,6 +1533,36 @@ This folder just contains all of the masking routines.
 \subparagraph{IfA\_Smeargle.echo.echo\_functions module}
 \label{\detokenize{python_docstrings/IfA_Smeargle.echo.echo_functions:module-IfA_Smeargle.echo.echo_functions}}\label{\detokenize{python_docstrings/IfA_Smeargle.echo.echo_functions:ifa-smeargle-echo-echo-functions-module}}\label{\detokenize{python_docstrings/IfA_Smeargle.echo.echo_functions::doc}}\index{IfA\_Smeargle.echo.echo\_functions (module)@\spxentry{IfA\_Smeargle.echo.echo\_functions}\spxextra{module}}
 These are some functions for the ECHO line that are helpful.
+\index{echo\_create\_masked\_array() (in module IfA\_Smeargle.echo.echo\_functions)@\spxentry{echo\_create\_masked\_array()}\spxextra{in module IfA\_Smeargle.echo.echo\_functions}}
+
+\begin{fulllineitems}
+\phantomsection\label{\detokenize{python_docstrings/IfA_Smeargle.echo.echo_functions:IfA_Smeargle.echo.echo_functions.echo_create_masked_array}}\pysiglinewithargsret{\sphinxcode{\sphinxupquote{IfA\_Smeargle.echo.echo\_functions.}}\sphinxbfcode{\sphinxupquote{echo\_create\_masked\_array}}}{\emph{data\_array}, \emph{synthesized\_mask}, \emph{masking\_dictionary=None}}{}
+This function makes a Numpy masked array; a nice built in class for
+this line.
+
+The Numpy Masked Array class works very well with masking data values in
+a given array. It is only natural to use such functionality. This is
+really a wrapper function for ease of usage with familiarity of
+IfA-Smeargle’s structures.
+\begin{quote}\begin{description}
+\item[{Parameters}] \leavevmode\begin{itemize}
+\item {} 
+\sphinxstyleliteralstrong{\sphinxupquote{data\_array}} (\sphinxstyleliteralemphasis{\sphinxupquote{ndarray}}) \textendash{} The data that is to have its mask made.
+
+\item {} 
+\sphinxstyleliteralstrong{\sphinxupquote{synthesized\_mask}} (\sphinxstyleliteralemphasis{\sphinxupquote{ndarray}}) \textendash{} The mask that should be applied to the data, it is expected that
+this is post-synthesis.
+
+\item {} 
+\sphinxstyleliteralstrong{\sphinxupquote{masking\_dictionary}} (\sphinxstyleliteralemphasis{\sphinxupquote{dictionary}}\sphinxstyleliteralemphasis{\sphinxupquote{ (}}\sphinxstyleliteralemphasis{\sphinxupquote{optional}}\sphinxstyleliteralemphasis{\sphinxupquote{)}}) \textendash{} The masking dictionary pre-synthesis. If it is not None,
+\sphinxcode{\sphinxupquote{synthesized\_mask}} is completely ignored in favor of this parameter.
+
+\end{itemize}
+
+\end{description}\end{quote}
+
+\end{fulllineitems}
+
 \index{echo\_functioned\_mask\_returning() (in module IfA\_Smeargle.echo.echo\_functions)@\spxentry{echo\_functioned\_mask\_returning()}\spxextra{in module IfA\_Smeargle.echo.echo\_functions}}
 
 \begin{fulllineitems}
@@ -1452,36 +1595,6 @@ dictionary based on the boolean value.
 
 \item[{Return type}] \leavevmode
 ndarray or dictionary
-
-\end{description}\end{quote}
-
-\end{fulllineitems}
-
-\index{echo\_numpy\_masked\_array() (in module IfA\_Smeargle.echo.echo\_functions)@\spxentry{echo\_numpy\_masked\_array()}\spxextra{in module IfA\_Smeargle.echo.echo\_functions}}
-
-\begin{fulllineitems}
-\phantomsection\label{\detokenize{python_docstrings/IfA_Smeargle.echo.echo_functions:IfA_Smeargle.echo.echo_functions.echo_numpy_masked_array}}\pysiglinewithargsret{\sphinxcode{\sphinxupquote{IfA\_Smeargle.echo.echo\_functions.}}\sphinxbfcode{\sphinxupquote{echo\_numpy\_masked\_array}}}{\emph{data\_array}, \emph{synthesized\_mask}, \emph{masking\_dictionary=None}}{}
-This function makes a Numpy masked array; a nice built in class for
-this line.
-
-The Numpy Masked Array class works very well with masking data values in
-a given array. It is only natural to use such functionality. This is
-really a wrapper function for ease of usage with familiarity of
-IfA-Smeargle’s structures.
-\begin{quote}\begin{description}
-\item[{Parameters}] \leavevmode\begin{itemize}
-\item {} 
-\sphinxstyleliteralstrong{\sphinxupquote{data\_array}} (\sphinxstyleliteralemphasis{\sphinxupquote{ndarray}}) \textendash{} The data that is to have its mask made.
-
-\item {} 
-\sphinxstyleliteralstrong{\sphinxupquote{synthesized\_mask}} (\sphinxstyleliteralemphasis{\sphinxupquote{ndarray}}) \textendash{} The mask that should be applied to the data, it is expected that
-this is post-synthesis.
-
-\item {} 
-\sphinxstyleliteralstrong{\sphinxupquote{masking\_dictionary}} (\sphinxstyleliteralemphasis{\sphinxupquote{dictionary}}\sphinxstyleliteralemphasis{\sphinxupquote{ (}}\sphinxstyleliteralemphasis{\sphinxupquote{optional}}\sphinxstyleliteralemphasis{\sphinxupquote{)}}) \textendash{} The masking dictionary pre-synthesis. If it is not None,
-\sphinxcode{\sphinxupquote{synthesized\_mask}} is completely ignored in favor of this parameter.
-
-\end{itemize}
 
 \end{description}\end{quote}
 
@@ -1631,23 +1744,22 @@ configuration parameters.
 \paragraph{Submodules}
 \label{\detokenize{python_docstrings/IfA_Smeargle.meta:submodules}}
 
-\subparagraph{IfA\_Smeargle.meta.configuration module}
-\label{\detokenize{python_docstrings/IfA_Smeargle.meta.configuration:module-IfA_Smeargle.meta.configuration}}\label{\detokenize{python_docstrings/IfA_Smeargle.meta.configuration:ifa-smeargle-meta-configuration-module}}\label{\detokenize{python_docstrings/IfA_Smeargle.meta.configuration::doc}}\index{IfA\_Smeargle.meta.configuration (module)@\spxentry{IfA\_Smeargle.meta.configuration}\spxextra{module}}
-These functions just provide a nice and easy place to put functions whose
-purpose is to allow for the proper reading of different possible arrangements
-of the configuration parameters.
-\index{yankee\_extract\_proper\_configuration\_class() (in module IfA\_Smeargle.meta.configuration)@\spxentry{yankee\_extract\_proper\_configuration\_class()}\spxextra{in module IfA\_Smeargle.meta.configuration}}
-
-\begin{fulllineitems}
-\phantomsection\label{\detokenize{python_docstrings/IfA_Smeargle.meta.configuration:IfA_Smeargle.meta.configuration.yankee_extract_proper_configuration_class}}\pysiglinewithargsret{\sphinxcode{\sphinxupquote{IfA\_Smeargle.meta.configuration.}}\sphinxbfcode{\sphinxupquote{yankee\_extract\_proper\_configuration\_class}}}{\emph{configuration\_class}, \emph{desired\_class}, \emph{deep\_copy=False}}{}
-\end{fulllineitems}
-
-
-
 \subparagraph{IfA\_Smeargle.meta.errors module}
 \label{\detokenize{python_docstrings/IfA_Smeargle.meta.errors:module-IfA_Smeargle.meta.errors}}\label{\detokenize{python_docstrings/IfA_Smeargle.meta.errors:ifa-smeargle-meta-errors-module}}\label{\detokenize{python_docstrings/IfA_Smeargle.meta.errors::doc}}\index{IfA\_Smeargle.meta.errors (module)@\spxentry{IfA\_Smeargle.meta.errors}\spxextra{module}}
 Defining custom errors because Python does not have all of the needed error
 categories.
+\index{AssumptionError@\spxentry{AssumptionError}}
+
+\begin{fulllineitems}
+\phantomsection\label{\detokenize{python_docstrings/IfA_Smeargle.meta.errors:IfA_Smeargle.meta.errors.AssumptionError}}\pysiglinewithargsret{\sphinxbfcode{\sphinxupquote{exception }}\sphinxcode{\sphinxupquote{IfA\_Smeargle.meta.errors.}}\sphinxbfcode{\sphinxupquote{AssumptionError}}}{\emph{message=None}}{}
+Bases: {\hyperref[\detokenize{python_docstrings/IfA_Smeargle.meta.errors:IfA_Smeargle.meta.errors.Smeargle_BaseException}]{\sphinxcrossref{\sphinxcode{\sphinxupquote{IfA\_Smeargle.meta.errors.Smeargle\_BaseException}}}}}
+
+This error is reserved for instances where something unexpected has
+occurred because of a flaw in the understanding of assumptions about
+Python or module functions.
+
+\end{fulllineitems}
+
 \index{BrokenLogicError@\spxentry{BrokenLogicError}}
 
 \begin{fulllineitems}
@@ -1657,18 +1769,6 @@ Bases: {\hyperref[\detokenize{python_docstrings/IfA_Smeargle.meta.errors:IfA_Sme
 This error is encountered when the program enters in a place it should
 not be able to. Incorporated mostly for safety; usually not the fault of
 the user.
-
-\end{fulllineitems}
-
-\index{BugError@\spxentry{BugError}}
-
-\begin{fulllineitems}
-\phantomsection\label{\detokenize{python_docstrings/IfA_Smeargle.meta.errors:IfA_Smeargle.meta.errors.BugError}}\pysiglinewithargsret{\sphinxbfcode{\sphinxupquote{exception }}\sphinxcode{\sphinxupquote{IfA\_Smeargle.meta.errors.}}\sphinxbfcode{\sphinxupquote{BugError}}}{\emph{message=None}}{}
-Bases: {\hyperref[\detokenize{python_docstrings/IfA_Smeargle.meta.errors:IfA_Smeargle.meta.errors.Smeargle_BaseException}]{\sphinxcrossref{\sphinxcode{\sphinxupquote{IfA\_Smeargle.meta.errors.Smeargle\_BaseException}}}}}
-
-This error is mostly used for cases where, if it is triggered, there is
-likely a bug. The bug’s status should mostly deal with logic flow and a
-broken program (compared to bad results, which is less obvious to detect).
 
 \end{fulllineitems}
 
@@ -1979,7 +2079,8 @@ MemoryWarning.
 \phantomsection\label{\detokenize{python_docstrings/IfA_Smeargle.meta.errors:IfA_Smeargle.meta.errors.TerminalError}}\pysiglinewithargsret{\sphinxbfcode{\sphinxupquote{exception }}\sphinxcode{\sphinxupquote{IfA\_Smeargle.meta.errors.}}\sphinxbfcode{\sphinxupquote{TerminalError}}}{\emph{message=None}}{}
 Bases: {\hyperref[\detokenize{python_docstrings/IfA_Smeargle.meta.errors:IfA_Smeargle.meta.errors.Smeargle_BaseException}]{\sphinxcrossref{\sphinxcode{\sphinxupquote{IfA\_Smeargle.meta.errors.Smeargle\_BaseException}}}}}
 
-Something has gone terribly wrong. It is best to contact Sparrow.
+Something has gone terribly wrong. It is best to contact the maintainers
+or Sparrow.
 
 \end{fulllineitems}
 
@@ -2159,75 +2260,17 @@ nothing
 
 
 
-\subparagraph{IfA\_Smeargle.meta.fits\_and\_arrays module}
-\label{\detokenize{python_docstrings/IfA_Smeargle.meta.fits_and_arrays:module-IfA_Smeargle.meta.fits_and_arrays}}\label{\detokenize{python_docstrings/IfA_Smeargle.meta.fits_and_arrays:ifa-smeargle-meta-fits-and-arrays-module}}\label{\detokenize{python_docstrings/IfA_Smeargle.meta.fits_and_arrays::doc}}\index{IfA\_Smeargle.meta.fits\_and\_arrays (module)@\spxentry{IfA\_Smeargle.meta.fits\_and\_arrays}\spxextra{module}}
-This file contains functions dealing with the loading and handling of fits files and their
-associated header and data arrays.
-\index{smeargle\_extract\_subarray() (in module IfA\_Smeargle.meta.fits\_and\_arrays)@\spxentry{smeargle\_extract\_subarray()}\spxextra{in module IfA\_Smeargle.meta.fits\_and\_arrays}}
+\subparagraph{IfA\_Smeargle.meta.io module}
+\label{\detokenize{python_docstrings/IfA_Smeargle.meta.io:module-IfA_Smeargle.meta.io}}\label{\detokenize{python_docstrings/IfA_Smeargle.meta.io:ifa-smeargle-meta-io-module}}\label{\detokenize{python_docstrings/IfA_Smeargle.meta.io::doc}}\index{IfA\_Smeargle.meta.io (module)@\spxentry{IfA\_Smeargle.meta.io}\spxextra{module}}
+This module just adds some shortcut calling functions to functionality of plotting functions
+and related methods.
+
+Although the implementation of the entire functionality module is supposed to be untouched,
+it is still suggested that these functions be used over custom approaches when applicable.
+\index{smeargle\_open\_fits\_file() (in module IfA\_Smeargle.meta.io)@\spxentry{smeargle\_open\_fits\_file()}\spxextra{in module IfA\_Smeargle.meta.io}}
 
 \begin{fulllineitems}
-\phantomsection\label{\detokenize{python_docstrings/IfA_Smeargle.meta.fits_and_arrays:IfA_Smeargle.meta.fits_and_arrays.smeargle_extract_subarray}}\pysiglinewithargsret{\sphinxcode{\sphinxupquote{IfA\_Smeargle.meta.fits\_and\_arrays.}}\sphinxbfcode{\sphinxupquote{smeargle\_extract\_subarray}}}{\emph{primary\_array}, \emph{x\_bounds}, \emph{y\_bounds}}{}
-A function to extract a smaller array copy from a larger array.
-
-Sub-arrays are rather important in the analysis of specific arrays.
-This function extracts a sub-array from a given primary array specified
-by the x\_bounds and y\_bounds.
-\begin{quote}\begin{description}
-\item[{Parameters}] \leavevmode\begin{itemize}
-\item {} 
-\sphinxstyleliteralstrong{\sphinxupquote{primary\_array}} (\sphinxstyleliteralemphasis{\sphinxupquote{ndarray}}) \textendash{} This is the data array that is desired to be sliced.
-
-\item {} 
-\sphinxstyleliteralstrong{\sphinxupquote{x\_bounds}} (\sphinxstyleliteralemphasis{\sphinxupquote{list-like}}) \textendash{} The bounds of the x-axis of a given array.
-
-\item {} 
-\sphinxstyleliteralstrong{\sphinxupquote{y\_bounds}} (\sphinxstyleliteralemphasis{\sphinxupquote{list-like}}) \textendash{} The bounds of the y-axis of a given array.
-
-\end{itemize}
-
-\item[{Returns}] \leavevmode
-\sphinxstylestrong{sub\_array} \textendash{} An array containing only data within the xy-bounds provided.
-
-\item[{Return type}] \leavevmode
-ndarray
-
-\end{description}\end{quote}
-
-\end{fulllineitems}
-
-\index{smeargle\_masked\_array\_min\_max() (in module IfA\_Smeargle.meta.fits\_and\_arrays)@\spxentry{smeargle\_masked\_array\_min\_max()}\spxextra{in module IfA\_Smeargle.meta.fits\_and\_arrays}}
-
-\begin{fulllineitems}
-\phantomsection\label{\detokenize{python_docstrings/IfA_Smeargle.meta.fits_and_arrays:IfA_Smeargle.meta.fits_and_arrays.smeargle_masked_array_min_max}}\pysiglinewithargsret{\sphinxcode{\sphinxupquote{IfA\_Smeargle.meta.fits\_and\_arrays.}}\sphinxbfcode{\sphinxupquote{smeargle\_masked\_array\_min\_max}}}{\emph{masked\_array}}{}
-This function returns a masked array’s minimum and maximum value.
-
-This function determines the minimum and maximum of a masked arrays
-between valid, unmasked, values only. Masked values are not considered
-for min-max evaluation.
-\begin{quote}\begin{description}
-\item[{Parameters}] \leavevmode
-\sphinxstyleliteralstrong{\sphinxupquote{masked\_array}} (\sphinxstyleliteralemphasis{\sphinxupquote{masked ndarray}}) \textendash{} The array that has a mask, and is also the one that will have a
-min max calculated.
-
-\item[{Returns}] \leavevmode
-\begin{itemize}
-\item {} 
-\sphinxstylestrong{masked\_min} (\sphinxstyleemphasis{float}) \textendash{} The value of the minimum of the masked array ignoring masking.
-
-\item {} 
-\sphinxstylestrong{masked\_max} (\sphinxstyleemphasis{float}) \textendash{} The value of the maximum of the masked array ignoring masking.
-
-\end{itemize}
-
-
-\end{description}\end{quote}
-
-\end{fulllineitems}
-
-\index{smeargle\_open\_fits\_file() (in module IfA\_Smeargle.meta.fits\_and\_arrays)@\spxentry{smeargle\_open\_fits\_file()}\spxextra{in module IfA\_Smeargle.meta.fits\_and\_arrays}}
-
-\begin{fulllineitems}
-\phantomsection\label{\detokenize{python_docstrings/IfA_Smeargle.meta.fits_and_arrays:IfA_Smeargle.meta.fits_and_arrays.smeargle_open_fits_file}}\pysiglinewithargsret{\sphinxcode{\sphinxupquote{IfA\_Smeargle.meta.fits\_and\_arrays.}}\sphinxbfcode{\sphinxupquote{smeargle\_open\_fits\_file}}}{\emph{file\_name}, \emph{extension=0}, \emph{null\_min=-1000000.0}, \emph{null\_max=1000000.0}, \emph{silent=False}}{}
+\phantomsection\label{\detokenize{python_docstrings/IfA_Smeargle.meta.io:IfA_Smeargle.meta.io.smeargle_open_fits_file}}\pysiglinewithargsret{\sphinxcode{\sphinxupquote{IfA\_Smeargle.meta.io.}}\sphinxbfcode{\sphinxupquote{smeargle\_open\_fits\_file}}}{\emph{file\_name}, \emph{extension=0}, \emph{null\_min=-1000000.0}, \emph{null\_max=1000000.0}, \emph{silent=False}}{}
 A function to ensure proper loading/reading of fits files.
 
 This function, as its name, opens a fits file. It returns the Astropy HDU
@@ -2276,10 +2319,56 @@ functions below it.
 
 \end{fulllineitems}
 
-\index{smeargle\_write\_fits\_file() (in module IfA\_Smeargle.meta.fits\_and\_arrays)@\spxentry{smeargle\_write\_fits\_file()}\spxextra{in module IfA\_Smeargle.meta.fits\_and\_arrays}}
+\index{smeargle\_save\_figure\_file() (in module IfA\_Smeargle.meta.io)@\spxentry{smeargle\_save\_figure\_file()}\spxextra{in module IfA\_Smeargle.meta.io}}
 
 \begin{fulllineitems}
-\phantomsection\label{\detokenize{python_docstrings/IfA_Smeargle.meta.fits_and_arrays:IfA_Smeargle.meta.fits_and_arrays.smeargle_write_fits_file}}\pysiglinewithargsret{\sphinxcode{\sphinxupquote{IfA\_Smeargle.meta.fits\_and\_arrays.}}\sphinxbfcode{\sphinxupquote{smeargle\_write\_fits\_file}}}{\emph{file\_name}, \emph{hdu\_header}, \emph{hdu\_data}, \emph{hdu\_object=None}, \emph{save\_file=True}, \emph{overwrite=True}, \emph{silent=False}}{}
+\phantomsection\label{\detokenize{python_docstrings/IfA_Smeargle.meta.io:IfA_Smeargle.meta.io.smeargle_save_figure_file}}\pysiglinewithargsret{\sphinxcode{\sphinxupquote{IfA\_Smeargle.meta.io.}}\sphinxbfcode{\sphinxupquote{smeargle\_save\_figure\_file}}}{\emph{figure}, \emph{file\_name}, \emph{title=None}, \emph{close\_figure=True}}{}
+This function just saves a figure to a file to a name provided.
+
+Because of some oddities with Matplotlib, saving a file within a function
+and exiting said function (or overwriting in a loop its variable) with a
+new figure causes two figures to be saved in parallel. This is very
+memory intensive, so closing a saved figure is ideal.
+
+This function does it so the user or Smeargle lines do not need to care
+about it.
+\begin{quote}\begin{description}
+\item[{Parameters}] \leavevmode\begin{itemize}
+\item {} 
+\sphinxstyleliteralstrong{\sphinxupquote{figure}} (\sphinxstyleliteralemphasis{\sphinxupquote{Matplotlib Figure}}) \textendash{} This is the figure to be saved to a file.
+
+\item {} 
+\sphinxstyleliteralstrong{\sphinxupquote{file\_name}} (\sphinxstyleliteralemphasis{\sphinxupquote{string}}) \textendash{} This is the file string name for the figure to be saved. It should
+already have the appropriate extension. If not, it defaults to pdf.
+
+\item {} 
+\sphinxstyleliteralstrong{\sphinxupquote{title}} (\sphinxstyleliteralemphasis{\sphinxupquote{string}}\sphinxstyleliteralemphasis{\sphinxupquote{ (}}\sphinxstyleliteralemphasis{\sphinxupquote{optional}}\sphinxstyleliteralemphasis{\sphinxupquote{)}}) \textendash{} This is the title for the figure plot. Although it can be added from
+here, it is not advised.
+
+\item {} 
+\sphinxstyleliteralstrong{\sphinxupquote{close\_figure}} (\sphinxstyleliteralemphasis{\sphinxupquote{boolean}}\sphinxstyleliteralemphasis{\sphinxupquote{ (}}\sphinxstyleliteralemphasis{\sphinxupquote{optional}}\sphinxstyleliteralemphasis{\sphinxupquote{)}}) \textendash{} This specifies if the figure should be closed. Given that this
+function is built for that, this should not be changed.
+
+\end{itemize}
+
+\item[{Returns}] \leavevmode
+\sphinxstylestrong{return\_none} \textendash{} Nothing
+
+\item[{Return type}] \leavevmode
+None
+
+\end{description}\end{quote}
+
+\begin{sphinxadmonition}{note}{Note:}
+The file type checking logic is not the smartest implementation.
+\end{sphinxadmonition}
+
+\end{fulllineitems}
+
+\index{smeargle\_write\_fits\_file() (in module IfA\_Smeargle.meta.io)@\spxentry{smeargle\_write\_fits\_file()}\spxextra{in module IfA\_Smeargle.meta.io}}
+
+\begin{fulllineitems}
+\phantomsection\label{\detokenize{python_docstrings/IfA_Smeargle.meta.io:IfA_Smeargle.meta.io.smeargle_write_fits_file}}\pysiglinewithargsret{\sphinxcode{\sphinxupquote{IfA\_Smeargle.meta.io.}}\sphinxbfcode{\sphinxupquote{smeargle\_write\_fits\_file}}}{\emph{file\_name}, \emph{hdu\_header}, \emph{hdu\_data}, \emph{hdu\_object=None}, \emph{save\_file=True}, \emph{overwrite=True}, \emph{silent=False}}{}
 A function to ensure proper writing of fits files.
 
 This function writes fits files given the data and header file. The
@@ -2326,6 +2415,133 @@ Astropy HDUList
 
 
 
+\subparagraph{IfA\_Smeargle.meta.mathematics module}
+\label{\detokenize{python_docstrings/IfA_Smeargle.meta.mathematics:module-IfA_Smeargle.meta.mathematics}}\label{\detokenize{python_docstrings/IfA_Smeargle.meta.mathematics:ifa-smeargle-meta-mathematics-module}}\label{\detokenize{python_docstrings/IfA_Smeargle.meta.mathematics::doc}}\index{IfA\_Smeargle.meta.mathematics (module)@\spxentry{IfA\_Smeargle.meta.mathematics}\spxextra{module}}
+Sometimes the math needs to be explicit.
+\index{smeargle\_mean() (in module IfA\_Smeargle.meta.mathematics)@\spxentry{smeargle\_mean()}\spxextra{in module IfA\_Smeargle.meta.mathematics}}
+
+\begin{fulllineitems}
+\phantomsection\label{\detokenize{python_docstrings/IfA_Smeargle.meta.mathematics:IfA_Smeargle.meta.mathematics.smeargle_mean}}\pysiglinewithargsret{\sphinxcode{\sphinxupquote{IfA\_Smeargle.meta.mathematics.}}\sphinxbfcode{\sphinxupquote{smeargle\_mean}}}{\emph{array}, \emph{axis=None}}{}
+This returns the true mean of the data. It only counts valid data.
+
+There are outstanding problems with how the masked arrays handle means.
+For some reason, there is no np.ma.nanmean function. This adds that
+functionality.
+\begin{quote}\begin{description}
+\item[{Parameters}] \leavevmode\begin{itemize}
+\item {} 
+\sphinxstyleliteralstrong{\sphinxupquote{array}} (\sphinxstyleliteralemphasis{\sphinxupquote{ndarray}}) \textendash{} The value or array of values by which the mean will be taken from.
+
+\item {} 
+\sphinxstyleliteralstrong{\sphinxupquote{axis}} (\sphinxstyleliteralemphasis{\sphinxupquote{int}}) \textendash{} The axis that the mean will be taken over.
+
+\end{itemize}
+
+\item[{Returns}] \leavevmode
+\sphinxstylestrong{true\_mean} \textendash{} The mean of the array along which ever axis was given.
+
+\item[{Return type}] \leavevmode
+float or ndarray
+
+\end{description}\end{quote}
+
+\end{fulllineitems}
+
+\index{smeargle\_median() (in module IfA\_Smeargle.meta.mathematics)@\spxentry{smeargle\_median()}\spxextra{in module IfA\_Smeargle.meta.mathematics}}
+
+\begin{fulllineitems}
+\phantomsection\label{\detokenize{python_docstrings/IfA_Smeargle.meta.mathematics:IfA_Smeargle.meta.mathematics.smeargle_median}}\pysiglinewithargsret{\sphinxcode{\sphinxupquote{IfA\_Smeargle.meta.mathematics.}}\sphinxbfcode{\sphinxupquote{smeargle\_median}}}{\emph{array}, \emph{axis=None}}{}
+This returns the true median of the data. It only counts valid data.
+
+There are outstanding problems with how the masked arrays handle medians.
+For some reason, there is no np.ma.nanmedian function. This adds that
+functionality.
+\begin{quote}\begin{description}
+\item[{Parameters}] \leavevmode\begin{itemize}
+\item {} 
+\sphinxstyleliteralstrong{\sphinxupquote{array}} (\sphinxstyleliteralemphasis{\sphinxupquote{ndarray}}) \textendash{} The value or array of values by which the median will be taken from.
+
+\item {} 
+\sphinxstyleliteralstrong{\sphinxupquote{axis}} (\sphinxstyleliteralemphasis{\sphinxupquote{int}}) \textendash{} The axis that the median will be taken over.
+
+\end{itemize}
+
+\item[{Returns}] \leavevmode
+\sphinxstylestrong{true\_median} \textendash{} The median of the array along which ever axis was given.
+
+\item[{Return type}] \leavevmode
+float or ndarray
+
+\end{description}\end{quote}
+
+\end{fulllineitems}
+
+\index{smeargle\_std() (in module IfA\_Smeargle.meta.mathematics)@\spxentry{smeargle\_std()}\spxextra{in module IfA\_Smeargle.meta.mathematics}}
+
+\begin{fulllineitems}
+\phantomsection\label{\detokenize{python_docstrings/IfA_Smeargle.meta.mathematics:IfA_Smeargle.meta.mathematics.smeargle_std}}\pysiglinewithargsret{\sphinxcode{\sphinxupquote{IfA\_Smeargle.meta.mathematics.}}\sphinxbfcode{\sphinxupquote{smeargle\_std}}}{\emph{array}, \emph{axis=None}}{}
+This returns the true standard deviation of the data. It only counts
+valid data.
+
+There are outstanding problems with how the masked arrays handle stds.
+For some reason, there is no np.ma.nanstd function. This adds that
+functionality.
+\begin{quote}\begin{description}
+\item[{Parameters}] \leavevmode\begin{itemize}
+\item {} 
+\sphinxstyleliteralstrong{\sphinxupquote{array}} (\sphinxstyleliteralemphasis{\sphinxupquote{ndarray}}) \textendash{} The value or array of values by which the standard deviation will be
+taken from.
+
+\item {} 
+\sphinxstyleliteralstrong{\sphinxupquote{axis}} (\sphinxstyleliteralemphasis{\sphinxupquote{int}}) \textendash{} The axis that the median will be taken over.
+
+\end{itemize}
+
+\item[{Returns}] \leavevmode
+\sphinxstylestrong{true\_std} \textendash{} The standard deviation of the array along which ever axis was given.
+
+\item[{Return type}] \leavevmode
+float or ndarray
+
+\end{description}\end{quote}
+
+\end{fulllineitems}
+
+\index{smeargle\_where() (in module IfA\_Smeargle.meta.mathematics)@\spxentry{smeargle\_where()}\spxextra{in module IfA\_Smeargle.meta.mathematics}}
+
+\begin{fulllineitems}
+\phantomsection\label{\detokenize{python_docstrings/IfA_Smeargle.meta.mathematics:IfA_Smeargle.meta.mathematics.smeargle_where}}\pysiglinewithargsret{\sphinxcode{\sphinxupquote{IfA\_Smeargle.meta.mathematics.}}\sphinxbfcode{\sphinxupquote{smeargle\_where}}}{\emph{condition}, \emph{truthy=None}, \emph{falsy=None}}{}
+This returns the output of a standard Numpy where function but it
+accounts for masked arrays.
+
+There are always outstanding problems when masked arrays or non-masked
+arrays are handled with Numpy. This function is a unified hyrbid function
+that takes care of both.
+\begin{quote}\begin{description}
+\item[{Parameters}] \leavevmode\begin{itemize}
+\item {} 
+\sphinxstyleliteralstrong{\sphinxupquote{condition}} (\sphinxstyleliteralemphasis{\sphinxupquote{array-like}}\sphinxstyleliteralemphasis{\sphinxupquote{, }}\sphinxstyleliteralemphasis{\sphinxupquote{bool}}) \textendash{} The condition that will be analyzed by the where function.
+
+\item {} 
+\sphinxstyleliteralstrong{\sphinxupquote{truthy}} (\sphinxstyleliteralemphasis{\sphinxupquote{array-like}}) \textendash{} The object or value returned when the condition is satisfied.
+
+\item {} 
+\sphinxstyleliteralstrong{\sphinxupquote{falsy}} (\sphinxstyleliteralemphasis{\sphinxupquote{array-like}}) \textendash{} The object or value returned when the condition is not satisfied.
+
+\end{itemize}
+
+\item[{Returns}] \leavevmode
+\sphinxstylestrong{out} \textendash{} The return of the where function.
+
+\item[{Return type}] \leavevmode
+ndarray
+
+\end{description}\end{quote}
+
+\end{fulllineitems}
+
+
+
 \subparagraph{IfA\_Smeargle.meta.meta\_main module}
 \label{\detokenize{python_docstrings/IfA_Smeargle.meta.meta_main:module-IfA_Smeargle.meta.meta_main}}\label{\detokenize{python_docstrings/IfA_Smeargle.meta.meta_main:ifa-smeargle-meta-meta-main-module}}\label{\detokenize{python_docstrings/IfA_Smeargle.meta.meta_main::doc}}\index{IfA\_Smeargle.meta.meta\_main (module)@\spxentry{IfA\_Smeargle.meta.meta\_main}\spxextra{module}}
 The purpose of this module is to implement shortcuts that are used throughout the Smeargle
@@ -2338,6 +2554,27 @@ CAUTION: THIS IS NOT A SMEARGLE LINE. THESE ARE METAFUNCTIONS/CLASSES
 \subparagraph{IfA\_Smeargle.meta.meta\_programming module}
 \label{\detokenize{python_docstrings/IfA_Smeargle.meta.meta_programming:module-IfA_Smeargle.meta.meta_programming}}\label{\detokenize{python_docstrings/IfA_Smeargle.meta.meta_programming:ifa-smeargle-meta-meta-programming-module}}\label{\detokenize{python_docstrings/IfA_Smeargle.meta.meta_programming::doc}}\index{IfA\_Smeargle.meta.meta\_programming (module)@\spxentry{IfA\_Smeargle.meta.meta\_programming}\spxextra{module}}
 This is a list of functions that as rather useful in meta-programming.
+\index{smeargle\_avaliable\_bravo\_processing\_functions() (in module IfA\_Smeargle.meta.meta\_programming)@\spxentry{smeargle\_avaliable\_bravo\_processing\_functions()}\spxextra{in module IfA\_Smeargle.meta.meta\_programming}}
+
+\begin{fulllineitems}
+\phantomsection\label{\detokenize{python_docstrings/IfA_Smeargle.meta.meta_programming:IfA_Smeargle.meta.meta_programming.smeargle_avaliable_bravo_processing_functions}}\pysiglinewithargsret{\sphinxcode{\sphinxupquote{IfA\_Smeargle.meta.meta\_programming.}}\sphinxbfcode{\sphinxupquote{smeargle\_avaliable\_bravo\_processing\_functions}}}{}{}
+This returns a dictionary of the available processing functions found
+in BRAVO which can be used.
+\begin{quote}\begin{description}
+\item[{Parameters}] \leavevmode
+\sphinxstyleliteralstrong{\sphinxupquote{nothing}} \textendash{} 
+
+\item[{Returns}] \leavevmode
+\sphinxstylestrong{bravo\_filter\_dict} \textendash{} This is a collection of all of the available processing functions that
+are usable.
+
+\item[{Return type}] \leavevmode
+dictionary
+
+\end{description}\end{quote}
+
+\end{fulllineitems}
+
 \index{smeargle\_avaliable\_echo\_filter\_functions() (in module IfA\_Smeargle.meta.meta\_programming)@\spxentry{smeargle\_avaliable\_echo\_filter\_functions()}\spxextra{in module IfA\_Smeargle.meta.meta\_programming}}
 
 \begin{fulllineitems}
@@ -2399,7 +2636,7 @@ This function returns a proper deep copy of the function.
 \sphinxstylestrong{deepcopy\_funct} (\sphinxstyleemphasis{function}) \textendash{} The function deep copied.
 
 \item {} 
-\sphinxstyleemphasis{.. note::} \textendash{} Based on \sphinxurl{http://stackoverflow.com/a/6528148/190597} (Glenn Maynard)
+\sphinxstyleemphasis{.. note::} \textendash{} Based on \sphinxurl{https://stackoverflow.com/a/30714299} (Aaron Hall)
 
 \end{itemize}
 
@@ -2452,7 +2689,7 @@ the value of the function.
 \index{smeargle\_fit\_histogram\_gaussian\_function() (in module IfA\_Smeargle.meta.modeling\_and\_fitting)@\spxentry{smeargle\_fit\_histogram\_gaussian\_function()}\spxextra{in module IfA\_Smeargle.meta.modeling\_and\_fitting}}
 
 \begin{fulllineitems}
-\phantomsection\label{\detokenize{python_docstrings/IfA_Smeargle.meta.modeling_and_fitting:IfA_Smeargle.meta.modeling_and_fitting.smeargle_fit_histogram_gaussian_function}}\pysiglinewithargsret{\sphinxcode{\sphinxupquote{IfA\_Smeargle.meta.modeling\_and\_fitting.}}\sphinxbfcode{\sphinxupquote{smeargle\_fit\_histogram\_gaussian\_function}}}{\emph{data\_array}, \emph{bin\_width=10}}{}
+\phantomsection\label{\detokenize{python_docstrings/IfA_Smeargle.meta.modeling_and_fitting:IfA_Smeargle.meta.modeling_and_fitting.smeargle_fit_histogram_gaussian_function}}\pysiglinewithargsret{\sphinxcode{\sphinxupquote{IfA\_Smeargle.meta.modeling\_and\_fitting.}}\sphinxbfcode{\sphinxupquote{smeargle\_fit\_histogram\_gaussian\_function}}}{\emph{data\_array}, \emph{bin\_width}}{}
 This function fits a Gaussian function to a specific set of data.
 
 Gaussian fitting is hard, this function exists as a port so that
@@ -2464,7 +2701,7 @@ to change. This applies it to the histogram of the data.
 \sphinxstyleliteralstrong{\sphinxupquote{data\_array}} (\sphinxstyleliteralemphasis{\sphinxupquote{ndarray}}) \textendash{} The data that the histogram Gaussian function is fitting.
 
 \item {} 
-\sphinxstyleliteralstrong{\sphinxupquote{bin\_width}} (\sphinxstyleliteralemphasis{\sphinxupquote{float}}\sphinxstyleliteralemphasis{\sphinxupquote{ (}}\sphinxstyleliteralemphasis{\sphinxupquote{optional}}\sphinxstyleliteralemphasis{\sphinxupquote{)}}) \textendash{} The width of the bins to use for the histogram fitting function.
+\sphinxstyleliteralstrong{\sphinxupquote{bin\_width}} (\sphinxstyleliteralemphasis{\sphinxupquote{float}}) \textendash{} The width of the bins to use for the histogram fitting function.
 
 \end{itemize}
 
@@ -2486,61 +2723,6 @@ the value of the function.
 
 
 
-\subparagraph{IfA\_Smeargle.meta.plotting module}
-\label{\detokenize{python_docstrings/IfA_Smeargle.meta.plotting:module-IfA_Smeargle.meta.plotting}}\label{\detokenize{python_docstrings/IfA_Smeargle.meta.plotting:ifa-smeargle-meta-plotting-module}}\label{\detokenize{python_docstrings/IfA_Smeargle.meta.plotting::doc}}\index{IfA\_Smeargle.meta.plotting (module)@\spxentry{IfA\_Smeargle.meta.plotting}\spxextra{module}}
-This module just adds some shortcut calling functions to functionality of plotting functions
-and related methods.
-
-Although the implementation of the entire functionality module is supposed to be untouched,
-it is still suggested that these functions be used over custom approaches when applicable.
-\index{smeargle\_save\_figure\_file() (in module IfA\_Smeargle.meta.plotting)@\spxentry{smeargle\_save\_figure\_file()}\spxextra{in module IfA\_Smeargle.meta.plotting}}
-
-\begin{fulllineitems}
-\phantomsection\label{\detokenize{python_docstrings/IfA_Smeargle.meta.plotting:IfA_Smeargle.meta.plotting.smeargle_save_figure_file}}\pysiglinewithargsret{\sphinxcode{\sphinxupquote{IfA\_Smeargle.meta.plotting.}}\sphinxbfcode{\sphinxupquote{smeargle\_save\_figure\_file}}}{\emph{figure}, \emph{file\_name}, \emph{title=None}, \emph{close\_figure=True}}{}
-This function just saves a figure to a file to a name provided.
-
-Because of some oddities with Matplotlib, saving a file within a function
-and exiting said function (or overwriting in a loop its variable) with a
-new figure causes two figures to be saved in parallel. This is very
-memory intensive, so closing a saved figure is ideal.
-
-This function does it so the user or Smeargle lines do not need to care
-about it.
-\begin{quote}\begin{description}
-\item[{Parameters}] \leavevmode\begin{itemize}
-\item {} 
-\sphinxstyleliteralstrong{\sphinxupquote{figure}} (\sphinxstyleliteralemphasis{\sphinxupquote{Matplotlib Figure}}) \textendash{} This is the figure to be saved to a file.
-
-\item {} 
-\sphinxstyleliteralstrong{\sphinxupquote{file\_name}} (\sphinxstyleliteralemphasis{\sphinxupquote{string}}) \textendash{} This is the file string name for the figure to be saved. It should
-already have the appropriate extension. If not, it defaults to pdf.
-
-\item {} 
-\sphinxstyleliteralstrong{\sphinxupquote{title}} (\sphinxstyleliteralemphasis{\sphinxupquote{string}}\sphinxstyleliteralemphasis{\sphinxupquote{ (}}\sphinxstyleliteralemphasis{\sphinxupquote{optional}}\sphinxstyleliteralemphasis{\sphinxupquote{)}}) \textendash{} This is the title for the figure plot. Although it can be added from
-here, it is not advised.
-
-\item {} 
-\sphinxstyleliteralstrong{\sphinxupquote{close\_figure}} (\sphinxstyleliteralemphasis{\sphinxupquote{boolean}}\sphinxstyleliteralemphasis{\sphinxupquote{ (}}\sphinxstyleliteralemphasis{\sphinxupquote{optional}}\sphinxstyleliteralemphasis{\sphinxupquote{)}}) \textendash{} This specifies if the figure should be closed. Given that this
-function is built for that, this should not be changed.
-
-\end{itemize}
-
-\item[{Returns}] \leavevmode
-\sphinxstylestrong{return\_none} \textendash{} Nothing
-
-\item[{Return type}] \leavevmode
-None
-
-\end{description}\end{quote}
-
-\begin{sphinxadmonition}{note}{Note:}
-The file type checking logic is not the smartest implementation.
-\end{sphinxadmonition}
-
-\end{fulllineitems}
-
-
-
 \paragraph{Module contents}
 \label{\detokenize{python_docstrings/IfA_Smeargle.meta:module-IfA_Smeargle.meta}}\label{\detokenize{python_docstrings/IfA_Smeargle.meta:module-contents}}\index{IfA\_Smeargle.meta (module)@\spxentry{IfA\_Smeargle.meta}\spxextra{module}}
 
@@ -2556,7 +2738,7 @@ This file contains all of the different methods that a heatmap can be plotted.
 \index{plot\_array\_heatmap\_image() (in module IfA\_Smeargle.oscar.heatmaps)@\spxentry{plot\_array\_heatmap\_image()}\spxextra{in module IfA\_Smeargle.oscar.heatmaps}}
 
 \begin{fulllineitems}
-\phantomsection\label{\detokenize{python_docstrings/IfA_Smeargle.oscar.heatmaps:IfA_Smeargle.oscar.heatmaps.plot_array_heatmap_image}}\pysiglinewithargsret{\sphinxcode{\sphinxupquote{IfA\_Smeargle.oscar.heatmaps.}}\sphinxbfcode{\sphinxupquote{plot\_array\_heatmap\_image}}}{\emph{data\_array}, \emph{figure\_axes=None}, \emph{plot=True}, \emph{heatmap\_plot\_parameters=\{'interpolation': 'nearest'\}}, \emph{colorbar\_plot\_paramters=\{'orientation': 'vertical'\}}}{}
+\phantomsection\label{\detokenize{python_docstrings/IfA_Smeargle.oscar.heatmaps:IfA_Smeargle.oscar.heatmaps.plot_array_heatmap_image}}\pysiglinewithargsret{\sphinxcode{\sphinxupquote{IfA\_Smeargle.oscar.heatmaps.}}\sphinxbfcode{\sphinxupquote{plot\_array\_heatmap\_image}}}{\emph{data\_array}, \emph{figure\_axes=None}, \emph{plot=True}, \emph{heatmap\_plot\_parameters=\{'interpolation': 'nearest'\}}, \emph{colorbar\_plot\_paramters=\{'orientation': 'vertical'\}}, \emph{**kwargs}}{}
 A function to create a heatmap image of the data array provided.
 
 This function replicates the image plotting functionality of Tino Well’s
@@ -2610,7 +2792,7 @@ This contains all of the histogram plotting methods.
 \index{plot\_array\_histogram() (in module IfA\_Smeargle.oscar.histograms)@\spxentry{plot\_array\_histogram()}\spxextra{in module IfA\_Smeargle.oscar.histograms}}
 
 \begin{fulllineitems}
-\phantomsection\label{\detokenize{python_docstrings/IfA_Smeargle.oscar.histograms:IfA_Smeargle.oscar.histograms.plot_array_histogram}}\pysiglinewithargsret{\sphinxcode{\sphinxupquote{IfA\_Smeargle.oscar.histograms.}}\sphinxbfcode{\sphinxupquote{plot\_array\_histogram}}}{\emph{data\_array}, \emph{figure\_axes=None}, \emph{fit\_gaussian=True}, \emph{bin\_width=None}, \emph{plot=True}, \emph{histogram\_plot\_paramters=\{\}}}{}
+\phantomsection\label{\detokenize{python_docstrings/IfA_Smeargle.oscar.histograms:IfA_Smeargle.oscar.histograms.plot_array_histogram}}\pysiglinewithargsret{\sphinxcode{\sphinxupquote{IfA\_Smeargle.oscar.histograms.}}\sphinxbfcode{\sphinxupquote{plot\_array\_histogram}}}{\emph{data\_array}, \emph{figure\_axes=None}, \emph{fit\_gaussian=True}, \emph{bin\_width=None}, \emph{plot=True}, \emph{histogram\_plot\_paramters=\{\}}, \emph{**kwargs}}{}
 A function to create and plot histogram plots for better analysis of
 a given array.
 
@@ -2680,7 +2862,7 @@ These instead take configuration classes.
 \index{plot\_single\_heatmap\_and\_histogram() (in module IfA\_Smeargle.oscar.multi\_figure)@\spxentry{plot\_single\_heatmap\_and\_histogram()}\spxextra{in module IfA\_Smeargle.oscar.multi\_figure}}
 
 \begin{fulllineitems}
-\phantomsection\label{\detokenize{python_docstrings/IfA_Smeargle.oscar.multi_figure:IfA_Smeargle.oscar.multi_figure.plot_single_heatmap_and_histogram}}\pysiglinewithargsret{\sphinxcode{\sphinxupquote{IfA\_Smeargle.oscar.multi\_figure.}}\sphinxbfcode{\sphinxupquote{plot\_single\_heatmap\_and\_histogram}}}{\emph{data\_array}, \emph{configuration\_class=None}, \emph{figure\_subplot\_parameters=\{'dpi': 100}, \emph{'figsize': (9}, \emph{3.5)\}}}{}
+\phantomsection\label{\detokenize{python_docstrings/IfA_Smeargle.oscar.multi_figure:IfA_Smeargle.oscar.multi_figure.plot_single_heatmap_and_histogram}}\pysiglinewithargsret{\sphinxcode{\sphinxupquote{IfA\_Smeargle.oscar.multi\_figure.}}\sphinxbfcode{\sphinxupquote{plot\_single\_heatmap\_and\_histogram}}}{\emph{data\_array}, \emph{configuration\_class=None}, \emph{figure\_subplot\_parameters=\{'dpi': 100}, \emph{'figsize': (9}, \emph{3.5)\}}, \emph{**kwargs}}{}
 This extracts data from a single data array, plotting a histogram
 and heatmap.
 
@@ -3611,7 +3793,7 @@ only be applied to the configuration classes.
 \index{IfasDataArray (class in IfA\_Smeargle.zulu.zulu\_main)@\spxentry{IfasDataArray}\spxextra{class in IfA\_Smeargle.zulu.zulu\_main}}
 
 \begin{fulllineitems}
-\phantomsection\label{\detokenize{python_docstrings/IfA_Smeargle.zulu.zulu_main:IfA_Smeargle.zulu.zulu_main.IfasDataArray}}\pysiglinewithargsret{\sphinxbfcode{\sphinxupquote{class }}\sphinxcode{\sphinxupquote{IfA\_Smeargle.zulu.zulu\_main.}}\sphinxbfcode{\sphinxupquote{IfasDataArray}}}{\emph{filename}, \emph{configuration\_class=None}, \emph{blank=False}}{}
+\phantomsection\label{\detokenize{python_docstrings/IfA_Smeargle.zulu.zulu_main:IfA_Smeargle.zulu.zulu_main.IfasDataArray}}\pysiglinewithargsret{\sphinxbfcode{\sphinxupquote{class }}\sphinxcode{\sphinxupquote{IfA\_Smeargle.zulu.zulu\_main.}}\sphinxbfcode{\sphinxupquote{IfasDataArray}}}{\emph{pathname}, \emph{configuration\_class=None}, \emph{blank=False}, \emph{silent=False}}{}
 Bases: \sphinxcode{\sphinxupquote{object}}
 
 This data frame class is a wrapper object around a data array image.
@@ -3626,6 +3808,148 @@ more basic and known reductions, pipelines are still preferred (see
 
 New pipelines, however, should always be developed using this object
 oriented approach.
+\index{\_\_deepcopy\_\_() (IfA\_Smeargle.zulu.zulu\_main.IfasDataArray method)@\spxentry{\_\_deepcopy\_\_()}\spxextra{IfA\_Smeargle.zulu.zulu\_main.IfasDataArray method}}
+
+\begin{fulllineitems}
+\phantomsection\label{\detokenize{python_docstrings/IfA_Smeargle.zulu.zulu_main:IfA_Smeargle.zulu.zulu_main.IfasDataArray.__deepcopy__}}\pysiglinewithargsret{\sphinxbfcode{\sphinxupquote{\_\_deepcopy\_\_}}}{\emph{memo=None}}{}
+The deepcopy function from the copy module doesn’t behave as
+expected. So, it is important to be cautious.
+
+\end{fulllineitems}
+
+\index{config() (IfA\_Smeargle.zulu.zulu\_main.IfasDataArray property)@\spxentry{config()}\spxextra{IfA\_Smeargle.zulu.zulu\_main.IfasDataArray property}}
+
+\begin{fulllineitems}
+\phantomsection\label{\detokenize{python_docstrings/IfA_Smeargle.zulu.zulu_main:IfA_Smeargle.zulu.zulu_main.IfasDataArray.config}}\pysigline{\sphinxbfcode{\sphinxupquote{property }}\sphinxbfcode{\sphinxupquote{config}}}
+\end{fulllineitems}
+
+\index{data() (IfA\_Smeargle.zulu.zulu\_main.IfasDataArray property)@\spxentry{data()}\spxextra{IfA\_Smeargle.zulu.zulu\_main.IfasDataArray property}}
+
+\begin{fulllineitems}
+\phantomsection\label{\detokenize{python_docstrings/IfA_Smeargle.zulu.zulu_main:IfA_Smeargle.zulu.zulu_main.IfasDataArray.data}}\pysigline{\sphinxbfcode{\sphinxupquote{property }}\sphinxbfcode{\sphinxupquote{data}}}
+\end{fulllineitems}
+
+\index{datamask() (IfA\_Smeargle.zulu.zulu\_main.IfasDataArray property)@\spxentry{datamask()}\spxextra{IfA\_Smeargle.zulu.zulu\_main.IfasDataArray property}}
+
+\begin{fulllineitems}
+\phantomsection\label{\detokenize{python_docstrings/IfA_Smeargle.zulu.zulu_main:IfA_Smeargle.zulu.zulu_main.IfasDataArray.datamask}}\pysigline{\sphinxbfcode{\sphinxupquote{property }}\sphinxbfcode{\sphinxupquote{datamask}}}
+\end{fulllineitems}
+
+\index{deepcopy() (IfA\_Smeargle.zulu.zulu\_main.IfasDataArray method)@\spxentry{deepcopy()}\spxextra{IfA\_Smeargle.zulu.zulu\_main.IfasDataArray method}}
+
+\begin{fulllineitems}
+\phantomsection\label{\detokenize{python_docstrings/IfA_Smeargle.zulu.zulu_main:IfA_Smeargle.zulu.zulu_main.IfasDataArray.deepcopy}}\pysiglinewithargsret{\sphinxbfcode{\sphinxupquote{deepcopy}}}{}{}
+Create a separate deep copy of an IfasDataArray using the data
+within this one.
+
+There are a few issues with binding and copying this class.
+Because of the recursive and layered nature of this class, there
+are issues with a simple deep copy function from the copy module.
+\begin{quote}\begin{description}
+\item[{Parameters}] \leavevmode
+\sphinxstyleliteralstrong{\sphinxupquote{none}} \textendash{} 
+
+\item[{Returns}] \leavevmode
+\sphinxstylestrong{new\_instance} \textendash{} The new copied instance of this class.
+
+\item[{Return type}] \leavevmode
+{\hyperref[\detokenize{python_docstrings/IfA_Smeargle.zulu.zulu_main:IfA_Smeargle.zulu.zulu_main.IfasDataArray}]{\sphinxcrossref{IfasDataArray}}}
+
+\end{description}\end{quote}
+
+\end{fulllineitems}
+
+\index{echo\_mask() (IfA\_Smeargle.zulu.zulu\_main.IfasDataArray property)@\spxentry{echo\_mask()}\spxextra{IfA\_Smeargle.zulu.zulu\_main.IfasDataArray property}}
+
+\begin{fulllineitems}
+\phantomsection\label{\detokenize{python_docstrings/IfA_Smeargle.zulu.zulu_main:IfA_Smeargle.zulu.zulu_main.IfasDataArray.echo_mask}}\pysigline{\sphinxbfcode{\sphinxupquote{property }}\sphinxbfcode{\sphinxupquote{echo\_mask}}}
+\end{fulllineitems}
+
+\index{echo\_mask\_dictionary() (IfA\_Smeargle.zulu.zulu\_main.IfasDataArray property)@\spxentry{echo\_mask\_dictionary()}\spxextra{IfA\_Smeargle.zulu.zulu\_main.IfasDataArray property}}
+
+\begin{fulllineitems}
+\phantomsection\label{\detokenize{python_docstrings/IfA_Smeargle.zulu.zulu_main:IfA_Smeargle.zulu.zulu_main.IfasDataArray.echo_mask_dictionary}}\pysigline{\sphinxbfcode{\sphinxupquote{property }}\sphinxbfcode{\sphinxupquote{echo\_mask\_dictionary}}}
+\end{fulllineitems}
+
+\index{header() (IfA\_Smeargle.zulu.zulu\_main.IfasDataArray property)@\spxentry{header()}\spxextra{IfA\_Smeargle.zulu.zulu\_main.IfasDataArray property}}
+
+\begin{fulllineitems}
+\phantomsection\label{\detokenize{python_docstrings/IfA_Smeargle.zulu.zulu_main:IfA_Smeargle.zulu.zulu_main.IfasDataArray.header}}\pysigline{\sphinxbfcode{\sphinxupquote{property }}\sphinxbfcode{\sphinxupquote{header}}}
+\end{fulllineitems}
+
+\index{update\_pathname() (IfA\_Smeargle.zulu.zulu\_main.IfasDataArray method)@\spxentry{update\_pathname()}\spxextra{IfA\_Smeargle.zulu.zulu\_main.IfasDataArray method}}
+
+\begin{fulllineitems}
+\phantomsection\label{\detokenize{python_docstrings/IfA_Smeargle.zulu.zulu_main:IfA_Smeargle.zulu.zulu_main.IfasDataArray.update_pathname}}\pysiglinewithargsret{\sphinxbfcode{\sphinxupquote{update\_pathname}}}{\emph{directory=None}, \emph{filename=None}, \emph{extension=None}, \emph{prepend\_directory=None}, \emph{prepend\_filename=None}, \emph{append\_directory=None}, \emph{append\_filename=None}}{}
+This allows for the updating of the file directory and filename.
+\begin{quote}\begin{description}
+\item[{Parameters}] \leavevmode\begin{itemize}
+\item {} 
+\sphinxstyleliteralstrong{\sphinxupquote{directory}} (\sphinxstyleliteralemphasis{\sphinxupquote{string}}\sphinxstyleliteralemphasis{\sphinxupquote{ (}}\sphinxstyleliteralemphasis{\sphinxupquote{optional}}\sphinxstyleliteralemphasis{\sphinxupquote{)}}) \textendash{} A replacement string that will replace the directory section
+of the pathname.
+
+\item {} 
+\sphinxstyleliteralstrong{\sphinxupquote{filename}} (\sphinxstyleliteralemphasis{\sphinxupquote{string}}\sphinxstyleliteralemphasis{\sphinxupquote{ (}}\sphinxstyleliteralemphasis{\sphinxupquote{optional}}\sphinxstyleliteralemphasis{\sphinxupquote{)}}) \textendash{} A replacement string that will replace the filename section
+of the pathname.
+
+\item {} 
+\sphinxstyleliteralstrong{\sphinxupquote{extension}} (\sphinxstyleliteralemphasis{\sphinxupquote{string}}\sphinxstyleliteralemphasis{\sphinxupquote{ (}}\sphinxstyleliteralemphasis{\sphinxupquote{optional}}\sphinxstyleliteralemphasis{\sphinxupquote{)}}) \textendash{} A replacement string that will replace the extension section
+of the pathname.
+
+\item {} 
+\sphinxstyleliteralstrong{\sphinxupquote{prepend\_directory}} (\sphinxstyleliteralemphasis{\sphinxupquote{string}}\sphinxstyleliteralemphasis{\sphinxupquote{ (}}\sphinxstyleliteralemphasis{\sphinxupquote{optional}}\sphinxstyleliteralemphasis{\sphinxupquote{)}}) \textendash{} A string that will be prepended onto the directory string.
+
+\item {} 
+\sphinxstyleliteralstrong{\sphinxupquote{prepend\_filename}} (\sphinxstyleliteralemphasis{\sphinxupquote{string}}\sphinxstyleliteralemphasis{\sphinxupquote{ (}}\sphinxstyleliteralemphasis{\sphinxupquote{optional}}\sphinxstyleliteralemphasis{\sphinxupquote{)}}) \textendash{} A string that will be prepended onto the filename string.
+
+\item {} 
+\sphinxstyleliteralstrong{\sphinxupquote{append\_directory}} (\sphinxstyleliteralemphasis{\sphinxupquote{string}}\sphinxstyleliteralemphasis{\sphinxupquote{ (}}\sphinxstyleliteralemphasis{\sphinxupquote{optional}}\sphinxstyleliteralemphasis{\sphinxupquote{)}}) \textendash{} A string that will be appended onto the directory string.
+
+\item {} 
+\sphinxstyleliteralstrong{\sphinxupquote{append\_filename}} (\sphinxstyleliteralemphasis{\sphinxupquote{string}}\sphinxstyleliteralemphasis{\sphinxupquote{ (}}\sphinxstyleliteralemphasis{\sphinxupquote{optional}}\sphinxstyleliteralemphasis{\sphinxupquote{)}}) \textendash{} A string that will be appended onto the filename string.
+
+\end{itemize}
+
+\item[{Returns}] \leavevmode
+\sphinxstylestrong{new\_pathname} \textendash{} The new pathname of this file.
+
+\item[{Return type}] \leavevmode
+string
+
+\end{description}\end{quote}
+
+\end{fulllineitems}
+
+\index{write\_fits\_file() (IfA\_Smeargle.zulu.zulu\_main.IfasDataArray method)@\spxentry{write\_fits\_file()}\spxextra{IfA\_Smeargle.zulu.zulu\_main.IfasDataArray method}}
+
+\begin{fulllineitems}
+\phantomsection\label{\detokenize{python_docstrings/IfA_Smeargle.zulu.zulu_main:IfA_Smeargle.zulu.zulu_main.IfasDataArray.write_fits_file}}\pysiglinewithargsret{\sphinxbfcode{\sphinxupquote{write\_fits\_file}}}{\emph{overwrite=True}, \emph{silent=False}}{}
+This writes the fits file to, well, file.
+\begin{quote}\begin{description}
+\item[{Parameters}] \leavevmode\begin{itemize}
+\item {} 
+\sphinxstyleliteralstrong{\sphinxupquote{pathname}} (\sphinxstyleliteralemphasis{\sphinxupquote{string}}\sphinxstyleliteralemphasis{\sphinxupquote{ (}}\sphinxstyleliteralemphasis{\sphinxupquote{optional}}\sphinxstyleliteralemphasis{\sphinxupquote{)}}) \textendash{} The path where the file will be stored.
+
+\item {} 
+\sphinxstyleliteralstrong{\sphinxupquote{overwrite}} (\sphinxstyleliteralemphasis{\sphinxupquote{boolean}}\sphinxstyleliteralemphasis{\sphinxupquote{ (}}\sphinxstyleliteralemphasis{\sphinxupquote{optional}}\sphinxstyleliteralemphasis{\sphinxupquote{)}}) \textendash{} If \sphinxcode{\sphinxupquote{True}}, if there exists a file of the same name, overwrite.
+
+\item {} 
+\sphinxstyleliteralstrong{\sphinxupquote{silent}} (\sphinxstyleliteralemphasis{\sphinxupquote{boolean}}\sphinxstyleliteralemphasis{\sphinxupquote{ (}}\sphinxstyleliteralemphasis{\sphinxupquote{optional}}\sphinxstyleliteralemphasis{\sphinxupquote{)}}) \textendash{} Turn off all warnings and information sent by this function and
+functions below it.
+
+\end{itemize}
+
+\item[{Returns}] \leavevmode
+\sphinxstylestrong{hdul\_file} \textendash{} The file object that was written to disk. If \sphinxcode{\sphinxupquote{hdu\_object}} was
+provided, it is returned untouched.
+
+\item[{Return type}] \leavevmode
+Astropy HDUList
+
+\end{description}\end{quote}
+
+\end{fulllineitems}
+
 
 \end{fulllineitems}
 
@@ -3717,13 +4041,12 @@ unknown
 \item\relax\sphinxstyleindexentry{IfA\_Smeargle.echo.masks.masks\_echo300}\sphinxstyleindexpageref{python_docstrings/IfA_Smeargle.echo.masks.masks_echo300:\detokenize{module-IfA_Smeargle.echo.masks.masks_echo300}}
 \item\relax\sphinxstyleindexentry{IfA\_Smeargle.ifas\_execute}\sphinxstyleindexpageref{python_docstrings/IfA_Smeargle.ifas_execute:\detokenize{module-IfA_Smeargle.ifas_execute}}
 \item\relax\sphinxstyleindexentry{IfA\_Smeargle.meta}\sphinxstyleindexpageref{python_docstrings/IfA_Smeargle.meta:\detokenize{module-IfA_Smeargle.meta}}
-\item\relax\sphinxstyleindexentry{IfA\_Smeargle.meta.configuration}\sphinxstyleindexpageref{python_docstrings/IfA_Smeargle.meta.configuration:\detokenize{module-IfA_Smeargle.meta.configuration}}
 \item\relax\sphinxstyleindexentry{IfA\_Smeargle.meta.errors}\sphinxstyleindexpageref{python_docstrings/IfA_Smeargle.meta.errors:\detokenize{module-IfA_Smeargle.meta.errors}}
-\item\relax\sphinxstyleindexentry{IfA\_Smeargle.meta.fits\_and\_arrays}\sphinxstyleindexpageref{python_docstrings/IfA_Smeargle.meta.fits_and_arrays:\detokenize{module-IfA_Smeargle.meta.fits_and_arrays}}
+\item\relax\sphinxstyleindexentry{IfA\_Smeargle.meta.io}\sphinxstyleindexpageref{python_docstrings/IfA_Smeargle.meta.io:\detokenize{module-IfA_Smeargle.meta.io}}
+\item\relax\sphinxstyleindexentry{IfA\_Smeargle.meta.mathematics}\sphinxstyleindexpageref{python_docstrings/IfA_Smeargle.meta.mathematics:\detokenize{module-IfA_Smeargle.meta.mathematics}}
 \item\relax\sphinxstyleindexentry{IfA\_Smeargle.meta.meta\_main}\sphinxstyleindexpageref{python_docstrings/IfA_Smeargle.meta.meta_main:\detokenize{module-IfA_Smeargle.meta.meta_main}}
 \item\relax\sphinxstyleindexentry{IfA\_Smeargle.meta.meta\_programming}\sphinxstyleindexpageref{python_docstrings/IfA_Smeargle.meta.meta_programming:\detokenize{module-IfA_Smeargle.meta.meta_programming}}
 \item\relax\sphinxstyleindexentry{IfA\_Smeargle.meta.modeling\_and\_fitting}\sphinxstyleindexpageref{python_docstrings/IfA_Smeargle.meta.modeling_and_fitting:\detokenize{module-IfA_Smeargle.meta.modeling_and_fitting}}
-\item\relax\sphinxstyleindexentry{IfA\_Smeargle.meta.plotting}\sphinxstyleindexpageref{python_docstrings/IfA_Smeargle.meta.plotting:\detokenize{module-IfA_Smeargle.meta.plotting}}
 \item\relax\sphinxstyleindexentry{IfA\_Smeargle.oscar}\sphinxstyleindexpageref{python_docstrings/IfA_Smeargle.oscar:\detokenize{module-IfA_Smeargle.oscar}}
 \item\relax\sphinxstyleindexentry{IfA\_Smeargle.oscar.heatmaps}\sphinxstyleindexpageref{python_docstrings/IfA_Smeargle.oscar.heatmaps:\detokenize{module-IfA_Smeargle.oscar.heatmaps}}
 \item\relax\sphinxstyleindexentry{IfA\_Smeargle.oscar.histograms}\sphinxstyleindexpageref{python_docstrings/IfA_Smeargle.oscar.histograms:\detokenize{module-IfA_Smeargle.oscar.histograms}}

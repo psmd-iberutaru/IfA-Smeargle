@@ -84,6 +84,7 @@
               <p class="caption"><span class="caption-text">Usage and Operation:</span></p>
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="../../../quickstart.html">Quickstart</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../creating_pipelines.html">Creating Pipelines</a></li>
 </ul>
 <p class="caption"><span class="caption-text">Code Documentation:</span></p>
 <ul>
@@ -155,7 +156,6 @@
 <span class="kn">import</span> <span class="nn">glob</span>
 <span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="nn">plt</span>
 <span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
-<span class="kn">import</span> <span class="nn">numpy.ma</span> <span class="k">as</span> <span class="nn">np_ma</span>
 <span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span>
 
 <span class="kn">from</span> <span class="nn">IfA_Smeargle</span> <span class="k">import</span> <span class="n">bravo</span>
@@ -232,12 +232,13 @@
                              <span class="s1">&#39;botslice&#39;</span><span class="p">:</span><span class="n">filedictdex</span><span class="p">[</span><span class="s1">&#39;slice&#39;</span><span class="p">][</span><span class="o">-</span><span class="mi">1</span><span class="p">],</span>
                              <span class="s1">&#39;filename&#39;</span><span class="p">:</span><span class="n">filedictdex</span><span class="p">[</span><span class="s1">&#39;filename&#39;</span><span class="p">]}</span>
             <span class="c1"># The actual computed data for each of the data frames.</span>
-            <span class="n">__</span><span class="p">,</span> <span class="n">__</span><span class="p">,</span> <span class="n">data_array</span> <span class="o">=</span> <span class="n">meta_faa</span><span class="o">.</span><span class="n">smeargle_open_fits_file</span><span class="p">(</span><span class="n">filedictdex</span><span class="p">[</span><span class="s1">&#39;filename&#39;</span><span class="p">])</span>
+            <span class="n">__</span><span class="p">,</span> <span class="n">__</span><span class="p">,</span> <span class="n">data_array</span> <span class="o">=</span> <span class="n">meta_io</span><span class="o">.</span><span class="n">smeargle_open_fits_file</span><span class="p">(</span><span class="n">filedictdex</span><span class="p">[</span><span class="s1">&#39;filename&#39;</span><span class="p">])</span>
             <span class="n">__</span><span class="p">,</span> <span class="n">gaussian_data</span> <span class="o">=</span> <span class="n">meta_model</span><span class="o">.</span><span class="n">smeargle_fit_histogram_gaussian_function</span><span class="p">(</span><span class="n">data_array</span><span class="p">,</span>
                                                                                    <span class="n">bin_width</span><span class="o">=</span><span class="mi">10</span><span class="p">)</span>
-            <span class="n">file_datadict</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;mean&#39;</span><span class="p">:</span><span class="n">np_ma</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">data_array</span><span class="p">),</span> 
-                             <span class="s1">&#39;median&#39;</span><span class="p">:</span><span class="n">np_ma</span><span class="o">.</span><span class="n">median</span><span class="p">(</span><span class="n">data_array</span><span class="p">),</span>
-                             <span class="s1">&#39;stddev&#39;</span><span class="p">:</span><span class="n">np_ma</span><span class="o">.</span><span class="n">std</span><span class="p">(</span><span class="n">data_array</span><span class="p">),</span> 
+            <span class="c1"># The custom statistical functions are needed to handle both nans and masked arrays.</span>
+            <span class="n">file_datadict</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;mean&#39;</span><span class="p">:</span><span class="n">meta_math</span><span class="o">.</span><span class="n">smeargle_mean</span><span class="p">(</span><span class="n">data_array</span><span class="p">),</span> 
+                             <span class="s1">&#39;median&#39;</span><span class="p">:</span><span class="n">meta_math</span><span class="o">.</span><span class="n">smeargle_median</span><span class="p">(</span><span class="n">data_array</span><span class="p">),</span>
+                             <span class="s1">&#39;stddev&#39;</span><span class="p">:</span><span class="n">meta_math</span><span class="o">.</span><span class="n">smeargle_std</span><span class="p">(</span><span class="n">data_array</span><span class="p">),</span> 
                              <span class="s1">&#39;g_mean&#39;</span><span class="p">:</span><span class="n">gaussian_data</span><span class="p">[</span><span class="s1">&#39;mean&#39;</span><span class="p">],</span> <span class="s1">&#39;g_stddev&#39;</span><span class="p">:</span><span class="n">gaussian_data</span><span class="p">[</span><span class="s1">&#39;stddev&#39;</span><span class="p">],</span>
                              <span class="s1">&#39;g_amp&#39;</span><span class="p">:</span><span class="n">gaussian_data</span><span class="p">[</span><span class="s1">&#39;amplitude&#39;</span><span class="p">],</span> <span class="s1">&#39;g_max&#39;</span><span class="p">:</span><span class="n">gaussian_data</span><span class="p">[</span><span class="s1">&#39;max&#39;</span><span class="p">]}</span>
             <span class="n">file_data</span><span class="o">.</span><span class="n">append</span><span class="p">({</span><span class="o">**</span><span class="n">file_metadict</span><span class="p">,</span> <span class="o">**</span><span class="n">file_datadict</span><span class="p">})</span>
@@ -312,8 +313,10 @@
             <span class="n">voltset_data</span> <span class="o">=</span> <span class="n">file_data</span><span class="o">.</span><span class="n">query</span><span class="p">(</span><span class="s1">&#39;num == @fits_file_numbers&#39;</span><span class="p">)</span>
             
             <span class="n">x_axis_voltage</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">voltdex</span><span class="p">)</span>
-            <span class="n">y_axis_data</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">nanmedian</span><span class="p">(</span><span class="n">voltset_data</span><span class="p">[</span><span class="s1">&#39;g_mean&#39;</span><span class="p">]))</span>
-            <span class="n">y_axis_error</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">nanmedian</span><span class="p">(</span><span class="n">voltset_data</span><span class="p">[</span><span class="s1">&#39;g_stddev&#39;</span><span class="p">]))</span>
+            <span class="c1"># The custom functions are needed to handle masked arrays and </span>
+            <span class="c1"># nans.</span>
+            <span class="n">y_axis_data</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">meta_math</span><span class="o">.</span><span class="n">smeargle_median</span><span class="p">(</span><span class="n">voltset_data</span><span class="p">[</span><span class="s1">&#39;g_mean&#39;</span><span class="p">]))</span>
+            <span class="n">y_axis_error</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">meta_math</span><span class="o">.</span><span class="n">smeargle_median</span><span class="p">(</span><span class="n">voltset_data</span><span class="p">[</span><span class="s1">&#39;g_stddev&#39;</span><span class="p">]))</span>
             
         <span class="c1"># Plot the data from this set as needed. Reuse the previous set&#39;s </span>
         <span class="c1"># canvas for the overplotting. </span>

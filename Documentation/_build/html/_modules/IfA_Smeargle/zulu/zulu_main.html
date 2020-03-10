@@ -84,6 +84,7 @@
               <p class="caption"><span class="caption-text">Usage and Operation:</span></p>
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="../../../quickstart.html">Quickstart</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../creating_pipelines.html">Creating Pipelines</a></li>
 </ul>
 <p class="caption"><span class="caption-text">Code Documentation:</span></p>
 <ul>
@@ -166,15 +167,11 @@
 <span class="sd">&quot;&quot;&quot;</span> 
 
 <span class="kn">import</span> <span class="nn">copy</span>
-<span class="kn">import</span> <span class="nn">importlib</span>
-<span class="kn">import</span> <span class="nn">inspect</span>
-<span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
 <span class="kn">import</span> <span class="nn">numpy.ma</span> <span class="k">as</span> <span class="nn">np_ma</span>
-<span class="kn">import</span> <span class="nn">types</span>
+<span class="kn">import</span> <span class="nn">os</span>
 
 <span class="kn">from</span> <span class="nn">IfA_Smeargle</span> <span class="k">import</span> <span class="n">bravo</span>
 <span class="kn">from</span> <span class="nn">IfA_Smeargle</span> <span class="k">import</span> <span class="n">echo</span>
-<span class="kn">from</span> <span class="nn">IfA_Smeargle</span> <span class="k">import</span> <span class="n">oscar</span>
 <span class="kn">from</span> <span class="nn">IfA_Smeargle</span> <span class="k">import</span> <span class="n">yankee</span>
 
 <span class="kn">from</span> <span class="nn">IfA_Smeargle.meta</span> <span class="k">import</span> <span class="o">*</span>
@@ -194,8 +191,8 @@
 <span class="sd">    oriented approach. </span>
 <span class="sd">    &quot;&quot;&quot;</span>
 
-    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">filename</span><span class="p">,</span> <span class="n">configuration_class</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
-                <span class="n">blank</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
+    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">pathname</span><span class="p">,</span> <span class="n">configuration_class</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+                 <span class="n">blank</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">silent</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot; This initializes a data array by reading a fits file from storage.</span>
 <span class="sd">        </span>
 <span class="sd">        A fits file is required, it is expected to conform to the IFAS naming</span>
@@ -213,64 +210,186 @@
 <span class="sd">        blank : boolean (optional)</span>
 <span class="sd">            If a completely blank class is instead desired. Please note no </span>
 <span class="sd">            function (except for i/o functions) will likely work.</span>
+<span class="sd">        silent : boolean (optional)</span>
+<span class="sd">            Executes the creation of this class without any warnings or </span>
+<span class="sd">            information.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="c1"># This separate function is so that the silencing functionality can</span>
+        <span class="c1"># work properly. </span>
+        <span class="k">def</span> <span class="nf">_initalization</span><span class="p">(</span><span class="n">pathname</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">configuration_class</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+                           <span class="n">blank</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+            <span class="c1"># Extract the data from the fits file, unless they wanted it blank.</span>
+            <span class="k">if</span> <span class="p">(</span><span class="n">blank</span><span class="p">):</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">filename</span> <span class="o">=</span> <span class="kc">None</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">filedirectory</span> <span class="o">=</span> <span class="kc">None</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">fileextension</span> <span class="o">=</span> <span class="kc">None</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">filepathname</span> <span class="o">=</span> <span class="kc">None</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">fits_file</span> <span class="o">=</span> <span class="kc">None</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">fits_header</span> <span class="o">=</span> <span class="kc">None</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">fits_data</span> <span class="o">=</span> <span class="kc">None</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">fits_rawdata</span> <span class="o">=</span> <span class="kc">None</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">fits_datamask</span> <span class="o">=</span> <span class="kc">None</span>
+                <span class="n">smeargle_warning</span><span class="p">(</span><span class="n">InputWarning</span><span class="p">,(</span><span class="s2">&quot;The data array file is indicated to return a &quot;</span>
+                                               <span class="s2">&quot;blank one. Doing so as requested.&quot;</span><span class="p">))</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="c1"># Clean up the file path name such that there are no directory</span>
+                <span class="c1"># slash problems.</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">_original_pathname</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">pathname</span><span class="p">)</span>
+                <span class="c1"># The file name, for completeness purposes.</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">filename</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">splitext</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">basename</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_original_pathname</span><span class="p">))[</span><span class="mi">0</span><span class="p">]</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">filedirectory</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">dirname</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_original_pathname</span><span class="p">)</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">fileextension</span> <span class="o">=</span> \
+                    <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">splitext</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">basename</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_original_pathname</span><span class="p">))[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">filepathname</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_original_pathname</span>
+                <span class="c1"># Read the fits file data.</span>
+                <span class="n">hdul_file</span><span class="p">,</span> <span class="n">hdu_header</span><span class="p">,</span> <span class="n">hdu_data</span> <span class="o">=</span> <span class="n">meta_io</span><span class="o">.</span><span class="n">smeargle_open_fits_file</span><span class="p">(</span>
+                    <span class="bp">self</span><span class="o">.</span><span class="n">_original_pathname</span><span class="p">,</span> <span class="n">silent</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">fits_file</span> <span class="o">=</span> <span class="n">hdul_file</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">fits_header</span> <span class="o">=</span> <span class="n">hdu_header</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">fits_data</span> <span class="o">=</span> <span class="n">hdu_data</span>
+
+                <span class="c1"># Extract the mask and separate it from the data to hold the </span>
+                <span class="c1"># raw data values. Ternary operator for the change in </span>
+                <span class="c1"># representation of a mask.</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">fits_rawdata</span> <span class="o">=</span> <span class="n">np_ma</span><span class="o">.</span><span class="n">getdata</span><span class="p">(</span><span class="n">hdu_data</span><span class="p">)</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">fits_datamask</span> <span class="o">=</span> <span class="p">(</span><span class="n">np_ma</span><span class="o">.</span><span class="n">getmask</span><span class="p">(</span><span class="n">hdu_data</span><span class="p">)</span> 
+                                      <span class="k">if</span> <span class="n">np_ma</span><span class="o">.</span><span class="n">getmask</span><span class="p">(</span><span class="n">hdu_data</span><span class="p">)</span> <span class="ow">is</span> <span class="ow">not</span> <span class="n">np_ma</span><span class="o">.</span><span class="n">nomask</span> <span class="k">else</span> <span class="kc">None</span><span class="p">)</span>
+
+            <span class="c1"># Hold the configuration class also.</span>
+            <span class="k">if</span> <span class="p">(</span><span class="n">configuration_class</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">):</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">_raw_configuration_class</span> <span class="o">=</span> <span class="n">configuration_class</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">_raw_configuration_class</span> <span class="o">=</span> <span class="kc">None</span>
+                <span class="n">smeargle_warning</span><span class="p">(</span><span class="n">InputWarning</span><span class="p">,(</span><span class="s2">&quot;There is no configuration class provided for &quot;</span>
+                                               <span class="s2">&quot;this array. The raw attribute will be None; the &quot;</span>
+                                               <span class="s2">&quot;mutable attribute will be a default &quot;</span>
+                                               <span class="s2">&quot;configuration class.&quot;</span><span class="p">))</span>
+
+            <span class="c1"># Though these may seem like copies, these are the intended mutable </span>
+            <span class="c1"># versions of the previous attributes.</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_mutable_header</span> <span class="o">=</span> <span class="n">copy</span><span class="o">.</span><span class="n">deepcopy</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">fits_header</span><span class="p">)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_mutable_data</span> <span class="o">=</span> <span class="n">copy</span><span class="o">.</span><span class="n">deepcopy</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">fits_data</span><span class="p">)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_mutable_datamask</span> <span class="o">=</span> <span class="n">copy</span><span class="o">.</span><span class="n">deepcopy</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">fits_datamask</span><span class="p">)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_mutable_config</span> <span class="o">=</span> <span class="n">copy</span><span class="o">.</span><span class="n">deepcopy</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_raw_configuration_class</span><span class="p">)</span>
+            <span class="c1"># Needed attributes for the ECHO class. The property class is defined</span>
+            <span class="c1"># externally along with the others.</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_mutable_echo_mask</span> <span class="o">=</span> <span class="kc">None</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_mutable_echo_mask_dictionary</span> <span class="o">=</span> <span class="p">{}</span>
+
+            <span class="c1"># Meta data to test if this is a proper blank fits file.</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_proper_blank</span> <span class="o">=</span> <span class="n">blank</span>
+
+            <span class="c1"># This adds the functions that is responsible for a lot of the </span>
+            <span class="c1"># functionality to this class.</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_bravo_functionality</span><span class="p">()</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_echo_functionality</span><span class="p">()</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_oscar_functionality</span><span class="p">()</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_yankee_functionality</span><span class="p">()</span>
+
+            <span class="k">return</span> <span class="kc">None</span>
         
-        <span class="c1"># The documentation should reflect the subfunctions.</span>
-        <span class="bp">self</span><span class="o">.</span><span class="vm">__doc__</span> <span class="o">=</span> <span class="s2">&quot;</span><span class="se">\n</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">join</span><span class="p">([</span><span class="bp">self</span><span class="o">.</span><span class="vm">__doc__</span><span class="p">,</span> 
-                                 <span class="bp">self</span><span class="o">.</span><span class="n">_echo_functionality</span><span class="o">.</span><span class="vm">__doc__</span><span class="p">,</span>
-                                 <span class="bp">self</span><span class="o">.</span><span class="n">_oscar_functionality</span><span class="o">.</span><span class="vm">__doc__</span><span class="p">,</span>
-                                 <span class="bp">self</span><span class="o">.</span><span class="n">_yankee_functionality</span><span class="o">.</span><span class="vm">__doc__</span><span class="p">])</span>
-
-        <span class="c1"># Extract the data from the fits file, unless they wanted it blank.</span>
-        <span class="k">if</span> <span class="p">(</span><span class="n">blank</span><span class="p">):</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">fits_file</span> <span class="o">=</span> <span class="kc">None</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">fits_header</span> <span class="o">=</span> <span class="kc">None</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">fits_data</span> <span class="o">=</span> <span class="kc">None</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">fits_rawdata</span> <span class="o">=</span> <span class="kc">None</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">fits_datamask</span> <span class="o">=</span> <span class="kc">None</span>
-            <span class="n">smeargle_warning</span><span class="p">(</span><span class="n">InputWarning</span><span class="p">,(</span><span class="s2">&quot;The data array file is indicated to return a blank &quot;</span>
-                                           <span class="s2">&quot;one. Doing so as requested.&quot;</span><span class="p">))</span>
+        <span class="c1"># If the user desired it to be silent.</span>
+        <span class="k">if</span> <span class="p">(</span><span class="n">silent</span><span class="p">):</span>
+            <span class="k">with</span> <span class="n">smeargle_absolute_silence</span><span class="p">():</span>
+                <span class="n">_initalization</span><span class="p">(</span><span class="n">pathname</span><span class="o">=</span><span class="n">pathname</span><span class="p">,</span> <span class="n">configuration_class</span><span class="o">=</span><span class="n">configuration_class</span><span class="p">,</span>
+                               <span class="n">blank</span><span class="o">=</span><span class="n">blank</span><span class="p">)</span>
         <span class="k">else</span><span class="p">:</span>
-            <span class="c1"># The file name, for completeness purposes.</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">filename</span> <span class="o">=</span> <span class="n">filename</span>
-            <span class="c1"># Read the fits file data.</span>
-            <span class="n">hdul_file</span><span class="p">,</span> <span class="n">hdu_header</span><span class="p">,</span> <span class="n">hdu_data</span> <span class="o">=</span> <span class="n">meta_faa</span><span class="o">.</span><span class="n">smeargle_open_fits_file</span><span class="p">(</span><span class="n">filename</span><span class="p">)</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">fits_file</span> <span class="o">=</span> <span class="n">hdul_file</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">fits_header</span> <span class="o">=</span> <span class="n">hdu_header</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">fits_data</span> <span class="o">=</span> <span class="n">hdu_data</span>
+            <span class="n">_initalization</span><span class="p">(</span><span class="n">pathname</span><span class="o">=</span><span class="n">pathname</span><span class="p">,</span> <span class="n">configuration_class</span><span class="o">=</span><span class="n">configuration_class</span><span class="p">,</span>
+                               <span class="n">blank</span><span class="o">=</span><span class="n">blank</span><span class="p">)</span>
 
-            <span class="c1"># Extract the mask and separate it from the data to hold the </span>
-            <span class="c1"># raw data values. Ternary operator for the change in </span>
-            <span class="c1"># representation of a mask.</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">fits_rawdata</span> <span class="o">=</span> <span class="n">np_ma</span><span class="o">.</span><span class="n">getdata</span><span class="p">(</span><span class="n">hdu_data</span><span class="p">)</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">fits_datamask</span> <span class="o">=</span> <span class="p">(</span><span class="n">np_ma</span><span class="o">.</span><span class="n">getmask</span><span class="p">(</span><span class="n">hdu_data</span><span class="p">)</span> 
-                                  <span class="k">if</span> <span class="n">np_ma</span><span class="o">.</span><span class="n">getmask</span><span class="p">(</span><span class="n">hdu_data</span><span class="p">)</span> <span class="ow">is</span> <span class="ow">not</span> <span class="n">np_ma</span><span class="o">.</span><span class="n">nomask</span> <span class="k">else</span> <span class="kc">None</span><span class="p">)</span>
+        <span class="k">return</span> <span class="kc">None</span>
 
-        <span class="c1"># Hold the configuration class also.</span>
-        <span class="k">if</span> <span class="p">(</span><span class="n">configuration_class</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">):</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">_raw_configuration_class</span> <span class="o">=</span> <span class="n">configuration_class</span>
-        <span class="k">else</span><span class="p">:</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">_raw_configuration_class</span> <span class="o">=</span> <span class="kc">None</span>
-            <span class="n">smeargle_warning</span><span class="p">(</span><span class="n">InputWarning</span><span class="p">,(</span><span class="s2">&quot;There is no configuration class provided for this &quot;</span>
-                                           <span class="s2">&quot;array. The attribute will be None. The &quot;</span>
-                                           <span class="s2">&quot;SmargleConfig class will be the default.&quot;</span><span class="p">))</span>
+<div class="viewcode-block" id="IfasDataArray.__deepcopy__"><a class="viewcode-back" href="../../../python_docstrings/IfA_Smeargle.zulu.zulu_main.html#IfA_Smeargle.zulu.zulu_main.IfasDataArray.__deepcopy__">[docs]</a>    <span class="k">def</span> <span class="nf">__deepcopy__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">memo</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot; The deepcopy function from the copy module doesn&#39;t behave as </span>
+<span class="sd">        expected. So, it is important to be cautious.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">raise</span> <span class="n">AssumptionError</span><span class="p">(</span><span class="s2">&quot;The deepcopy functionality doesn&#39;t produce a true deepcopy. &quot;</span>
+                              <span class="s2">&quot;Use the self.deepcopy function for true deepcopy &quot;</span>
+                              <span class="s2">&quot;functionality.&quot;</span><span class="p">)</span>
+        <span class="k">return</span> <span class="kc">None</span></div>
 
-        <span class="c1"># Though these may seem like copies, these are the intended mutable </span>
-        <span class="c1"># versions of the previous attributes.</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">data</span> <span class="o">=</span> <span class="n">copy</span><span class="o">.</span><span class="n">deepcopy</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">fits_data</span><span class="p">)</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">rawdata</span> <span class="o">=</span> <span class="n">copy</span><span class="o">.</span><span class="n">deepcopy</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">fits_rawdata</span><span class="p">)</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">datamask</span> <span class="o">=</span> <span class="n">copy</span><span class="o">.</span><span class="n">deepcopy</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">fits_datamask</span><span class="p">)</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">config</span> <span class="o">=</span> <span class="n">copy</span><span class="o">.</span><span class="n">deepcopy</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_raw_configuration_class</span><span class="p">)</span>
+    <span class="c1"># Property variables and for the mutable attributes for the data and</span>
+    <span class="c1"># the global data mask.</span>
+    <span class="k">def</span> <span class="nf">_get_header</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span> <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_mutable_header</span>
+    <span class="k">def</span> <span class="nf">_set_header</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">h</span><span class="p">):</span> <span class="bp">self</span><span class="o">.</span><span class="n">_mutable_header</span> <span class="o">=</span> <span class="n">h</span>
+    <span class="k">def</span> <span class="nf">_del_header</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span> <span class="k">del</span> <span class="bp">self</span><span class="o">.</span><span class="n">_mutable_header</span>
+    <span class="n">header</span> <span class="o">=</span> <span class="nb">property</span><span class="p">(</span><span class="n">_get_header</span><span class="p">,</span> <span class="n">_set_header</span><span class="p">,</span> <span class="n">_del_header</span><span class="p">)</span>
+    <span class="k">def</span> <span class="nf">_get_data</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span> <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_mutable_data</span>
+    <span class="k">def</span> <span class="nf">_set_data</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">d</span><span class="p">):</span> <span class="bp">self</span><span class="o">.</span><span class="n">_mutable_data</span> <span class="o">=</span> <span class="n">d</span>
+    <span class="k">def</span> <span class="nf">_del_data</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span> <span class="k">del</span> <span class="bp">self</span><span class="o">.</span><span class="n">_mutable_data</span>
+    <span class="n">data</span> <span class="o">=</span> <span class="nb">property</span><span class="p">(</span><span class="n">_get_data</span><span class="p">,</span> <span class="n">_set_data</span><span class="p">,</span> <span class="n">_del_data</span><span class="p">)</span>
+    <span class="k">def</span> <span class="nf">_get_datamask</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span> <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_mutable_datamask</span>
+    <span class="k">def</span> <span class="nf">_set_datamask</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">m</span><span class="p">):</span> <span class="bp">self</span><span class="o">.</span><span class="n">_mutable_datamask</span> <span class="o">=</span> <span class="n">m</span>
+    <span class="k">def</span> <span class="nf">_del_datamask</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span> <span class="k">del</span> <span class="bp">self</span><span class="o">.</span><span class="n">_mutable_datamask</span>
+    <span class="n">datamask</span> <span class="o">=</span> <span class="nb">property</span><span class="p">(</span><span class="n">_get_datamask</span><span class="p">,</span> <span class="n">_set_datamask</span><span class="p">,</span> <span class="n">_del_datamask</span><span class="p">)</span>
+    <span class="k">def</span> <span class="nf">_get_config</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span> <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_mutable_config</span>
+    <span class="k">def</span> <span class="nf">_set_config</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">c</span><span class="p">):</span> <span class="bp">self</span><span class="o">.</span><span class="n">_mutable_config</span> <span class="o">=</span> <span class="n">c</span>
+    <span class="k">def</span> <span class="nf">_del_config</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span> <span class="k">del</span> <span class="bp">self</span><span class="o">.</span><span class="n">_mutable_config</span>
+    <span class="n">config</span> <span class="o">=</span> <span class="nb">property</span><span class="p">(</span><span class="n">_get_config</span><span class="p">,</span> <span class="n">_set_config</span><span class="p">,</span> <span class="n">_del_config</span><span class="p">)</span>
+    <span class="c1"># Property values for the ECHO based functionality.</span>
+    <span class="k">def</span> <span class="nf">_get_echo_mask</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span> <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_mutable_echo_mask</span>
+    <span class="k">def</span> <span class="nf">_set_echo_mask</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">em</span><span class="p">):</span> <span class="bp">self</span><span class="o">.</span><span class="n">_mutable_echo_mask</span> <span class="o">=</span> <span class="n">em</span>
+    <span class="k">def</span> <span class="nf">_del_echo_mask</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span> <span class="k">del</span> <span class="bp">self</span><span class="o">.</span><span class="n">_mutable_echo_mask</span>
+    <span class="n">echo_mask</span> <span class="o">=</span> <span class="nb">property</span><span class="p">(</span><span class="n">_get_echo_mask</span><span class="p">,</span> <span class="n">_set_echo_mask</span><span class="p">,</span> <span class="n">_del_echo_mask</span><span class="p">)</span>
+    <span class="k">def</span> <span class="nf">_get_echo_mask_dictionary</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span> <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_mutable_echo_mask_dictionary</span>
+    <span class="k">def</span> <span class="nf">_set_echo_mask_dictionary</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">ed</span><span class="p">):</span> <span class="bp">self</span><span class="o">.</span><span class="n">_mutable_echo_mask_dictionary</span> <span class="o">=</span> <span class="n">ed</span>
+    <span class="k">def</span> <span class="nf">_del_echo_mask_dictionary</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span> <span class="k">del</span> <span class="bp">self</span><span class="o">.</span><span class="n">_mutable_echo_mask_dictionary</span>
+    <span class="n">echo_mask_dictionary</span> <span class="o">=</span> <span class="nb">property</span><span class="p">(</span><span class="n">_get_echo_mask_dictionary</span><span class="p">,</span> 
+                                    <span class="n">_set_echo_mask_dictionary</span><span class="p">,</span> 
+                                    <span class="n">_del_echo_mask_dictionary</span><span class="p">)</span>
 
-        <span class="c1"># Meta data to test if this is a proper blank fits file.</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">_proper_blank</span> <span class="o">=</span> <span class="n">blank</span>
 
-        <span class="c1"># This adds the functions that is responsible for a lot of the </span>
-        <span class="c1"># functionality to this class.</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">_echo_functionality</span><span class="p">()</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">_oscar_functionality</span><span class="p">()</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">_yankee_functionality</span><span class="p">()</span>
+    <span class="k">def</span> <span class="nf">_bravo_functionality</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot; This allows for the usage of some BRAVO line functions within</span>
+<span class="sd">        this class.</span>
+
+<span class="sd">        BRAVO Attributes</span>
+<span class="sd">        ----------------</span>
+<span class="sd">        bravo_filename_split_by_parameter : dictionary</span>
+<span class="sd">            Takes a standard file name made by the BRAVO class and splits </span>
+<span class="sd">            it into a more workable dictionary.</span>
+<span class="sd">        median_endpoints : method</span>
+<span class="sd">            Reads the fits file values and computes the new result using </span>
+<span class="sd">            end points calculations.</span>
+<span class="sd">        median_endpoints_per_second : method</span>
+<span class="sd">            Reads the fits file values and computes the new result using </span>
+<span class="sd">            end points calculations.</span>
+<span class="sd">        median_endpoints_per_kilosecond : method</span>
+<span class="sd">            Reads the fits file values and computes the new result using </span>
+<span class="sd">            end points calculations.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="c1"># File name parameter splitting.</span>
+        <span class="nb">setattr</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="s1">&#39;bravo_filename_split_by_parameter&#39;</span><span class="p">,</span> 
+                <span class="k">lambda</span><span class="p">:</span> <span class="n">bravo</span><span class="o">.</span><span class="n">bravo_filename_split_by_parameter</span><span class="p">(</span><span class="n">path_file_name</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">filename</span><span class="p">,</span>
+                                                                <span class="n">ignore_mismatch</span><span class="o">=</span><span class="kc">False</span><span class="p">))</span>
         
+        <span class="c1"># The median functions, to act on this data file.</span>
+        <span class="k">def</span> <span class="nf">median_endpoints</span><span class="p">(</span><span class="n">start_chunk</span><span class="p">,</span> <span class="n">end_chunk</span><span class="p">,</span> <span class="n">frame_exposure_time</span><span class="p">):</span>
+            <span class="n">resulting_data</span> <span class="o">=</span> <span class="n">bravo</span><span class="o">.</span><span class="n">avging</span><span class="o">.</span><span class="n">median_endpoints</span><span class="p">(</span>
+                <span class="n">data_array</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">data</span><span class="p">,</span> <span class="n">start_chunk</span><span class="o">=</span><span class="n">start_chunk</span><span class="p">,</span> 
+                <span class="n">end_chunk</span><span class="o">=</span><span class="n">end_chunk</span><span class="p">,</span> <span class="n">frame_exposure_time</span><span class="o">=</span><span class="n">frame_exposure_time</span><span class="p">)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">data</span> <span class="o">=</span> <span class="n">resulting_data</span>
+            <span class="k">return</span> <span class="n">resulting_data</span>
+        <span class="nb">setattr</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="s1">&#39;median_endpoints&#39;</span><span class="p">,</span> <span class="n">median_endpoints</span><span class="p">)</span>
+        <span class="c1"># The two other median endpoints functions.</span>
+        <span class="k">def</span> <span class="nf">median_endpoints_per_second</span><span class="p">(</span><span class="n">start_chunk</span><span class="p">,</span> <span class="n">end_chunk</span><span class="p">,</span> <span class="n">frame_exposure_time</span><span class="p">):</span>
+            <span class="n">resulting_data</span> <span class="o">=</span> <span class="n">bravo</span><span class="o">.</span><span class="n">avging</span><span class="o">.</span><span class="n">median_endpoints_per_second</span><span class="p">(</span>
+                <span class="n">data_array</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">data</span><span class="p">,</span> <span class="n">start_chunk</span><span class="o">=</span><span class="n">start_chunk</span><span class="p">,</span> 
+                <span class="n">end_chunk</span><span class="o">=</span><span class="n">end_chunk</span><span class="p">,</span> <span class="n">frame_exposure_time</span><span class="o">=</span><span class="n">frame_exposure_time</span><span class="p">)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">data</span> <span class="o">=</span> <span class="n">resulting_data</span>
+            <span class="k">return</span> <span class="n">resulting_data</span>
+        <span class="nb">setattr</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="s1">&#39;median_endpoints_per_second&#39;</span><span class="p">,</span> <span class="n">median_endpoints_per_second</span><span class="p">)</span>
+        <span class="k">def</span> <span class="nf">median_endpoints_per_kilosecond</span><span class="p">(</span><span class="n">start_chunk</span><span class="p">,</span> <span class="n">end_chunk</span><span class="p">,</span> <span class="n">frame_exposure_time</span><span class="p">):</span>
+            <span class="n">resulting_data</span> <span class="o">=</span> <span class="n">bravo</span><span class="o">.</span><span class="n">avging</span><span class="o">.</span><span class="n">median_endpoints_per_kilosecond</span><span class="p">(</span>
+                <span class="n">data_array</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">data</span><span class="p">,</span> <span class="n">start_chunk</span><span class="o">=</span><span class="n">start_chunk</span><span class="p">,</span> 
+                <span class="n">end_chunk</span><span class="o">=</span><span class="n">end_chunk</span><span class="p">,</span> <span class="n">frame_exposure_time</span><span class="o">=</span><span class="n">frame_exposure_time</span><span class="p">)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">data</span> <span class="o">=</span> <span class="n">resulting_data</span>
+            <span class="k">return</span> <span class="n">resulting_data</span>
+        <span class="nb">setattr</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="s1">&#39;median_endpoints_per_kilosecond&#39;</span><span class="p">,</span> <span class="n">median_endpoints_per_kilosecond</span><span class="p">)</span>
+
+        <span class="k">return</span> <span class="kc">None</span>
 
     <span class="k">def</span> <span class="nf">_echo_functionality</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot; This allows for the usage of the ECHO line with this class.</span>
@@ -297,20 +416,21 @@
 <span class="sd">            the ``data`` attribute and the mask itself in ``datamask``.</span>
 
 <span class="sd">        &quot;&quot;&quot;</span>
-        <span class="c1"># Needed attributes for the ECHO class.</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">echo_mask</span> <span class="o">=</span> <span class="kc">None</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">echo_mask_dictionary</span> <span class="o">=</span> <span class="p">{}</span>
 
         <span class="c1"># Allow for the usage of the general form of the ECHO line.</span>
-        <span class="k">def</span> <span class="nf">_execute_mask_function</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+        <span class="k">def</span> <span class="nf">_execute_mask_function</span><span class="p">(</span><span class="n">frame</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
             <span class="c1"># Allow for the configuration class to be used.</span>
-            <span class="k">if</span> <span class="s1">&#39;configuration_class&#39;</span> <span class="ow">in</span> <span class="n">kwargs</span><span class="p">:</span>
+            <span class="k">if</span> <span class="p">(</span><span class="s1">&#39;configuration_class&#39;</span> <span class="ow">in</span> <span class="n">kwargs</span><span class="p">):</span>
                 <span class="k">pass</span>
             <span class="k">else</span><span class="p">:</span>
                 <span class="n">kwargs</span><span class="p">[</span><span class="s1">&#39;configuration_class&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">copy</span><span class="o">.</span><span class="n">deepcopy</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">config</span><span class="p">)</span>
             <span class="c1"># Change the dictionary of the mask, but, leave the data array.</span>
-            <span class="c1"># Return both normally however.</span>
-            <span class="n">temp_mask</span><span class="p">,</span> <span class="n">temp_dict</span> <span class="o">=</span> <span class="n">echo_execution</span><span class="p">(</span><span class="n">data_array</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">data</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+            <span class="c1"># Return both normally however. Also, if the process is to only</span>
+            <span class="c1"># be done on a specific frame.</span>
+            <span class="k">if</span> <span class="p">((</span><span class="n">_data_array</span><span class="o">.</span><span class="n">ndim</span> <span class="o">&gt;=</span> <span class="mi">3</span><span class="p">)</span> <span class="ow">and</span> <span class="p">(</span><span class="nb">isinstance</span><span class="p">(</span><span class="n">frame</span><span class="p">,</span> <span class="nb">int</span><span class="p">))):</span>
+                <span class="n">temp_mask</span><span class="p">,</span> <span class="n">temp_dict</span> <span class="o">=</span> <span class="n">echo_execution</span><span class="p">(</span><span class="n">data_array</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">data</span><span class="p">[</span><span class="n">frame</span><span class="p">],</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="n">temp_mask</span><span class="p">,</span> <span class="n">temp_dict</span> <span class="o">=</span> <span class="n">echo_execution</span><span class="p">(</span><span class="n">data_array</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">data</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">echo_mask_dictionary</span> <span class="o">=</span> <span class="p">{</span><span class="o">**</span><span class="bp">self</span><span class="o">.</span><span class="n">echo_mask_dictionary</span><span class="p">,</span> <span class="o">**</span><span class="n">temp_dict</span><span class="p">}</span>
             <span class="k">return</span> <span class="n">temp_mask</span><span class="p">,</span> <span class="n">temp_dict</span>
         <span class="nb">setattr</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="s1">&#39;echo_execution&#39;</span><span class="p">,</span> <span class="n">_execute_mask_function</span><span class="p">)</span>
@@ -327,41 +447,31 @@
         <span class="c1"># binding problem that causes all of the functions to just be copies</span>
         <span class="c1"># of the last function. See https://stackoverflow.com/q/3431676.</span>
         <span class="k">for</span> <span class="n">keydex</span><span class="p">,</span> <span class="n">filterdex</span> <span class="ow">in</span> <span class="n">echo_filters_dict</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
-            <span class="k">def</span> <span class="nf">_temp_mask_function</span><span class="p">(</span><span class="n">filter_funct</span><span class="o">=</span><span class="n">filterdex</span><span class="p">,</span> <span class="n">filter_key</span><span class="o">=</span><span class="n">keydex</span><span class="p">,</span> 
-                                    <span class="n">configuration</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
-                <span class="c1"># This runs on the assumption that the configuration keys</span>
-                <span class="c1"># have been properly named.</span>
-                <span class="n">config_key</span> <span class="o">=</span> <span class="p">((</span><span class="n">filter_key</span><span class="p">[</span><span class="mi">0</span><span class="p">:</span><span class="mi">7</span><span class="p">]</span> <span class="o">+</span> <span class="s1">&#39;_config&#39;</span><span class="p">)</span> 
-                              <span class="k">if</span> <span class="p">(</span><span class="s1">&#39;echo&#39;</span> <span class="ow">in</span> <span class="n">filter_key</span><span class="p">[</span><span class="mi">0</span><span class="p">:</span><span class="mi">7</span><span class="p">])</span> <span class="k">else</span> <span class="kc">None</span><span class="p">)</span>
-                
-                <span class="n">config_params</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_zulu_determine_configuration_parameters</span><span class="p">(</span>
-                    <span class="n">configuration_flag_input</span><span class="o">=</span><span class="n">configuration</span><span class="p">,</span> <span class="n">custom_inputs</span><span class="o">=</span><span class="n">kwargs</span><span class="p">,</span>
-                    <span class="n">subconfig_class</span><span class="o">=</span><span class="n">yankee</span><span class="o">.</span><span class="n">EchoConfig</span><span class="p">,</span> <span class="n">subconfig_key</span><span class="o">=</span><span class="n">config_key</span><span class="p">)</span>
+            <span class="k">def</span> <span class="nf">_temp_mask_function</span><span class="p">(</span><span class="n">filter_funct</span><span class="o">=</span><span class="n">filterdex</span><span class="p">,</span> <span class="n">filter_key</span><span class="o">=</span><span class="n">keydex</span><span class="p">,</span> <span class="n">frame</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> 
+                                    <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+                <span class="c1"># The data may be desired to only be a subset.</span>
+                <span class="n">data_array</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">data</span><span class="p">[</span><span class="n">frame</span><span class="p">]</span> <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">frame</span><span class="p">,</span> <span class="nb">int</span><span class="p">)</span> <span class="k">else</span> <span class="bp">self</span><span class="o">.</span><span class="n">data</span>
 
-                <span class="c1"># Check for the run parameter, if it is false, this filter</span>
-                <span class="c1"># should not be run.</span>
-                <span class="k">if</span> <span class="p">(</span><span class="n">config_params</span><span class="o">.</span><span class="n">pop</span><span class="p">(</span><span class="s1">&#39;run&#39;</span><span class="p">)):</span>
-                    <span class="c1"># The masking dictionary is what shall be mutated, ensure </span>
-                    <span class="c1"># that there won&#39;t be a conflict with this.</span>
-                    <span class="n">filter_dict</span> <span class="o">=</span>  <span class="n">filter_funct</span><span class="p">(</span><span class="n">data_array</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">data</span><span class="p">,</span>
-                                                <span class="n">previous_mask</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">echo_mask_dictionary</span><span class="p">,</span>
-                                                <span class="n">return_mask</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
-                                                <span class="o">**</span><span class="n">config_params</span><span class="p">)</span>
-                <span class="k">else</span><span class="p">:</span>
-                    <span class="c1"># No filter should be run, and therefore no output.</span>
-                    <span class="n">smeargle_warning</span><span class="p">(</span><span class="n">MaskingWarning</span><span class="p">,(</span><span class="s2">&quot;The &lt;run&gt; parameter for the masking &quot;</span>
-                                                     <span class="s2">&quot;function &lt; </span><span class="si">{filter_name}</span><span class="s2"> &gt; is False. The &quot;</span>
-                                                     <span class="s2">&quot;mask shall not be applied nor added to &quot;</span>
-                                                     <span class="s2">&quot;masking dictionary.&quot;</span>
-                                                     <span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">filter_name</span><span class="o">=</span><span class="n">filter_key</span><span class="p">)))</span>
-                    <span class="n">filter_dict</span> <span class="o">=</span> <span class="p">{}</span>
+                <span class="c1"># Run the filter.</span>
+                <span class="n">filter_dict</span> <span class="o">=</span>  <span class="n">filter_funct</span><span class="p">(</span><span class="n">data_array</span><span class="o">=</span><span class="n">data_array</span><span class="p">,</span>
+                                            <span class="n">previous_mask</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">echo_mask_dictionary</span><span class="p">,</span>
+                                            <span class="n">return_mask</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
+                                            <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
                 <span class="c1"># Add the filter to the masking dictionary.</span>
                 <span class="bp">self</span><span class="o">.</span><span class="n">echo_mask_dictionary</span><span class="o">.</span><span class="n">update</span><span class="p">(</span><span class="n">filter_dict</span><span class="p">)</span>
+
+                <span class="c1"># Also, for the sake of extra data if needed.</span>
+                <span class="n">filter_array</span> <span class="o">=</span>  <span class="n">filter_funct</span><span class="p">(</span><span class="n">data_array</span><span class="o">=</span><span class="n">data_array</span><span class="p">,</span>
+                                            <span class="n">previous_mask</span><span class="o">=</span><span class="p">{},</span>
+                                            <span class="n">return_mask</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+                                            <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+
                 <span class="c1"># All done.</span>
-                <span class="k">return</span> <span class="kc">None</span>
+                <span class="k">return</span> <span class="n">filter_array</span>
 
             <span class="c1"># Attach the function.</span>
-            <span class="nb">setattr</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">keydex</span><span class="p">,</span> <span class="n">meta_prog</span><span class="o">.</span><span class="n">smeargle_deepcopy_function</span><span class="p">(</span><span class="n">_temp_mask_function</span><span class="p">))</span>
+            <span class="nb">setattr</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">keydex</span><span class="p">,</span> 
+                    <span class="n">meta_prog</span><span class="o">.</span><span class="n">smeargle_deepcopy_function</span><span class="p">(</span><span class="n">original_funct</span><span class="o">=</span><span class="n">_temp_mask_function</span><span class="p">))</span>
             <span class="c1"># Allow for the reusing of the temp function</span>
             <span class="k">del</span> <span class="n">_temp_mask_function</span>
 
@@ -369,7 +479,8 @@
         <span class="c1"># Allow for the synthesis of the masking dictionary, a wrapper </span>
         <span class="c1"># function around the original function.</span>
         <span class="k">def</span> <span class="nf">_synthesize_function</span><span class="p">():</span>
-            <span class="n">masked_array</span> <span class="o">=</span> <span class="n">echo</span><span class="o">.</span><span class="n">echo_synthesize_mask_dictionary</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">echo_mask_dictionary</span><span class="p">)</span>
+            <span class="n">masked_array</span> <span class="o">=</span> <span class="n">echo</span><span class="o">.</span><span class="n">echo_synthesize_mask_dictionary</span><span class="p">(</span>
+                <span class="n">masking_dictionary</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">echo_mask_dictionary</span><span class="p">)</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">echo_mask</span> <span class="o">=</span> <span class="n">masked_array</span>
             <span class="k">return</span> <span class="n">masked_array</span>
         <span class="nb">setattr</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="s1">&#39;echo_synthesize_mask_dictionary&#39;</span><span class="p">,</span> <span class="n">_synthesize_function</span><span class="p">)</span>
@@ -378,19 +489,18 @@
         <span class="c1"># Allow for the application of the data mask using the masking </span>
         <span class="c1"># dictionary that is stored in this class.</span>
         <span class="k">def</span> <span class="nf">_update_function</span><span class="p">():</span>
-            <span class="n">masked_array</span> <span class="o">=</span> <span class="n">echo</span><span class="o">.</span><span class="n">echo_numpy_masked_array</span><span class="p">(</span><span class="n">data_array</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">data</span><span class="p">,</span>
-                                                        <span class="n">synthesized_mask</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">echo_mask</span><span class="p">,</span>
-                                                        <span class="n">masking_dictionary</span><span class="o">=</span><span class="kc">None</span><span class="p">)</span>
+            <span class="n">masked_array</span> <span class="o">=</span> <span class="n">echo</span><span class="o">.</span><span class="n">echo_create_masked_array</span><span class="p">(</span><span class="n">data_array</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">data</span><span class="p">,</span>
+                                                         <span class="n">synthesized_mask</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">echo_mask</span><span class="p">,</span>
+                                                         <span class="n">masking_dictionary</span><span class="o">=</span><span class="kc">None</span><span class="p">)</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">data</span> <span class="o">=</span> <span class="n">masked_array</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">datamask</span> <span class="o">=</span> <span class="p">(</span><span class="n">np_ma</span><span class="o">.</span><span class="n">getmask</span><span class="p">(</span><span class="n">masked_array</span><span class="p">)</span> 
                                   <span class="k">if</span> <span class="n">np_ma</span><span class="o">.</span><span class="n">getmask</span><span class="p">(</span><span class="n">masked_array</span><span class="p">)</span> <span class="ow">is</span> <span class="ow">not</span> <span class="n">np_ma</span><span class="o">.</span><span class="n">nomask</span> <span class="k">else</span> <span class="kc">None</span><span class="p">)</span>
             <span class="k">return</span> <span class="n">masked_array</span>
-        <span class="nb">setattr</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="s1">&#39;echo_numpy_masked_array&#39;</span><span class="p">,</span> <span class="n">_update_function</span><span class="p">)</span>
+        <span class="nb">setattr</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="s1">&#39;echo_create_masked_array&#39;</span><span class="p">,</span> <span class="n">_update_function</span><span class="p">)</span>
         <span class="k">del</span> <span class="n">_update_function</span>
 
         <span class="c1"># All done.</span>
         <span class="k">return</span> <span class="kc">None</span>
-
 
     <span class="k">def</span> <span class="nf">_oscar_functionality</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot; This allows for the usage of the OSCAR line with this class.</span>
@@ -410,14 +520,10 @@
         <span class="c1"># of the last function. See https://stackoverflow.com/q/3431676.</span>
         <span class="k">for</span> <span class="n">keydex</span><span class="p">,</span> <span class="n">functdex</span> <span class="ow">in</span> <span class="n">copy</span><span class="o">.</span><span class="n">deepcopy</span><span class="p">(</span><span class="n">oscar_plot_dict</span><span class="p">)</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
             <span class="c1"># Allow for runtime modification of parameters.</span>
-            <span class="k">def</span> <span class="nf">plot_function</span><span class="p">(</span><span class="n">plot_funt</span><span class="o">=</span><span class="n">functdex</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
-                <span class="n">config_params</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_zulu_determine_configuration_parameters</span><span class="p">(</span>
-                    <span class="n">configuration_flag_input</span><span class="o">=</span><span class="n">configuration</span><span class="p">,</span> <span class="n">custom_inputs</span><span class="o">=</span><span class="n">kwargs</span><span class="p">,</span>
-                    <span class="n">subconfig_class</span><span class="o">=</span><span class="n">yankee</span><span class="o">.</span><span class="n">OscaConfig</span><span class="p">,</span> <span class="n">subconfig_key</span><span class="o">=</span><span class="n">config_key</span><span class="p">)</span>
-
-            <span class="nb">setattr</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">keydex</span><span class="p">,</span> <span class="n">meta_prog</span><span class="o">.</span><span class="n">smeargle_deepcopy_function</span><span class="p">(</span>
-                <span class="k">lambda</span> <span class="n">plot_funct</span><span class="o">=</span><span class="n">functdex</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">:</span> <span class="n">plot_funct</span><span class="p">(</span><span class="n">data_array</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">data</span><span class="p">,</span> 
-                                                                 <span class="o">**</span><span class="n">kwargs</span><span class="p">)))</span>
+            <span class="k">def</span> <span class="nf">plotting_function</span><span class="p">(</span><span class="n">_function</span><span class="o">=</span><span class="n">functdex</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+                <span class="k">return</span> <span class="n">_function</span><span class="p">(</span><span class="n">data_array</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">data</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+            <span class="nb">setattr</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">keydex</span><span class="p">,</span> <span class="n">plotting_function</span><span class="p">)</span>
+            <span class="k">del</span> <span class="n">plotting_function</span>
 
         <span class="c1"># All done.</span>
         <span class="k">return</span> <span class="kc">None</span>
@@ -452,15 +558,18 @@
         <span class="c1"># class.</span>
         <span class="k">if</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_raw_configuration_class</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">):</span>
             <span class="c1"># There is no need for error, a default one will be assigned.</span>
-            <span class="nb">setattr</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="s2">&quot;SmeargleConfig&quot;</span><span class="p">,</span> 
-                    <span class="n">yankee</span><span class="o">.</span><span class="n">yankee_configuration_factory_function</span><span class="p">(</span><span class="n">yankee</span><span class="o">.</span><span class="n">SmeargleConfig</span><span class="p">,</span> <span class="kc">None</span><span class="p">,</span> <span class="kc">True</span><span class="p">))</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">config</span> <span class="o">=</span> <span class="n">yankee</span><span class="o">.</span><span class="n">yankee_configuration_factory_function</span><span class="p">(</span>
+                <span class="n">desired_class</span><span class="o">=</span><span class="n">yankee</span><span class="o">.</span><span class="n">SmeargleConfig</span><span class="p">,</span> <span class="n">file_name</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">silent</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+            <span class="c1"># But, warn...</span>
+            <span class="n">smeargle_warning</span><span class="p">(</span><span class="n">InputWarning</span><span class="p">,(</span><span class="s2">&quot;There is no input configuration class. A blank one &quot;</span>
+                                           <span class="s2">&quot;will be assigned.&quot;</span><span class="p">))</span>
         <span class="k">else</span><span class="p">:</span>
             <span class="c1"># Fast forward just in case the provided configuration class is </span>
             <span class="c1"># outdated.</span>
             <span class="n">fast_forwarded_class</span> <span class="o">=</span> <span class="kc">None</span>
             <span class="k">try</span><span class="p">:</span>
                 <span class="n">fast_forwarded_class</span> <span class="o">=</span> <span class="n">yankee</span><span class="o">.</span><span class="n">yankee_fast_forward_configuration_class</span><span class="p">(</span>
-                    <span class="bp">self</span><span class="o">.</span><span class="n">_raw_configuration_class</span><span class="p">)</span>
+                    <span class="n">configuration_class</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">_raw_configuration_class</span><span class="p">)</span>
             <span class="k">except</span> <span class="ne">Exception</span><span class="p">:</span>
                 <span class="c1"># The raw configuration class may not even be a configuration</span>
                 <span class="c1"># class.</span>
@@ -468,13 +577,15 @@
                                                               <span class="n">yankee</span><span class="o">.</span><span class="n">BaseConfig</span><span class="p">))):</span>
                     <span class="c1"># Hm... Sparrow is still at a loss for why it would enter </span>
                     <span class="c1"># here.</span>
-                    <span class="k">raise</span> <span class="n">BugError</span><span class="p">(</span><span class="s2">&quot;The yankee_fast_forward_configuration_class function seemed to &quot;</span>
-                                   <span class="s2">&quot;fail with a valid configuration class input.&quot;</span><span class="p">)</span>
+                    <span class="k">raise</span> <span class="n">AssumptionError</span><span class="p">(</span><span class="s2">&quot;The yankee_fast_forward_configuration_class function &quot;</span>
+                                          <span class="s2">&quot;seemed to fail with a valid configuration class &quot;</span>
+                                          <span class="s2">&quot;input.&quot;</span><span class="p">)</span>
                 <span class="k">elif</span> <span class="p">(</span><span class="nb">isinstance</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_raw_configuration_class</span><span class="p">,</span> <span class="nb">str</span><span class="p">)):</span>
                     <span class="c1"># It may be that the user provided a file name.</span>
                     <span class="n">configuration_file_name</span> <span class="o">=</span> <span class="nb">str</span><span class="p">(</span><span class="n">copy</span><span class="o">.</span><span class="n">deepcopy</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_raw_configuration_class</span><span class="p">))</span>
                     <span class="n">fast_forwarded_class</span> <span class="o">=</span> <span class="n">yankee</span><span class="o">.</span><span class="n">yankee_configuration_factory_function</span><span class="p">(</span>
-                        <span class="n">yankee</span><span class="o">.</span><span class="n">SmeargleConfig</span><span class="p">,</span> <span class="n">configuration_file_name</span><span class="p">,</span> <span class="kc">False</span><span class="p">)</span>
+                        <span class="n">desired_class</span><span class="o">=</span><span class="n">yankee</span><span class="o">.</span><span class="n">SmeargleConfig</span><span class="p">,</span> 
+                        <span class="n">file_name</span><span class="o">=</span><span class="n">configuration_file_name</span><span class="p">,</span> <span class="n">silent</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
                 <span class="k">else</span><span class="p">:</span>
                     <span class="c1"># It is not a configuration class, it is best that a </span>
                     <span class="c1"># default one is assigned.</span>
@@ -484,12 +595,11 @@
                                                             <span class="s2">&quot;unworkable. A default is being &quot;</span>
                                                             <span class="s2">&quot;provided.&quot;</span><span class="p">))</span>
                     <span class="n">fast_forwarded_class</span> <span class="o">=</span> <span class="n">yankee</span><span class="o">.</span><span class="n">yankee_configuration_factory_function</span><span class="p">(</span>
-                        <span class="n">yankee</span><span class="o">.</span><span class="n">SmeargleConfig</span><span class="p">,</span> <span class="kc">None</span><span class="p">,</span> <span class="kc">True</span><span class="p">)</span>
+                        <span class="n">desired_class</span><span class="o">=</span><span class="n">yankee</span><span class="o">.</span><span class="n">SmeargleConfig</span><span class="p">,</span> <span class="n">file_name</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">silent</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
             <span class="k">finally</span><span class="p">:</span>
                 <span class="c1"># For naming convention.</span>
                 <span class="n">configuration_class</span> <span class="o">=</span> <span class="n">fast_forwarded_class</span>
-                <span class="nb">setattr</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="s2">&quot;SmeargleConfig&quot;</span><span class="p">,</span> <span class="n">configuration_class</span><span class="p">)</span>
-                <span class="nb">setattr</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="s2">&quot;config&quot;</span><span class="p">,</span> <span class="n">configuration_class</span><span class="p">)</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">config</span> <span class="o">=</span> <span class="n">configuration_class</span>
 
         <span class="c1"># Also allow for the printing, reading, writing, and updating of </span>
         <span class="c1"># the new configuration class. These are mostly aliases.</span>
@@ -499,21 +609,22 @@
         <span class="nb">setattr</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="s2">&quot;print_configuration&quot;</span><span class="p">,</span> <span class="n">print_configuration</span><span class="p">)</span>
         <span class="k">def</span> <span class="nf">read_configuration</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">file_name</span><span class="p">):</span>
             <span class="sd">&quot;&quot;&quot; Reads the configuration class from a configuration file. &quot;&quot;&quot;</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">SmeargleConfig</span><span class="o">.</span><span class="n">read_from_file</span><span class="p">(</span><span class="n">file_name</span><span class="p">)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">SmeargleConfig</span><span class="o">.</span><span class="n">read_from_file</span><span class="p">(</span><span class="n">file_name</span><span class="o">=</span><span class="n">file_name</span><span class="p">)</span>
         <span class="nb">setattr</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="s2">&quot;read_configuration&quot;</span><span class="p">,</span> <span class="n">read_configuration</span><span class="p">)</span>
         <span class="k">def</span> <span class="nf">write_configuration</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">file_name</span><span class="p">):</span>
             <span class="sd">&quot;&quot;&quot; Writes the configuration class to a configuration file. &quot;&quot;&quot;</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">SmeargleConfig</span><span class="o">.</span><span class="n">write_to_file</span><span class="p">(</span><span class="n">file_name</span><span class="p">)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">SmeargleConfig</span><span class="o">.</span><span class="n">write_to_file</span><span class="p">(</span><span class="n">file_name</span><span class="o">=</span><span class="n">file_name</span><span class="p">)</span>
         <span class="nb">setattr</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="s2">&quot;write_configuration&quot;</span><span class="p">,</span> <span class="n">write_configuration</span><span class="p">)</span>
         <span class="k">def</span> <span class="nf">overwrite_configuration</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">overwriting_configuration</span><span class="p">):</span>
             <span class="sd">&quot;&quot;&quot; Overwrite the configuration class by the provided class. &quot;&quot;&quot;</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">SmeargleConfig</span> <span class="o">=</span> <span class="n">yankee</span><span class="o">.</span><span class="n">yankee_overwrite_configuration_class</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">SmeargleConfig</span><span class="p">,</span>
-                                                                       <span class="n">overwriting_configuration</span><span class="p">)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">SmeargleConfig</span> <span class="o">=</span> <span class="n">yankee</span><span class="o">.</span><span class="n">yankee_overwrite_configuration_class</span><span class="p">(</span>
+                <span class="n">inferior_class</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">SmeargleConfig</span><span class="p">,</span> <span class="n">superior_class</span><span class="o">=</span><span class="n">overwriting_configuration</span><span class="p">)</span>
         <span class="nb">setattr</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="s2">&quot;overwrite_configuration&quot;</span><span class="p">,</span> <span class="n">overwrite_configuration</span><span class="p">)</span>
         <span class="k">def</span> <span class="nf">fast_forward_configuration</span><span class="p">():</span>
             <span class="sd">&quot;&quot;&quot; Fast forward the configuration class. It is unlikely that </span>
 <span class="sd">                this will be needed, but, it is here. &quot;&quot;&quot;</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">SmeargleConfig</span> <span class="o">=</span> <span class="n">yankee</span><span class="o">.</span><span class="n">yankee_fast_forward_configuration_class</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">SmeargleConfig</span><span class="p">)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">SmeargleConfig</span> <span class="o">=</span> <span class="n">yankee</span><span class="o">.</span><span class="n">yankee_fast_forward_configuration_class</span><span class="p">(</span>
+                <span class="n">configuration_class</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">SmeargleConfig</span><span class="p">)</span>
         <span class="nb">setattr</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="s2">&quot;fast_forward_configuration&quot;</span><span class="p">,</span> <span class="n">fast_forward_configuration</span><span class="p">)</span>
 
         <span class="c1"># All done.</span>
@@ -579,7 +690,7 @@
                              <span class="s2">&quot;family. Moreover, it should be the class itself, not an &quot;</span>
                              <span class="s2">&quot;instance thereof.&quot;</span><span class="p">)</span>
         <span class="c1"># Type checking the key.</span>
-        <span class="k">if</span> <span class="p">(</span><span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">subconfig_key</span><span class="p">,</span><span class="nb">str</span><span class="p">)):</span>
+        <span class="k">if</span> <span class="p">(</span><span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">subconfig_key</span><span class="p">,</span> <span class="nb">str</span><span class="p">)):</span>
             <span class="k">raise</span> <span class="n">InputError</span><span class="p">(</span><span class="s2">&quot;The sub-configuration class key must be a string as it is a &quot;</span>
                              <span class="s2">&quot;dictionary key.&quot;</span><span class="p">)</span>
         <span class="c1"># Then the user&#39;s inputs.</span>
@@ -661,7 +772,147 @@
             <span class="k">raise</span> <span class="n">BrokenLogicError</span><span class="p">(</span><span class="s2">&quot;The code should not reach here; the parameter_dictionary &quot;</span>
                                    <span class="s2">&quot;check must have failed, likely due to a change on how &quot;</span>
                                    <span class="s2">&quot;dictionaries are handled.&quot;</span><span class="p">)</span>
-        <span class="k">return</span> <span class="kc">None</span></div>
+        <span class="k">return</span> <span class="kc">None</span>
+
+<div class="viewcode-block" id="IfasDataArray.deepcopy"><a class="viewcode-back" href="../../../python_docstrings/IfA_Smeargle.zulu.zulu_main.html#IfA_Smeargle.zulu.zulu_main.IfasDataArray.deepcopy">[docs]</a>    <span class="k">def</span> <span class="nf">deepcopy</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot; Create a separate deep copy of an IfasDataArray using the data </span>
+<span class="sd">            within this one.</span>
+<span class="sd">            </span>
+<span class="sd">            There are a few issues with binding and copying this class. </span>
+<span class="sd">            Because of the recursive and layered nature of this class, there</span>
+<span class="sd">            are issues with a simple deep copy function from the copy module.</span>
+
+<span class="sd">            Parameters</span>
+<span class="sd">            ----------</span>
+<span class="sd">            none</span>
+
+<span class="sd">            Returns</span>
+<span class="sd">            -------</span>
+<span class="sd">            new_instance : IfasDataArray</span>
+<span class="sd">                The new copied instance of this class.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="c1"># Check if the provided class is the correct type. </span>
+        <span class="k">if</span> <span class="p">(</span><span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">IfasDataArray</span><span class="p">)):</span>
+            <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span><span class="s2">&quot;Deepcopy functionality is not supported for instances that are &quot;</span>
+                            <span class="s2">&quot;not derived from IfasDataArray.&quot;</span><span class="p">)</span>
+        <span class="k">elif</span> <span class="p">(</span><span class="nb">type</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">!=</span> <span class="n">IfasDataArray</span><span class="p">):</span>
+            <span class="n">smeargle_warning</span><span class="p">(</span><span class="n">OutputWarning</span><span class="p">,(</span><span class="s2">&quot;Deepcopy functionality is not officially supported &quot;</span>
+                                            <span class="s2">&quot;for non-direct instances of IfasDataArray.&quot;</span><span class="p">))</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">pass</span>
+
+        <span class="c1"># The best way to resolve unwanted references is just to make a new</span>
+        <span class="c1"># class.</span>
+        <span class="n">new_instance</span> <span class="o">=</span> <span class="n">IfasDataArray</span><span class="p">(</span><span class="n">pathname</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">configuration_class</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+                                     <span class="n">blank</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">silent</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+
+        <span class="c1"># Extract the needed data to copy over and do so.</span>
+        <span class="n">original_instance</span> <span class="o">=</span> <span class="n">copy</span><span class="o">.</span><span class="n">copy</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span>
+        <span class="n">original_dictionary</span> <span class="o">=</span> <span class="n">copy</span><span class="o">.</span><span class="n">deepcopy</span><span class="p">(</span><span class="nb">vars</span><span class="p">(</span><span class="n">original_instance</span><span class="p">))</span>
+        <span class="k">for</span> <span class="n">keydex</span><span class="p">,</span> <span class="n">valuedex</span> <span class="ow">in</span> <span class="n">copy</span><span class="o">.</span><span class="n">deepcopy</span><span class="p">(</span><span class="n">original_dictionary</span><span class="p">)</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+            <span class="k">if</span> <span class="p">(</span><span class="n">callable</span><span class="p">(</span><span class="n">valuedex</span><span class="p">)):</span>
+                <span class="c1"># There is no need for functions to be copied over, it is </span>
+                <span class="c1"># already provided for separately by the new class.</span>
+                <span class="n">__</span> <span class="o">=</span> <span class="n">original_dictionary</span><span class="o">.</span><span class="n">pop</span><span class="p">(</span><span class="n">keydex</span><span class="p">)</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="n">transfer</span> <span class="o">=</span> <span class="n">copy</span><span class="o">.</span><span class="n">deepcopy</span><span class="p">(</span><span class="n">original_dictionary</span><span class="o">.</span><span class="n">pop</span><span class="p">(</span><span class="n">keydex</span><span class="p">))</span>
+                <span class="n">new_instance</span><span class="o">.</span><span class="vm">__dict__</span><span class="o">.</span><span class="n">update</span><span class="p">({</span><span class="n">keydex</span><span class="p">:</span><span class="n">transfer</span><span class="p">})</span>
+
+        <span class="k">return</span> <span class="n">new_instance</span></div>
+
+
+<div class="viewcode-block" id="IfasDataArray.write_fits_file"><a class="viewcode-back" href="../../../python_docstrings/IfA_Smeargle.zulu.zulu_main.html#IfA_Smeargle.zulu.zulu_main.IfasDataArray.write_fits_file">[docs]</a>    <span class="k">def</span> <span class="nf">write_fits_file</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">overwrite</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">silent</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot; This writes the fits file to, well, file.</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        pathname : string (optional)</span>
+<span class="sd">            The path where the file will be stored.</span>
+<span class="sd">        overwrite : boolean (optional)</span>
+<span class="sd">            If ``True``, if there exists a file of the same name, overwrite.</span>
+<span class="sd">        silent : boolean (optional)</span>
+<span class="sd">            Turn off all warnings and information sent by this function and </span>
+<span class="sd">            functions below it.</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        hdul_file : Astropy HDUList</span>
+<span class="sd">            The file object that was written to disk. If ``hdu_object`` was </span>
+<span class="sd">            provided, it is returned untouched.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="c1"># Write the file.</span>
+        <span class="n">hdul_file</span> <span class="o">=</span> <span class="n">meta_io</span><span class="o">.</span><span class="n">smeargle_write_fits_file</span><span class="p">(</span><span class="n">file_name</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">filepathname</span><span class="p">,</span>
+                                                     <span class="n">hdu_header</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">header</span><span class="p">,</span> <span class="n">hdu_data</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">data</span><span class="p">,</span>
+                                                     <span class="n">hdu_object</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">save_file</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+                                                     <span class="n">overwrite</span><span class="o">=</span><span class="n">overwrite</span><span class="p">,</span> <span class="n">silent</span><span class="o">=</span><span class="n">silent</span><span class="p">)</span>
+        <span class="c1"># Return the hdul.</span>
+        <span class="k">return</span> <span class="n">hdul_file</span></div>
+
+<div class="viewcode-block" id="IfasDataArray.update_pathname"><a class="viewcode-back" href="../../../python_docstrings/IfA_Smeargle.zulu.zulu_main.html#IfA_Smeargle.zulu.zulu_main.IfasDataArray.update_pathname">[docs]</a>    <span class="k">def</span> <span class="nf">update_pathname</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">directory</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">filename</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">extension</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+                        <span class="n">prepend_directory</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">prepend_filename</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+                        <span class="n">append_directory</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">append_filename</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot; This allows for the updating of the file directory and filename.</span>
+<span class="sd">        </span>
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        directory : string (optional)</span>
+<span class="sd">            A replacement string that will replace the directory section</span>
+<span class="sd">            of the pathname.</span>
+<span class="sd">        filename : string (optional)</span>
+<span class="sd">            A replacement string that will replace the filename section</span>
+<span class="sd">            of the pathname.</span>
+<span class="sd">        extension : string (optional)</span>
+<span class="sd">            A replacement string that will replace the extension section</span>
+<span class="sd">            of the pathname.</span>
+<span class="sd">        prepend_directory : string (optional)</span>
+<span class="sd">            A string that will be prepended onto the directory string.</span>
+<span class="sd">        prepend_filename : string (optional)</span>
+<span class="sd">            A string that will be prepended onto the filename string.</span>
+<span class="sd">        append_directory : string (optional)</span>
+<span class="sd">            A string that will be appended onto the directory string.</span>
+<span class="sd">        append_filename : string (optional)</span>
+<span class="sd">            A string that will be appended onto the filename string.</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        new_pathname : string</span>
+<span class="sd">            The new pathname of this file.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        
+        <span class="c1"># Apply a basic type checking and replace None with blank strings for</span>
+        <span class="c1"># the main purpose of concatenation.</span>
+        <span class="n">directory</span> <span class="o">=</span> <span class="nb">str</span><span class="p">(</span><span class="n">directory</span><span class="p">)</span> <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">directory</span><span class="p">,</span> <span class="nb">str</span><span class="p">)</span> <span class="k">else</span> <span class="s1">&#39;&#39;</span>
+        <span class="n">filename</span> <span class="o">=</span> <span class="nb">str</span><span class="p">(</span><span class="n">filename</span><span class="p">)</span> <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">filename</span><span class="p">,</span> <span class="nb">str</span><span class="p">)</span> <span class="k">else</span> <span class="s1">&#39;&#39;</span>
+        <span class="n">extension</span> <span class="o">=</span> <span class="nb">str</span><span class="p">(</span><span class="n">extension</span><span class="p">)</span> <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">extension</span><span class="p">,</span> <span class="nb">str</span><span class="p">)</span> <span class="k">else</span> <span class="s1">&#39;&#39;</span>
+        <span class="n">prepend_directory</span> <span class="o">=</span> <span class="nb">str</span><span class="p">(</span><span class="n">prepend_directory</span><span class="p">)</span> <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">prepend_directory</span><span class="p">,</span> <span class="nb">str</span><span class="p">)</span> <span class="k">else</span> <span class="s1">&#39;&#39;</span>
+        <span class="n">prepend_filename</span> <span class="o">=</span> <span class="nb">str</span><span class="p">(</span><span class="n">prepend_filename</span><span class="p">)</span> <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">prepend_filename</span><span class="p">,</span> <span class="nb">str</span><span class="p">)</span> <span class="k">else</span> <span class="s1">&#39;&#39;</span>
+        <span class="n">append_directory</span> <span class="o">=</span> <span class="nb">str</span><span class="p">(</span><span class="n">append_directory</span><span class="p">)</span> <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">append_directory</span><span class="p">,</span> <span class="nb">str</span><span class="p">)</span> <span class="k">else</span> <span class="s1">&#39;&#39;</span>
+        <span class="n">append_filename</span> <span class="o">=</span> <span class="nb">str</span><span class="p">(</span><span class="n">append_filename</span><span class="p">)</span> <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">append_filename</span><span class="p">,</span> <span class="nb">str</span><span class="p">)</span> <span class="k">else</span> <span class="s1">&#39;&#39;</span>
+
+        <span class="c1"># Create the new directory as per the user created.</span>
+        <span class="k">if</span> <span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">directory</span><span class="p">)</span> <span class="o">!=</span> <span class="mi">0</span><span class="p">):</span>
+            <span class="n">new_directory</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">prepend_directory</span><span class="p">,</span> <span class="n">directory</span><span class="p">,</span> <span class="n">append_directory</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">new_directory</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">prepend_directory</span><span class="p">,</span> 
+                                         <span class="bp">self</span><span class="o">.</span><span class="n">filedirectory</span><span class="p">,</span> 
+                                         <span class="n">append_directory</span><span class="p">)</span>
+        <span class="c1"># Create the new filename as per the user created.</span>
+        <span class="k">if</span> <span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">filename</span><span class="p">)</span> <span class="o">!=</span> <span class="mi">0</span><span class="p">):</span>
+            <span class="n">new_filename</span> <span class="o">=</span> <span class="s1">&#39;&#39;</span><span class="o">.</span><span class="n">join</span><span class="p">([</span><span class="n">prepend_filename</span><span class="p">,</span> <span class="n">filename</span><span class="p">,</span> <span class="n">append_filename</span><span class="p">])</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">new_filename</span> <span class="o">=</span> <span class="s1">&#39;&#39;</span><span class="o">.</span><span class="n">join</span><span class="p">([</span><span class="n">prepend_filename</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">filename</span><span class="p">,</span> <span class="n">append_filename</span><span class="p">])</span>
+        <span class="c1"># Update the extension as per the user inputted.</span>
+        <span class="n">new_extension</span> <span class="o">=</span> <span class="n">extension</span> <span class="k">if</span> <span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">extension</span><span class="p">)</span> <span class="o">!=</span> <span class="mi">0</span><span class="p">)</span> <span class="k">else</span> <span class="bp">self</span><span class="o">.</span><span class="n">fileextension</span>
+        <span class="c1"># Update the pathname.</span>
+        <span class="n">new_pathname</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">new_directory</span><span class="p">,</span> <span class="s1">&#39;&#39;</span><span class="o">.</span><span class="n">join</span><span class="p">([</span><span class="n">new_filename</span><span class="p">,</span> <span class="n">new_extension</span><span class="p">]))</span>
+
+        <span class="c1"># Update all of the variables.</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">filepathname</span> <span class="o">=</span> <span class="n">copy</span><span class="o">.</span><span class="n">deepcopy</span><span class="p">(</span><span class="n">new_pathname</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">filename</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">splitext</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">basename</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">filepathname</span><span class="p">))[</span><span class="mi">0</span><span class="p">]</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">filedirectory</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">dirname</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">filepathname</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">fileextension</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">splitext</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">basename</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">filepathname</span><span class="p">))[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span>
+
+        <span class="k">return</span> <span class="n">new_pathname</span></div></div>
 </pre></div>
 
            </div>

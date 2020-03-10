@@ -84,6 +84,7 @@
               <p class="caption"><span class="caption-text">Usage and Operation:</span></p>
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="../../../quickstart.html">Quickstart</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../creating_pipelines.html">Creating Pipelines</a></li>
 </ul>
 <p class="caption"><span class="caption-text">Code Documentation:</span></p>
 <ul>
@@ -167,7 +168,7 @@
 <span class="kn">from</span> <span class="nn">IfA_Smeargle.meta</span> <span class="k">import</span> <span class="o">*</span>
 
 
-<div class="viewcode-block" id="echo_numpy_masked_array"><a class="viewcode-back" href="../../../python_docstrings/IfA_Smeargle.echo.echo_functions.html#IfA_Smeargle.echo.echo_functions.echo_numpy_masked_array">[docs]</a><span class="k">def</span> <span class="nf">echo_numpy_masked_array</span><span class="p">(</span><span class="n">data_array</span><span class="p">,</span> <span class="n">synthesized_mask</span><span class="p">,</span>
+<div class="viewcode-block" id="echo_create_masked_array"><a class="viewcode-back" href="../../../python_docstrings/IfA_Smeargle.echo.echo_functions.html#IfA_Smeargle.echo.echo_functions.echo_create_masked_array">[docs]</a><span class="k">def</span> <span class="nf">echo_create_masked_array</span><span class="p">(</span><span class="n">data_array</span><span class="p">,</span> <span class="n">synthesized_mask</span><span class="p">,</span>
                             <span class="n">masking_dictionary</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot; This function makes a Numpy masked array; a nice built in class for </span>
 <span class="sd">    this line.</span>
@@ -196,7 +197,6 @@
     <span class="n">np_masked_data</span> <span class="o">=</span> <span class="n">np_ma</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">data_array</span><span class="p">,</span> <span class="n">mask</span><span class="o">=</span><span class="n">synthesized_mask</span><span class="p">)</span>
 
     <span class="k">return</span> <span class="n">np_masked_data</span></div>
-
 
 <div class="viewcode-block" id="echo_synthesize_mask_dictionary"><a class="viewcode-back" href="../../../python_docstrings/IfA_Smeargle.echo.echo_functions.html#IfA_Smeargle.echo.echo_functions.echo_synthesize_mask_dictionary">[docs]</a><span class="k">def</span> <span class="nf">echo_synthesize_mask_dictionary</span><span class="p">(</span><span class="n">masking_dictionary</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot; This function takes a masking dictionary and returns it with a </span>
@@ -301,7 +301,6 @@
         <span class="n">sorted_mask_dictionary</span><span class="p">[</span><span class="n">keydex</span><span class="p">]</span> <span class="o">=</span> <span class="n">copy</span><span class="o">.</span><span class="n">deepcopy</span><span class="p">(</span><span class="n">mask_dictionary</span><span class="p">[</span><span class="n">keydex</span><span class="p">])</span>
 
     <span class="k">return</span> <span class="n">sorted_mask_dictionary</span></div>
-
 
 </pre></div>
 

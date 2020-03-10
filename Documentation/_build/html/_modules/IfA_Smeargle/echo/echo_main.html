@@ -84,6 +84,7 @@
               <p class="caption"><span class="caption-text">Usage and Operation:</span></p>
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="../../../quickstart.html">Quickstart</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../creating_pipelines.html">Creating Pipelines</a></li>
 </ul>
 <p class="caption"><span class="caption-text">Code Documentation:</span></p>
 <ul>
@@ -155,15 +156,15 @@
 <span class="kn">import</span> <span class="nn">copy</span>
 <span class="kn">import</span> <span class="nn">glob</span>
 <span class="kn">import</span> <span class="nn">inspect</span>
-<span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
 <span class="kn">import</span> <span class="nn">warnings</span> <span class="k">as</span> <span class="nn">warn</span>
 
 
 <span class="kn">from</span> <span class="nn">IfA_Smeargle</span> <span class="k">import</span> <span class="n">echo</span>
 <span class="kn">from</span> <span class="nn">IfA_Smeargle.echo</span> <span class="k">import</span> <span class="n">echo_functions</span> <span class="k">as</span> <span class="n">echo_funct</span>
 <span class="kn">from</span> <span class="nn">IfA_Smeargle.echo</span> <span class="k">import</span> <span class="n">masks</span>
-<span class="kn">from</span> <span class="nn">IfA_Smeargle.meta</span> <span class="k">import</span> <span class="o">*</span>
 <span class="kn">from</span> <span class="nn">IfA_Smeargle</span> <span class="k">import</span> <span class="n">yankee</span>
+
+<span class="kn">from</span> <span class="nn">IfA_Smeargle.meta</span> <span class="k">import</span> <span class="o">*</span>
 
 
 
@@ -200,7 +201,8 @@
     <span class="c1"># Check if the user wanted it to be silent.</span>
     <span class="k">if</span> <span class="p">(</span><span class="n">silent</span><span class="p">):</span>
         <span class="k">with</span> <span class="n">smeargle_absolute_silence</span><span class="p">():</span>
-            <span class="k">return</span> <span class="n">echo_execution</span><span class="p">(</span><span class="n">data_array</span><span class="p">,</span> <span class="n">configuration_class</span><span class="p">)</span>
+            <span class="k">return</span> <span class="n">echo_execution</span><span class="p">(</span><span class="n">data_array</span><span class="o">=</span><span class="n">data_array</span><span class="p">,</span> <span class="n">configuration_class</span><span class="o">=</span><span class="n">configuration_class</span><span class="p">,</span>
+                                  <span class="n">silent</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
 
 
     <span class="c1"># Be adaptive with accepting a fits file.</span>

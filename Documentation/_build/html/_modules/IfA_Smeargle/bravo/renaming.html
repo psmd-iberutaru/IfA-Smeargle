@@ -84,6 +84,7 @@
               <p class="caption"><span class="caption-text">Usage and Operation:</span></p>
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="../../../quickstart.html">Quickstart</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../creating_pipelines.html">Creating Pipelines</a></li>
 </ul>
 <p class="caption"><span class="caption-text">Code Documentation:</span></p>
 <ul>
@@ -159,15 +160,10 @@
 <span class="sd">&quot;&quot;&quot;</span>
 
 
-<span class="kn">import</span> <span class="nn">copy</span>
 <span class="kn">import</span> <span class="nn">glob</span>
-<span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
 <span class="kn">import</span> <span class="nn">os</span> 
-<span class="kn">import</span> <span class="nn">shutil</span>
-<span class="kn">import</span> <span class="nn">time</span>
 
 
-<span class="kn">from</span> <span class="nn">IfA_Smeargle</span> <span class="k">import</span> <span class="n">bravo</span>
 <span class="kn">from</span> <span class="nn">IfA_Smeargle.meta</span> <span class="k">import</span> <span class="o">*</span>
 
 
@@ -182,7 +178,7 @@
 
 
 
-<div class="viewcode-block" id="number_renaming"><a class="viewcode-back" href="../../../python_docstrings/IfA_Smeargle.bravo.renaming.html#IfA_Smeargle.bravo.renaming.number_renaming">[docs]</a><span class="k">def</span> <span class="nf">number_renaming</span><span class="p">(</span><span class="n">data_directory</span><span class="p">,</span> <span class="n">begin_garbage</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">archive_data</span><span class="o">=</span><span class="kc">True</span><span class="p">):</span>
+<div class="viewcode-block" id="number_renaming"><a class="viewcode-back" href="../../../python_docstrings/IfA_Smeargle.bravo.renaming.html#IfA_Smeargle.bravo.renaming.number_renaming">[docs]</a><span class="k">def</span> <span class="nf">number_renaming</span><span class="p">(</span><span class="n">data_directory</span><span class="p">,</span> <span class="n">begin_garbage</span><span class="o">=</span><span class="mi">0</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot; Renames files according to their number in order.</span>
 
 <span class="sd">    Some data filename outputs only give timestamps. This function renames</span>
@@ -195,9 +191,6 @@
 <span class="sd">        renamed.</span>
 <span class="sd">    begin_garbage : int (optional)</span>
 <span class="sd">        The number of files, in the beginning, that should not count as data.</span>
-<span class="sd">    archive_data : boolean (optional)</span>
-<span class="sd">        Execute the renaming on a copy of the data, the original data </span>
-<span class="sd">        is archived and preserved.</span>
 
 <span class="sd">    Returns</span>
 <span class="sd">    -------</span>
@@ -206,19 +199,15 @@
 <span class="sd">        ordered form. Does not include prefixes/suffixes.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
 
-    <span class="c1"># If the user wanted to preserve their data.</span>
-    <span class="k">if</span> <span class="p">(</span><span class="n">archive_data</span><span class="p">):</span>
-        <span class="n">bravo</span><span class="o">.</span><span class="n">arc</span><span class="o">.</span><span class="n">duplicate_archive_data_files</span><span class="p">(</span><span class="n">data_directory</span><span class="p">)</span>
-
     <span class="c1"># The files that are before the garbage denotation should be labeled as</span>
     <span class="c1"># such.</span>
-    <span class="n">garbage_names</span> <span class="o">=</span> <span class="n">glob</span><span class="o">.</span><span class="n">glob</span><span class="p">(</span><span class="n">data_directory</span> <span class="o">+</span> <span class="s1">&#39;/*.fits&#39;</span><span class="p">)[:</span><span class="n">begin_garbage</span><span class="p">]</span>
+    <span class="n">garbage_names</span> <span class="o">=</span> <span class="n">glob</span><span class="o">.</span><span class="n">glob</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">data_directory</span><span class="p">,</span> <span class="s1">&#39;*.fits&#39;</span><span class="p">))[:</span><span class="n">begin_garbage</span><span class="p">]</span>
     <span class="n">garbage_paths</span> <span class="o">=</span> <span class="p">[</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="n">garbagepathdex</span><span class="p">)[</span><span class="mi">0</span><span class="p">]</span> <span class="k">for</span> <span class="n">garbagepathdex</span> <span class="ow">in</span> <span class="n">garbage_names</span><span class="p">]</span>
     <span class="n">n_garbage_files</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">garbage_names</span><span class="p">)</span>
 
 
     <span class="c1"># For the files to be renamed.</span>
-    <span class="n">original_names</span> <span class="o">=</span> <span class="n">glob</span><span class="o">.</span><span class="n">glob</span><span class="p">(</span><span class="n">data_directory</span> <span class="o">+</span> <span class="s1">&#39;/*.fits&#39;</span><span class="p">)[</span><span class="n">begin_garbage</span><span class="p">:]</span>
+    <span class="n">original_names</span> <span class="o">=</span> <span class="n">glob</span><span class="o">.</span><span class="n">glob</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">data_directory</span><span class="p">,</span> <span class="s1">&#39;*.fits&#39;</span><span class="p">))[</span><span class="n">begin_garbage</span><span class="p">:]</span>
     <span class="n">original_paths</span> <span class="o">=</span> <span class="p">[</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="n">pathdex</span><span class="p">)[</span><span class="mi">0</span><span class="p">]</span> <span class="k">for</span> <span class="n">pathdex</span> <span class="ow">in</span> <span class="n">original_names</span><span class="p">]</span>
     <span class="n">n_files</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">original_names</span><span class="p">)</span>
 
@@ -240,7 +229,7 @@
 
 
 <div class="viewcode-block" id="set_determinization_renaming"><a class="viewcode-back" href="../../../python_docstrings/IfA_Smeargle.bravo.renaming.html#IfA_Smeargle.bravo.renaming.set_determinization_renaming">[docs]</a><span class="k">def</span> <span class="nf">set_determinization_renaming</span><span class="p">(</span><span class="n">data_directory</span><span class="p">,</span> <span class="n">set_length</span><span class="p">,</span> 
-                                 <span class="n">begin_garbage</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">archive_data</span><span class="o">=</span><span class="kc">True</span><span class="p">):</span>
+                                 <span class="n">begin_garbage</span><span class="o">=</span><span class="mi">0</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot; Renames files according to their set number, as determined by the</span>
 <span class="sd">    number of files in a set. Sets are assumed to be consecutive.</span>
 
@@ -256,9 +245,6 @@
 <span class="sd">        This is the length of a set. </span>
 <span class="sd">    begin_garbage : int (optional)</span>
 <span class="sd">        The number of files, in the beginning, that should not count as data.</span>
-<span class="sd">    archive_data : boolean (optional)</span>
-<span class="sd">        Execute the renaming on a copy of the data, the original data </span>
-<span class="sd">        is archived and preserved.</span>
 
 <span class="sd">    Returns</span>
 <span class="sd">    -------</span>
@@ -267,19 +253,15 @@
 <span class="sd">        ordered form. Does not include prefixes/suffixes.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
 
-    <span class="c1"># If the user wanted to preserve their data.</span>
-    <span class="k">if</span> <span class="p">(</span><span class="n">archive_data</span><span class="p">):</span>
-        <span class="n">bravo</span><span class="o">.</span><span class="n">arc</span><span class="o">.</span><span class="n">duplicate_archive_data_files</span><span class="p">(</span><span class="n">data_directory</span><span class="p">)</span>
-
     <span class="c1"># The files that are before the garbage denotation should be labeled as</span>
     <span class="c1"># such.</span>
-    <span class="n">garbage_names</span> <span class="o">=</span> <span class="n">glob</span><span class="o">.</span><span class="n">glob</span><span class="p">(</span><span class="n">data_directory</span> <span class="o">+</span> <span class="s1">&#39;/*.fits&#39;</span><span class="p">)[:</span><span class="n">begin_garbage</span><span class="p">]</span>
+    <span class="n">garbage_names</span> <span class="o">=</span> <span class="n">glob</span><span class="o">.</span><span class="n">glob</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">data_directory</span><span class="p">,</span> <span class="s1">&#39;*.fits&#39;</span><span class="p">))[:</span><span class="n">begin_garbage</span><span class="p">]</span>
     <span class="n">garbage_paths</span> <span class="o">=</span> <span class="p">[</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="n">garbagepathdex</span><span class="p">)[</span><span class="mi">0</span><span class="p">]</span> <span class="k">for</span> <span class="n">garbagepathdex</span> <span class="ow">in</span> <span class="n">garbage_names</span><span class="p">]</span>
     <span class="n">n_garbage_files</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">garbage_names</span><span class="p">)</span>
 
 
     <span class="c1"># For the files to be renamed.</span>
-    <span class="n">original_names</span> <span class="o">=</span> <span class="n">glob</span><span class="o">.</span><span class="n">glob</span><span class="p">(</span><span class="n">data_directory</span> <span class="o">+</span> <span class="s1">&#39;/*.fits&#39;</span><span class="p">)[</span><span class="n">begin_garbage</span><span class="p">:]</span>
+    <span class="n">original_names</span> <span class="o">=</span> <span class="n">glob</span><span class="o">.</span><span class="n">glob</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">data_directory</span><span class="p">,</span> <span class="s1">&#39;*.fits&#39;</span><span class="p">))[</span><span class="n">begin_garbage</span><span class="p">:]</span>
     <span class="n">original_paths</span> <span class="o">=</span> <span class="p">[</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="n">pathdex</span><span class="p">)[</span><span class="mi">0</span><span class="p">]</span> <span class="k">for</span> <span class="n">pathdex</span> <span class="ow">in</span> <span class="n">original_names</span><span class="p">]</span>
     <span class="n">n_files</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">original_names</span><span class="p">)</span>
 
@@ -303,7 +285,7 @@
 
 
 <div class="viewcode-block" id="voltage_pattern_renaming"><a class="viewcode-back" href="../../../python_docstrings/IfA_Smeargle.bravo.renaming.html#IfA_Smeargle.bravo.renaming.voltage_pattern_renaming">[docs]</a><span class="k">def</span> <span class="nf">voltage_pattern_renaming</span><span class="p">(</span><span class="n">data_directory</span><span class="p">,</span> <span class="n">voltage_pattern</span><span class="p">,</span> 
-                             <span class="n">begin_garbage</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">archive_data</span><span class="o">=</span><span class="kc">True</span><span class="p">):</span>
+                             <span class="n">begin_garbage</span><span class="o">=</span><span class="mi">0</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot; Renames files according to their voltage pattern specified.</span>
 
 <span class="sd">    Some data filename outputs only give timestamps. This function renames</span>
@@ -324,9 +306,6 @@
 <span class="sd">        first voltage element to be used, proceeding from there in order.</span>
 <span class="sd">    begin_garbage : int (optional)</span>
 <span class="sd">        The number of files, in the beginning, that should not count as data.</span>
-<span class="sd">    archive_data : boolean (optional)</span>
-<span class="sd">        Execute the renaming on a copy of the data, the original data </span>
-<span class="sd">        is archived and preserved.</span>
 
 <span class="sd">    Returns</span>
 <span class="sd">    -------</span>
@@ -335,20 +314,16 @@
 <span class="sd">        ordered form. Does not include prefixes/suffixes.</span>
 
 <span class="sd">    &quot;&quot;&quot;</span>
-    
-    <span class="c1"># If the user wanted to preserve their data.</span>
-    <span class="k">if</span> <span class="p">(</span><span class="n">archive_data</span><span class="p">):</span>
-        <span class="n">bravo</span><span class="o">.</span><span class="n">arc</span><span class="o">.</span><span class="n">duplicate_archive_data_files</span><span class="p">(</span><span class="n">data_directory</span><span class="p">)</span>
 
     <span class="c1"># The files that are before the garbage denotation should be labeled as</span>
     <span class="c1"># such.</span>
-    <span class="n">garbage_names</span> <span class="o">=</span> <span class="n">glob</span><span class="o">.</span><span class="n">glob</span><span class="p">(</span><span class="n">data_directory</span> <span class="o">+</span> <span class="s1">&#39;/*.fits&#39;</span><span class="p">)[:</span><span class="n">begin_garbage</span><span class="p">]</span>
+    <span class="n">garbage_names</span> <span class="o">=</span> <span class="n">glob</span><span class="o">.</span><span class="n">glob</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">data_directory</span><span class="p">,</span> <span class="s1">&#39;*.fits&#39;</span><span class="p">))[:</span><span class="n">begin_garbage</span><span class="p">]</span>
     <span class="n">garbage_paths</span> <span class="o">=</span> <span class="p">[</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="n">garbagepathdex</span><span class="p">)[</span><span class="mi">0</span><span class="p">]</span> <span class="k">for</span> <span class="n">garbagepathdex</span> <span class="ow">in</span> <span class="n">garbage_names</span><span class="p">]</span>
     <span class="n">n_garbage_files</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">garbage_names</span><span class="p">)</span>
 
 
     <span class="c1"># For the files to be renamed.</span>
-    <span class="n">original_names</span> <span class="o">=</span> <span class="n">glob</span><span class="o">.</span><span class="n">glob</span><span class="p">(</span><span class="n">data_directory</span> <span class="o">+</span> <span class="s1">&#39;/*.fits&#39;</span><span class="p">)[</span><span class="n">begin_garbage</span><span class="p">:]</span>
+    <span class="n">original_names</span> <span class="o">=</span> <span class="n">glob</span><span class="o">.</span><span class="n">glob</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">data_directory</span><span class="p">,</span> <span class="s1">&#39;*.fits&#39;</span><span class="p">))[</span><span class="n">begin_garbage</span><span class="p">:]</span>
     <span class="n">original_paths</span> <span class="o">=</span> <span class="p">[</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="n">pathdex</span><span class="p">)[</span><span class="mi">0</span><span class="p">]</span> <span class="k">for</span> <span class="n">pathdex</span> <span class="ow">in</span> <span class="n">original_names</span><span class="p">]</span>
     <span class="n">n_files</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">original_names</span><span class="p">)</span>
 
@@ -418,6 +393,12 @@
 
     <span class="k">return</span> <span class="n">voltage_string_list</span></div>
     
+
+<span class="k">def</span> <span class="nf">_string_format_slice</span><span class="p">(</span><span class="n">reference_frame</span><span class="p">,</span> <span class="n">averaging_frame</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot; The formatting for the string alignment for slices. &quot;&quot;&quot;</span>
+    <span class="n">slice_string</span> <span class="o">=</span> <span class="s1">&#39;&#39;</span><span class="o">.</span><span class="n">join</span><span class="p">([</span><span class="s1">&#39;slice;&#39;</span><span class="p">,</span> <span class="nb">str</span><span class="p">(</span><span class="n">reference_frame</span><span class="p">[</span><span class="mi">0</span><span class="p">]),</span> <span class="s1">&#39;,&#39;</span><span class="p">,</span> <span class="nb">str</span><span class="p">(</span><span class="n">reference_frame</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]),</span> 
+                            <span class="s1">&#39;-&#39;</span><span class="p">,</span> <span class="nb">str</span><span class="p">(</span><span class="n">averaging_frame</span><span class="p">[</span><span class="mi">0</span><span class="p">]),</span> <span class="s1">&#39;,&#39;</span><span class="p">,</span> <span class="nb">str</span><span class="p">(</span><span class="n">averaging_frame</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">])])</span>
+    <span class="k">return</span> <span class="n">slice_string</span>
 </pre></div>
 
            </div>

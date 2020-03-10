@@ -36,7 +36,7 @@
   <link rel="stylesheet" href="_static/css/custom.css" type="text/css" />
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
-    <link rel="next" title="IfA_Smeargle" href="python_docstrings/modules.html" />
+    <link rel="next" title="Creating Pipelines" href="creating_pipelines.html" />
     <link rel="prev" title="Welcome to IfA_Smeargle’s documentation!" href="index.html" />
     <link href="_static/css/ifa_smeargle.css" rel="stylesheet" type="text/css">
 
@@ -101,6 +101,7 @@
 </li>
 </ul>
 </li>
+<li class="toctree-l1"><a class="reference internal" href="creating_pipelines.html">Creating Pipelines</a></li>
 </ul>
 <p class="caption"><span class="caption-text">Code Documentation:</span></p>
 <ul>
@@ -228,11 +229,11 @@ built-in pipeline should be able to handle itself afterwards.</p>
 general principle of IfA-Smeargle that any and all customization or
 parameters to any reduction functions are contained in a configuration
 file/class.</p>
-<p>A configuration file just stores a configuration class; all configuration files
-have the <code class="docutils literal notranslate"><span class="pre">.ifaspkl</span></code> file extension. IfA-Smeargle is hard-coded to reject
-any file without such extension and to always write configuration classes
-with such extension. Do not rename any file not made by IfA-Smeargle with
-such file extension.</p>
+<p>A configuration file just stores a configuration class; all configuration
+files have the <code class="docutils literal notranslate"><span class="pre">.ifaspkl</span></code> file extension. IfA-Smeargle is hard-coded to
+reject any file without such extension and to always write configuration
+classes with such extension. Do not rename any file not made by IfA-Smeargle
+with such file extension.</p>
 <p>In order to make a configuration file, please use the Jupyter notebook labeled
 <code class="docutils literal notranslate"><span class="pre">ifas_configuration_recipe.ipynb</span></code>. This writes a configuration file as
 specified.</p>
@@ -240,7 +241,7 @@ specified.</p>
 <p class="admonition-title">Warning</p>
 <p>Configuration files and classes are not forward compatible. There
 is however a function to convert older configuration classes/files to newer
-versions while preserving the old data. See the <a class="reference internal" href="python_docstrings/IfA_Smeargle.yankee.yankee_functions.html#IfA_Smeargle.yankee.yankee_functions.yankee_fast_forward_configuration_class" title="IfA_Smeargle.yankee.yankee_functions.yankee_fast_forward_configuration_class"><code class="xref py py-func docutils literal notranslate"><span class="pre">Fast</span> <span class="pre">Forward</span> <span class="pre">Configuration</span> <span class="pre">Class</span></code></a> function.</p>
+versions while preserving the old configuration data. See the <a class="reference internal" href="python_docstrings/IfA_Smeargle.yankee.yankee_functions.html#IfA_Smeargle.yankee.yankee_functions.yankee_fast_forward_configuration_class" title="IfA_Smeargle.yankee.yankee_functions.yankee_fast_forward_configuration_class"><code class="xref py py-func docutils literal notranslate"><span class="pre">Fast</span> <span class="pre">Forward</span> <span class="pre">Configuration</span> <span class="pre">Class</span></code></a> function for more information.</p>
 </div>
 </div>
 </div>
@@ -266,8 +267,8 @@ directory at your own risk.</p>
 <p>You can then load your configuration files as one would load normal files in
 Jupyter notebook via the YANKEE line; then run built-in pipelines found in the
 ZULU line like normal function call.</p>
-<p>To load a configuration file and have it be a configuration class, the simplest
-way is likely to invoke the following function call:</p>
+<p>To load a configuration file and have it be a configuration class, the
+simplest way is likely to invoke the following function call:</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">config_class</span> <span class="o">=</span> <span class="n">ifas</span><span class="o">.</span><span class="n">yankee</span><span class="o">.</span><span class="n">SmeargleConfig</span><span class="p">(</span><span class="s1">&#39;path/to/ifas_config.ifaspkl&#39;</span><span class="p">)</span>
 </pre></div>
 </div>
@@ -290,14 +291,14 @@ Python environment.</p>
 </div>
 <div class="section" id="command-line-call">
 <h3>Command-line Call<a class="headerlink" href="#command-line-call" title="Permalink to this headline">¶</a></h3>
-<p>It is common for Python scripts to be run from from the command-line interface.
-As such, this module allows pipelines to be run from a command-line interface
-via <code class="docutils literal notranslate"><span class="pre">ifas_execute.py</span></code>.</p>
-<p>The command-call for <code class="docutils literal notranslate"><span class="pre">ifas_execute.py</span></code> must be done within the same directory
-as the Python file, or one parent directory above it. It will likely be unable
-to import local directories if it is executed outside of these areas. The
-data directory and configuration file directory paths should not have theses
-restrictions.</p>
+<p>It is common for Python scripts to be run from from the command-line
+interface. As such, this module allows pipelines to be run from a
+command-line interface via <code class="docutils literal notranslate"><span class="pre">ifas_execute.py</span></code>.</p>
+<p>The command-call for <code class="docutils literal notranslate"><span class="pre">ifas_execute.py</span></code> must be done within the same
+directory as the Python file, or one parent directory above it. It will
+likely be unable to import local directories if it is executed outside of
+these areas. The data directory and configuration file directory paths
+should not have theses restrictions.</p>
 <p>All command-line calls will likely be in a format similar to the one below:</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">python</span> <span class="n">ifas_execute</span><span class="o">.</span><span class="n">py</span> <span class="s1">&#39;pipeline_name&#39;</span> <span class="s1">&#39;data_directory&#39;</span> <span class="s1">&#39;configuration_file&#39;</span>
 </pre></div>
@@ -317,7 +318,7 @@ an optional silent flag (<code class="docutils literal notranslate"><span class=
   
     <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
       
-        <a href="python_docstrings/modules.html" class="btn btn-neutral float-right" title="IfA_Smeargle" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
+        <a href="creating_pipelines.html" class="btn btn-neutral float-right" title="Creating Pipelines" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
       
       
         <a href="index.html" class="btn btn-neutral float-left" title="Welcome to IfA_Smeargle’s documentation!" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>

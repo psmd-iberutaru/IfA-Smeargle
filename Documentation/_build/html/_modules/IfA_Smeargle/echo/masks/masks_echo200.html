@@ -84,6 +84,7 @@
               <p class="caption"><span class="caption-text">Usage and Operation:</span></p>
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="../../../../quickstart.html">Quickstart</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../creating_pipelines.html">Creating Pipelines</a></li>
 </ul>
 <p class="caption"><span class="caption-text">Code Documentation:</span></p>
 <ul>
@@ -156,18 +157,15 @@
 <span class="sd">in this file is 200; this file only contains ECHO-200 class masks.</span>
 <span class="sd">&quot;&quot;&quot;</span>
 
-<span class="kn">import</span> <span class="nn">astropy</span> <span class="k">as</span> <span class="nn">ap</span>
 <span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
 <span class="kn">import</span> <span class="nn">numpy.ma</span> <span class="k">as</span> <span class="nn">np_ma</span>
-<span class="kn">import</span> <span class="nn">scipy</span> <span class="k">as</span> <span class="nn">sp</span>
-<span class="kn">import</span> <span class="nn">warnings</span> <span class="k">as</span> <span class="nn">warn</span>
 
-<span class="kn">from</span> <span class="nn">IfA_Smeargle</span> <span class="k">import</span> <span class="n">echo</span>
 <span class="kn">from</span> <span class="nn">IfA_Smeargle.echo</span> <span class="k">import</span> <span class="n">echo_functions</span> <span class="k">as</span> <span class="n">echo_funct</span>
 <span class="kn">from</span> <span class="nn">IfA_Smeargle.echo</span> <span class="k">import</span> <span class="n">masks</span>
 <span class="kn">from</span> <span class="nn">IfA_Smeargle.meta</span> <span class="k">import</span> <span class="o">*</span>
 
-<div class="viewcode-block" id="echo270_minimum_cut"><a class="viewcode-back" href="../../../../python_docstrings/IfA_Smeargle.echo.masks.masks_echo200.html#IfA_Smeargle.echo.masks.masks_echo200.echo270_minimum_cut">[docs]</a><span class="k">def</span> <span class="nf">echo270_minimum_cut</span><span class="p">(</span><span class="n">data_array</span><span class="p">,</span> <span class="n">minimum_value</span><span class="p">,</span> <span class="n">previous_mask</span><span class="o">=</span><span class="p">{},</span> <span class="n">return_mask</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
+<div class="viewcode-block" id="echo270_minimum_cut"><a class="viewcode-back" href="../../../../python_docstrings/IfA_Smeargle.echo.masks.masks_echo200.html#IfA_Smeargle.echo.masks.masks_echo200.echo270_minimum_cut">[docs]</a><span class="k">def</span> <span class="nf">echo270_minimum_cut</span><span class="p">(</span><span class="n">data_array</span><span class="p">,</span> <span class="n">minimum_value</span><span class="p">,</span> <span class="n">previous_mask</span><span class="o">=</span><span class="p">{},</span> <span class="n">return_mask</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
+                        <span class="n">mask_key</span><span class="o">=</span><span class="s1">&#39;echo270_minimum_cut&#39;</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot; This applies a mask on all pixels lower than some value.</span>
 
 <span class="sd">    As the name implies, this function masks all pixels with some value </span>
@@ -185,24 +183,30 @@
 <span class="sd">    return_mask : boolean (optional)</span>
 <span class="sd">        If this is true, then the mask itself (rather than the dictionary  </span>
 <span class="sd">        entry) will be returned instead.</span>
+<span class="sd">    mask_key : string (optional)</span>
+<span class="sd">        The key that will be used to denote this mask. It defaults to the</span>
+<span class="sd">        standard name.</span>
 
 <span class="sd">    Returns</span>
 <span class="sd">    -------</span>
 <span class="sd">    final_mask : ndarray -&gt; dictionary</span>
 <span class="sd">        A boolean array for pixels that are masked (True) or are valid (False)  </span>
 <span class="sd">        will be added to the mask dictionary under the key </span>
-<span class="sd">        ``echo270_minimum_cut``.</span>
+<span class="sd">        ``echo270_minimum_cut`` unless otherwise specified.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
 
-    <span class="n">masked_array</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">where</span><span class="p">(</span><span class="n">data_array</span> <span class="o">&lt;</span> <span class="n">minimum_value</span><span class="p">,</span> <span class="kc">True</span><span class="p">,</span> <span class="kc">False</span><span class="p">)</span>
+    <span class="n">masked_array</span> <span class="o">=</span> <span class="n">meta_math</span><span class="o">.</span><span class="n">smeargle_where</span><span class="p">(</span><span class="n">data_array</span> <span class="o">&lt;</span> <span class="n">minimum_value</span><span class="p">,</span> <span class="kc">True</span><span class="p">,</span> <span class="kc">False</span><span class="p">)</span>
 
-    <span class="n">final_mask</span> <span class="o">=</span> <span class="n">echo_funct</span><span class="o">.</span><span class="n">echo_functioned_mask_returning</span><span class="p">(</span><span class="n">masked_array</span><span class="p">,</span> <span class="n">previous_mask</span><span class="p">,</span>
-                                                     <span class="s1">&#39;echo270_minimum_cut&#39;</span><span class="p">,</span> <span class="n">return_mask</span><span class="p">)</span>
+    <span class="n">final_mask</span> <span class="o">=</span> <span class="n">echo_funct</span><span class="o">.</span><span class="n">echo_functioned_mask_returning</span><span class="p">(</span><span class="n">pixel_mask</span><span class="o">=</span><span class="n">masked_array</span><span class="p">,</span>
+                                                           <span class="n">masking_dictionary</span><span class="o">=</span><span class="n">previous_mask</span><span class="p">,</span>
+                                                           <span class="n">filter_name</span><span class="o">=</span><span class="n">mask_key</span><span class="p">,</span> 
+                                                           <span class="n">return_mask_only</span><span class="o">=</span><span class="n">return_mask</span><span class="p">)</span>
 
     <span class="k">return</span> <span class="n">final_mask</span></div>
 
 
-<div class="viewcode-block" id="echo271_maximum_cut"><a class="viewcode-back" href="../../../../python_docstrings/IfA_Smeargle.echo.masks.masks_echo200.html#IfA_Smeargle.echo.masks.masks_echo200.echo271_maximum_cut">[docs]</a><span class="k">def</span> <span class="nf">echo271_maximum_cut</span><span class="p">(</span><span class="n">data_array</span><span class="p">,</span> <span class="n">maximum_value</span><span class="p">,</span> <span class="n">previous_mask</span><span class="o">=</span><span class="p">{},</span> <span class="n">return_mask</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
+<div class="viewcode-block" id="echo271_maximum_cut"><a class="viewcode-back" href="../../../../python_docstrings/IfA_Smeargle.echo.masks.masks_echo200.html#IfA_Smeargle.echo.masks.masks_echo200.echo271_maximum_cut">[docs]</a><span class="k">def</span> <span class="nf">echo271_maximum_cut</span><span class="p">(</span><span class="n">data_array</span><span class="p">,</span> <span class="n">maximum_value</span><span class="p">,</span> <span class="n">previous_mask</span><span class="o">=</span><span class="p">{},</span> <span class="n">return_mask</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
+                        <span class="n">mask_key</span><span class="o">=</span><span class="s1">&#39;echo271_maximum_cut&#39;</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot; This applies a mask on all pixels lower than some value.</span>
 
 <span class="sd">    As the name implies, this function masks all pixels with some value </span>
@@ -220,25 +224,32 @@
 <span class="sd">    return_mask : boolean (optional)</span>
 <span class="sd">        If this is true, then the mask itself (rather than the dictionary  </span>
 <span class="sd">        entry) will be returned instead.</span>
+<span class="sd">    mask_key : string (optional)</span>
+<span class="sd">        The key that will be used to denote this mask. It defaults to the</span>
+<span class="sd">        standard name.</span>
 
 <span class="sd">    Returns</span>
 <span class="sd">    -------</span>
 <span class="sd">    final_mask : ndarray -&gt; dictionary</span>
 <span class="sd">        A boolean array for pixels that are masked (True) or are valid (False)  </span>
 <span class="sd">        will be added to the mask dictionary under the key </span>
-<span class="sd">        ``echo271_maximum_cut``.</span>
+<span class="sd">        ``echo271_maximum_cut`` unless otherwise specified.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
 
-    <span class="n">masked_array</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">where</span><span class="p">(</span><span class="n">data_array</span> <span class="o">&gt;</span> <span class="n">maximum_value</span><span class="p">,</span> <span class="kc">True</span><span class="p">,</span> <span class="kc">False</span><span class="p">)</span>
+    
+    <span class="n">masked_array</span> <span class="o">=</span> <span class="n">meta_math</span><span class="o">.</span><span class="n">smeargle_where</span><span class="p">(</span><span class="n">data_array</span> <span class="o">&gt;</span> <span class="n">maximum_value</span><span class="p">,</span> <span class="kc">True</span><span class="p">,</span> <span class="kc">False</span><span class="p">)</span>
 
-    <span class="n">final_mask</span> <span class="o">=</span> <span class="n">echo_funct</span><span class="o">.</span><span class="n">echo_functioned_mask_returning</span><span class="p">(</span><span class="n">masked_array</span><span class="p">,</span> <span class="n">previous_mask</span><span class="p">,</span>
-                                                     <span class="s1">&#39;echo271_maximum_cut&#39;</span><span class="p">,</span> <span class="n">return_mask</span><span class="p">)</span>
+    <span class="n">final_mask</span> <span class="o">=</span> <span class="n">echo_funct</span><span class="o">.</span><span class="n">echo_functioned_mask_returning</span><span class="p">(</span><span class="n">pixel_mask</span><span class="o">=</span><span class="n">masked_array</span><span class="p">,</span>
+                                                           <span class="n">masking_dictionary</span><span class="o">=</span><span class="n">previous_mask</span><span class="p">,</span>
+                                                           <span class="n">filter_name</span><span class="o">=</span><span class="n">mask_key</span><span class="p">,</span> 
+                                                           <span class="n">return_mask_only</span><span class="o">=</span><span class="n">return_mask</span><span class="p">)</span>
 
     <span class="k">return</span> <span class="n">final_mask</span></div>
 
 
 <div class="viewcode-block" id="echo275_pixel_truncation"><a class="viewcode-back" href="../../../../python_docstrings/IfA_Smeargle.echo.masks.masks_echo200.html#IfA_Smeargle.echo.masks.masks_echo200.echo275_pixel_truncation">[docs]</a><span class="k">def</span> <span class="nf">echo275_pixel_truncation</span><span class="p">(</span><span class="n">data_array</span><span class="p">,</span> <span class="n">top_count</span><span class="p">,</span> <span class="n">bottom_count</span><span class="p">,</span> 
-                             <span class="n">previous_mask</span><span class="o">=</span><span class="p">{},</span> <span class="n">return_mask</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
+                             <span class="n">previous_mask</span><span class="o">=</span><span class="p">{},</span> <span class="n">return_mask</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
+                             <span class="n">mask_key</span><span class="o">=</span><span class="s1">&#39;echo275_pixel_truncation&#39;</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot; This filter truncates the top and bottom number of pixels provided.</span>
 
 <span class="sd">    The values ``top_count`` and ``bottom_count`` notate the number of pixels </span>
@@ -261,13 +272,16 @@
 <span class="sd">    return_mask : boolean (optional)</span>
 <span class="sd">        If this is true, then the mask itself (rather than the dictionary  </span>
 <span class="sd">        entry) will be returned instead.</span>
+<span class="sd">    mask_key : string (optional)</span>
+<span class="sd">        The key that will be used to denote this mask. It defaults to the</span>
+<span class="sd">        standard name.</span>
 
 <span class="sd">    Returns</span>
 <span class="sd">    -------</span>
 <span class="sd">    final_mask : ndarray -&gt; dictionary</span>
 <span class="sd">        A boolean array for pixels that are masked (True) or are valid (False)  </span>
 <span class="sd">        will be added to the mask dictionary under the key </span>
-<span class="sd">        ``echo275_pixel_truncation``.</span>
+<span class="sd">        ``echo275_pixel_truncation`` unless otherwise specified.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     
     <span class="c1"># Sort the data.</span>
@@ -288,13 +302,16 @@
     <span class="n">masked_array</span> <span class="o">=</span> <span class="n">echo_funct</span><span class="o">.</span><span class="n">echo_synthesize_mask_dictionary</span><span class="p">(</span><span class="n">temp_mask_dict</span><span class="p">)</span>
 
     <span class="c1"># Finally return</span>
-    <span class="n">final_mask</span> <span class="o">=</span> <span class="n">echo_funct</span><span class="o">.</span><span class="n">echo_functioned_mask_returning</span><span class="p">(</span><span class="n">masked_array</span><span class="p">,</span> <span class="n">previous_mask</span><span class="p">,</span>
-                                                     <span class="s1">&#39;echo275_pixel_truncation&#39;</span><span class="p">,</span> <span class="n">return_mask</span><span class="p">)</span>
+    <span class="n">final_mask</span> <span class="o">=</span> <span class="n">echo_funct</span><span class="o">.</span><span class="n">echo_functioned_mask_returning</span><span class="p">(</span><span class="n">pixel_mask</span><span class="o">=</span><span class="n">masked_array</span><span class="p">,</span>
+                                                           <span class="n">masking_dictionary</span><span class="o">=</span><span class="n">previous_mask</span><span class="p">,</span>
+                                                           <span class="n">filter_name</span><span class="o">=</span><span class="n">mask_key</span><span class="p">,</span> 
+                                                           <span class="n">return_mask_only</span><span class="o">=</span><span class="n">return_mask</span><span class="p">)</span>
 
     <span class="k">return</span> <span class="n">final_mask</span></div>
 
 
-<div class="viewcode-block" id="echo276_percent_truncation"><a class="viewcode-back" href="../../../../python_docstrings/IfA_Smeargle.echo.masks.masks_echo200.html#IfA_Smeargle.echo.masks.masks_echo200.echo276_percent_truncation">[docs]</a><span class="k">def</span> <span class="nf">echo276_percent_truncation</span><span class="p">(</span><span class="n">data_array</span><span class="p">,</span> <span class="n">kept_range</span><span class="p">,</span> <span class="n">previous_mask</span><span class="o">=</span><span class="p">{},</span> <span class="n">return_mask</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
+<div class="viewcode-block" id="echo276_percent_truncation"><a class="viewcode-back" href="../../../../python_docstrings/IfA_Smeargle.echo.masks.masks_echo200.html#IfA_Smeargle.echo.masks.masks_echo200.echo276_percent_truncation">[docs]</a><span class="k">def</span> <span class="nf">echo276_percent_truncation</span><span class="p">(</span><span class="n">data_array</span><span class="p">,</span> <span class="n">kept_range</span><span class="p">,</span> <span class="n">previous_mask</span><span class="o">=</span><span class="p">{},</span> <span class="n">return_mask</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
+                               <span class="n">mask_key</span><span class="o">=</span><span class="s1">&#39;echo276_percent_truncation&#39;</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot; This filter truncates the top and bottom percent of pixels from the </span>
 <span class="sd">    data array.</span>
 
@@ -315,13 +332,16 @@
 <span class="sd">    return_mask : boolean (optional)</span>
 <span class="sd">        If this is true, then the mask itself (rather than the dictionary  </span>
 <span class="sd">        entry) will be returned instead.</span>
+<span class="sd">    mask_key : string (optional)</span>
+<span class="sd">        The key that will be used to denote this mask. It defaults to the</span>
+<span class="sd">        standard name.</span>
 
 <span class="sd">    Returns</span>
 <span class="sd">    -------</span>
 <span class="sd">    final_mask : ndarray -&gt; dictionary</span>
 <span class="sd">        A boolean array for pixels that are masked (True) or are valid (False)  </span>
 <span class="sd">        will be added to the mask dictionary under the key </span>
-<span class="sd">        ``echo276_percent_truncation``.</span>
+<span class="sd">        ``echo276_percent_truncation`` unless otherwise specified.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="n">data_array</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">data_array</span><span class="p">)</span>
     <span class="n">kept_range</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">kept_range</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">longdouble</span><span class="p">)</span>
@@ -349,14 +369,17 @@
                                 <span class="s2">&quot;multiplication; percent truncation will be wildly inaccurate.&quot;</span><span class="p">))</span>
 
     <span class="c1"># Otherwise... return</span>
-    <span class="n">final_mask</span> <span class="o">=</span> <span class="n">echo_funct</span><span class="o">.</span><span class="n">echo_functioned_mask_returning</span><span class="p">(</span><span class="n">masked_array</span><span class="p">,</span><span class="n">previous_mask</span><span class="p">,</span>
-                                                     <span class="s1">&#39;echo276_percent_truncation&#39;</span><span class="p">,</span> <span class="n">return_mask</span><span class="p">)</span>
+    <span class="n">final_mask</span> <span class="o">=</span> <span class="n">echo_funct</span><span class="o">.</span><span class="n">echo_functioned_mask_returning</span><span class="p">(</span><span class="n">pixel_mask</span><span class="o">=</span><span class="n">masked_array</span><span class="p">,</span>
+                                                           <span class="n">masking_dictionary</span><span class="o">=</span><span class="n">previous_mask</span><span class="p">,</span>
+                                                           <span class="n">filter_name</span><span class="o">=</span><span class="n">mask_key</span><span class="p">,</span> 
+                                                           <span class="n">return_mask_only</span><span class="o">=</span><span class="n">return_mask</span><span class="p">)</span>
 
     <span class="k">return</span> <span class="n">final_mask</span></div>
 
 
 <div class="viewcode-block" id="echo277_sigma_truncation"><a class="viewcode-back" href="../../../../python_docstrings/IfA_Smeargle.echo.masks.masks_echo200.html#IfA_Smeargle.echo.masks.masks_echo200.echo277_sigma_truncation">[docs]</a><span class="k">def</span> <span class="nf">echo277_sigma_truncation</span><span class="p">(</span><span class="n">data_array</span><span class="p">,</span> <span class="n">sigma_limits</span><span class="p">,</span>
-                             <span class="n">previous_mask</span><span class="o">=</span><span class="p">{},</span> <span class="n">return_mask</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
+                             <span class="n">previous_mask</span><span class="o">=</span><span class="p">{},</span> <span class="n">return_mask</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
+                             <span class="n">mask_key</span><span class="o">=</span><span class="s1">&#39;echo277_sigma_truncation&#39;</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot; This applies a mask on pixels outside a given multiple of a sigma </span>
 <span class="sd">    value.</span>
 <span class="sd">    </span>
@@ -377,13 +400,16 @@
 <span class="sd">    return_mask : boolean (optional)</span>
 <span class="sd">        If this is true, then the mask itself (rather than the dictionary  </span>
 <span class="sd">        entry) will be returned instead.</span>
+<span class="sd">    mask_key : string (optional)</span>
+<span class="sd">        The key that will be used to denote this mask. It defaults to the</span>
+<span class="sd">        standard name.</span>
 
 <span class="sd">    Returns</span>
 <span class="sd">    -------</span>
 <span class="sd">    final_mask : ndarray -&gt; dictionary</span>
 <span class="sd">        A boolean array for pixels that are masked (True) or are valid (False)  </span>
 <span class="sd">        will be added to the mask dictionary under the key </span>
-<span class="sd">        ``echo277_sigma_truncation``.</span>
+<span class="sd">        ``echo277_sigma_truncation`` unless otherwise specified.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
 
     <span class="c1"># Check if the sigma limits are the same, or the user provided for a lower</span>
@@ -403,9 +429,9 @@
                          <span class="s2">&quot;handle the current input.&quot;</span><span class="p">)</span>
 
     <span class="c1"># Calculate the mean and the sigma values of the data array. Handle </span>
-    <span class="c1"># for NaNs.</span>
-    <span class="n">mean</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">nanmean</span><span class="p">(</span><span class="n">data_array</span><span class="p">)</span>
-    <span class="n">stddev</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">nanstd</span><span class="p">(</span><span class="n">data_array</span><span class="p">)</span>
+    <span class="c1"># for NaNs and masked arrays using the custom functions.</span>
+    <span class="n">mean</span> <span class="o">=</span> <span class="n">meta_math</span><span class="o">.</span><span class="n">smeargle_mean</span><span class="p">(</span><span class="n">data_array</span><span class="p">)</span>
+    <span class="n">stddev</span> <span class="o">=</span> <span class="n">meta_math</span><span class="o">.</span><span class="n">smeargle_std</span><span class="p">(</span><span class="n">data_array</span><span class="p">)</span>
         
     <span class="c1"># Compute which pixels to be masked out. </span>
     <span class="k">with</span> <span class="n">smeargle_silence_ifas_warnings</span><span class="p">():</span>
@@ -421,8 +447,10 @@
         <span class="n">masked_array</span> <span class="o">=</span> <span class="n">echo_funct</span><span class="o">.</span><span class="n">echo_synthesize_mask_dictionary</span><span class="p">(</span><span class="n">temp_mask_dict</span><span class="p">)</span>
 
     <span class="c1"># Finally return</span>
-    <span class="n">final_mask</span> <span class="o">=</span> <span class="n">echo_funct</span><span class="o">.</span><span class="n">echo_functioned_mask_returning</span><span class="p">(</span><span class="n">masked_array</span><span class="p">,</span> <span class="n">previous_mask</span><span class="p">,</span>
-                                                     <span class="s1">&#39;echo277_sigma_truncation&#39;</span><span class="p">,</span> <span class="n">return_mask</span><span class="p">)</span>
+    <span class="n">final_mask</span> <span class="o">=</span> <span class="n">echo_funct</span><span class="o">.</span><span class="n">echo_functioned_mask_returning</span><span class="p">(</span><span class="n">pixel_mask</span><span class="o">=</span><span class="n">masked_array</span><span class="p">,</span>
+                                                           <span class="n">masking_dictionary</span><span class="o">=</span><span class="n">previous_mask</span><span class="p">,</span>
+                                                           <span class="n">filter_name</span><span class="o">=</span><span class="n">mask_key</span><span class="p">,</span> 
+                                                           <span class="n">return_mask_only</span><span class="o">=</span><span class="n">return_mask</span><span class="p">)</span>
 
     <span class="k">return</span> <span class="n">final_mask</span></div>
 </pre></div>

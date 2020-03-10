@@ -86,6 +86,7 @@
               <p class="caption"><span class="caption-text">Usage and Operation:</span></p>
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="../quickstart.html">Quickstart</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../creating_pipelines.html">Creating Pipelines</a></li>
 </ul>
 <p class="caption"><span class="caption-text">Code Documentation:</span></p>
 <ul class="current">
@@ -186,7 +187,7 @@
 in this file is 000; this file only contains ECHO-000 class masks.</p>
 <dl class="function">
 <dt id="IfA_Smeargle.echo.masks.masks_echo000.echo010_fixing_invalids">
-<code class="sig-prename descclassname">IfA_Smeargle.echo.masks.masks_echo000.</code><code class="sig-name descname">echo010_fixing_invalids</code><span class="sig-paren">(</span><em class="sig-param">data_array</em>, <em class="sig-param">previous_mask={}</em>, <em class="sig-param">return_mask=False</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/IfA_Smeargle/echo/masks/masks_echo000.html#echo010_fixing_invalids"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#IfA_Smeargle.echo.masks.masks_echo000.echo010_fixing_invalids" title="Permalink to this definition">¶</a></dt>
+<code class="sig-prename descclassname">IfA_Smeargle.echo.masks.masks_echo000.</code><code class="sig-name descname">echo010_fixing_invalids</code><span class="sig-paren">(</span><em class="sig-param">data_array</em>, <em class="sig-param">previous_mask={}</em>, <em class="sig-param">return_mask=False</em>, <em class="sig-param">mask_key='echo010_fixing_invalids'</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/IfA_Smeargle/echo/masks/masks_echo000.html#echo010_fixing_invalids"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#IfA_Smeargle.echo.masks.masks_echo000.echo010_fixing_invalids" title="Permalink to this definition">¶</a></dt>
 <dd><p>This filter applies a mask to all numerically invalid inputs on a
 programing side.</p>
 <p>Numbers that are usually infinite or some other nonsensical quantity
@@ -200,12 +201,14 @@ are masked here.</p>
 added to the dictionary. Default is to make a new mask dictionary.</p></li>
 <li><p><strong>return_mask</strong> (<em>boolean</em><em> (</em><em>optional</em><em>)</em>) – If this is true, then the mask itself (rather than the dictionary
 entry) will be returned instead.</p></li>
+<li><p><strong>mask_key</strong> (<em>string</em><em> (</em><em>optional</em><em>)</em>) – The key that will be used to denote this mask. It defaults to the
+standard name.</p></li>
 </ul>
 </dd>
 <dt class="field-even">Returns</dt>
 <dd class="field-even"><p><strong>final_mask</strong> – A boolean array for pixels that are masked (True) or are valid
 (False) will be added to the mask dictionary under the
-key <code class="docutils literal notranslate"><span class="pre">echo010_fixing_invalids</span></code>.</p>
+key <code class="docutils literal notranslate"><span class="pre">echo010_fixing_invalids</span></code> unless otherwise specified.</p>
 </dd>
 <dt class="field-odd">Return type</dt>
 <dd class="field-odd"><p>ndarray -&gt; dictionary</p>

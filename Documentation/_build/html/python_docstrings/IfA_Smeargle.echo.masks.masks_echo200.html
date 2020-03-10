@@ -86,6 +86,7 @@
               <p class="caption"><span class="caption-text">Usage and Operation:</span></p>
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="../quickstart.html">Quickstart</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../creating_pipelines.html">Creating Pipelines</a></li>
 </ul>
 <p class="caption"><span class="caption-text">Code Documentation:</span></p>
 <ul class="current">
@@ -186,7 +187,7 @@
 in this file is 200; this file only contains ECHO-200 class masks.</p>
 <dl class="function">
 <dt id="IfA_Smeargle.echo.masks.masks_echo200.echo270_minimum_cut">
-<code class="sig-prename descclassname">IfA_Smeargle.echo.masks.masks_echo200.</code><code class="sig-name descname">echo270_minimum_cut</code><span class="sig-paren">(</span><em class="sig-param">data_array</em>, <em class="sig-param">minimum_value</em>, <em class="sig-param">previous_mask={}</em>, <em class="sig-param">return_mask=False</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/IfA_Smeargle/echo/masks/masks_echo200.html#echo270_minimum_cut"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#IfA_Smeargle.echo.masks.masks_echo200.echo270_minimum_cut" title="Permalink to this definition">¶</a></dt>
+<code class="sig-prename descclassname">IfA_Smeargle.echo.masks.masks_echo200.</code><code class="sig-name descname">echo270_minimum_cut</code><span class="sig-paren">(</span><em class="sig-param">data_array</em>, <em class="sig-param">minimum_value</em>, <em class="sig-param">previous_mask={}</em>, <em class="sig-param">return_mask=False</em>, <em class="sig-param">mask_key='echo270_minimum_cut'</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/IfA_Smeargle/echo/masks/masks_echo200.html#echo270_minimum_cut"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#IfA_Smeargle.echo.masks.masks_echo200.echo270_minimum_cut" title="Permalink to this definition">¶</a></dt>
 <dd><p>This applies a mask on all pixels lower than some value.</p>
 <p>As the name implies, this function masks all pixels with some value
 strictly lower than some minimum value.</p>
@@ -199,12 +200,14 @@ strictly lower than some minimum value.</p>
 added to the dictionary. Default is to make a new mask dictionary.</p></li>
 <li><p><strong>return_mask</strong> (<em>boolean</em><em> (</em><em>optional</em><em>)</em>) – If this is true, then the mask itself (rather than the dictionary
 entry) will be returned instead.</p></li>
+<li><p><strong>mask_key</strong> (<em>string</em><em> (</em><em>optional</em><em>)</em>) – The key that will be used to denote this mask. It defaults to the
+standard name.</p></li>
 </ul>
 </dd>
 <dt class="field-even">Returns</dt>
 <dd class="field-even"><p><strong>final_mask</strong> – A boolean array for pixels that are masked (True) or are valid (False)
 will be added to the mask dictionary under the key
-<code class="docutils literal notranslate"><span class="pre">echo270_minimum_cut</span></code>.</p>
+<code class="docutils literal notranslate"><span class="pre">echo270_minimum_cut</span></code> unless otherwise specified.</p>
 </dd>
 <dt class="field-odd">Return type</dt>
 <dd class="field-odd"><p>ndarray -&gt; dictionary</p>
@@ -214,7 +217,7 @@ will be added to the mask dictionary under the key
 
 <dl class="function">
 <dt id="IfA_Smeargle.echo.masks.masks_echo200.echo271_maximum_cut">
-<code class="sig-prename descclassname">IfA_Smeargle.echo.masks.masks_echo200.</code><code class="sig-name descname">echo271_maximum_cut</code><span class="sig-paren">(</span><em class="sig-param">data_array</em>, <em class="sig-param">maximum_value</em>, <em class="sig-param">previous_mask={}</em>, <em class="sig-param">return_mask=False</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/IfA_Smeargle/echo/masks/masks_echo200.html#echo271_maximum_cut"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#IfA_Smeargle.echo.masks.masks_echo200.echo271_maximum_cut" title="Permalink to this definition">¶</a></dt>
+<code class="sig-prename descclassname">IfA_Smeargle.echo.masks.masks_echo200.</code><code class="sig-name descname">echo271_maximum_cut</code><span class="sig-paren">(</span><em class="sig-param">data_array</em>, <em class="sig-param">maximum_value</em>, <em class="sig-param">previous_mask={}</em>, <em class="sig-param">return_mask=False</em>, <em class="sig-param">mask_key='echo271_maximum_cut'</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/IfA_Smeargle/echo/masks/masks_echo200.html#echo271_maximum_cut"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#IfA_Smeargle.echo.masks.masks_echo200.echo271_maximum_cut" title="Permalink to this definition">¶</a></dt>
 <dd><p>This applies a mask on all pixels lower than some value.</p>
 <p>As the name implies, this function masks all pixels with some value
 strictly higher than some maximum value.</p>
@@ -227,12 +230,14 @@ strictly higher than some maximum value.</p>
 added to the dictionary. Default is to make a new mask dictionary.</p></li>
 <li><p><strong>return_mask</strong> (<em>boolean</em><em> (</em><em>optional</em><em>)</em>) – If this is true, then the mask itself (rather than the dictionary
 entry) will be returned instead.</p></li>
+<li><p><strong>mask_key</strong> (<em>string</em><em> (</em><em>optional</em><em>)</em>) – The key that will be used to denote this mask. It defaults to the
+standard name.</p></li>
 </ul>
 </dd>
 <dt class="field-even">Returns</dt>
 <dd class="field-even"><p><strong>final_mask</strong> – A boolean array for pixels that are masked (True) or are valid (False)
 will be added to the mask dictionary under the key
-<code class="docutils literal notranslate"><span class="pre">echo271_maximum_cut</span></code>.</p>
+<code class="docutils literal notranslate"><span class="pre">echo271_maximum_cut</span></code> unless otherwise specified.</p>
 </dd>
 <dt class="field-odd">Return type</dt>
 <dd class="field-odd"><p>ndarray -&gt; dictionary</p>
@@ -242,7 +247,7 @@ will be added to the mask dictionary under the key
 
 <dl class="function">
 <dt id="IfA_Smeargle.echo.masks.masks_echo200.echo275_pixel_truncation">
-<code class="sig-prename descclassname">IfA_Smeargle.echo.masks.masks_echo200.</code><code class="sig-name descname">echo275_pixel_truncation</code><span class="sig-paren">(</span><em class="sig-param">data_array</em>, <em class="sig-param">top_count</em>, <em class="sig-param">bottom_count</em>, <em class="sig-param">previous_mask={}</em>, <em class="sig-param">return_mask=False</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/IfA_Smeargle/echo/masks/masks_echo200.html#echo275_pixel_truncation"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#IfA_Smeargle.echo.masks.masks_echo200.echo275_pixel_truncation" title="Permalink to this definition">¶</a></dt>
+<code class="sig-prename descclassname">IfA_Smeargle.echo.masks.masks_echo200.</code><code class="sig-name descname">echo275_pixel_truncation</code><span class="sig-paren">(</span><em class="sig-param">data_array</em>, <em class="sig-param">top_count</em>, <em class="sig-param">bottom_count</em>, <em class="sig-param">previous_mask={}</em>, <em class="sig-param">return_mask=False</em>, <em class="sig-param">mask_key='echo275_pixel_truncation'</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/IfA_Smeargle/echo/masks/masks_echo200.html#echo275_pixel_truncation"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#IfA_Smeargle.echo.masks.masks_echo200.echo275_pixel_truncation" title="Permalink to this definition">¶</a></dt>
 <dd><p>This filter truncates the top and bottom number of pixels provided.</p>
 <p>The values <code class="docutils literal notranslate"><span class="pre">top_count</span></code> and <code class="docutils literal notranslate"><span class="pre">bottom_count</span></code> notate the number of pixels
 from top and bottom of the data array  (in value) that should be cut.
@@ -259,12 +264,14 @@ is to be masked.</p></li>
 added to the dictionary. Default is to make a new mask dictionary.</p></li>
 <li><p><strong>return_mask</strong> (<em>boolean</em><em> (</em><em>optional</em><em>)</em>) – If this is true, then the mask itself (rather than the dictionary
 entry) will be returned instead.</p></li>
+<li><p><strong>mask_key</strong> (<em>string</em><em> (</em><em>optional</em><em>)</em>) – The key that will be used to denote this mask. It defaults to the
+standard name.</p></li>
 </ul>
 </dd>
 <dt class="field-even">Returns</dt>
 <dd class="field-even"><p><strong>final_mask</strong> – A boolean array for pixels that are masked (True) or are valid (False)
 will be added to the mask dictionary under the key
-<code class="docutils literal notranslate"><span class="pre">echo275_pixel_truncation</span></code>.</p>
+<code class="docutils literal notranslate"><span class="pre">echo275_pixel_truncation</span></code> unless otherwise specified.</p>
 </dd>
 <dt class="field-odd">Return type</dt>
 <dd class="field-odd"><p>ndarray -&gt; dictionary</p>
@@ -274,7 +281,7 @@ will be added to the mask dictionary under the key
 
 <dl class="function">
 <dt id="IfA_Smeargle.echo.masks.masks_echo200.echo276_percent_truncation">
-<code class="sig-prename descclassname">IfA_Smeargle.echo.masks.masks_echo200.</code><code class="sig-name descname">echo276_percent_truncation</code><span class="sig-paren">(</span><em class="sig-param">data_array</em>, <em class="sig-param">kept_range</em>, <em class="sig-param">previous_mask={}</em>, <em class="sig-param">return_mask=False</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/IfA_Smeargle/echo/masks/masks_echo200.html#echo276_percent_truncation"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#IfA_Smeargle.echo.masks.masks_echo200.echo276_percent_truncation" title="Permalink to this definition">¶</a></dt>
+<code class="sig-prename descclassname">IfA_Smeargle.echo.masks.masks_echo200.</code><code class="sig-name descname">echo276_percent_truncation</code><span class="sig-paren">(</span><em class="sig-param">data_array</em>, <em class="sig-param">kept_range</em>, <em class="sig-param">previous_mask={}</em>, <em class="sig-param">return_mask=False</em>, <em class="sig-param">mask_key='echo276_percent_truncation'</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/IfA_Smeargle/echo/masks/masks_echo200.html#echo276_percent_truncation"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#IfA_Smeargle.echo.masks.masks_echo200.echo276_percent_truncation" title="Permalink to this definition">¶</a></dt>
 <dd><p>This filter truncates the top and bottom percent of pixels from the
 data array.</p>
 <p>The parameter <code class="docutils literal notranslate"><span class="pre">kept_range</span></code> define the percent range of pixels that will
@@ -290,12 +297,14 @@ masked. Percentages are expected to be less than 1.</p></li>
 added to the dictionary. Default is to make a new mask dictionary.</p></li>
 <li><p><strong>return_mask</strong> (<em>boolean</em><em> (</em><em>optional</em><em>)</em>) – If this is true, then the mask itself (rather than the dictionary
 entry) will be returned instead.</p></li>
+<li><p><strong>mask_key</strong> (<em>string</em><em> (</em><em>optional</em><em>)</em>) – The key that will be used to denote this mask. It defaults to the
+standard name.</p></li>
 </ul>
 </dd>
 <dt class="field-even">Returns</dt>
 <dd class="field-even"><p><strong>final_mask</strong> – A boolean array for pixels that are masked (True) or are valid (False)
 will be added to the mask dictionary under the key
-<code class="docutils literal notranslate"><span class="pre">echo276_percent_truncation</span></code>.</p>
+<code class="docutils literal notranslate"><span class="pre">echo276_percent_truncation</span></code> unless otherwise specified.</p>
 </dd>
 <dt class="field-odd">Return type</dt>
 <dd class="field-odd"><p>ndarray -&gt; dictionary</p>
@@ -305,7 +314,7 @@ will be added to the mask dictionary under the key
 
 <dl class="function">
 <dt id="IfA_Smeargle.echo.masks.masks_echo200.echo277_sigma_truncation">
-<code class="sig-prename descclassname">IfA_Smeargle.echo.masks.masks_echo200.</code><code class="sig-name descname">echo277_sigma_truncation</code><span class="sig-paren">(</span><em class="sig-param">data_array</em>, <em class="sig-param">sigma_limits</em>, <em class="sig-param">previous_mask={}</em>, <em class="sig-param">return_mask=False</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/IfA_Smeargle/echo/masks/masks_echo200.html#echo277_sigma_truncation"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#IfA_Smeargle.echo.masks.masks_echo200.echo277_sigma_truncation" title="Permalink to this definition">¶</a></dt>
+<code class="sig-prename descclassname">IfA_Smeargle.echo.masks.masks_echo200.</code><code class="sig-name descname">echo277_sigma_truncation</code><span class="sig-paren">(</span><em class="sig-param">data_array</em>, <em class="sig-param">sigma_limits</em>, <em class="sig-param">previous_mask={}</em>, <em class="sig-param">return_mask=False</em>, <em class="sig-param">mask_key='echo277_sigma_truncation'</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/IfA_Smeargle/echo/masks/masks_echo200.html#echo277_sigma_truncation"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#IfA_Smeargle.echo.masks.masks_echo200.echo277_sigma_truncation" title="Permalink to this definition">¶</a></dt>
 <dd><p>This applies a mask on pixels outside a given multiple of a sigma
 value.</p>
 <p>This function masks values if they are outsize of a sigma range from the
@@ -321,12 +330,14 @@ may be set as a list-like input.</p></li>
 added to the dictionary. Default is to make a new mask dictionary.</p></li>
 <li><p><strong>return_mask</strong> (<em>boolean</em><em> (</em><em>optional</em><em>)</em>) – If this is true, then the mask itself (rather than the dictionary
 entry) will be returned instead.</p></li>
+<li><p><strong>mask_key</strong> (<em>string</em><em> (</em><em>optional</em><em>)</em>) – The key that will be used to denote this mask. It defaults to the
+standard name.</p></li>
 </ul>
 </dd>
 <dt class="field-even">Returns</dt>
 <dd class="field-even"><p><strong>final_mask</strong> – A boolean array for pixels that are masked (True) or are valid (False)
 will be added to the mask dictionary under the key
-<code class="docutils literal notranslate"><span class="pre">echo277_sigma_truncation</span></code>.</p>
+<code class="docutils literal notranslate"><span class="pre">echo277_sigma_truncation</span></code> unless otherwise specified.</p>
 </dd>
 <dt class="field-odd">Return type</dt>
 <dd class="field-odd"><p>ndarray -&gt; dictionary</p>

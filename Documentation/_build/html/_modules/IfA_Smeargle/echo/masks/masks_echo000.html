@@ -84,6 +84,7 @@
               <p class="caption"><span class="caption-text">Usage and Operation:</span></p>
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="../../../../quickstart.html">Quickstart</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../creating_pipelines.html">Creating Pipelines</a></li>
 </ul>
 <p class="caption"><span class="caption-text">Code Documentation:</span></p>
 <ul>
@@ -156,19 +157,15 @@
 <span class="sd">in this file is 000; this file only contains ECHO-000 class masks.</span>
 <span class="sd">&quot;&quot;&quot;</span>
 
-<span class="kn">import</span> <span class="nn">astropy</span> <span class="k">as</span> <span class="nn">ap</span>
 <span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
 <span class="kn">import</span> <span class="nn">numpy.ma</span>  <span class="k">as</span> <span class="nn">np_ma</span>
-<span class="kn">import</span> <span class="nn">scipy</span> <span class="k">as</span> <span class="nn">sp</span>
-<span class="kn">import</span> <span class="nn">warnings</span> <span class="k">as</span> <span class="nn">warn</span>
 
-<span class="kn">from</span> <span class="nn">IfA_Smeargle</span> <span class="k">import</span> <span class="n">echo</span>
 <span class="kn">from</span> <span class="nn">IfA_Smeargle.echo</span> <span class="k">import</span> <span class="n">echo_functions</span> <span class="k">as</span> <span class="n">echo_funct</span>
-<span class="kn">from</span> <span class="nn">IfA_Smeargle.echo</span> <span class="k">import</span> <span class="n">masks</span>
 <span class="kn">from</span> <span class="nn">IfA_Smeargle.meta</span> <span class="k">import</span> <span class="o">*</span>
 
 
-<div class="viewcode-block" id="echo010_fixing_invalids"><a class="viewcode-back" href="../../../../python_docstrings/IfA_Smeargle.echo.masks.masks_echo000.html#IfA_Smeargle.echo.masks.masks_echo000.echo010_fixing_invalids">[docs]</a><span class="k">def</span> <span class="nf">echo010_fixing_invalids</span><span class="p">(</span><span class="n">data_array</span><span class="p">,</span> <span class="n">previous_mask</span><span class="o">=</span><span class="p">{},</span> <span class="n">return_mask</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
+<div class="viewcode-block" id="echo010_fixing_invalids"><a class="viewcode-back" href="../../../../python_docstrings/IfA_Smeargle.echo.masks.masks_echo000.html#IfA_Smeargle.echo.masks.masks_echo000.echo010_fixing_invalids">[docs]</a><span class="k">def</span> <span class="nf">echo010_fixing_invalids</span><span class="p">(</span><span class="n">data_array</span><span class="p">,</span> <span class="n">previous_mask</span><span class="o">=</span><span class="p">{},</span> <span class="n">return_mask</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
+                            <span class="n">mask_key</span><span class="o">=</span><span class="s1">&#39;echo010_fixing_invalids&#39;</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot; This filter applies a mask to all numerically invalid inputs on a </span>
 <span class="sd">    programing side.</span>
 
@@ -186,13 +183,16 @@
 <span class="sd">    return_mask : boolean (optional)</span>
 <span class="sd">        If this is true, then the mask itself (rather than the dictionary </span>
 <span class="sd">        entry) will be returned instead.</span>
+<span class="sd">    mask_key : string (optional)</span>
+<span class="sd">        The key that will be used to denote this mask. It defaults to the</span>
+<span class="sd">        standard name.</span>
 
 <span class="sd">    Returns</span>
 <span class="sd">    -------</span>
 <span class="sd">    final_mask : ndarray -&gt; dictionary</span>
 <span class="sd">        A boolean array for pixels that are masked (True) or are valid </span>
 <span class="sd">        (False) will be added to the mask dictionary under the </span>
-<span class="sd">        key ``echo010_fixing_invalids``.</span>
+<span class="sd">        key ``echo010_fixing_invalids`` unless otherwise specified.</span>
 
 <span class="sd">    &quot;&quot;&quot;</span>
 
@@ -200,8 +200,10 @@
 
     <span class="n">masked_array</span> <span class="o">=</span> <span class="n">np_ma</span><span class="o">.</span><span class="n">fix_invalid</span><span class="p">(</span><span class="n">data_array</span><span class="p">)</span>
 
-    <span class="n">final_mask</span> <span class="o">=</span> <span class="n">echo_funct</span><span class="o">.</span><span class="n">echo_functioned_mask_returning</span><span class="p">(</span><span class="n">masked_array</span><span class="p">,</span><span class="n">previous_mask</span><span class="p">,</span>
-                                                     <span class="s1">&#39;echo010_fixing_invalids&#39;</span><span class="p">,</span><span class="n">return_mask</span><span class="p">)</span>
+    <span class="n">final_mask</span> <span class="o">=</span> <span class="n">echo_funct</span><span class="o">.</span><span class="n">echo_functioned_mask_returning</span><span class="p">(</span><span class="n">pixel_mask</span><span class="o">=</span><span class="n">masked_array</span><span class="p">,</span>
+                                                           <span class="n">masking_dictionary</span><span class="o">=</span><span class="n">previous_mask</span><span class="p">,</span>
+                                                           <span class="n">filter_name</span><span class="o">=</span><span class="n">mask_key</span><span class="p">,</span> 
+                                                           <span class="n">return_mask_only</span><span class="o">=</span><span class="n">return_mask</span><span class="p">)</span>
 
     <span class="k">return</span> <span class="n">final_mask</span></div>
 </pre></div>

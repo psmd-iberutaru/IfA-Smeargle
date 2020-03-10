@@ -84,6 +84,7 @@
               <p class="caption"><span class="caption-text">Usage and Operation:</span></p>
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="../../../quickstart.html">Quickstart</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../creating_pipelines.html">Creating Pipelines</a></li>
 </ul>
 <p class="caption"><span class="caption-text">Code Documentation:</span></p>
 <ul>
@@ -164,7 +165,8 @@
 <span class="kn">from</span> <span class="nn">IfA_Smeargle</span> <span class="k">import</span> <span class="n">yankee</span>
 
 <div class="viewcode-block" id="plot_single_heatmap_and_histogram"><a class="viewcode-back" href="../../../python_docstrings/IfA_Smeargle.oscar.multi_figure.html#IfA_Smeargle.oscar.multi_figure.plot_single_heatmap_and_histogram">[docs]</a><span class="k">def</span> <span class="nf">plot_single_heatmap_and_histogram</span><span class="p">(</span><span class="n">data_array</span><span class="p">,</span> <span class="n">configuration_class</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
-                                      <span class="n">figure_subplot_parameters</span><span class="o">=</span><span class="p">{</span><span class="s1">&#39;figsize&#39;</span><span class="p">:(</span><span class="mi">9</span><span class="p">,</span><span class="mf">3.5</span><span class="p">),</span> <span class="s1">&#39;dpi&#39;</span><span class="p">:</span><span class="mi">100</span><span class="p">}):</span>
+                                      <span class="n">figure_subplot_parameters</span><span class="o">=</span><span class="p">{</span><span class="s1">&#39;figsize&#39;</span><span class="p">:(</span><span class="mi">9</span><span class="p">,</span><span class="mf">3.5</span><span class="p">),</span> <span class="s1">&#39;dpi&#39;</span><span class="p">:</span><span class="mi">100</span><span class="p">},</span>
+                                      <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot; This extracts data from a single data array, plotting a histogram </span>
 <span class="sd">    and heatmap.</span>
 
@@ -203,8 +205,8 @@
         <span class="n">heatmap_config</span> <span class="o">=</span> <span class="n">plot_config</span><span class="o">.</span><span class="n">general_heatmap_config</span>
         <span class="n">histogram_config</span> <span class="o">=</span> <span class="n">plot_config</span><span class="o">.</span><span class="n">general_histogram_config</span>
         <span class="c1"># Remove the data array variables and figure axes variables.</span>
-        <span class="n">heatmap_config</span><span class="o">.</span><span class="n">pop</span><span class="p">(</span><span class="s1">&#39;data_array&#39;</span><span class="p">,</span> <span class="kc">None</span><span class="p">)</span>
-        <span class="n">histogram_config</span><span class="o">.</span><span class="n">pop</span><span class="p">(</span><span class="s1">&#39;data_array&#39;</span><span class="p">,</span> <span class="kc">None</span><span class="p">)</span>
+        <span class="n">__</span> <span class="o">=</span> <span class="n">heatmap_config</span><span class="o">.</span><span class="n">pop</span><span class="p">(</span><span class="s1">&#39;data_array&#39;</span><span class="p">,</span> <span class="kc">None</span><span class="p">)</span>
+        <span class="n">__</span> <span class="o">=</span> <span class="n">histogram_config</span><span class="o">.</span><span class="n">pop</span><span class="p">(</span><span class="s1">&#39;data_array&#39;</span><span class="p">,</span> <span class="kc">None</span><span class="p">)</span>
     <span class="k">else</span><span class="p">:</span>
         <span class="c1"># Use built-in defaults.</span>
         <span class="n">heatmap_config</span> <span class="o">=</span> <span class="p">{}</span>
@@ -218,9 +220,9 @@
     <span class="c1"># Plotting both figures in their respective areas side by side. </span>
     <span class="c1"># Again, use user specifications.</span>
     <span class="n">oscar</span><span class="o">.</span><span class="n">heatmaps</span><span class="o">.</span><span class="n">plot_array_heatmap_image</span><span class="p">(</span><span class="n">data_array</span><span class="p">,</span> 
-                                            <span class="n">figure_axes</span><span class="o">=</span><span class="n">ax</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="o">**</span><span class="n">heatmap_config</span><span class="p">)</span>
+                                            <span class="n">figure_axes</span><span class="o">=</span><span class="n">ax</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="o">**</span><span class="n">heatmap_config</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
     <span class="n">oscar</span><span class="o">.</span><span class="n">histograms</span><span class="o">.</span><span class="n">plot_array_histogram</span><span class="p">(</span><span class="n">data_array</span><span class="p">,</span> 
-                                          <span class="n">figure_axes</span><span class="o">=</span><span class="n">ax</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="o">**</span><span class="n">histogram_config</span><span class="p">)</span>
+                                          <span class="n">figure_axes</span><span class="o">=</span><span class="n">ax</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="o">**</span><span class="n">histogram_config</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
     
     <span class="c1"># The histogram feels squished unless the axes ratios are modified.</span>
     <span class="n">ax</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">set_aspect</span><span class="p">(</span><span class="mi">1</span><span class="o">/</span><span class="p">(</span><span class="n">ax</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">get_data_ratio</span><span class="p">()</span> <span class="o">*</span> <span class="mf">1.5</span><span class="p">))</span>

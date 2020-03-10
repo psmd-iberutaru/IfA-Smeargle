@@ -84,6 +84,7 @@
               <p class="caption"><span class="caption-text">Usage and Operation:</span></p>
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="../../../quickstart.html">Quickstart</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../creating_pipelines.html">Creating Pipelines</a></li>
 </ul>
 <p class="caption"><span class="caption-text">Code Documentation:</span></p>
 <ul>
@@ -157,7 +158,6 @@
 <span class="sd">&quot;&quot;&quot;</span>
 
 <span class="kn">import</span> <span class="nn">copy</span>
-<span class="kn">import</span> <span class="nn">functools</span>
 <span class="kn">import</span> <span class="nn">importlib</span>
 <span class="kn">import</span> <span class="nn">inspect</span>
 <span class="kn">import</span> <span class="nn">types</span>
@@ -185,21 +185,62 @@
 
 <span class="sd">    .. note::</span>
 
-<span class="sd">        Based on http://stackoverflow.com/a/6528148/190597 (Glenn Maynard)&quot;&quot;&quot;</span>
-    <span class="n">deepcopy_funct</span> <span class="o">=</span> <span class="n">types</span><span class="o">.</span><span class="n">FunctionType</span><span class="p">(</span><span class="n">original_funct</span><span class="o">.</span><span class="vm">__code__</span><span class="p">,</span> <span class="n">original_funct</span><span class="o">.</span><span class="vm">__globals__</span><span class="p">,</span>
-                                        <span class="n">name</span><span class="o">=</span><span class="n">original_funct</span><span class="o">.</span><span class="vm">__name__</span><span class="p">,</span>
-                                        <span class="n">argdefs</span><span class="o">=</span><span class="n">original_funct</span><span class="o">.</span><span class="vm">__defaults__</span><span class="p">,</span>
-                                        <span class="n">closure</span><span class="o">=</span><span class="n">original_funct</span><span class="o">.</span><span class="vm">__closure__</span><span class="p">)</span>
-    <span class="n">deepcopy_funct</span> <span class="o">=</span> <span class="n">functools</span><span class="o">.</span><span class="n">update_wrapper</span><span class="p">(</span><span class="n">deepcopy_funct</span><span class="p">,</span> <span class="n">original_funct</span><span class="p">)</span>
-    <span class="n">deepcopy_funct</span><span class="o">.</span><span class="vm">__kwdefaults__</span> <span class="o">=</span> <span class="n">deepcopy_funct</span><span class="o">.</span><span class="vm">__kwdefaults__</span>
+<span class="sd">        Based on https://stackoverflow.com/a/30714299 (Aaron Hall)&quot;&quot;&quot;</span>
+
+    <span class="k">def</span> <span class="nf">_copy_func</span><span class="p">(</span><span class="n">f</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        return a function with same code, globals, defaults, closure, and </span>
+<span class="sd">        name (or provide a new name)</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">fn</span> <span class="o">=</span> <span class="n">types</span><span class="o">.</span><span class="n">FunctionType</span><span class="p">(</span><span class="n">f</span><span class="o">.</span><span class="vm">__code__</span><span class="p">,</span> <span class="n">f</span><span class="o">.</span><span class="vm">__globals__</span><span class="p">,</span> <span class="n">name</span> <span class="ow">or</span> <span class="n">f</span><span class="o">.</span><span class="vm">__name__</span><span class="p">,</span>
+            <span class="n">f</span><span class="o">.</span><span class="vm">__defaults__</span><span class="p">,</span> <span class="n">f</span><span class="o">.</span><span class="vm">__closure__</span><span class="p">)</span>
+        <span class="c1"># in case f was given attrs (note this dict is a shallow copy):</span>
+        <span class="n">fn</span><span class="o">.</span><span class="vm">__dict__</span><span class="o">.</span><span class="n">update</span><span class="p">(</span><span class="n">f</span><span class="o">.</span><span class="vm">__dict__</span><span class="p">)</span> 
+        <span class="k">return</span> <span class="n">fn</span>
+
+    <span class="n">deepcopy_funct</span> <span class="o">=</span> <span class="n">_copy_func</span><span class="p">(</span><span class="n">original_funct</span><span class="p">)</span>
 
     <span class="c1"># Just to test if it worked.</span>
-    <span class="k">if</span> <span class="p">(</span><span class="n">original_funct</span> <span class="ow">is</span> <span class="ow">not</span> <span class="n">deepcopy_funct</span><span class="p">):</span>
-        <span class="k">raise</span> <span class="n">BugError</span><span class="p">(</span><span class="s2">&quot;There should be no reason for the original and the &quot;</span>
-                       <span class="s2">&quot;deep copy function to be the same.&quot;</span><span class="p">)</span>
+    <span class="k">try</span><span class="p">:</span>
+        <span class="k">assert</span> <span class="n">original_funct</span> <span class="ow">is</span> <span class="ow">not</span> <span class="n">deepcopy_funct</span>
+    <span class="k">except</span> <span class="ne">AssertionError</span><span class="p">:</span>
+        <span class="n">original_funct</span><span class="o">.</span><span class="n">copy_status</span> <span class="o">=</span> <span class="kc">False</span>
+        <span class="n">deepcopy_funct</span><span class="o">.</span><span class="n">copy_status</span> <span class="o">=</span> <span class="kc">True</span>
+        <span class="k">if</span> <span class="p">((</span><span class="n">deepcopy_funct</span><span class="o">.</span><span class="n">copy_status</span> <span class="o">==</span> <span class="n">original_funct</span><span class="o">.</span><span class="n">copy_status</span><span class="p">)</span> <span class="ow">or</span>
+            <span class="p">(</span><span class="n">deepcopy_funct</span><span class="o">.</span><span class="n">copy_status</span> <span class="ow">is</span> <span class="n">original_funct</span><span class="o">.</span><span class="n">copy_status</span><span class="p">)):</span>
+            <span class="k">raise</span> <span class="n">AssumptionError</span><span class="p">(</span><span class="s2">&quot;There should be no reason for the original and the &quot;</span>
+                                  <span class="s2">&quot;deep copy function to be the same.&quot;</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">pass</span>
 
     <span class="c1"># All done.</span>
     <span class="k">return</span> <span class="n">deepcopy_funct</span></div>
+
+<div class="viewcode-block" id="smeargle_avaliable_bravo_processing_functions"><a class="viewcode-back" href="../../../python_docstrings/IfA_Smeargle.meta.meta_programming.html#IfA_Smeargle.meta.meta_programming.smeargle_avaliable_bravo_processing_functions">[docs]</a><span class="k">def</span> <span class="nf">smeargle_avaliable_bravo_processing_functions</span><span class="p">():</span>
+    <span class="sd">&quot;&quot;&quot; This returns a dictionary of the available processing functions found</span>
+<span class="sd">    in BRAVO which can be used. </span>
+<span class="sd">    </span>
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    nothing</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    bravo_filter_dict : dictionary</span>
+<span class="sd">        This is a collection of all of the available processing functions that </span>
+<span class="sd">        are usable.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">bravo_filter_dict</span> <span class="o">=</span> <span class="p">{}</span>
+
+    <span class="c1"># Given the limited nature of the BRAVO processing functions; this is </span>
+    <span class="c1"># mostly obsolete and should not be used.</span>
+    <span class="k">raise</span> <span class="n">DeprecatedError</span><span class="p">(</span><span class="s2">&quot;This function should not used, there does not &quot;</span>
+                          <span class="s2">&quot;seem to be any good use for this function as &quot;</span>
+                          <span class="s2">&quot;BRAVO is built for the entire data directory.&quot;</span><span class="p">)</span>
+    <span class="c1"># Also, to be honest, Sparrow is lazy...</span>
+    <span class="k">raise</span> <span class="n">IncompleteError</span>
+
+    <span class="k">return</span> <span class="n">bravo_filter_dict</span></div>
 
 
 <div class="viewcode-block" id="smeargle_avaliable_echo_filter_functions"><a class="viewcode-back" href="../../../python_docstrings/IfA_Smeargle.meta.meta_programming.html#IfA_Smeargle.meta.meta_programming.smeargle_avaliable_echo_filter_functions">[docs]</a><span class="k">def</span> <span class="nf">smeargle_avaliable_echo_filter_functions</span><span class="p">():</span>

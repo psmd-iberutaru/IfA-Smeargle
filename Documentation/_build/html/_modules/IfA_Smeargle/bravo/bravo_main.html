@@ -84,6 +84,7 @@
               <p class="caption"><span class="caption-text">Usage and Operation:</span></p>
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="../../../quickstart.html">Quickstart</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../creating_pipelines.html">Creating Pipelines</a></li>
 </ul>
 <p class="caption"><span class="caption-text">Code Documentation:</span></p>
 <ul>
@@ -236,6 +237,8 @@
     <span class="k">for</span> <span class="n">fitsdex</span> <span class="ow">in</span> <span class="n">averaging_names</span><span class="p">:</span>
         <span class="n">bravo</span><span class="o">.</span><span class="n">avging</span><span class="o">.</span><span class="n">average_endpoints_per_second</span><span class="p">(</span><span class="n">fitsdex</span><span class="p">,</span> 
                                                   <span class="o">**</span><span class="n">provided_config</span><span class="o">.</span><span class="n">avg_endpts_persec_config</span><span class="p">)</span> 
+
+    <span class="k">raise</span> <span class="n">DeprecatedError</span><span class="p">(</span><span class="s2">&quot;There should not be any sub-pipeline processes inside the library.&quot;</span><span class="p">)</span>
 
     <span class="k">return</span> <span class="kc">None</span></div>
 

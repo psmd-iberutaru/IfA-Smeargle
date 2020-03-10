@@ -71,11 +71,11 @@ general principle of IfA-Smeargle that any and all customization or
 parameters to any reduction functions are contained in a configuration 
 file/class.
 
-A configuration file just stores a configuration class; all configuration files
-have the ``.ifaspkl`` file extension. IfA-Smeargle is hard-coded to reject 
-any file without such extension and to always write configuration classes 
-with such extension. Do not rename any file not made by IfA-Smeargle with 
-such file extension.
+A configuration file just stores a configuration class; all configuration 
+files have the ``.ifaspkl`` file extension. IfA-Smeargle is hard-coded to  
+reject any file without such extension and to always write configuration  
+classes with such extension. Do not rename any file not made by IfA-Smeargle 
+with such file extension.
 
 In order to make a configuration file, please use the Jupyter notebook labeled
 ``ifas_configuration_recipe.ipynb``. This writes a configuration file as 
@@ -84,7 +84,7 @@ specified.
 .. warning::
    Configuration files and classes are not forward compatible. There 
    is however a function to convert older configuration classes/files to newer
-   versions while preserving the old data. See the :func:`Fast Forward Configuration Class <IfA_Smeargle.yankee.yankee_functions.yankee_fast_forward_configuration_class>` function.
+   versions while preserving the old configuration data. See the :func:`Fast Forward Configuration Class <IfA_Smeargle.yankee.yankee_functions.yankee_fast_forward_configuration_class>` function for more information.
 
 
 Executing Pipelines
@@ -115,8 +115,8 @@ You can then load your configuration files as one would load normal files in
 Jupyter notebook via the YANKEE line; then run built-in pipelines found in the
 ZULU line like normal function call.
 
-To load a configuration file and have it be a configuration class, the simplest
-way is likely to invoke the following function call::
+To load a configuration file and have it be a configuration class, the 
+simplest way is likely to invoke the following function call::
 
    config_class = ifas.yankee.SmeargleConfig('path/to/ifas_config.ifaspkl')
 
@@ -142,15 +142,15 @@ Python environment.
 Command-line Call
 `````````````````
 
-It is common for Python scripts to be run from from the command-line interface. 
-As such, this module allows pipelines to be run from a command-line interface 
-via ``ifas_execute.py``.
+It is common for Python scripts to be run from from the command-line  
+interface. As such, this module allows pipelines to be run from a 
+command-line interface via ``ifas_execute.py``.
 
-The command-call for ``ifas_execute.py`` must be done within the same directory
-as the Python file, or one parent directory above it. It will likely be unable
-to import local directories if it is executed outside of these areas. The 
-data directory and configuration file directory paths should not have theses
-restrictions. 
+The command-call for ``ifas_execute.py`` must be done within the same 
+directory as the Python file, or one parent directory above it. It will 
+likely be unable to import local directories if it is executed outside of 
+these areas. The data directory and configuration file directory paths 
+should not have theses restrictions. 
 
 All command-line calls will likely be in a format similar to the one below::
 

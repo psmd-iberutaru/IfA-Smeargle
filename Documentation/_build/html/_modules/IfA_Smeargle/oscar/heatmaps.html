@@ -84,6 +84,7 @@
               <p class="caption"><span class="caption-text">Usage and Operation:</span></p>
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="../../../quickstart.html">Quickstart</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../creating_pipelines.html">Creating Pipelines</a></li>
 </ul>
 <p class="caption"><span class="caption-text">Code Documentation:</span></p>
 <ul>
@@ -160,6 +161,7 @@
 <span class="kn">import</span> <span class="nn">matplotlib.cm</span> <span class="k">as</span> <span class="nn">mpl_cm</span>
 <span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="nn">plt</span>
 <span class="kn">import</span> <span class="nn">mpl_toolkits.axes_grid1</span> <span class="k">as</span> <span class="nn">mpltk_axg1</span>
+<span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
 <span class="kn">import</span> <span class="nn">numpy.ma</span> <span class="k">as</span> <span class="nn">np_ma</span>
 
 <span class="kn">from</span> <span class="nn">IfA_Smeargle.meta</span> <span class="k">import</span> <span class="o">*</span>
@@ -168,7 +170,8 @@
 <div class="viewcode-block" id="plot_array_heatmap_image"><a class="viewcode-back" href="../../../python_docstrings/IfA_Smeargle.oscar.heatmaps.html#IfA_Smeargle.oscar.heatmaps.plot_array_heatmap_image">[docs]</a><span class="k">def</span> <span class="nf">plot_array_heatmap_image</span><span class="p">(</span><span class="n">data_array</span><span class="p">,</span>
                              <span class="n">figure_axes</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">plot</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
                              <span class="n">heatmap_plot_parameters</span><span class="o">=</span><span class="p">{</span><span class="s1">&#39;interpolation&#39;</span><span class="p">:</span><span class="s1">&#39;nearest&#39;</span><span class="p">},</span>
-                             <span class="n">colorbar_plot_paramters</span><span class="o">=</span><span class="p">{</span><span class="s1">&#39;orientation&#39;</span><span class="p">:</span><span class="s1">&#39;vertical&#39;</span><span class="p">}):</span>
+                             <span class="n">colorbar_plot_paramters</span><span class="o">=</span><span class="p">{</span><span class="s1">&#39;orientation&#39;</span><span class="p">:</span><span class="s1">&#39;vertical&#39;</span><span class="p">},</span>
+                             <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot; A function to create a heatmap image of the data array provided.</span>
 <span class="sd">    </span>
 <span class="sd">    This function replicates the image plotting functionality of Tino Well&#39;s </span>
@@ -211,6 +214,35 @@
         <span class="c1"># We&#39;re not plotting today.</span>
         <span class="k">return</span> <span class="kc">None</span>
 
+    <span class="c1"># The rest of the computations require a Numpy array. Forcibly </span>
+    <span class="c1"># establishing it. Adapt for masked arrays.</span>
+    <span class="k">if</span> <span class="p">(</span><span class="n">np_ma</span><span class="o">.</span><span class="n">isMaskedArray</span><span class="p">(</span><span class="n">data_array</span><span class="p">)):</span>
+        <span class="n">data_array</span> <span class="o">=</span> <span class="n">np_ma</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">np_ma</span><span class="o">.</span><span class="n">getdata</span><span class="p">(</span><span class="n">data_array</span><span class="p">),</span> <span class="n">mask</span><span class="o">=</span><span class="n">np_ma</span><span class="o">.</span><span class="n">getmask</span><span class="p">(</span><span class="n">data_array</span><span class="p">))</span> 
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">data_array</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">data_array</span><span class="p">)</span>
+
+    <span class="c1"># If the data array is not the proper dimensions. Rewriting the Astropy</span>
+    <span class="c1"># error for context.</span>
+    <span class="k">if</span> <span class="p">(</span><span class="n">data_array</span><span class="o">.</span><span class="n">ndim</span> <span class="o">==</span> <span class="mi">0</span><span class="p">):</span>
+        <span class="k">raise</span> <span class="n">DataError</span><span class="p">(</span><span class="s2">&quot;This data array has no dimensions (ndim=0). A heatmap cannot be &quot;</span>
+                        <span class="s2">&quot;logically constructed.&quot;</span><span class="p">)</span>
+    <span class="k">elif</span> <span class="p">(</span><span class="n">data_array</span><span class="o">.</span><span class="n">ndim</span> <span class="o">==</span> <span class="mi">1</span><span class="p">):</span>
+        <span class="c1"># This is technically a valid data set, but, still warn as it is </span>
+        <span class="c1"># unusual.</span>
+        <span class="n">smeargle_warning</span><span class="p">(</span><span class="n">DataWarning</span><span class="p">,</span> <span class="p">(</span><span class="s2">&quot;This data array only has one dimension. Plotting will &quot;</span>
+                                       <span class="s2">&quot;continue despite this unusual data input.&quot;</span><span class="p">))</span>
+    <span class="k">elif</span> <span class="p">(</span><span class="n">data_array</span><span class="o">.</span><span class="n">ndim</span> <span class="o">==</span> <span class="mi">2</span><span class="p">):</span>
+        <span class="c1"># Normal operations</span>
+        <span class="k">pass</span>
+    <span class="k">elif</span> <span class="p">(</span><span class="n">data_array</span><span class="o">.</span><span class="n">ndim</span> <span class="o">&gt;=</span> <span class="mi">3</span><span class="p">):</span>
+        <span class="k">raise</span> <span class="n">DataError</span><span class="p">(</span><span class="s2">&quot;A heat map cannot be logically constructed from a 3+ dimensional &quot;</span>
+                        <span class="s2">&quot;data set. Current number of dimensions of data set is:  </span><span class="si">{ndim}</span><span class="s2">&quot;</span>
+                        <span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">ndim</span><span class="o">=</span><span class="nb">str</span><span class="p">(</span><span class="n">data_array</span><span class="o">.</span><span class="n">ndim</span><span class="p">)))</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="k">raise</span> <span class="n">BrokenLogicError</span><span class="p">(</span><span class="s2">&quot;The data array apparently doesn&#39;t have a compatible &quot;</span>
+                               <span class="s2">&quot;dimensional number. The dimensional number is:  </span><span class="si">{ndim}</span><span class="s2">&quot;</span>
+                               <span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">ndim</span><span class="o">=</span><span class="n">data_array</span><span class="o">.</span><span class="n">ndim</span><span class="p">))</span>
+
 
     <span class="c1"># First, figure out what type of Matplotlib axes to use. </span>
     <span class="k">if</span> <span class="p">(</span><span class="n">figure_axes</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">):</span>
@@ -226,7 +258,7 @@
     <span class="k">if</span> <span class="p">(</span><span class="s1">&#39;cmap&#39;</span> <span class="ow">in</span> <span class="n">heatmap_plot_parameters</span><span class="p">):</span>
         <span class="k">pass</span>
     <span class="k">else</span><span class="p">:</span>
-        <span class="n">colormap</span> <span class="o">=</span> <span class="n">mpl_cm</span><span class="o">.</span><span class="n">plasma</span>
+        <span class="n">colormap</span> <span class="o">=</span> <span class="n">mpl_cm</span><span class="o">.</span><span class="n">rainbow</span>
         <span class="n">colormap</span><span class="o">.</span><span class="n">set_bad</span><span class="p">(</span><span class="s1">&#39;black&#39;</span><span class="p">,</span><span class="mf">1.</span><span class="p">)</span>
         <span class="n">heatmap_plot_parameters</span><span class="p">[</span><span class="s1">&#39;cmap&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">colormap</span>
 

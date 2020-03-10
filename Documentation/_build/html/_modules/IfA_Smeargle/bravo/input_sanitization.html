@@ -84,6 +84,7 @@
               <p class="caption"><span class="caption-text">Usage and Operation:</span></p>
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="../../../quickstart.html">Quickstart</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../creating_pipelines.html">Creating Pipelines</a></li>
 </ul>
 <p class="caption"><span class="caption-text">Code Documentation:</span></p>
 <ul>
@@ -189,6 +190,50 @@
 <span class="sd">    nothing</span>
 <span class="sd">    &quot;&quot;&quot;</span>
 
+    <span class="c1"># Ensure there are fits files to use in the data directory.</span>
+    <span class="k">if</span> <span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">glob</span><span class="o">.</span><span class="n">glob</span><span class="p">(</span><span class="n">data_directory</span> <span class="o">+</span> <span class="s1">&#39;/*.fits&#39;</span><span class="p">,</span> <span class="n">recursive</span><span class="o">=</span><span class="kc">True</span><span class="p">))</span> <span class="o">==</span> <span class="mi">0</span><span class="p">):</span>
+        <span class="k">raise</span> <span class="n">DataError</span><span class="p">(</span><span class="s2">&quot;There is no usable data to run. Please check that there are .fits &quot;</span>
+                        <span class="s2">&quot;files in the data directory.&quot;</span><span class="p">)</span>
+
+    <span class="c1"># Deciding on how to calculate the proper file size.</span>
+    <span class="n">proper_file_size</span> <span class="o">=</span> <span class="kc">None</span>
+    <span class="k">if</span> <span class="p">(</span><span class="n">method</span> <span class="o">==</span> <span class="s1">&#39;largest&#39;</span><span class="p">):</span>
+        <span class="c1"># The largest fits file is the right one.</span>
+        <span class="n">data_files</span> <span class="o">=</span> <span class="n">glob</span><span class="o">.</span><span class="n">glob</span><span class="p">(</span><span class="n">data_directory</span> <span class="o">+</span> <span class="s1">&#39;/*.fits&#39;</span><span class="p">,</span> <span class="n">recursive</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+        <span class="c1"># Obtaining file sizes.</span>
+        <span class="n">file_sizes</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="k">for</span> <span class="n">filedex</span> <span class="ow">in</span> <span class="n">data_files</span><span class="p">:</span>
+            <span class="n">file_sizes</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">getsize</span><span class="p">(</span><span class="n">filedex</span><span class="p">))</span>
+        <span class="n">file_sizes</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">file_sizes</span><span class="p">)</span>
+        <span class="c1"># Largest file size.</span>
+        <span class="n">proper_file_size</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">nanmax</span><span class="p">(</span><span class="n">file_sizes</span><span class="p">)</span>
+    <span class="k">elif</span> <span class="p">(</span><span class="n">method</span> <span class="o">==</span> <span class="s1">&#39;smallest&#39;</span><span class="p">):</span>
+        <span class="c1"># The smallest fits file is the right one.</span>
+        <span class="n">data_files</span> <span class="o">=</span> <span class="n">glob</span><span class="o">.</span><span class="n">glob</span><span class="p">(</span><span class="n">data_directory</span> <span class="o">+</span> <span class="s1">&#39;*.fits&#39;</span><span class="p">,</span> <span class="n">recursive</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+        <span class="c1"># Obtaining file sizes.</span>
+        <span class="n">file_sizes</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="k">for</span> <span class="n">filedex</span> <span class="ow">in</span> <span class="n">data_files</span><span class="p">:</span>
+            <span class="n">file_sizes</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">getsize</span><span class="p">(</span><span class="n">filedex</span><span class="p">))</span>
+        <span class="n">file_sizes</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">file_sizes</span><span class="p">)</span>
+        <span class="c1"># Largest file size.</span>
+        <span class="n">proper_file_size</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">nanmin</span><span class="p">(</span><span class="n">file_sizes</span><span class="p">)</span>
+
+    <span class="c1"># None of the methods were valid, this likely means that the user did not</span>
+    <span class="c1"># input the correct method.</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="c1"># There are two different types of errors that it could be depending</span>
+        <span class="c1"># on input.</span>
+        <span class="k">if</span> <span class="p">(</span><span class="nb">isinstance</span><span class="p">(</span><span class="n">method</span><span class="p">,</span><span class="nb">str</span><span class="p">)):</span>
+            <span class="k">raise</span> <span class="n">InputError</span><span class="p">(</span><span class="s2">&quot;There is no method selection that matches the input. Please &quot;</span>
+                             <span class="s2">&quot;check and try again.&quot;</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="c1"># Assume the user wanted to execute the function more than the</span>
+            <span class="c1"># mistaken input&#39;s error chance.</span>
+            <span class="n">smeargle_warning</span><span class="p">(</span><span class="s2">&quot;The method input cannot be understood in its current form. &quot;</span>
+                             <span class="s2">&quot;defaulting to the default.&quot;</span><span class="p">)</span>
+            <span class="k">return</span> <span class="n">same_file_size_sanitization</span><span class="p">(</span><span class="n">data_directory</span><span class="p">)</span>
+
+
     <span class="k">def</span> <span class="nf">delete_improper_file_sizes</span><span class="p">(</span><span class="n">data_directory</span><span class="p">,</span> <span class="n">proper_file_size</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot; This is the main deleting method for removing the improper file</span>
 <span class="sd">        sizes.</span>
@@ -251,50 +296,6 @@
         <span class="n">_log_sanitization</span><span class="p">(</span><span class="n">data_directory</span><span class="p">,</span> <span class="n">message</span><span class="p">)</span>
 
         <span class="k">return</span> <span class="kc">None</span>
-
-    <span class="c1"># Ensure there are fits files to use in the data directory.</span>
-    <span class="k">if</span> <span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">glob</span><span class="o">.</span><span class="n">glob</span><span class="p">(</span><span class="n">data_directory</span> <span class="o">+</span> <span class="s1">&#39;/*.fits&#39;</span><span class="p">,</span> <span class="n">recursive</span><span class="o">=</span><span class="kc">True</span><span class="p">))</span> <span class="o">==</span> <span class="mi">0</span><span class="p">):</span>
-        <span class="k">raise</span> <span class="n">DataError</span><span class="p">(</span><span class="s2">&quot;There is no usable data to run. Please check that there are .fits &quot;</span>
-                        <span class="s2">&quot;files in the data directory.&quot;</span><span class="p">)</span>
-
-    <span class="c1"># Deciding on how to calculate the proper file size.</span>
-    <span class="n">proper_file_size</span> <span class="o">=</span> <span class="kc">None</span>
-    <span class="k">if</span> <span class="p">(</span><span class="n">method</span> <span class="o">==</span> <span class="s1">&#39;largest&#39;</span><span class="p">):</span>
-        <span class="c1"># The largest fits file is the right one.</span>
-        <span class="n">data_files</span> <span class="o">=</span> <span class="n">glob</span><span class="o">.</span><span class="n">glob</span><span class="p">(</span><span class="n">data_directory</span> <span class="o">+</span> <span class="s1">&#39;/*.fits&#39;</span><span class="p">,</span> <span class="n">recursive</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
-        <span class="c1"># Obtaining file sizes.</span>
-        <span class="n">file_sizes</span> <span class="o">=</span> <span class="p">[]</span>
-        <span class="k">for</span> <span class="n">filedex</span> <span class="ow">in</span> <span class="n">data_files</span><span class="p">:</span>
-            <span class="n">file_sizes</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">getsize</span><span class="p">(</span><span class="n">filedex</span><span class="p">))</span>
-        <span class="n">file_sizes</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">file_sizes</span><span class="p">)</span>
-        <span class="c1"># Largest file size.</span>
-        <span class="n">proper_file_size</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">nanmax</span><span class="p">(</span><span class="n">file_sizes</span><span class="p">)</span>
-    <span class="k">elif</span> <span class="p">(</span><span class="n">method</span> <span class="o">==</span> <span class="s1">&#39;smallest&#39;</span><span class="p">):</span>
-        <span class="c1"># The smallest fits file is the right one.</span>
-        <span class="n">data_files</span> <span class="o">=</span> <span class="n">glob</span><span class="o">.</span><span class="n">glob</span><span class="p">(</span><span class="n">data_directory</span> <span class="o">+</span> <span class="s1">&#39;*.fits&#39;</span><span class="p">,</span> <span class="n">recursive</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
-        <span class="c1"># Obtaining file sizes.</span>
-        <span class="n">file_sizes</span> <span class="o">=</span> <span class="p">[]</span>
-        <span class="k">for</span> <span class="n">filedex</span> <span class="ow">in</span> <span class="n">data_files</span><span class="p">:</span>
-            <span class="n">file_sizes</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">getsize</span><span class="p">(</span><span class="n">filedex</span><span class="p">))</span>
-        <span class="n">file_sizes</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">file_sizes</span><span class="p">)</span>
-        <span class="c1"># Largest file size.</span>
-        <span class="n">proper_file_size</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">nanmin</span><span class="p">(</span><span class="n">file_sizes</span><span class="p">)</span>
-
-    <span class="c1"># None of the methods were valid, this likely means that the user did not</span>
-    <span class="c1"># input the correct method.</span>
-    <span class="k">else</span><span class="p">:</span>
-        <span class="c1"># There are two different types of errors that it could be depending</span>
-        <span class="c1"># on input.</span>
-        <span class="k">if</span> <span class="p">(</span><span class="nb">isinstance</span><span class="p">(</span><span class="n">method</span><span class="p">,</span><span class="nb">str</span><span class="p">)):</span>
-            <span class="k">raise</span> <span class="n">InputError</span><span class="p">(</span><span class="s2">&quot;There is no method selection that matches the input. Please &quot;</span>
-                             <span class="s2">&quot;check and try again.&quot;</span><span class="p">)</span>
-        <span class="k">else</span><span class="p">:</span>
-            <span class="c1"># Assume the user wanted to execute the function more than the</span>
-            <span class="c1"># mistaken input&#39;s error chance.</span>
-            <span class="n">smeargle_warning</span><span class="p">(</span><span class="s2">&quot;The method input cannot be understood in its current form. &quot;</span>
-                             <span class="s2">&quot;defaulting to the default.&quot;</span><span class="p">)</span>
-            <span class="k">return</span> <span class="n">same_file_size_sanitization</span><span class="p">(</span><span class="n">data_directory</span><span class="p">)</span>
-
     <span class="c1"># Execute the deleting of non-conforming files.</span>
     <span class="n">output</span> <span class="o">=</span> <span class="n">delete_improper_file_sizes</span><span class="p">(</span><span class="n">data_directory</span><span class="p">,</span> <span class="n">proper_file_size</span><span class="o">=</span><span class="n">proper_file_size</span><span class="p">)</span>
 

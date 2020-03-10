@@ -86,6 +86,7 @@
               <p class="caption"><span class="caption-text">Usage and Operation:</span></p>
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="../quickstart.html">Quickstart</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../creating_pipelines.html">Creating Pipelines</a></li>
 </ul>
 <p class="caption"><span class="caption-text">Code Documentation:</span></p>
 <ul class="current">
@@ -191,7 +192,7 @@ consistency and ease of usage of the IfA Smeargle module. Changes should
 only be applied to the configuration classes.</p>
 <dl class="class">
 <dt id="IfA_Smeargle.zulu.zulu_main.IfasDataArray">
-<em class="property">class </em><code class="sig-prename descclassname">IfA_Smeargle.zulu.zulu_main.</code><code class="sig-name descname">IfasDataArray</code><span class="sig-paren">(</span><em class="sig-param">filename</em>, <em class="sig-param">configuration_class=None</em>, <em class="sig-param">blank=False</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/IfA_Smeargle/zulu/zulu_main.html#IfasDataArray"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#IfA_Smeargle.zulu.zulu_main.IfasDataArray" title="Permalink to this definition">¶</a></dt>
+<em class="property">class </em><code class="sig-prename descclassname">IfA_Smeargle.zulu.zulu_main.</code><code class="sig-name descname">IfasDataArray</code><span class="sig-paren">(</span><em class="sig-param">pathname</em>, <em class="sig-param">configuration_class=None</em>, <em class="sig-param">blank=False</em>, <em class="sig-param">silent=False</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/IfA_Smeargle/zulu/zulu_main.html#IfasDataArray"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#IfA_Smeargle.zulu.zulu_main.IfasDataArray" title="Permalink to this definition">¶</a></dt>
 <dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
 <p>This data frame class is a wrapper object around a data array image.
 For the directory version of this class, see
@@ -203,6 +204,115 @@ more basic and known reductions, pipelines are still preferred (see
 <a class="reference internal" href="IfA_Smeargle.zulu.detector_pipelines.html"><span class="doc">ZULU pipelines</span></a>)</p>
 <p>New pipelines, however, should always be developed using this object
 oriented approach.</p>
+<dl class="method">
+<dt id="IfA_Smeargle.zulu.zulu_main.IfasDataArray.__deepcopy__">
+<code class="sig-name descname">__deepcopy__</code><span class="sig-paren">(</span><em class="sig-param">memo=None</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/IfA_Smeargle/zulu/zulu_main.html#IfasDataArray.__deepcopy__"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#IfA_Smeargle.zulu.zulu_main.IfasDataArray.__deepcopy__" title="Permalink to this definition">¶</a></dt>
+<dd><p>The deepcopy function from the copy module doesn’t behave as
+expected. So, it is important to be cautious.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="IfA_Smeargle.zulu.zulu_main.IfasDataArray.config">
+<em class="property">property </em><code class="sig-name descname">config</code><a class="headerlink" href="#IfA_Smeargle.zulu.zulu_main.IfasDataArray.config" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="IfA_Smeargle.zulu.zulu_main.IfasDataArray.data">
+<em class="property">property </em><code class="sig-name descname">data</code><a class="headerlink" href="#IfA_Smeargle.zulu.zulu_main.IfasDataArray.data" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="IfA_Smeargle.zulu.zulu_main.IfasDataArray.datamask">
+<em class="property">property </em><code class="sig-name descname">datamask</code><a class="headerlink" href="#IfA_Smeargle.zulu.zulu_main.IfasDataArray.datamask" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="IfA_Smeargle.zulu.zulu_main.IfasDataArray.deepcopy">
+<code class="sig-name descname">deepcopy</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/IfA_Smeargle/zulu/zulu_main.html#IfasDataArray.deepcopy"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#IfA_Smeargle.zulu.zulu_main.IfasDataArray.deepcopy" title="Permalink to this definition">¶</a></dt>
+<dd><p>Create a separate deep copy of an IfasDataArray using the data
+within this one.</p>
+<p>There are a few issues with binding and copying this class.
+Because of the recursive and layered nature of this class, there
+are issues with a simple deep copy function from the copy module.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>none</strong> – </p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p><strong>new_instance</strong> – The new copied instance of this class.</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p><a class="reference internal" href="#IfA_Smeargle.zulu.zulu_main.IfasDataArray" title="IfA_Smeargle.zulu.zulu_main.IfasDataArray">IfasDataArray</a></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="method">
+<dt id="IfA_Smeargle.zulu.zulu_main.IfasDataArray.echo_mask">
+<em class="property">property </em><code class="sig-name descname">echo_mask</code><a class="headerlink" href="#IfA_Smeargle.zulu.zulu_main.IfasDataArray.echo_mask" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="IfA_Smeargle.zulu.zulu_main.IfasDataArray.echo_mask_dictionary">
+<em class="property">property </em><code class="sig-name descname">echo_mask_dictionary</code><a class="headerlink" href="#IfA_Smeargle.zulu.zulu_main.IfasDataArray.echo_mask_dictionary" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="IfA_Smeargle.zulu.zulu_main.IfasDataArray.header">
+<em class="property">property </em><code class="sig-name descname">header</code><a class="headerlink" href="#IfA_Smeargle.zulu.zulu_main.IfasDataArray.header" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="IfA_Smeargle.zulu.zulu_main.IfasDataArray.update_pathname">
+<code class="sig-name descname">update_pathname</code><span class="sig-paren">(</span><em class="sig-param">directory=None</em>, <em class="sig-param">filename=None</em>, <em class="sig-param">extension=None</em>, <em class="sig-param">prepend_directory=None</em>, <em class="sig-param">prepend_filename=None</em>, <em class="sig-param">append_directory=None</em>, <em class="sig-param">append_filename=None</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/IfA_Smeargle/zulu/zulu_main.html#IfasDataArray.update_pathname"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#IfA_Smeargle.zulu.zulu_main.IfasDataArray.update_pathname" title="Permalink to this definition">¶</a></dt>
+<dd><p>This allows for the updating of the file directory and filename.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>directory</strong> (<em>string</em><em> (</em><em>optional</em><em>)</em>) – A replacement string that will replace the directory section
+of the pathname.</p></li>
+<li><p><strong>filename</strong> (<em>string</em><em> (</em><em>optional</em><em>)</em>) – A replacement string that will replace the filename section
+of the pathname.</p></li>
+<li><p><strong>extension</strong> (<em>string</em><em> (</em><em>optional</em><em>)</em>) – A replacement string that will replace the extension section
+of the pathname.</p></li>
+<li><p><strong>prepend_directory</strong> (<em>string</em><em> (</em><em>optional</em><em>)</em>) – A string that will be prepended onto the directory string.</p></li>
+<li><p><strong>prepend_filename</strong> (<em>string</em><em> (</em><em>optional</em><em>)</em>) – A string that will be prepended onto the filename string.</p></li>
+<li><p><strong>append_directory</strong> (<em>string</em><em> (</em><em>optional</em><em>)</em>) – A string that will be appended onto the directory string.</p></li>
+<li><p><strong>append_filename</strong> (<em>string</em><em> (</em><em>optional</em><em>)</em>) – A string that will be appended onto the filename string.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p><strong>new_pathname</strong> – The new pathname of this file.</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>string</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="method">
+<dt id="IfA_Smeargle.zulu.zulu_main.IfasDataArray.write_fits_file">
+<code class="sig-name descname">write_fits_file</code><span class="sig-paren">(</span><em class="sig-param">overwrite=True</em>, <em class="sig-param">silent=False</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/IfA_Smeargle/zulu/zulu_main.html#IfasDataArray.write_fits_file"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#IfA_Smeargle.zulu.zulu_main.IfasDataArray.write_fits_file" title="Permalink to this definition">¶</a></dt>
+<dd><p>This writes the fits file to, well, file.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>pathname</strong> (<em>string</em><em> (</em><em>optional</em><em>)</em>) – The path where the file will be stored.</p></li>
+<li><p><strong>overwrite</strong> (<em>boolean</em><em> (</em><em>optional</em><em>)</em>) – If <code class="docutils literal notranslate"><span class="pre">True</span></code>, if there exists a file of the same name, overwrite.</p></li>
+<li><p><strong>silent</strong> (<em>boolean</em><em> (</em><em>optional</em><em>)</em>) – Turn off all warnings and information sent by this function and
+functions below it.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p><strong>hdul_file</strong> – The file object that was written to disk. If <code class="docutils literal notranslate"><span class="pre">hdu_object</span></code> was
+provided, it is returned untouched.</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>Astropy HDUList</p>
+</dd>
+</dl>
+</dd></dl>
+
 </dd></dl>
 
 </div>

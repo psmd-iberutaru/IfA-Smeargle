@@ -84,6 +84,7 @@
               <p class="caption"><span class="caption-text">Usage and Operation:</span></p>
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="../../../quickstart.html">Quickstart</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../creating_pipelines.html">Creating Pipelines</a></li>
 </ul>
 <p class="caption"><span class="caption-text">Code Documentation:</span></p>
 <ul>
@@ -242,6 +243,24 @@
 <span class="c1"># reserved for very critical problems within the code itself (it rarely </span>
 <span class="c1"># should be the fault of the user&#39;s).</span>
 
+<div class="viewcode-block" id="AssumptionError"><a class="viewcode-back" href="../../../python_docstrings/IfA_Smeargle.meta.errors.html#IfA_Smeargle.meta.errors.AssumptionError">[docs]</a><span class="k">class</span> <span class="nc">AssumptionError</span><span class="p">(</span><span class="n">Smeargle_BaseException</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    This error is reserved for instances where something unexpected has </span>
+<span class="sd">    occurred because of a flaw in the understanding of assumptions about</span>
+<span class="sd">    Python or module functions.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">message</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+        <span class="k">if</span> <span class="p">(</span><span class="nb">isinstance</span><span class="p">(</span><span class="n">message</span><span class="p">,</span> <span class="nb">str</span><span class="p">)):</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">message</span> <span class="o">=</span> <span class="p">(</span><span class="s2">&quot;TERMINAL: &quot;</span> <span class="o">+</span> <span class="n">message</span>
+                            <span class="o">+</span> <span class="s2">&quot;</span><span class="se">\n</span><span class="s2"> &gt;&gt; Please contact maintainers or Sparrow to resolve this issue.&quot;</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">message</span> <span class="o">=</span> <span class="p">(</span><span class="s2">&quot;TERMINAL: An errinous result has transpired because of an &quot;</span>
+                            <span class="s2">&quot;incorrect assumption about how Python or other Python modules or &quot;</span>
+                            <span class="s2">&quot;functions work. Please contact maintainers or Sparrow to resolve &quot;</span>
+                            <span class="s2">&quot;this issue.&quot;</span><span class="p">)</span>
+
+    <span class="k">pass</span></div>
+
 <div class="viewcode-block" id="BrokenLogicError"><a class="viewcode-back" href="../../../python_docstrings/IfA_Smeargle.meta.errors.html#IfA_Smeargle.meta.errors.BrokenLogicError">[docs]</a><span class="k">class</span> <span class="nc">BrokenLogicError</span><span class="p">(</span><span class="n">Smeargle_BaseException</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    This error is encountered when the program enters in a place it should </span>
@@ -255,23 +274,6 @@
         <span class="k">else</span><span class="p">:</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">message</span> <span class="o">=</span> <span class="p">(</span><span class="s2">&quot;TERMINAL: Something is not right with the code&#39;s logic. Please &quot;</span>
                             <span class="s2">&quot;contact maintainers or Sparrow to resolve this issue.&quot;</span><span class="p">)</span>
-
-    <span class="k">pass</span></div>
-
-<div class="viewcode-block" id="BugError"><a class="viewcode-back" href="../../../python_docstrings/IfA_Smeargle.meta.errors.html#IfA_Smeargle.meta.errors.BugError">[docs]</a><span class="k">class</span> <span class="nc">BugError</span><span class="p">(</span><span class="n">Smeargle_BaseException</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">    This error is mostly used for cases where, if it is triggered, there is </span>
-<span class="sd">    likely a bug. The bug&#39;s status should mostly deal with logic flow and a</span>
-<span class="sd">    broken program (compared to bad results, which is less obvious to detect).</span>
-<span class="sd">    &quot;&quot;&quot;</span>
-    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">message</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
-        <span class="k">if</span> <span class="p">(</span><span class="nb">isinstance</span><span class="p">(</span><span class="n">message</span><span class="p">,</span> <span class="nb">str</span><span class="p">)):</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">message</span> <span class="o">=</span> <span class="p">(</span><span class="s2">&quot;TERMINAL: &quot;</span> <span class="o">+</span> <span class="n">message</span>
-                            <span class="o">+</span> <span class="s2">&quot;</span><span class="se">\n</span><span class="s2"> &gt;&gt; Please contact maintainers or Sparrow to resolve this issue.&quot;</span><span class="p">)</span>
-        <span class="k">else</span><span class="p">:</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">message</span> <span class="o">=</span> <span class="p">(</span><span class="s2">&quot;TERMINAL: There seems to be a bug in the code</span><span class="se">\&#39;</span><span class="s2">s processing. The &quot;</span>
-                            <span class="s2">&quot;problem seems to be from a bad program/function execution. Please &quot;</span>
-                            <span class="s2">&quot;contact maintainers or Sparrow to resolve the issue.&quot;</span><span class="p">)</span>
 
     <span class="k">pass</span></div>
 
@@ -290,7 +292,7 @@
         <span class="k">else</span><span class="p">:</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">message</span> <span class="o">=</span> <span class="p">(</span><span class="s2">&quot;TERMINAL: This function is terminally deprecated. There exists a &quot;</span>
                             <span class="s2">&quot;different and equivalent function. Use that function. Please &quot;</span>
-                            <span class="s2">&quot;contact maintainers or Sparrow to resolve this issue if need be.&quot;</span><span class="p">)</span>
+                            <span class="s2">&quot;contact maintainers or Sparrow to resolve this issue.&quot;</span><span class="p">)</span>
     <span class="k">pass</span></div>
 
 <div class="viewcode-block" id="IncompleteError"><a class="viewcode-back" href="../../../python_docstrings/IfA_Smeargle.meta.errors.html#IfA_Smeargle.meta.errors.IncompleteError">[docs]</a><span class="k">class</span> <span class="nc">IncompleteError</span><span class="p">(</span><span class="n">Smeargle_BaseException</span><span class="p">):</span>
@@ -300,14 +302,15 @@
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">message</span> <span class="o">=</span> <span class="p">(</span><span class="s2">&quot;TERMINAL: This section of the code is incomplete and likely does not &quot;</span>
-                        <span class="s2">&quot;work at all. Proceeding is not allowed. Send the call stack to &quot;</span>
-                        <span class="s2">&quot;maintainers or Sparrow to resolve this issue.&quot;</span><span class="p">)</span>
+                        <span class="s2">&quot;work at all. Proceeding is not allowed. Please contact maintainers &quot;</span>
+                        <span class="s2">&quot;or Sparrow to resolve this issue.&quot;</span><span class="p">)</span>
     <span class="k">def</span> <span class="nf">__str__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">message</span></div>
 
 <div class="viewcode-block" id="TerminalError"><a class="viewcode-back" href="../../../python_docstrings/IfA_Smeargle.meta.errors.html#IfA_Smeargle.meta.errors.TerminalError">[docs]</a><span class="k">class</span> <span class="nc">TerminalError</span><span class="p">(</span><span class="n">Smeargle_BaseException</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">    Something has gone terribly wrong. It is best to contact Sparrow. </span>
+<span class="sd">    Something has gone terribly wrong. It is best to contact the maintainers </span>
+<span class="sd">    or Sparrow. </span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">message</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
         <span class="k">if</span> <span class="p">(</span><span class="n">message</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">):</span>
@@ -315,7 +318,9 @@
         <span class="k">elif</span> <span class="p">(</span><span class="nb">isinstance</span><span class="p">(</span><span class="n">message</span><span class="p">,</span> <span class="nb">str</span><span class="p">)):</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">message</span> <span class="o">=</span> <span class="p">(</span><span class="s2">&quot;TERMINAL: &quot;</span> <span class="o">+</span> <span class="n">message</span><span class="p">)</span>
         <span class="k">else</span><span class="p">:</span>
-            <span class="k">raise</span> <span class="n">TerminalError</span><span class="p">(</span><span class="s2">&quot;The message for a TERMINAL error must be a string.&quot;</span><span class="p">)</span>
+            <span class="k">raise</span> <span class="n">InputError</span><span class="p">(</span><span class="s2">&quot;The message for a TERMINAL error must be a string.&quot;</span><span class="p">)</span>
+            <span class="k">raise</span> <span class="n">TerminalError</span><span class="p">(</span><span class="s2">&quot;The message for a TERMINAL error must be a string. The &quot;</span>
+                                <span class="s2">&quot;previous InputError was likely caught by a try-except block.&quot;</span><span class="p">)</span>
     
     <span class="k">def</span> <span class="nf">__str__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">message</span></div>
