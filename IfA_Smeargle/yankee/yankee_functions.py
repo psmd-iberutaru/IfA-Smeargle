@@ -8,7 +8,6 @@ import copy
 import inspect
 import os
 import pickle
-import warnings as warn
 
 import IfA_Smeargle.yankee as yankee
 

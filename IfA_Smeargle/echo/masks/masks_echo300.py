@@ -3,12 +3,8 @@ This file contains the code to calculate which pixel should be masked. Note the 
 in this file is 300; this file only contains ECHO-300 class masks.
 """
 
-import astropy as ap
 import numpy as np
-import scipy as sp
-import warnings as warn
 
-from IfA_Smeargle import echo
 from IfA_Smeargle.echo import echo_functions as echo_funct
 from IfA_Smeargle.echo import masks
 from IfA_Smeargle.meta import *

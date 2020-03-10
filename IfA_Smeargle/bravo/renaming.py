@@ -6,15 +6,10 @@ something more useful and accurate to the data.
 """
 
 
-import copy
 import glob
-import numpy as np
 import os 
-import shutil
-import time
 
 
-from IfA_Smeargle import bravo
 from IfA_Smeargle.meta import *
 
 

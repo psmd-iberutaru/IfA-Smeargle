@@ -13,16 +13,11 @@ only be applied to the configuration classes.
 """ 
 
 import copy
-import importlib
-import inspect
-import numpy as np
 import numpy.ma as np_ma
 import os
-import types
 
 from IfA_Smeargle import bravo
 from IfA_Smeargle import echo
-from IfA_Smeargle import oscar
 from IfA_Smeargle import yankee
 
 from IfA_Smeargle.meta import *
@@ -541,7 +536,7 @@ class IfasDataArray():
                              "family. Moreover, it should be the class itself, not an "
                              "instance thereof.")
         # Type checking the key.
-        if (not isinstance(subconfig_key,str)):
+        if (not isinstance(subconfig_key, str)):
             raise InputError("The sub-configuration class key must be a string as it is a "
                              "dictionary key.")
         # Then the user's inputs.
@@ -646,10 +641,11 @@ class IfasDataArray():
         if (not isinstance(self, IfasDataArray)):
             raise TypeError("Deepcopy functionality is not supported for instances that are "
                             "not derived from IfasDataArray.")
-        elif (type(self) == IfasDataArray):
+        elif (type(self) != IfasDataArray):
             smeargle_warning(OutputWarning,("Deepcopy functionality is not officially supported "
                                             "for non-direct instances of IfasDataArray."))
-
+        else:
+            pass
 
         # The best way to resolve unwanted references is just to make a new
         # class.
@@ -657,7 +653,7 @@ class IfasDataArray():
                                      blank=True, silent=True)
 
         # Extract the needed data to copy over and do so.
-        original_instance = copy.deepcopy(self)
+        original_instance = copy.copy(self)
         original_dictionary = copy.deepcopy(vars(original_instance))
         for keydex, valuedex in copy.deepcopy(original_dictionary).items():
             if (callable(valuedex)):

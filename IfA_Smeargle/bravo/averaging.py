@@ -1,9 +1,6 @@
 
-import astropy as ap
-import astropy.io.fits as ap_fits
 import numpy as np
 import numpy.ma as np_ma
-import warnings as warn
 
 from IfA_Smeargle.meta import *
 

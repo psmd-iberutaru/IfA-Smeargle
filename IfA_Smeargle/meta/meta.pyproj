@@ -23,13 +23,7 @@
     <EnableUnmanagedDebugging>false</EnableUnmanagedDebugging>
   </PropertyGroup>
   <ItemGroup>
-    <Compile Include="configuration.py">
-      <SubType>Code</SubType>
-    </Compile>
     <Compile Include="errors.py">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="fits_and_arrays.py">
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="mathematics.py">

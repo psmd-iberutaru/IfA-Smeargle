@@ -4,19 +4,11 @@ This file contains the code to calculate which pixel should be masked. Note the 
 in this file is 100; this file only contains ECHO-100 class masks.
 """
 
-import astropy as ap
-import astropy.modeling as ap_mod
 import numpy as np
-import numpy.ma as np_ma
-import scipy as sp
-import matplotlib.pyplot as plt
-import warnings as warn
 
-from IfA_Smeargle import echo
 from IfA_Smeargle.echo import echo_functions as echo_funct
 from IfA_Smeargle.echo import masks
 from IfA_Smeargle.meta import *
-from IfA_Smeargle import oscar
 
 
 def echo120_subarray_mask(data_array, x_range, y_range, previous_mask={}, 
