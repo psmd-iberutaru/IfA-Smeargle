@@ -8,20 +8,6 @@ import numpy.ma as np_ma
 import IfA_Smeargle.core as core
 import IfA_Smeargle.masking as mask
 
-"""
-[value]
-    gaussian_sigma_value = float
-    gaussian_bin_width = float
-    sigma_sigma_value = float
-    top_percent = float(min=0, max=1)
-    bottom_percent = float(min=0, max=1)
-    top_count = integer
-    bottom_count = integer
-    minimum_value = float
-    maximum_value = float
-    exact_value = float
-"""
-
 def filter_sigma_value(data_array, sigma_multiple):
     """
     This applies a mask on pixels outside a given multiple of a sigma 
@@ -67,10 +53,9 @@ def filter_sigma_value(data_array, sigma_multiple):
         top_sigma_multiple = flat_sigma_multiple[-1]
 
     # Calculate the mean and the sigma values of the data array.
-    mean = core.math.ifas_masked_mean(data_array)
-    stddev = core.math.ifas_masked_std(data_array)
+    mean = core.math.ifas_robust_mean(data_array)
+    stddev = core.math.ifas_robust_std(data_array)
         
-
     # Calculating the two individual filters and combining them.
     min_filter = filter_minimum_value(
         data_array=data_array, 
@@ -269,4 +254,34 @@ def filter_exact_value(data_array, exact_value):
 
     # Done
     return final_filter
+
+def filter_invalid_value(data_array):
+    """ This filter applies a mask to all numerically invalid inputs on a 
+    programing side.
+
+    Numbers that are usually infinite or some other nonsensical quantity 
+    serve no real usage in calculations further downstream. Therefore, they 
+    are masked here.
+
+    See numpy.ma.fix_invalid for what is considered invalid.
+
+    Parameters
+    ----------
+    data_array : ndarray
+        The data array that the mask will be calculated from.
+
+    Returns
+    -------
+    final_mask : ndarray -> dictionary
+        A boolean array for pixels that are masked (True) or are valid 
+        (False).
+
+    """
+    # As fixing all invalid data is required, masks might obscure the data
+    # itself.
+    raw_data_array = np_ma.getdata(data_array)
+    # Mask all of the invalid data.
+    final_mask = np_ma.getmaskarray(np_ma.fix_invalid(raw_data_array))
+
+    return final_mask
 

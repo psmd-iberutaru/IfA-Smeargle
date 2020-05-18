@@ -28,7 +28,15 @@ def get_module_directory():
     module_directory : string
         The directory of this module.
     """
-    return os.path.dirname(os.path.abspath(__file__))
+    # Getting the module directory based on the script 
+    # file's location.
+    module_directory = os.path.dirname(os.path.abspath(__file__))
+
+    # Adding the extra slash, else the directory name may be 
+    # incorrectly split as a file name.
+    module_directory = os.path.join(module_directory,'')
+
+    return module_directory
 
 def get_specification_files():
     """ This function obtains all of the configuration specification files,
@@ -65,7 +73,7 @@ def get_specification_files():
         assert (spec_ext == '.spec')
         spec_files[spec_key] = filedex
 
-    # The files have been combiled.
+    # The files have been combined.
     return spec_files
 
 

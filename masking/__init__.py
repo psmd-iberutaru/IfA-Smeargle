@@ -9,7 +9,6 @@ import IfA_Smeargle.masking.base_functions as base
 
 # The masking functions.
 from IfA_Smeargle.masking.geometric import *
-from IfA_Smeargle.masking.validate import *
 #from IfA_Smeargle.masking.value import *
 
 # Filtering functions.

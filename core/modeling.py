@@ -11,11 +11,12 @@ import numpy.ma as np_ma
 import IfA_Smeargle.core as core
 
 def fit_gaussian_function(x_data, y_data, inital_guesses):
-    """ This function fits a Gaussian function to a specific set of data.
+    """ This function fits a Gaussian function to a specific set of 
+    data.
 
     Gaussian fitting is hard, this function exists as a port so that 
-    all fitting functions use the same algorithm and said algorithm is easy
-    to change.
+    all fitting functions use the same algorithm and said algorithm 
+    is easy to change.
     
     Parameters
     ----------
@@ -24,23 +25,31 @@ def fit_gaussian_function(x_data, y_data, inital_guesses):
     y_data : ndarray
         The Y data that the Gaussian will be fit over.
     inital_guesses : dictionary
-        Initial guesses for the Gaussian fitting function. The allowed 
-        inputs and their keys are:
+        Initial guesses for the Gaussian fitting function. The 
+        allowed inputs and their keys are:
 
-            * 'mean' : The inital guess of the gaussian function's mean. 
-                       Defaults to 0.
-            * 'stddev' : The inital guess of the gaussian function's standard  
-                         deviation. Defaults to 1.
-            * 'amplitude' : The intial guess of the gaussian function's 
-                            amplitude. Defaults to 1.
+            * 'mean' : The initial guess of the Gaussian function's 
+                       mean. Defaults to 0.
+            * 'studded' : The initial guess of the Gaussian    
+                          function's standard deviation. 
+                          Defaults to 1.
+            * 'amplitude' : The initial guess of the Gaussian 
+                            function's  amplitude. Defaults to 1.
     Returns
     -------
     gaussian_function : function
-        A callable function that when provided an X value, it will return
-        the value of the function.
+        A callable function that when provided an X value, it 
+        will return the value of the function.
     gaussian_parameters : dictionary
-        A compiled dictionary of all of the parameters of the Gaussian fit.
+        A compiled dictionary of all of the parameters of the 
+        Gaussian fit.
     """
+
+    # Ensure that the x_data and y_data are the same length.
+    if (len(x_data) != len(y_data)):
+        raise core.error.InputError("The x-data and y-data arrays must be "
+                                    "parallel arrays; thus, their sizes "
+                                    "must be the same.")
 
     # Extract the initial guesses.
     inital_guesses = dict(inital_guesses)
@@ -48,14 +57,22 @@ def fit_gaussian_function(x_data, y_data, inital_guesses):
     guess_stddev = inital_guesses.get('stddev', 1)
     guess_amplitude = inital_guesses.get('amplitude', 1)
 
-    # Plotting/fitting the Gaussian function.  For some reasons beyond 
+    # Plotting/fitting the Gaussian function. For some reasons beyond 
     # what Sparrow can explain, Astropy seems to have better fitting 
     # capabilities, in this specific application, than Scipy.
-    gaussian_init = ap_mod.models.Gaussian1D(amplitude=guess_amplitude, 
-                                             mean=guess_mean, 
-                                             stddev=guess_stddev)
+    gaussian_init = ap_mod.models.Gaussian1D(
+        amplitude=guess_amplitude, mean=guess_mean, stddev=guess_stddev)
     gaussian_fit_model = ap_mod.fitting.LevMarLSQFitter()
-    gaussian_fit = gaussian_fit_model(gaussian_init, x_data, y_data)
+    # If the number of data points is less than three, a model cannot
+    # be reasonably fit as it is over-fit.
+    try:
+        gaussian_fit = gaussian_fit_model(gaussian_init, x_data, y_data)
+    except:
+        raise core.error.DataError("The number of data points is {num}. "
+                                   "This is likely less than the number of "
+                                   "fitting parameters (3). The data cannot "
+                                   "be fit."
+                                   .format(num=len(x_data)))
 
     # Deriving basic information form Gaussian model to return back to 
     # the user.
@@ -63,7 +80,7 @@ def fit_gaussian_function(x_data, y_data, inital_guesses):
     gaussian_stddev = gaussian_fit.stddev.value
     gaussian_amplitude = gaussian_fit.amplitude.value
     temp_gauss_x_axis = np.linspace(np.nanmin(x_data) - 1, np.nanmax(x_data) + 1, 
-                                    x_data.size * 100)
+                                    1000 + 100*x_data.size**2)
     gaussian_max = np.max(gaussian_fit(temp_gauss_x_axis))
     gaussian_parameters = {'mean':gaussian_mean, 'stddev':gaussian_stddev,
                            'amplitude':gaussian_amplitude, 'max':gaussian_max}

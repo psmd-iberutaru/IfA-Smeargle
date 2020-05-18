@@ -151,7 +151,6 @@ def random_string(characters, length):
     return random_string
 
 
-
 def split_pathname(pathname):
     """ This fuction splits a pathname into the directory, file, and extension
     names.
@@ -170,7 +169,10 @@ def split_pathname(pathname):
     extension : string
         The extension component of the path.
     """
+    # Type checking.
+    pathname = str(pathname)
 
+    # Split the pathname into directory/filename.extension.
     directory = os.path.split(pathname)[0]
     file_name = os.path.splitext(os.path.split(pathname)[1])[0]
     extension = os.path.splitext(pathname)[1]

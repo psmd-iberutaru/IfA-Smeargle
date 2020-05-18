@@ -37,6 +37,10 @@ def script_mask_single_pixels(config):
         config_object=config, keys=['recursive'])
     subfolder = core.config.extract_configuration(
         config_object=config, keys=['subfolder'])
+
+    # Extract the run flag for this particular script.
+    run_flag = core.config.extract_configuration(
+        config_object=config, keys=['geometric','run_mask_single_pixels'])
     # Extract the masking programs configuration parameters.
     column_indexes = core.config.extract_configuration(
         config_object=config, keys=['geometric','pixel_column_indexes'])
@@ -57,7 +61,8 @@ def script_mask_single_pixels(config):
                                          mask_arguments=masking_arguments,
                                          mask_file_name=mask_file_name,
                                          recursive=recursive, 
-                                         subfolder=subfolder)
+                                         subfolder=subfolder,
+                                         run=run_flag)
 
     # All done.
     return None
@@ -88,6 +93,10 @@ def script_mask_rectangle(config):
         config_object=config, keys=['recursive'])
     subfolder = core.config.extract_configuration(
         config_object=config, keys=['subfolder'])
+
+    # Extract the run flag for this particular script.
+    run_flag = core.config.extract_configuration(
+        config_object=config, keys=['geometric','run_mask_rectangle'])
     # Extract the masking programs configuration parameters.
     column_range = core.config.extract_configuration(
         config_object=config, keys=['geometric','rectangle_column_range'])
@@ -108,7 +117,8 @@ def script_mask_rectangle(config):
                                          mask_arguments=masking_arguments,
                                          mask_file_name=mask_file_name,
                                          recursive=recursive, 
-                                         subfolder=subfolder)
+                                         subfolder=subfolder,
+                                         run=run_flag)
 
     # All done.
     return None
@@ -139,6 +149,10 @@ def script_mask_subarray(config):
         config_object=config, keys=['recursive'])
     subfolder = core.config.extract_configuration(
         config_object=config, keys=['subfolder'])
+
+    # Extract the run flag for this particular script.
+    run_flag = core.config.extract_configuration(
+        config_object=config, keys=['geometric','run_mask_subarray'])
     # Extract the masking programs configuration parameters.
     column_range = core.config.extract_configuration(
         config_object=config, keys=['geometric','subarray_column_range'])
@@ -159,7 +173,8 @@ def script_mask_subarray(config):
                                          mask_arguments=masking_arguments,
                                          mask_file_name=mask_file_name,
                                          recursive=recursive, 
-                                         subfolder=subfolder)
+                                         subfolder=subfolder,
+                                         run=run_flag)
 
     # All done.
     return None
@@ -190,6 +205,10 @@ def script_mask_columns(config):
         config_object=config, keys=['recursive'])
     subfolder = core.config.extract_configuration(
         config_object=config, keys=['subfolder'])
+
+    # Extract the run flag for this particular script.
+    run_flag = core.config.extract_configuration(
+        config_object=config, keys=['geometric','run_mask_columns'])
     # Extract the masking programs configuration parameters.
     column_list = core.config.extract_configuration(
         config_object=config, keys=['geometric','column_list'])
@@ -207,7 +226,8 @@ def script_mask_columns(config):
                                          mask_arguments=masking_arguments,
                                          mask_file_name=mask_file_name,
                                          recursive=recursive, 
-                                         subfolder=subfolder)
+                                         subfolder=subfolder,
+                                         run=run_flag)
 
     # All done.
     return None
@@ -238,6 +258,10 @@ def script_mask_rows(config):
         config_object=config, keys=['recursive'])
     subfolder = core.config.extract_configuration(
         config_object=config, keys=['subfolder'])
+
+    # Extract the run flag for this particular script.
+    run_flag = core.config.extract_configuration(
+        config_object=config, keys=['geometric','run_mask_rows'])
     # Extract the masking programs configuration parameters.
     row_list = core.config.extract_configuration(
         config_object=config, keys=['geometric','row_list'])
@@ -255,7 +279,8 @@ def script_mask_rows(config):
                                          mask_arguments=masking_arguments,
                                          mask_file_name=mask_file_name,
                                          recursive=recursive, 
-                                         subfolder=subfolder)
+                                         subfolder=subfolder,
+                                         run=run_flag)
 
     # All done.
     return None
@@ -286,6 +311,10 @@ def script_mask_nothing(config):
         config_object=config, keys=['recursive'])
     subfolder = core.config.extract_configuration(
         config_object=config, keys=['subfolder'])
+
+    # Extract the run flag for this particular script.
+    run_flag = core.config.extract_configuration(
+        config_object=config, keys=['geometric','run_mask_nothing'])
     # Extract the masking programs configuration parameters.
     pass
 
@@ -302,7 +331,8 @@ def script_mask_nothing(config):
                                          mask_arguments=masking_arguments,
                                          mask_file_name=mask_file_name,
                                          recursive=recursive, 
-                                         subfolder=subfolder)
+                                         subfolder=subfolder,
+                                         run=run_flag)
 
     # All done.
     return None
@@ -333,6 +363,10 @@ def script_mask_everything(config):
         config_object=config, keys=['recursive'])
     subfolder = core.config.extract_configuration(
         config_object=config, keys=['subfolder'])
+
+    # Extract the run flag for this particular script.
+    run_flag = core.config.extract_configuration(
+        config_object=config, keys=['geometric','run_mask_everything'])
     # Extract the masking programs configuration parameters.
     pass
 
@@ -349,7 +383,8 @@ def script_mask_everything(config):
                                          mask_arguments=masking_arguments,
                                          mask_file_name=mask_file_name,
                                          recursive=recursive, 
-                                         subfolder=subfolder)
+                                         subfolder=subfolder,
+                                         run=run_flag)
 
     # All done.
     return None
@@ -382,6 +417,9 @@ def script_filter_sigma_value(config):
     subfolder = core.config.extract_configuration(
         config_object=config, keys=['subfolder'])
 
+    # Extract the run flag for this particular script.
+    run_flag = core.config.extract_configuration(
+        config_object=config, keys=['filter','run_filter_sigma_value'])
     # Extract the filter programs configuration parameters.
     sigma_multiple = core.config.extract_configuration(
         config_object=config, keys=['filter','sigma_multiple'])
@@ -398,7 +436,8 @@ def script_filter_sigma_value(config):
                                             filter_arguments=filter_arguments,
                                             filter_file_tag=filter_tag_name,
                                             recursive=recursive, 
-                                            subfolder=subfolder)
+                                            subfolder=subfolder,
+                                            run=run_flag)
     # All done.
     return None
 
@@ -429,6 +468,9 @@ def script_filter_percent_truncation(config):
     subfolder = core.config.extract_configuration(
         config_object=config, keys=['subfolder'])
 
+    # Extract the run flag for this particular script.
+    run_flag = core.config.extract_configuration(
+        config_object=config, keys=['filter','run_filter_percent_truncation'])
     # Extract the filter programs configuration parameters.
     top_percent = core.config.extract_configuration(
         config_object=config, keys=['filter','top_percent'])
@@ -448,7 +490,8 @@ def script_filter_percent_truncation(config):
                                             filter_arguments=filter_arguments,
                                             filter_file_tag=filter_tag_name,
                                             recursive=recursive, 
-                                            subfolder=subfolder)
+                                            subfolder=subfolder,
+                                            run=run_flag)
     # All done.
     return None
 
@@ -479,6 +522,9 @@ def script_filter_pixel_truncation(config):
     subfolder = core.config.extract_configuration(
         config_object=config, keys=['subfolder'])
 
+    # Extract the run flag for this particular script.
+    run_flag = core.config.extract_configuration(
+        config_object=config, keys=['filter','run_filter_pixel_truncation'])
     # Extract the filter programs configuration parameters.
     top_count = core.config.extract_configuration(
         config_object=config, keys=['filter','top_count'])
@@ -497,7 +543,8 @@ def script_filter_pixel_truncation(config):
                                             filter_arguments=filter_arguments,
                                             filter_file_tag=filter_tag_name,
                                             recursive=recursive, 
-                                            subfolder=subfolder)
+                                            subfolder=subfolder,
+                                            run=run_flag)
     # All done.
     return None
 
@@ -528,6 +575,9 @@ def script_filter_maximum_value(config):
     subfolder = core.config.extract_configuration(
         config_object=config, keys=['subfolder'])
 
+    # Extract the run flag for this particular script.
+    run_flag = core.config.extract_configuration(
+        config_object=config, keys=['filter','run_filter_maximum_value'])
     # Extract the filter programs configuration parameters.
     maximum_value = core.config.extract_configuration(
         config_object=config, keys=['filter','maximum_value'])
@@ -544,7 +594,8 @@ def script_filter_maximum_value(config):
                                             filter_arguments=filter_arguments,
                                             filter_file_tag=filter_tag_name,
                                             recursive=recursive, 
-                                            subfolder=subfolder)
+                                            subfolder=subfolder,
+                                            run=run_flag)
     # All done.
     return None
 
@@ -575,6 +626,9 @@ def script_filter_minimum_value(config):
     subfolder = core.config.extract_configuration(
         config_object=config, keys=['subfolder'])
 
+    # Extract the run flag for this particular script.
+    run_flag = core.config.extract_configuration(
+        config_object=config, keys=['filter','run_filter_minimum_value'])
     # Extract the filter programs configuration parameters.
     minimum_value = core.config.extract_configuration(
         config_object=config, keys=['filter','minimum_value'])
@@ -591,7 +645,8 @@ def script_filter_minimum_value(config):
                                             filter_arguments=filter_arguments,
                                             filter_file_tag=filter_tag_name,
                                             recursive=recursive, 
-                                            subfolder=subfolder)
+                                            subfolder=subfolder,
+                                            run=run_flag)
     # All done.
     return None
 
@@ -622,6 +677,9 @@ def script_filter_exact_value(config):
     subfolder = core.config.extract_configuration(
         config_object=config, keys=['subfolder'])
 
+    # Extract the run flag for this particular script.
+    run_flag = core.config.extract_configuration(
+        config_object=config, keys=['filter','run_filter_exact_value'])
     # Extract the filter programs configuration parameters.
     exact_value = core.config.extract_configuration(
         config_object=config, keys=['filter','exact_value'])
@@ -638,10 +696,60 @@ def script_filter_exact_value(config):
                                             filter_arguments=filter_arguments,
                                             filter_file_tag=filter_tag_name,
                                             recursive=recursive, 
-                                            subfolder=subfolder)
+                                            subfolder=subfolder,
+                                            run=run_flag)
     # All done.
     return None
 
+def script_filter_invalid_value(config):
+    """ The scripting version of `filter_invalid_value`. This 
+    function applies the filter to the entire directory (or single 
+    file). It also adds the tags to the header file of each fits 
+    file indicating the number of pixels filtered for this filter.
+    
+    Parameters
+    ----------
+    config : ConfigObj
+        The configuration object that is to be used for this 
+        function.
+
+    Returns
+    -------
+    None
+    """
+    # Extract the global configuration parameters, including 
+    # the directory.
+    data_directory = core.config.extract_configuration(
+        config_object=config, keys=['data_directory'])
+    filter_tag_name = core.config.extract_configuration(
+        config_object=config, keys=['filter_tag_name'])
+    recursive = core.config.extract_configuration(
+        config_object=config, keys=['recursive'])
+    subfolder = core.config.extract_configuration(
+        config_object=config, keys=['subfolder'])
+
+    # Extract the run flag for this particular script.
+    run_flag = core.config.extract_configuration(
+        config_object=config, keys=['filter','filter_invalid_value'])
+    # Extract the filter programs configuration parameters.
+    pass
+
+    # The function that is being used to calculate the masks.
+    filter_function = mask.filter_invalid_value
+
+    # Compiling the arguments that the masking function uses.
+    filter_arguments = {}
+
+    # Create the filters from the directory.
+    mask.base.create_directory_filter_files(data_directory=data_directory,  
+                                            filter_function=filter_function,
+                                            filter_arguments=filter_arguments,
+                                            filter_file_tag=filter_tag_name,
+                                            recursive=recursive, 
+                                            subfolder=subfolder,
+                                            run=run_flag)
+    # All done.
+    return None
 
 
 
@@ -710,13 +818,12 @@ def script_synthesize_masks(config):
     # for them.
     if ((len(str(mask_file_name)) == 0) or (mask_file_name is None)):
         # A valid name has not been provided, creating a random name.
-        mask_file_name = core.strformat.random_string(
-            string.ascii_lowercase, 8)
+        mask_file_name = 'SYNTHESIZED'
         core.error.ifas_warning(core.error.InputWarning,
                                 ("A valid masking name has not been "
-                                 "provided. The random name `{rand_name}` "
+                                 "provided. The defined name `{def_name}` "
                                  "shall be used instead."
-                                 .format(rand_name=mask_file_name)))
+                                 .format(def_name=mask_file_name)))
 
     # Read out the mask file into the main data directory.
     mask_pathname = core.strformat.combine_pathname(
@@ -752,8 +859,6 @@ def script_synthesize_filters(config):
     # the directory.
     data_directory = core.config.extract_configuration(
         config_object=config, keys=['data_directory'])
-    mask_file_name = core.config.extract_configuration(
-        config_object=config, keys=['mask_file_name'])
     recursive = core.config.extract_configuration(
         config_object=config, keys=['recursive'])
     subfolder = core.config.extract_configuration(
@@ -764,7 +869,7 @@ def script_synthesize_filters(config):
                                            recursive=recursive)
 
     # Get all of the filter files within this directory too.
-    # subfolder forces the filters into subdirectories which are 
+    # sub-folder forces the filters into subdirectories which are 
     # custom made, so the recursive is forced True.
     if ((subfolder) and (not recursive)):
         core.error.ifas_info("The `recursive` flag is False but `subfolder` "
@@ -817,14 +922,14 @@ def script_synthesize_filters(config):
 
         # Deriving the name of the filter file to be written. It 
         # changes depending on user's data directory and the 
-        # subfolder status.
+        # sub-folder status.
         dir, file, ext = core.strformat.split_pathname(pathname=datafiledex)
         filter_dir_name = core.runtime.extract_runtime_configuration(
             config_key='FILTERING_SUBDIR')
         synth_filter_filename = core.strformat.combine_pathname(
             directory=([dir, filter_dir_name, 'FILTER_SYNTHESIZE'] 
                        if subfolder else [dir]), 
-            file_name=[file, '__SYNTHESIZE'], extension=['.filter','.fits'])
+            file_name=[file, '__SYNTHESIZED'], extension=['.filter','.fits'])
         # Also check if the folder exists, if not, then make it.
         if (not os.path.isdir(core.strformat.combine_pathname(
             directory=([dir, filter_dir_name, 'FILTER_SYNTHESIZE'] 
@@ -839,3 +944,6 @@ def script_synthesize_filters(config):
         core.io.write_fits_file(file_name=synth_filter_filename, 
                                 hdu_header=None, hdu_data=hdu_filter,
                                 save_file=True, overwrite=False, silent=True)
+
+    # All done.
+    return None

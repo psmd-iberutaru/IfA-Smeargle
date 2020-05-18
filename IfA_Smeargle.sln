@@ -13,6 +13,8 @@ Project("{888888A0-9F3D-457C-B088-3A5042F75D52}") = "masking", "masking\masking.
 EndProject
 Project("{888888A0-9F3D-457C-B088-3A5042F75D52}") = "analysis", "analysis\analysis.pyproj", "{CC5B7C4E-60E1-47B9-BEF9-F74D35F270DE}"
 EndProject
+Project("{888888A0-9F3D-457C-B088-3A5042F75D52}") = "plotting", "plotting\plotting.pyproj", "{7AB93077-BCBD-47B2-8E75-3F96E20AD89C}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -29,6 +31,8 @@ Global
 		{7FFDB952-60BC-4275-9437-D3BAA4B92A7A}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{CC5B7C4E-60E1-47B9-BEF9-F74D35F270DE}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{CC5B7C4E-60E1-47B9-BEF9-F74D35F270DE}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{7AB93077-BCBD-47B2-8E75-3F96E20AD89C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{7AB93077-BCBD-47B2-8E75-3F96E20AD89C}.Release|Any CPU.ActiveCfg = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

@@ -47,9 +47,13 @@
     <Folder Include="Config_Files\Specification_Files\" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="Config_Files\analysis_configuration.ini" />
     <Content Include="Config_Files\masking_configuration.ini" />
+    <Content Include="Config_Files\plotting_configuration.ini" />
     <Content Include="Config_Files\reformat_configuration.ini" />
+    <Content Include="Config_Files\Specification_Files\analysis_specification.spec" />
     <Content Include="Config_Files\Specification_Files\masking_specification.spec" />
+    <Content Include="Config_Files\Specification_Files\plotting_specification.spec" />
     <Content Include="Config_Files\Specification_Files\reformat_specification.spec">
       <SubType>Code</SubType>
     </Content>

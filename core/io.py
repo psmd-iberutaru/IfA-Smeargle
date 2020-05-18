@@ -448,7 +448,7 @@ def read_fits_file(file_name, extension=0, silent=False):
     return hdul_file, hdu_header, hdu_data
 
 def write_fits_file(file_name, hdu_header, hdu_data, hdu_object=None, 
-                    save_file=True, overwrite=True, silent=False):
+                    save_file=True, overwrite=False, silent=False):
     """ A function to ensure proper writing of fits files.
 
     This function writes fits files given the data and header file. The 

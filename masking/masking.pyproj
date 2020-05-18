@@ -4,7 +4,7 @@
     <SchemaVersion>2.0</SchemaVersion>
     <ProjectGuid>7ffdb952-60bc-4275-9437-d3baa4b92a7a</ProjectGuid>
     <ProjectHome>.</ProjectHome>
-    <StartupFile>geometric.py</StartupFile>
+    <StartupFile>__init__.py</StartupFile>
     <SearchPath>
     </SearchPath>
     <WorkingDirectory>.</WorkingDirectory>
@@ -27,9 +27,6 @@
     <Compile Include="filters.py" />
     <Compile Include="geometric.py" />
     <Compile Include="scripting.py">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="validate.py">
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="__init__.py">

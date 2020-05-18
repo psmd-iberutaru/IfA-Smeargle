@@ -2,6 +2,9 @@
 import numpy as np
 import numpy.ma as np_ma
 
+import astropy as ap
+import astropy.modeling as ap_mod
+
 import IfA_Smeargle.core as core
 
 def ifas_masked_mean(array, axis=None):
@@ -122,6 +125,128 @@ def ifas_masked_std(array, axis=None):
 
     return true_std
 
+
+def ifas_robust_mean(array):
+    """ This provides a more robust measurement of the mean of the 
+    array of values.
+
+    Parameters
+    ----------
+    array : ndarray
+        The array of values by which the mean will be 
+        calculated from.
+
+    Returns
+    -------
+    robust_mean : float
+        The robust mean value.
+    """
+    # Do not explicitly expect an array.
+    if (isinstance(array, np.ndarray)):
+        x = array
+    else:
+        x = np.array(x)
+
+    # This section is provided code from Dr. Mike Bottom.
+    y = x.flatten()
+    n = len(y)
+    y.sort()
+    ind_qt1 = round((n+1)/4.)
+    ind_qt3 = round((n+1)*3/4.)
+    IQR = y[ind_qt3]- y[ind_qt1]
+    lowFense = y[ind_qt1] - 1.5*IQR
+    highFense = y[ind_qt3] + 1.5*IQR
+    ok = (y>lowFense)*(y<highFense)
+    yy=y[ok]
+        
+    # For documentation
+    robust_mean = yy.std(dtype='double')
+    return robust_mean
+
+def ifas_robust_std(array):
+    """ This provides a more robust measurement of the standard 
+    deviation of the array of values.
+
+    Parameters
+    ----------
+    array : ndarray
+        The array of values by which the standard deviation will be 
+        calculated from.
+
+    Returns
+    -------
+    robust_std : float
+        The robust standard deviation value.
+    """
+    # Do not explicitly expect an array.
+    if (isinstance(array, np.ndarray)):
+        x = array
+    else:
+        x = np.array(x)
+
+    # This section is provided code from Dr. Mike Bottom.
+    y = x.flatten()
+    n = len(y)
+    y.sort()
+    ind_qt1 = int(round((n+1)/4.))
+    ind_qt3 = int(round((n+1)*3/4.))
+    IQR = y[ind_qt3]- y[ind_qt1]
+    lowFense = y[ind_qt1] - 1.5*IQR
+    highFense = y[ind_qt3] + 1.5*IQR
+    ok = (y>lowFense)*(y<highFense)
+    yy=y[ok]
+
+    # For documentation
+    robust_std = yy.std(dtype='double')
+    return robust_std
+
+
+def ifas_gaussian_function(input, mean, stddev, amplitude):
+    """ This is a wrapper function around Astropy's Gaussian
+    function. This takes the input of a function, and gives it an
+    output according to the Gaussian parameters provided. The 
+    function itself is also returned.
+
+    Parameters
+    ----------
+    input : array
+        The input into the Gaussian function.
+    mean : float
+        The mean of the Gaussian function.
+    stddev : float
+        The standard deviation of the Gaussian function.
+    amplitude : float
+        The amplitude to of the Gaussian function.
+    
+    Returns
+    -------
+    output : array
+        The output when the Gaussian function is calculated from the 
+        input.
+    gaussian_function : function
+        The Gaussian function with the parameters provided already
+        given.
+    """
+
+    # The Gaussian function itself.
+    def gaussian_model(input=None, mean=0, stddev=0, amplitude=0):
+        # A wrapper around Astropy's.
+        gaussian = ap_mod.models.Gaussian1D(amplitude=amplitude, mean=mean,
+                                            stddev=stddev)
+        # Evaluation.
+        output = gaussian.evaluate(input, amplitude=amplitude, 
+                                   mean=mean, stddev=stddev)
+        # Return
+        return output
+
+    # Return both the function and its evaluation.
+    gaussian_function = lambda x: gaussian_model(input=np.array(x), 
+                                                 mean=mean, stddev=stddev, 
+                                                 amplitude=amplitude)
+    output = gaussian_function(x=np.array(input))
+
+    # All done.
+    return output, gaussian_function
 
 def generate_numpy_bin_width_array(data_array, bin_width, 
                                    local_minimum=None, local_maximum=None):

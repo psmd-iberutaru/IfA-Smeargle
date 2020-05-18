@@ -68,7 +68,8 @@ def get_filter_fits_filenames(data_directory, recursive=False):
 
 
 def create_directory_mask_file(data_directory, mask_function, mask_arguments,
-                               mask_file_name, recursive, subfolder):
+                               mask_file_name, 
+                               recursive=False, subfolder=True, run=False):
     """ This function is the common function to create a mask 
     for the data within the data directory.
 
@@ -88,11 +89,24 @@ def create_directory_mask_file(data_directory, mask_function, mask_arguments,
     subfolder : boolean (optional)
         If True, a sub-folder containing all of the masks will be 
         created. If it exists, then the masks are added to it.
+    run : boolean (optional)
+        If True, the mask is ran and completed. Else, a warning is 
+        raised, it is not computed, and nothing is returned.
 
     Returns
     -------
     None
     """
+    # Check to see that the mask should even be ran in the first 
+    # place.
+    if (not run):
+        core.error.ifas_error(core.error.MaskingError,
+                              ("The run flag for the mask `{mask_type}` is "
+                               "False. Masks are run on a per script call "
+                               "basis. Ensure that the appropriate run "
+                               "parameter is True."
+                               .format(mask_type=mask_function.__name__)))
+
 
     # Inform the user about the mask that is being applied.
     param_str = '  '.join([''.join([str(keydex),'=',str(valuedex)]) 
@@ -238,7 +252,7 @@ def create_directory_mask_file(data_directory, mask_function, mask_arguments,
 
 def create_directory_filter_files(data_directory, filter_function, 
                                   filter_arguments, filter_file_tag, 
-                                  recursive, subfolder):
+                                  recursive=False, subfolder=True, run=False):
     """ This function is the common function to create filters 
     for the data within the data directory.
 
@@ -258,11 +272,24 @@ def create_directory_filter_files(data_directory, filter_function,
     subfolder : boolean (optional)
         If True, a sub-folder containing all of the masks will be 
         created. If it exists, then the filters are added to it.
+    run : boolean (optional)
+        If True, the filter is ran and completed. Else, a warning is 
+        raised, it is not computed, and nothing is returned.
 
     Returns
     -------
     None
     """
+    # Check to see that the filter should even be ran in the first 
+    # place.
+    if (not run):
+        core.error.ifas_error(core.error.MaskingError,
+                              ("The run flag for the mask `{filter_type}` "
+                               "is False. Masks are run on a per script call "
+                               "basis. Ensure that the appropriate run "
+                               "parameter is True."
+                               .format(filter_type=filter_function.__name__)))
+
     # Inform the user about the filter that is being applied.
     param_str = '  '.join([''.join([str(keydex),'=',str(valuedex)]) 
                            for keydex, valuedex in filter_arguments.items()])
@@ -397,7 +424,7 @@ def synthesize_masks(*args, **kwargs):
         This should be a collection of array based masks.
     **kwargs : dictionary
         This catches any keyword arguments sent through.
-
+        
     Returns
     -------
     synthesized_mask : array
@@ -406,10 +433,9 @@ def synthesize_masks(*args, **kwargs):
 
     # Check for any keyword arguments. There should be none.
     if (len(kwargs) > 0):
-        core.error.ifas_error(core.error.InputError,
-                              ("There should be no keyword argument inputs. "
-                               "They will be ignored when synthesizing the "
-                               "masks."))
+        raise core.error.DevelopmentError("There should be no keyword "
+                                          "argument inputs into this "
+                                          "synthesizing function.")
     # If there is only one input array, there is no real synthesis.
     if (len(args) == 0):
         core.error.ifas_error(core.error.InputError,
@@ -433,9 +459,9 @@ def synthesize_masks(*args, **kwargs):
             mask_array = np.array(maskdex, dtype=bool)
             # Test for the size and shape.
             if (mask_array.shape != correct_shape):
-                raise core.eroor.DataError("The {num}th mask is not the "
+                raise core.error.DataError("The {num}th mask is not the "
                                            "correct shape. "
-                                           "Correct shape:  {corr_shp}"
+                                           "Correct shape:  {corr_shp}  "
                                            "Nth shape: {curr_shp}"
                                            .format(num=index,
                                                    corr_shp=correct_shape,
