@@ -176,13 +176,17 @@ if (__name__ == '__main__'):
     runtime._smeargle_runtime['CONFIG_FILE_PATH'] = config_file
     runtime._smeargle_runtime['LOG_FILE_PATH'] = log_file
 
-    # Execute the function. The returned value is likely lost in the  
-    # first place by using a script.
+    # Inform the user that the script is going to be run.
     core.error.ifas_info("Running `{script}` using the configuration "
                          "file `{config}`."
                          .format(script=script_key, config=config_file))
+    # Execute the function. The returned value is likely lost in the  
+    # first place by using a script.
     __ = run_script(script_name=script_key, config_pathname=config_file)
 
-    # Check if copies of logs and configurations are needed anywhere 
-    # else.
+    # Inform the user when the script is finished, mostly for 
+    # completeness.
+    core.error.ifas_info("Success! The `{script}` using the configuration "
+                         "file `{config}` has been completed."
+                         .format(script=script_key, config=config_file))
     

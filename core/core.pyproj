@@ -58,6 +58,8 @@
       <SubType>Code</SubType>
     </Content>
     <Content Include="Config_Files\Specification_Files\smeargle_specification.spec" />
+    <Content Include="Config_Files\Specification_Files\tutorial_configuration.spec" />
+    <Content Include="Config_Files\tutorial_configuration.ini" />
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)\Python Tools\Microsoft.PythonTools.targets" />
   <!-- Uncomment the CoreCompile target to enable the Build command in

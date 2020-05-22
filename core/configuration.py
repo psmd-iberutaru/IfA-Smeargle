@@ -40,7 +40,7 @@ def extract_configuration(config_object, keys):
                          else keys_copy)
             return config_copy[str(keys_copy[0])]
         elif (isinstance(keys_copy, (list, tuple))):
-            # There likely is more sublayers to this configuration file. Dig 
+            # There likely is more sub-layers to this configuration file. Dig 
             # another layer deeper.
             new_config_object = config_object[keys_copy[0]]
             new_keys = tuple(keys[1:])
@@ -50,8 +50,8 @@ def extract_configuration(config_object, keys):
             raise core.error.InputError("The keys were not in a manageable form specified "
                                         "by this function.")
     except (KeyError, AttributeError):
-        raise KeyError("In the configuration file <{config_file}>, there does not exist the "
-                       "configuration key path:   {key_path}"
+        raise KeyError("In the configuration file `{config_file}`, there does not exist the "
+                       "configuration key path:  {key_path}"
                        .format(config_file=config_object.filename, key_path='->'.join(keys)))
 
     # The program should not get to here.
