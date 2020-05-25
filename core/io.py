@@ -512,6 +512,12 @@ def write_fits_file(file_name, hdu_header, hdu_data, hdu_object=None,
         # booleans, convert to int.
         if (isinstance(np.ravel(hdu_data)[0], (bool, np.bool_))):
             hdu_data = np.where(hdu_data, 1, 0)
+
+        # The HDU header may be a dictionary, if so, as Astropy can
+        # only handle actual header objects, convert.
+        if (isinstance(hdu_header, dict)):
+            hdu_header = ap_fits.Header(hdu_header)
+
         # Writing to a fits HDU.
         hdu = ap_fits.PrimaryHDU(data=np.array(hdu_data), header=hdu_header)
         hdul_file = ap_fits.HDUList([hdu])
@@ -539,7 +545,7 @@ def write_fits_file(file_name, hdu_header, hdu_data, hdu_object=None,
 
 
     # Check to see if the file exists, if so, then overwrite if provided for.
-    if (os.path.isfile(file_name)):
+    if (os.path.isfile(file_name) and (save_file)):
         if (overwrite):
             # It should be overwritten, warn to be nice. 
             core.error.ifas_warning(core.error.OverwriteWarning,

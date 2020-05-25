@@ -240,7 +240,8 @@ def _get_any_tagged_functions(tag_prefix):
     function_list = {}
     for pyfiledex in module_files:
         # Load...
-        pymod = _load_soruce(filename=pyfiledex, mod_pathname=module_pathname)
+        pymod = _load_soruce(file_name=pyfiledex, 
+                             mod_pathname=module_pathname)
         # Gathering all possible functions within the source file.
         function_list.update(
             dict(inspect.getmembers(pymod, inspect.isfunction)))

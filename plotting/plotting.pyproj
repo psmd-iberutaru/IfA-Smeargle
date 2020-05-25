@@ -3,7 +3,8 @@
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <SchemaVersion>2.0</SchemaVersion>
     <ProjectGuid>7ab93077-bcbd-47b2-8e75-3f96e20ad89c</ProjectGuid>
-    <ProjectHome>.</ProjectHome>
+    <ProjectHome>
+    </ProjectHome>
     <StartupFile>__init__.py</StartupFile>
     <SearchPath>
     </SearchPath>

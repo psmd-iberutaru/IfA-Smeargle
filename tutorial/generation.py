@@ -103,8 +103,21 @@ def tutorial_generate_fits_file(generation_mode, data_shape,
             min_range = 0.0
             max_range = 1.0
         else:
+            # Assigning the range based on their inputs.
             min_range = np.nanmin(np.array(range, dtype=float))
             max_range = np.nanmax(np.array(range, dtype=float))
+            # Test if their inputs for the maximum and minimum are
+            # the same, it would make little sense if they did. 
+            # Handle float-based equality.
+            float_tolerance = core.runtime.extract_runtime_configuration(
+                config_key='FLOAT_EQUALITY_TOLERANCE')
+            if (np.isclose(min_range, max_range, rtol=float_tolerance)):
+                core.error.ifas_error(core.error.InputErrro,
+                                      ("The minimum and maximum values "
+                                       "allowed for pseudorandom number "
+                                       "generation are very close. The "
+                                       "array might be populated with the "
+                                       "same value."))
 
         # Psuedorandom data as generated from the seed. The shape is
         # also factored in.
@@ -130,8 +143,20 @@ def tutorial_generate_fits_file(generation_mode, data_shape,
             min_range = 0.0
             max_range = 1.0
         else:
+            # Assigning the range based on their inputs.
             min_range = np.nanmin(np.array(range, dtype=float))
             max_range = np.nanmax(np.array(range, dtype=float))
+            # Test if their inputs for the maximum and minimum are
+            # the same, it would make little sense if they did. 
+            # Handle float-based equality.
+            float_tolerance = core.runtime.extract_runtime_configuration(
+                config_key='FLOAT_EQUALITY_TOLERANCE')
+            if (np.isclose(min_range, max_range, rtol=float_tolerance)):
+                core.error.ifas_error(core.error.InputError,
+                                      ("The minimum and maximum values "
+                                       "allowed for random number generation "
+                                       "are very close. The array might be "
+                                       "populated with the same value."))
 
         # Random data as generated from the seed. The shape is
         # also factored in. A None seed forces the usage of the 
@@ -244,12 +269,19 @@ def tutorial_copy_configuration_file(config_type, destination,
         source_path = list(matching_files.values())[0]
         # Constructing the destination path name for the copied file.
         __, file_name, __ = core.strformat.split_pathname(pathname=file_name)
-        destination_path = core.strformat.combine_pathname(
+        config_path = core.strformat.combine_pathname(
             directory=dir, file_name=file_name, extension='.ini')
 
+        # Inform that the file is being copied.
+        core.error.ifas_info("The configuration file matching {type} is "
+                             "being copied. \n "
+                             "Source: {src}   Destination: {dest}"
+                             .format(type=config_type, src=source_path, 
+                                     dest=config_path))
         # Copying the file.
-        shutil.copyfile(source_path, destination_path, True)
-        # Returning the path in the event that they need it.
+        shutil.copyfile(source_path, config_path, follow_symlinks=True)
+
+        # Returning the path in the event that they need it. 
         return config_path
     elif (len(matching_files) >= 2):
         # It is indeterminable as to which file should be coped.

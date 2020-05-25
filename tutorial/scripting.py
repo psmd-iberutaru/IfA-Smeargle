@@ -57,6 +57,14 @@ def script_generate_saphria_tutorial(config):
     # Compiling the configurations into forms recognized by the 
     # functions that they are used for.
     generation_range = [minimum_range, maximum_range]
+    # If the configuration destination is not provided, then default 
+    # to the tutorial directory. If it is invalid, let it raise an
+    # error elsewhere.
+    if ((isinstance(config_destination, str)) and 
+        (len(config_destination) != 0)):
+        config_destination = config_destination
+    else:
+        config_destination = tutorial_directory
 
 
     # First thing is to see if the tutorial directory exists, and,
@@ -99,13 +107,19 @@ def script_generate_saphria_tutorial(config):
     # Making a dedicated directory for the data.
     fits_data_directory = core.strformat.combine_pathname(
         directory=[tutorial_directory,'tutorial_data'])
-    os.mkdir(fits_data_directory)
+    os.makedirs(fits_data_directory, exist_ok=True)
     # Creating the data files.
     for index in range(number_of_fits_files):
+        # The seed itself doesn't need to be always the same number,
+        # but for pseudo-random, it needs to be predictable. 
+        # Incrementing it for every file ensures reproducible, but
+        # not the same, fits files for more than one fits generation.
+        used_seed = seed + index if isinstance(seed, (int,float)) else None
+
         # Generating a data file based on the configuration.
         hdu_object = tutorial.generation.tutorial_generate_fits_file(
             generation_mode=generation_mode, data_shape=data_shape,
-            fill_value=fill_value, seed=seed, range=generation_range)
+            fill_value=fill_value, seed=used_seed, range=generation_range)
         # The fits file should also have a name that more or less 
         # simulates real data. SAPHRIA detectors use time-stamps for
         # sequential data images. Dummy timestamps should work fine.

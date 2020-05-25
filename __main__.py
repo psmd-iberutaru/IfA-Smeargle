@@ -177,7 +177,7 @@ if (__name__ == '__main__'):
     runtime._smeargle_runtime['LOG_FILE_PATH'] = log_file
 
     # Inform the user that the script is going to be run.
-    core.error.ifas_info("Running `{script}` using the configuration "
+    core.error.ifas_info("Begin! Running `{script}` using the configuration "
                          "file `{config}`."
                          .format(script=script_key, config=config_file))
     # Execute the function. The returned value is likely lost in the  
