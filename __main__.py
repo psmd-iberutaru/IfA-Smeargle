@@ -1,7 +1,8 @@
 
 """
 This is the command-line interface of the script functions. It would
-be improper to run the scripts from anyplace other than using this function.
+be improper to run the scripts from anyplace other than using this 
+function.
 """
 
 import argparse
@@ -177,7 +178,7 @@ if (__name__ == '__main__'):
     runtime._smeargle_runtime['LOG_FILE_PATH'] = log_file
 
     # Inform the user that the script is going to be run.
-    core.error.ifas_info("Begin! Running `{script}` using the configuration "
+    core.error.ifas_info("BEGIN! Running `{script}` using the configuration "
                          "file `{config}`."
                          .format(script=script_key, config=config_file))
     # Execute the function. The returned value is likely lost in the  
@@ -186,7 +187,7 @@ if (__name__ == '__main__'):
 
     # Inform the user when the script is finished, mostly for 
     # completeness.
-    core.error.ifas_info("Success! The `{script}` using the configuration "
+    core.error.ifas_info("FINISH! The `{script}` using the configuration "
                          "file `{config}` has been completed."
                          .format(script=script_key, config=config_file))
     

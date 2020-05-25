@@ -55,12 +55,6 @@ def plot_gaussian_histogram(data_array, data_header=None, data_mask=None,
     heatmap_plot_axes : Matplotlib Axes
         This is the heatmap plot made on the (provided, borrowed, or 
         generated) plotting axes.
- 
-    Note
-    ----
-        If the ``histogram_plot_parameters`` specifies that the histogram plot 
-        should be logarithmic, the Gaussian function will be disabled because of 
-        some incompatibilities. 
 
     """
 
@@ -211,9 +205,9 @@ def plot_gaussian_histogram(data_array, data_header=None, data_mask=None,
 
 
 def script_plot_gaussian_histogram(config):
-    """ The scripting version of `plot_gaussian_histogram`. This function 
-    automatically creates heat-map plots for each and every analysis
-    data file.
+    """ The scripting version of `plot_gaussian_histogram`. This 
+    function automatically creates heat-map plots for each and 
+    every analysis data file.
     
     Parameters
     ----------

@@ -1,6 +1,6 @@
 """
-This module contains runtime-variables that are important for the function
-of this module.
+This module contains runtime-variables that are important for the 
+function of this module.
 """
 
 

@@ -111,10 +111,10 @@ def filter_percent_truncation(data_array, top_percent, bottom_percent):
                                          top_count=top_pixel, 
                                          bottom_count=bottom_pixel)
 
-    # The above method requires that the total number of pixels is not
-    # comparable to the float resolution. If not, then lower bound values 
-    # will be improperly cut and percentages will not be accurately 
-    # calculated.
+    # The above method requires that the total number of pixels is 
+    # not comparable to the float resolution. If not, then lower 
+    # bound values will be improperly cut and percentages will not 
+    # be accurately calculated.
     if (np.log10(total_n_pixels) 
         > (- np.log10(np.finfo(np.longdouble).resolution) - 5)):
         core.error.ifas_warning(core.error.ImprecisionWarning,
@@ -145,11 +145,11 @@ def filter_pixel_truncation(data_array, top_count, bottom_count):
     data_array : ndarray
         The data array that the filter will be calculated from. 
     top_count : int
-        The number of pixels from the top (highest value) of the array 
-        that is to be masked.
+        The number of pixels from the top (highest value) of the 
+        array that is to be masked.
     bottom_count : int
-        The number of pixels from the bottom (lowest value) of the array that 
-        is to be masked.
+        The number of pixels from the bottom (lowest value) of the 
+        array that is to be masked.
 
     Returns
     -------
@@ -161,8 +161,8 @@ def filter_pixel_truncation(data_array, top_count, bottom_count):
     sorted_data = np.sort(np_ma.getdata(data_array, subok=False), axis=None)
 
     
-    # Find the values above and below the cuts, simplifying the process to 
-    # pure value cuts.
+    # Find the values above and below the cuts, simplifying the 
+    # process to pure value cuts.
     upper_value = sorted_data[:-top_count][-1]
     bottom_value = sorted_data[bottom_count:][0]
 
@@ -256,12 +256,12 @@ def filter_exact_value(data_array, exact_value):
     return final_filter
 
 def filter_invalid_value(data_array):
-    """ This filter applies a mask to all numerically invalid inputs on a 
-    programing side.
+    """ This filter applies a mask to all numerically invalid inputs 
+    on a programing side.
 
-    Numbers that are usually infinite or some other nonsensical quantity 
-    serve no real usage in calculations further downstream. Therefore, they 
-    are masked here.
+    Numbers that are usually infinite or some other nonsensical 
+    quantity serve no real usage in calculations further downstream. 
+    Therefore, they are masked here.
 
     See numpy.ma.fix_invalid for what is considered invalid.
 
@@ -273,12 +273,12 @@ def filter_invalid_value(data_array):
     Returns
     -------
     final_mask : ndarray -> dictionary
-        A boolean array for pixels that are masked (True) or are valid 
-        (False).
+        A boolean array for pixels that are masked (True) or are 
+        valid (False).
 
     """
-    # As fixing all invalid data is required, masks might obscure the data
-    # itself.
+    # As fixing all invalid data is required, masks might obscure 
+    # the data itself.
     raw_data_array = np_ma.getdata(data_array)
     # Mask all of the invalid data.
     final_mask = np_ma.getmaskarray(np_ma.fix_invalid(raw_data_array))

@@ -782,10 +782,11 @@ def script_synthesize_masks(config):
     
     # If there is a sub-folder, then check the sub-folder itself as
     # default.
-    data_directory = (core.strformat.combine_pathname(
-        directory=[data_directory, 
-                   core.runtime.extract_runtime_configuration(config_key='MASKING_SUBDIR')])
-                      if subfolder else data_directory)
+    _config_mask_subdir = core.runtime.extract_runtime_configuration(
+        config_key='MASKING_SUBDIR')
+    _mask_subdir = ([data_directory, _config_mask_subdir] 
+                    if (subfolder) else data_directory)
+    data_directory = core.strformat.combine_pathname(directory=_mask_subdir)
 
     # Obtain the list of masks that will need to be synthesized.
     mask_file_list = mask.base.get_mask_fits_filenames(
@@ -806,8 +807,8 @@ def script_synthesize_masks(config):
     mask_data_list = []
     header_data_list = []
     for filedex in mask_file_list:
-        __, temp_header, temp_data = core.io.read_fits_file(file_name=filedex, 
-                                                            silent=True)
+        __, temp_header, temp_data = core.io.read_fits_file(
+            file_name=filedex, silent=True)
         header_data_list.append(temp_header)
         mask_data_list.append(np.array(temp_data, dtype=bool))
 

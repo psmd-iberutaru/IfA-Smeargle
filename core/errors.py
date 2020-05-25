@@ -1,7 +1,7 @@
 
 """
-Defining custom errors because Python does not have all of the needed error 
-categories.
+Defining custom errors because Python does not have all of the 
+needed error categories.
 """
 
 import contextlib
