@@ -45,6 +45,10 @@ def sanitize_file_size(data_directory, method='largest', delete=False,
         The list of all of the file names/paths that are flagged for 
         sanitization.
     """
+
+    # Type checking the method, and ensuring that case does not 
+    # matter for selection.
+    method = str(method).lower()
     
     # Deciding on how to calculate the proper file size.
     proper_file_size = None
@@ -83,7 +87,8 @@ def sanitize_file_size(data_directory, method='largest', delete=False,
     else:
         raise core.error.InputError("The method provided does not exist or "
                                     "it cannot be understood in the form "
-                                    "provided.")
+                                    "provided. Inputted method: {method}"
+                                    .format(method=method))
 
 
     def find_improper_file_sizes(data_directory, proper_file_size):
@@ -122,13 +127,16 @@ def sanitize_file_size(data_directory, method='largest', delete=False,
     # inconsistencies.
     if (len(data_files) == len(bad_data_files)):
         core.error.ifas_warning(core.error.DataWarning,
-                          ("All files within the given directory have been "
-                           "marked as bad by `sanitize_file_size`. Please "
-                           "double check parameters."))
+                                ("All files within the given directory have "
+                                 "been marked as bad by "
+                                 "`sanitize_file_size`. Please double check "
+                                 "parameters."))
     if (proper_file_size == 0):
-        core.error.ifas_warning(core.error.InputWarning,
-                          ("The proper file size for `sanitize_file_size` "
-                           "is 0 bytes."))
+        core.error.ifas_error(core.error.InputError,
+                              ("The proper file size for "
+                               "`sanitize_file_size` is 0 bytes."))
+    # Next check if there were any bad files that were found in 
+    # the first place.
     if (len(bad_data_files) == 0):
         core.error.ifas_info("Success! There were no bad files found "
                              "by `sanitize_file_size`.")
@@ -147,8 +155,19 @@ def sanitize_file_size(data_directory, method='largest', delete=False,
             core.error.ifas_info("Deleting flagged files.")
             _sanitize_files(file_list=bad_data_files)
         
-    # Return the bad file list in the event they need to use it.
-    return bad_data_files
+        # Return the bad file list in the event they need to use it.
+        return bad_data_files
+
+    else:
+        raise core.error.AssumptionError("There is no reason for the length "
+                                         "of a list to be less than 0.")
+
+    # The code should not have reached here as the bad files should
+    # have already been returned.
+    raise core.error.BrokenLogicError
+    return None
+        
+
 
 def _sanitize_files(file_list):
     """ This function basically is a wrapper for deleting files that 

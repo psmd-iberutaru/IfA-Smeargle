@@ -36,6 +36,7 @@
     <InterpreterReference Include="CondaEnv|CondaEnv|Anaconda" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include=".gitignore" />
     <Content Include="requirements.txt" />
     <Content Include="smeargle_configuration.ini" />
   </ItemGroup>

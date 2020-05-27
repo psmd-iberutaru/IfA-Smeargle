@@ -28,7 +28,7 @@
     <Compile Include="sanitization.py">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="subframe.py">
+    <Compile Include="collapse.py">
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="__init__.py" />

@@ -303,16 +303,26 @@ def get_fits_filenames(data_directory, sub_extension=None, recursive=False):
         that fit file is returned in a list. This allows scripts to 
         only be run on single files. (Recursive must be False.)
     """
+    # Ensure that the data directory is non-blank. A blank directory
+    # may accidentally be used by omitting it from the configuration
+    # file.
+    if (len(str(data_directory)) == 0):
+        # The data directory is a blank string.
+        raise core.error.InputError("The provided data directory is blank. "
+                                    "The configuration file data directory "
+                                    "may be blank.")
+
     # This is the entire extension that should be used, including 
     # the sub-extension. A basic test first.
     if (sub_extension is not None):
         if (str(sub_extension)[0] != '.'):
             core.error.ifas_warning(core.error.InputWarning,
                                     ("The sub-extension does not begin like "
-                                     "an extension (with a `.`)."))
+                                     "an extension (with a `.`), it will "
+                                     "be added."))
+            extension = ''.join(['.', extension])
         extension = core.strformat.combine_pathname(
             extension=[str(sub_extension), '.fits'])
-        #''.join([str(sub_extension), '.fits'])
     else:
         # Just stick to the default extension.
         extension = '.fits'

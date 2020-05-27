@@ -1,6 +1,6 @@
 """
-This contains the functions required for making effective subframes; 
-usually by extracting and subtracting subsets of frames and 
+This contains the functions required for making effective collapsed
+frames; usually by extracting and subtracting subsets of frames and 
 normalizing over some time.
 """
 
@@ -14,8 +14,9 @@ import numpy.ma as np_ma
 import IfA_Smeargle.core as core
 
 
-def subframe_by_endpoints(data_array, start_chunk, end_chunk, 
-                          average_method='median', frame_exposure_time=None):
+def collapse_by_average_endpoints(data_array, start_chunk, end_chunk,
+                                  average_method='median', 
+                                  frame_exposure_time=None):
     """ This function reads a fits file and computes its end section 
     values.
 
@@ -54,8 +55,13 @@ def subframe_by_endpoints(data_array, start_chunk, end_chunk,
         The final data array of the median-ed frames as desired.
     """
 
+    # Type checking the averaging method and ensuring that 
+    # case is irrelevant for averaging method selection.
+    average_method = str(average_method).lower()
+
     # Evaluate the averaging based on the median or mean. The 
-    # divisor is normally meant for the time.
+    # divisor is normally meant for the time. But normalization 
+    # is not apart of this function, so do not divide meaningfully.
     if (average_method == 'mean'):
         final_data = _primary_mean_function(data_array=data_array,
                                               start_chunk=start_chunk, 
@@ -66,11 +72,18 @@ def subframe_by_endpoints(data_array, start_chunk, end_chunk,
                                               start_chunk=start_chunk, 
                                               end_chunk=end_chunk,
                                               divisor=1)
+    else:
+        # The method is not a valid method of averaging supported.
+        raise core.error.InputError("The `average_method` provided is not a "
+                                    "valid method. Inputted method: {method}"
+                                    .format(method=average_method))
+
     return final_data
 
-def subframe_by_endpoints_per_second(data_array, start_chunk, end_chunk, 
-                                     frame_exposure_time, 
-                                     average_method='median'):
+def collapse_by_average_endpoints_per_second(data_array, 
+                                             start_chunk, end_chunk,
+                                             frame_exposure_time,
+                                             average_method='median'):
     """ This function reads a fits file and computes its end section 
     values, normalizing per second.
 
@@ -109,6 +122,10 @@ def subframe_by_endpoints_per_second(data_array, start_chunk, end_chunk,
     integration_time = (frame_exposure_time 
                         * (np.median(end_chunk) - np.median(start_chunk)))
 
+    # Type checking the averaging method and ensuring that 
+    # case is irrelevant for averaging method selection.
+    average_method = str(average_method).lower()
+
     # Evaluate the averaging based on the median or mean.
     if (average_method == 'mean'):
         final_data = _primary_mean_function(data_array=data_array,
@@ -120,10 +137,18 @@ def subframe_by_endpoints_per_second(data_array, start_chunk, end_chunk,
                                               start_chunk=start_chunk, 
                                               end_chunk=end_chunk,
                                               divisor=integration_time)
+    else:
+        # The method is not a valid method of averaging supported.
+        raise core.error.InputError("The `average_method` provided is not a "
+                                    "valid method. Inputted method: {method}"
+                                    .format(method=average_method))
+
     return final_data
 
-def subframe_by_endpoints_per_kilosecond(data_array, start_chunk, end_chunk, 
-                          frame_exposure_time, average_method='median'):
+def collapse_by_average_endpoints_per_kilosecond(data_array, 
+                                                 start_chunk, end_chunk,
+                                                 frame_exposure_time, 
+                                                 average_method='median'):
     """ This function reads a fits file and computes its end section 
     values, normalizing per kilosecond.
 
@@ -166,6 +191,11 @@ def subframe_by_endpoints_per_kilosecond(data_array, start_chunk, end_chunk,
     # integration time should be factored down.
     integration_time_kilosecond = integration_time / 1000.0
 
+    # Type checking the averaging method and ensuring that 
+    # case is irrelevant for averaging method selection.
+    average_method = str(average_method).lower()
+
+
     # Evaluate the averaging based on the median or mean.
     if (average_method == 'mean'):
         final_data = _primary_mean_function(
@@ -177,21 +207,27 @@ def subframe_by_endpoints_per_kilosecond(data_array, start_chunk, end_chunk,
             data_array=data_array,
             start_chunk=start_chunk, end_chunk=end_chunk,
             divisor=integration_time_kilosecond)
+    else:
+        # The method is not a valid method of averaging supported.
+        raise core.error.InputError("The `average_method` provided is not a "
+                                    "valid method. Inputted method: {method}"
+                                    .format(method=average_method))
+    # All done.
     return final_data
 
 
-def _primary_mean_function(*args, **kwargs):
+def _collapse_by_averages_mean_function(*args, **kwargs):
     """ For means. """
-    return _primary_combination_function(
+    return _collapse_by_averages_common_function(
         combining_function=core.math.ifas_masked_mean, *args, **kwargs)
 
-def _primary_median_function(*args, **kwargs):
+def _collapse_by_averages_median_function(*args, **kwargs):
     """ For medians. """
-    return _primary_combination_function(
+    return _collapse_by_averages_common_function(
         combining_function=core.math.ifas_masked_median, *args, **kwargs)
 
-def _primary_combination_function(data_array, start_chunk, end_chunk, 
-                                  divisor, combining_function):
+def _collapse_by_averages_common_function(data_array, start_chunk, end_chunk,
+                                          divisor, averaging_function):
     """ This function takes a 3D array and computes its end section 
     values.
 
@@ -214,7 +250,7 @@ def _primary_combination_function(data_array, start_chunk, end_chunk,
     divisor : float
         An value by which the data frame will be divided by to 
         either act as a normalization or a per-unit factor.
-    combining_function : function
+    averaging_function : function
         The function that would be used to combine the arrays.
 
     Returns
@@ -266,20 +302,18 @@ def _primary_combination_function(data_array, start_chunk, end_chunk,
                                  "unusual but acceptable."))
 
 
-    # Calculate the combinations. The custom combinations functions 
-    # are needed to handle both nans and masked arrays. Keywords "
-    # "are strictly used as a weak double check that the proper "
-    # "function is used.
-    start_combinations = combining_function(
+    # Calculate the collapsed frames. The custom collapsing  
+    # functions are needed to handle both nans and masked arrays. 
+    start_collapsed_frame = averaging_function(
         array=raw_data[start_chunk[0]:start_chunk[-1]],axis=0)
-    end_combinations = combining_function(
+    end_collapsed_frame = averaging_function(
         array=raw_data[end_chunk[0]:end_chunk[-1]],axis=0)
 
     # Subtracting and normalizing over the time span, starting and 
     # ending at respective midpoints; integer 
     # multiplication/division is required because of the discrete 
     # nature of frames.
-    final_raw_data = (end_combinations - start_combinations) / divisor
+    final_raw_data = (end_collapsed_frame - start_collapsed_frame) / divisor
 
     # Reapply the mask if there was a mask.
     if (data_mask is not None):
@@ -290,8 +324,10 @@ def _primary_combination_function(data_array, start_chunk, end_chunk,
     return final_data
 
 
-def _format_subframe_config(config):
-    """ The scripting version of `all subframe`. This function
+# The functions below are for the scripting interfaces.
+
+def _format_collpase_config(config):
+    """ The scripting version of `all collapse`. This function
     applies the inner function to either the entire directory or a 
     single file.
     
@@ -319,13 +355,13 @@ def _format_subframe_config(config):
     data_directory = core.config.extract_configuration(
         config_object=config, keys=['data_directory'])
     start_chunks = core.config.extract_configuration(
-        config_object=config, keys=['subframe','start_chunks'])
+        config_object=config, keys=['collapse','start_chunks'])
     end_chunks = core.config.extract_configuration(
-        config_object=config, keys=['subframe','end_chunks'])
+        config_object=config, keys=['collapse','end_chunks'])
     average_method = core.config.extract_configuration(
-        config_object=config, keys=['subframe','average_method'])
+        config_object=config, keys=['collapse','average_method'])
     frame_exposure_time = core.config.extract_configuration(
-        config_object=config, keys=['subframe','frame_exposure_time'])
+        config_object=config, keys=['collapse','frame_exposure_time'])
 
     # Force both the chunks to be in array format for processing.
     start_chunks = np.array(start_chunks)
@@ -375,7 +411,7 @@ def _format_subframe_config(config):
     return (data_directory, start_chunks, end_chunks, 
             average_method, frame_exposure_time)
 
-def _common_subframe_function(config, subframe_function):
+def _common_collpase_function(config, collpase_function):
     """ All sub-frames are very similar, they can share a common 
     function for their usage.
 
@@ -384,13 +420,13 @@ def _common_subframe_function(config, subframe_function):
     config : ConfigObj
         The configuration object that is to be used for this 
         function.
-    subframe_function : function
+    collpase_function : function
         The sub-frame function.
     """
 
     # Obtain the configuration parameters.
     (data_directory, start_chunks, end_chunks, 
-     average_method, frame_exposure_time) = _format_subframe_config(
+     average_method, frame_exposure_time) = _format_collapse_config(
          config=config)
 
     # If the directory is really one file.
@@ -407,12 +443,12 @@ def _common_subframe_function(config, subframe_function):
                          "{method} of two sets of frames, {start_set} "
                          "and {end_set}, from the fits files in {data_dir}. "
                          "The frame exposure is {frame_time}. The sub*frame "
-                         "function is {subframe_funct}."
+                         "function is {collapse_funct}."
                          .format(method=average_method, 
                                  start_set=start_chunks, end_set=end_chunks,
                                  data_dir=data_directory, 
                                  frame_time=frame_exposure_time,
-                                 subframe_funct=subframe_function.__name__))
+                                 collapse_funct=collapse_function.__name__))
     for filedex in data_files:
         # Also, loop over all desired sub-frames that should be made.
         for substartdex, subenddex in zip(start_chunks, end_chunks):
@@ -421,7 +457,7 @@ def _common_subframe_function(config, subframe_function):
                 file_name=filedex, extension=0, silent=False)
             # Process a copy of the data based on the current 
             # sub-frames.
-            subframe_data = subframe_function(
+            collapse_data = collapse_function(
                 data_array=copy.deepcopy(hdu_data), 
                 start_chunk=substartdex, end_chunk=subenddex,
                 frame_exposure_time=frame_exposure_time,
@@ -438,12 +474,12 @@ def _common_subframe_function(config, subframe_function):
             # Write the file to disk.
             core.io.write_fits_file(
                 file_name=new_path, hdu_header=hdu_header,
-                hdu_data=subframe_data, hdu_object=None,
+                hdu_data=collapse_data, hdu_object=None,
                 save_file=True, overwrite=False, silent=False)
             # Add the sub-frame data to the header file of the new 
             # file. This may add IO overhead, but it ensures that 
             # headers don't get messed up by odd references.
-            headers = {'SUBFRM_F':subframe_function.__name__,
+            headers = {'COLPSE_F':collapse_function.__name__,
                        'FRAVGMTH':average_method,
                        'STRTFRMS':str(substartdex),
                        'ENDFRMS':str(subenddex),
@@ -462,29 +498,8 @@ def _common_subframe_function(config, subframe_function):
 
 # The scripts of the sub-frame calculations.
 
-def script_subframe_endpoints(config):
-    """ The scripting version of `subframe_by_endpoints`. This 
-    function applies the rename to the entire directory. It also 
-    adds the tags to the header file of each fits.
-    
-    Parameters
-    ----------
-    config : ConfigObj
-        The configuration object that is to be used for this 
-        function.
-
-    Returns
-    -------
-    None
-    """
-    # Just use the common function.
-    __ = _common_subframe_function(config=config, 
-                                   subframe_function=subframe_by_endpoints)
-    # All done.
-    return None
-
-def script_subframe_endpoints_per_second(config):
-    """ The scripting version of `subframe_by_endpoints_per_second`. 
+def script_collapse_by_average_endpoints(config):
+    """ The scripting version of `collapse_by_average_endpoints`.
     This function applies the rename to the entire directory. It 
     also adds the tags to the header file of each fits.
     
@@ -499,14 +514,37 @@ def script_subframe_endpoints_per_second(config):
     None
     """
     # Just use the common function.
-    __ = _common_subframe_function(config=config, 
-                                   subframe_function=subframe_by_endpoints)
+    __ = _common_collapse_function(
+        config=config, collapse_function=collapse_by_average_endpoints)
     # All done.
     return None
 
-def script_subframe_endpoints_per_kilosecond(config):
+def script_collapse_by_average_endpoints_per_second(config):
     """ The scripting version of 
-    `subframe_by_endpoints_per_kilosecond`. This function applies 
+    `collapse_by_average_endpoints_per_second`. 
+    This function applies the rename to the entire directory. It 
+    also adds the tags to the header file of each fits.
+    
+    Parameters
+    ----------
+    config : ConfigObj
+        The configuration object that is to be used for this 
+        function.
+
+    Returns
+    -------
+    None
+    """
+    # Just use the common function.
+    __ = _common_collapse_function(
+        config=config, 
+        collapse_function=collapse_by_average_endpoints_per_second)
+    # All done.
+    return None
+
+def script_collapse_by_average_endpoints_per_kilosecond(config):
+    """ The scripting version of 
+    `collapse_by_average_endpoints_per_kilosecond`. This function applies 
     the rename to the entire directory. It also adds the tags to 
     the header file of each fits.
     
@@ -521,7 +559,8 @@ def script_subframe_endpoints_per_kilosecond(config):
     None
     """
     # Just use the common function.
-    __ = _common_subframe_function(config=config, 
-                                   subframe_function=subframe_by_endpoints)
+    __ = _common_collapse_function(
+        config=config, 
+        collapse_function=collapse_by_average_endpoints_per_kilosecond)
     # All done.
     return None
