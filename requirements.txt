@@ -49,10 +49,6 @@ pytest-remotedata
 python-dateutil
 python-jsonrpc-server
 python-language-server
-pywin32
-pywin32-ctypes
-pywinpty
-PyYAML
 
 requests
 
@@ -69,13 +65,8 @@ sphinxcontrib-jsmath
 sphinxcontrib-qthelp
 sphinxcontrib-serializinghtml
 sphinxcontrib-websupport
-spyder
-spyder-kernels
 sympy
 
-unicodecsv
 wheel
-win-unicode-console
-
 
 zipp
