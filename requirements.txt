@@ -30,7 +30,6 @@ py
 pycodestyle
 pycosat
 pycparser
-pycurl
 pydocstyle
 pyflakes
 Pygments
