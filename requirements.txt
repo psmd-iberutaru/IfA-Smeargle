@@ -1,11 +1,6 @@
-anaconda-client
-anaconda-project
-
 astropy
 
 configobj
-contextlib2
-Cython
 
 decorator
 docutils
@@ -16,19 +11,10 @@ glob2
 
 importlib-metadata
 
-ipython
-ipython-genutils
-
-jupyter
-jupyter-client
-jupyter-console
-jupyter-core
-jupyterlab
 
 matplotlib
 more-itertools
 
-notebook
 numpy
 numpydoc
 
