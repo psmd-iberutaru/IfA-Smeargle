@@ -17,8 +17,6 @@ class Ifas_BaseException(BaseException):
 class Ifas_Exception(Exception):
     pass
 
-def script_raise(config):
-    raise AssumptionError
 
 #####################################################################
 #####################################################################
@@ -124,9 +122,7 @@ def _common_terminal_string_format(message):
         # the TypeError, the error is going to be elevated.
         raise TerminalError("The message for a TERMINAL error must be a "
                             "string type. The previous TypeError was not "
-                            "properly raised and may have been caught in a "
-                            "try-except-finally block; the error has thus "
-                            "been elevated appropriately.")
+                            "properly raised.")
 
     # The extra information regarding who to contact and how
     # to "fix it".
@@ -309,7 +305,10 @@ def ifas_error(type, message):
                               "raise-able exception.")
     try:
         error_name = str(type.__name__)
+    except Ifas_BaseException:
+        raise
     except Exception:
+        # Or just apply a default.
         error_name = 'UserError'
     finally:
         error_message = ''.join(['[', error_name, ']', '  ', message])

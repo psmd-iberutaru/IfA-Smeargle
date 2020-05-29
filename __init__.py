@@ -12,3 +12,4 @@ from IfA_Smeargle import reformat
 from IfA_Smeargle import tutorial
 
 from IfA_Smeargle import runtime
+from IfA_Smeargle import special

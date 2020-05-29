@@ -689,7 +689,7 @@ def script_filter_invalid_value(config):
 
     # Extract the run flag for this particular script.
     run_flag = core.config.extract_configuration(
-        config_object=config, keys=['filter','filter_invalid_value'])
+        config_object=config, keys=['filter','run_filter_invalid_value'])
     # Extract the filter programs configuration parameters.
     pass
 

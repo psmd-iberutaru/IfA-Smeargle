@@ -22,6 +22,9 @@
     <EnableUnmanagedDebugging>false</EnableUnmanagedDebugging>
   </PropertyGroup>
   <ItemGroup>
+    <Compile Include="copying.py">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Include="generation.py">
       <SubType>Code</SubType>
     </Compile>

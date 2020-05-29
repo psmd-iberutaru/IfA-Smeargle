@@ -101,9 +101,10 @@ def filter_percent_truncation(data_array, top_percent, bottom_percent):
     ONE = np.longdouble(1.0)
 
     # A percent truncation is a fancy pixel truncation, and is 
-    # going to be  applied as such. 
-    total_n_pixels = np.longdouble(data_array.size)
-    top_pixel = int(np.ceil(total_n_pixels * (ONE - top_percent)))
+    # going to be applied as such. 
+    total_n_pixels = int(data_array.size)
+    top_pixel = int(total_n_pixels 
+                 - (int(np.longdouble(total_n_pixels)) * (ONE - top_percent)))
     bottom_pixel = int(np.floor(total_n_pixels * bottom_percent))
 
     # The pixel mask
@@ -157,7 +158,12 @@ def filter_pixel_truncation(data_array, top_count, bottom_count):
         The filter as computed by this function.
     """
     
-    # Sort the data.
+    # Simple type checking as the top count and bottom count
+    # are used for indexing.
+    top_count = int(top_count)
+    bottom_count = int(bottom_count)
+
+    # Sort the data so that the indexes line with order.
     sorted_data = np.sort(np_ma.getdata(data_array, subok=False), axis=None)
 
     

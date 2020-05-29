@@ -25,7 +25,7 @@
     <Compile Include="configuration.py">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="errors.py" />
+    <Compile Include="error.py" />
     <Compile Include="io.py">
       <SubType>Code</SubType>
     </Compile>

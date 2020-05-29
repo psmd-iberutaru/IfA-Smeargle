@@ -27,6 +27,9 @@
     <Compile Include="runtime.py">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="special.py">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Include="__init__.py" />
     <Compile Include="__main__.py">
       <SubType>Code</SubType>

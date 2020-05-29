@@ -11,11 +11,11 @@ import time
 import IfA_Smeargle.core as core
 import IfA_Smeargle.tutorial as tutorial
 
-def script_generate_saphria_tutorial(config):
+def script_generate_saphira_tutorial(config):
     """ This function generates a tutorial directory for new users
     to experiment with.
 
-    This script generates a tutorial for the SAPHRIA detectors and
+    This script generates a tutorial for the SAPHIRA detectors and
     what kind of data they would spit out.
 
     Parameters
@@ -59,12 +59,16 @@ def script_generate_saphria_tutorial(config):
     generation_range = [minimum_range, maximum_range]
     # If the configuration destination is not provided, then default 
     # to the tutorial directory. If it is invalid, let it raise an
-    # error elsewhere.
+    # error elsewhere but still warn about it.
     if ((isinstance(config_destination, str)) and 
         (len(config_destination) != 0)):
         config_destination = config_destination
     else:
         config_destination = tutorial_directory
+        core.error.ifas_warning(core.error.ConfigurationWarning,
+                                ("The configuration file destination has "
+                                 "not been provided. Defaulting to the "
+                                 "tutorial directory."))
 
 
     # First thing is to see if the tutorial directory exists, and,
@@ -166,7 +170,7 @@ def script_generate_saphria_tutorial(config):
         # Loop through and generate the configuration files for each
         # configuration type. It is automatically copied into the 
         # correct directory.
-        tutorial.generation.tutorial_copy_configuration_file(
+        core.config.copy_configuration_file(
             config_type=configkeydex, destination=config_destination,
             file_name=config_file_name)
 

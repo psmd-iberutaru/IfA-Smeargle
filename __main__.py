@@ -108,7 +108,9 @@ if (__name__ == '__main__'):
                         help=("The path to the .ini configuration file "
                               "which will be used. The validation file is "
                               "found using the `meta` tag within the "
-                              "configuration file."),
+                              "configuration file. Null or None as in input "
+                              "allows for scripts to be run without "
+                              "configuration files."),
                         type=str)
     parser.add_argument("--log_file", 
                         default=time.strftime('%Y%m%d-%H%M%S(Z%z)'),
@@ -127,6 +129,9 @@ if (__name__ == '__main__'):
     config_file = str(args.config_file)
     log_file = str(args.log_file)
     log_level = str(args.log_level)
+
+    # There is a special case for configuration files if the script
+    # should not be run with one.
 
     # Have logging capabilities, writing out a log to file. Use the  
     # appropriate logging level and file based on input.
@@ -178,16 +183,16 @@ if (__name__ == '__main__'):
     runtime._smeargle_runtime['LOG_FILE_PATH'] = log_file
 
     # Inform the user that the script is going to be run.
-    core.error.ifas_info("BEGIN! Running `{script}` using the configuration "
-                         "file `{config}`."
+    core.error.ifas_info("BEGIN! Running the script `{script}` using the "
+                         "configuration file `{config}`."
                          .format(script=script_key, config=config_file))
     # Execute the function. The returned value is likely lost in the  
     # first place by using a script.
     __ = run_script(script_name=script_key, config_pathname=config_file)
 
-    # Inform the user when the script is finished, mostly for 
+    # Inform the user when the script is finished, mostly for
     # completeness.
-    core.error.ifas_info("FINISH! The `{script}` using the configuration "
-                         "file `{config}` has been completed."
+    core.error.ifas_info("FINISH! The script `{script}` using the "
+                         "configuration file `{config}` has been completed."
                          .format(script=script_key, config=config_file))
     

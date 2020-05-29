@@ -176,7 +176,7 @@ def _sanitize_files(file_list):
 
     # Copy just in case.
     file_list = copy.deepcopy(file_list)
-    for filedex in filelist:
+    for filedex in file_list:
         # Deleting the files.
         os.remove(filedex)
     # Finished.

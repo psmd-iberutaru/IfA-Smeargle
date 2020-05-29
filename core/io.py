@@ -334,7 +334,8 @@ def get_fits_filenames(data_directory, sub_extension=None, recursive=False):
         # It is not a directory, check if it is a fits file instead.
         # Testing for existence and extension.
         if ((os.path.isfile(data_directory)) and 
-             (core.strformat.split_pathname(pathname)[-1] == extension)):
+             (core.strformat.split_pathname(
+                 pathname=data_directory)[-1] == extension)):
             # If Astropy can deal with it, it should be good enough.
             try:
                 ap_fits.info(data_directory, output=None)
@@ -350,6 +351,11 @@ def get_fits_filenames(data_directory, sub_extension=None, recursive=False):
                                          "to be a .fits file. However, the "
                                          "Astropy module has issues with it."
                                          .format(file=data_directory)))
+        else:
+            raise core.error.InputError("The directory provided is not a "
+                                        "valid directory or appropriate fits "
+                                        "file. Input:  `{dir}`"
+                                        .format(dir=data_directory))
     else:
         # Process the directory like normal and obtain the fits 
         # files.
