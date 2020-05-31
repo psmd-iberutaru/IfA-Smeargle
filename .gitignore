@@ -1,14 +1,12 @@
-# Github specific files do not need to be versioned.
-.github/*
-
 # The entire data section does not really need to be saved. These files
 # are associated with the detector data.
-Data/*
 *.tar.bz2
 *.fits
 *.zip
 
 # Nor do VS Community or VS code configuration files.
+.vs/*
+.vscode/*
 *.suo
 .suo
 
