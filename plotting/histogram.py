@@ -35,7 +35,7 @@ def plot_gaussian_histogram(data_array, data_header=None, data_mask=None,
     data_header : Astropy Header (optional)
         This is the data header of the fits file. If it is not 
         provided, plotting parameters which use it will not be plot.
-        I will raise if I need it.
+        An error may also be raised.
     data_mask : ndarray (optional)
         The mask that should be applied to the `data_array`.
     figure_axes : Matplotlib Axes (optional)
@@ -55,12 +55,6 @@ def plot_gaussian_histogram(data_array, data_header=None, data_mask=None,
     heatmap_plot_axes : Matplotlib Axes
         This is the heatmap plot made on the (provided, borrowed, or 
         generated) plotting axes.
- 
-    Note
-    ----
-        If the ``histogram_plot_parameters`` specifies that the histogram plot 
-        should be logarithmic, the Gaussian function will be disabled because of 
-        some incompatibilities. 
 
     """
 
@@ -90,20 +84,20 @@ def plot_gaussian_histogram(data_array, data_header=None, data_mask=None,
     # If the user provided a mask, apply it. Otherwise, use a blank
     # mask.
     if (data_mask is not None):
-        # The mask exists so it shall be applied.
+        # The mask exists so it shall be applied. Override whatever
+        # the data object itself has.
         plot_data = np_ma.array(np_ma.getdata(data_array, False), 
                                 mask=data_mask)
+    elif (isinstance(data_array, np_ma.MaskedArray)):
+        # The object is already a masked array, deferring to the 
+        # user here.
+        plot_data = data_array
+        core.error.ifas_info("The provided data array is a masked "
+                             "array. Its mask will be applied to the "
+                             "heat-map.")
     else:
-        if (isinstance(data_array, np_ma.MaskedArray)):
-            # The object is already a masked array, deferring to the 
-            # user here.
-            plot_data = data_array
-            core.error.ifas_info("The provided data array is a masked "
-                                 "array. Its mask will be applied to the "
-                                 "heat-map.")
-        else:
-            # There is no mask, so none shall be applied.
-            plot_data = np_ma.array(data_array, mask=np_ma.nomask)
+        # There is no mask, so none shall be applied.
+        plot_data = np_ma.array(data_array, mask=np_ma.nomask)
 
 
     # First, figure out what type of Matplotlib axes to use.
@@ -211,9 +205,9 @@ def plot_gaussian_histogram(data_array, data_header=None, data_mask=None,
 
 
 def script_plot_gaussian_histogram(config):
-    """ The scripting version of `plot_gaussian_histogram`. This function 
-    automatically creates heat-map plots for each and every analysis
-    data file.
+    """ The scripting version of `plot_gaussian_histogram`. This 
+    function automatically creates heat-map plots for each and 
+    every analysis data file.
     
     Parameters
     ----------

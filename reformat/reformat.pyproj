@@ -3,7 +3,8 @@
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <SchemaVersion>2.0</SchemaVersion>
     <ProjectGuid>085be854-ab08-4c74-91dd-8b6091672040</ProjectGuid>
-    <ProjectHome>.</ProjectHome>
+    <ProjectHome>
+    </ProjectHome>
     <StartupFile>__init__.py</StartupFile>
     <SearchPath>
     </SearchPath>
@@ -27,7 +28,7 @@
     <Compile Include="sanitization.py">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="subframe.py">
+    <Compile Include="collapse.py">
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="__init__.py" />

@@ -74,12 +74,13 @@ def fit_gaussian_function(x_data, y_data, inital_guesses):
                                    "be fit."
                                    .format(num=len(x_data)))
 
-    # Deriving basic information form Gaussian model to return back to 
-    # the user.
+    # Deriving basic information form Gaussian model to return back 
+    # to the user.
     gaussian_mean = gaussian_fit.mean.value
     gaussian_stddev = gaussian_fit.stddev.value
     gaussian_amplitude = gaussian_fit.amplitude.value
-    temp_gauss_x_axis = np.linspace(np.nanmin(x_data) - 1, np.nanmax(x_data) + 1, 
+    temp_gauss_x_axis = np.linspace(np.nanmin(x_data) - 1, 
+                                    np.nanmax(x_data) + 1, 
                                     1000 + 100*x_data.size**2)
     gaussian_max = np.max(gaussian_fit(temp_gauss_x_axis))
     gaussian_parameters = {'mean':gaussian_mean, 'stddev':gaussian_stddev,
@@ -92,47 +93,52 @@ def fit_gaussian_function(x_data, y_data, inital_guesses):
 
 
 def fit_histogram_gaussian_function(data_array, bin_width):
-    """ This function fits a Gaussian function to a specific set of data.
+    """ This function fits a Gaussian function to a specific set 
+    of data.
 
     Gaussian fitting is hard, this function exists as a port so that 
-    all fitting functions use the same algorithm and said algorithm is easy
-    to change. This applies it to the histogram of the data.
+    all fitting functions use the same algorithm and said algorithm 
+    is easy to change. This applies it to the histogram of the data.
     
     Parameters
     ----------
     data_array : ndarray
         The data that the histogram Gaussian function is fitting.
     bin_width : float
-        The width of the bins to use for the histogram fitting function.
+        The width of the bins to use for the histogram fitting 
+        function.
 
     Returns
     -------
     gaussian_function : function
-        A callable function that when provided an X value, it will return
-        the value of the function.
+        A callable function that when provided an X value, it will 
+        return the value of the function.
     gaussian_parameters : dictionary
-        A compiled dictionary of all of the parameters of the Gaussian fit.
+        A compiled dictionary of all of the parameters of the 
+        Gaussian fit.
     """
 
-    # Be able to accept both masked arrays and standard arrays and be able 
-    # to tell.
+    # Be able to accept both masked arrays and standard arrays and 
+    # be able to tell.
     if (np_ma.is_masked(data_array)):
         flat_data = data_array.compressed()
     else:
         flat_data = data_array.flatten()
 
-    # Numpy does not support histogram bin widths, instead using bins defined
-    # by values in an array. Converting equal bin widths to this array.
+    # Numpy does not support histogram bin widths, instead using 
+    # bins defined by values in an array. Converting equal bin 
+    # widths to this array.
     hist_bins = core.math.generate_numpy_bin_width_array(data_array=flat_data, 
                                                          bin_width=bin_width)
 
-    # Extract histogram data from the data.
+    # Extract histogram data from the data. The x locations are in
+    # the middle of the bin.
     hist_data = np.histogram(flat_data, bins=hist_bins)
-    hist_x = (hist_data[1][0:-1] + hist_data[1][1:]) / 2 # Middle of bin.
+    hist_x = (hist_data[1][0:-1] + hist_data[1][1:]) / 2
     hist_y = hist_data[0]
 
-    # Determine the inital guesses of the gaussian histogram fit. So far 
-    # magic is the best way.
+    # Determine the initial guesses of the Gaussian histogram 
+    # fit. So far magic is the best way.
     guess_mean, guess_stddev, guess_amplitude = \
         core.magic.magic_inital_gaussian_parameters(x_data=hist_x, 
                                                     y_data=hist_y)

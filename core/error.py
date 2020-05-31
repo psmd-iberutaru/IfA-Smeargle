@@ -1,7 +1,7 @@
 
 """
-Defining custom errors because Python does not have all of the needed error 
-categories.
+Defining custom errors because Python does not have all of the 
+needed error categories.
 """
 
 import contextlib
@@ -106,6 +106,34 @@ class ModelingError(Ifas_Exception):
 # they are reserved for very critical problems within the code 
 # itself (it rarely should be the fault of the user's).
 
+# The common way for formatting TERMINAL error strings.
+def _common_terminal_string_format(message):
+    # The capital TERMINAL letters.
+    terminal_prefix = 'TERMINAL:'
+
+    # The original message.
+    if (isinstance(message, str)):
+        original_message = message
+    else: 
+        # It is not a valid type.
+        raise TypeError("The message for a TERMINAL error must be a "
+                         "string type.")
+        # If the message gets here, the user might not have caught
+        # the TypeError, the error is going to be elevated.
+        raise TerminalError("The message for a TERMINAL error must be a "
+                            "string type. The previous TypeError was not "
+                            "properly raised.")
+
+    # The extra information regarding who to contact and how
+    # to "fix it".
+    contact_suffix = ("\n >> Please contact project maintainers or "
+                      "Sparrow to resolve this issue. ")
+    
+    # The finished message. The spaces are for spacing.
+    formatted_message = '  '.join(
+        [terminal_prefix, original_message, contact_suffix])
+    return formatted_message
+
 class AssumptionError(Ifas_BaseException):
     """
     This error is reserved for instances where something 
@@ -113,16 +141,21 @@ class AssumptionError(Ifas_BaseException):
     of assumptions about Python or module functions.
     """
     def __init__(self, message=None):
+        # See if the user's message or a default message should be
+        # applied.
         if (isinstance(message, str)):
-            self.message = ("TERMINAL: " + message
-                            + ("\n >> Please contact maintainers or "
-                               "Sparrow to resolve this issue."))
+            # The user's message.
+            user_message = message
         else:
-            self.message = ("TERMINAL: An erroneous result has transpired "
-                            "because of an incorrect assumption about how "
-                            "Python or other Python modules or functions "
-                            "work. Please contact maintainers or Sparrow "
-                            "to resolve this issue.")
+            # A default message.
+            user_message = ("An erroneous result has transpired because of "
+                            "an incorrect assumption about how Python or "
+                            "other Python modules or functions work.")
+        # Format either message regardless.
+        self.message = _common_terminal_string_format(message=user_message)
+
+    def __str__(self):
+        return self.message
 
     pass
 
@@ -133,14 +166,21 @@ class BrokenLogicError(Ifas_BaseException):
     not the fault of the user. 
     """
     def __init__(self, message=None):
+        # See if the user's message or a default message should be
+        # applied.
         if (isinstance(message, str)):
-            self.message = ("TERMINAL: " + message
-                            + ("\n >> Please contact maintainers or Sparrow "
-                               "to resolve this issue."))
+            # The user's message.
+            user_message = message
         else:
-            self.message = ("TERMINAL: Something is not right with the "
-                            "code's logic. Please contact maintainers or "
-                            "Sparrow to resolve this issue.")
+            # A default message.
+            user_message = ("Something is not right with the code's logic. "
+                            "It has arrived to a place considered "
+                            "impossible from the logic flow.")
+        # Format either message regardless.
+        self.message = _common_terminal_string_format(message=user_message)
+
+    def __str__(self):
+        return self.message
 
     pass
 
@@ -151,18 +191,23 @@ class DeprecatedError(Ifas_BaseException):
     warning has already been issued, or to clean up the core 
     sections of the code during testing. 
     """
-
     def __init__(self, message=None):
+        # See if the user's message or a default message should be
+        # applied.
         if (isinstance(message, str)):
-            self.message = ("TERMINAL: " + message
-                            + ("\n >> Please contact maintainers or Sparrow "
-                               "to resolve this issue if need be."))
+            # The user's message.
+            user_message = message
         else:
-            self.message = ("TERMINAL: This function is terminally "
-                            "deprecated. There exists a different and "
-                            "equivalent function. Use that function. Please "
-                            "contact maintainers or Sparrow to resolve "
-                            "this issue.")
+            # A default message.
+            user_message = ("This function is terminally deprecated. There "
+                            "exists a different and equivalent function. "
+                            "Use that function instead.")
+        # Format either message regardless.
+        self.message = _common_terminal_string_format(message=user_message)
+
+    def __str__(self):
+        return self.message
+
     pass
 
 class DevelopmentError(Ifas_BaseException):
@@ -173,27 +218,40 @@ class DevelopmentError(Ifas_BaseException):
     may have been forgotten about.
     """
     def __init__(self, message=None):
+        # See if the user's message or a default message should be
+        # applied.
         if (isinstance(message, str)):
-            self.message = ("TERMINAL: " + message
-                            + ("\n >> Please contact maintainers or Sparrow "
-                               "to resolve this issue if need be."))
+            # The user's message.
+            user_message = message
         else:
-            self.message = ("TERMINAL: There seems to be an error in the "
-                            "development of this code script or library. "
-                            "Please contact maintainers or Sparrow to "
-                            "resolve this issue.")
-    pass
+            # A default message.
+            user_message = ("There seems to be an error in the "
+                            "development of this code script or library.")
+        # Format either message regardless.
+        self.message = _common_terminal_string_format(message=user_message)
+
+    def __str__(self):
+        return self.message
 
 class IncompleteError(Ifas_BaseException):
     """
     This used when the code is trying to use a function that is 
     incomplete or not usable. 
     """
-    def __init__(self):
-        self.message = ("TERMINAL: This section of the code is incomplete "
-                        "and likely does not work at all. Proceeding is "
-                        "not allowed. Please contact maintainers "
-                        "or Sparrow to resolve this issue.")
+    def __init__(self, message=None):
+        # See if the user's message or a default message should be
+        # applied.
+        if (isinstance(message, str)):
+            # The user's message.
+            user_message = message
+        else:
+            # A default message.
+            user_message = ("This section of the code is incomplete "
+                            "and likely does not work at all. Proceeding "
+                            "is not allowed.")
+        # Format either message regardless.
+        self.message = _common_terminal_string_format(message=user_message)
+
     def __str__(self):
         return self.message
 
@@ -203,18 +261,17 @@ class TerminalError(Ifas_BaseException):
     to contact the maintainers or Sparrow. 
     """
     def __init__(self, message=None):
-        if (message is None):
-            self.message = ("TERMINAL: A general TERMINAL error has "
-                            "been raised.")
-        elif (isinstance(message, str)):
-            self.message = ("TERMINAL: " + message)
+        # See if the user's message or a default message should be
+        # applied.
+        if (isinstance(message, str)):
+            # The user's message.
+            user_message = message
         else:
-            raise InputError("The message for a TERMINAL error must "
-                             "be a string.")
-            raise TerminalError("The message for a TERMINAL error must "
-                                "be a string. The previous InputError was "
-                                "likely caught by a try-except block.")
-    
+            # A default message.
+            user_message = ("A general TERMINAL error has been raised.")
+        # Format either message regardless.
+        self.message = _common_terminal_string_format(message=user_message)
+
     def __str__(self):
         return self.message
 
@@ -248,7 +305,10 @@ def ifas_error(type, message):
                               "raise-able exception.")
     try:
         error_name = str(type.__name__)
+    except Ifas_BaseException:
+        raise
     except Exception:
+        # Or just apply a default.
         error_name = 'UserError'
     finally:
         error_message = ''.join(['[', error_name, ']', '  ', message])
@@ -464,9 +524,9 @@ def ifas_info(message, console_print=None):
         pass
     else:
         # Just a little white space so it is not so cluttered.
-        log.info(message)
+        log.info(''.join(['  ', message]))
         if (console_print):
-            print("IFAS Info: " + message)
+            print("IFAS Info:  " + message)
     return None
 
 # This is the default and will set the silent mode parameter for 
@@ -529,9 +589,9 @@ def ifas_debug(message, console_print=False):
         # Messages should not be printed in general.
         pass
     else:
-        log.debug(message)
+        log.debug(''.join(['  ', message]))
         if (console_print):
-            print("IFAS Debug: " + message)
+            print("IFAS Debug:  " + message)
     return None
 # This is the default and will set the silent mode parameter for 
 # debug printing, but it ensures not to override anything that may 

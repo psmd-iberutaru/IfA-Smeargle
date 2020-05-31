@@ -1,6 +1,6 @@
 """
-This module contains runtime-variables that are important for the function
-of this module.
+This module contains runtime-variables that are important for the 
+function of this module.
 """
 
 
@@ -38,12 +38,57 @@ def get_module_directory():
 
     return module_directory
 
-def get_specification_files():
-    """ This function obtains all of the configuration specification files,
+
+def get_configuration_files():
+    """ This function obtains all of the configuration files,
     returning a dictionary of them for each of their paths.
     
-    The qualifier to be a specification file is just to have `.spec` extension 
-    to the file name.
+    The qualifier to be a configuration file is just to have `.ini` 
+    extension to the file name.
+    
+    Parameters
+    ----------
+    None
+
+    Returns
+    -------
+    config_files : dictionary
+        The configuration files that have been found in the module 
+        and its sub-modules.
+    """
+
+    # Extract the directory that the module is generally hosted in.
+    module_pathname = get_module_directory()
+    module_dir, __, __ = core.strformat.split_pathname(
+        pathname=module_pathname)
+
+    # Obtain all configuration files within that directory.
+    config_file_list = glob.glob(
+        core.strformat.combine_pathname(directory=[module_dir, '**'], 
+                                        file_name=['*'], 
+                                        extension=['.ini']), 
+        recursive=True)
+
+    # Constructing the dictionary, the key being the true file name 
+    # without extension, the value being the full path.
+    config_files = {}
+    for filedex in config_file_list:
+        __, config_key, config_ext = core.strformat.split_pathname(
+            pathname=filedex)
+        # Quick check that the configuration file really is one. 
+        # (And that the splitting path name is a valid function.)
+        assert (config_ext == '.ini')
+        config_files[config_key] = filedex
+
+    # The files have been combined.
+    return config_files
+
+def get_specification_files():
+    """ This function obtains all of the configuration specification 
+    files, returning a dictionary of them for each of their paths.
+    
+    The qualifier to be a specification file is just to have `.spec` 
+    extension to the file name.
     
     Parameters
     ----------
@@ -52,24 +97,30 @@ def get_specification_files():
     Returns
     -------
     spec_files : dictionary
-        The specification files that have been found in the module and its
-        sub-modules.
+        The specification files that have been found in the module 
+        and its sub-modules.
     """
 
     # Extract the directory that the module is generally hosted in.
     module_pathname = get_module_directory()
-    module_dir, __, __ = core.strformat.split_pathname(pathname=module_pathname)
+    module_dir, __, __ = core.strformat.split_pathname(
+        pathname=module_pathname)
     
     # Obtain all specification files within that directory.
-    spec_file_list = glob.glob(os.path.join(module_dir, '**','*.spec'), recursive=True)
+    spec_file_list = glob.glob(
+        core.strformat.combine_pathname(directory=[module_dir, '**'], 
+                                        file_name=['*'], 
+                                        extension=['.spec']), 
+        recursive=True)
 
-    # Constructing the dictionary, the key being the true file name without
-    # extension, the value being the full path.
+    # Constructing the dictionary, the key being the true file name 
+    # without extension, the value being the full path.
     spec_files = {}
     for filedex in spec_file_list:
-        __, spec_key, spec_ext = core.strformat.split_pathname(pathname=filedex)
-        # Quick check that the specification file really is one. (And that 
-        # the splitting path name is a valid function.)
+        __, spec_key, spec_ext = core.strformat.split_pathname(
+            pathname=filedex)
+        # Quick check that the specification file really is one. 
+        # (And that the splitting path name is a valid function.)
         assert (spec_ext == '.spec')
         spec_files[spec_key] = filedex
 
@@ -169,16 +220,16 @@ def _get_any_tagged_functions(tag_prefix):
     
     # A function to loading arbitrary source files (the ones just 
     # found).
-    def _load_soruce(filename):
+    def _load_soruce(file_name, mod_pathname):
         """A function to loading arbitrary source files into the 
         program. 
         
         Credit: https://stackoverflow.com/a/19011259
         """
         __, module_filename, __ = core.strformat.split_pathname(
-            pathname=module_pathname)
+            pathname=mod_pathname)
         loader = importlib.machinery.SourceFileLoader(module_filename, 
-                                                      filename)
+                                                      file_name)
         spec = importlib.util.spec_from_loader(loader.name, loader)
         mod = importlib.util.module_from_spec(spec)
         loader.exec_module(mod)
@@ -189,7 +240,8 @@ def _get_any_tagged_functions(tag_prefix):
     function_list = {}
     for pyfiledex in module_files:
         # Load...
-        pymod = _load_soruce(filename=pyfiledex)
+        pymod = _load_soruce(file_name=pyfiledex, 
+                             mod_pathname=module_pathname)
         # Gathering all possible functions within the source file.
         function_list.update(
             dict(inspect.getmembers(pymod, inspect.isfunction)))

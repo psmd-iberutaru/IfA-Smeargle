@@ -8,8 +8,9 @@ Data/*
 *.fits
 *.zip
 
-# Nor do VS config files.
+# Nor do VS Community or VS code configuration files.
 *.suo
+.suo
 
 # Python bytecode files should not be checked. 
 *.py[cod]

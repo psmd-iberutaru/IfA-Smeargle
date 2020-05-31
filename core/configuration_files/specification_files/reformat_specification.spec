@@ -6,7 +6,7 @@ data_directory = string
     delete = boolean
 
     [[filesize]]
-        method = option('largest', 'smallest', 'exact')
+        method = option('largest', 'smallest', 'exact', '')
         exact_size = integer
 
 
@@ -22,10 +22,10 @@ data_directory = string
 
 
 
-[subframe]
-    start_chunks = int_list
-    end_chunks = int_list
-    average_method = option('mean', 'median')
+[collapse]
+    start_chunk = int_list
+    end_chunk = int_list
+    average_method = option('mean', 'median', '')
     frame_exposure_time = float
 
 [meta]

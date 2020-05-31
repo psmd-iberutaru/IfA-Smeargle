@@ -11,8 +11,8 @@ import shutil
 import IfA_Smeargle.core as core
 
 def purge_substrings(string, substrings):
-    """ Deletes all occurences of any substring provided from the original
-    string.
+    """ Deletes all occurrences of any substring provided from the 
+    original string.
 
     Parameters
     ----------
@@ -24,7 +24,7 @@ def purge_substrings(string, substrings):
     Returns
     -------
     purged_string : string
-        The string after it had all substring occurences taken out.    
+        The string after it had all substring occurrences taken out.    
     """
     # Just in case.
     original_string = copy.deepcopy(string)
@@ -34,8 +34,8 @@ def purge_substrings(string, substrings):
     if (isinstance(substrings, str)):
         substrings = [substrings,]
     
-    # Purge all substrings using the built-in replace method and going 
-    # through.
+    # Purge all substrings using the built-in replace method and 
+    # going through.
     for substringdex in substrings:
         original_string = original_string.replace(substringdex, '')
 
@@ -45,8 +45,10 @@ def purge_substrings(string, substrings):
 
 def format_slice_appending_name(reference_frame, averaging_frame):
     """ The formatting for the string alignment for slices. """
-    slice_string = ''.join(['_slice;', str(reference_frame[0]), ',', str(reference_frame[-1]), 
-                            '-', str(averaging_frame[0]), ',', str(averaging_frame[-1])])
+    slice_string = ''.join(['_slice;', str(reference_frame[0]), ',', 
+                            str(reference_frame[-1]), '-', 
+                            str(averaging_frame[0]), ',', 
+                            str(averaging_frame[-1])])
     return slice_string
 
 def format_shutil_archive_extensions(archive_string):
@@ -123,15 +125,16 @@ def format_shutil_archive_extensions(archive_string):
     return None
 
 def random_string(characters, length):
-    """ This function returns a random string of characters of some length
-    from a set of characters to use.
+    """ This function returns a random string of characters of 
+    some length from a set of characters to use.
 
-    Creit to: https://stackoverflow.com/a/23728630
+    Credit to: https://stackoverflow.com/a/23728630
 
     Parameters
     ----------
     characters : string
-        The total avaliable characters to use. The order does not matter.
+        The total available characters to use. The order does 
+        not matter.
     length : int
         The length of the random string.
 
@@ -144,16 +147,17 @@ def random_string(characters, length):
     # Basic type checking.
     length = int(length)
     characters = str(characters)
-    # Implementing the random string generator found from the credited
-    # link.
-    random_string = ''.join(secrets.choice(characters) for __ in range(length))
+    # Implementing the random string generator found from the 
+    # credited link.
+    random_string = ''.join([secrets.choice(characters) 
+                             for __ in range(length)])
     # All done
     return random_string
 
 
 def split_pathname(pathname):
-    """ This fuction splits a pathname into the directory, file, and extension
-    names.
+    """ This function splits a pathname into the directory, file, 
+    and extension names.
     
     Parameters
     ----------

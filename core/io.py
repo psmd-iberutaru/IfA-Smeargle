@@ -1,5 +1,5 @@
-""" These are functions related to the reading, writing, and manipulation
-of files (data, configuration, or otherwise).
+""" These are functions related to the reading, writing, and 
+manipulation of files (data, configuration, or otherwise).
 """
 
 import astropy as ap
@@ -38,31 +38,34 @@ def get_subdirectories(directory):
 
 def archive_data_directory(data_directory, archive_name=None, 
                            archive_type='bztar', silent=False):
-    """Creates a file archive of a copy of the data files contained within a 
-    directory.
+    """Creates a file archive of a copy of the data files contained 
+    within a directory.
     
-    This function creates an archive of a data directory, preserving a copy
-    of data. However, note that this function generally takes a bit of time
-    if there are a lot of files or if the files are particularly large.
+    This function creates an archive of a data directory, preserving 
+    a copy of data. However, note that this function generally takes 
+    a bit of time if there are a lot of files or if the files are 
+    particularly large.
 
-    Please note that this function archives recursively. Non-data files and 
-    non-required files should not be in the a given Data directory.
+    Please note that this function archives recursively. Non-data 
+    files and non-required files should not be in the a given 
+    data/archiving directory.
 
     Parameters
     ----------
     data_directory : string
         The directory that the data is contained within.
     archive_name : string (optional)
-        The name of the archive that is to be created. If not provided, a 
-        default is provided that contains the time-stamp of its creation.
+        The name of the archive that is to be created. If not 
+        provided, a default is provided that contains the time-stamp 
+        of its creation.
     archive_extension : string (optional)
-        The extension of the archive. Note that only some archives are 
-        supported. Default is ``bztar``. See 
+        The extension of the archive. Note that only some archives 
+        are supported. Default is ``bztar``. See 
         :py:func:`shutil.get_archive_formats` for more information on 
         available archive formats.
     silent : boolean (optional)
-        Turn off all warnings and information sent by this function and 
-        functions below it.
+        Turn off all warnings and information sent by this function 
+        and functions below it.
         
     Returns
     -------
@@ -92,21 +95,22 @@ def archive_data_directory(data_directory, archive_name=None,
                              "It is still suggested, but archive outside "
                              "of Python."))
 
-    # Preserve the files just in case, work on a copy data set. Date-time 
-    # to distinguish, by format __YYYYMMDD_HHMMSS, from other BravoArchives 
-    # if an original name has not been given.
+    # Preserve the files just in case, work on a copy data set. 
+    # Date-time to distinguish, by format __YYYYMMDD_HHMMSS, from 
+    # other BravoArchives if an original name has not been given.
     if (archive_name is not None):
         pass
     else:
-        archive_name = 'IFAS_DataArchive' + time.strftime("__%Y%m%d_%H%M%S", time.localtime())
+        archive_name = 'IFAS_DataArchive' + time.strftime("__%Y%m%d_%H%M%S", 
+                                                          time.localtime())
     
     # Extract the archive type and extension from the user input.
     arc_type, arc_ext = core.strformat.format_shutil_archive_extensions(
         archive_string=archive_type)
 
-    # For some reason, if the archive is made in the same directory, it 
-    # recursively archives itself and intended files until its way too big. 
-    # Making it outside then moving it is a workaround.
+    # For some reason, if the archive is made in the same directory, 
+    # it recursively archives itself and intended files until it is
+    # way too big. Making it outside then moving it is a workaround.
     temp_dir = core.strformat.combine_pathname(
         directory=[data_directory, '..'], 
         file_name=archive_name)
@@ -143,8 +147,8 @@ def dearchive_data_directory(archive_name, alternate_directory=None,
         The path that an alternate directory that the archive should 
         be unpacked it.
     silent : boolean (optional)
-        Turn off all warnings and information sent by this function and 
-        functions below it.
+        Turn off all warnings and information sent by this function 
+        and functions below it.
 
     Returns
     -------
@@ -169,41 +173,45 @@ def dearchive_data_directory(archive_name, alternate_directory=None,
 
 
 def rename_by_parallel_replace(file_names, file_renames, directory=None):
-    """ Renames files provided parallel name arrays. This only works for
-    fits files.
+    """ Renames files provided parallel name arrays. This only works 
+    for fits files.
 
     Given two same length lists of file names, one pre-rename and one 
-    post-rename, this function renames them accordingly. A directory is also
-    an option, and the file name list will be derived from that.
+    post-rename, this function renames them accordingly. A directory 
+    is also an option, and the file name list will be derived from 
+    that.
 
-    This only works for one type of file extension, or leave the string blank
-    for all files.
+    This only works for one type of file extension, or leave the 
+    string blank for all files.
 
     Parameters
     ----------
     file_names : array_like
         The list of the file names that is to be renamed.
     file_renames : array_like
-        The list of the file names that are going to be used for the renaming
-        process.
+        The list of the file names that are going to be used for the 
+        renaming process.
     directory : string (optional)
-        A directory that contains all of the files that are going to be 
-        renamed. Does not handle directories recursively.
+        A directory that contains all of the files that are going 
+        to be renamed. Does not handle directories recursively.
 
     Returns
     -------
     None
     """
-    # Adapt for an added directory. The path join function cannot handle 
-    # a NoneType, but it can deal with an empty string.
+    # Adapt for an added directory. The path join function cannot 
+    # handle a NoneType, but it can deal with an empty string.
     directory = '' if (directory is None) else str(directory)
-    file_names = [os.path.join(directory, filedex) for filedex in file_names]
-    file_renames = [os.path.join(directory, filedex) for filedex in file_renames]
+    file_names = [os.path.join(directory, filedex) 
+                  for filedex in file_names]
+    file_renames = [os.path.join(directory, filedex) 
+                    for filedex in file_renames]
 
     # Check for length issues.
     if (len(file_names) != len(file_renames)):
-        raise core.error.RuntimeError("The number of file names and the number of file "
-                                      "renames are not the same; therefore, these are not "
+        raise core.error.RuntimeError("The number of file names and the "
+                                      "number of file renames are not the "
+                                      "same; therefore, these are not "
                                       "parallel arrays.")
 
     # Loop through all file names, renaming each of them.
@@ -211,8 +219,9 @@ def rename_by_parallel_replace(file_names, file_renames, directory=None):
         # Check if the file exists.
         if (not os.path.isfile(filedex)):
             core.error.ifas_warning(core.error.RuntimeWarning,
-                                    ("The file {file_name} does not exist and thus cannot be "
-                                     "renamed. Moving on to the next file."
+                                    ("The file {file_name} does not exist "
+                                     "and thus cannot be renamed. Moving on "
+                                     "to the next file."
                                      .format(file_name=filedex)))
             continue
         else:
@@ -222,19 +231,19 @@ def rename_by_parallel_replace(file_names, file_renames, directory=None):
     return None
 
 def rename_by_parallel_append(file_names, appending_names, directory=None):
-    """ This function renames all files by appending a string to their name.
-    The file name extension is not modified.
+    """ This function renames all files by appending a string to 
+    their name. The file name extension is not modified.
 
     Parameters
     ----------
     file_names : array_like
         The list of the file names that is to be renamed.
     appending_names : array_like
-        The list of the appending strings that are going to be used for 
-        the renaming process.
+        The list of the appending strings that are going to be used 
+        for the renaming process.
     directory : string (optional)
-        A directory that contains all of the files that are going to be 
-        renamed. Does not handle directories recursively.
+        A directory that contains all of the files that are going to 
+        be renamed. Does not handle directories recursively.
 
     Returns
     -------
@@ -245,8 +254,8 @@ def rename_by_parallel_append(file_names, appending_names, directory=None):
     path_names = [os.path.join(directory, filedex) for filedex in file_names]
     n_files = len(path_names)
 
-    # Append the extry between the end of the file name and the extension
-    # for all files.
+    # Append the entry between the end of the file name and the 
+    # extension for all files.
     new_path_names = []
     for pathdex, appenddex in zip(path_names, appending_names):
         # Extract the new path parameters.
@@ -256,24 +265,26 @@ def rename_by_parallel_append(file_names, appending_names, directory=None):
         new_path = os.path.join(dir, new_file)
         # Add it to the rest.
         new_path_names.append(copy.deepcopy(new_path))
-        # For reuseabiltity.
+        # For ensured reusability.
         del new_path
 
-    # Rename, given the new file names by append. The directory has already 
-    # been accounted for.
-    rename_by_parallel_replace(file_names=file_names, file_renames=new_path_names, 
+    # Rename, given the new file names by append. The directory has 
+    # already been accounted for.
+    rename_by_parallel_replace(file_names=file_names, 
+                               file_renames=new_path_names, 
                                directory=None)
     # Done.
     return None
 
 def get_fits_filenames(data_directory, sub_extension=None, recursive=False):
-    """ This function is a wrapper function around the glob command to get
-    all fits files.
+    """ This function is a wrapper function around the glob command 
+    to get all fits files.
 
     Parameters
     ----------
     data_directory : string
-        The data directory that the fits files will be search for from.
+        The data directory that the fits files will be search for 
+        from.
     sub_extension : string (optional)
         This allows for the focus of obtaining fits files that 
         is only like a .subextension.fits file, depending on what
@@ -288,20 +299,30 @@ def get_fits_filenames(data_directory, sub_extension=None, recursive=False):
 
     .. note::
 
-        If `data_directory` is instead a valid fit file, then only that
-        fit file is returned in a list. This allows scripts to only be run
-        on single files. (Recursive must be False.)
+        If `data_directory` is instead a valid fit file, then only 
+        that fit file is returned in a list. This allows scripts to 
+        only be run on single files. (Recursive must be False.)
     """
+    # Ensure that the data directory is non-blank. A blank directory
+    # may accidentally be used by omitting it from the configuration
+    # file.
+    if (len(str(data_directory)) == 0):
+        # The data directory is a blank string.
+        raise core.error.InputError("The provided data directory is blank. "
+                                    "The configuration file data directory "
+                                    "may be blank.")
+
     # This is the entire extension that should be used, including 
     # the sub-extension. A basic test first.
     if (sub_extension is not None):
         if (str(sub_extension)[0] != '.'):
             core.error.ifas_warning(core.error.InputWarning,
                                     ("The sub-extension does not begin like "
-                                     "an extension (with a `.`)."))
+                                     "an extension (with a `.`), it will "
+                                     "be added."))
+            sub_extension = ''.join(['.', sub_extension])
         extension = core.strformat.combine_pathname(
             extension=[str(sub_extension), '.fits'])
-        #''.join([str(sub_extension), '.fits'])
     else:
         # Just stick to the default extension.
         extension = '.fits'
@@ -310,26 +331,34 @@ def get_fits_filenames(data_directory, sub_extension=None, recursive=False):
     # This is to allow single file scripts rather than whole 
     # directory scripts.
     if ((not os.path.isdir(data_directory)) and (not recursive)):
-        # It is not a directory, check if it is a fits file and then on.
+        # It is not a directory, check if it is a fits file instead.
         # Testing for existence and extension.
         if ((os.path.isfile(data_directory)) and 
-             (core.strformat.split_pathname(pathname)[-1] == extension)):
+             (core.strformat.split_pathname(
+                 pathname=data_directory)[-1] == extension)):
             # If Astropy can deal with it, it should be good enough.
             try:
                 ap_fits.info(data_directory, output=None)
                 # It should be all well and good then.
-                core.error.ifas_info("The data directory inputted is really just a single fits "
-                                     "file: {file}. It will be handled and returned."
+                core.error.ifas_info("The data directory inputted is really "
+                                     "just a single fits file: {file}. It "
+                                     "will be handled and returned."
                                      .format(file=str(data_directory)))
                 return [data_directory]
             except Exception:
                 core.error.ifas_warning(core.error.InputWarning,
-                                        ("The file input {file} is detected to be a .fits file. "
-                                         "However, the Astropy module has issues with it. "
+                                        ("The file input {file} is detected "
+                                         "to be a .fits file. However, the "
+                                         "Astropy module has issues with it."
                                          .format(file=data_directory)))
+        else:
+            raise core.error.InputError("The directory provided is not a "
+                                        "valid directory or appropriate fits "
+                                        "file. Input:  `{dir}`"
+                                        .format(dir=data_directory))
     else:
-        # Process the directory like normal and obtain the fits files.
-        # os.path.join(data_directory, ''.join(['*', extension])), 
+        # Process the directory like normal and obtain the fits 
+        # files.
         dir_list = [data_directory, '**'] if recursive else [data_directory]
         fits_filenames = glob.glob(core.strformat.combine_pathname(
             directory=dir_list, file_name=['*'], extension=[extension]),
@@ -338,8 +367,8 @@ def get_fits_filenames(data_directory, sub_extension=None, recursive=False):
         # Check and warn for no files found.
         if (len(fits_filenames) == 0):
             core.error.ifas_warning(core.error.ImportingWarning,
-                                   ("No fits files were obtained within the data directory:  "
-                                    "{data_dir}."
+                                   ("No fits files were obtained within the "
+                                    "data directory:  {data_dir}"
                                     .format(data_dir=str(data_directory))))
         return fits_filenames
 
@@ -350,27 +379,30 @@ def get_fits_filenames(data_directory, sub_extension=None, recursive=False):
 def read_fits_file(file_name, extension=0, silent=False):
     """ A function to ensure proper loading/reading of fits files.
 
-    This function, as its name, opens a fits file. It returns the Astropy HDU 
-    file. This function is mostly done to ensure that files are properly 
-    closed. It also extracts the needed data and header information from the 
-    file.
+    This function, as its name, opens a fits file. It returns the 
+    Astropy HDU file. This function is mostly done to ensure that 
+    files are properly closed. It also extracts the needed data 
+    and header information from the file.
 
     Parameters
     ---------- 
     file_name : string
-        This is the path of the file to be read, either relative or absolute.
+        This is the path of the file to be read, either relative 
+        or absolute.
     extension : int or string (optional)
-        The desired extension of the fits file. Defaults to primary structure. 
+        The desired extension of the fits file. Defaults to primary 
+        structure. 
     silent : boolean (optional)
-        Turn off all warnings and information sent by this function and 
-        functions below it.
+        Turn off all warnings and information sent by this function 
+        and functions below it.
 
     Returns
     -------
     hdu_file : HDULists
         The Astropy object representing the fits file.
     hdu_header : Header
-        The Astropy header object representing the headers of the given file.
+        The Astropy header object representing the headers of the 
+        given file.
     hdu_data : ndarray
         The Numpy representation of a fits file data.
     """
@@ -378,7 +410,8 @@ def read_fits_file(file_name, extension=0, silent=False):
     # The user doesn't want any warnings.
     if (silent):
         with core.error.ifas_absolute_silence():
-            return read_fits_file(file_name, extension=extension)
+            return read_fits_file(file_name=file_name, extension=extension,
+                                  silent=False)
 
     with ap_fits.open(file_name) as hdul:
         hdul_file = copy.deepcopy(hdul)
@@ -391,58 +424,75 @@ def read_fits_file(file_name, extension=0, silent=False):
     hdu_header = hdul_file[extension].header
     hdu_data = hdul_file[extension].data
 
-    # For some reason, there are null problems and value problems with the 
-    # data. Any and all frames that match the criteria are nulled out. Send
-    # a warning.
+    # For some reason, there are null problems and value problems 
+    # with the data. Any and all frames that match the criteria are 
+    # nulled out. Send a warning.
     # Check first for nans.
     if (np.any(np.isnan(hdu_data))):
-        # Test for bad or nan/null values. Of course, there is not need for repeat frames.
+        # Test for bad or nan/null values. Of course, there is not 
+        # need for repeat frames.
         nan_index_data = np.argwhere(np.isnan(hdu_data))
         nan_frames = np.unique(nan_index_data.T[0])
         # Check for 3D or 2D file.
         if (nan_index_data.shape[1] == 2):
             core.error.ifas_log_warning(core.error.DataWarning,
-                                        ("This a 2D data frame with nan/null values. "
-                                         "They will be kept; but, functions down the "
-                                         "line may break."
-                                         "\n    File name: {f_name} | 'Null' frames: {fr_list}."
-                                         .format(f_name=file_name, fr_list=nan_frames)))
+                                        ("This 2D data frame has nan/null "
+                                         "values. They will be kept; but, "
+                                         "functions down the line may break."
+                                         "\n    File name: {f_name} | "
+                                         "'Null' frames: {fr_list}"
+                                         .format(f_name=file_name, 
+                                                 fr_list=nan_frames)))
         elif (nan_index_data.shape[1] == 3):
             core.error.ifas_warning(core.error.DataWarning,
-                                    ("This a 3D data frame with nan/null values. Frames with "
-                                     "nan/null values have been completely nulled. "
-                                     "\n    File name: {f_name} | Null frames: {fr_list}."
-                                     .format(f_name=file_name, fr_list=nan_frames)))
+                                    ("This 3D data frame has nan/null "
+                                     "values. Frames with nan/null values "
+                                     "have been completely nulled. "
+                                     "\n    File name: {f_name} | "
+                                     "Null frames: {fr_list}"
+                                     .format(f_name=file_name, 
+                                             fr_list=nan_frames)))
             # Null all of the frames with null values.
             for framedex in nan_frames:
                 hdu_data[framedex] = np.full_like(hdu_data[framedex], np.nan)
         else:
-            raise core.error.DataError("The fits file exists, but is 1D or 4D+, this module "
-                                       "cannot handle cleaning such data.")
+            raise core.error.DataError("The fits file exists, but it may be"
+                                       " 1D or 4D+; this module cannot "
+                                       "handle cleaning such data.")
 
-    # Check if there is an IfA-Smeargle mask, if so, mutate data to a masked
-    # array.
+    # Check if there is an IfA-Smeargle mask, if so, mutate data 
+    # to a masked array. This is depreciated in favor of saving the 
+    # mask as a separate fits file.
     try:
         data_mask = hdul_file['IFASMASK'].data
-        # Because fits files do not handle boolean arrays, convert from the 
-        # int 1/0 array in the file.
-        data_mask = np.array(np.where(data_mask >= 1, True, False), dtype=bool)
+        # Because fits files do not handle boolean arrays, convert 
+        # from the int 1/0 array in the file.
+        data_mask = np.array(np.where(data_mask >= 1, True, False), 
+                             dtype=bool)
 
     except KeyError:
         data_mask = None
     finally:
         if (data_mask is not None):
-            # Inform that a mask has been found and is going to be used.
-            core.error.ifas_info("The fits file contains an <IFASMASK> extension, "
-                                 "a pixel mask created by this program. It will be "
-                                 "applied to the data. The output data will be a "
+            # Inform that a mask has been found and is going to be 
+            # used.
+            core.error.ifas_info("The fits file contains an <IFASMASK> "
+                                 "extension, a pixel mask created by "
+                                 "this program. It will be applied to "
+                                 "the data. The output data will be a "
                                  "Numpy Masked Array.")
+            # Also inform of the depreciated nature of this feature.
+            core.error.ifas_warning(core.error.DepreciationWarning,
+                                    ("Storing masks in an <IFASMASK> "
+                                     "extension is unfavored in lieu of "
+                                     "saving the mask as a separate file."))
+
             # Apply the mask.
             hdu_data = np_ma.array(hdu_data, mask=data_mask)
         else:
             hdu_data = np.array(hdu_data)
 
-    # Finally return. Inform the sucessful reading.
+    # Finally return. Inform the successful reading.
     core.error.ifas_info("Successfully read {read_fits} into memory."
                    .format(read_fits=file_name))
     return hdul_file, hdu_header, hdu_data
@@ -451,45 +501,50 @@ def write_fits_file(file_name, hdu_header, hdu_data, hdu_object=None,
                     save_file=True, overwrite=False, silent=False):
     """ A function to ensure proper writing of fits files.
 
-    This function writes fits files given the data and header file. The 
-    file name should be a complete path and must also include the file name.
+    This function writes fits files given the data and header file. 
+    The file name should be a complete path and must also include 
+    the file name.
 
 
 
     Parameters
     ----------
     file_name : string
-        This is the path of the file to be written, either relative or 
-        absolute.
+        This is the path of the file to be written, either relative 
+        or absolute.
     hdu_header : Header
-        The Astropy header object representing the headers of the given file.
+        The Astropy header object representing the headers of the 
+        given file.
     hdu_data : ndarray
         The Numpy representation of a fits file data.
     hdu_object : Astropy HDUList (optional)
-        An astropy HDUList object, if provided, this object takes priority 
-        to be written, the rest are ignored.
+        An astropy HDUList object, if provided, this object takes 
+        priority to be written, the rest are ignored.
     save_file : boolean (optional)
-        If ``True``, then the fits file will be written to file, else, just
-        the instance will be returned.
+        If ``True``, then the fits file will be written to file, 
+        else, just the instance will be returned.
     overwrite : boolean (optional)
-        If ``True``, if there exists a file of the same name, overwrite.
+        If ``True``, if there exists a file of the same name, 
+        overwrite.
     silent : boolean (optional)
-        Turn off all warnings and information sent by this function and 
-        functions below it.
+        Turn off all warnings and information sent by this function 
+        and functions below it.
 
     Returns
     -------
     hdul_file : Astropy HDUList
-        The file object that was written to disk. If ``hdu_object`` was 
-        provided, it is returned untouched.
+        The file object that was written to disk. If ``hdu_object`` 
+        was provided, it is returned untouched.
     """
 
     # The user does not want any warnings.
     if (silent):
         with core.error.ifas_absolute_silence():
-            return write_fits_file(file_name, hdu_header, hdu_data,
-                                   hdu_object=hdu_object, save_file=save_file, 
-                                   overwrite=overwrite)
+            return write_fits_file(file_name=file_name, 
+                                   hdu_header=hdu_header, hdu_data=hdu_data, 
+                                   hdu_object=hdu_object, 
+                                   save_file=save_file, overwrite=overwrite, 
+                                   silent=False)
 
 
     # Check if the file name has a fits extension.
@@ -498,8 +553,9 @@ def write_fits_file(file_name, hdu_header, hdu_data, hdu_object=None,
         file_name =  core.strformat.combine_pathname(file_name=file_name, 
                                                      extension='.fits')
         core.error.ifas_log_warning(core.error.InputWarning, 
-                                    ("The fits file name does not have a .fits extension; "
-                                     "it has been automatically added."))
+                                    ("The fits file name does not have "
+                                     "a .fits extension; it has been "
+                                     "automatically added."))
 
     # Create the main HDUL object to write the fits file.
     # Check for the hdu_object.
@@ -512,81 +568,96 @@ def write_fits_file(file_name, hdu_header, hdu_data, hdu_object=None,
         # booleans, convert to int.
         if (isinstance(np.ravel(hdu_data)[0], (bool, np.bool_))):
             hdu_data = np.where(hdu_data, 1, 0)
+
+        # The HDU header may be a dictionary, if so, as Astropy can
+        # only handle actual header objects, convert.
+        if (isinstance(hdu_header, dict)):
+            hdu_header = ap_fits.Header(hdu_header)
+
         # Writing to a fits HDU.
         hdu = ap_fits.PrimaryHDU(data=np.array(hdu_data), header=hdu_header)
         hdul_file = ap_fits.HDUList([hdu])
 
-    # Check if the data is a masked array, if it is, extract the mask and save
-    # it to write in an extension.
+    # Check if the data is a masked array, if it is, extract the 
+    # mask and save it to write in an extension. Though, this 
+    # is depreciated in favor of saving it as a separate fits file.
     if (isinstance(hdu_data,np_ma.MaskedArray)):
-        # Get data mask and convert to int array; apparently fits files do not
-        # work well with booleans.
+        # Get data mask and convert to int array; apparently fits 
+        # files do not work well with booleans.
         data_mask = np_ma.getmaskarray(hdu_data)
         data_mask = np.array(np.where(data_mask, int(1), int(0)), dtype=int)
         # Create the HDU object mask.
         data_mask_hdu = ap_fits.ImageHDU(data_mask, name='IFASMASK')
         hdul_file.append(data_mask_hdu)
 
-        # Warn that the mask has been added.
-        core.error.ifas_warning(core.error.DeprecatedWarning,
-                                ("The usage of the <IFASMASK> extension to "
-                                 "store masks is discouraged to storing it "
-                                 "as a separate fits file."))
+        # Warn that the mask has been added. 
+        core.error.ifas_warning(core.error.DepreciationWarning,
+                                ("Storing masks in an <IFASMASK> "
+                                 "extension is unfavored in lieu of "
+                                 "saving the mask as a separate file."))
         core.error.ifas_info("The data array provided has been detected "
                              "to be a masked array. The mask is saved in "
                              "the fits extension <IFASMASK>. The primary "
                              "data is not affected.")
 
 
-    # Check to see if the file exists, if so, then overwrite if provided for.
-    if (os.path.isfile(file_name)):
+    # Check to see if the file exists, if so, then overwrite 
+    # if provided for.
+    if (os.path.isfile(file_name) and (save_file)):
         if (overwrite):
             # It should be overwritten, warn to be nice. 
             core.error.ifas_warning(core.error.OverwriteWarning,
-                                    ("There exists a file with the provided name. "
-                                     "Overwrite is true; the previous file will "
-                                     "be replaced as provided."))
+                                    ("There exists a file with the provided "
+                                     "name. Overwrite is true; the previous "
+                                     "file will be replaced as provided."))
         else:
             # It should not overwritten at this point.
-            raise core.error.ExportingError("There exists a file with the same name as the "
-                                            "previous one. Overwrite is set to False, the new "
-                                            "fits file cannot be written. File name: {f_name}"
+            raise core.error.ExportingError("There exists a file with the "
+                                            "same name as the previous one. "
+                                            "Overwrite is set to False, the "
+                                            "new fits file cannot be "
+                                            "written. File name: {f_name}"
                                             .format(f_name=file_name))
 
-    # Write, follow overwrite instructions, assume the user knows what they 
-    # are doing. Return object.
+    # Write, follow overwrite instructions, assume the user knows 
+    # what they are doing. Return object.
     if (save_file):
+        hdul_file.writeto(file_name, overwrite=overwrite)
+        # Inform of the completed save.
         core.error.ifas_info("Successfully wrote {read_fits} onto disk."
                        .format(read_fits=file_name))
-        hdul_file.writeto(file_name, overwrite=overwrite)
 
     return hdul_file
 
 def append_astropy_header_card(file_name, header_cards, comment_cards=None):
-    """ This is a function to add header card entries into the header of a 
-    fits file. This uses dictionaries to achieve said result.
+    """ This is a function to add header card entries into the 
+    header of a fits file. This uses dictionaries to achieve said 
+    result.
 
     Parameters
     ----------
     file_name : string
-        This is the path of the file to be written, either relative or 
-        absolute.
+        This is the path of the file to be written, either relative 
+        or absolute.
     header_cards : dictionary
-        The header entries to be added to the header file. Please note that
-        the keys of the dictionary must be no more than 8 characters.
+        The header entries to be added to the header file. Please 
+        note that the keys of the dictionary must be no more than 
+        8 characters; otherwise a HIERARCH card will be used.
     comment_cards : dictionary (optional)
-        The comment entries to be added to the header file. The keys of the 
-        comment dictionary and the `header_cards` must line up.
+        The comment entries to be added to the header file. The 
+        keys of the comment dictionary and the `header_cards` must 
+        line up.
 
     Returns
     -------
     hdul_file : Astropy PrimaryHDU
-        The file object that was written to disk. If ``hdu_object`` was 
-        provided, it is returned with its header changed..
+        The file object that was written to disk. If ``hdu_object`` 
+        was provided, it is returned with its header changed.
     """
-    # Sort the comment cards to the needed dictionary. If it is nothing, 
-    # then blank is fine.
-    comment_cards = comment_cards if isinstance(comment_cards, dict) else dict()
+    # Sort the comment cards to the needed dictionary. If it is 
+    # nothing, then a blank dictionary is compatible with no comment.
+    comment_cards = (comment_cards if isinstance(comment_cards, dict) 
+                     else dict())
 
     # Add the entries.
     for keydex, valuedex in copy.deepcopy(header_cards).items():
@@ -598,8 +669,9 @@ def append_astropy_header_card(file_name, header_cards, comment_cards=None):
                            comment=comment_cards.get(keydex,None))
         elif (isinstance(valuedex, bool)):
             core.error.ifas_log_warning(core.error.ExportingWarning,
-                                        ("FITS Headers cannot store a boolean directly but "
-                                         "can use T/F letters. The boolean has been "
+                                        ("FITS Headers cannot store a "
+                                         "boolean directly but can use T/F "
+                                         "letters. The boolean has been "
                                          "converted."))
             # Convert to a fits proper type.
             converted_value = 'T' if valuedex else 'F'
@@ -610,7 +682,7 @@ def append_astropy_header_card(file_name, header_cards, comment_cards=None):
                                     ("The header card key-value pair "
                                      "({key} = {value}) uses a value type "
                                      "of {value_type}. FITS Headers can "
-                                     "only use numbers and ascii-strings. "
+                                     "only use numbers and ASCII strings. "
                                      "Converting it to a string."
                                       .format(key=keydex, value=str(valuedex), 
                                               value_type=type(valuedex))))

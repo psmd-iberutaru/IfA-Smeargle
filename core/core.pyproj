@@ -3,7 +3,8 @@
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <SchemaVersion>2.0</SchemaVersion>
     <ProjectGuid>af686cb6-558d-4821-8e2f-68fc3738e733</ProjectGuid>
-    <ProjectHome>.</ProjectHome>
+    <ProjectHome>
+    </ProjectHome>
     <StartupFile>__init__.py</StartupFile>
     <SearchPath>
     </SearchPath>
@@ -24,7 +25,7 @@
     <Compile Include="configuration.py">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="errors.py" />
+    <Compile Include="error.py" />
     <Compile Include="io.py">
       <SubType>Code</SubType>
     </Compile>
@@ -43,21 +44,23 @@
     <Compile Include="__init__.py" />
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="Config_Files\" />
-    <Folder Include="Config_Files\Specification_Files\" />
+    <Folder Include="configuration_files\" />
+    <Folder Include="configuration_files\specification_files\" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="Config_Files\analysis_configuration.ini" />
-    <Content Include="Config_Files\masking_configuration.ini" />
-    <Content Include="Config_Files\plotting_configuration.ini" />
-    <Content Include="Config_Files\reformat_configuration.ini" />
-    <Content Include="Config_Files\Specification_Files\analysis_specification.spec" />
-    <Content Include="Config_Files\Specification_Files\masking_specification.spec" />
-    <Content Include="Config_Files\Specification_Files\plotting_specification.spec" />
-    <Content Include="Config_Files\Specification_Files\reformat_specification.spec">
-      <SubType>Code</SubType>
-    </Content>
-    <Content Include="Config_Files\Specification_Files\smeargle_specification.spec" />
+    <Content Include="configuration_files\analysis_configuration.ini" />
+    <Content Include="configuration_files\blank_configuration.ini" />
+    <Content Include="configuration_files\masking_configuration.ini" />
+    <Content Include="configuration_files\plotting_configuration.ini" />
+    <Content Include="configuration_files\reformat_configuration.ini" />
+    <Content Include="configuration_files\specification_files\analysis_specification.spec" />
+    <Content Include="configuration_files\specification_files\blank_specification.spec" />
+    <Content Include="configuration_files\specification_files\masking_specification.spec" />
+    <Content Include="configuration_files\specification_files\plotting_specification.spec" />
+    <Content Include="configuration_files\specification_files\reformat_specification.spec" />
+    <Content Include="configuration_files\specification_files\smeargle_specification.spec" />
+    <Content Include="configuration_files\specification_files\tutorial_specification.spec" />
+    <Content Include="configuration_files\tutorial_configuration.ini" />
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)\Python Tools\Microsoft.PythonTools.targets" />
   <!-- Uncomment the CoreCompile target to enable the Build command in

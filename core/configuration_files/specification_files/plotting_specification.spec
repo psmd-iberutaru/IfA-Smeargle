@@ -3,6 +3,7 @@ data_directory= string
 
 
 [heatmap]
+    interpolation = string
     
 
 [histogram]

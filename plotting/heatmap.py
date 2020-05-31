@@ -33,7 +33,7 @@ def plot_heatmap(data_array, data_header=None, data_mask=None,
     data_header : Astropy Header (optional)
         This is the data header of the fits file. If it is not 
         provided, plotting parameters which use it will not be plot.
-        I will raise if I need it.
+        An error may also be raised.
     data_mask : ndarray (optional)
         The mask that should be applied to the `data_array`.
     figure_axes : Matplotlib Axes (optional)
@@ -82,20 +82,20 @@ def plot_heatmap(data_array, data_header=None, data_mask=None,
     # If the user provided a mask, apply it. Otherwise, use a blank
     # mask.
     if (data_mask is not None):
-        # The mask exists so it shall be applied.
+        # The mask exists so it shall be applied. Override whatever
+        # the data object itself has.
         plot_data = np_ma.array(np_ma.getdata(data_array, False), 
                                 mask=data_mask)
+    elif (isinstance(data_array, np_ma.MaskedArray)):
+        # The object is already a masked array, deferring to the 
+        # user here.
+        plot_data = data_array
+        core.error.ifas_info("The provided data array is a masked "
+                             "array. Its mask will be applied to the "
+                             "heat-map.")
     else:
-        if (isinstance(data_array, np_ma.MaskedArray)):
-            # The object is already a masked array, deferring to the 
-            # user here.
-            plot_data = data_array
-            core.error.ifas_info("The provided data array is a masked "
-                                 "array. Its mask will be applied to the "
-                                 "heat-map.")
-        else:
-            # There is no mask, so none shall be applied.
-            plot_data = np_ma.array(data_array, mask=np_ma.nomask)
+        # There is no mask, so none shall be applied.
+        plot_data = np_ma.array(data_array, mask=np_ma.nomask)
 
 
     # If the data array is not the proper dimensions, bark. 
@@ -145,8 +145,12 @@ def plot_heatmap(data_array, data_header=None, data_mask=None,
         colormap.set_bad('black',1.)
         matplotlib_arguments['cmap'] = colormap
 
-    # Finally plotting.
-    heatmap = ax.imshow(plot_data, origin='lower', **matplotlib_arguments)
+    # Finally plotting. Extract the needed parameters too.
+    interpolation = matplotlib_arguments.pop('interpolation', None)
+    cmap = matplotlib_arguments.pop('cmap', None)
+    heatmap = ax.imshow(plot_data, origin='lower', 
+                        interpolation=interpolation, cmap=cmap,
+                        **matplotlib_arguments)
 
     # Make color bar match the graph size. There seems to be two 
     # ways of doing this; pragmatically and magically. Default 
@@ -199,7 +203,6 @@ def script_plot_heatmap(config):
     data_directory = core.config.extract_configuration(
         config_object=config, keys=['data_directory'])
 
-
     # Compile the configuration parameters for the creation of the 
     # figure itself.
     figure_arguments = {}
@@ -213,10 +216,11 @@ def script_plot_heatmap(config):
 
     # Extract configuration parameters for the inner matplotlib 
     # function that the plotting function uses.
-    pass
+    interpolation = core.config.extract_configuration(
+        config_object=config, keys=['heatmap','interpolation'])
     # Compile the configuration parameters for the matplotlib 
     # function that is the base of the plotting function.
-    matplotlib_arguments = {}
+    matplotlib_arguments = {'interpolation':interpolation}
 
     
     # The plotting function

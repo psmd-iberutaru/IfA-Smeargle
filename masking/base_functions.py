@@ -413,9 +413,9 @@ def create_directory_filter_files(data_directory, filter_function,
 
 
 def synthesize_masks(*args, **kwargs):
-    """ This is a function to combine many masks into one single mask.
-    This argument does not take any keyword arguments. All of the
-    masks must be the same size. (In general, the first mask is 
+    """ This is a function to combine many masks into one single 
+    mask.This argument does not take any keyword arguments. All of 
+    the masks must be the same size. (In general, the first mask is 
     considered the correct mask.)
 
     Parameters

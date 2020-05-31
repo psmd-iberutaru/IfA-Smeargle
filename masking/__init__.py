@@ -1,6 +1,7 @@
 """
-This covers all of the masking programs, establishing the filters and how 
-they operate. In general, they are divided by how they are applied. 
+This covers all of the masking programs, establishing the filters 
+and how they operate. In general, they are divided by how they 
+are applied. 
 """
 
 

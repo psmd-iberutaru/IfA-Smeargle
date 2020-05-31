@@ -23,6 +23,9 @@ def write_plot_file(file_name, figure, title=None, close_figure=True):
     in parallel. This is very memory intensive, so closing a saved 
     figure is ideal. This function does this by default.
 
+    See https://stackoverflow.com/a/8862575 and 
+    https://cutt.ly/gyK4HlE for more information.
+
     Parameters
     ----------
     file_name : string
@@ -56,7 +59,7 @@ def write_plot_file(file_name, figure, title=None, close_figure=True):
                                  "An excessive amount of figures will be "
                                  "very memory intensive. Why this function "
                                  "is being used without its closing "
-                                 "functionality is beyond Sparrow."))
+                                 "functionality, Sparrow does not know."))
 
     # Checking or applying file ending configuration.
     supported_file_types = figure.canvas.get_supported_filetypes()
@@ -90,7 +93,19 @@ def write_plot_file(file_name, figure, title=None, close_figure=True):
     if (close_figure):
         plt.close(figure)
         del figure
+        # Inform of the saved and released RAM from the figure.
+        core.error.ifas_info("The figure `{fig_name}` has been saved to "
+                             "disk and the figure instance has been "
+                             "released from memory."
+                             .format(fig_name=file_name))
+    else:
+        # The figure was saved, but the ram was not released.
+        core.error.ifas_info("The figure `{fig_name}` has been saved to "
+                             "disk. The figure instance still was not "
+                             "and may still exist in and use memory."
+                             .format(fig_name=file_name))
 
+    # All done.
     return None
 
 
@@ -155,10 +170,13 @@ def create_directory_plot_files(data_directory, plotting_function,
         ax = plot
 
         # The file name of the plot. The core will generally be the 
-        # root file name.
-        root_filename = str(filedex).split('.')[0]
+        # root file name. The second path name split removes the
+        # .analysis from the file name as well.
+        dir, file_analysis, __ = core.strformat.split_pathname(pathname=filedex)
+        __, file, __ = core.strformat.split_pathname(pathname=file_analysis)
         figure_filename = core.strformat.combine_pathname(
-            file_name=[root_filename, '__', plotting_function.__name__])
+            directory=[dir],
+            file_name=[file, '__', plotting_function.__name__])
 
         # Save the plot to file.
         write_plot_file(file_name=figure_filename, figure=fig, 

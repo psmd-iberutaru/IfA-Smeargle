@@ -26,7 +26,6 @@ filter_tag_name = string
     run_mask_nothing = boolean(default=False)
 
     run_mask_everything = boolean(default=False)
-[validate]
 
 [filter]
     run_filter_sigma_value = boolean(default=False)
