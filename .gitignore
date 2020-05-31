@@ -1,3 +1,6 @@
+# Github specific files do not need to be versioned.
+.github/*
+
 # The entire data section does not really need to be saved. These files
 # are associated with the detector data.
 Data/*
@@ -9,5 +12,5 @@ Data/*
 *.suo
 .suo
 
-# Python byte-code files should not be checked. 
+# Python bytecode files should not be checked. 
 *.py[cod]
