@@ -14,7 +14,7 @@ import string
 
 import IfA_Smeargle.core as core
 
-def detector_renameing(data_directory, detector_name):
+def detector_renaming(data_directory, detector_name):
     """ Creates file tags according to the detector qualifier name.
     
     Parameters
@@ -351,8 +351,8 @@ def voltage_pattern_renaming(data_directory, voltage_pattern,
 
 
 
-def script_detector_renameing(config):
-    """ The scripting version of `detector_renameing`. This function 
+def script_detector_renaming(config):
+    """ The scripting version of `detector_renaming`. This function 
     applies the rename to the entire directory. It also adds the 
     tags to the header file of each fits.
     
@@ -374,8 +374,8 @@ def script_detector_renameing(config):
         config_object=config, keys=['renaming','detector_name'])
 
     # Obtain the labels.
-    labels, raw = detector_renameing(data_directory=data_directory, 
-                                     detector_name=detector_name)
+    labels, raw = detector_renaming(data_directory=data_directory, 
+                                    detector_name=detector_name)
     
     # Add to all file headers. Assume that the order has not changed 
     # between renaming steps.
@@ -546,7 +546,7 @@ def script_set_renaming(config):
 
     return None
 
-def script_voltage_pattern_renameing(config):
+def script_voltage_pattern_renaming(config):
     """ The scripting version of `voltage_pattern_renaming`. This 
     function applies the rename to the entire directory. It also 
     adds the tags to the header file of each fits.

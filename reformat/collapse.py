@@ -63,15 +63,15 @@ def collapse_by_average_endpoints(data_array, start_chunk, end_chunk,
     # divisor is normally meant for the time. But normalization 
     # is not apart of this function, so do not divide meaningfully.
     if (average_method == 'mean'):
-        final_data = _primary_mean_function(data_array=data_array,
-                                              start_chunk=start_chunk, 
-                                              end_chunk=end_chunk,
-                                              divisor=1)
+        final_data = _collapse_by_averages_mean_function(
+            data_array=data_array, 
+            start_chunk=start_chunk, end_chunk=end_chunk,
+            divisor=1)
     elif (average_method == 'median'):
-        final_data = _primary_median_function(data_array=data_array,
-                                              start_chunk=start_chunk, 
-                                              end_chunk=end_chunk,
-                                              divisor=1)
+        final_data = _collapse_by_averages_median_function(
+            data_array=data_array,
+            start_chunk=start_chunk, end_chunk=end_chunk,
+            divisor=1)
     else:
         # The method is not a valid method of averaging supported.
         raise core.error.InputError("The `average_method` provided is not a "
@@ -128,12 +128,12 @@ def collapse_by_average_endpoints_per_second(data_array,
 
     # Evaluate the averaging based on the median or mean.
     if (average_method == 'mean'):
-        final_data = _primary_mean_function(data_array=data_array,
-                                              start_chunk=start_chunk, 
-                                              end_chunk=end_chunk,
-                                              divisor=integration_time)
+        final_data = _collapse_by_averages_mean_function(
+            data_array=data_array,
+            start_chunk=start_chunk, end_chunk=end_chunk,
+            divisor=integration_time)
     elif (average_method == 'median'):
-        final_data = _primary_median_function(data_array=data_array,
+        final_data = _collapse_by_averages_median_function(data_array=data_array,
                                               start_chunk=start_chunk, 
                                               end_chunk=end_chunk,
                                               divisor=integration_time)
@@ -198,12 +198,12 @@ def collapse_by_average_endpoints_per_kilosecond(data_array,
 
     # Evaluate the averaging based on the median or mean.
     if (average_method == 'mean'):
-        final_data = _primary_mean_function(
+        final_data = _collapse_by_averages_mean_function(
             data_array=data_array, 
             start_chunk=start_chunk, end_chunk=end_chunk,
             divisor=integration_time_kilosecond)
     elif (average_method == 'median'):
-        final_data = _primary_median_function(
+        final_data = _collapse_by_averages_median_function(
             data_array=data_array,
             start_chunk=start_chunk, end_chunk=end_chunk,
             divisor=integration_time_kilosecond)
@@ -219,12 +219,12 @@ def collapse_by_average_endpoints_per_kilosecond(data_array,
 def _collapse_by_averages_mean_function(*args, **kwargs):
     """ For means. """
     return _collapse_by_averages_common_function(
-        combining_function=core.math.ifas_masked_mean, *args, **kwargs)
+        averaging_function=core.math.ifas_masked_mean, *args, **kwargs)
 
 def _collapse_by_averages_median_function(*args, **kwargs):
     """ For medians. """
     return _collapse_by_averages_common_function(
-        combining_function=core.math.ifas_masked_median, *args, **kwargs)
+        averaging_function=core.math.ifas_masked_median, *args, **kwargs)
 
 def _collapse_by_averages_common_function(data_array, start_chunk, end_chunk,
                                           divisor, averaging_function):
@@ -326,7 +326,7 @@ def _collapse_by_averages_common_function(data_array, start_chunk, end_chunk,
 
 # The functions below are for the scripting interfaces.
 
-def _format_collpase_config(config):
+def _format_collapse_config(config):
     """ The scripting version of `all collapse`. This function
     applies the inner function to either the entire directory or a 
     single file.
@@ -341,10 +341,10 @@ def _format_collpase_config(config):
     -------
     data_directory : string
         The data directory.
-    start_chunks : ndarray
-        The starting chunks to process.
-    end_chunks : ndarray
-        The ending chunks to process.
+    start_chunk : ndarray
+        The starting chunk to process.
+    end_chunk : ndarray
+        The ending chunk to process.
     average_method : string
         The method that will be used to average.
     frame_exposure_time : float
@@ -354,50 +354,50 @@ def _format_collpase_config(config):
     # Extract the configuration parameters.
     data_directory = core.config.extract_configuration(
         config_object=config, keys=['data_directory'])
-    start_chunks = core.config.extract_configuration(
-        config_object=config, keys=['collapse','start_chunks'])
-    end_chunks = core.config.extract_configuration(
-        config_object=config, keys=['collapse','end_chunks'])
+    start_chunk = core.config.extract_configuration(
+        config_object=config, keys=['collapse','start_chunk'])
+    end_chunk = core.config.extract_configuration(
+        config_object=config, keys=['collapse','end_chunk'])
     average_method = core.config.extract_configuration(
         config_object=config, keys=['collapse','average_method'])
     frame_exposure_time = core.config.extract_configuration(
         config_object=config, keys=['collapse','frame_exposure_time'])
 
     # Force both the chunks to be in array format for processing.
-    start_chunks = np.array(start_chunks)
-    end_chunks = np.array(end_chunks)
+    start_chunk = np.array(start_chunk)
+    end_chunk = np.array(end_chunk)
 
     # If both are one dimensional, assume matching pairs, else, 
     # populate unless they are the same dimension size or raise for 
     # non-equal sizes.
-    if (start_chunks.ndim == end_chunks.ndim):
+    if (start_chunk.ndim == end_chunk.ndim):
         # Assume valid procedure and that these arrays are 
         # parallel. But basic checks are nice.
-        if (start_chunks.shape != end_chunks.shape):
+        if (start_chunk.shape != end_chunk.shape):
             raise core.error.ConfigurationError("Both the start chunk and "
                                                 "the end chunk are of same "
                                                 "dimension but different "
                                                 "shape.")
-        if (start_chunks.size != end_chunks.size):
+        if (start_chunk.size != end_chunk.size):
             raise core.error.ConfigurationError("Both the start chunk and "
                                                 "the end chunk are of same "
                                                 "dimension but different "
                                                 "size.")
         # They also need to be 2D.
-        if ((start_chunks.ndim == 1) and (end_chunks.ndim == 1)):
-            start_chunks = np.array([start_chunks])
-            end_chunks = np.array([end_chunks])
+        if ((start_chunk.ndim == 1) and (end_chunk.ndim == 1)):
+            start_chunk = np.array([start_chunk])
+            end_chunk = np.array([end_chunk])
         else:
             # it is assumed that they are fine.
             pass
-    elif (start_chunks.ndim == 1) and (1 <= end_chunks.ndim):
+    elif (start_chunk.ndim == 1) and (1 <= end_chunk.ndim):
         # The start chunks are the minor here and should duplicate 
         # where needed to match.
-        start_chunks = np.tile(start_chunks, (end_chunks.shape[0],1))
-    elif (end_chunks.ndim == 1) and (1 <= start_chunks.ndim):
+        start_chunk = np.tile(start_chunk, (end_chunk.shape[0],1))
+    elif (end_chunk.ndim == 1) and (1 <= start_chunk.ndim):
         # The end chunks are the minor here and should duplicate 
         # where needed to match.
-        end_chunks = np.tile(end_chunks, (start_chunks.shape[0],1))
+        end_chunk = np.tile(end_chunk, (start_chunk.shape[0],1))
     else:
         raise core.error.ConfigurationError("The start and end chunks are "
                                             "not in a format that can be "
@@ -408,10 +408,10 @@ def _format_collpase_config(config):
                                             "for multiple sub-arrays.")
 
     # Return the configurations.
-    return (data_directory, start_chunks, end_chunks, 
+    return (data_directory, start_chunk, end_chunk, 
             average_method, frame_exposure_time)
 
-def _common_collpase_function(config, collpase_function):
+def _common_collapse_function(config, collapse_function):
     """ All sub-frames are very similar, they can share a common 
     function for their usage.
 
@@ -420,12 +420,12 @@ def _common_collpase_function(config, collpase_function):
     config : ConfigObj
         The configuration object that is to be used for this 
         function.
-    collpase_function : function
+    collapse_function : function
         The sub-frame function.
     """
 
     # Obtain the configuration parameters.
-    (data_directory, start_chunks, end_chunks, 
+    (data_directory, start_chunk, end_chunk, 
      average_method, frame_exposure_time) = _format_collapse_config(
          config=config)
 
@@ -445,13 +445,13 @@ def _common_collpase_function(config, collpase_function):
                          "The frame exposure is {frame_time}. The sub*frame "
                          "function is {collapse_funct}."
                          .format(method=average_method, 
-                                 start_set=start_chunks, end_set=end_chunks,
+                                 start_set=start_chunk, end_set=end_chunk,
                                  data_dir=data_directory, 
                                  frame_time=frame_exposure_time,
                                  collapse_funct=collapse_function.__name__))
     for filedex in data_files:
         # Also, loop over all desired sub-frames that should be made.
-        for substartdex, subenddex in zip(start_chunks, end_chunks):
+        for substartdex, subenddex in zip(start_chunk, end_chunk):
             # Load the fits file.
             hdul_file, hdu_header, hdu_data = core.io.read_fits_file(
                 file_name=filedex, extension=0, silent=False)

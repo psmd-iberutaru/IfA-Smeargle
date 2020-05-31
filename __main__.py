@@ -132,6 +132,43 @@ if (__name__ == '__main__'):
 
     # There is a special case for configuration files if the script
     # should not be run with one.
+    if ((config_file.lower() == 'none') or (config_file.lower() == 'null')):
+        # The user input the special string to run a script
+        # without any explicit configuration file. However, logs 
+        # cannot be called until the file manger is set.
+        _log_blank_configuration_info = True
+
+        # Obtain the list of all configuration files, the blank one
+        # should be in there.
+        config_files = core.runtime.get_configuration_files()
+        # Find the blank specification file.
+        blank_config_path = config_files.get('blank_configuration', None)
+        # If the file is not there, raise as it should be there.
+        try:
+            if (blank_config_path is None):
+                raise FileNotFoundError("The blank configuration path "
+                                        "cannot be found in the dictionary "
+                                        "of configuration files.")
+            elif (not os.path.isfile(blank_config_path)):
+                raise FileNotFoundError("The blank configuration path does "
+                                        "not lead to a proper file.")
+            elif (core.strformat.split_pathname(
+                pathname=blank_config_path)[-1] != '.ini'):
+                raise FileNotFoundError("The blank configuration path does "
+                                        "not lead to a configuration file.")
+            else:
+                # The configuration file shall be reassigned as a
+                # blank file as per functionality.
+                config_file = blank_config_path
+        except FileNotFoundError:
+            raise core.error.AssumptionError("The blank configuration file "
+                                             "cannot be used or found. The "
+                                             "configuration file path: "
+                                             "{path}"
+                                             .format(path=blank_config_path))
+    else:
+        # The configuration file should be treated as a normal file.
+        _log_blank_configuration_info = False
 
     # Have logging capabilities, writing out a log to file. Use the  
     # appropriate logging level and file based on input.
@@ -176,6 +213,10 @@ if (__name__ == '__main__'):
         core.error.ifas_warning(core.error.InputWarning, 
                                 ("The log file does not have a normal "
                                  "extension. Using `.log` as a default."))
+    if (_log_blank_configuration_info):
+        core.error.ifas_info("The configuration file path provided is "
+                             "equivalent None or Null, a blank "
+                             "configuration will be used.")
 
     # Change the runtime variables for convenience and for the other
     # functions that may need it.

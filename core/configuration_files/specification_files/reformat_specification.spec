@@ -23,8 +23,8 @@ data_directory = string
 
 
 [collapse]
-    start_chunks = int_list
-    end_chunks = int_list
+    start_chunk = int_list
+    end_chunk = int_list
     average_method = option('mean', 'median', '')
     frame_exposure_time = float
 

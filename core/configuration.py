@@ -7,6 +7,7 @@ import copy
 import configobj
 import validate
 import os
+import shutil
 import IfA_Smeargle.core as core
 
 
@@ -216,7 +217,7 @@ def copy_configuration_file(config_type, destination, file_name=None):
     file_name : string (optional)
         This is an optional file name. The extension .ini will be 
         added unless it is already present. No directory information
-        should be provided here.
+        should be provided here. Defaults to the copied file name.
 
     Returns
     -------
@@ -270,9 +271,19 @@ def copy_configuration_file(config_type, destination, file_name=None):
         # be okay as there is only one entry in the dictionary.
         source_path = list(matching_files.values())[0]
         # Constructing the destination path name for the copied file.
-        __, file_name, __ = core.strformat.split_pathname(pathname=file_name)
-        config_path = core.strformat.combine_pathname(
-            directory=dir, file_name=file_name, extension='.ini')
+        if (file_name is not None):
+            # A file name was provided, use it.
+            __, file_name, __ = core.strformat.split_pathname(
+                pathname=file_name)
+            config_path = core.strformat.combine_pathname(
+                directory=dir, file_name=file_name, extension='.ini')
+        else:
+            # A file name has not been provided, default to the 
+            # copied file name.
+            __, file_name, __ = core.strformat.split_pathname(
+                pathname=source_path)
+            config_path = core.strformat.combine_pathname(
+                directory=dir, file_name=file_name, extension='.ini')
 
         # Inform that the file is being copied.
         core.error.ifas_info("The configuration file matching {type} is "

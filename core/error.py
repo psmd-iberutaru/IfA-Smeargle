@@ -524,9 +524,9 @@ def ifas_info(message, console_print=None):
         pass
     else:
         # Just a little white space so it is not so cluttered.
-        log.info(message)
+        log.info(''.join(['  ', message]))
         if (console_print):
-            print("IFAS Info: " + message)
+            print("IFAS Info:  " + message)
     return None
 
 # This is the default and will set the silent mode parameter for 
@@ -589,9 +589,9 @@ def ifas_debug(message, console_print=False):
         # Messages should not be printed in general.
         pass
     else:
-        log.debug(message)
+        log.debug(''.join(['  ', message]))
         if (console_print):
-            print("IFAS Debug: " + message)
+            print("IFAS Debug:  " + message)
     return None
 # This is the default and will set the silent mode parameter for 
 # debug printing, but it ensures not to override anything that may 

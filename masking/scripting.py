@@ -31,10 +31,10 @@ def script_mask_single_pixels(config):
     # the directory.
     data_directory = core.config.extract_configuration(
         config_object=config, keys=['data_directory'])
-    mask_file_name = core.config.extract_configuration(
-        config_object=config, keys=['mask_file_name'])
     subfolder = core.config.extract_configuration(
         config_object=config, keys=['subfolder'])
+    mask_file_name = core.config.extract_configuration(
+        config_object=config, keys=['mask_file_name'])
 
     # Extract the run flag for this particular script.
     run_flag = core.config.extract_configuration(
@@ -84,10 +84,10 @@ def script_mask_rectangle(config):
     # the directory.
     data_directory = core.config.extract_configuration(
         config_object=config, keys=['data_directory'])
-    mask_file_name = core.config.extract_configuration(
-        config_object=config, keys=['mask_file_name'])
     subfolder = core.config.extract_configuration(
         config_object=config, keys=['subfolder'])
+    mask_file_name = core.config.extract_configuration(
+        config_object=config, keys=['mask_file_name'])
 
     # Extract the run flag for this particular script.
     run_flag = core.config.extract_configuration(
@@ -137,10 +137,10 @@ def script_mask_subarray(config):
     # the directory.
     data_directory = core.config.extract_configuration(
         config_object=config, keys=['data_directory'])
-    mask_file_name = core.config.extract_configuration(
-        config_object=config, keys=['mask_file_name'])
     subfolder = core.config.extract_configuration(
         config_object=config, keys=['subfolder'])
+    mask_file_name = core.config.extract_configuration(
+        config_object=config, keys=['mask_file_name'])
 
     # Extract the run flag for this particular script.
     run_flag = core.config.extract_configuration(
@@ -190,10 +190,10 @@ def script_mask_columns(config):
     # the directory.
     data_directory = core.config.extract_configuration(
         config_object=config, keys=['data_directory'])
-    mask_file_name = core.config.extract_configuration(
-        config_object=config, keys=['mask_file_name'])
     subfolder = core.config.extract_configuration(
         config_object=config, keys=['subfolder'])
+    mask_file_name = core.config.extract_configuration(
+        config_object=config, keys=['mask_file_name'])
 
     # Extract the run flag for this particular script.
     run_flag = core.config.extract_configuration(
@@ -240,10 +240,10 @@ def script_mask_rows(config):
     # the directory.
     data_directory = core.config.extract_configuration(
         config_object=config, keys=['data_directory'])
-    mask_file_name = core.config.extract_configuration(
-        config_object=config, keys=['mask_file_name'])
     subfolder = core.config.extract_configuration(
         config_object=config, keys=['subfolder'])
+    mask_file_name = core.config.extract_configuration(
+        config_object=config, keys=['mask_file_name'])
 
     # Extract the run flag for this particular script.
     run_flag = core.config.extract_configuration(
@@ -290,10 +290,10 @@ def script_mask_nothing(config):
     # the directory.
     data_directory = core.config.extract_configuration(
         config_object=config, keys=['data_directory'])
-    mask_file_name = core.config.extract_configuration(
-        config_object=config, keys=['mask_file_name'])
     subfolder = core.config.extract_configuration(
         config_object=config, keys=['subfolder'])
+    mask_file_name = core.config.extract_configuration(
+        config_object=config, keys=['mask_file_name'])
 
     # Extract the run flag for this particular script.
     run_flag = core.config.extract_configuration(
@@ -339,10 +339,10 @@ def script_mask_everything(config):
     # the directory.
     data_directory = core.config.extract_configuration(
         config_object=config, keys=['data_directory'])
-    mask_file_name = core.config.extract_configuration(
-        config_object=config, keys=['mask_file_name'])
     subfolder = core.config.extract_configuration(
         config_object=config, keys=['subfolder'])
+    mask_file_name = core.config.extract_configuration(
+        config_object=config, keys=['mask_file_name'])
 
     # Extract the run flag for this particular script.
     run_flag = core.config.extract_configuration(
@@ -389,10 +389,10 @@ def script_filter_sigma_value(config):
     # the directory.
     data_directory = core.config.extract_configuration(
         config_object=config, keys=['data_directory'])
-    filter_tag_name = core.config.extract_configuration(
-        config_object=config, keys=['filter_tag_name'])
     subfolder = core.config.extract_configuration(
         config_object=config, keys=['subfolder'])
+    filter_tag_name = core.config.extract_configuration(
+        config_object=config, keys=['filter_tag_name'])
 
     # Extract the run flag for this particular script.
     run_flag = core.config.extract_configuration(
@@ -437,10 +437,10 @@ def script_filter_percent_truncation(config):
     # the directory.
     data_directory = core.config.extract_configuration(
         config_object=config, keys=['data_directory'])
-    filter_tag_name = core.config.extract_configuration(
-        config_object=config, keys=['filter_tag_name'])
     subfolder = core.config.extract_configuration(
         config_object=config, keys=['subfolder'])
+    filter_tag_name = core.config.extract_configuration(
+        config_object=config, keys=['filter_tag_name'])
 
     # Extract the run flag for this particular script.
     run_flag = core.config.extract_configuration(
@@ -488,10 +488,10 @@ def script_filter_pixel_truncation(config):
     # the directory.
     data_directory = core.config.extract_configuration(
         config_object=config, keys=['data_directory'])
-    filter_tag_name = core.config.extract_configuration(
-        config_object=config, keys=['filter_tag_name'])
     subfolder = core.config.extract_configuration(
         config_object=config, keys=['subfolder'])
+    filter_tag_name = core.config.extract_configuration(
+        config_object=config, keys=['filter_tag_name'])
 
     # Extract the run flag for this particular script.
     run_flag = core.config.extract_configuration(
@@ -538,10 +538,10 @@ def script_filter_maximum_value(config):
     # the directory.
     data_directory = core.config.extract_configuration(
         config_object=config, keys=['data_directory'])
-    filter_tag_name = core.config.extract_configuration(
-        config_object=config, keys=['filter_tag_name'])
     subfolder = core.config.extract_configuration(
         config_object=config, keys=['subfolder'])
+    filter_tag_name = core.config.extract_configuration(
+        config_object=config, keys=['filter_tag_name'])
 
     # Extract the run flag for this particular script.
     run_flag = core.config.extract_configuration(
@@ -586,10 +586,10 @@ def script_filter_minimum_value(config):
     # the directory.
     data_directory = core.config.extract_configuration(
         config_object=config, keys=['data_directory'])
-    filter_tag_name = core.config.extract_configuration(
-        config_object=config, keys=['filter_tag_name'])
     subfolder = core.config.extract_configuration(
         config_object=config, keys=['subfolder'])
+    filter_tag_name = core.config.extract_configuration(
+        config_object=config, keys=['filter_tag_name'])
 
     # Extract the run flag for this particular script.
     run_flag = core.config.extract_configuration(
@@ -634,10 +634,10 @@ def script_filter_exact_value(config):
     # the directory.
     data_directory = core.config.extract_configuration(
         config_object=config, keys=['data_directory'])
-    filter_tag_name = core.config.extract_configuration(
-        config_object=config, keys=['filter_tag_name'])
     subfolder = core.config.extract_configuration(
         config_object=config, keys=['subfolder'])
+    filter_tag_name = core.config.extract_configuration(
+        config_object=config, keys=['filter_tag_name'])
 
     # Extract the run flag for this particular script.
     run_flag = core.config.extract_configuration(
@@ -682,10 +682,10 @@ def script_filter_invalid_value(config):
     # the directory.
     data_directory = core.config.extract_configuration(
         config_object=config, keys=['data_directory'])
-    filter_tag_name = core.config.extract_configuration(
-        config_object=config, keys=['filter_tag_name'])
     subfolder = core.config.extract_configuration(
         config_object=config, keys=['subfolder'])
+    filter_tag_name = core.config.extract_configuration(
+        config_object=config, keys=['filter_tag_name'])
 
     # Extract the run flag for this particular script.
     run_flag = core.config.extract_configuration(
@@ -731,11 +731,11 @@ def script_synthesize_masks(config):
     # the directory.
     data_directory = core.config.extract_configuration(
         config_object=config, keys=['data_directory'])
-    mask_file_name = core.config.extract_configuration(
-        config_object=config, keys=['mask_file_name'])
     subfolder = core.config.extract_configuration(
         config_object=config, keys=['subfolder'])
-    
+    mask_file_name = core.config.extract_configuration(
+        config_object=config, keys=['mask_file_name'])
+
     # If there is a sub-folder, then check the sub-folder itself as
     # default.
     _config_mask_subdir = core.runtime.extract_runtime_configuration(
@@ -818,6 +818,8 @@ def script_synthesize_filters(config):
         config_object=config, keys=['data_directory'])
     subfolder = core.config.extract_configuration(
         config_object=config, keys=['subfolder'])
+    filter_tag_name = core.config.extract_configuration(
+        config_object=config, keys=['filter_tag_name'])
     
     # Get all of the data fits file in the directory to work on.
     data_fits = core.io.get_fits_filenames(data_directory=data_directory, 
@@ -881,17 +883,30 @@ def script_synthesize_filters(config):
         dir, file, ext = core.strformat.split_pathname(pathname=datafiledex)
         filter_dir_name = core.runtime.extract_runtime_configuration(
             config_key='FILTERING_SUBDIR')
+        # The filter tag name; if it is not a valid input, then
+        # use a default.
+        if ((isinstance(filter_tag_name, str)) and 
+            (len(filter_tag_name) > 0) and
+            (filter_tag_name is not None)): 
+            # Apple the tag that the user provided.
+            filter_tag = filter_tag_name
+            filter_dir_tag = ''.join(['FILTER', '_', filter_tag_name])
+        else:
+            # The defaults.
+            filter_tag = 'SYNTHESIZED'
+            filter_dir_tag = 'FILTER_SYNTHESIZE'
+        # Compile the file name for this filter.
         synth_filter_filename = core.strformat.combine_pathname(
-            directory=([dir, filter_dir_name, 'FILTER_SYNTHESIZE'] 
+            directory=([dir, filter_dir_name, filter_dir_tag] 
                        if subfolder else [dir]), 
-            file_name=[file, '__SYNTHESIZED'], extension=['.filter','.fits'])
+            file_name=[file, '__', filter_tag], extension=['.filter','.fits'])
         # Also check if the folder exists, if not, then make it.
         if (not os.path.isdir(core.strformat.combine_pathname(
-            directory=([dir, filter_dir_name, 'FILTER_SYNTHESIZE'] 
+            directory=([dir, filter_dir_name, filter_dir_tag] 
                        if subfolder else [dir]) ))):
             # Creating the directory.
             os.makedirs(core.strformat.combine_pathname(
-                directory=([dir, filter_dir_name, 'FILTER_SYNTHESIZE'] 
+                directory=([dir, filter_dir_name, filter_dir_tag] 
                        if subfolder else [dir])))
 
         # All of the filters have been added to the sum total. Save

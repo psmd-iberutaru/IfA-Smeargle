@@ -49,10 +49,12 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="configuration_files\analysis_configuration.ini" />
+    <Content Include="configuration_files\blank_configuration.ini" />
     <Content Include="configuration_files\masking_configuration.ini" />
     <Content Include="configuration_files\plotting_configuration.ini" />
     <Content Include="configuration_files\reformat_configuration.ini" />
     <Content Include="configuration_files\specification_files\analysis_specification.spec" />
+    <Content Include="configuration_files\specification_files\blank_specification.spec" />
     <Content Include="configuration_files\specification_files\masking_specification.spec" />
     <Content Include="configuration_files\specification_files\plotting_specification.spec" />
     <Content Include="configuration_files\specification_files\reformat_specification.spec" />
