@@ -12,10 +12,10 @@ import sys
 import os
 import logging
 import time 
+import textwrap
 import warnings as warn
 
 import IfA_Smeargle.core as core
-from IfA_Smeargle import runtime
 
 
 def run_script(script_name, config_pathname):
@@ -37,14 +37,15 @@ def run_script(script_name, config_pathname):
         often than not it is a NoneType None.
     """
     # Obtaining constants.
-    SCRIPT_FUNCTIONS = runtime.get_script_functions()
-    SPECIFICATION_FILES = runtime.get_specification_files()
+    SCRIPT_FUNCTIONS = core.runtime.get_script_functions()
+    SPECIFICATION_FILES = core.runtime.get_specification_files()
 
     # Check if the script name is within the module.
     if (not script_name in SCRIPT_FUNCTIONS):
-        raise core.error.InputError("The provided script name is not a "
-                                    "valid script name. It does not have "
-                                    "an associated script function.")
+        raise core.error.InputError("The provided script name `{script}` is "
+                                    "not a valid script name. It does not "
+                                    "have an associated script function."
+                                    .format(script=str(script_name)))
 
     # Check and load the configuration object. Validate it when 
     # needed.
@@ -92,34 +93,37 @@ def run_script(script_name, config_pathname):
 
 
 if (__name__ == '__main__'):
-    # Creating the argpaser
+    # Creating the argpaser. The textwrap is for formatting.
     parser = argparse.ArgumentParser(
-        description=("Execute an IfA-Smeargle script function. Change the "
-                     "script by name and the configuration parameters by "
-                     "the configuration file."))
+        description=textwrap.indent(textwrap.dedent(
+            '''
+            Execute an IfA-Smeargle script function. Change the 
+            script by name and the configuration parameters by the 
+            configuration file."
+            '''), prefix='  '),
+        epilog=textwrap.indent(textwrap.dedent(
+            '''
+            The script to show all available scripts is:
+                python -m IfA_Smeargle script_special_list_scripts none
+            '''), prefix='  '),
+        formatter_class=argparse.RawDescriptionHelpFormatter)
 
     # Adding the three required arguments for all pipelines. These 
     # are always constant requirements and thus are positional.
     parser.add_argument("script_key", 
-                        help=("The name of the script function that you "
-                              "are trying to run."),
+                        help=("the name of the script function to be run"),
                         type=str)
     parser.add_argument("config_file", 
-                        help=("The path to the .ini configuration file "
-                              "which will be used. The validation file is "
-                              "found using the `meta` tag within the "
-                              "configuration file. Null or None as in input "
-                              "allows for scripts to be run without "
-                              "configuration files."),
+                        help=("the path to the configuration file; if "
+                              "`none` or `null` a blank one is used"),
                         type=str)
     parser.add_argument("--log_file", 
                         default=time.strftime('%Y%m%d-%H%M%S(Z%z)'),
-                        help=("This is the name of the log file that will "
-                              "be written, it defaults to a time-stamp "
-                              "based name."))
+                        help=("the log file to be used to log messages "
+                              "while the script is being run"))
     parser.add_argument("--log_level", default='INFO',
-                        help=("The logging level that will be recorded "
-                              "for the log file."))
+                        help=("the level for the logger to determine what "
+                              "should be logged or not"))
 
     # Parse the arguments.
     args = parser.parse_args()
@@ -220,8 +224,8 @@ if (__name__ == '__main__'):
 
     # Change the runtime variables for convenience and for the other
     # functions that may need it.
-    runtime._smeargle_runtime['CONFIG_FILE_PATH'] = config_file
-    runtime._smeargle_runtime['LOG_FILE_PATH'] = log_file
+    core.runtime._smeargle_runtime['CONFIG_FILE_PATH'] = config_file
+    core.runtime._smeargle_runtime['LOG_FILE_PATH'] = log_file
 
     # Inform the user that the script is going to be run.
     core.error.ifas_info("BEGIN! Running the script `{script}` using the "
