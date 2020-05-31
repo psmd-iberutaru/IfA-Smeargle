@@ -753,10 +753,8 @@ def script_synthesize_masks(config):
     if (len(mask_file_list) == 0):
         core.error.ifas_error(core.error.ImportingError,
                               ("There are no mask files found in "
-                               "`{data_dir}`. Recursive is {recur}. Nothing "
-                               "shall be written, None is returned."
-                               .format(data_dir=data_directory,
-                                       recur=recursive)))
+                               "`{data_dir}`."
+                               .format(data_dir=data_directory)))
         return None
 
     # Extract the mask themselves.
@@ -822,8 +820,7 @@ def script_synthesize_filters(config):
         config_object=config, keys=['filter_tag_name'])
     
     # Get all of the data fits file in the directory to work on.
-    data_fits = core.io.get_fits_filenames(data_directory=data_directory, 
-                                           recursive=recursive)
+    data_fits = core.io.get_fits_filenames(data_directory=data_directory)
 
     # Get all of the filter files within this directory too.
     # sub-folder forces the filters into subdirectories which are 

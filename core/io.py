@@ -320,7 +320,7 @@ def get_fits_filenames(data_directory, sub_extension=None, recursive=False):
                                     ("The sub-extension does not begin like "
                                      "an extension (with a `.`), it will "
                                      "be added."))
-            extension = ''.join(['.', extension])
+            sub_extension = ''.join(['.', sub_extension])
         extension = core.strformat.combine_pathname(
             extension=[str(sub_extension), '.fits'])
     else:
