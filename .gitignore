@@ -1,3 +1,6 @@
+# Github specific files do not need to be versioned.
+.github/*
+
 # The entire data section does not really need to be saved. These files
 # are associated with the detector data.
 Data/*
