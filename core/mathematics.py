@@ -49,7 +49,6 @@ def ifas_masked_mean(array, axis=None):
     true_mean = np_ma.mean(valid_array, axis=axis)
 
     return true_mean
-
 def ifas_masked_median(array, axis=None):
     """ This returns the true median of the data. It only counts 
     valid data.
@@ -321,3 +320,65 @@ def generate_numpy_bin_width_array(data_array, bin_width,
 
     # All done, return.
     return bin_list_values
+
+def generate_prime_numbers(index, count=1):
+    """ This function returns prime numbers from a downloaded list
+    provided by OEIS.
+    
+    This function returns the prime number at the 0-indexed 
+    location (e.g. 0 index is 2, 1 index is 3, etc.). It will
+    also return the `count` number of prime numbers including and
+    including the prime number at the specified index.
+    
+    Parameters
+    ----------
+    index : int
+        The 0-indexed index for the prime number to start at. If it
+        is negative, the prime numbers will be randomized from 
+        2 to 104729 (the first and last prime numbers in the list).
+    count : int
+        The number of prime numbers that will be returned. It must
+        be greater than 1.
+
+    Returns
+    -------
+    prime_array : array
+        The prime numbers. The numbers are sorted.
+    """
+    # If the count is less than one, raise an error as the number
+    # of items returned must be greater than one.
+    if (count < 1):
+        raise core.error.InputError("The number count of prime numbers "
+                                    "returned must be greater than one.")
+
+    # Open the data file containing all of the prime numbers.
+    prime_file_path = core.strformat.combine_pathname(
+        directory=[core.runtime.get_module_directory(),'core','data_files'],
+        file_name=['prime_numbers'],
+        extension=['.txt'])
+    prime_data = np.genfromtxt(prime_file_path, dtype=int, delimiter=' ')
+
+    # Split the prime data into the index numbers, which are 
+    # not needed, and the actual prime numbers into an array.
+    prime_data = np.transpose(prime_data)
+    prime_indexes = prime_data[0]
+    prime_numbers = prime_data[1]
+
+    # Determine which indexes are to be used to extract the prime
+    # numbers.
+    if (index < 0):
+        # The index is negative, creating a random index list.
+        choosing_index = np.random.choice(prime_indexes, count)
+    elif (index >= 0):
+        # The index is positive, creating the ordered index.
+        choosing_index = np.arange(index, index + count)
+    else:
+        # The index should have been caught.
+        raise core.error.BrokenLogicError
+
+    # Extract the prime numbers.
+    prime_array = prime_numbers[choosing_index]
+    # And sort, as documented.
+    prime_array = np.sort(prime_array)
+    # All done.
+    return prime_array

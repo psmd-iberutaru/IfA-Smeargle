@@ -46,6 +46,7 @@
   <ItemGroup>
     <Folder Include="configuration_files\" />
     <Folder Include="configuration_files\specification_files\" />
+    <Folder Include="data_files\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="configuration_files\analysis_configuration.ini" />
@@ -61,6 +62,7 @@
     <Content Include="configuration_files\specification_files\smeargle_specification.spec" />
     <Content Include="configuration_files\specification_files\tutorial_specification.spec" />
     <Content Include="configuration_files\tutorial_configuration.ini" />
+    <Content Include="data_files\prime_numbers.txt" />
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)\Python Tools\Microsoft.PythonTools.targets" />
   <!-- Uncomment the CoreCompile target to enable the Build command in
