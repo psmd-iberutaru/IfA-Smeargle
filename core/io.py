@@ -169,7 +169,14 @@ def dearchive_data_directory(archive_name, alternate_directory=None,
     else:
         shutil.unpack_archive(archive_name)
 
-    return None
+    # Inform where the archive has been unpacked.
+    unarchive_path = (archive_name if alternate_directory is None 
+                      else alternate_directory)
+    core.error.ifas_info("The archive has been unpacked to the directory: "
+                         "{path}"
+                         .format(path=unarchive_path))
+    # All done.
+    return unarchive_path
 
 
 def rename_by_parallel_replace(file_names, file_renames, directory=None):

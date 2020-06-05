@@ -23,6 +23,7 @@ data_directory = string
 
 
 [collapse]
+    subfolder = boolean(default=True)
     start_chunk = int_list
     end_chunk = int_list
     average_method = option('mean', 'median', '')

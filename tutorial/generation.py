@@ -176,6 +176,10 @@ def tutorial_generate_fits_file(generation_mode, data_shape,
                                     "Current input: {input}"
                                     .format(input=generation_mode))
 
+    # The data array should only be integers, mirroring 
+    # SAPHIRA arrays as they are integer only.
+    data_array = np.array(data_array, dtype=int)
+
     # Creating the header for this file.
     data_header = {'TUTORIAL':True,
                    'data_generator':generation_mode.lower(),

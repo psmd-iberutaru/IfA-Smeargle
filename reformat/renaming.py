@@ -14,6 +14,45 @@ import string
 
 import IfA_Smeargle.core as core
 
+def _get_renaming_delimiter_string():
+    """ This function gets the delimiter string along with setting
+    """
+    # This is the delimiter string; it should be common for all 
+    # renaming functions.
+    delimiter = str(core.runtime.extract_runtime_configuration(
+        config_key='RENAMING_DELIMITER'))
+    # It also cannot be a number.
+    try:
+        if (not isinstance(delimiter, str)):
+            raise core.error.ConfigurationError("The renaming delimiter "
+                                                "must be a string. It is "
+                                                "type: {type}"
+                                                .format(type=type(delimiter)))
+        # This should raise a ValueError, it is caught and dealt 
+        # with.
+        __ = float(delimiter)
+
+        # It did not... the delimiter may be wrong.
+        raise RuntimeError
+    except ValueError:
+        # This is normal behavior, it should be a string that cannot be
+        # a number.
+        return delimiter
+    except RuntimeError:
+        raise core.error.ConfigurationError("The renaming delimiter should "
+                                            "not be able to be turned into "
+                                            "a number. A numerical splitter "
+                                            "will lead to confusion. The "
+                                            "current delimiter: {delim} "
+                                            .format(delim=delimiter))
+    # The code should not reach here. It should have either 
+    # returned or failed the float conversion.
+    raise core.error.BrokenLogicError
+    return None
+# The delimiter.
+RENAMING_DELIMITER = _get_renaming_delimiter_string()
+
+
 def detector_renaming(data_directory, detector_name):
     """ Creates file tags according to the detector qualifier name.
     
@@ -39,7 +78,8 @@ def detector_renaming(data_directory, detector_name):
     
     # Apply the detector name to all files.
     detector_raw_list = [str(detector_name) for filedex in range(n_files)]
-    detector_string_list = [''.join(['detector;', detectordex]) 
+    detector_string_list = [''.join(['detector', RENAMING_DELIMITER,
+                                     detectordex]) 
                             for detectordex in detector_raw_list]
 
     return detector_string_list, detector_raw_list
@@ -73,7 +113,9 @@ def garbage_renaming(data_directory, begin_garbage=0):
     garbage_raw_list = [True if index < begin_garbage else False 
                         for index in range(n_files)]
     # And their formatted string value.
-    garbage_string_list = ['garb;Y' if garbdex else 'garb;N' 
+    yes_garbage = ''.join(['garb', RENAMING_DELIMITER, 'Y'])
+    no_garbage = ''.join(['garb', RENAMING_DELIMITER, 'N'])
+    garbage_string_list = [yes_garbage if garbdex else no_garbage
                            for garbdex in garbage_raw_list]
 
     # Finished.
@@ -129,9 +171,10 @@ def number_renaming(data_directory, begin_garbage=0):
     # Converting the numbers to their new names. The `garbage` \
     # prefix to the number is a standard. Any file with garbage in 
     # the name is not processed.
-    garbage_string_list = ['num;garbage' + str(numdex) 
+    garbage_string_list = [''.join(['num', RENAMING_DELIMITER, 'garbage', 
+                                    str(numdex)])
                            for numdex in garbage_numbers]
-    file_string_list = ['num;' + str(numdex) 
+    file_string_list = [''.join(['num', RENAMING_DELIMITER, str(numdex)])
                         for numdex in file_numbers]
 
     # The completed lists.
@@ -194,9 +237,11 @@ def set_renaming(data_directory, set_length, begin_garbage=0):
     # Converting the numbers to their new names. The `garbage` 
     # prefix to the number is a standard. Any file with garbage in 
     # the name is not processed.
-    garbage_string_list = ['set;garbage' + str((numdex-1)//set_length + 1) 
+    garbage_string_list = [''.join(['set', RENAMING_DELIMITER, 'garbage', 
+                                    str((numdex-1)//set_length + 1)]) 
                            for numdex in garbage_numbers]
-    file_string_list = ['set;' + str((numdex-1)//set_length + 1) 
+    file_string_list = [''.join(['set', RENAMING_DELIMITER, 
+                                 str((numdex-1)//set_length + 1)])
                         for numdex in file_numbers]
 
     # The completed list.
@@ -302,8 +347,10 @@ def voltage_pattern_renaming(data_directory, voltage_pattern,
             temp_voltage_string += 'null'
 
         # Label, Windows does not like the colon or pipe, so, we 
-        # use the next best thing.
-        temp_voltage_string = 'detBias;' + temp_voltage_string
+        # use the next best thing. Allow the setting of the 
+        # uniform delimiter.
+        temp_voltage_string = ''.join(['detBias', RENAMING_DELIMITER,
+                                      temp_voltage_string])
 
 
         # Save and record.
@@ -329,12 +376,13 @@ def voltage_pattern_renaming(data_directory, voltage_pattern,
     # converting.
     _purge_volt_substrings = (list(string.ascii_uppercase) 
                         + list(string.ascii_lowercase) 
-                        + [':',';'])
+                        + [':',';', RENAMING_DELIMITER])
     raw_voltages = [float(core.strformat.purge_substrings(
         string=voltdex, substrings=_purge_volt_substrings))
                     for voltdex in (garbage_string_list 
                                     + voltage_string_list)]
-    _purge_trend_substrings = (list(string.digits) + ['.',';','detBias','V'])
+    _purge_trend_substrings = (list(string.digits) + ['.',RENAMING_DELIMITER,
+                                                      'detBias','V'])
     raw_trends = [str(core.strformat.purge_substrings(
         string=voltdex, substrings=_purge_trend_substrings))
                     for voltdex in (garbage_string_list 
