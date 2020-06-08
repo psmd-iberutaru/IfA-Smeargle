@@ -6,12 +6,14 @@ normalizing over some time.
 
 import copy
 import os
+import shutil
 
 
 import numpy as np
 import numpy.ma as np_ma
 
 import IfA_Smeargle.core as core
+import IfA_Smeargle.reformat as reformat
 
 
 def collapse_by_average_endpoints(data_array, start_chunk, end_chunk,
@@ -354,6 +356,8 @@ def _format_collapse_config(config):
     # Extract the configuration parameters.
     data_directory = core.config.extract_configuration(
         config_object=config, keys=['data_directory'])
+    subfolder = core.config.extract_configuration(
+        config_object=config, keys=['collapse','subfolder'])
     start_chunk = core.config.extract_configuration(
         config_object=config, keys=['collapse','start_chunk'])
     end_chunk = core.config.extract_configuration(
@@ -408,12 +412,12 @@ def _format_collapse_config(config):
                                             "for multiple sub-arrays.")
 
     # Return the configurations.
-    return (data_directory, start_chunk, end_chunk, 
+    return (data_directory, subfolder, start_chunk, end_chunk, 
             average_method, frame_exposure_time)
 
 def _common_collapse_function(config, collapse_function):
-    """ All sub-frames are very similar, they can share a common 
-    function for their usage.
+    """ All collapsing functions are very similar, they can share  
+    a common function for their usage.
 
     Parameters
     ----------
@@ -421,13 +425,27 @@ def _common_collapse_function(config, collapse_function):
         The configuration object that is to be used for this 
         function.
     collapse_function : function
-        The sub-frame function.
+        The collapsing function to be used.
     """
 
     # Obtain the configuration parameters.
-    (data_directory, start_chunk, end_chunk, 
+    (data_directory, subfolder, start_chunk, end_chunk, 
      average_method, frame_exposure_time) = _format_collapse_config(
          config=config)
+    # If the sub-folder is to be used, then make it.
+    if (subfolder):
+        subfolder_path = core.strformat.combine_pathname(
+            directory=[data_directory, 
+                       core.runtime.extract_runtime_configuration(
+                           config_key='COLLPASED_SUBDIR')])
+        # Create the directory if needed.
+        os.makedirs(subfolder_path, exist_ok=True)
+        # Inform that the sub-folder will be used.
+        core.error.ifas_info("The `subfolder` flag is True. A sub-folder "
+                             "will be created and collapsed data fits will "
+                             "be saved in: {dir}"
+                             .format(dir=subfolder_path))
+
 
     # If the directory is really one file.
     if (os.path.isfile(data_directory)):
@@ -439,10 +457,10 @@ def _common_collapse_function(config, collapse_function):
             data_directory=data_directory, recursive=False)
 
     # Loop over all files present and apply the procedure...
-    core.error.ifas_info("Sub-frames are being created by subtracting the "
-                         "{method} of two sets of frames, {start_set} "
+    core.error.ifas_info("Collapsed frames are being created by subtracting "
+                         "the {method} of two sets of frames, {start_set} "
                          "and {end_set}, from the fits files in {data_dir}. "
-                         "The frame exposure is {frame_time}. The sub*frame "
+                         "The frame exposure is {frame_time}. The collapsing "
                          "function is {collapse_funct}."
                          .format(method=average_method, 
                                  start_set=start_chunk, end_set=end_chunk,
@@ -450,41 +468,50 @@ def _common_collapse_function(config, collapse_function):
                                  frame_time=frame_exposure_time,
                                  collapse_funct=collapse_function.__name__))
     for filedex in data_files:
-        # Also, loop over all desired sub-frames that should be made.
+        # Also, loop over all desired frame chunks that should be 
+        # made. (No longer supported, but left so it does not 
+        # break.)
         for substartdex, subenddex in zip(start_chunk, end_chunk):
             # Load the fits file.
             hdul_file, hdu_header, hdu_data = core.io.read_fits_file(
                 file_name=filedex, extension=0, silent=False)
             # Process a copy of the data based on the current 
-            # sub-frames.
+            # frame data.
             collapse_data = collapse_function(
                 data_array=copy.deepcopy(hdu_data), 
                 start_chunk=substartdex, end_chunk=subenddex,
                 frame_exposure_time=frame_exposure_time,
                 average_method=average_method)
-            # Create and write the file out with added terms.
-            dir, file, ext = core.strformat.split_pathname(
-                pathname=filedex)
-            new_file = ''.join(
-                [file, core.strformat.format_slice_appending_name(
-                    reference_frame=substartdex, averaging_frame=subenddex),
-                 ext])
-            new_path = os.path.join(dir, new_file)
+            # Create and write the file out with added terms. If the 
+            # subfolder has been requested, save the file in there
+            # instead.
+            dir, file, ext = core.strformat.split_pathname(pathname=filedex)
+            # The sub-folder, if needed, and file name suffix.
+            collpase_subdir = core.runtime.extract_runtime_configuration(
+                config_key='COLLPASED_SUBDIR')
+            slice_suffix = reformat.base.format_slice_appending_name(
+                reference_frame=substartdex, averaging_frame=subenddex)
+            # Constructing the new path.
+            new_path = core.strformat.combine_pathname(
+                directory=([dir, collpase_subdir] if subfolder else [dir]),
+                file_name=[file, slice_suffix],
+                extension=[ext])
 
             # Write the file to disk.
             core.io.write_fits_file(
                 file_name=new_path, hdu_header=hdu_header,
                 hdu_data=collapse_data, hdu_object=None,
                 save_file=True, overwrite=False, silent=False)
-            # Add the sub-frame data to the header file of the new 
-            # file. This may add IO overhead, but it ensures that 
-            # headers don't get messed up by odd references.
+            # Add the collapsing meta-data to the header file of 
+            # the new file. This may add IO overhead, but it 
+            # ensures that headers don't get messed up by odd 
+            # references.
             headers = {'COLPSE_F':collapse_function.__name__,
                        'FRAVGMTH':average_method,
                        'STRTFRMS':str(substartdex),
                        'ENDFRMS':str(subenddex),
                        'FRM_EXPO':frame_exposure_time}
-            comments = {'SUBFRM_F':'The sub-frame method used to make this.',
+            comments = {'COLPSE_F':'The collapsing method used to make this.',
                        'FRAVGMTH':'The method used to average chunks.',
                        'STRTFRMS':'The frame range of the start chunk.',
                        'ENDFRMS':'The frame range of the end chunk.',
@@ -496,7 +523,7 @@ def _common_collapse_function(config, collapse_function):
     # Finished, hopefully.
     return None
 
-# The scripts of the sub-frame calculations.
+# The scripts of the collapse calculations.
 
 def script_collapse_by_average_endpoints(config):
     """ The scripting version of `collapse_by_average_endpoints`.

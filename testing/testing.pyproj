@@ -25,6 +25,9 @@
     <Compile Include="test_global.py">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="test_numerical_masking.py">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Include="__init__.py" />
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)\Python Tools\Microsoft.PythonTools.targets" />

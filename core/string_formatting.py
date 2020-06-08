@@ -82,14 +82,6 @@ def purge_substrings(string, substrings):
     purged_string = original_string
     return purged_string
 
-def format_slice_appending_name(reference_frame, averaging_frame):
-    """ The formatting for the string alignment for slices. """
-    slice_string = ''.join(['_slice;', str(reference_frame[0]), ',', 
-                            str(reference_frame[-1]), '-', 
-                            str(averaging_frame[0]), ',', 
-                            str(averaging_frame[-1])])
-    return slice_string
-
 def format_shutil_archive_extensions(archive_string):
     """ This function formats an extension and type string to 
     conform with shutil allowed extensions. This does not handle

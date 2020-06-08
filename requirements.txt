@@ -1,72 +1,9 @@
-astropy
+ # requirements.txt
+ #
+ # installs dependencies from ./setup.py, and the package itself,
+ # in editable mode
+ -e .
 
-configobj
-
-decorator
-docutils
-
-future
-
-glob2
-
-importlib-metadata
-
-
-matplotlib
-more-itertools
-
-numpy
-numpydoc
-
-pandas
-path
-pathlib2
-pathtools
-
-pep8
-pip
-pkginfo
-py
-pycodestyle
-pycosat
-pycparser
-pydocstyle
-pyflakes
-Pygments
-pylint
-
-pyparsing
-pyreadline
-pyrsistent
-
-pytest
-pytest-arraydiff
-pytest-astropy
-pytest-astropy-header
-pytest-doctestplus
-pytest-openfiles
-pytest-remotedata
-python-dateutil
-python-jsonrpc-server
-python-language-server
-
-requests
-
-scikit-image
-scikit-learn
-scipy
-seaborn
-setuptools
-Sphinx
-sphinxcontrib-applehelp
-sphinxcontrib-devhelp
-sphinxcontrib-htmlhelp
-sphinxcontrib-jsmath
-sphinxcontrib-qthelp
-sphinxcontrib-serializinghtml
-sphinxcontrib-websupport
-sympy
-
-wheel
-
-zipp
+ # (the -e above is optional). you could also just install the package
+ # normally with just the line below (after uncommenting)
+ # .
