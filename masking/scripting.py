@@ -368,6 +368,67 @@ def script_mask_everything(config):
     # All done.
     return None
 
+def script_batch_masking(config):
+    """ This script runs all masks in a batch fashion. 
+    
+    If the run flag of a mask in the configuration file is True, 
+    it is run according to the parameters set.
+
+    Parameters
+    ----------
+    config : ConfigObj
+        The configuration object that is to be used for this 
+        function.
+
+    Returns
+    -------
+    None
+    """
+
+    # This is just a batch script that runs all of the mask scripts.
+    core.error.ifas_info("Running the batch script for all mask scripts. "
+                         "All mask scripts will be run according to the "
+                         "configuration file.")
+
+    # A single mask file name is not supported with batch masks.
+    if (len(core.config.extract_configuration(
+        config_object=config, keys=['mask_file_name'])) != 0):
+        # The base configuration class has an entry for the mask
+        # file name. It cannot be kept else the masks will overwrite
+        # themselves.
+        core.error.ifas_warning(core.error.ConfigurationWarning,
+                                ("The configuration parameters contain a "
+                                 "`mask_file_name` that is not empty. Batch "
+                                 "script masking does not support a single "
+                                 "file name for all masks. It will be "
+                                 "ignored."))
+
+    # Gather all script mask functions. It is best not to use 
+    # the internal functions of runtime even though it is more
+    # efficient.
+    script_functions = core.runtime.get_script_functions()
+    # We only need to run the masking script functions.
+    script_mask_prefix = 'script_mask'
+    for keydex, scriptdex in script_functions.items():
+        if (script_mask_prefix in keydex):
+            core.error.ifas_info("Calling the script mask function: {script}"
+                                 .format(script=keydex))
+            # The mask name should be assigned here and overwritten
+            # else the mask names will be random or the masks will
+            # be overwritten.
+            config['mask_file_name'] = core.strformat.remove_prefix(
+                string=keydex, prefix='script_')
+            # Run the masking script.
+            __ = scriptdex(config=config)
+        elif (script_mask_prefix not in keydex):
+            continue
+        else:
+            # Something is wrong with the keydex.
+            raise core.error.BrokenLogicError
+
+    # All done.
+    return None
+
 # The scripts of the filters.
 def script_filter_sigma_value(config):
     """ The scripting version of `filter_sigma_value`. This 

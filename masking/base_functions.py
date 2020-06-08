@@ -100,12 +100,12 @@ def create_directory_mask_file(data_directory, mask_function, mask_arguments,
     # Check to see that the mask should even be ran in the first 
     # place.
     if (not run):
-        core.error.ifas_error(core.error.MaskingError,
+        core.error.ifas_warning(core.error.MaskingWarning,
                               ("The run flag for the mask `{mask_type}` is "
-                               "False. Masks are run on a per script call "
-                               "basis. Ensure that the appropriate run "
-                               "parameter is True."
+                               "False. The mask will not be run, None is "
+                               "returned."
                                .format(mask_type=mask_function.__name__)))
+        return None
 
 
     # Inform the user about the mask that is being applied.

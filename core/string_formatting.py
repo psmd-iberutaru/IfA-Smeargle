@@ -10,6 +10,45 @@ import shutil
 
 import IfA_Smeargle.core as core
 
+def remove_prefix(string, prefix):
+    """ This function removes the prefix string of a string. If
+    the prefix does not exist, the string is returned unchanged.
+
+    See https://stackoverflow.com/a/16891418
+
+    Parameters
+    ----------
+    string : string
+        The string that the prefix of which will be taken out.
+    prefix : string
+        The prefix.
+
+    Returns
+    -------
+    base : string
+        The string, without the prefix.
+
+    """
+    try:
+        # This behavior is available in Python 3.9+. As such, 
+        # we have the fall back.
+        string.removeprefix(prefix)
+    except Exception:
+        # The fall back solution.
+        if string.startswith(prefix):
+            string = string[len(prefix):]
+        else:
+            string = string
+    finally:
+        # Return, all done, naming convention.
+        base = string
+        return base
+
+    # The code should not reach here.
+    raise core.error.BrokenLogicError
+    return None
+
+
 def purge_substrings(string, substrings):
     """ Deletes all occurrences of any substring provided from the 
     original string.
