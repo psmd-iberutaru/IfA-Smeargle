@@ -14,9 +14,9 @@ setup(
     packages=find_packages(),
 
     # These are all of the dependencies of this project/library.
-    install_requires=["astropy", "configobj", "matplotlib", "numpy", 
+    install_requires=["astropy", "configobj >= 5.0", "matplotlib", "numpy", 
                       "pandas","pylint", "pytest", "scipy", "setuptools",
-                      "Sphinx", "sympy", "validate"],
+                      "Sphinx", "sympy"],
 
     package_data={
         # Include data text, configuration files and specifications.
