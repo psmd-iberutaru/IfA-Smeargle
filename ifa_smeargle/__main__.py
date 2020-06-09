@@ -89,8 +89,84 @@ def run_script(script_name, config_pathname):
 
     return result
 
+def run_entry():
+    """
+    This allows for the .exe based script version to run. It
+    prompts for the input of the script name and the configuration
+    file path.
 
+    Parameters
+    ----------
+    none
 
+    Returns
+    -------
+    result : object
+        This returns whatever the script functions returns. More 
+        often than not it is a NoneType None.
+    """
+    # Prompt for the input of the script name.
+    script_key = input("Input the script name that you want to run:  ")
+    # Prompt for the input of the configuration file path.
+    config_file = input("Input the path to the configuration file:  ")
+
+    # There is a special case for configuration files if the script
+    # should not be run with one.
+    if ((config_file.lower() == 'none') or (config_file.lower() == 'null')):
+        # The user input the special string to run a script
+        # without any explicit configuration file. However, logs 
+        # cannot be called until the file manger is set.
+        _log_blank_configuration_info = True
+
+        # Obtain the list of all configuration files, the blank one
+        # should be in there.
+        config_files = core.runtime.get_configuration_files()
+        # Find the blank specification file.
+        blank_config_path = config_files.get('blank_configuration', None)
+        # If the file is not there, raise as it should be there.
+        try:
+            if (blank_config_path is None):
+                raise FileNotFoundError("The blank configuration path "
+                                        "cannot be found in the dictionary "
+                                        "of configuration files.")
+            elif (not os.path.isfile(blank_config_path)):
+                raise FileNotFoundError("The blank configuration path does "
+                                        "not lead to a proper file.")
+            elif (core.strformat.split_pathname(
+                pathname=blank_config_path)[-1] != '.ini'):
+                raise FileNotFoundError("The blank configuration path does "
+                                        "not lead to a configuration file.")
+            else:
+                # The configuration file shall be reassigned as a
+                # blank file as per functionality.
+                config_file = blank_config_path
+        except FileNotFoundError:
+            raise core.error.AssumptionError("The blank configuration file "
+                                             "cannot be used or found. The "
+                                             "configuration file path: "
+                                             "{path}"
+                                             .format(path=blank_config_path))
+    else:
+        pass
+    
+    # Create the logger and log all of the calls.
+    logging.basicConfig(filename=time.strftime('%Y%m%d-%H%M%S(Z%z).log'))
+
+    # Inform the user that the script is going to be run.
+    core.error.ifas_info("BEGIN! Running the script `{script}` using the "
+                         "configuration file `{config}`."
+                         .format(script=script_key, config=config_file))
+    # Execute the function. The returned value is likely lost in the  
+    # first place by using a script.
+    result = run_script(script_name=script_key, config_pathname=config_file)
+
+    # Inform the user when the script is finished, mostly for
+    # completeness.
+    core.error.ifas_info("FINISH! The script `{script}` using the "
+                         "configuration file `{config}` has been completed."
+                         .format(script=script_key, config=config_file))
+    # All done.
+    return result
 
 if (__name__ == '__main__'):
     # Creating the argpaser. The textwrap is for formatting.

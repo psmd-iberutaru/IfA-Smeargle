@@ -289,8 +289,6 @@ def extract_runtime_configuration(config_key):
     spec_dict = get_specification_files()
     smeargle_spec = spec_dict.get('smeargle_specification')
 
-    print(smeargle_spec, spec_dict)
-
     # Load the configuration.
     smeargle_config_path = glob.glob(
         os.path.join(get_module_directory(), 

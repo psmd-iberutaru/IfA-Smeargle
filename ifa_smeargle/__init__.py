@@ -1,7 +1,5 @@
 """
-This is the command-line interface of the script functions. It 
-would be improper to run the scripts from anyplace other than using 
-this function.
+This is the general import space of the library.
 """
 
 from ifa_smeargle import analysis
@@ -14,3 +12,5 @@ from ifa_smeargle import tutorial
 
 from ifa_smeargle import runtime
 from ifa_smeargle import special
+
+from ifa_smeargle.__main__ import *

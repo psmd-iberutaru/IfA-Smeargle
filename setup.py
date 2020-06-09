@@ -18,7 +18,7 @@ DEPENDENCIES = ['astropy', 'configobj >= 5.0', 'matplotlib', 'numpy',
                 'Sphinx', 'sympy']
 
 ENTRY_POINTS =  {
-    "console_scripts": ["ifa_Smeargle = ifa_Smeargle:__main__"]}
+    "console_scripts": ["ifa_smeargle = ifa_smeargle:run_entry"]}
 
 AUTHOR = 'Sparrow'
 AUTHOR_EMAIL = 'kemerson@hawaii.edu'
@@ -37,7 +37,13 @@ setup(
     # These are all of the dependencies of this project/library.
     install_requires=DEPENDENCIES,
 
-    include_package_data=True,
+    package_data={
+        # Include data text, configuration files and specifications.
+        "": ["*.md", "**/*.md", "**/**/*.md",
+             "*.txt", "**/*.txt", "**/**/*.txt",
+             "*.ini", "**/*.ini", "**/**/*.ini",
+             "*.spec", "**/*.spec", "**/**/*.spec"]
+    },
 
     entry_points=ENTRY_POINTS,
 
