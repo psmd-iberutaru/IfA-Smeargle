@@ -8,30 +8,48 @@ here.
 from setuptools import setup, find_packages
 
 
+# These are the setup parameters, in global form in the event that
+# other parts of the this program needs it.
+NAME = 'IfA_Smeargle'
+VERSION = '0.1.1'
+
+DEPENDENCIES = ['astropy', 'configobj >= 5.0', 'matplotlib', 'numpy', 
+                'pandas','pylint', 'pytest', 'scipy', 'setuptools',
+                'Sphinx', 'sympy']
+
+ENTRY_POINTS =  {
+    "console_scripts": ["ifa_Smeargle = ifa_Smeargle:__main__"]}
+
+AUTHOR = 'Sparrow'
+AUTHOR_EMAIL = 'kemerson@hawaii.edu'
+DESCRIPTION = 'Software reduction package for LmAPD and SAPHIRA arrays.'
+KEYWORDS = ['LmAPD', 'SAPHIRA', 'Smeargle', 'IfA_Smeargle']
+URL = 'https://github.com/psmd-iberutaru/IfA_Smeargle'
+BUG_URL = 'https://github.com/psmd-iberutaru/IfA_Smeargle/issues'
+DOCUMENTATION_URL = 'https://github.com/psmd-iberutaru/IfA_Smeargle/wiki'
+SOURCE_URL = 'https://github.com/psmd-iberutaru/IfA_Smeargle'
+
 setup(
-    name="IfA_Smeargle",
-    version="0.1.1",
+    name=NAME,
+    version=VERSION,
     packages=find_packages(),
 
     # These are all of the dependencies of this project/library.
-    install_requires=["astropy", "configobj >= 5.0", "matplotlib", "numpy", 
-                      "pandas","pylint", "pytest", "scipy", "setuptools",
-                      "Sphinx", "sympy"],
+    install_requires=DEPENDENCIES,
 
-    package_data={
-        # Include data text, configuration files and specifications.
-        "": ["*.md", "*.txt", "*.ini", "*.spec"]
-    },
+    include_package_data=True,
+
+    entry_points=ENTRY_POINTS,
 
     # metadata to display on PyPI
-    author="Sparrow",
-    author_email="kemerson@hawaii.edu",
-    description="Software reduction package for LmAPD and SAPHIRA arrays.",
-    keywords="LmAPD SAPHIRA Smeargle IfA_Smeargle",
-    url="https://github.com/psmd-iberutaru/IfA_Smeargle",
+    author=AUTHOR,
+    author_email=AUTHOR_EMAIL,
+    description=DESCRIPTION,
+    keywords=KEYWORDS,
+    url=URL,
     project_urls={
-        "Bug Tracker":"https://github.com/psmd-iberutaru/IfA_Smeargle/issues",
-        "Documentation":"https://github.com/psmd-iberutaru/IfA_Smeargle/wiki",
-        "Source Code":"https://github.com/psmd-iberutaru/IfA_Smeargle",
+        "Bug Tracker":BUG_URL,
+        "Documentation":DOCUMENTATION_URL,
+        "Source Code":SOURCE_URL,
     }
 )
