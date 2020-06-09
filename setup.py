@@ -10,7 +10,7 @@ from setuptools import setup, find_packages
 
 setup(
     name="IfA_Smeargle",
-    version="0.1.0",
+    version="0.1.1",
     packages=find_packages(),
 
     # These are all of the dependencies of this project/library.
@@ -28,10 +28,10 @@ setup(
     author_email="kemerson@hawaii.edu",
     description="Software reduction package for LmAPD and SAPHIRA arrays.",
     keywords="LmAPD SAPHIRA Smeargle IfA_Smeargle",
-    url="https://github.com/psmd-iberutaru/IfA-Smeargle",
+    url="https://github.com/psmd-iberutaru/IfA_Smeargle",
     project_urls={
-        "Bug Tracker":"https://github.com/psmd-iberutaru/IfA-Smeargle/issues",
-        "Documentation":"https://github.com/psmd-iberutaru/IfA-Smeargle/wiki",
-        "Source Code":"https://github.com/psmd-iberutaru/IfA-Smeargle",
+        "Bug Tracker":"https://github.com/psmd-iberutaru/IfA_Smeargle/issues",
+        "Documentation":"https://github.com/psmd-iberutaru/IfA_Smeargle/wiki",
+        "Source Code":"https://github.com/psmd-iberutaru/IfA_Smeargle",
     }
 )
