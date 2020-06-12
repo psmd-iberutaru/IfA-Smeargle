@@ -328,13 +328,14 @@ if (__name__ == '__main__'):
 
     # Change the runtime variables for convenience and for the other
     # functions that may need it.
-    core.runtime._smeargle_runtime['CONFIG_FILE_PATH'] = config_file
+    core.runtime._smeargle_runtime['CONFIG_FILE_PATH'] = configuration_path
     core.runtime._smeargle_runtime['LOG_FILE_PATH'] = log_file
 
     # Inform the user that the script is going to be run.
     core.error.ifas_info("BEGIN! Running the script `{script}` using the "
                          "configuration file `{config}`."
-                         .format(script=script_key, config=config_file))
+                         .format(script=script_key, 
+                                 config=configuration_path))
     # Execute the function. The returned value is likely lost in the  
     # first place by using a script.
     __ = run_script(script_name=script_key, 
@@ -345,5 +346,6 @@ if (__name__ == '__main__'):
     # completeness.
     core.error.ifas_info("FINISH! The script `{script}` using the "
                          "configuration file `{config}` has been completed."
-                         .format(script=script_key, config=config_file))
+                         .format(script=script_key, 
+                                 config=configuration_path))
     

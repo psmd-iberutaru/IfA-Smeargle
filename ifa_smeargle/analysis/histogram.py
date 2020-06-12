@@ -107,6 +107,8 @@ def script_analysis_gaussian_histogram(config):
     # Extract the global parameters.
     data_directory = core.config.extract_configuration(
         config_object=config, keys=['data_directory'])
+    append = core.config.extract_configuration(
+        config_object=config, keys=['append'])
     mask_file = core.config.extract_configuration(
         config_object=config, keys=['mask_file'])
     filter_directory = core.config.extract_configuration(
@@ -129,12 +131,14 @@ def script_analysis_gaussian_histogram(config):
     
     # Run the analysis off the common function
     analysis.base.create_directory_analysis_files(
-        data_directory=data_directory, mask_file=mask_file, 
+        data_directory=data_directory,
+        mask_file=mask_file, 
         filter_directory=filter_directory, 
         filter_config_file=filter_config_file,
         analysis_function=analysis_function, 
         analysis_parameters=analysis_parameters,
-        run=run)
+        run=run,
+        append=append,)
     
 
     # All done.

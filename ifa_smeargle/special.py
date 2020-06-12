@@ -30,8 +30,8 @@ def script_special_create_configuration_file(config):
     try:
         type = core.config.extract_configuration(
             config_object=config, keys=['type'])
-    except KeyError as err:
-        core.error.ifas_error(KeyError, str(err))
+    except KeyError as error:
+        core.error.ifas_error(type(error), str(error))
         raise core.error.ConfigurationError("This script requires that the "
                                             "configuration file type is in "
                                             "the configuration class. You "

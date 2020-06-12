@@ -81,7 +81,7 @@ def fit_gaussian_function(x_data, y_data, inital_guesses):
     gaussian_amplitude = gaussian_fit.amplitude.value
     temp_gauss_x_axis = np.linspace(np.nanmin(x_data) - 1, 
                                     np.nanmax(x_data) + 1, 
-                                    1000 + 100*x_data.size**2)
+                                    1000 + x_data.size**2)
     gaussian_max = np.max(gaussian_fit(temp_gauss_x_axis))
     gaussian_parameters = {'mean':gaussian_mean, 'stddev':gaussian_stddev,
                            'amplitude':gaussian_amplitude, 'max':gaussian_max}
