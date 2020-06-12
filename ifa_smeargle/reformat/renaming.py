@@ -53,7 +53,7 @@ def _get_renaming_delimiter_string():
 RENAMING_DELIMITER = _get_renaming_delimiter_string()
 
 
-def detector_renaming(data_directory, detector_name):
+def rename_detector(data_directory, detector_name):
     """ Creates file tags according to the detector qualifier name.
     
     Parameters
@@ -84,7 +84,7 @@ def detector_renaming(data_directory, detector_name):
 
     return detector_string_list, detector_raw_list
 
-def garbage_renaming(data_directory, begin_garbage=0):
+def rename_garbage(data_directory, begin_garbage=0):
     """ Creates file tags according to their status as garbage. If 
     a file is garbage, it should generally not be used.
 
@@ -121,7 +121,7 @@ def garbage_renaming(data_directory, begin_garbage=0):
     # Finished.
     return garbage_string_list, garbage_raw_list
 
-def number_renaming(data_directory, begin_garbage=0):
+def rename_number(data_directory, begin_garbage=0):
     """ Creates file tags according to their number in order.
 
     Some data filename outputs only give timestamps. This function 
@@ -183,7 +183,7 @@ def number_renaming(data_directory, begin_garbage=0):
 
     return number_file_list, number_raw_list
 
-def set_renaming(data_directory, set_length, begin_garbage=0):
+def rename_set(data_directory, set_length, begin_garbage=0):
     """ Creates file tags according to their set number, as 
     determined by the number of files in a set. Sets are assumed 
     to be consecutive.
@@ -251,8 +251,8 @@ def set_renaming(data_directory, set_length, begin_garbage=0):
 
     return set_file_list, set_raw_list
 
-def voltage_pattern_renaming(data_directory, voltage_pattern, 
-                             begin_garbage=0):
+def rename_voltage_pattern(data_directory, voltage_pattern, 
+                           begin_garbage=0):
     """ Creates file tags according to their voltage pattern 
     specified.
 
@@ -399,8 +399,8 @@ def voltage_pattern_renaming(data_directory, voltage_pattern,
 
 
 
-def script_detector_renaming(config):
-    """ The scripting version of `detector_renaming`. This function 
+def script_rename_detector(config):
+    """ The scripting version of `rename_detector`. This function 
     applies the rename to the entire directory. It also adds the 
     tags to the header file of each fits.
     
@@ -422,8 +422,8 @@ def script_detector_renaming(config):
         config_object=config, keys=['renaming','detector_name'])
 
     # Obtain the labels.
-    labels, raw = detector_renaming(data_directory=data_directory, 
-                                    detector_name=detector_name)
+    labels, raw = rename_detector(data_directory=data_directory, 
+                                  detector_name=detector_name)
     
     # Add to all file headers. Assume that the order has not changed 
     # between renaming steps.
@@ -448,8 +448,8 @@ def script_detector_renaming(config):
 
     return None
 
-def script_garbage_renaming(config):
-    """ The scripting version of `garbage_renaming`. This function 
+def script_rename_garbage(config):
+    """ The scripting version of `rename_garbage`. This function 
     applies the rename to the entire directory. It also adds the 
     tags to the header file of each fits.
     
@@ -470,8 +470,8 @@ def script_garbage_renaming(config):
         config_object=config, keys=['renaming','begin_garbage'])
 
     # Obtain the labels.
-    labels, raw = garbage_renaming(data_directory=data_directory, 
-                                   begin_garbage=begin_garbage)
+    labels, raw = rename_garbage(data_directory=data_directory,
+                                 begin_garbage=begin_garbage)
     
     # Add to all file headers. Assume that the order has not changed 
     # between renaming steps.
@@ -495,8 +495,8 @@ def script_garbage_renaming(config):
 
     return None
 
-def script_number_renaming(config):
-    """ The scripting version of `number_renaming`. This function 
+def script_rename_number(config):
+    """ The scripting version of `rename_number`. This function 
     applies the rename to the entire directory. It also adds the 
     tags to the header file of each fits.
     
@@ -518,8 +518,8 @@ def script_number_renaming(config):
         config_object=config, keys=['renaming','begin_garbage'])
 
     # Obtain the labels.
-    labels, raw = number_renaming(data_directory=data_directory, 
-                                  begin_garbage=begin_garbage)
+    labels, raw = rename_number(data_directory=data_directory, 
+                                begin_garbage=begin_garbage)
     
     # Add to all file headers. Assume that the order has not 
     # changed between renaming steps.
@@ -543,8 +543,8 @@ def script_number_renaming(config):
 
     return None
 
-def script_set_renaming(config):
-    """ The scripting version of `set_renaming`. This function 
+def script_rename_set(config):
+    """ The scripting version of `rename_set`. This function 
     applies the rename to the entire directory. It also adds the 
     tags to the header file of each fits.
     
@@ -568,7 +568,7 @@ def script_set_renaming(config):
         config_object=config, keys=['renaming','begin_garbage'])
 
     # Obtain the labels.
-    labels, raw = set_renaming(data_directory=data_directory, 
+    labels, raw = rename_set(data_directory=data_directory, 
                                set_length=set_length, 
                                begin_garbage=begin_garbage)
     
@@ -594,8 +594,8 @@ def script_set_renaming(config):
 
     return None
 
-def script_voltage_pattern_renaming(config):
-    """ The scripting version of `voltage_pattern_renaming`. This 
+def script_rename_voltage_pattern(config):
+    """ The scripting version of `rename_voltage_pattern`. This 
     function applies the rename to the entire directory. It also 
     adds the tags to the header file of each fits.
     
@@ -619,7 +619,7 @@ def script_voltage_pattern_renaming(config):
 
     # Obtain the labels. This one is a little special with its 
     # output; the raw contains two sections.
-    labels, raw = voltage_pattern_renaming(data_directory=data_directory, 
+    labels, raw = rename_voltage_pattern(data_directory=data_directory, 
                                            voltage_pattern=voltage_pattern,
                                            begin_garbage=begin_garbage)
     # Split the sections.
