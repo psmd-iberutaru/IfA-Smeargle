@@ -9,10 +9,12 @@ import numpy as np
 
 import ifa_smeargle.core as core
 
-def script_special_create_tutorial_configuration_file(config):
-    """ This function copies a tutorial configuration file into
-    the current working directory. It serves to initiate the  
-    tutorials provided.
+
+
+def script_special_create_configuration_file(config):
+    """ This function copies a given configuration file into
+    the current working directory. The type of configuration is 
+    given by the configuration object.
 
     Parameters
     ----------
@@ -24,7 +26,18 @@ def script_special_create_tutorial_configuration_file(config):
     -------
     None    
     """
-    # There are no configuration parameters needed for this function.
+    # The configuration type.
+    try:
+        type = core.config.extract_configuration(
+            config_object=config, keys=['type'])
+    except KeyError as err:
+        core.error.ifas_error(KeyError, str(err))
+        raise core.error.ConfigurationError("This script requires that the "
+                                            "configuration file type is in "
+                                            "the configuration class. You "
+                                            "may use "
+                                            "`--override={'type':type}` to "
+                                            "specify the type.")
 
     # In order to copy the configuration into the current working
     # directory, the directory path must be known.
@@ -32,11 +45,13 @@ def script_special_create_tutorial_configuration_file(config):
 
     # Copy the tutorial configuration into the current directory.
     config_path = core.config.copy_configuration_file(
-        config_type='tutorial', destination=current_directory, 
+        config_type=type, destination=current_directory, 
         file_name=None)
 
     # All done.
     return None
+
+
 def script_special_list_scripts(config):
     """ This lists all of the scripts in alphabetical order in 
     two columns.
