@@ -201,7 +201,7 @@ if (__name__ == '__main__'):
     parser.add_argument("script_key", 
                         help=("the name of the script function to be run"),
                         type=str)
-    parser.add_argument("config_file", 
+    parser.add_argument("configuration_path", 
                         help=("the path to the configuration file; if "
                               "`none` or `null` a blank one is used"),
                         type=str)
@@ -221,14 +221,15 @@ if (__name__ == '__main__'):
 
     # Extract the arguments for visual purposes.
     script_key = str(args.script_key)
-    config_file = str(args.config_file)
+    configuration_path = str(args.configuration_path)
     override = str(args.override)
     log_file = str(args.log_file)
     log_level = str(args.log_level)
 
     # There is a special case for configuration files if the script
     # should not be run with one.
-    if ((config_file.lower() == 'none') or (config_file.lower() == 'null')):
+    if ((configuration_path.lower() == 'none') or 
+        (configuration_path.lower() == 'null')):
         # The user input the special string to run a script
         # without any explicit configuration file. However, logs 
         # cannot be called until the file manger is set.
@@ -336,7 +337,8 @@ if (__name__ == '__main__'):
                          .format(script=script_key, config=config_file))
     # Execute the function. The returned value is likely lost in the  
     # first place by using a script.
-    __ = run_script(script_name=script_key, config_pathname=config_file,
+    __ = run_script(script_name=script_key, 
+                    config_pathname=configuration_path,
                     override=override)
 
     # Inform the user when the script is finished, mostly for
