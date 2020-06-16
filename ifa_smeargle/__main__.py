@@ -5,6 +5,7 @@ be improper to run the scripts from anyplace other than using this
 function.
 """
 
+import ast
 import argparse
 import configobj
 import copy
@@ -18,7 +19,7 @@ import warnings as warn
 import ifa_smeargle.core as core
 
 
-def run_script(script_name, config_pathname):
+def run_script(script_name, config_pathname, override=None):
     """
     This, in general, is the main function that calls the scripts 
     that should be executed and runs them as necessary.
@@ -29,6 +30,10 @@ def run_script(script_name, config_pathname):
         The name of the script function to invoke to run.
     config_pathname : string
         The path or filename to the configuration file.
+    override : dictionary
+        The override. If this is set, then the configuration
+        dictionary overwrites the configuration object where needed.
+
 
     Returns
     -------
@@ -82,6 +87,13 @@ def run_script(script_name, config_pathname):
     # specification file.
     config_obj = core.config.read_configuration_file(
         config_file_name=config_pathname, specification_file_name=spec_file)
+
+    # Apply any overrides if need be.
+    if (isinstance(override, dict)):
+        config_obj.merge(override)
+    else:
+        # No need.
+        pass
 
     # Execute the scripted function as desired.
     script_function = SCRIPT_FUNCTIONS[script_name]
@@ -189,10 +201,13 @@ if (__name__ == '__main__'):
     parser.add_argument("script_key", 
                         help=("the name of the script function to be run"),
                         type=str)
-    parser.add_argument("config_file", 
+    parser.add_argument("configuration_path", 
                         help=("the path to the configuration file; if "
                               "`none` or `null` a blank one is used"),
                         type=str)
+    parser.add_argument("--override", default='None',
+                        help=("a python-like dictionary specifying "
+                              "configuration parameters to be overridden"))
     parser.add_argument("--log_file", 
                         default=time.strftime('%Y%m%d-%H%M%S(Z%z)'),
                         help=("the log file to be used to log messages "
@@ -206,13 +221,15 @@ if (__name__ == '__main__'):
 
     # Extract the arguments for visual purposes.
     script_key = str(args.script_key)
-    config_file = str(args.config_file)
+    configuration_path = str(args.configuration_path)
+    override = str(args.override)
     log_file = str(args.log_file)
     log_level = str(args.log_level)
 
     # There is a special case for configuration files if the script
     # should not be run with one.
-    if ((config_file.lower() == 'none') or (config_file.lower() == 'null')):
+    if ((configuration_path.lower() == 'none') or 
+        (configuration_path.lower() == 'null')):
         # The user input the special string to run a script
         # without any explicit configuration file. However, logs 
         # cannot be called until the file manger is set.
@@ -249,6 +266,17 @@ if (__name__ == '__main__'):
     else:
         # The configuration file should be treated as a normal file.
         _log_blank_configuration_info = False
+
+    # If any configuration parameters should be overrun, then 
+    # apply them.
+    override = ast.literal_eval(override)
+    if (override is not None):
+        # The user wanted some sort of override.
+        override = dict(override)
+    else:
+        # The configuration should be untouched. The override
+        # should be blank.
+        override = dict()
 
     # Have logging capabilities, writing out a log to file. Use the  
     # appropriate logging level and file based on input.
@@ -300,20 +328,24 @@ if (__name__ == '__main__'):
 
     # Change the runtime variables for convenience and for the other
     # functions that may need it.
-    core.runtime._smeargle_runtime['CONFIG_FILE_PATH'] = config_file
+    core.runtime._smeargle_runtime['CONFIG_FILE_PATH'] = configuration_path
     core.runtime._smeargle_runtime['LOG_FILE_PATH'] = log_file
 
     # Inform the user that the script is going to be run.
     core.error.ifas_info("BEGIN! Running the script `{script}` using the "
                          "configuration file `{config}`."
-                         .format(script=script_key, config=config_file))
+                         .format(script=script_key, 
+                                 config=configuration_path))
     # Execute the function. The returned value is likely lost in the  
     # first place by using a script.
-    __ = run_script(script_name=script_key, config_pathname=config_file)
+    __ = run_script(script_name=script_key, 
+                    config_pathname=configuration_path,
+                    override=override)
 
     # Inform the user when the script is finished, mostly for
     # completeness.
     core.error.ifas_info("FINISH! The script `{script}` using the "
                          "configuration file `{config}` has been completed."
-                         .format(script=script_key, config=config_file))
+                         .format(script=script_key, 
+                                 config=configuration_path))
     

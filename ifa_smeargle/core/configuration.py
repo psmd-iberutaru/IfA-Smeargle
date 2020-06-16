@@ -53,6 +53,8 @@ def extract_configuration(config_object, keys):
             raise core.error.InputError("The keys were not in a manageable "
                                         "form specified by this function.")
     except (KeyError, AttributeError):
+        # The extra quote mark printed is a property of Python, see
+        # https://stackoverflow.com/a/24999035
         raise KeyError("In the configuration file `{config_file}`, "
                        "there does not exist the configuration key "
                        "path:  {key_path}"

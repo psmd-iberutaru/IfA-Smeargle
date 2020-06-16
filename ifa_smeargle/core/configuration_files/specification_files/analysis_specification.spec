@@ -1,5 +1,7 @@
 data_directory = string
 
+append = boolean
+
 mask_file = string
 
 filter_directory = string

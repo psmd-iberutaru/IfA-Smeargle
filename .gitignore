@@ -4,6 +4,9 @@
 *.fits
 *.zip
 
+# There is no reason to keep any log files.
+*.log
+
 # Nor do VS Community or VS code configuration files.
 .vs/*
 .vscode/*

@@ -12,6 +12,51 @@ import inspect
 import ifa_smeargle.core as core
 import ifa_smeargle.masking as mask
 
+def script_batch_analysis(config):
+    """ This script runs all analysis in a batch fashion. 
+    
+    If the run flag of an analysis in the configuration file is 
+    True, it is run according to the parameters set.
+
+    Parameters
+    ----------
+    config : ConfigObj
+        The configuration object that is to be used for this 
+        function.
+
+    Returns
+    -------
+    None
+    """
+
+    # This is just a batch script that runs all of the analysis 
+    # scripts.
+    core.error.ifas_info("Running the batch script for all analysis "
+                         "scripts. All analysis scripts will be run "
+                         "according to the configuration file.")
+
+    # Gather all script analysis functions. It is best not to use 
+    # the internal functions of runtime even though it is more
+    # efficient.
+    script_functions = core.runtime.get_script_functions()
+    # We only need to run the masking script functions.
+    script_analysis_prefix = 'script_analysis'
+    for keydex, scriptdex in script_functions.items():
+        if (script_analysis_prefix in keydex):
+            core.error.ifas_info("Calling the script mask function: {script}"
+                                 .format(script=keydex))
+            # Run the analysis script.
+            __ = scriptdex(config=config)
+        elif (script_analysis_prefix not in keydex):
+            continue
+        else:
+            # Something is wrong with the keydex.
+            raise core.error.BrokenLogicError
+
+    # All done.
+    return None
+
+
 def create_filter_from_configuration(data_array, filter_config):
     """
     This function applies all of the filters that are written based 
@@ -194,7 +239,7 @@ def create_filter_from_directory(data_file, filter_directory):
 def create_directory_analysis_files(data_directory, mask_file,
                                     filter_directory, filter_config_file, 
                                     analysis_function, analysis_parameters,
-                                    run):
+                                    run, append=False):
     """ This function is the common function to compute and save the 
     results of analysis functions.
 
@@ -221,6 +266,10 @@ def create_directory_analysis_files(data_directory, mask_file,
     run : boolean
         This is a flag to ensure that the analysis script should run.
         If it is False, it is not run. 
+    append : boolean (optional)
+        This parameter specifies what to do with a file conflict. 
+        If True, the new analysis is appended to the other header;
+        else, an exception is raised. Defaults to False.
 
     Returns
     -------
@@ -235,19 +284,30 @@ def create_directory_analysis_files(data_directory, mask_file,
     try:
         __, __, mask_array = core.io.read_fits_file(file_name=mask_file, 
                                                     silent=True)
-    except Exception:
-        __, __, temp_data = core.io.read_fits_files(file_name=data_files[0],
+    except Exception as error:
+        # The mask cannot be read into memory.
+        core.error.ifas_error(type(error), str(error))
+        # Continue without a mask.
+        __, __, temp_data = core.io.read_fits_file(file_name=data_files[0],
                                                    silent=True)
         mask_array = np.full_like(temp_data, False)
         core.error.ifas_error(core.error.ConfigurationError,
                               ("The mask file `{file}` cannot be read into "
                                "memory. Check the previous error in the "
-                               "stack. A False mask will be applied."
+                               "log. A False mask will be applied."
                                .format(file=mask_file)))
 
     # Loop through each file and compute and read back to a new 
     # analysis file.
     for filedex in data_files:
+        # It does not make sense to do an analysis on an analysis
+        # fits file.
+        if (core.strformat.split_pathname(
+            pathname=core.strformat.split_pathname(
+                pathname=filedex)[1])[2] == '.analysis'):
+            # It is an analysis file, skip.
+            continue
+
         # Load the data.
         __, hdu_header, hdu_data = core.io.read_fits_file(file_name=filedex,
                                                           silent=True)
@@ -299,10 +359,22 @@ def create_directory_analysis_files(data_directory, mask_file,
 
         # Save the analyzed fits file. The analysis values can be 
         # saved to the header.
-        core.io.write_fits_file(file_name=saved_file_name, 
-                                hdu_header=hdu_header, 
-                                hdu_data=saved_data_array,
-                                save_file=True, overwrite=False, silent=True)
+        try:
+            core.io.write_fits_file(file_name=saved_file_name, 
+                                    hdu_header=hdu_header, 
+                                    hdu_data=saved_data_array,
+                                    save_file=True, overwrite=False, 
+                                    silent=True)
+        except core.error.ExportingError:
+            # The exporting error is likely because of a file 
+            # overwrite conflict. Using the append parameter to sort 
+            # it out.
+            if (append):
+                # The file should be appended, ignore this error.
+                pass
+            else:
+                # The file should be written, re-raise.
+                raise
 
         # Add the extra analysis information.
         core.io.append_astropy_header_card(file_name=saved_file_name, 
