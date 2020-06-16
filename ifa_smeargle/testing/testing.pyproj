@@ -22,7 +22,16 @@
     <EnableUnmanagedDebugging>false</EnableUnmanagedDebugging>
   </PropertyGroup>
   <ItemGroup>
+    <Compile Include="base_functions.py">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Include="test_global.py">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="test_numerical_core_mathematics.py">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="test_numerical_filters.py">
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="test_numerical_masking.py">

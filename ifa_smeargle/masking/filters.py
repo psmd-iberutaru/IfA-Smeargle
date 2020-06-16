@@ -79,6 +79,11 @@ def filter_percent_truncation(data_array, top_percent, bottom_percent):
     (in value) that should be filtered. The pixels masked are 
     independent on the previous masks applied.
 
+    If the percentage of pixels leads to a non-integer number of
+    pixels to be masked, the number is floored. All pixels that have
+    a same value as the limiting pixel value for the top and bottom
+    percent of pixels are also masked.
+
     Parameters
     ----------
     data_array : ndarray
@@ -103,14 +108,13 @@ def filter_percent_truncation(data_array, top_percent, bottom_percent):
     # A percent truncation is a fancy pixel truncation, and is 
     # going to be applied as such. 
     total_n_pixels = int(data_array.size)
-    top_pixel = int(total_n_pixels 
-                 - (int(np.longdouble(total_n_pixels)) * (ONE - top_percent)))
+    top_pixel = int(np.floor(total_n_pixels * top_percent))
     bottom_pixel = int(np.floor(total_n_pixels * bottom_percent))
 
     # The pixel mask
     final_filter = filter_pixel_truncation(data_array=data_array, 
-                                         top_count=top_pixel, 
-                                         bottom_count=bottom_pixel)
+                                           top_count=top_pixel, 
+                                           bottom_count=bottom_pixel)
 
     # The above method requires that the total number of pixels is 
     # not comparable to the float resolution. If not, then lower 
