@@ -30,6 +30,7 @@ filter_tag_name = string
 [filter]
     run_filter_sigma_value = boolean(default=False)
     sigma_multiple = float
+    sigma_iterations = integer(min=1)
 
     run_filter_percent_truncation = boolean(default=False)
     top_percent = float(min=0, max=1)

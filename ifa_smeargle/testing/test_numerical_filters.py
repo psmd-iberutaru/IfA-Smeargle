@@ -19,25 +19,27 @@ import ifa_smeargle.core as core
 import ifa_smeargle.masking as mask
 import ifa_smeargle.testing as test
 
-@pytest.mark.xfail
+
 def test_filter_sigma_value():
     """ This tests the filtering of sigma boundaries."""
 
     # Creating the testing array.
-    test_array = test.base.create_prime_test_array(shape=(7,7))
+    test_array = test.base.create_prime_test_array(shape=(10,10), index=50)
 
     # Prescribed filtering parameters
     # 1 Sigma
     sigma_multiple = 1
+    sigma_iterations = 2
     # Create the filter.
     test_filter = mask.filter_sigma_value(data_array=test_array, 
-                                          sigma_multiple=sigma_multiple)
+                                          sigma_multiple=sigma_multiple,
+                                          iterations=sigma_iterations)
     # Create a filtered array for both convince and testing.
     test_filtered_array = np_ma.array(test_array, mask=test_filter, dtype=int)
 
     # A properly completed filter should have the same product value 
     # as this number. This is how the filter is checked.
-    CHECK_STRING = '192.684278256839293972761174821265114117452620'
+    CHECK_STRING = '92.7429789714003440708375243748487223136051046'
     CHECK_LOGARITHM = sy.Float(CHECK_STRING)
     __, __, product_log10 = core.math.ifas_large_integer_array_product(
         integer_array=test_filtered_array.compressed())

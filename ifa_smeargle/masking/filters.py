@@ -8,7 +8,7 @@ import numpy.ma as np_ma
 import ifa_smeargle.core as core
 import ifa_smeargle.masking as mask
 
-def filter_sigma_value(data_array, sigma_multiple):
+def filter_sigma_value(data_array, sigma_multiple, iterations=1):
     """
     This applies a mask on pixels outside a given multiple of a sigma 
     value.
@@ -26,12 +26,19 @@ def filter_sigma_value(data_array, sigma_multiple):
         bottom-top bounds may be set as a list-like input. The 
         first element is the bottom bound; the last element is the 
         top bound.
+    iterations : int
+        The number of iterations this filler will run through to
+        develop the proper filter.
 
     Returns
     -------
     final_filter : ndarray
         The filter as computed by this function.
     """
+    # It does not make sense to run this filter with no iterations.
+    if (iterations < 1):
+        raise core.error.InputError("It does not make sense to do this "
+                                    "filter with less than 1 iteration.")
 
     # Check if the sigma limits are the same, or the user 
     # provided for a lower and upper sigma to use.
@@ -52,21 +59,29 @@ def filter_sigma_value(data_array, sigma_multiple):
         bottom_sigma_multiple = flat_sigma_multiple[0]
         top_sigma_multiple = flat_sigma_multiple[-1]
 
-    # Calculate the mean and the sigma values of the data array.
-    mean = core.math.ifas_robust_mean(data_array)
-    stddev = core.math.ifas_robust_std(data_array)
+    # The number of iterations are accomplished by just doing loops.
+    final_filter = mask.mask_nothing(data_array=data_array)
+    for index in range(iterations):
+        # Calculate the mean and the sigma values of the data array.
+        # Filtered pixels mean it was caught in previous iterations.
+        mean = core.math.ifas_robust_mean(
+            array=np_ma.array(data_array, mask=final_filter).compressed())
+        stddev = core.math.ifas_robust_std(
+            array=np_ma.array(data_array, mask=final_filter).compressed())
         
-    # Calculating the two individual filters and combining them.
-    min_filter = filter_minimum_value(
-        data_array=data_array, 
-        minimum_value=(mean - stddev * bottom_sigma_multiple))
-    max_filter = filter_maximum_value(
-        data_array=data_array, 
-        maximum_value=(mean + stddev * top_sigma_multiple))
-    
-    # The mask based version is proper, the difference between a 
-    # mask and a filter is just semantics.
-    final_filter = mask.base.synthesize_masks(min_filter, max_filter)
+        # Calculating the two individual filters and combining them.
+        min_filter = filter_minimum_value(
+            data_array=data_array, 
+            minimum_value=(mean - stddev * bottom_sigma_multiple))
+        max_filter = filter_maximum_value(
+            data_array=data_array, 
+            maximum_value=(mean + stddev * top_sigma_multiple))
+        
+        # The mask based version is proper, the difference between a 
+        # mask and a filter is just semantics. Also, keep track
+        # of the previous filters all run through the iterations.
+        final_filter = mask.base.synthesize_masks(final_filter,
+                                                  min_filter, max_filter)
 
     return final_filter
 
