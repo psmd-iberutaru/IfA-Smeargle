@@ -33,7 +33,7 @@ def test_filter_sigma_value():
     # Create the filter.
     test_filter = mask.filter_sigma_value(data_array=test_array, 
                                           sigma_multiple=sigma_multiple,
-                                          iterations=sigma_iterations)
+                                          sigma_iterations=sigma_iterations)
     # Create a filtered array for both convince and testing.
     test_filtered_array = np_ma.array(test_array, mask=test_filter, dtype=int)
 
