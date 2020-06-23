@@ -239,7 +239,7 @@ if (__name__ == '__main__'):
         # should be in there.
         config_files = core.runtime.get_configuration_files()
         # Find the blank specification file.
-        configuration_path = config_files.get('blank_configuration', None)
+        blank_config_path = config_files.get('blank_configuration', None)
         # If the file is not there, raise as it should be there.
         try:
             if (blank_config_path is None):
@@ -256,7 +256,7 @@ if (__name__ == '__main__'):
             else:
                 # The configuration file shall be reassigned as a
                 # blank file as per functionality.
-                config_file = blank_config_path
+                configuration_path = blank_config_path
         except FileNotFoundError:
             raise core.error.AssumptionError("The blank configuration file "
                                              "cannot be used or found. The "
