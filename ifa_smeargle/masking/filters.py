@@ -8,7 +8,7 @@ import numpy.ma as np_ma
 import ifa_smeargle.core as core
 import ifa_smeargle.masking as mask
 
-def filter_sigma_value(data_array, sigma_multiple, iterations=1):
+def filter_sigma_value(data_array, sigma_multiple, sigma_iterations=1):
     """
     This applies a mask on pixels outside a given multiple of a sigma 
     value.
@@ -36,7 +36,7 @@ def filter_sigma_value(data_array, sigma_multiple, iterations=1):
         The filter as computed by this function.
     """
     # It does not make sense to run this filter with no iterations.
-    if (iterations < 1):
+    if (sigma_iterations < 1):
         raise core.error.InputError("It does not make sense to do this "
                                     "filter with less than 1 iteration.")
 
@@ -61,7 +61,7 @@ def filter_sigma_value(data_array, sigma_multiple, iterations=1):
 
     # The number of iterations are accomplished by just doing loops.
     final_filter = mask.mask_nothing(data_array=data_array)
-    for index in range(iterations):
+    for index in range(sigma_iterations):
         # Calculate the mean and the sigma values of the data array.
         # Filtered pixels mean it was caught in previous iterations.
         mean = core.math.ifas_robust_mean(

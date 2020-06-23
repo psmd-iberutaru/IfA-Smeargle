@@ -239,7 +239,7 @@ if (__name__ == '__main__'):
         # should be in there.
         config_files = core.runtime.get_configuration_files()
         # Find the blank specification file.
-        blank_config_path = config_files.get('blank_configuration', None)
+        configuration_path = config_files.get('blank_configuration', None)
         # If the file is not there, raise as it should be there.
         try:
             if (blank_config_path is None):
