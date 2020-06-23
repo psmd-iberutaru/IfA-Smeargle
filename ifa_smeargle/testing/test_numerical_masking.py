@@ -17,13 +17,14 @@ import math
 
 import ifa_smeargle.core as core
 import ifa_smeargle.masking as mask
+import ifa_smeargle.testing as test
 
 
 def test_mask_single_pixels():
     """ This tests the masking of single pixels."""
 
     # Creating the testing array.
-    test_array = _create_test_array(shape=(10,10))
+    test_array = test.base.create_prime_test_array(shape=(10,10))
 
     # Prescribed masking parameters
     # Every other column.
@@ -62,7 +63,7 @@ def test_mask_rectangle():
     inclusive bounds as documented."""
 
     # Creating the testing array.
-    test_array = _create_test_array(shape=(10,10))
+    test_array = test.base.create_prime_test_array(shape=(10,10))
 
     # Prescribed masking parameters
     # Every other column.
@@ -101,7 +102,7 @@ def test_mask_subarray():
     inclusive bounds as documented."""
 
     # Creating the testing array.
-    test_array = _create_test_array(shape=(10,10))
+    test_array = test.base.create_prime_test_array(shape=(10,10))
 
     # Prescribed masking parameters
     # Every other column.
@@ -140,7 +141,7 @@ def test_mask_columns():
     are masked."""
 
     # Creating the testing array.
-    test_array = _create_test_array(shape=(10,10))
+    test_array = test.base.create_prime_test_array(shape=(10,10))
 
     # Prescribed masking parameters
     # Every other column.
@@ -178,7 +179,7 @@ def test_mask_rows():
     are masked."""
 
     # Creating the testing array.
-    test_array = _create_test_array(shape=(10,10))
+    test_array = test.base.create_prime_test_array(shape=(10,10))
 
     # Prescribed masking parameters
     # Every other row.
@@ -215,7 +216,7 @@ def test_mask_nothing():
     masked."""
 
     # Creating the testing array.
-    test_array = _create_test_array(shape=(10,10))
+    test_array = test.base.create_prime_test_array(shape=(10,10))
 
     # Prescribed masking parameters
     pass
@@ -251,7 +252,7 @@ def test_mask_everything():
     missed."""
 
     # Creating the testing array.
-    test_array = _create_test_array(shape=(10,10))
+    test_array = test.base.create_prime_test_array(shape=(10,10))
 
     # Prescribed masking parameters
     pass
@@ -280,18 +281,3 @@ def test_mask_everything():
     assert math.isclose(product_log10, CHECK_LOGARITHM), assert_message
     # All done.
     return None
-
-
-def _create_test_array(shape):
-    """ This creates a test array for the purposes of creating 
-    masks and to apply them and test them. This ensures a 
-    uniform test array for all mask tests."""
-
-    # And the numbers that create the array.
-    test_array_values = core.math.generate_prime_numbers(
-        index=0, count=np.prod(shape))
-
-    # And reshape into the correct array shape.
-    test_array = np.reshape(test_array_values, shape)
-    # All done.
-    return test_array

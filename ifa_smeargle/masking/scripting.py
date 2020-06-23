@@ -461,12 +461,15 @@ def script_filter_sigma_value(config):
     # Extract the filter programs configuration parameters.
     sigma_multiple = core.config.extract_configuration(
         config_object=config, keys=['filter','sigma_multiple'])
+    sigma_iterations = core.config.extract_configuration(
+        config_object=config, keys=['filter','sigma_iterations'])
 
     # The function that is being used to calculate the masks.
     filter_function = mask.filter_sigma_value
 
     # Compiling the arguments that the masking function uses.
-    filter_arguments = {'sigma_multiple':sigma_multiple}
+    filter_arguments = {'sigma_multiple':sigma_multiple, 
+                        'iterations':sigma_iterations}
 
     # Create the filters from the directory.
     mask.base.create_directory_filter_files(data_directory=data_directory,  

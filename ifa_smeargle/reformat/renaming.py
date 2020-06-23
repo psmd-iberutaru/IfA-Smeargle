@@ -365,7 +365,7 @@ def rename_voltage_pattern(data_directory, voltage_pattern,
         garbage_string_list.append(garbage_string)
 
     # Compile the renames, assume that the sets repeat themselves 
-    # if there are more files than voltages . Then actually rename 
+    # if there are more files than voltages. Then actually rename 
     # the file.
     voltage_string_list = []
     for fileindex in range(n_files):

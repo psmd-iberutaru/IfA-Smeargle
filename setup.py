@@ -11,7 +11,7 @@ from setuptools import setup, find_packages
 # These are the setup parameters, in global form in the event that
 # other parts of the this program needs it.
 NAME = 'IfA_Smeargle'
-VERSION = '0.1.1'
+VERSION = '0.2.0'
 
 DEPENDENCIES = ['astropy', 'configobj >= 5.0', 'matplotlib', 'numpy', 
                 'pandas','pylint', 'pytest', 'scipy', 'setuptools',

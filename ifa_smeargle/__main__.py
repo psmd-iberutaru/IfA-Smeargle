@@ -256,7 +256,7 @@ if (__name__ == '__main__'):
             else:
                 # The configuration file shall be reassigned as a
                 # blank file as per functionality.
-                config_file = blank_config_path
+                configuration_path = blank_config_path
         except FileNotFoundError:
             raise core.error.AssumptionError("The blank configuration file "
                                              "cannot be used or found. The "

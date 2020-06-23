@@ -288,7 +288,7 @@ def copy_configuration_file(config_type, destination, file_name=None):
                 directory=dir, file_name=file_name, extension='.ini')
 
         # Inform that the file is being copied.
-        core.error.ifas_info("The configuration file matching {type} is "
+        core.error.ifas_info("The configuration file matching `{type}` is "
                              "being copied. \n "
                              "Source: {src}   Destination: {dest}"
                              .format(type=config_type, src=source_path, 

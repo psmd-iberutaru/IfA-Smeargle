@@ -156,22 +156,24 @@ def ifas_robust_mean(array):
     if (isinstance(array, np.ndarray)):
         x = array
     else:
-        x = np.array(x)
+        x = np.array(array)
 
     # This section is provided code from Dr. Mike Bottom.
-    y = x.flatten()
-    n = len(y)
-    y.sort()
-    ind_qt1 = round((n+1)/4.)
-    ind_qt3 = round((n+1)*3/4.)
-    IQR = y[ind_qt3]- y[ind_qt1]
-    lowFense = y[ind_qt1] - 1.5*IQR
-    highFense = y[ind_qt3] + 1.5*IQR
-    ok = (y>lowFense)*(y<highFense)
-    yy=y[ok]
+    def robust_mean(x):
+        y = x.flatten()
+        n = len(y)
+        y.sort()
+        ind_qt1 = round((n+1)/4.)
+        ind_qt3 = round((n+1)*3/4.)
+        IQR = y[ind_qt3]- y[ind_qt1]
+        lowFense = y[ind_qt1] - 1.5*IQR
+        highFense = y[ind_qt3] + 1.5*IQR
+        ok = (y>lowFense)*(y<highFense)
+        yy=y[ok]
+        return yy.mean(dtype='double')
         
     # For documentation
-    robust_mean = yy.std(dtype='double')
+    robust_mean = robust_mean(x=x)
     return robust_mean
 
 def ifas_robust_std(array):
@@ -193,22 +195,24 @@ def ifas_robust_std(array):
     if (isinstance(array, np.ndarray)):
         x = array
     else:
-        x = np.array(x)
+        x = np.array(array)
 
     # This section is provided code from Dr. Mike Bottom.
-    y = x.flatten()
-    n = len(y)
-    y.sort()
-    ind_qt1 = int(round((n+1)/4.))
-    ind_qt3 = int(round((n+1)*3/4.))
-    IQR = y[ind_qt3]- y[ind_qt1]
-    lowFense = y[ind_qt1] - 1.5*IQR
-    highFense = y[ind_qt3] + 1.5*IQR
-    ok = (y>lowFense)*(y<highFense)
-    yy=y[ok]
+    def robust_std(x):
+        y = x.flatten()
+        n = len(y)
+        y.sort()
+        ind_qt1 = int(round((n+1)/4.))
+        ind_qt3 = int(round((n+1)*3/4.))
+        IQR = y[ind_qt3]- y[ind_qt1]
+        lowFense = y[ind_qt1] - 1.5*IQR
+        highFense = y[ind_qt3] + 1.5*IQR
+        ok = (y>lowFense)*(y<highFense)
+        yy=y[ok]
+        return yy.std(dtype='double')
 
     # For documentation
-    robust_std = yy.std(dtype='double')
+    robust_std = robust_std(x=x)
     return robust_std
 
 def ifas_large_integer_array_product(integer_array):
