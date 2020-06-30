@@ -24,3 +24,7 @@ To complete the installation of this package, execute the following while in the
 (If the installation of the package fails, you can try again as some files may be held up by the operating system; or, if the issue is more serious, feel free to leave an [issue](https://github.com/psmd-iberutaru/IfA_Smeargle/issues).)
 
 All done, the package is installed and the wheel is created. You should be able to use it normally now.
+
+## Documentation
+
+Sections within this [repository wiki](https://github.com/psmd-iberutaru/IfA_Smeargle/wiki) should be adequate documentation on the aspects of general usage of this module. For documentation on the module code or functions and classes within the code, see the [Sphinx automated documentation](https://psmd-iberutaru.github.io/IfA_Smeargle/). (Printable [LaTeX version is here](https://github.com/psmd-iberutaru/IfA_Smeargle/blob/master/doc/build/latex/ifa_smeargle.pdf).)
