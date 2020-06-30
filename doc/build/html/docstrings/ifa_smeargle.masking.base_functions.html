@@ -1,0 +1,374 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>ifa_smeargle.masking.base_functions module &mdash; IfA_Smeargle 2020 documentation</title>
+  
+
+  
+  <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+  <link rel="stylesheet" href="../_static/css/custom.css" type="text/css" />
+
+  
+  
+  
+  
+
+  
+  <!--[if lt IE 9]>
+    <script src="../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+    
+      <script type="text/javascript" id="documentation_options" data-url_root="../" src="../_static/documentation_options.js"></script>
+        <script src="../_static/jquery.js"></script>
+        <script src="../_static/underscore.js"></script>
+        <script src="../_static/doctools.js"></script>
+        <script src="../_static/language_data.js"></script>
+    
+    <script type="text/javascript" src="../_static/js/theme.js"></script>
+
+    
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="ifa_smeargle.masking.filters module" href="ifa_smeargle.masking.filters.html" />
+    <link rel="prev" title="ifa_smeargle.masking package" href="ifa_smeargle.masking.html" /> 
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+          
+
+          
+            <a href="../index.html" class="icon icon-home" alt="Documentation Home"> IfA_Smeargle
+          
+
+          
+          </a>
+
+          
+            
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <p class="caption"><span class="caption-text">Code Documentation:</span></p>
+<ul class="current">
+<li class="toctree-l1 current"><a class="reference internal" href="modules.html">ifa_smeargle</a><ul class="current">
+<li class="toctree-l2 current"><a class="reference internal" href="ifa_smeargle.html">ifa_smeargle package</a><ul class="current">
+<li class="toctree-l3 current"><a class="reference internal" href="ifa_smeargle.html#subpackages">Subpackages</a><ul class="current">
+<li class="toctree-l4"><a class="reference internal" href="ifa_smeargle.analysis.html">ifa_smeargle.analysis package</a></li>
+<li class="toctree-l4"><a class="reference internal" href="ifa_smeargle.core.html">ifa_smeargle.core package</a></li>
+<li class="toctree-l4 current"><a class="reference internal" href="ifa_smeargle.masking.html">ifa_smeargle.masking package</a></li>
+<li class="toctree-l4"><a class="reference internal" href="ifa_smeargle.plotting.html">ifa_smeargle.plotting package</a></li>
+<li class="toctree-l4"><a class="reference internal" href="ifa_smeargle.reformat.html">ifa_smeargle.reformat package</a></li>
+<li class="toctree-l4"><a class="reference internal" href="ifa_smeargle.testing.html">ifa_smeargle.testing package</a></li>
+<li class="toctree-l4"><a class="reference internal" href="ifa_smeargle.tutorial.html">ifa_smeargle.tutorial package</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="ifa_smeargle.html#submodules">Submodules</a></li>
+<li class="toctree-l3"><a class="reference internal" href="ifa_smeargle.html#module-ifa_smeargle">Module contents</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+
+            
+          
+        </div>
+        
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../index.html">IfA_Smeargle</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="../index.html" class="icon icon-home"></a> &raquo;</li>
+        
+          <li><a href="modules.html">ifa_smeargle</a> &raquo;</li>
+        
+          <li><a href="ifa_smeargle.html">ifa_smeargle package</a> &raquo;</li>
+        
+          <li><a href="ifa_smeargle.masking.html">ifa_smeargle.masking package</a> &raquo;</li>
+        
+      <li>ifa_smeargle.masking.base_functions module</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+            
+            
+              <a href="https://github.com/psmd-iberutaru/IfA_Smeargle/blob/testdoc/source/docstrings/ifa_smeargle.masking.base_functions.rst" class="fa fa-github"> Edit on GitHub</a>
+            
+          
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <div class="section" id="module-ifa_smeargle.masking.base_functions">
+<span id="ifa-smeargle-masking-base-functions-module"></span><h1>ifa_smeargle.masking.base_functions module<a class="headerlink" href="#module-ifa_smeargle.masking.base_functions" title="Permalink to this headline">¶</a></h1>
+<p>This is the common functions that are used through the masking
+modules.</p>
+<dl class="function">
+<dt id="ifa_smeargle.masking.base_functions.create_directory_filter_files">
+<code class="sig-prename descclassname">ifa_smeargle.masking.base_functions.</code><code class="sig-name descname">create_directory_filter_files</code><span class="sig-paren">(</span><em class="sig-param">data_directory</em>, <em class="sig-param">filter_function</em>, <em class="sig-param">filter_arguments</em>, <em class="sig-param">filter_file_tag</em>, <em class="sig-param">recursive=False</em>, <em class="sig-param">subfolder=True</em>, <em class="sig-param">run=False</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/ifa_smeargle/masking/base_functions.html#create_directory_filter_files"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#ifa_smeargle.masking.base_functions.create_directory_filter_files" title="Permalink to this definition">¶</a></dt>
+<dd><p>This function is the common function to create filters
+for the data within the data directory.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>data_directory</strong> (<em>string</em>) – The data directory that contain the data which the mask are
+for.</p></li>
+<li><p><strong>filter_function</strong> (<em>function</em>) – The filtering function which contains the main code
+operations for creating the filter.</p></li>
+<li><p><strong>filter_arguments</strong> (<em>dictionary</em>) – The dictionary for the arguments of the filtering function.</p></li>
+<li><p><strong>recursive</strong> (<em>boolean</em><em> (</em><em>optional</em><em>)</em>) – If True, then the subdirectories of the data_directory will
+also be searched for data.</p></li>
+<li><p><strong>subfolder</strong> (<em>boolean</em><em> (</em><em>optional</em><em>)</em>) – If True, a sub-folder containing all of the masks will be
+created. If it exists, then the filters are added to it.</p></li>
+<li><p><strong>run</strong> (<em>boolean</em><em> (</em><em>optional</em><em>)</em>) – If True, the filter is ran and completed. Else, a warning is
+raised, it is not computed, and nothing is returned.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p></p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>None</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="function">
+<dt id="ifa_smeargle.masking.base_functions.create_directory_mask_file">
+<code class="sig-prename descclassname">ifa_smeargle.masking.base_functions.</code><code class="sig-name descname">create_directory_mask_file</code><span class="sig-paren">(</span><em class="sig-param">data_directory</em>, <em class="sig-param">mask_function</em>, <em class="sig-param">mask_arguments</em>, <em class="sig-param">mask_file_name</em>, <em class="sig-param">recursive=False</em>, <em class="sig-param">subfolder=True</em>, <em class="sig-param">run=False</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/ifa_smeargle/masking/base_functions.html#create_directory_mask_file"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#ifa_smeargle.masking.base_functions.create_directory_mask_file" title="Permalink to this definition">¶</a></dt>
+<dd><p>This function is the common function to create a mask
+for the data within the data directory.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>data_directory</strong> (<em>string</em>) – The data directory that contain the data which the mask are
+for.</p></li>
+<li><p><strong>mask_function</strong> (<em>function</em>) – The masking function which contains the main code operations
+for creating the mask.</p></li>
+<li><p><strong>mask_arguments</strong> (<em>dictionary</em>) – The dictionary for the arguments of the masking function.</p></li>
+<li><p><strong>recursive</strong> (<em>boolean</em><em> (</em><em>optional</em><em>)</em>) – If True, then the subdirectories of the data_directory will
+also be searched for data.</p></li>
+<li><p><strong>subfolder</strong> (<em>boolean</em><em> (</em><em>optional</em><em>)</em>) – If True, a sub-folder containing all of the masks will be
+created. If it exists, then the masks are added to it.</p></li>
+<li><p><strong>run</strong> (<em>boolean</em><em> (</em><em>optional</em><em>)</em>) – If True, the mask is ran and completed. Else, a warning is
+raised, it is not computed, and nothing is returned.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p></p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>None</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="function">
+<dt id="ifa_smeargle.masking.base_functions.get_filter_fits_filenames">
+<code class="sig-prename descclassname">ifa_smeargle.masking.base_functions.</code><code class="sig-name descname">get_filter_fits_filenames</code><span class="sig-paren">(</span><em class="sig-param">data_directory</em>, <em class="sig-param">recursive=False</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/ifa_smeargle/masking/base_functions.html#get_filter_fits_filenames"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#ifa_smeargle.masking.base_functions.get_filter_fits_filenames" title="Permalink to this definition">¶</a></dt>
+<dd><p>This function is to obtain all of the filter fits files
+within the directory provided. Mask fits files are those that
+have the extension <cite>.filter.fits</cite>.</p>
+<p>In general, this is a wrapper function around the normal
+fits file glob function adapted for filters.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>data_directory</strong> (<em>string</em>) – The data directory that the filter fits files will be
+searched from.</p></li>
+<li><p><strong>recursive</strong> (<em>boolean</em><em> (</em><em>optional</em><em>)</em>) – If True, also search subdirectories for filter fits files.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p><strong>filter_fits_filenames</strong> – The list of the filter fits file names.</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>list</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="function">
+<dt id="ifa_smeargle.masking.base_functions.get_mask_fits_filenames">
+<code class="sig-prename descclassname">ifa_smeargle.masking.base_functions.</code><code class="sig-name descname">get_mask_fits_filenames</code><span class="sig-paren">(</span><em class="sig-param">data_directory</em>, <em class="sig-param">recursive=False</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/ifa_smeargle/masking/base_functions.html#get_mask_fits_filenames"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#ifa_smeargle.masking.base_functions.get_mask_fits_filenames" title="Permalink to this definition">¶</a></dt>
+<dd><p>This function is to obtain all of the mask fits files within
+the directory provided. Mask fits files are those that have the
+extension <cite>.mask.fits</cite>.</p>
+<p>In general, this is a wrapper function around the normal
+fits file glob function adapted for masks.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>data_directory</strong> (<em>string</em>) – The data directory that the mask fits files will be search
+from.</p></li>
+<li><p><strong>recursive</strong> (<em>boolean</em><em> (</em><em>optional</em><em>)</em>) – If True, also search subdirectories for mask fits files.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p><strong>mask_fits_filenames</strong> – The list of the mask fits file names.</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>list</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="function">
+<dt id="ifa_smeargle.masking.base_functions.synthesize_masks">
+<code class="sig-prename descclassname">ifa_smeargle.masking.base_functions.</code><code class="sig-name descname">synthesize_masks</code><span class="sig-paren">(</span><em class="sig-param">*args</em>, <em class="sig-param">**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/ifa_smeargle/masking/base_functions.html#synthesize_masks"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#ifa_smeargle.masking.base_functions.synthesize_masks" title="Permalink to this definition">¶</a></dt>
+<dd><p>This is a function to combine many masks into one single
+mask.This argument does not take any keyword arguments. All of
+the masks must be the same size. (In general, the first mask is
+considered the correct mask.)</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>*args</strong> (<em>list</em>) – This should be a collection of array based masks.</p></li>
+<li><p><strong>**kwargs</strong> (<em>dictionary</em>) – This catches any keyword arguments sent through.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p><strong>synthesized_mask</strong> – The combined mask made of all of the inputted masks.</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>array</p>
+</dd>
+</dl>
+</dd></dl>
+
+</div>
+
+
+           </div>
+           
+          </div>
+          <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+        <a href="ifa_smeargle.masking.filters.html" class="btn btn-neutral float-right" title="ifa_smeargle.masking.filters module" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
+      
+      
+        <a href="ifa_smeargle.masking.html" class="btn btn-neutral float-left" title="ifa_smeargle.masking package" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+      
+    </div>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        
+        &copy; Copyright 2020, Sparrow
+
+    </p>
+  </div>
+    
+    
+    
+    Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a
+    
+    <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a>
+    
+    provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+
+  
+  
+    
+   
+
+</body>
+</html>

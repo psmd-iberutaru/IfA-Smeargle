@@ -1,0 +1,685 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>ifa_smeargle.masking.base_functions &mdash; IfA_Smeargle 2020 documentation</title>
+  
+
+  
+  <link rel="stylesheet" href="../../../_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
+  <link rel="stylesheet" href="../../../_static/css/custom.css" type="text/css" />
+
+  
+  
+  
+  
+
+  
+  <!--[if lt IE 9]>
+    <script src="../../../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+    
+      <script type="text/javascript" id="documentation_options" data-url_root="../../../" src="../../../_static/documentation_options.js"></script>
+        <script src="../../../_static/jquery.js"></script>
+        <script src="../../../_static/underscore.js"></script>
+        <script src="../../../_static/doctools.js"></script>
+        <script src="../../../_static/language_data.js"></script>
+    
+    <script type="text/javascript" src="../../../_static/js/theme.js"></script>
+
+    
+    <link rel="index" title="Index" href="../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../search.html" /> 
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+          
+
+          
+            <a href="../../../index.html" class="icon icon-home" alt="Documentation Home"> IfA_Smeargle
+          
+
+          
+          </a>
+
+          
+            
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <p class="caption"><span class="caption-text">Code Documentation:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../docstrings/modules.html">ifa_smeargle</a></li>
+</ul>
+
+            
+          
+        </div>
+        
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../../index.html">IfA_Smeargle</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="../../../index.html" class="icon icon-home"></a> &raquo;</li>
+        
+          <li><a href="../../index.html">Module code</a> &raquo;</li>
+        
+      <li>ifa_smeargle.masking.base_functions</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <h1>Source code for ifa_smeargle.masking.base_functions</h1><div class="highlight"><pre>
+<span></span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">This is the common functions that are used through the masking</span>
+<span class="sd">modules.</span>
+<span class="sd">&quot;&quot;&quot;</span>
+
+<span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+<span class="kn">import</span> <span class="nn">os</span>
+<span class="kn">import</span> <span class="nn">string</span>
+
+<span class="kn">import</span> <span class="nn">ifa_smeargle.core</span> <span class="k">as</span> <span class="nn">core</span>
+<span class="kn">import</span> <span class="nn">ifa_smeargle.masking</span> <span class="k">as</span> <span class="nn">mask</span>
+
+<div class="viewcode-block" id="get_mask_fits_filenames"><a class="viewcode-back" href="../../../docstrings/ifa_smeargle.masking.base_functions.html#ifa_smeargle.masking.base_functions.get_mask_fits_filenames">[docs]</a><span class="k">def</span> <span class="nf">get_mask_fits_filenames</span><span class="p">(</span><span class="n">data_directory</span><span class="p">,</span> <span class="n">recursive</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot; This function is to obtain all of the mask fits files within</span>
+<span class="sd">    the directory provided. Mask fits files are those that have the </span>
+<span class="sd">    extension `.mask.fits`.</span>
+<span class="sd">    </span>
+<span class="sd">    In general, this is a wrapper function around the normal </span>
+<span class="sd">    fits file glob function adapted for masks. </span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    data_directory : string</span>
+<span class="sd">        The data directory that the mask fits files will be search </span>
+<span class="sd">        from.</span>
+<span class="sd">    recursive : boolean (optional)</span>
+<span class="sd">        If True, also search subdirectories for mask fits files.</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    mask_fits_filenames : list</span>
+<span class="sd">        The list of the mask fits file names.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    
+    <span class="c1"># Running to obtain the mask fits file list.</span>
+    <span class="n">mask_fits_filenames</span> <span class="o">=</span> <span class="n">core</span><span class="o">.</span><span class="n">io</span><span class="o">.</span><span class="n">get_fits_filenames</span><span class="p">(</span>
+        <span class="n">data_directory</span><span class="o">=</span><span class="n">data_directory</span><span class="p">,</span> <span class="n">sub_extension</span><span class="o">=</span><span class="s1">&#39;.mask&#39;</span><span class="p">,</span> 
+        <span class="n">recursive</span><span class="o">=</span><span class="n">recursive</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">mask_fits_filenames</span></div>
+
+<div class="viewcode-block" id="get_filter_fits_filenames"><a class="viewcode-back" href="../../../docstrings/ifa_smeargle.masking.base_functions.html#ifa_smeargle.masking.base_functions.get_filter_fits_filenames">[docs]</a><span class="k">def</span> <span class="nf">get_filter_fits_filenames</span><span class="p">(</span><span class="n">data_directory</span><span class="p">,</span> <span class="n">recursive</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot; This function is to obtain all of the filter fits files </span>
+<span class="sd">    within the directory provided. Mask fits files are those that </span>
+<span class="sd">    have the extension `.filter.fits`.</span>
+<span class="sd">    </span>
+<span class="sd">    In general, this is a wrapper function around the normal </span>
+<span class="sd">    fits file glob function adapted for filters. </span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    data_directory : string</span>
+<span class="sd">        The data directory that the filter fits files will be </span>
+<span class="sd">        searched from.</span>
+<span class="sd">    recursive : boolean (optional)</span>
+<span class="sd">        If True, also search subdirectories for filter fits files.</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    filter_fits_filenames : list</span>
+<span class="sd">        The list of the filter fits file names.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    
+    <span class="c1"># Running to obtain the mask fits file list.</span>
+    <span class="n">filter_fits_filenames</span> <span class="o">=</span> <span class="n">core</span><span class="o">.</span><span class="n">io</span><span class="o">.</span><span class="n">get_fits_filenames</span><span class="p">(</span>
+        <span class="n">data_directory</span><span class="o">=</span><span class="n">data_directory</span><span class="p">,</span> <span class="n">sub_extension</span><span class="o">=</span><span class="s1">&#39;.filter&#39;</span><span class="p">,</span> 
+        <span class="n">recursive</span><span class="o">=</span><span class="n">recursive</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">filter_fits_filenames</span></div>
+
+
+<div class="viewcode-block" id="create_directory_mask_file"><a class="viewcode-back" href="../../../docstrings/ifa_smeargle.masking.base_functions.html#ifa_smeargle.masking.base_functions.create_directory_mask_file">[docs]</a><span class="k">def</span> <span class="nf">create_directory_mask_file</span><span class="p">(</span><span class="n">data_directory</span><span class="p">,</span> <span class="n">mask_function</span><span class="p">,</span> <span class="n">mask_arguments</span><span class="p">,</span>
+                               <span class="n">mask_file_name</span><span class="p">,</span> 
+                               <span class="n">recursive</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">subfolder</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">run</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot; This function is the common function to create a mask </span>
+<span class="sd">    for the data within the data directory.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    data_directory : string</span>
+<span class="sd">        The data directory that contain the data which the mask are</span>
+<span class="sd">        for.</span>
+<span class="sd">    mask_function : function</span>
+<span class="sd">        The masking function which contains the main code operations</span>
+<span class="sd">        for creating the mask.</span>
+<span class="sd">    mask_arguments : dictionary</span>
+<span class="sd">        The dictionary for the arguments of the masking function.</span>
+<span class="sd">    recursive : boolean (optional)</span>
+<span class="sd">        If True, then the subdirectories of the data_directory will</span>
+<span class="sd">        also be searched for data.</span>
+<span class="sd">    subfolder : boolean (optional)</span>
+<span class="sd">        If True, a sub-folder containing all of the masks will be </span>
+<span class="sd">        created. If it exists, then the masks are added to it.</span>
+<span class="sd">    run : boolean (optional)</span>
+<span class="sd">        If True, the mask is ran and completed. Else, a warning is </span>
+<span class="sd">        raised, it is not computed, and nothing is returned.</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    None</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="c1"># Check to see that the mask should even be ran in the first </span>
+    <span class="c1"># place.</span>
+    <span class="k">if</span> <span class="p">(</span><span class="ow">not</span> <span class="n">run</span><span class="p">):</span>
+        <span class="n">core</span><span class="o">.</span><span class="n">error</span><span class="o">.</span><span class="n">ifas_warning</span><span class="p">(</span><span class="n">core</span><span class="o">.</span><span class="n">error</span><span class="o">.</span><span class="n">MaskingWarning</span><span class="p">,</span>
+                              <span class="p">(</span><span class="s2">&quot;The run flag for the mask `</span><span class="si">{mask_type}</span><span class="s2">` is &quot;</span>
+                               <span class="s2">&quot;False. The mask will not be run, None is &quot;</span>
+                               <span class="s2">&quot;returned.&quot;</span>
+                               <span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">mask_type</span><span class="o">=</span><span class="n">mask_function</span><span class="o">.</span><span class="vm">__name__</span><span class="p">)))</span>
+        <span class="k">return</span> <span class="kc">None</span>
+
+
+    <span class="c1"># Inform the user about the mask that is being applied.</span>
+    <span class="n">param_str</span> <span class="o">=</span> <span class="s1">&#39;  &#39;</span><span class="o">.</span><span class="n">join</span><span class="p">([</span><span class="s1">&#39;&#39;</span><span class="o">.</span><span class="n">join</span><span class="p">([</span><span class="nb">str</span><span class="p">(</span><span class="n">keydex</span><span class="p">),</span><span class="s1">&#39;=&#39;</span><span class="p">,</span><span class="nb">str</span><span class="p">(</span><span class="n">valuedex</span><span class="p">)])</span> 
+                           <span class="k">for</span> <span class="n">keydex</span><span class="p">,</span> <span class="n">valuedex</span> <span class="ow">in</span> <span class="n">mask_arguments</span><span class="o">.</span><span class="n">items</span><span class="p">()])</span>
+    <span class="n">core</span><span class="o">.</span><span class="n">error</span><span class="o">.</span><span class="n">ifas_info</span><span class="p">(</span><span class="s2">&quot;The mask `</span><span class="si">{mask_type}</span><span class="s2">` is being created. The &quot;</span>
+                         <span class="s2">&quot;data directory is `</span><span class="si">{data_dir}</span><span class="s2">`. The parameters &quot;</span>
+                         <span class="s2">&quot;are:  </span><span class="si">{param}</span><span class="s2">&quot;</span>
+                         <span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">mask_type</span><span class="o">=</span><span class="nb">str</span><span class="p">(</span><span class="n">mask_function</span><span class="o">.</span><span class="vm">__name__</span><span class="p">),</span>
+                                 <span class="n">data_dir</span><span class="o">=</span><span class="nb">str</span><span class="p">(</span><span class="n">data_directory</span><span class="p">),</span>
+                                 <span class="n">param</span><span class="o">=</span><span class="n">param_str</span><span class="p">))</span>
+
+    <span class="c1"># Get the file names of all of the fits data files.</span>
+    <span class="n">data_files</span> <span class="o">=</span> <span class="n">core</span><span class="o">.</span><span class="n">io</span><span class="o">.</span><span class="n">get_fits_filenames</span><span class="p">(</span><span class="n">data_directory</span><span class="o">=</span><span class="n">data_directory</span><span class="p">,</span> 
+                                            <span class="n">sub_extension</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> 
+                                            <span class="n">recursive</span><span class="o">=</span><span class="n">recursive</span><span class="p">)</span>
+
+    <span class="c1"># Masks only need to derive their shape based on one data frame</span>
+    <span class="c1"># based on their size and shape. However, ensure that the size</span>
+    <span class="c1"># and shape of all files are valid. Assume that the first data</span>
+    <span class="c1"># file is always the correct one.</span>
+    <span class="n">core</span><span class="o">.</span><span class="n">error</span><span class="o">.</span><span class="n">ifas_info</span><span class="p">(</span><span class="s2">&quot;Creating a mask based on the data shape of &quot;</span>
+                         <span class="s2">&quot;</span><span class="si">{correct_file}</span><span class="s2">. This is the first file obtained &quot;</span>
+                         <span class="s2">&quot;and shall be dogmatically assumed correct.&quot;</span>
+                         <span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">correct_file</span><span class="o">=</span><span class="n">data_files</span><span class="p">[</span><span class="mi">0</span><span class="p">]))</span>
+    <span class="n">__</span><span class="p">,</span> <span class="n">hdu_header</span><span class="p">,</span> <span class="n">hdu_data</span> <span class="o">=</span> <span class="n">core</span><span class="o">.</span><span class="n">io</span><span class="o">.</span><span class="n">read_fits_file</span><span class="p">(</span>
+        <span class="n">file_name</span><span class="o">=</span><span class="n">data_files</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">extension</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">silent</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+    <span class="n">correct_shape</span> <span class="o">=</span> <span class="n">hdu_data</span><span class="o">.</span><span class="n">shape</span>
+    <span class="n">correct_size</span> <span class="o">=</span> <span class="n">hdu_data</span><span class="o">.</span><span class="n">size</span>
+    <span class="c1"># Loop through all others to test the other data arrays.</span>
+    <span class="k">for</span> <span class="n">filedex</span> <span class="ow">in</span> <span class="n">data_files</span><span class="p">:</span>
+        <span class="c1"># Load the file temporarily.</span>
+        <span class="n">__</span><span class="p">,</span> <span class="n">__</span><span class="p">,</span> <span class="n">temp_data</span> <span class="o">=</span> <span class="n">core</span><span class="o">.</span><span class="n">io</span><span class="o">.</span><span class="n">read_fits_file</span><span class="p">(</span><span class="n">file_name</span><span class="o">=</span><span class="n">filedex</span><span class="p">,</span>
+                                                   <span class="n">extension</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">silent</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+        <span class="k">if</span> <span class="p">(</span><span class="n">temp_data</span><span class="o">.</span><span class="n">size</span> <span class="o">!=</span> <span class="n">correct_size</span><span class="p">):</span>
+            <span class="c1"># Inform the user that these files have different number</span>
+            <span class="c1"># of data points.</span>
+            <span class="n">core</span><span class="o">.</span><span class="n">error</span><span class="o">.</span><span class="n">ifas_error</span><span class="p">(</span><span class="n">core</span><span class="o">.</span><span class="n">error</span><span class="o">.</span><span class="n">DataError</span><span class="p">,</span>
+                                  <span class="s2">&quot;The data file `</span><span class="si">{data_file}</span><span class="s2">` has &quot;</span>
+                                  <span class="s2">&quot;</span><span class="si">{data_pts}</span><span class="s2"> data points. The first, &quot;</span>
+                                  <span class="s2">&quot;correct, data file has </span><span class="si">{correct_pts}</span><span class="s2">. &quot;</span>
+                                  <span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">data_file</span><span class="o">=</span><span class="nb">str</span><span class="p">(</span><span class="n">filedex</span><span class="p">),</span>
+                                          <span class="n">data_pts</span><span class="o">=</span><span class="n">temp_data</span><span class="o">.</span><span class="n">size</span><span class="p">,</span>
+                                          <span class="n">correct_pts</span><span class="o">=</span><span class="n">correct_size</span><span class="p">))</span>
+        <span class="k">if</span> <span class="p">(</span><span class="n">temp_data</span><span class="o">.</span><span class="n">shape</span> <span class="o">!=</span> <span class="n">correct_shape</span><span class="p">):</span>
+            <span class="c1"># The two shapes of the data files are incorrect. As the </span>
+            <span class="c1"># masks themselves are based on dimensions, it cannot </span>
+            <span class="c1"># be ignored.</span>
+            <span class="k">raise</span> <span class="n">core</span><span class="o">.</span><span class="n">error</span><span class="o">.</span><span class="n">DataError</span><span class="p">(</span><span class="s2">&quot;The data file `</span><span class="si">{data_file}</span><span class="s2">` has the &quot;</span>
+                                       <span class="s2">&quot;shape: </span><span class="si">{data_shape}</span><span class="s2">. The assumed &quot;</span>
+                                       <span class="s2">&quot;correct shape is: </span><span class="si">{correct_shape}</span><span class="s2">. &quot;</span>
+                                       <span class="s2">&quot;A single uniform mask cannot be &quot;</span>
+                                       <span class="s2">&quot;applied to data files with &quot;</span>
+                                       <span class="s2">&quot;different dimensional shapes.&quot;</span>
+                                       <span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">data_file</span><span class="o">=</span><span class="nb">str</span><span class="p">(</span><span class="n">filedex</span><span class="p">),</span>
+                                               <span class="n">data_shape</span><span class="o">=</span><span class="n">temp_data</span><span class="o">.</span><span class="n">shape</span><span class="p">,</span>
+                                               <span class="n">correct_shape</span><span class="o">=</span><span class="n">correct_shape</span><span class="p">))</span>
+        
+
+    <span class="c1"># The files, if here, are of correct shape, and correct-enough </span>
+    <span class="c1"># size. Create the mask itself.</span>
+    <span class="n">data_mask</span> <span class="o">=</span> <span class="n">mask_function</span><span class="p">(</span><span class="n">data_array</span><span class="o">=</span><span class="n">hdu_data</span><span class="p">,</span> <span class="o">**</span><span class="n">mask_arguments</span><span class="p">)</span>
+    <span class="c1"># Astropy fits files do not like booleans, convert to 1/0</span>
+    <span class="n">int_data_mask</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">where</span><span class="p">(</span><span class="n">data_mask</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">)</span>
+
+
+    <span class="c1"># If the user didn&#39;t create a valid mask name, provide one </span>
+    <span class="c1"># for them.</span>
+    <span class="k">if</span> <span class="p">((</span><span class="nb">len</span><span class="p">(</span><span class="nb">str</span><span class="p">(</span><span class="n">mask_file_name</span><span class="p">))</span> <span class="o">==</span> <span class="mi">0</span><span class="p">)</span> <span class="ow">or</span> <span class="p">(</span><span class="n">mask_file_name</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">)):</span>
+        <span class="c1"># A valid name has not been provided, creating a random name.</span>
+        <span class="n">mask_file</span> <span class="o">=</span> <span class="n">core</span><span class="o">.</span><span class="n">strformat</span><span class="o">.</span><span class="n">random_string</span><span class="p">(</span>
+            <span class="n">string</span><span class="o">.</span><span class="n">ascii_lowercase</span><span class="p">,</span> <span class="mi">8</span><span class="p">)</span>
+        <span class="n">core</span><span class="o">.</span><span class="n">error</span><span class="o">.</span><span class="n">ifas_warning</span><span class="p">(</span><span class="n">core</span><span class="o">.</span><span class="n">error</span><span class="o">.</span><span class="n">InputWarning</span><span class="p">,</span>
+                                <span class="p">(</span><span class="s2">&quot;A valid masking name has not been &quot;</span>
+                                 <span class="s2">&quot;provided. The random name `</span><span class="si">{rand_name}</span><span class="s2">` &quot;</span>
+                                 <span class="s2">&quot;shall be used instead.&quot;</span>
+                                 <span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">rand_name</span><span class="o">=</span><span class="n">mask_file</span><span class="p">)))</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="c1"># In the event that there is any path information within the </span>
+        <span class="c1"># mask file name; removing it and modify it to its proper </span>
+        <span class="c1"># form.</span>
+        <span class="n">__</span><span class="p">,</span> <span class="n">mask_file</span><span class="p">,</span> <span class="n">__</span> <span class="o">=</span> <span class="n">core</span><span class="o">.</span><span class="n">strformat</span><span class="o">.</span><span class="n">split_pathname</span><span class="p">(</span>
+            <span class="n">pathname</span><span class="o">=</span><span class="n">mask_file_name</span><span class="p">)</span>
+
+    <span class="k">if</span> <span class="p">(</span><span class="n">subfolder</span><span class="p">):</span>
+        <span class="c1"># The masks are in a sub-folder.</span>
+        <span class="n">subfolder_dir</span> <span class="o">=</span> <span class="n">core</span><span class="o">.</span><span class="n">strformat</span><span class="o">.</span><span class="n">combine_pathname</span><span class="p">(</span>
+            <span class="n">directory</span><span class="o">=</span><span class="p">[</span><span class="n">data_directory</span><span class="p">,</span> 
+                       <span class="n">core</span><span class="o">.</span><span class="n">runtime</span><span class="o">.</span><span class="n">extract_runtime_configuration</span><span class="p">(</span>
+                           <span class="n">config_key</span><span class="o">=</span><span class="s1">&#39;MASKING_SUBDIR&#39;</span><span class="p">)])</span>
+        <span class="k">if</span> <span class="p">(</span><span class="ow">not</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">isdir</span><span class="p">(</span><span class="n">subfolder_dir</span><span class="p">)):</span>
+            <span class="c1"># The mask directory doesn&#39;t exist, create one.</span>
+            <span class="n">core</span><span class="o">.</span><span class="n">error</span><span class="o">.</span><span class="n">ifas_info</span><span class="p">(</span><span class="s2">&quot;The mask sub-folder does not exist. The &quot;</span>
+                                 <span class="s2">&quot;sub-folder flag is True, creating a &quot;</span>
+                                 <span class="s2">&quot;masking sub-folder at:  </span><span class="si">{mask_subfolder}</span><span class="s2">.&quot;</span>
+                                 <span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">mask_subfolder</span><span class="o">=</span><span class="n">subfolder_dir</span><span class="p">))</span>
+            <span class="n">os</span><span class="o">.</span><span class="n">mkdir</span><span class="p">(</span><span class="n">subfolder_dir</span><span class="p">)</span>
+        <span class="c1"># Finally construct the new mask file name.</span>
+        <span class="n">mask_filename</span> <span class="o">=</span> <span class="n">core</span><span class="o">.</span><span class="n">strformat</span><span class="o">.</span><span class="n">combine_pathname</span><span class="p">(</span>
+            <span class="n">directory</span><span class="o">=</span><span class="p">[</span><span class="n">subfolder_dir</span><span class="p">],</span> <span class="n">file_name</span><span class="o">=</span><span class="p">[</span><span class="n">mask_file</span><span class="p">],</span> 
+            <span class="n">extension</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;.mask&#39;</span><span class="p">,</span><span class="s1">&#39;.fits&#39;</span><span class="p">])</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="c1"># Construct the mask file name without the sub-folder </span>
+        <span class="c1"># addition.</span>
+        <span class="n">mask_filename</span> <span class="o">=</span> <span class="n">core</span><span class="o">.</span><span class="n">strformat</span><span class="o">.</span><span class="n">combine_pathname</span><span class="p">(</span>
+            <span class="n">directory</span><span class="o">=</span><span class="p">[</span><span class="n">data_directory</span><span class="p">],</span> <span class="n">file_name</span><span class="o">=</span><span class="p">[</span><span class="n">mask_file</span><span class="p">],</span> 
+            <span class="n">extension</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;.mask&#39;</span><span class="p">,</span><span class="s1">&#39;.fits&#39;</span><span class="p">])</span>
+    
+
+    <span class="c1"># The mask file will be saved. However, the header information</span>
+    <span class="c1"># is important.</span>
+    <span class="n">header_cards</span> <span class="o">=</span> <span class="p">{</span>
+        <span class="s1">&#39;MASKTYPE&#39;</span><span class="p">:</span><span class="nb">str</span><span class="p">(</span><span class="n">mask_function</span><span class="o">.</span><span class="vm">__name__</span><span class="p">),</span>
+        <span class="s1">&#39;N_MASKED&#39;</span><span class="p">:</span><span class="nb">int</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">count_nonzero</span><span class="p">(</span><span class="n">data_mask</span><span class="p">)),</span>
+        <span class="s1">&#39;REF_FILE&#39;</span><span class="p">:</span><span class="nb">str</span><span class="p">(</span><span class="n">data_files</span><span class="p">[</span><span class="mi">0</span><span class="p">]),</span>
+        <span class="s1">&#39;MASKFILE&#39;</span><span class="p">:</span><span class="nb">str</span><span class="p">(</span><span class="n">mask_file_name</span><span class="p">)</span>
+        <span class="p">}</span>
+    <span class="n">comment_cards</span> <span class="o">=</span> <span class="p">{</span>
+        <span class="s1">&#39;MASKNAME&#39;</span><span class="p">:</span><span class="s1">&#39;The name of the mask type this is.&#39;</span><span class="p">,</span>
+        <span class="s1">&#39;N_MASKED&#39;</span><span class="p">:</span><span class="s1">&#39;The number of pixels masked.&#39;</span><span class="p">,</span>
+        <span class="s1">&#39;REF_FILE&#39;</span><span class="p">:</span><span class="s1">&#39;The reference data file that this mask was derived from.&#39;</span><span class="p">,</span>
+        <span class="s1">&#39;MASKFILE&#39;</span><span class="p">:</span><span class="s1">&#39;The name of this mask file itself when created.&#39;</span>
+        <span class="p">}</span>
+    <span class="c1"># It is also helpful to include the configuration parameters </span>
+    <span class="c1"># for this mask.</span>
+    <span class="k">for</span> <span class="n">keydex</span><span class="p">,</span> <span class="n">valuedex</span> <span class="ow">in</span> <span class="n">mask_arguments</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+        <span class="n">header_cards</span><span class="p">[</span><span class="n">keydex</span><span class="p">]</span> <span class="o">=</span> <span class="n">valuedex</span>
+        <span class="n">comment_cards</span><span class="p">[</span><span class="n">keydex</span><span class="p">]</span> <span class="o">=</span> <span class="s1">&#39;A configuration used for this mask.&#39;</span>
+
+
+    <span class="c1"># Write the file to disk, then the header information.</span>
+    <span class="n">core</span><span class="o">.</span><span class="n">io</span><span class="o">.</span><span class="n">write_fits_file</span><span class="p">(</span><span class="n">file_name</span><span class="o">=</span><span class="n">mask_filename</span><span class="p">,</span> 
+                            <span class="n">hdu_header</span><span class="o">=</span><span class="n">hdu_header</span><span class="p">,</span> <span class="n">hdu_data</span><span class="o">=</span><span class="n">int_data_mask</span><span class="p">,</span>
+                            <span class="n">save_file</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">overwrite</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">silent</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+    <span class="n">core</span><span class="o">.</span><span class="n">io</span><span class="o">.</span><span class="n">append_astropy_header_card</span><span class="p">(</span><span class="n">file_name</span><span class="o">=</span><span class="n">mask_filename</span><span class="p">,</span> 
+                                       <span class="n">header_cards</span><span class="o">=</span><span class="n">header_cards</span><span class="p">,</span> 
+                                       <span class="n">comment_cards</span><span class="o">=</span><span class="n">comment_cards</span><span class="p">)</span>
+    <span class="n">core</span><span class="o">.</span><span class="n">error</span><span class="o">.</span><span class="n">ifas_info</span><span class="p">(</span><span class="s2">&quot;The `</span><span class="si">{mask_type}</span><span class="s2">` mask has been written &quot;</span>
+                         <span class="s2">&quot;to `</span><span class="si">{mask_path}</span><span class="s2">`.&quot;</span>
+                         <span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">mask_type</span><span class="o">=</span><span class="nb">str</span><span class="p">(</span><span class="n">mask_function</span><span class="o">.</span><span class="vm">__name__</span><span class="p">),</span>
+                                 <span class="n">mask_path</span><span class="o">=</span><span class="n">mask_filename</span><span class="p">))</span>
+    <span class="c1"># All done.</span>
+    <span class="k">return</span> <span class="kc">None</span></div>
+
+<div class="viewcode-block" id="create_directory_filter_files"><a class="viewcode-back" href="../../../docstrings/ifa_smeargle.masking.base_functions.html#ifa_smeargle.masking.base_functions.create_directory_filter_files">[docs]</a><span class="k">def</span> <span class="nf">create_directory_filter_files</span><span class="p">(</span><span class="n">data_directory</span><span class="p">,</span> <span class="n">filter_function</span><span class="p">,</span> 
+                                  <span class="n">filter_arguments</span><span class="p">,</span> <span class="n">filter_file_tag</span><span class="p">,</span> 
+                                  <span class="n">recursive</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">subfolder</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">run</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot; This function is the common function to create filters </span>
+<span class="sd">    for the data within the data directory.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    data_directory : string</span>
+<span class="sd">        The data directory that contain the data which the mask are</span>
+<span class="sd">        for.</span>
+<span class="sd">    filter_function : function</span>
+<span class="sd">        The filtering function which contains the main code </span>
+<span class="sd">        operations for creating the filter.</span>
+<span class="sd">    filter_arguments : dictionary</span>
+<span class="sd">        The dictionary for the arguments of the filtering function.</span>
+<span class="sd">    recursive : boolean (optional)</span>
+<span class="sd">        If True, then the subdirectories of the data_directory will</span>
+<span class="sd">        also be searched for data.</span>
+<span class="sd">    subfolder : boolean (optional)</span>
+<span class="sd">        If True, a sub-folder containing all of the masks will be </span>
+<span class="sd">        created. If it exists, then the filters are added to it.</span>
+<span class="sd">    run : boolean (optional)</span>
+<span class="sd">        If True, the filter is ran and completed. Else, a warning is </span>
+<span class="sd">        raised, it is not computed, and nothing is returned.</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    None</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="c1"># Check to see that the filter should even be ran in the first </span>
+    <span class="c1"># place.</span>
+    <span class="k">if</span> <span class="p">(</span><span class="ow">not</span> <span class="n">run</span><span class="p">):</span>
+        <span class="n">core</span><span class="o">.</span><span class="n">error</span><span class="o">.</span><span class="n">ifas_error</span><span class="p">(</span><span class="n">core</span><span class="o">.</span><span class="n">error</span><span class="o">.</span><span class="n">MaskingError</span><span class="p">,</span>
+                              <span class="p">(</span><span class="s2">&quot;The run flag for the mask `</span><span class="si">{filter_type}</span><span class="s2">` &quot;</span>
+                               <span class="s2">&quot;is False. Masks are run on a per script call &quot;</span>
+                               <span class="s2">&quot;basis. Ensure that the appropriate run &quot;</span>
+                               <span class="s2">&quot;parameter is True.&quot;</span>
+                               <span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">filter_type</span><span class="o">=</span><span class="n">filter_function</span><span class="o">.</span><span class="vm">__name__</span><span class="p">)))</span>
+
+    <span class="c1"># Inform the user about the filter that is being applied.</span>
+    <span class="n">param_str</span> <span class="o">=</span> <span class="s1">&#39;  &#39;</span><span class="o">.</span><span class="n">join</span><span class="p">([</span><span class="s1">&#39;&#39;</span><span class="o">.</span><span class="n">join</span><span class="p">([</span><span class="nb">str</span><span class="p">(</span><span class="n">keydex</span><span class="p">),</span><span class="s1">&#39;=&#39;</span><span class="p">,</span><span class="nb">str</span><span class="p">(</span><span class="n">valuedex</span><span class="p">)])</span> 
+                           <span class="k">for</span> <span class="n">keydex</span><span class="p">,</span> <span class="n">valuedex</span> <span class="ow">in</span> <span class="n">filter_arguments</span><span class="o">.</span><span class="n">items</span><span class="p">()])</span>
+    <span class="n">core</span><span class="o">.</span><span class="n">error</span><span class="o">.</span><span class="n">ifas_info</span><span class="p">(</span><span class="s2">&quot;The filter `</span><span class="si">{filter_type}</span><span class="s2">` is being created. The &quot;</span>
+                         <span class="s2">&quot;data directory is `</span><span class="si">{data_dir}</span><span class="s2">`. The parameters &quot;</span>
+                         <span class="s2">&quot;are:  </span><span class="si">{param}</span><span class="s2">&quot;</span>
+                         <span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">filter_type</span><span class="o">=</span><span class="nb">str</span><span class="p">(</span><span class="n">filter_function</span><span class="o">.</span><span class="vm">__name__</span><span class="p">),</span>
+                                 <span class="n">data_dir</span><span class="o">=</span><span class="nb">str</span><span class="p">(</span><span class="n">data_directory</span><span class="p">),</span>
+                                 <span class="n">param</span><span class="o">=</span><span class="n">param_str</span><span class="p">))</span>
+
+    
+    <span class="c1"># Get the file names of all of the fits data files.</span>
+    <span class="n">data_files</span> <span class="o">=</span> <span class="n">core</span><span class="o">.</span><span class="n">io</span><span class="o">.</span><span class="n">get_fits_filenames</span><span class="p">(</span><span class="n">data_directory</span><span class="o">=</span><span class="n">data_directory</span><span class="p">,</span> 
+                                            <span class="n">sub_extension</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> 
+                                            <span class="n">recursive</span><span class="o">=</span><span class="n">recursive</span><span class="p">)</span>
+    
+    <span class="c1"># If the user didn&#39;t create a valid filter tag, provide one </span>
+    <span class="c1"># for them. It must be out of the loop to remain the same across</span>
+    <span class="c1"># this run.</span>
+    <span class="k">if</span> <span class="p">((</span><span class="nb">len</span><span class="p">(</span><span class="nb">str</span><span class="p">(</span><span class="n">filter_file_tag</span><span class="p">))</span> <span class="o">==</span> <span class="mi">0</span><span class="p">)</span> <span class="ow">or</span> <span class="p">(</span><span class="n">filter_file_tag</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">)):</span>
+        <span class="c1"># A valid name has not been provided, creating a random name.</span>
+        <span class="n">filter_tag</span> <span class="o">=</span> <span class="n">core</span><span class="o">.</span><span class="n">strformat</span><span class="o">.</span><span class="n">random_string</span><span class="p">(</span>
+            <span class="n">string</span><span class="o">.</span><span class="n">ascii_lowercase</span><span class="p">,</span> <span class="mi">8</span><span class="p">)</span>
+        <span class="n">core</span><span class="o">.</span><span class="n">error</span><span class="o">.</span><span class="n">ifas_warning</span><span class="p">(</span><span class="n">core</span><span class="o">.</span><span class="n">error</span><span class="o">.</span><span class="n">InputWarning</span><span class="p">,</span>
+                                <span class="p">(</span><span class="s2">&quot;A valid filter tag name has not been &quot;</span>
+                                 <span class="s2">&quot;provided. The random name &quot;</span>
+                                 <span class="s2">&quot;`</span><span class="si">{rand_name}</span><span class="s2">` shall be used instead.&quot;</span>
+                                 <span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">rand_name</span><span class="o">=</span><span class="n">filter_tag</span><span class="p">)))</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="c1"># In the event that there is any path information within  </span>
+        <span class="c1"># the filter tag name; removing it and modify it to its </span>
+        <span class="c1"># proper form.</span>
+        <span class="n">__</span><span class="p">,</span> <span class="n">filter_tag</span><span class="p">,</span> <span class="n">__</span> <span class="o">=</span> <span class="n">core</span><span class="o">.</span><span class="n">strformat</span><span class="o">.</span><span class="n">split_pathname</span><span class="p">(</span>
+            <span class="n">pathname</span><span class="o">=</span><span class="n">filter_file_tag</span><span class="p">)</span>
+
+
+    <span class="c1"># Calculate the filter and save it to file, for each of the </span>
+    <span class="c1"># data files.</span>
+    <span class="k">for</span> <span class="n">filedex</span> <span class="ow">in</span> <span class="n">data_files</span><span class="p">:</span>
+        <span class="c1"># Read the data file.</span>
+        <span class="n">__</span><span class="p">,</span> <span class="n">hdu_header</span><span class="p">,</span> <span class="n">hdu_data</span> <span class="o">=</span> <span class="n">core</span><span class="o">.</span><span class="n">io</span><span class="o">.</span><span class="n">read_fits_file</span><span class="p">(</span><span class="n">file_name</span><span class="o">=</span><span class="n">filedex</span><span class="p">,</span> 
+                                                          <span class="n">silent</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+
+        <span class="c1"># Compute the filter itself.</span>
+        <span class="n">data_filter</span> <span class="o">=</span> <span class="n">filter_function</span><span class="p">(</span><span class="n">data_array</span><span class="o">=</span><span class="n">hdu_data</span><span class="p">,</span> <span class="o">**</span><span class="n">filter_arguments</span><span class="p">)</span>
+        <span class="c1"># Astropy fits files do not like booleans, convert to 1/0</span>
+        <span class="n">int_data_filter</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">where</span><span class="p">(</span><span class="n">data_filter</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">)</span>
+
+
+        <span class="c1"># Generating the filter file name based on the need for </span>
+        <span class="c1"># sub-folders and the filter name.</span>
+        <span class="k">if</span> <span class="p">(</span><span class="n">subfolder</span><span class="p">):</span>
+            <span class="c1"># The filters are in a sub-folder.</span>
+            <span class="n">subfolder_dir</span> <span class="o">=</span> <span class="n">core</span><span class="o">.</span><span class="n">strformat</span><span class="o">.</span><span class="n">combine_pathname</span><span class="p">(</span>
+                <span class="n">directory</span><span class="o">=</span><span class="p">[</span><span class="n">data_directory</span><span class="p">,</span> 
+                           <span class="n">core</span><span class="o">.</span><span class="n">runtime</span><span class="o">.</span><span class="n">extract_runtime_configuration</span><span class="p">(</span>
+                               <span class="n">config_key</span><span class="o">=</span><span class="s1">&#39;FILTERING_SUBDIR&#39;</span><span class="p">),</span> 
+                           <span class="s1">&#39;&#39;</span><span class="o">.</span><span class="n">join</span><span class="p">([</span><span class="s1">&#39;FILTER_&#39;</span><span class="p">,</span><span class="n">filter_tag</span><span class="p">])])</span>
+            <span class="k">if</span> <span class="p">(</span><span class="ow">not</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">isdir</span><span class="p">(</span><span class="n">subfolder_dir</span><span class="p">)):</span>
+                <span class="c1"># The filter directory doesn&#39;t exist, create one.</span>
+                <span class="n">core</span><span class="o">.</span><span class="n">error</span><span class="o">.</span><span class="n">ifas_info</span><span class="p">(</span><span class="s2">&quot;The filter sub-folder does not exist. &quot;</span>
+                                     <span class="s2">&quot;The sub-folder flag is True, creating &quot;</span>
+                                     <span class="s2">&quot;a filtering sub-folder at:  &quot;</span>
+                                     <span class="s2">&quot;</span><span class="si">{filter_subfolder}</span><span class="s2">.&quot;</span>
+                                     <span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">filter_subfolder</span><span class="o">=</span><span class="n">subfolder_dir</span><span class="p">))</span>
+                <span class="n">os</span><span class="o">.</span><span class="n">makedirs</span><span class="p">(</span><span class="n">subfolder_dir</span><span class="p">)</span>
+            <span class="c1"># Finally construct the new mask file name.</span>
+            <span class="n">__</span><span class="p">,</span> <span class="n">datafilename</span><span class="p">,</span> <span class="n">__</span> <span class="o">=</span> <span class="n">core</span><span class="o">.</span><span class="n">strformat</span><span class="o">.</span><span class="n">split_pathname</span><span class="p">(</span>
+                <span class="n">pathname</span><span class="o">=</span><span class="n">filedex</span><span class="p">)</span>
+            <span class="n">filter_filename</span> <span class="o">=</span> <span class="n">core</span><span class="o">.</span><span class="n">strformat</span><span class="o">.</span><span class="n">combine_pathname</span><span class="p">(</span>
+                <span class="n">directory</span><span class="o">=</span><span class="p">[</span><span class="n">subfolder_dir</span><span class="p">],</span> 
+                <span class="n">file_name</span><span class="o">=</span><span class="p">[</span><span class="n">datafilename</span><span class="p">,</span> <span class="s1">&#39;__&#39;</span><span class="p">,</span> <span class="n">filter_tag</span><span class="p">],</span> 
+                <span class="n">extension</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;.filter&#39;</span><span class="p">,</span><span class="s1">&#39;.fits&#39;</span><span class="p">])</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="c1"># Construct the mask file name without the sub-folder </span>
+            <span class="c1"># addition.</span>
+            <span class="n">__</span><span class="p">,</span> <span class="n">datafilename</span><span class="p">,</span> <span class="n">__</span> <span class="o">=</span> <span class="n">core</span><span class="o">.</span><span class="n">strformat</span><span class="o">.</span><span class="n">split_pathname</span><span class="p">(</span>
+                <span class="n">pathname</span><span class="o">=</span><span class="n">filedex</span><span class="p">)</span>
+            <span class="n">filter_filename</span> <span class="o">=</span> <span class="n">core</span><span class="o">.</span><span class="n">strformat</span><span class="o">.</span><span class="n">combine_pathname</span><span class="p">(</span>
+                <span class="n">directory</span><span class="o">=</span><span class="p">[</span><span class="n">subfolder_dir</span><span class="p">],</span> 
+                <span class="n">file_name</span><span class="o">=</span><span class="p">[</span><span class="n">datafilename</span><span class="p">,</span> <span class="s1">&#39;__&#39;</span><span class="p">,</span> <span class="n">filter_tag</span><span class="p">],</span> 
+                <span class="n">extension</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;.filter&#39;</span><span class="p">,</span><span class="s1">&#39;.fits&#39;</span><span class="p">])</span>
+
+
+        <span class="c1"># Compile the header file information for the filter. It </span>
+        <span class="c1"># is important for documentation.</span>
+        <span class="n">header_cards</span> <span class="o">=</span> <span class="p">{</span>
+            <span class="s1">&#39;FLTRTYPE&#39;</span><span class="p">:</span><span class="nb">str</span><span class="p">(</span><span class="n">filter_function</span><span class="o">.</span><span class="vm">__name__</span><span class="p">),</span>
+            <span class="s1">&#39;N_FLTRED&#39;</span><span class="p">:</span><span class="nb">int</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">count_nonzero</span><span class="p">(</span><span class="n">data_filter</span><span class="p">)),</span>
+            <span class="s1">&#39;DATAFILE&#39;</span><span class="p">:</span><span class="nb">str</span><span class="p">(</span><span class="n">filedex</span><span class="p">),</span>
+            <span class="s1">&#39;FLTRFILE&#39;</span><span class="p">:</span><span class="nb">str</span><span class="p">(</span><span class="n">filter_filename</span><span class="p">)</span>
+            <span class="p">}</span>
+        <span class="n">comment_cards</span> <span class="o">=</span> <span class="p">{</span>
+            <span class="s1">&#39;FLTRTYPE&#39;</span><span class="p">:</span><span class="s1">&#39;The name of the filter type this is.&#39;</span><span class="p">,</span>
+            <span class="s1">&#39;N_FLTRED&#39;</span><span class="p">:</span><span class="s1">&#39;The number of pixels filtered out.&#39;</span><span class="p">,</span>
+            <span class="s1">&#39;DATAFILE&#39;</span><span class="p">:</span><span class="s1">&#39;The data file that this filter was calculated from.&#39;</span><span class="p">,</span>
+            <span class="s1">&#39;FLTRFILE&#39;</span><span class="p">:</span><span class="s1">&#39;The name of this filter file itself when created.&#39;</span>
+            <span class="p">}</span>
+        <span class="c1"># It is also helpful to include the configuration parameters </span>
+        <span class="c1"># for this filter.</span>
+        <span class="k">for</span> <span class="n">keydex</span><span class="p">,</span> <span class="n">valuedex</span> <span class="ow">in</span> <span class="n">filter_arguments</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+            <span class="n">header_cards</span><span class="p">[</span><span class="n">keydex</span><span class="p">]</span> <span class="o">=</span> <span class="n">valuedex</span>
+            <span class="n">comment_cards</span><span class="p">[</span><span class="n">keydex</span><span class="p">]</span> <span class="o">=</span> <span class="s1">&#39;A configuration used for this filter.&#39;</span>
+
+        <span class="c1"># Write the file to disk, then the header information.</span>
+        <span class="n">core</span><span class="o">.</span><span class="n">io</span><span class="o">.</span><span class="n">write_fits_file</span><span class="p">(</span><span class="n">file_name</span><span class="o">=</span><span class="n">filter_filename</span><span class="p">,</span> 
+                                <span class="n">hdu_header</span><span class="o">=</span><span class="n">hdu_header</span><span class="p">,</span> 
+                                <span class="n">hdu_data</span><span class="o">=</span><span class="n">int_data_filter</span><span class="p">,</span>
+                                <span class="n">save_file</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">overwrite</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">silent</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+        <span class="n">core</span><span class="o">.</span><span class="n">io</span><span class="o">.</span><span class="n">append_astropy_header_card</span><span class="p">(</span><span class="n">file_name</span><span class="o">=</span><span class="n">filter_filename</span><span class="p">,</span> 
+                                           <span class="n">header_cards</span><span class="o">=</span><span class="n">header_cards</span><span class="p">,</span> 
+                                           <span class="n">comment_cards</span><span class="o">=</span><span class="n">comment_cards</span><span class="p">)</span>
+        <span class="n">core</span><span class="o">.</span><span class="n">error</span><span class="o">.</span><span class="n">ifas_info</span><span class="p">(</span><span class="s2">&quot;The `</span><span class="si">{filter_type}</span><span class="s2">` mask for </span><span class="si">{data_file}</span><span class="s2"> has &quot;</span>
+                             <span class="s2">&quot;been written to `</span><span class="si">{filter_path}</span><span class="s2">`.&quot;</span>
+                             <span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">filter_type</span><span class="o">=</span><span class="nb">str</span><span class="p">(</span><span class="n">filter_function</span><span class="o">.</span><span class="vm">__name__</span><span class="p">),</span>
+                                     <span class="n">data_file</span><span class="o">=</span><span class="nb">str</span><span class="p">(</span><span class="n">filedex</span><span class="p">),</span>
+                                     <span class="n">filter_path</span><span class="o">=</span><span class="n">filter_filename</span><span class="p">))</span>
+
+    <span class="c1"># All done</span>
+    <span class="k">return</span> <span class="kc">None</span></div>
+
+
+<div class="viewcode-block" id="synthesize_masks"><a class="viewcode-back" href="../../../docstrings/ifa_smeargle.masking.base_functions.html#ifa_smeargle.masking.base_functions.synthesize_masks">[docs]</a><span class="k">def</span> <span class="nf">synthesize_masks</span><span class="p">(</span><span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot; This is a function to combine many masks into one single </span>
+<span class="sd">    mask.This argument does not take any keyword arguments. All of </span>
+<span class="sd">    the masks must be the same size. (In general, the first mask is </span>
+<span class="sd">    considered the correct mask.)</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    *args : list</span>
+<span class="sd">        This should be a collection of array based masks.</span>
+<span class="sd">    **kwargs : dictionary</span>
+<span class="sd">        This catches any keyword arguments sent through.</span>
+<span class="sd">        </span>
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    synthesized_mask : array</span>
+<span class="sd">        The combined mask made of all of the inputted masks.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="c1"># Check for any keyword arguments. There should be none.</span>
+    <span class="k">if</span> <span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">kwargs</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">):</span>
+        <span class="k">raise</span> <span class="n">core</span><span class="o">.</span><span class="n">error</span><span class="o">.</span><span class="n">DevelopmentError</span><span class="p">(</span><span class="s2">&quot;There should be no keyword &quot;</span>
+                                          <span class="s2">&quot;argument inputs into this &quot;</span>
+                                          <span class="s2">&quot;synthesizing function.&quot;</span><span class="p">)</span>
+    <span class="c1"># If there is only one input array, there is no real synthesis.</span>
+    <span class="k">if</span> <span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">args</span><span class="p">)</span> <span class="o">==</span> <span class="mi">0</span><span class="p">):</span>
+        <span class="n">core</span><span class="o">.</span><span class="n">error</span><span class="o">.</span><span class="n">ifas_error</span><span class="p">(</span><span class="n">core</span><span class="o">.</span><span class="n">error</span><span class="o">.</span><span class="n">InputError</span><span class="p">,</span>
+                              <span class="p">(</span><span class="s2">&quot;There are no input masks to synthesize, &quot;</span>
+                               <span class="s2">&quot;returning None.&quot;</span><span class="p">))</span>
+        <span class="k">return</span> <span class="kc">None</span>
+    <span class="k">elif</span> <span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">args</span><span class="p">)</span> <span class="o">==</span> <span class="mi">1</span><span class="p">):</span>
+        <span class="n">core</span><span class="o">.</span><span class="n">error</span><span class="o">.</span><span class="n">ifas_warning</span><span class="p">(</span><span class="n">core</span><span class="o">.</span><span class="n">error</span><span class="o">.</span><span class="n">InputWarning</span><span class="p">,</span>
+                                <span class="p">(</span><span class="s2">&quot;There is only one input mask, &quot;</span>
+                                 <span class="s2">&quot;synthesizing is not needed.&quot;</span><span class="p">))</span>
+        <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="nb">bool</span><span class="p">)</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="c1"># It is assumed that there are masks to synthesize.</span>
+        <span class="c1"># Assume that the first mask is the correct size and shapes, </span>
+        <span class="c1"># and shall be the template.</span>
+        <span class="n">synthesized_mask</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros_like</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">args</span><span class="p">[</span><span class="mi">0</span><span class="p">]),</span> <span class="n">dtype</span><span class="o">=</span><span class="nb">bool</span><span class="p">)</span>
+        <span class="n">correct_size</span> <span class="o">=</span> <span class="n">synthesized_mask</span><span class="o">.</span><span class="n">size</span>
+        <span class="n">correct_shape</span> <span class="o">=</span> <span class="n">synthesized_mask</span><span class="o">.</span><span class="n">shape</span>
+        <span class="k">for</span> <span class="n">maskdex</span><span class="p">,</span> <span class="n">index</span> <span class="ow">in</span> <span class="nb">zip</span><span class="p">(</span><span class="n">args</span><span class="p">,</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">args</span><span class="p">))):</span>
+            <span class="c1"># Numpy conversion.</span>
+            <span class="n">mask_array</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">maskdex</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="nb">bool</span><span class="p">)</span>
+            <span class="c1"># Test for the size and shape.</span>
+            <span class="k">if</span> <span class="p">(</span><span class="n">mask_array</span><span class="o">.</span><span class="n">shape</span> <span class="o">!=</span> <span class="n">correct_shape</span><span class="p">):</span>
+                <span class="k">raise</span> <span class="n">core</span><span class="o">.</span><span class="n">error</span><span class="o">.</span><span class="n">DataError</span><span class="p">(</span><span class="s2">&quot;The </span><span class="si">{num}</span><span class="s2">th mask is not the &quot;</span>
+                                           <span class="s2">&quot;correct shape. &quot;</span>
+                                           <span class="s2">&quot;Correct shape:  </span><span class="si">{corr_shp}</span><span class="s2">  &quot;</span>
+                                           <span class="s2">&quot;Nth shape: </span><span class="si">{curr_shp}</span><span class="s2">&quot;</span>
+                                           <span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">num</span><span class="o">=</span><span class="n">index</span><span class="p">,</span>
+                                                   <span class="n">corr_shp</span><span class="o">=</span><span class="n">correct_shape</span><span class="p">,</span>
+                                                   <span class="n">curr_shp</span><span class="o">=</span><span class="n">mask_array</span><span class="o">.</span><span class="n">shape</span><span class="p">))</span>
+            <span class="k">if</span> <span class="p">(</span><span class="n">mask_array</span><span class="o">.</span><span class="n">size</span> <span class="o">!=</span> <span class="n">correct_size</span><span class="p">):</span>
+                <span class="n">core</span><span class="o">.</span><span class="n">error</span><span class="o">.</span><span class="n">ifas_error</span><span class="p">(</span><span class="n">core</span><span class="o">.</span><span class="n">eroor</span><span class="o">.</span><span class="n">DataError</span><span class="p">,</span> 
+                                      <span class="p">(</span><span class="s2">&quot;The </span><span class="si">{num}</span><span class="s2">th mask is not the correct &quot;</span>
+                                       <span class="s2">&quot;size. Correct shape:  </span><span class="si">{corr_sze}</span><span class="s2"> &quot;</span>
+                                       <span class="s2">&quot;Nth shape: </span><span class="si">{curr_sze}</span><span class="s2">&quot;</span>
+                                       <span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">num</span><span class="o">=</span><span class="n">index</span><span class="p">,</span> 
+                                               <span class="n">corr_sze</span><span class="o">=</span><span class="n">correct_shape</span><span class="p">,</span>
+                                               <span class="n">curr_sze</span><span class="o">=</span><span class="n">mask_array</span><span class="o">.</span><span class="n">shape</span><span class="p">)))</span>
+            <span class="c1"># Otherwise, combine the two masks.</span>
+            <span class="n">synthesized_mask</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">((</span><span class="n">synthesized_mask</span> <span class="o">+</span> <span class="n">mask_array</span><span class="p">),</span>
+                                        <span class="n">dtype</span><span class="o">=</span><span class="nb">bool</span><span class="p">)</span>
+        <span class="c1"># Finished with synthesizing.</span>
+        <span class="k">return</span> <span class="n">synthesized_mask</span>
+
+    <span class="c1"># The program should not reach here as it should have been caught</span>
+    <span class="c1"># by the else.</span>
+    <span class="k">raise</span> <span class="n">core</span><span class="o">.</span><span class="n">error</span><span class="o">.</span><span class="n">BrokenLogicError</span>
+    <span class="k">return</span> <span class="kc">None</span></div>
+</pre></div>
+
+           </div>
+           
+          </div>
+          <footer>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        
+        &copy; Copyright 2020, Sparrow
+
+    </p>
+  </div>
+    
+    
+    
+    Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a
+    
+    <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a>
+    
+    provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+
+  
+  
+    
+   
+
+</body>
+</html>

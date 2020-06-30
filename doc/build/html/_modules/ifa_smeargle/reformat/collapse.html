@@ -1,0 +1,801 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>ifa_smeargle.reformat.collapse &mdash; IfA_Smeargle 2020 documentation</title>
+  
+
+  
+  <link rel="stylesheet" href="../../../_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
+  <link rel="stylesheet" href="../../../_static/css/custom.css" type="text/css" />
+
+  
+  
+  
+  
+
+  
+  <!--[if lt IE 9]>
+    <script src="../../../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+    
+      <script type="text/javascript" id="documentation_options" data-url_root="../../../" src="../../../_static/documentation_options.js"></script>
+        <script src="../../../_static/jquery.js"></script>
+        <script src="../../../_static/underscore.js"></script>
+        <script src="../../../_static/doctools.js"></script>
+        <script src="../../../_static/language_data.js"></script>
+    
+    <script type="text/javascript" src="../../../_static/js/theme.js"></script>
+
+    
+    <link rel="index" title="Index" href="../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../search.html" /> 
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+          
+
+          
+            <a href="../../../index.html" class="icon icon-home" alt="Documentation Home"> IfA_Smeargle
+          
+
+          
+          </a>
+
+          
+            
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <p class="caption"><span class="caption-text">Code Documentation:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../docstrings/modules.html">ifa_smeargle</a></li>
+</ul>
+
+            
+          
+        </div>
+        
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../../index.html">IfA_Smeargle</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="../../../index.html" class="icon icon-home"></a> &raquo;</li>
+        
+          <li><a href="../../index.html">Module code</a> &raquo;</li>
+        
+      <li>ifa_smeargle.reformat.collapse</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <h1>Source code for ifa_smeargle.reformat.collapse</h1><div class="highlight"><pre>
+<span></span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">This contains the functions required for making effective collapsed</span>
+<span class="sd">frames; usually by extracting and subtracting subsets of frames and </span>
+<span class="sd">normalizing over some time.</span>
+<span class="sd">&quot;&quot;&quot;</span>
+
+<span class="kn">import</span> <span class="nn">copy</span>
+<span class="kn">import</span> <span class="nn">os</span>
+<span class="kn">import</span> <span class="nn">shutil</span>
+
+
+<span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+<span class="kn">import</span> <span class="nn">numpy.ma</span> <span class="k">as</span> <span class="nn">np_ma</span>
+
+<span class="kn">import</span> <span class="nn">ifa_smeargle.core</span> <span class="k">as</span> <span class="nn">core</span>
+<span class="kn">import</span> <span class="nn">ifa_smeargle.reformat</span> <span class="k">as</span> <span class="nn">reformat</span>
+
+
+<div class="viewcode-block" id="collapse_by_average_endpoints"><a class="viewcode-back" href="../../../docstrings/ifa_smeargle.reformat.collapse.html#ifa_smeargle.reformat.collapse.collapse_by_average_endpoints">[docs]</a><span class="k">def</span> <span class="nf">collapse_by_average_endpoints</span><span class="p">(</span><span class="n">data_array</span><span class="p">,</span> <span class="n">start_chunk</span><span class="p">,</span> <span class="n">end_chunk</span><span class="p">,</span>
+                                  <span class="n">average_method</span><span class="o">=</span><span class="s1">&#39;median&#39;</span><span class="p">,</span> 
+                                  <span class="n">frame_exposure_time</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot; This function reads a fits file and computes its end section </span>
+<span class="sd">    values.</span>
+
+<span class="sd">    This function reads in a fits file of 3 dimensions, averaging </span>
+<span class="sd">    some top chunk and bottom chunk of their &quot;temporal&quot; axis.</span>
+
+<span class="sd">    If there is no temporal axis, this program raises an error.</span>
+<span class="sd">    </span>
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    data_array : ndarray</span>
+<span class="sd">        The data array that the average will be taken from.</span>
+<span class="sd">    start_chunk : array-like</span>
+<span class="sd">        The exact range of frames from the beginning that will be </span>
+<span class="sd">        averaged as per the averaging method.</span>
+<span class="sd">    end_chunk : array-like</span>
+<span class="sd">        The exact range of frames from the end that will be averaged </span>
+<span class="sd">        as per the averaging method.</span>
+<span class="sd">    average_method : string (optional)</span>
+<span class="sd">        The current available methods for determining the file size </span>
+<span class="sd">        that is proper. Defaults to median:</span>
+
+<span class="sd">        * &#39;mean&#39;</span>
+<span class="sd">            This takes the mean along the frames of each </span>
+<span class="sd">            chunk</span>
+<span class="sd">        * &#39;median&#39;</span>
+<span class="sd">            This takes the median along the frames of </span>
+<span class="sd">            each chunk. Even sets use the mean of the </span>
+<span class="sd">            middle most two values.</span>
+<span class="sd">    </span>
+<span class="sd">    frame_exposure_time : float</span>
+<span class="sd">        The duration, per frame (in seconds), of each exposure. </span>
+<span class="sd">        This is really not used in this function, but, it is added </span>
+<span class="sd">        for uniformity with the other functions.</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    final_data : ndarray</span>
+<span class="sd">        The final data array of the median-ed frames as desired.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="c1"># Type checking the averaging method and ensuring that </span>
+    <span class="c1"># case is irrelevant for averaging method selection.</span>
+    <span class="n">average_method</span> <span class="o">=</span> <span class="nb">str</span><span class="p">(</span><span class="n">average_method</span><span class="p">)</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span>
+
+    <span class="c1"># Evaluate the averaging based on the median or mean. The </span>
+    <span class="c1"># divisor is normally meant for the time. But normalization </span>
+    <span class="c1"># is not apart of this function, so do not divide meaningfully.</span>
+    <span class="k">if</span> <span class="p">(</span><span class="n">average_method</span> <span class="o">==</span> <span class="s1">&#39;mean&#39;</span><span class="p">):</span>
+        <span class="n">final_data</span> <span class="o">=</span> <span class="n">_collapse_by_averages_mean_function</span><span class="p">(</span>
+            <span class="n">data_array</span><span class="o">=</span><span class="n">data_array</span><span class="p">,</span> 
+            <span class="n">start_chunk</span><span class="o">=</span><span class="n">start_chunk</span><span class="p">,</span> <span class="n">end_chunk</span><span class="o">=</span><span class="n">end_chunk</span><span class="p">,</span>
+            <span class="n">divisor</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+    <span class="k">elif</span> <span class="p">(</span><span class="n">average_method</span> <span class="o">==</span> <span class="s1">&#39;median&#39;</span><span class="p">):</span>
+        <span class="n">final_data</span> <span class="o">=</span> <span class="n">_collapse_by_averages_median_function</span><span class="p">(</span>
+            <span class="n">data_array</span><span class="o">=</span><span class="n">data_array</span><span class="p">,</span>
+            <span class="n">start_chunk</span><span class="o">=</span><span class="n">start_chunk</span><span class="p">,</span> <span class="n">end_chunk</span><span class="o">=</span><span class="n">end_chunk</span><span class="p">,</span>
+            <span class="n">divisor</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="c1"># The method is not a valid method of averaging supported.</span>
+        <span class="k">raise</span> <span class="n">core</span><span class="o">.</span><span class="n">error</span><span class="o">.</span><span class="n">InputError</span><span class="p">(</span><span class="s2">&quot;The `average_method` provided is not a &quot;</span>
+                                    <span class="s2">&quot;valid method. Inputted method: </span><span class="si">{method}</span><span class="s2">&quot;</span>
+                                    <span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">method</span><span class="o">=</span><span class="n">average_method</span><span class="p">))</span>
+
+    <span class="k">return</span> <span class="n">final_data</span></div>
+
+<div class="viewcode-block" id="collapse_by_average_endpoints_per_second"><a class="viewcode-back" href="../../../docstrings/ifa_smeargle.reformat.collapse.html#ifa_smeargle.reformat.collapse.collapse_by_average_endpoints_per_second">[docs]</a><span class="k">def</span> <span class="nf">collapse_by_average_endpoints_per_second</span><span class="p">(</span><span class="n">data_array</span><span class="p">,</span> 
+                                             <span class="n">start_chunk</span><span class="p">,</span> <span class="n">end_chunk</span><span class="p">,</span>
+                                             <span class="n">frame_exposure_time</span><span class="p">,</span>
+                                             <span class="n">average_method</span><span class="o">=</span><span class="s1">&#39;median&#39;</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot; This function reads a fits file and computes its end section </span>
+<span class="sd">    values, normalizing per second.</span>
+
+<span class="sd">    This function reads in a fits file of 3 dimensions, averaging </span>
+<span class="sd">    some top chunk and bottom chunk of their &quot;temporal&quot; axis, </span>
+<span class="sd">    normalizing and dividing over a timespan. The time is measured </span>
+<span class="sd">    in seconds.</span>
+
+<span class="sd">    If there is no temporal axis, this program raises an error.</span>
+<span class="sd">    </span>
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    data_array : ndarray</span>
+<span class="sd">        The data array that the average will be taken from.</span>
+<span class="sd">    start_chunk : array-like</span>
+<span class="sd">        The exact range of frames from the beginning that will be </span>
+<span class="sd">        averaged as per the averaging method.</span>
+<span class="sd">    end_chunk : array-like</span>
+<span class="sd">        The exact range of frames from the end that will be averaged </span>
+<span class="sd">        as per the averaging method.</span>
+<span class="sd">    frame_exposure_time : float</span>
+<span class="sd">        The duration, per frame (in seconds), of each exposure. </span>
+<span class="sd">        This is really not used in this function, but, it is added </span>
+<span class="sd">        for uniformity with the other functions.</span>
+<span class="sd">    average_method : string (optional)</span>
+<span class="sd">        The current available methods for determining the file size </span>
+<span class="sd">        that is proper. Defaults to median.</span>
+
+<span class="sd">        * &#39;mean&#39;</span>
+<span class="sd">            This takes the mean along the frames of each </span>
+<span class="sd">            chunk</span>
+<span class="sd">        * &#39;median&#39;</span>
+<span class="sd">            This takes the median along the frames of </span>
+<span class="sd">            each chunk. Even sets use the mean of the </span>
+<span class="sd">            middle most two values.</span>
+
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="c1"># Calculating the divisor: the integration time.</span>
+    <span class="n">integration_time</span> <span class="o">=</span> <span class="p">(</span><span class="n">frame_exposure_time</span> 
+                        <span class="o">*</span> <span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">median</span><span class="p">(</span><span class="n">end_chunk</span><span class="p">)</span> <span class="o">-</span> <span class="n">np</span><span class="o">.</span><span class="n">median</span><span class="p">(</span><span class="n">start_chunk</span><span class="p">)))</span>
+
+    <span class="c1"># Type checking the averaging method and ensuring that </span>
+    <span class="c1"># case is irrelevant for averaging method selection.</span>
+    <span class="n">average_method</span> <span class="o">=</span> <span class="nb">str</span><span class="p">(</span><span class="n">average_method</span><span class="p">)</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span>
+
+    <span class="c1"># Evaluate the averaging based on the median or mean.</span>
+    <span class="k">if</span> <span class="p">(</span><span class="n">average_method</span> <span class="o">==</span> <span class="s1">&#39;mean&#39;</span><span class="p">):</span>
+        <span class="n">final_data</span> <span class="o">=</span> <span class="n">_collapse_by_averages_mean_function</span><span class="p">(</span>
+            <span class="n">data_array</span><span class="o">=</span><span class="n">data_array</span><span class="p">,</span>
+            <span class="n">start_chunk</span><span class="o">=</span><span class="n">start_chunk</span><span class="p">,</span> <span class="n">end_chunk</span><span class="o">=</span><span class="n">end_chunk</span><span class="p">,</span>
+            <span class="n">divisor</span><span class="o">=</span><span class="n">integration_time</span><span class="p">)</span>
+    <span class="k">elif</span> <span class="p">(</span><span class="n">average_method</span> <span class="o">==</span> <span class="s1">&#39;median&#39;</span><span class="p">):</span>
+        <span class="n">final_data</span> <span class="o">=</span> <span class="n">_collapse_by_averages_median_function</span><span class="p">(</span><span class="n">data_array</span><span class="o">=</span><span class="n">data_array</span><span class="p">,</span>
+                                              <span class="n">start_chunk</span><span class="o">=</span><span class="n">start_chunk</span><span class="p">,</span> 
+                                              <span class="n">end_chunk</span><span class="o">=</span><span class="n">end_chunk</span><span class="p">,</span>
+                                              <span class="n">divisor</span><span class="o">=</span><span class="n">integration_time</span><span class="p">)</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="c1"># The method is not a valid method of averaging supported.</span>
+        <span class="k">raise</span> <span class="n">core</span><span class="o">.</span><span class="n">error</span><span class="o">.</span><span class="n">InputError</span><span class="p">(</span><span class="s2">&quot;The `average_method` provided is not a &quot;</span>
+                                    <span class="s2">&quot;valid method. Inputted method: </span><span class="si">{method}</span><span class="s2">&quot;</span>
+                                    <span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">method</span><span class="o">=</span><span class="n">average_method</span><span class="p">))</span>
+
+    <span class="k">return</span> <span class="n">final_data</span></div>
+
+<div class="viewcode-block" id="collapse_by_average_endpoints_per_kilosecond"><a class="viewcode-back" href="../../../docstrings/ifa_smeargle.reformat.collapse.html#ifa_smeargle.reformat.collapse.collapse_by_average_endpoints_per_kilosecond">[docs]</a><span class="k">def</span> <span class="nf">collapse_by_average_endpoints_per_kilosecond</span><span class="p">(</span><span class="n">data_array</span><span class="p">,</span> 
+                                                 <span class="n">start_chunk</span><span class="p">,</span> <span class="n">end_chunk</span><span class="p">,</span>
+                                                 <span class="n">frame_exposure_time</span><span class="p">,</span> 
+                                                 <span class="n">average_method</span><span class="o">=</span><span class="s1">&#39;median&#39;</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot; This function reads a fits file and computes its end section </span>
+<span class="sd">    values, normalizing per kilosecond.</span>
+
+<span class="sd">    This function reads in a fits file of 3 dimensions, averaging </span>
+<span class="sd">    some top chunk and bottom chunk of their &quot;temporal&quot; axis, </span>
+<span class="sd">    normalizing and dividing over a timespan. The time is measured </span>
+<span class="sd">    in kiloseconds. This is basically a wrapper function around the </span>
+<span class="sd">    per second version.</span>
+
+<span class="sd">    If there is no temporal axis, this program raises an error.</span>
+<span class="sd">    </span>
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    data_array : ndarray</span>
+<span class="sd">        The data array that the average will be taken from.</span>
+<span class="sd">    start_chunk : array-like</span>
+<span class="sd">        The exact range of frames from the beginning that will be </span>
+<span class="sd">        averaged as per the averaging method.</span>
+<span class="sd">    end_chunk : array-like</span>
+<span class="sd">        The exact range of frames from the end that will be averaged </span>
+<span class="sd">        as per the averaging method.</span>
+<span class="sd">    frame_exposure_time : float</span>
+<span class="sd">        The duration, per frame (in seconds), of each exposure. </span>
+<span class="sd">        This is really not used in this function, but, it is added </span>
+<span class="sd">        for uniformity with the other functions.</span>
+<span class="sd">    average_method : string (optional)</span>
+<span class="sd">        The current available methods for determining the file size </span>
+<span class="sd">        that is proper. Defaults to median.</span>
+
+<span class="sd">        * &#39;mean&#39;</span>
+<span class="sd">            This takes the mean along the frames of each </span>
+<span class="sd">            chunk</span>
+<span class="sd">        * &#39;median&#39;</span>
+<span class="sd">            This takes the median along the frames of </span>
+<span class="sd">            each chunk. Even sets use the mean of the </span>
+<span class="sd">            middle most two values.</span>
+
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="c1"># Calculating the divisor: the integration time in seconds.</span>
+    <span class="n">integration_time</span> <span class="o">=</span> <span class="p">(</span><span class="n">frame_exposure_time</span> 
+                        <span class="o">*</span> <span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">median</span><span class="p">(</span><span class="n">end_chunk</span><span class="p">)</span> <span class="o">-</span> <span class="n">np</span><span class="o">.</span><span class="n">median</span><span class="p">(</span><span class="n">start_chunk</span><span class="p">)))</span>
+    <span class="c1"># However, this function desires kiloseconds, therefore, </span>
+    <span class="c1"># integration time should be factored down.</span>
+    <span class="n">integration_time_kilosecond</span> <span class="o">=</span> <span class="n">integration_time</span> <span class="o">/</span> <span class="mf">1000.0</span>
+
+    <span class="c1"># Type checking the averaging method and ensuring that </span>
+    <span class="c1"># case is irrelevant for averaging method selection.</span>
+    <span class="n">average_method</span> <span class="o">=</span> <span class="nb">str</span><span class="p">(</span><span class="n">average_method</span><span class="p">)</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span>
+
+
+    <span class="c1"># Evaluate the averaging based on the median or mean.</span>
+    <span class="k">if</span> <span class="p">(</span><span class="n">average_method</span> <span class="o">==</span> <span class="s1">&#39;mean&#39;</span><span class="p">):</span>
+        <span class="n">final_data</span> <span class="o">=</span> <span class="n">_collapse_by_averages_mean_function</span><span class="p">(</span>
+            <span class="n">data_array</span><span class="o">=</span><span class="n">data_array</span><span class="p">,</span> 
+            <span class="n">start_chunk</span><span class="o">=</span><span class="n">start_chunk</span><span class="p">,</span> <span class="n">end_chunk</span><span class="o">=</span><span class="n">end_chunk</span><span class="p">,</span>
+            <span class="n">divisor</span><span class="o">=</span><span class="n">integration_time_kilosecond</span><span class="p">)</span>
+    <span class="k">elif</span> <span class="p">(</span><span class="n">average_method</span> <span class="o">==</span> <span class="s1">&#39;median&#39;</span><span class="p">):</span>
+        <span class="n">final_data</span> <span class="o">=</span> <span class="n">_collapse_by_averages_median_function</span><span class="p">(</span>
+            <span class="n">data_array</span><span class="o">=</span><span class="n">data_array</span><span class="p">,</span>
+            <span class="n">start_chunk</span><span class="o">=</span><span class="n">start_chunk</span><span class="p">,</span> <span class="n">end_chunk</span><span class="o">=</span><span class="n">end_chunk</span><span class="p">,</span>
+            <span class="n">divisor</span><span class="o">=</span><span class="n">integration_time_kilosecond</span><span class="p">)</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="c1"># The method is not a valid method of averaging supported.</span>
+        <span class="k">raise</span> <span class="n">core</span><span class="o">.</span><span class="n">error</span><span class="o">.</span><span class="n">InputError</span><span class="p">(</span><span class="s2">&quot;The `average_method` provided is not a &quot;</span>
+                                    <span class="s2">&quot;valid method. Inputted method: </span><span class="si">{method}</span><span class="s2">&quot;</span>
+                                    <span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">method</span><span class="o">=</span><span class="n">average_method</span><span class="p">))</span>
+    <span class="c1"># All done.</span>
+    <span class="k">return</span> <span class="n">final_data</span></div>
+
+
+<span class="k">def</span> <span class="nf">_collapse_by_averages_mean_function</span><span class="p">(</span><span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot; For means. &quot;&quot;&quot;</span>
+    <span class="k">return</span> <span class="n">_collapse_by_averages_common_function</span><span class="p">(</span>
+        <span class="n">averaging_function</span><span class="o">=</span><span class="n">core</span><span class="o">.</span><span class="n">math</span><span class="o">.</span><span class="n">ifas_masked_mean</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+
+<span class="k">def</span> <span class="nf">_collapse_by_averages_median_function</span><span class="p">(</span><span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot; For medians. &quot;&quot;&quot;</span>
+    <span class="k">return</span> <span class="n">_collapse_by_averages_common_function</span><span class="p">(</span>
+        <span class="n">averaging_function</span><span class="o">=</span><span class="n">core</span><span class="o">.</span><span class="n">math</span><span class="o">.</span><span class="n">ifas_masked_median</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+
+<span class="k">def</span> <span class="nf">_collapse_by_averages_common_function</span><span class="p">(</span><span class="n">data_array</span><span class="p">,</span> <span class="n">start_chunk</span><span class="p">,</span> <span class="n">end_chunk</span><span class="p">,</span>
+                                          <span class="n">divisor</span><span class="p">,</span> <span class="n">averaging_function</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot; This function takes a 3D array and computes its end section </span>
+<span class="sd">    values.</span>
+
+<span class="sd">    This function reads in an array of 3 dimensions, averaging some </span>
+<span class="sd">    top chunk and bottom chunk of their &quot;temporal&quot; axis.</span>
+
+<span class="sd">    If there is no temporal axis, this program raises an error.</span>
+<span class="sd">    </span>
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    data_array : ndarray</span>
+<span class="sd">        This is the data array that will be modified, or at least </span>
+<span class="sd">        have its values calculated from.</span>
+<span class="sd">    start_chunk : array-like</span>
+<span class="sd">        The exact range of frames from the beginning that will be </span>
+<span class="sd">        averaged.</span>
+<span class="sd">    end_chunk : array-like</span>
+<span class="sd">        The exact range of frames from the bottom that will be </span>
+<span class="sd">        averaged.</span>
+<span class="sd">    divisor : float</span>
+<span class="sd">        An value by which the data frame will be divided by to </span>
+<span class="sd">        either act as a normalization or a per-unit factor.</span>
+<span class="sd">    averaging_function : function</span>
+<span class="sd">        The function that would be used to combine the arrays.</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    final_data : ndarray</span>
+<span class="sd">        The final data array of the median-ed frames as desired.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="c1"># Check and adapt for a masked array.</span>
+    <span class="k">if</span> <span class="p">(</span><span class="n">np_ma</span><span class="o">.</span><span class="n">isMaskedArray</span><span class="p">(</span><span class="n">data_array</span><span class="p">)):</span>
+        <span class="n">raw_data</span> <span class="o">=</span> <span class="n">np_ma</span><span class="o">.</span><span class="n">getdata</span><span class="p">(</span><span class="n">data_array</span><span class="p">)</span>
+        <span class="n">data_mask</span> <span class="o">=</span> <span class="n">np_ma</span><span class="o">.</span><span class="n">getmask</span><span class="p">(</span><span class="n">data_array</span><span class="p">)</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">raw_data</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">data_array</span><span class="p">)</span>
+        <span class="n">data_mask</span> <span class="o">=</span> <span class="kc">None</span>
+
+    <span class="c1"># Check for too many or too little dimensions; it is important </span>
+    <span class="c1"># as the array shape of data is assumed.</span>
+    <span class="k">if</span> <span class="p">(</span><span class="n">raw_data</span><span class="o">.</span><span class="n">ndim</span> <span class="o">==</span> <span class="mi">0</span><span class="p">):</span>
+        <span class="k">raise</span> <span class="n">core</span><span class="o">.</span><span class="n">error</span><span class="o">.</span><span class="n">InputError</span><span class="p">(</span><span class="s2">&quot;There is no data to analyze as the &quot;</span>
+                                    <span class="s2">&quot;array is zero dimensional.&quot;</span><span class="p">)</span>
+    <span class="k">elif</span> <span class="p">(</span><span class="n">raw_data</span><span class="o">.</span><span class="n">ndim</span> <span class="o">&lt;=</span> <span class="mi">2</span><span class="p">):</span>
+        <span class="k">raise</span> <span class="n">core</span><span class="o">.</span><span class="n">error</span><span class="o">.</span><span class="n">InputError</span><span class="p">(</span><span class="s2">&quot;The data of the input fits file does &quot;</span>
+                                    <span class="s2">&quot;not have any wavelength or temporal &quot;</span>
+                                    <span class="s2">&quot;axis; to collapse spatially would &quot;</span>
+                                    <span class="s2">&quot;be incorrect.&quot;</span><span class="p">)</span>
+    <span class="k">elif</span> <span class="p">(</span><span class="n">raw_data</span><span class="o">.</span><span class="n">ndim</span> <span class="o">&gt;</span> <span class="mi">3</span><span class="p">):</span>
+        <span class="n">core</span><span class="o">.</span><span class="n">error</span><span class="o">.</span><span class="n">ifas_warning</span><span class="p">(</span><span class="n">core</span><span class="o">.</span><span class="n">error</span><span class="o">.</span><span class="n">InputWarning</span><span class="p">,</span>
+                                <span class="p">(</span><span class="s2">&quot;The number of dimensions in the data &quot;</span>
+                                 <span class="s2">&quot;array is greater than 3, it is assumed &quot;</span>
+                                 <span class="s2">&quot;that the 0th axis is the temporal &quot;</span>
+                                 <span class="s2">&quot;axis.&quot;</span><span class="p">))</span>
+
+    <span class="c1"># Allow for swapped, but valid ranges.</span>
+    <span class="n">start_chunk</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">sort</span><span class="p">(</span><span class="n">start_chunk</span><span class="p">)</span>
+    <span class="n">end_chunk</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">sort</span><span class="p">(</span><span class="n">end_chunk</span><span class="p">)</span>
+    <span class="c1"># Check if the chunks overlap, if they do, this is a problem.</span>
+    <span class="k">if</span> <span class="p">(</span><span class="n">start_chunk</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">&gt;=</span> <span class="n">end_chunk</span><span class="p">[</span><span class="mi">0</span><span class="p">]):</span>
+        <span class="n">core</span><span class="o">.</span><span class="n">error</span><span class="o">.</span><span class="n">ifas_error</span><span class="p">(</span><span class="n">core</span><span class="o">.</span><span class="n">error</span><span class="o">.</span><span class="n">ConfigurationError</span><span class="p">,</span>
+                              <span class="p">(</span><span class="s2">&quot;The end of the start_chunk is after the &quot;</span>
+                               <span class="s2">&quot;start of the end_chunk. The overlap is &quot;</span>
+                               <span class="s2">&quot;improper and should be fixed.&quot;</span><span class="p">))</span>
+    <span class="c1"># It is unnatural, but not forbidden, to have differing top and </span>
+    <span class="c1"># bottom chunk range values.</span>
+    <span class="k">if</span> <span class="p">(</span><span class="n">start_chunk</span><span class="o">.</span><span class="n">ptp</span><span class="p">()</span> <span class="o">!=</span> <span class="n">end_chunk</span><span class="o">.</span><span class="n">ptp</span><span class="p">()):</span>
+        <span class="n">core</span><span class="o">.</span><span class="n">error</span><span class="o">.</span><span class="n">ifas_warning</span><span class="p">(</span><span class="n">core</span><span class="o">.</span><span class="n">error</span><span class="o">.</span><span class="n">ReductionWarning</span><span class="p">,</span>
+                                <span class="p">(</span><span class="s2">&quot;The size of the start chunk and end &quot;</span>
+                                 <span class="s2">&quot;chunk are different sizes, this is &quot;</span>
+                                 <span class="s2">&quot;unusual but acceptable.&quot;</span><span class="p">))</span>
+
+
+    <span class="c1"># Calculate the collapsed frames. The custom collapsing  </span>
+    <span class="c1"># functions are needed to handle both nans and masked arrays. </span>
+    <span class="n">start_collapsed_frame</span> <span class="o">=</span> <span class="n">averaging_function</span><span class="p">(</span>
+        <span class="n">array</span><span class="o">=</span><span class="n">raw_data</span><span class="p">[</span><span class="n">start_chunk</span><span class="p">[</span><span class="mi">0</span><span class="p">]:</span><span class="n">start_chunk</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]],</span><span class="n">axis</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
+    <span class="n">end_collapsed_frame</span> <span class="o">=</span> <span class="n">averaging_function</span><span class="p">(</span>
+        <span class="n">array</span><span class="o">=</span><span class="n">raw_data</span><span class="p">[</span><span class="n">end_chunk</span><span class="p">[</span><span class="mi">0</span><span class="p">]:</span><span class="n">end_chunk</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]],</span><span class="n">axis</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
+
+    <span class="c1"># Subtracting and normalizing over the time span, starting and </span>
+    <span class="c1"># ending at respective midpoints; integer </span>
+    <span class="c1"># multiplication/division is required because of the discrete </span>
+    <span class="c1"># nature of frames.</span>
+    <span class="n">final_raw_data</span> <span class="o">=</span> <span class="p">(</span><span class="n">end_collapsed_frame</span> <span class="o">-</span> <span class="n">start_collapsed_frame</span><span class="p">)</span> <span class="o">/</span> <span class="n">divisor</span>
+
+    <span class="c1"># Reapply the mask if there was a mask.</span>
+    <span class="k">if</span> <span class="p">(</span><span class="n">data_mask</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">):</span>
+        <span class="n">final_data</span> <span class="o">=</span> <span class="n">np_ma</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">data</span><span class="o">=</span><span class="n">final_raw_data</span><span class="p">,</span> <span class="n">mask</span><span class="o">=</span><span class="n">data_mask</span><span class="p">)</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">final_data</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">final_raw_data</span><span class="p">)</span>
+
+    <span class="k">return</span> <span class="n">final_data</span>
+
+
+<span class="c1"># The functions below are for the scripting interfaces.</span>
+
+<span class="k">def</span> <span class="nf">_format_collapse_config</span><span class="p">(</span><span class="n">config</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot; The scripting version of `all collapse`. This function</span>
+<span class="sd">    applies the inner function to either the entire directory or a </span>
+<span class="sd">    single file.</span>
+<span class="sd">    </span>
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    config : ConfigObj</span>
+<span class="sd">        The configuration object that is to be used for this </span>
+<span class="sd">        function.</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    data_directory : string</span>
+<span class="sd">        The data directory.</span>
+<span class="sd">    start_chunk : ndarray</span>
+<span class="sd">        The starting chunk to process.</span>
+<span class="sd">    end_chunk : ndarray</span>
+<span class="sd">        The ending chunk to process.</span>
+<span class="sd">    average_method : string</span>
+<span class="sd">        The method that will be used to average.</span>
+<span class="sd">    frame_exposure_time : float</span>
+<span class="sd">        The number of seconds that it takes for a frame to be taken.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="c1"># Extract the configuration parameters.</span>
+    <span class="n">data_directory</span> <span class="o">=</span> <span class="n">core</span><span class="o">.</span><span class="n">config</span><span class="o">.</span><span class="n">extract_configuration</span><span class="p">(</span>
+        <span class="n">config_object</span><span class="o">=</span><span class="n">config</span><span class="p">,</span> <span class="n">keys</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;data_directory&#39;</span><span class="p">])</span>
+    <span class="n">subfolder</span> <span class="o">=</span> <span class="n">core</span><span class="o">.</span><span class="n">config</span><span class="o">.</span><span class="n">extract_configuration</span><span class="p">(</span>
+        <span class="n">config_object</span><span class="o">=</span><span class="n">config</span><span class="p">,</span> <span class="n">keys</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;collapse&#39;</span><span class="p">,</span><span class="s1">&#39;subfolder&#39;</span><span class="p">])</span>
+    <span class="n">start_chunk</span> <span class="o">=</span> <span class="n">core</span><span class="o">.</span><span class="n">config</span><span class="o">.</span><span class="n">extract_configuration</span><span class="p">(</span>
+        <span class="n">config_object</span><span class="o">=</span><span class="n">config</span><span class="p">,</span> <span class="n">keys</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;collapse&#39;</span><span class="p">,</span><span class="s1">&#39;start_chunk&#39;</span><span class="p">])</span>
+    <span class="n">end_chunk</span> <span class="o">=</span> <span class="n">core</span><span class="o">.</span><span class="n">config</span><span class="o">.</span><span class="n">extract_configuration</span><span class="p">(</span>
+        <span class="n">config_object</span><span class="o">=</span><span class="n">config</span><span class="p">,</span> <span class="n">keys</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;collapse&#39;</span><span class="p">,</span><span class="s1">&#39;end_chunk&#39;</span><span class="p">])</span>
+    <span class="n">average_method</span> <span class="o">=</span> <span class="n">core</span><span class="o">.</span><span class="n">config</span><span class="o">.</span><span class="n">extract_configuration</span><span class="p">(</span>
+        <span class="n">config_object</span><span class="o">=</span><span class="n">config</span><span class="p">,</span> <span class="n">keys</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;collapse&#39;</span><span class="p">,</span><span class="s1">&#39;average_method&#39;</span><span class="p">])</span>
+    <span class="n">frame_exposure_time</span> <span class="o">=</span> <span class="n">core</span><span class="o">.</span><span class="n">config</span><span class="o">.</span><span class="n">extract_configuration</span><span class="p">(</span>
+        <span class="n">config_object</span><span class="o">=</span><span class="n">config</span><span class="p">,</span> <span class="n">keys</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;collapse&#39;</span><span class="p">,</span><span class="s1">&#39;frame_exposure_time&#39;</span><span class="p">])</span>
+
+    <span class="c1"># Force both the chunks to be in array format for processing.</span>
+    <span class="n">start_chunk</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">start_chunk</span><span class="p">)</span>
+    <span class="n">end_chunk</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">end_chunk</span><span class="p">)</span>
+
+    <span class="c1"># If both are one dimensional, assume matching pairs, else, </span>
+    <span class="c1"># populate unless they are the same dimension size or raise for </span>
+    <span class="c1"># non-equal sizes.</span>
+    <span class="k">if</span> <span class="p">(</span><span class="n">start_chunk</span><span class="o">.</span><span class="n">ndim</span> <span class="o">==</span> <span class="n">end_chunk</span><span class="o">.</span><span class="n">ndim</span><span class="p">):</span>
+        <span class="c1"># Assume valid procedure and that these arrays are </span>
+        <span class="c1"># parallel. But basic checks are nice.</span>
+        <span class="k">if</span> <span class="p">(</span><span class="n">start_chunk</span><span class="o">.</span><span class="n">shape</span> <span class="o">!=</span> <span class="n">end_chunk</span><span class="o">.</span><span class="n">shape</span><span class="p">):</span>
+            <span class="k">raise</span> <span class="n">core</span><span class="o">.</span><span class="n">error</span><span class="o">.</span><span class="n">ConfigurationError</span><span class="p">(</span><span class="s2">&quot;Both the start chunk and &quot;</span>
+                                                <span class="s2">&quot;the end chunk are of same &quot;</span>
+                                                <span class="s2">&quot;dimension but different &quot;</span>
+                                                <span class="s2">&quot;shape.&quot;</span><span class="p">)</span>
+        <span class="k">if</span> <span class="p">(</span><span class="n">start_chunk</span><span class="o">.</span><span class="n">size</span> <span class="o">!=</span> <span class="n">end_chunk</span><span class="o">.</span><span class="n">size</span><span class="p">):</span>
+            <span class="k">raise</span> <span class="n">core</span><span class="o">.</span><span class="n">error</span><span class="o">.</span><span class="n">ConfigurationError</span><span class="p">(</span><span class="s2">&quot;Both the start chunk and &quot;</span>
+                                                <span class="s2">&quot;the end chunk are of same &quot;</span>
+                                                <span class="s2">&quot;dimension but different &quot;</span>
+                                                <span class="s2">&quot;size.&quot;</span><span class="p">)</span>
+        <span class="c1"># They also need to be 2D.</span>
+        <span class="k">if</span> <span class="p">((</span><span class="n">start_chunk</span><span class="o">.</span><span class="n">ndim</span> <span class="o">==</span> <span class="mi">1</span><span class="p">)</span> <span class="ow">and</span> <span class="p">(</span><span class="n">end_chunk</span><span class="o">.</span><span class="n">ndim</span> <span class="o">==</span> <span class="mi">1</span><span class="p">)):</span>
+            <span class="n">start_chunk</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="n">start_chunk</span><span class="p">])</span>
+            <span class="n">end_chunk</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="n">end_chunk</span><span class="p">])</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="c1"># it is assumed that they are fine.</span>
+            <span class="k">pass</span>
+    <span class="k">elif</span> <span class="p">(</span><span class="n">start_chunk</span><span class="o">.</span><span class="n">ndim</span> <span class="o">==</span> <span class="mi">1</span><span class="p">)</span> <span class="ow">and</span> <span class="p">(</span><span class="mi">1</span> <span class="o">&lt;=</span> <span class="n">end_chunk</span><span class="o">.</span><span class="n">ndim</span><span class="p">):</span>
+        <span class="c1"># The start chunks are the minor here and should duplicate </span>
+        <span class="c1"># where needed to match.</span>
+        <span class="n">start_chunk</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">tile</span><span class="p">(</span><span class="n">start_chunk</span><span class="p">,</span> <span class="p">(</span><span class="n">end_chunk</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span><span class="mi">1</span><span class="p">))</span>
+    <span class="k">elif</span> <span class="p">(</span><span class="n">end_chunk</span><span class="o">.</span><span class="n">ndim</span> <span class="o">==</span> <span class="mi">1</span><span class="p">)</span> <span class="ow">and</span> <span class="p">(</span><span class="mi">1</span> <span class="o">&lt;=</span> <span class="n">start_chunk</span><span class="o">.</span><span class="n">ndim</span><span class="p">):</span>
+        <span class="c1"># The end chunks are the minor here and should duplicate </span>
+        <span class="c1"># where needed to match.</span>
+        <span class="n">end_chunk</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">tile</span><span class="p">(</span><span class="n">end_chunk</span><span class="p">,</span> <span class="p">(</span><span class="n">start_chunk</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span><span class="mi">1</span><span class="p">))</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="k">raise</span> <span class="n">core</span><span class="o">.</span><span class="n">error</span><span class="o">.</span><span class="n">ConfigurationError</span><span class="p">(</span><span class="s2">&quot;The start and end chunks are &quot;</span>
+                                            <span class="s2">&quot;not in a format that can be &quot;</span>
+                                            <span class="s2">&quot;understood. The simple &quot;</span>
+                                            <span class="s2">&quot;validation checking is not &quot;</span>
+                                            <span class="s2">&quot;sufficient to prevent this. &quot;</span>
+                                            <span class="s2">&quot;Use a multi-dimensional array &quot;</span>
+                                            <span class="s2">&quot;for multiple sub-arrays.&quot;</span><span class="p">)</span>
+
+    <span class="c1"># Return the configurations.</span>
+    <span class="k">return</span> <span class="p">(</span><span class="n">data_directory</span><span class="p">,</span> <span class="n">subfolder</span><span class="p">,</span> <span class="n">start_chunk</span><span class="p">,</span> <span class="n">end_chunk</span><span class="p">,</span> 
+            <span class="n">average_method</span><span class="p">,</span> <span class="n">frame_exposure_time</span><span class="p">)</span>
+
+<span class="k">def</span> <span class="nf">_common_collapse_function</span><span class="p">(</span><span class="n">config</span><span class="p">,</span> <span class="n">collapse_function</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot; All collapsing functions are very similar, they can share  </span>
+<span class="sd">    a common function for their usage.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    config : ConfigObj</span>
+<span class="sd">        The configuration object that is to be used for this </span>
+<span class="sd">        function.</span>
+<span class="sd">    collapse_function : function</span>
+<span class="sd">        The collapsing function to be used.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="c1"># Obtain the configuration parameters.</span>
+    <span class="p">(</span><span class="n">data_directory</span><span class="p">,</span> <span class="n">subfolder</span><span class="p">,</span> <span class="n">start_chunk</span><span class="p">,</span> <span class="n">end_chunk</span><span class="p">,</span> 
+     <span class="n">average_method</span><span class="p">,</span> <span class="n">frame_exposure_time</span><span class="p">)</span> <span class="o">=</span> <span class="n">_format_collapse_config</span><span class="p">(</span>
+         <span class="n">config</span><span class="o">=</span><span class="n">config</span><span class="p">)</span>
+    <span class="c1"># If the sub-folder is to be used, then make it.</span>
+    <span class="k">if</span> <span class="p">(</span><span class="n">subfolder</span><span class="p">):</span>
+        <span class="n">subfolder_path</span> <span class="o">=</span> <span class="n">core</span><span class="o">.</span><span class="n">strformat</span><span class="o">.</span><span class="n">combine_pathname</span><span class="p">(</span>
+            <span class="n">directory</span><span class="o">=</span><span class="p">[</span><span class="n">data_directory</span><span class="p">,</span> 
+                       <span class="n">core</span><span class="o">.</span><span class="n">runtime</span><span class="o">.</span><span class="n">extract_runtime_configuration</span><span class="p">(</span>
+                           <span class="n">config_key</span><span class="o">=</span><span class="s1">&#39;COLLPASED_SUBDIR&#39;</span><span class="p">)])</span>
+        <span class="c1"># Create the directory if needed.</span>
+        <span class="n">os</span><span class="o">.</span><span class="n">makedirs</span><span class="p">(</span><span class="n">subfolder_path</span><span class="p">,</span> <span class="n">exist_ok</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+        <span class="c1"># Inform that the sub-folder will be used.</span>
+        <span class="n">core</span><span class="o">.</span><span class="n">error</span><span class="o">.</span><span class="n">ifas_info</span><span class="p">(</span><span class="s2">&quot;The `subfolder` flag is True. A sub-folder &quot;</span>
+                             <span class="s2">&quot;will be created and collapsed data fits will &quot;</span>
+                             <span class="s2">&quot;be saved in: </span><span class="si">{dir}</span><span class="s2">&quot;</span>
+                             <span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="nb">dir</span><span class="o">=</span><span class="n">subfolder_path</span><span class="p">))</span>
+
+
+    <span class="c1"># If the directory is really one file.</span>
+    <span class="k">if</span> <span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">isfile</span><span class="p">(</span><span class="n">data_directory</span><span class="p">)):</span>
+        <span class="c1"># Force into list for convenience.</span>
+        <span class="n">data_files</span> <span class="o">=</span> <span class="nb">list</span><span class="p">([</span><span class="n">data_directory</span><span class="p">])</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="c1"># Assume it is a valid data directory.</span>
+        <span class="n">data_files</span> <span class="o">=</span> <span class="n">core</span><span class="o">.</span><span class="n">io</span><span class="o">.</span><span class="n">get_fits_filenames</span><span class="p">(</span>
+            <span class="n">data_directory</span><span class="o">=</span><span class="n">data_directory</span><span class="p">,</span> <span class="n">recursive</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+
+    <span class="c1"># Loop over all files present and apply the procedure...</span>
+    <span class="n">core</span><span class="o">.</span><span class="n">error</span><span class="o">.</span><span class="n">ifas_info</span><span class="p">(</span><span class="s2">&quot;Collapsed frames are being created by subtracting &quot;</span>
+                         <span class="s2">&quot;the </span><span class="si">{method}</span><span class="s2"> of two sets of frames, </span><span class="si">{start_set}</span><span class="s2"> &quot;</span>
+                         <span class="s2">&quot;and </span><span class="si">{end_set}</span><span class="s2">, from the fits files in </span><span class="si">{data_dir}</span><span class="s2">. &quot;</span>
+                         <span class="s2">&quot;The frame exposure is </span><span class="si">{frame_time}</span><span class="s2">. The collapsing &quot;</span>
+                         <span class="s2">&quot;function is </span><span class="si">{collapse_funct}</span><span class="s2">.&quot;</span>
+                         <span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">method</span><span class="o">=</span><span class="n">average_method</span><span class="p">,</span> 
+                                 <span class="n">start_set</span><span class="o">=</span><span class="n">start_chunk</span><span class="p">,</span> <span class="n">end_set</span><span class="o">=</span><span class="n">end_chunk</span><span class="p">,</span>
+                                 <span class="n">data_dir</span><span class="o">=</span><span class="n">data_directory</span><span class="p">,</span> 
+                                 <span class="n">frame_time</span><span class="o">=</span><span class="n">frame_exposure_time</span><span class="p">,</span>
+                                 <span class="n">collapse_funct</span><span class="o">=</span><span class="n">collapse_function</span><span class="o">.</span><span class="vm">__name__</span><span class="p">))</span>
+    <span class="k">for</span> <span class="n">filedex</span> <span class="ow">in</span> <span class="n">data_files</span><span class="p">:</span>
+        <span class="c1"># Also, loop over all desired frame chunks that should be </span>
+        <span class="c1"># made. (No longer supported, but left so it does not </span>
+        <span class="c1"># break.)</span>
+        <span class="k">for</span> <span class="n">substartdex</span><span class="p">,</span> <span class="n">subenddex</span> <span class="ow">in</span> <span class="nb">zip</span><span class="p">(</span><span class="n">start_chunk</span><span class="p">,</span> <span class="n">end_chunk</span><span class="p">):</span>
+            <span class="c1"># Load the fits file.</span>
+            <span class="n">hdul_file</span><span class="p">,</span> <span class="n">hdu_header</span><span class="p">,</span> <span class="n">hdu_data</span> <span class="o">=</span> <span class="n">core</span><span class="o">.</span><span class="n">io</span><span class="o">.</span><span class="n">read_fits_file</span><span class="p">(</span>
+                <span class="n">file_name</span><span class="o">=</span><span class="n">filedex</span><span class="p">,</span> <span class="n">extension</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">silent</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+            <span class="c1"># Process a copy of the data based on the current </span>
+            <span class="c1"># frame data.</span>
+            <span class="n">collapse_data</span> <span class="o">=</span> <span class="n">collapse_function</span><span class="p">(</span>
+                <span class="n">data_array</span><span class="o">=</span><span class="n">copy</span><span class="o">.</span><span class="n">deepcopy</span><span class="p">(</span><span class="n">hdu_data</span><span class="p">),</span> 
+                <span class="n">start_chunk</span><span class="o">=</span><span class="n">substartdex</span><span class="p">,</span> <span class="n">end_chunk</span><span class="o">=</span><span class="n">subenddex</span><span class="p">,</span>
+                <span class="n">frame_exposure_time</span><span class="o">=</span><span class="n">frame_exposure_time</span><span class="p">,</span>
+                <span class="n">average_method</span><span class="o">=</span><span class="n">average_method</span><span class="p">)</span>
+            <span class="c1"># Create and write the file out with added terms. If the </span>
+            <span class="c1"># subfolder has been requested, save the file in there</span>
+            <span class="c1"># instead.</span>
+            <span class="nb">dir</span><span class="p">,</span> <span class="n">file</span><span class="p">,</span> <span class="n">ext</span> <span class="o">=</span> <span class="n">core</span><span class="o">.</span><span class="n">strformat</span><span class="o">.</span><span class="n">split_pathname</span><span class="p">(</span><span class="n">pathname</span><span class="o">=</span><span class="n">filedex</span><span class="p">)</span>
+            <span class="c1"># The sub-folder, if needed, and file name suffix.</span>
+            <span class="n">collpase_subdir</span> <span class="o">=</span> <span class="n">core</span><span class="o">.</span><span class="n">runtime</span><span class="o">.</span><span class="n">extract_runtime_configuration</span><span class="p">(</span>
+                <span class="n">config_key</span><span class="o">=</span><span class="s1">&#39;COLLPASED_SUBDIR&#39;</span><span class="p">)</span>
+            <span class="n">slice_suffix</span> <span class="o">=</span> <span class="n">reformat</span><span class="o">.</span><span class="n">base</span><span class="o">.</span><span class="n">format_slice_appending_name</span><span class="p">(</span>
+                <span class="n">reference_frame</span><span class="o">=</span><span class="n">substartdex</span><span class="p">,</span> <span class="n">averaging_frame</span><span class="o">=</span><span class="n">subenddex</span><span class="p">)</span>
+            <span class="c1"># Constructing the new path.</span>
+            <span class="n">new_path</span> <span class="o">=</span> <span class="n">core</span><span class="o">.</span><span class="n">strformat</span><span class="o">.</span><span class="n">combine_pathname</span><span class="p">(</span>
+                <span class="n">directory</span><span class="o">=</span><span class="p">([</span><span class="nb">dir</span><span class="p">,</span> <span class="n">collpase_subdir</span><span class="p">]</span> <span class="k">if</span> <span class="n">subfolder</span> <span class="k">else</span> <span class="p">[</span><span class="nb">dir</span><span class="p">]),</span>
+                <span class="n">file_name</span><span class="o">=</span><span class="p">[</span><span class="n">file</span><span class="p">,</span> <span class="n">slice_suffix</span><span class="p">],</span>
+                <span class="n">extension</span><span class="o">=</span><span class="p">[</span><span class="n">ext</span><span class="p">])</span>
+
+            <span class="c1"># Write the file to disk.</span>
+            <span class="n">core</span><span class="o">.</span><span class="n">io</span><span class="o">.</span><span class="n">write_fits_file</span><span class="p">(</span>
+                <span class="n">file_name</span><span class="o">=</span><span class="n">new_path</span><span class="p">,</span> <span class="n">hdu_header</span><span class="o">=</span><span class="n">hdu_header</span><span class="p">,</span>
+                <span class="n">hdu_data</span><span class="o">=</span><span class="n">collapse_data</span><span class="p">,</span> <span class="n">hdu_object</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+                <span class="n">save_file</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">overwrite</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">silent</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+            <span class="c1"># Add the collapsing meta-data to the header file of </span>
+            <span class="c1"># the new file. This may add IO overhead, but it </span>
+            <span class="c1"># ensures that headers don&#39;t get messed up by odd </span>
+            <span class="c1"># references.</span>
+            <span class="n">headers</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;COLPSE_F&#39;</span><span class="p">:</span><span class="n">collapse_function</span><span class="o">.</span><span class="vm">__name__</span><span class="p">,</span>
+                       <span class="s1">&#39;FRAVGMTH&#39;</span><span class="p">:</span><span class="n">average_method</span><span class="p">,</span>
+                       <span class="s1">&#39;STRTFRMS&#39;</span><span class="p">:</span><span class="nb">str</span><span class="p">(</span><span class="n">substartdex</span><span class="p">),</span>
+                       <span class="s1">&#39;ENDFRMS&#39;</span><span class="p">:</span><span class="nb">str</span><span class="p">(</span><span class="n">subenddex</span><span class="p">),</span>
+                       <span class="s1">&#39;FRM_EXPO&#39;</span><span class="p">:</span><span class="n">frame_exposure_time</span><span class="p">}</span>
+            <span class="n">comments</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;COLPSE_F&#39;</span><span class="p">:</span><span class="s1">&#39;The collapsing method used to make this.&#39;</span><span class="p">,</span>
+                       <span class="s1">&#39;FRAVGMTH&#39;</span><span class="p">:</span><span class="s1">&#39;The method used to average chunks.&#39;</span><span class="p">,</span>
+                       <span class="s1">&#39;STRTFRMS&#39;</span><span class="p">:</span><span class="s1">&#39;The frame range of the start chunk.&#39;</span><span class="p">,</span>
+                       <span class="s1">&#39;ENDFRMS&#39;</span><span class="p">:</span><span class="s1">&#39;The frame range of the end chunk.&#39;</span><span class="p">,</span>
+                       <span class="s1">&#39;FRM_EXPO&#39;</span><span class="p">:</span><span class="s1">&#39;The frame exposure, in seconds.&#39;</span><span class="p">}</span>
+            <span class="n">core</span><span class="o">.</span><span class="n">io</span><span class="o">.</span><span class="n">append_astropy_header_card</span><span class="p">(</span><span class="n">file_name</span><span class="o">=</span><span class="n">new_path</span><span class="p">,</span> 
+                                            <span class="n">header_cards</span><span class="o">=</span><span class="n">headers</span><span class="p">,</span>
+                                            <span class="n">comment_cards</span><span class="o">=</span><span class="n">comments</span><span class="p">)</span>
+
+    <span class="c1"># Finished, hopefully.</span>
+    <span class="k">return</span> <span class="kc">None</span>
+
+<span class="c1"># The scripts of the collapse calculations.</span>
+
+<div class="viewcode-block" id="script_collapse_by_average_endpoints"><a class="viewcode-back" href="../../../docstrings/ifa_smeargle.reformat.collapse.html#ifa_smeargle.reformat.collapse.script_collapse_by_average_endpoints">[docs]</a><span class="k">def</span> <span class="nf">script_collapse_by_average_endpoints</span><span class="p">(</span><span class="n">config</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot; The scripting version of `collapse_by_average_endpoints`.</span>
+<span class="sd">    This function applies the rename to the entire directory. It </span>
+<span class="sd">    also adds the tags to the header file of each fits.</span>
+<span class="sd">    </span>
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    config : ConfigObj</span>
+<span class="sd">        The configuration object that is to be used for this </span>
+<span class="sd">        function.</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    None</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="c1"># Just use the common function.</span>
+    <span class="n">__</span> <span class="o">=</span> <span class="n">_common_collapse_function</span><span class="p">(</span>
+        <span class="n">config</span><span class="o">=</span><span class="n">config</span><span class="p">,</span> <span class="n">collapse_function</span><span class="o">=</span><span class="n">collapse_by_average_endpoints</span><span class="p">)</span>
+    <span class="c1"># All done.</span>
+    <span class="k">return</span> <span class="kc">None</span></div>
+
+<div class="viewcode-block" id="script_collapse_by_average_endpoints_per_second"><a class="viewcode-back" href="../../../docstrings/ifa_smeargle.reformat.collapse.html#ifa_smeargle.reformat.collapse.script_collapse_by_average_endpoints_per_second">[docs]</a><span class="k">def</span> <span class="nf">script_collapse_by_average_endpoints_per_second</span><span class="p">(</span><span class="n">config</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot; The scripting version of </span>
+<span class="sd">    `collapse_by_average_endpoints_per_second`. </span>
+<span class="sd">    This function applies the rename to the entire directory. It </span>
+<span class="sd">    also adds the tags to the header file of each fits.</span>
+<span class="sd">    </span>
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    config : ConfigObj</span>
+<span class="sd">        The configuration object that is to be used for this </span>
+<span class="sd">        function.</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    None</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="c1"># Just use the common function.</span>
+    <span class="n">__</span> <span class="o">=</span> <span class="n">_common_collapse_function</span><span class="p">(</span>
+        <span class="n">config</span><span class="o">=</span><span class="n">config</span><span class="p">,</span> 
+        <span class="n">collapse_function</span><span class="o">=</span><span class="n">collapse_by_average_endpoints_per_second</span><span class="p">)</span>
+    <span class="c1"># All done.</span>
+    <span class="k">return</span> <span class="kc">None</span></div>
+
+<div class="viewcode-block" id="script_collapse_by_average_endpoints_per_kilosecond"><a class="viewcode-back" href="../../../docstrings/ifa_smeargle.reformat.collapse.html#ifa_smeargle.reformat.collapse.script_collapse_by_average_endpoints_per_kilosecond">[docs]</a><span class="k">def</span> <span class="nf">script_collapse_by_average_endpoints_per_kilosecond</span><span class="p">(</span><span class="n">config</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot; The scripting version of </span>
+<span class="sd">    `collapse_by_average_endpoints_per_kilosecond`. This function applies </span>
+<span class="sd">    the rename to the entire directory. It also adds the tags to </span>
+<span class="sd">    the header file of each fits.</span>
+<span class="sd">    </span>
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    config : ConfigObj</span>
+<span class="sd">        The configuration object that is to be used for this </span>
+<span class="sd">        function.</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    None</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="c1"># Just use the common function.</span>
+    <span class="n">__</span> <span class="o">=</span> <span class="n">_common_collapse_function</span><span class="p">(</span>
+        <span class="n">config</span><span class="o">=</span><span class="n">config</span><span class="p">,</span> 
+        <span class="n">collapse_function</span><span class="o">=</span><span class="n">collapse_by_average_endpoints_per_kilosecond</span><span class="p">)</span>
+    <span class="c1"># All done.</span>
+    <span class="k">return</span> <span class="kc">None</span></div>
+</pre></div>
+
+           </div>
+           
+          </div>
+          <footer>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        
+        &copy; Copyright 2020, Sparrow
+
+    </p>
+  </div>
+    
+    
+    
+    Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a
+    
+    <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a>
+    
+    provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+
+  
+  
+    
+   
+
+</body>
+</html>

@@ -39,13 +39,16 @@ def collapse_by_average_endpoints(data_array, start_chunk, end_chunk,
         as per the averaging method.
     average_method : string (optional)
         The current available methods for determining the file size 
-        that is proper. Defaults to median.
+        that is proper. Defaults to median:
 
-            * 'mean' : This takes the mean along the frames of each 
+        * 'mean'
+            This takes the mean along the frames of each 
             chunk
-            * 'median' : This takes the median along the frames of 
-            each chunk. Even sets use the mean of the middle most 
-            two values.
+        * 'median'
+            This takes the median along the frames of 
+            each chunk. Even sets use the mean of the 
+            middle most two values.
+    
     frame_exposure_time : float
         The duration, per frame (in seconds), of each exposure. 
         This is really not used in this function, but, it is added 
@@ -114,11 +117,14 @@ def collapse_by_average_endpoints_per_second(data_array,
         The current available methods for determining the file size 
         that is proper. Defaults to median.
 
-            * 'mean' : This takes the mean along the frames of each 
-            chunk.
-            * 'median' : This takes the median along the frames of 
-            each chunk. Even sets use the mean of the middle most 
-            two values.
+        * 'mean'
+            This takes the mean along the frames of each 
+            chunk
+        * 'median'
+            This takes the median along the frames of 
+            each chunk. Even sets use the mean of the 
+            middle most two values.
+
     """
     # Calculating the divisor: the integration time.
     integration_time = (frame_exposure_time 
@@ -180,11 +186,14 @@ def collapse_by_average_endpoints_per_kilosecond(data_array,
         The current available methods for determining the file size 
         that is proper. Defaults to median.
 
-            * 'mean' : This takes the mean along the frames of each 
-            chunk.
-            * 'median' : This takes the median along the frames of 
-            each chunk. Even sets use the mean of the middle most 
-            two values.
+        * 'mean'
+            This takes the mean along the frames of each 
+            chunk
+        * 'median'
+            This takes the median along the frames of 
+            each chunk. Even sets use the mean of the 
+            middle most two values.
+
     """
     # Calculating the divisor: the integration time in seconds.
     integration_time = (frame_exposure_time 

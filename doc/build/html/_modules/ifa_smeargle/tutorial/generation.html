@@ -1,0 +1,403 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>ifa_smeargle.tutorial.generation &mdash; IfA_Smeargle 2020 documentation</title>
+  
+
+  
+  <link rel="stylesheet" href="../../../_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
+  <link rel="stylesheet" href="../../../_static/css/custom.css" type="text/css" />
+
+  
+  
+  
+  
+
+  
+  <!--[if lt IE 9]>
+    <script src="../../../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+    
+      <script type="text/javascript" id="documentation_options" data-url_root="../../../" src="../../../_static/documentation_options.js"></script>
+        <script src="../../../_static/jquery.js"></script>
+        <script src="../../../_static/underscore.js"></script>
+        <script src="../../../_static/doctools.js"></script>
+        <script src="../../../_static/language_data.js"></script>
+    
+    <script type="text/javascript" src="../../../_static/js/theme.js"></script>
+
+    
+    <link rel="index" title="Index" href="../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../search.html" /> 
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+          
+
+          
+            <a href="../../../index.html" class="icon icon-home" alt="Documentation Home"> IfA_Smeargle
+          
+
+          
+          </a>
+
+          
+            
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <p class="caption"><span class="caption-text">Code Documentation:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../docstrings/modules.html">ifa_smeargle</a></li>
+</ul>
+
+            
+          
+        </div>
+        
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../../index.html">IfA_Smeargle</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="../../../index.html" class="icon icon-home"></a> &raquo;</li>
+        
+          <li><a href="../../index.html">Module code</a> &raquo;</li>
+        
+      <li>ifa_smeargle.tutorial.generation</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <h1>Source code for ifa_smeargle.tutorial.generation</h1><div class="highlight"><pre>
+<span></span>
+<span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">These functions generates all of the required tutorial data,</span>
+<span class="sd">configurations, and other needed objects to begin or run through</span>
+<span class="sd">the tutorial.</span>
+<span class="sd">&quot;&quot;&quot;</span>
+
+<span class="kn">import</span> <span class="nn">copy</span>
+<span class="kn">import</span> <span class="nn">shutil</span>
+<span class="kn">import</span> <span class="nn">os</span>
+<span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+<span class="kn">import</span> <span class="nn">numpy.random</span> <span class="k">as</span> <span class="nn">np_rand</span>
+
+<span class="kn">import</span> <span class="nn">ifa_smeargle.core</span> <span class="k">as</span> <span class="nn">core</span>
+
+<div class="viewcode-block" id="tutorial_generate_fits_file"><a class="viewcode-back" href="../../../docstrings/ifa_smeargle.tutorial.generation.html#ifa_smeargle.tutorial.generation.tutorial_generate_fits_file">[docs]</a><span class="k">def</span> <span class="nf">tutorial_generate_fits_file</span><span class="p">(</span><span class="n">generation_mode</span><span class="p">,</span> <span class="n">data_shape</span><span class="p">,</span> 
+                                <span class="n">fill_value</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">seed</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="nb">range</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot; This function generates a fits file that emulate </span>
+<span class="sd">    the real data in some regards. The different modes can create </span>
+<span class="sd">    different data representations.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    generation_mode : string</span>
+<span class="sd">        The generation mode that the data will adhere to. </span>
+<span class="sd">            </span>
+<span class="sd">            * &#39;fill&#39;</span>
+<span class="sd">                The fits data values are some constant number.</span>
+<span class="sd">            * &#39;increment&#39;</span>
+<span class="sd">                The files data values are created by counting</span>
+<span class="sd">                up individually. Order is based on C indexing.</span>
+<span class="sd">            * &#39;pseudorandom&#39;</span>
+<span class="sd">                The fits data values are generated using</span>
+<span class="sd">                a set seed and a pseudorandom number generator.</span>
+<span class="sd">            * &#39;random&#39;</span>
+<span class="sd">                The fits data values are generated randomly </span>
+<span class="sd">                as determined by undetermined-seed random number </span>
+<span class="sd">                generator.</span>
+
+<span class="sd">    data_shape : tuple</span>
+<span class="sd">        The shape of the data that will be created.</span>
+<span class="sd">    fill_value : float (optional)</span>
+<span class="sd">        The value that fills the data array. Only used if </span>
+<span class="sd">        the generation mode is `fill`.</span>
+<span class="sd">    seed : int (optional)</span>
+<span class="sd">        The seed value for the pseudorandom number generator. Only</span>
+<span class="sd">        used if the generation mode is `pseudorandom`.</span>
+<span class="sd">    range : array-like (optional)</span>
+<span class="sd">        The range for the pseudorandom and the random number </span>
+<span class="sd">        generator. It takes only the highest and lowest numbers in </span>
+<span class="sd">        the tuple as the appropriate range. The range is [min, max).</span>
+<span class="sd">        Defaults to [0.0, 1.0).</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    hdu_object : Astropy HDU object</span>
+<span class="sd">        An object representation of the fits file. The header is </span>
+<span class="sd">        also generated.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="c1"># Simple type checking for the data generation mode.</span>
+    <span class="k">try</span><span class="p">:</span>
+        <span class="n">generation_mode</span> <span class="o">=</span> <span class="nb">str</span><span class="p">(</span><span class="n">generation_mode</span><span class="p">)</span>
+    <span class="k">except</span> <span class="ne">Exception</span><span class="p">:</span>
+        <span class="k">raise</span> <span class="n">core</span><span class="o">.</span><span class="n">error</span><span class="o">.</span><span class="n">InputError</span><span class="p">(</span><span class="s2">&quot;The generation_mode cannot be turned &quot;</span>
+                                    <span class="s2">&quot;into a string. The input must be a &quot;</span>
+                                    <span class="s2">&quot;string.&quot;</span><span class="p">)</span>
+    <span class="c1"># Simple type checking for the shape of the data array.</span>
+    <span class="n">data_shape</span> <span class="o">=</span> <span class="nb">tuple</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">data_shape</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="nb">int</span><span class="p">)</span><span class="o">.</span><span class="n">tolist</span><span class="p">())</span>
+    
+    <span class="c1"># Decide on which method to generate a data array and run </span>
+    <span class="c1"># with it.</span>
+    <span class="k">if</span> <span class="p">(</span><span class="n">generation_mode</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span> <span class="o">==</span> <span class="s1">&#39;fill&#39;</span><span class="p">):</span>
+        <span class="c1"># All of the data should be a constant value.</span>
+        <span class="k">if</span> <span class="p">(</span><span class="n">fill_value</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">):</span>
+            <span class="c1"># But... they didn&#39;t give us the value...</span>
+            <span class="k">raise</span> <span class="n">core</span><span class="o">.</span><span class="n">error</span><span class="o">.</span><span class="n">InputError</span><span class="p">(</span><span class="s2">&quot;The `fill_value` for the data array &quot;</span>
+                                        <span class="s2">&quot;creation is missing.&quot;</span><span class="p">)</span>
+        <span class="c1"># Create the data array.</span>
+        <span class="n">data_array</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">full</span><span class="p">(</span><span class="n">data_shape</span><span class="p">,</span> <span class="n">fill_value</span><span class="p">)</span>
+    <span class="k">elif</span> <span class="p">(</span><span class="n">generation_mode</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span> <span class="o">==</span> <span class="s1">&#39;increment&#39;</span><span class="p">):</span>
+        <span class="c1"># All of the data is incremented values.</span>
+
+        <span class="c1"># The total number of data values that need to be generated.</span>
+        <span class="n">n_total</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="nb">tuple</span><span class="p">(</span><span class="n">data_shape</span><span class="p">),</span> <span class="n">dtype</span><span class="o">=</span><span class="nb">int</span><span class="p">))</span>
+        <span class="c1"># The data array through incremental generation. Creating</span>
+        <span class="c1"># the data array.</span>
+        <span class="n">data_array</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="n">n_total</span><span class="p">)</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="nb">tuple</span><span class="p">(</span><span class="n">data_shape</span><span class="p">))</span>
+    <span class="k">elif</span> <span class="p">(</span><span class="n">generation_mode</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span> <span class="o">==</span> <span class="s1">&#39;pseudorandom&#39;</span><span class="p">):</span>
+        <span class="c1"># All of the data should be a random value based on the seed.</span>
+        
+        <span class="c1"># Checking if the seed exists.</span>
+        <span class="k">if</span> <span class="p">(</span><span class="n">seed</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">):</span>
+            <span class="c1"># But... they didn&#39;t give us the seed...</span>
+            <span class="n">core</span><span class="o">.</span><span class="n">error</span><span class="o">.</span><span class="n">ifas_warning</span><span class="p">(</span><span class="n">core</span><span class="o">.</span><span class="n">error</span><span class="o">.</span><span class="n">InputWarning</span><span class="p">,</span>
+                                    <span class="s2">&quot;The `seed` for the random number &quot;</span>
+                                    <span class="s2">&quot;generator is missing. The set seed &quot;</span>
+                                    <span class="s2">&quot;of seed=42 will be used.&quot;</span><span class="p">)</span>
+            <span class="c1"># Using a default seed.</span>
+            <span class="n">seed</span> <span class="o">=</span> <span class="mi">42</span>
+        <span class="c1"># Also check for the range, if it was provided, evaluate the</span>
+        <span class="c1"># minimum and maximum for number generation.</span>
+        <span class="k">if</span> <span class="p">(</span><span class="nb">range</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">):</span>
+            <span class="c1"># They didn&#39;t give us a range either.</span>
+            <span class="n">core</span><span class="o">.</span><span class="n">error</span><span class="o">.</span><span class="n">ifas_warning</span><span class="p">(</span><span class="n">core</span><span class="o">.</span><span class="n">error</span><span class="o">.</span><span class="n">InputWarning</span><span class="p">,</span>
+                                  <span class="p">(</span><span class="s2">&quot;The `range` for the random number &quot;</span>
+                                  <span class="s2">&quot;generator is missing. Using the defaults &quot;</span>
+                                  <span class="s2">&quot;0.0 and 1.0 instead as [0.0, 1.0).&quot;</span><span class="p">))</span>
+            <span class="n">min_range</span> <span class="o">=</span> <span class="mf">0.0</span>
+            <span class="n">max_range</span> <span class="o">=</span> <span class="mf">1.0</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="c1"># Assigning the range based on their inputs.</span>
+            <span class="n">min_range</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">nanmin</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="nb">range</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="nb">float</span><span class="p">))</span>
+            <span class="n">max_range</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">nanmax</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="nb">range</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="nb">float</span><span class="p">))</span>
+            <span class="c1"># Test if their inputs for the maximum and minimum are</span>
+            <span class="c1"># the same, it would make little sense if they did. </span>
+            <span class="c1"># Handle float-based equality.</span>
+            <span class="n">float_tolerance</span> <span class="o">=</span> <span class="n">core</span><span class="o">.</span><span class="n">runtime</span><span class="o">.</span><span class="n">extract_runtime_configuration</span><span class="p">(</span>
+                <span class="n">config_key</span><span class="o">=</span><span class="s1">&#39;FLOAT_EQUALITY_TOLERANCE&#39;</span><span class="p">)</span>
+            <span class="k">if</span> <span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">isclose</span><span class="p">(</span><span class="n">min_range</span><span class="p">,</span> <span class="n">max_range</span><span class="p">,</span> <span class="n">rtol</span><span class="o">=</span><span class="n">float_tolerance</span><span class="p">)):</span>
+                <span class="n">core</span><span class="o">.</span><span class="n">error</span><span class="o">.</span><span class="n">ifas_error</span><span class="p">(</span><span class="n">core</span><span class="o">.</span><span class="n">error</span><span class="o">.</span><span class="n">InputErrro</span><span class="p">,</span>
+                                      <span class="p">(</span><span class="s2">&quot;The minimum and maximum values &quot;</span>
+                                       <span class="s2">&quot;allowed for pseudorandom number &quot;</span>
+                                       <span class="s2">&quot;generation are very close. The &quot;</span>
+                                       <span class="s2">&quot;array might be populated with the &quot;</span>
+                                       <span class="s2">&quot;same value.&quot;</span><span class="p">))</span>
+
+        <span class="c1"># Psuedorandom data as generated from the seed. The shape is</span>
+        <span class="c1"># also factored in.</span>
+        <span class="n">random_data</span> <span class="o">=</span> <span class="n">np_rand</span><span class="o">.</span><span class="n">default_rng</span><span class="p">(</span><span class="n">seed</span><span class="p">)</span><span class="o">.</span><span class="n">random</span><span class="p">(</span><span class="n">data_shape</span><span class="p">)</span>
+
+        <span class="c1"># The numbers are currently [0,1). This scales them to be</span>
+        <span class="c1"># [min, max) as specified by the range of random values.</span>
+        <span class="c1"># See https://numpy.org/doc/stable/reference/random/generated/numpy.random.Generator.random.html#numpy.random.Generator.random </span>
+        <span class="c1"># Creating the data array also.</span>
+        <span class="n">data_array</span> <span class="o">=</span> <span class="n">min_range</span> <span class="o">+</span> <span class="p">(</span><span class="n">max_range</span> <span class="o">-</span> <span class="n">min_range</span><span class="p">)</span> <span class="o">*</span> <span class="n">random_data</span>
+
+    <span class="k">elif</span> <span class="p">(</span><span class="n">generation_mode</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span> <span class="o">==</span> <span class="s1">&#39;random&#39;</span><span class="p">):</span>
+        <span class="c1"># The numbers provided should be completely random.</span>
+
+        <span class="c1"># Checking to see if the range was provided. If not, default</span>
+        <span class="c1"># to the normal [0.0, 1.0).</span>
+        <span class="k">if</span> <span class="p">(</span><span class="nb">range</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">):</span>
+            <span class="c1"># They didn&#39;t give us a range either.</span>
+            <span class="n">core</span><span class="o">.</span><span class="n">error</span><span class="o">.</span><span class="n">ifas_warning</span><span class="p">(</span><span class="n">core</span><span class="o">.</span><span class="n">error</span><span class="o">.</span><span class="n">InputWarning</span><span class="p">,</span>
+                                  <span class="p">(</span><span class="s2">&quot;The `range` for the random number &quot;</span>
+                                   <span class="s2">&quot;generator is missing. Using the defaults &quot;</span>
+                                   <span class="s2">&quot;0.0 and 1.0 instead as [0.0, 1.0).&quot;</span><span class="p">))</span>
+            <span class="n">min_range</span> <span class="o">=</span> <span class="mf">0.0</span>
+            <span class="n">max_range</span> <span class="o">=</span> <span class="mf">1.0</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="c1"># Assigning the range based on their inputs.</span>
+            <span class="n">min_range</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">nanmin</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="nb">range</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="nb">float</span><span class="p">))</span>
+            <span class="n">max_range</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">nanmax</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="nb">range</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="nb">float</span><span class="p">))</span>
+            <span class="c1"># Test if their inputs for the maximum and minimum are</span>
+            <span class="c1"># the same, it would make little sense if they did. </span>
+            <span class="c1"># Handle float-based equality.</span>
+            <span class="n">float_tolerance</span> <span class="o">=</span> <span class="n">core</span><span class="o">.</span><span class="n">runtime</span><span class="o">.</span><span class="n">extract_runtime_configuration</span><span class="p">(</span>
+                <span class="n">config_key</span><span class="o">=</span><span class="s1">&#39;FLOAT_EQUALITY_TOLERANCE&#39;</span><span class="p">)</span>
+            <span class="k">if</span> <span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">isclose</span><span class="p">(</span><span class="n">min_range</span><span class="p">,</span> <span class="n">max_range</span><span class="p">,</span> <span class="n">rtol</span><span class="o">=</span><span class="n">float_tolerance</span><span class="p">)):</span>
+                <span class="n">core</span><span class="o">.</span><span class="n">error</span><span class="o">.</span><span class="n">ifas_error</span><span class="p">(</span><span class="n">core</span><span class="o">.</span><span class="n">error</span><span class="o">.</span><span class="n">InputError</span><span class="p">,</span>
+                                      <span class="p">(</span><span class="s2">&quot;The minimum and maximum values &quot;</span>
+                                       <span class="s2">&quot;allowed for random number generation &quot;</span>
+                                       <span class="s2">&quot;are very close. The array might be &quot;</span>
+                                       <span class="s2">&quot;populated with the same value.&quot;</span><span class="p">))</span>
+
+        <span class="c1"># Random data as generated from the seed. The shape is</span>
+        <span class="c1"># also factored in. A None seed forces the usage of the </span>
+        <span class="c1"># machine&#39;s random number seed generator, or its clock. </span>
+        <span class="c1"># Both are good enough.</span>
+        <span class="n">random_data</span> <span class="o">=</span> <span class="n">np_rand</span><span class="o">.</span><span class="n">default_rng</span><span class="p">(</span><span class="kc">None</span><span class="p">)</span><span class="o">.</span><span class="n">random</span><span class="p">(</span><span class="n">data_shape</span><span class="p">)</span>
+
+        <span class="c1"># The numbers are currently [0,1). This scales them to be</span>
+        <span class="c1"># [min, max) as specified by the range of random values.</span>
+        <span class="c1"># See https://cutt.ly/kyUUmgC .</span>
+        <span class="c1"># Creating the data array also.</span>
+        <span class="n">data_array</span> <span class="o">=</span> <span class="n">min_range</span> <span class="o">+</span> <span class="p">(</span><span class="n">max_range</span> <span class="o">-</span> <span class="n">min_range</span><span class="p">)</span> <span class="o">*</span> <span class="n">random_data</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="c1"># The generation mode is not a valid input.</span>
+        <span class="k">raise</span> <span class="n">core</span><span class="o">.</span><span class="n">error</span><span class="o">.</span><span class="n">InputError</span><span class="p">(</span><span class="s2">&quot;The generation mode input is not a &quot;</span>
+                                    <span class="s2">&quot;valid mode of data generation. &quot;</span>
+                                    <span class="s2">&quot;Current input: </span><span class="si">{input}</span><span class="s2">&quot;</span>
+                                    <span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="nb">input</span><span class="o">=</span><span class="n">generation_mode</span><span class="p">))</span>
+
+    <span class="c1"># The data array should only be integers, mirroring </span>
+    <span class="c1"># SAPHIRA arrays as they are integer only.</span>
+    <span class="n">data_array</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">data_array</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="nb">int</span><span class="p">)</span>
+
+    <span class="c1"># Creating the header for this file.</span>
+    <span class="n">data_header</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;TUTORIAL&#39;</span><span class="p">:</span><span class="kc">True</span><span class="p">,</span>
+                   <span class="s1">&#39;data_generator&#39;</span><span class="p">:</span><span class="n">generation_mode</span><span class="o">.</span><span class="n">lower</span><span class="p">(),</span>
+                   <span class="s1">&#39;data_shape&#39;</span><span class="p">:</span><span class="nb">str</span><span class="p">(</span><span class="n">data_shape</span><span class="p">),</span>
+                   <span class="s1">&#39;fill_value&#39;</span><span class="p">:</span><span class="n">fill_value</span><span class="p">,</span> 
+                   <span class="s1">&#39;seed&#39;</span><span class="p">:</span><span class="n">seed</span><span class="p">,</span> 
+                   <span class="s1">&#39;range&#39;</span><span class="p">:</span><span class="nb">str</span><span class="p">(</span><span class="nb">range</span><span class="p">)}</span>
+
+    <span class="c1"># Creating the Astropy object. There is no need to write it to</span>
+    <span class="c1"># file.</span>
+    <span class="n">hdu_object</span> <span class="o">=</span> <span class="n">core</span><span class="o">.</span><span class="n">io</span><span class="o">.</span><span class="n">write_fits_file</span><span class="p">(</span>
+        <span class="n">file_name</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">hdu_header</span><span class="o">=</span><span class="n">data_header</span><span class="p">,</span> <span class="n">hdu_data</span><span class="o">=</span><span class="n">data_array</span><span class="p">,</span> 
+        <span class="n">hdu_object</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">save_file</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">overwrite</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">silent</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+
+    <span class="c1"># All done, return.</span>
+    <span class="k">return</span> <span class="n">hdu_object</span></div>
+
+</pre></div>
+
+           </div>
+           
+          </div>
+          <footer>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        
+        &copy; Copyright 2020, Sparrow
+
+    </p>
+  </div>
+    
+    
+    
+    Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a
+    
+    <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a>
+    
+    provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+
+  
+  
+    
+   
+
+</body>
+</html>

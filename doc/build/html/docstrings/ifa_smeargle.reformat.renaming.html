@@ -1,0 +1,487 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>ifa_smeargle.reformat.renaming module &mdash; IfA_Smeargle 2020 documentation</title>
+  
+
+  
+  <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+  <link rel="stylesheet" href="../_static/css/custom.css" type="text/css" />
+
+  
+  
+  
+  
+
+  
+  <!--[if lt IE 9]>
+    <script src="../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+    
+      <script type="text/javascript" id="documentation_options" data-url_root="../" src="../_static/documentation_options.js"></script>
+        <script src="../_static/jquery.js"></script>
+        <script src="../_static/underscore.js"></script>
+        <script src="../_static/doctools.js"></script>
+        <script src="../_static/language_data.js"></script>
+    
+    <script type="text/javascript" src="../_static/js/theme.js"></script>
+
+    
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="ifa_smeargle.reformat.sanitization module" href="ifa_smeargle.reformat.sanitization.html" />
+    <link rel="prev" title="ifa_smeargle.reformat.collapse module" href="ifa_smeargle.reformat.collapse.html" /> 
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+          
+
+          
+            <a href="../index.html" class="icon icon-home" alt="Documentation Home"> IfA_Smeargle
+          
+
+          
+          </a>
+
+          
+            
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <p class="caption"><span class="caption-text">Code Documentation:</span></p>
+<ul class="current">
+<li class="toctree-l1 current"><a class="reference internal" href="modules.html">ifa_smeargle</a><ul class="current">
+<li class="toctree-l2 current"><a class="reference internal" href="ifa_smeargle.html">ifa_smeargle package</a><ul class="current">
+<li class="toctree-l3 current"><a class="reference internal" href="ifa_smeargle.html#subpackages">Subpackages</a><ul class="current">
+<li class="toctree-l4"><a class="reference internal" href="ifa_smeargle.analysis.html">ifa_smeargle.analysis package</a></li>
+<li class="toctree-l4"><a class="reference internal" href="ifa_smeargle.core.html">ifa_smeargle.core package</a></li>
+<li class="toctree-l4"><a class="reference internal" href="ifa_smeargle.masking.html">ifa_smeargle.masking package</a></li>
+<li class="toctree-l4"><a class="reference internal" href="ifa_smeargle.plotting.html">ifa_smeargle.plotting package</a></li>
+<li class="toctree-l4 current"><a class="reference internal" href="ifa_smeargle.reformat.html">ifa_smeargle.reformat package</a></li>
+<li class="toctree-l4"><a class="reference internal" href="ifa_smeargle.testing.html">ifa_smeargle.testing package</a></li>
+<li class="toctree-l4"><a class="reference internal" href="ifa_smeargle.tutorial.html">ifa_smeargle.tutorial package</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="ifa_smeargle.html#submodules">Submodules</a></li>
+<li class="toctree-l3"><a class="reference internal" href="ifa_smeargle.html#module-ifa_smeargle">Module contents</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+
+            
+          
+        </div>
+        
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../index.html">IfA_Smeargle</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="../index.html" class="icon icon-home"></a> &raquo;</li>
+        
+          <li><a href="modules.html">ifa_smeargle</a> &raquo;</li>
+        
+          <li><a href="ifa_smeargle.html">ifa_smeargle package</a> &raquo;</li>
+        
+          <li><a href="ifa_smeargle.reformat.html">ifa_smeargle.reformat package</a> &raquo;</li>
+        
+      <li>ifa_smeargle.reformat.renaming module</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+            
+            
+              <a href="https://github.com/psmd-iberutaru/IfA_Smeargle/blob/testdoc/source/docstrings/ifa_smeargle.reformat.renaming.rst" class="fa fa-github"> Edit on GitHub</a>
+            
+          
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <div class="section" id="module-ifa_smeargle.reformat.renaming">
+<span id="ifa-smeargle-reformat-renaming-module"></span><h1>ifa_smeargle.reformat.renaming module<a class="headerlink" href="#module-ifa_smeargle.reformat.renaming" title="Permalink to this headline">¶</a></h1>
+<p>This file contains methods used to determine proper naming
+conventions and to reformat the fits file names from raw output
+(often just timestamps) to something more useful and accurate to the
+data.</p>
+<dl class="function">
+<dt id="ifa_smeargle.reformat.renaming.rename_detector">
+<code class="sig-prename descclassname">ifa_smeargle.reformat.renaming.</code><code class="sig-name descname">rename_detector</code><span class="sig-paren">(</span><em class="sig-param">data_directory</em>, <em class="sig-param">detector_name</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/ifa_smeargle/reformat/renaming.html#rename_detector"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#ifa_smeargle.reformat.renaming.rename_detector" title="Permalink to this definition">¶</a></dt>
+<dd><p>Creates file tags according to the detector qualifier name.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>data_directory</strong> (<em>string</em>) – This is the directory that contain all of the data files to
+be renamed.</p></li>
+<li><p><strong>detector_name</strong> (<em>string</em>) – The detector name that should be applied.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p><ul class="simple">
+<li><p><strong>detector_string_list</strong> (<em>list</em>) – This is the list of the state on if the object is garbage or
+not.</p></li>
+<li><p><strong>detector_raw_list</strong> (<em>list</em>) – This is the raw, unformatted values that was formatted into
+the string version.</p></li>
+</ul>
+</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="function">
+<dt id="ifa_smeargle.reformat.renaming.rename_garbage">
+<code class="sig-prename descclassname">ifa_smeargle.reformat.renaming.</code><code class="sig-name descname">rename_garbage</code><span class="sig-paren">(</span><em class="sig-param">data_directory</em>, <em class="sig-param">begin_garbage=0</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/ifa_smeargle/reformat/renaming.html#rename_garbage"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#ifa_smeargle.reformat.renaming.rename_garbage" title="Permalink to this definition">¶</a></dt>
+<dd><p>Creates file tags according to their status as garbage. If
+a file is garbage, it should generally not be used.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>data_directory</strong> (<em>string</em>) – This is the directory that contain all of the data files to
+be renamed.</p></li>
+<li><p><strong>begin_garbage</strong> (<em>int</em><em> (</em><em>optional</em><em>)</em>) – The number of files, in the beginning, that should not count
+as data, (i.e. the number of garbage files).</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p><ul class="simple">
+<li><p><strong>garbage_string_list</strong> (<em>list</em>) – This is the list of the state on if the object is garbage
+or not.</p></li>
+<li><p><strong>garbage_raw_list</strong> (<em>list</em>) – This is the raw, unformatted values that was formatted
+into the string version.</p></li>
+</ul>
+</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="function">
+<dt id="ifa_smeargle.reformat.renaming.rename_number">
+<code class="sig-prename descclassname">ifa_smeargle.reformat.renaming.</code><code class="sig-name descname">rename_number</code><span class="sig-paren">(</span><em class="sig-param">data_directory</em>, <em class="sig-param">begin_garbage=0</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/ifa_smeargle/reformat/renaming.html#rename_number"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#ifa_smeargle.reformat.renaming.rename_number" title="Permalink to this definition">¶</a></dt>
+<dd><p>Creates file tags according to their number in order.</p>
+<p>Some data filename outputs only give timestamps. This function
+renames said filenames for better processing.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>data_directory</strong> (<em>string</em>) – This is the directory that contain all of the data files to
+be renamed.</p></li>
+<li><p><strong>begin_garbage</strong> (<em>int</em><em> (</em><em>optional</em><em>)</em>) – The number of files, in the beginning, that should not count
+as data.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p><ul class="simple">
+<li><p><strong>number_string_list</strong> (<em>list</em>) – This is the list of the numbered strings applied, given in
+a parallel ordered form. Does not include prefixes/suffixes.</p></li>
+<li><p><strong>number_raw_list</strong> (<em>list</em>) – This is the raw, unformatted values that was formatted
+into the string version.</p></li>
+</ul>
+</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="function">
+<dt id="ifa_smeargle.reformat.renaming.rename_set">
+<code class="sig-prename descclassname">ifa_smeargle.reformat.renaming.</code><code class="sig-name descname">rename_set</code><span class="sig-paren">(</span><em class="sig-param">data_directory</em>, <em class="sig-param">set_length</em>, <em class="sig-param">begin_garbage=0</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/ifa_smeargle/reformat/renaming.html#rename_set"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#ifa_smeargle.reformat.renaming.rename_set" title="Permalink to this definition">¶</a></dt>
+<dd><p>Creates file tags according to their set number, as
+determined by the number of files in a set. Sets are assumed
+to be consecutive.</p>
+<p>Some data filename outputs only give timestamps. This function
+renames said filenames for better processing.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>data_directory</strong> (<em>string</em>) – This is the directory that contain all of the data files
+to be renamed.</p></li>
+<li><p><strong>set_length</strong> (<em>int</em>) – This is the length of a set.</p></li>
+<li><p><strong>begin_garbage</strong> (<em>int</em><em> (</em><em>optional</em><em>)</em>) – The number of files, in the beginning, that should not
+count as data.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p><ul class="simple">
+<li><p><strong>set_string_list</strong> (<em>list</em>) – This is the list of the numbered strings applied, given in
+a parallel ordered form. Does not include prefixes/suffixes.</p></li>
+<li><p><strong>set_raw_list</strong> (<em>list</em>) – This is the raw, unformatted values that was formatted
+into the string version.</p></li>
+</ul>
+</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="function">
+<dt id="ifa_smeargle.reformat.renaming.rename_voltage_pattern">
+<code class="sig-prename descclassname">ifa_smeargle.reformat.renaming.</code><code class="sig-name descname">rename_voltage_pattern</code><span class="sig-paren">(</span><em class="sig-param">data_directory</em>, <em class="sig-param">voltage_pattern</em>, <em class="sig-param">begin_garbage=0</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/ifa_smeargle/reformat/renaming.html#rename_voltage_pattern"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#ifa_smeargle.reformat.renaming.rename_voltage_pattern" title="Permalink to this definition">¶</a></dt>
+<dd><p>Creates file tags according to their voltage pattern
+specified.</p>
+<p>Some data filename outputs only give timestamps. This function
+renames said filenames for better processing.</p>
+<p>The output files created are according to the voltage pattern
+that the user specified. This function assumes that the pattern
+provided is one ‘set’, where a set contains some amount of fits
+files. Moreover, this function weakly determines which are
+up-mid-down ramps.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>data_directory</strong> (<em>string</em>) – This is the directory that contain all of the data files
+to be renamed.</p></li>
+<li><p><strong>voltage_pattern</strong> (<em>array_like</em>) – These are voltage values, assuming that the first element
+is the first voltage element to be used, proceeding from
+there in order.</p></li>
+<li><p><strong>begin_garbage</strong> (<em>int</em><em> (</em><em>optional</em><em>)</em>) – The number of files, in the beginning, that should not count
+as data.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p><ul class="simple">
+<li><p><strong>voltage_string_list</strong> (<em>list</em>) – This is the list of the voltage strings applied, given in
+a parallel ordered form. Does not include prefixes/suffixes.</p></li>
+<li><p><strong>voltage_raw_list</strong> (<em>dictionary</em>) – This is the raw, unformatted values that was formatted
+into the string version. The voltage values and trends are
+separated (as <cite>value</cite> and <cite>trend</cite>).</p></li>
+</ul>
+</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="function">
+<dt id="ifa_smeargle.reformat.renaming.script_rename_detector">
+<code class="sig-prename descclassname">ifa_smeargle.reformat.renaming.</code><code class="sig-name descname">script_rename_detector</code><span class="sig-paren">(</span><em class="sig-param">config</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/ifa_smeargle/reformat/renaming.html#script_rename_detector"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#ifa_smeargle.reformat.renaming.script_rename_detector" title="Permalink to this definition">¶</a></dt>
+<dd><p>The scripting version of <cite>rename_detector</cite>. This function
+applies the rename to the entire directory. It also adds the
+tags to the header file of each fits.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>config</strong> (<em>ConfigObj</em>) – The configuration object that is to be used for
+this function.</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p></p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>None</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="function">
+<dt id="ifa_smeargle.reformat.renaming.script_rename_garbage">
+<code class="sig-prename descclassname">ifa_smeargle.reformat.renaming.</code><code class="sig-name descname">script_rename_garbage</code><span class="sig-paren">(</span><em class="sig-param">config</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/ifa_smeargle/reformat/renaming.html#script_rename_garbage"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#ifa_smeargle.reformat.renaming.script_rename_garbage" title="Permalink to this definition">¶</a></dt>
+<dd><p>The scripting version of <cite>rename_garbage</cite>. This function
+applies the rename to the entire directory. It also adds the
+tags to the header file of each fits.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>config</strong> (<em>ConfigObj</em>) – The configuration object that is to be used for this
+function.</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p></p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>None</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="function">
+<dt id="ifa_smeargle.reformat.renaming.script_rename_number">
+<code class="sig-prename descclassname">ifa_smeargle.reformat.renaming.</code><code class="sig-name descname">script_rename_number</code><span class="sig-paren">(</span><em class="sig-param">config</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/ifa_smeargle/reformat/renaming.html#script_rename_number"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#ifa_smeargle.reformat.renaming.script_rename_number" title="Permalink to this definition">¶</a></dt>
+<dd><p>The scripting version of <cite>rename_number</cite>. This function
+applies the rename to the entire directory. It also adds the
+tags to the header file of each fits.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>config</strong> (<em>ConfigObj</em>) – The configuration object that is to be used for this
+function.</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p></p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>None</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="function">
+<dt id="ifa_smeargle.reformat.renaming.script_rename_set">
+<code class="sig-prename descclassname">ifa_smeargle.reformat.renaming.</code><code class="sig-name descname">script_rename_set</code><span class="sig-paren">(</span><em class="sig-param">config</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/ifa_smeargle/reformat/renaming.html#script_rename_set"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#ifa_smeargle.reformat.renaming.script_rename_set" title="Permalink to this definition">¶</a></dt>
+<dd><p>The scripting version of <cite>rename_set</cite>. This function
+applies the rename to the entire directory. It also adds the
+tags to the header file of each fits.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>config</strong> (<em>ConfigObj</em>) – The configuration object that is to be used for this
+function.</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p></p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>None</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="function">
+<dt id="ifa_smeargle.reformat.renaming.script_rename_voltage_pattern">
+<code class="sig-prename descclassname">ifa_smeargle.reformat.renaming.</code><code class="sig-name descname">script_rename_voltage_pattern</code><span class="sig-paren">(</span><em class="sig-param">config</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/ifa_smeargle/reformat/renaming.html#script_rename_voltage_pattern"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#ifa_smeargle.reformat.renaming.script_rename_voltage_pattern" title="Permalink to this definition">¶</a></dt>
+<dd><p>The scripting version of <cite>rename_voltage_pattern</cite>. This
+function applies the rename to the entire directory. It also
+adds the tags to the header file of each fits.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>config</strong> (<em>ConfigObj</em>) – The configuration object that is to be used for this
+function.</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p></p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>None</p>
+</dd>
+</dl>
+</dd></dl>
+
+</div>
+
+
+           </div>
+           
+          </div>
+          <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+        <a href="ifa_smeargle.reformat.sanitization.html" class="btn btn-neutral float-right" title="ifa_smeargle.reformat.sanitization module" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
+      
+      
+        <a href="ifa_smeargle.reformat.collapse.html" class="btn btn-neutral float-left" title="ifa_smeargle.reformat.collapse module" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+      
+    </div>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        
+        &copy; Copyright 2020, Sparrow
+
+    </p>
+  </div>
+    
+    
+    
+    Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a
+    
+    <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a>
+    
+    provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+
+  
+  
+    
+   
+
+</body>
+</html>

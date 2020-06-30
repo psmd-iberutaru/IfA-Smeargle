@@ -15,7 +15,7 @@ VERSION = '0.2.0'
 
 DEPENDENCIES = ['astropy', 'configobj >= 5.0', 'matplotlib', 'numpy', 
                 'pandas','pylint', 'pytest', 'scipy', 'setuptools',
-                'Sphinx', 'sympy']
+                'Sphinx', 'sphinx_rtd_theme', 'sympy']
 
 ENTRY_POINTS =  {
     "console_scripts": ["ifa_smeargle = ifa_smeargle:run_entry"]}

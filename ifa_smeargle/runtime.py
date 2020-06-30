@@ -38,7 +38,6 @@ def get_module_directory():
 
     return module_directory
 
-
 def get_configuration_files():
     """ This function obtains all of the configuration files,
     returning a dictionary of them for each of their paths.

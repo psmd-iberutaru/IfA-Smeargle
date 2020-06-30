@@ -24,14 +24,19 @@ def tutorial_generate_fits_file(generation_mode, data_shape,
     generation_mode : string
         The generation mode that the data will adhere to. 
             
-            * 'fill' : The fits data values are some constant number.
-            * 'increment' : The files data values are created by 
-            counting up individually. Order is based on C indexing.
-            * 'pseudorandom' : The fits data values are generated 
-            using a set seed and a pseudorandom number generator.
-            * 'random' : The fits data values are generated randomly 
-            as determined by undetermined-seed random number 
-            generator.
+            * 'fill'
+                The fits data values are some constant number.
+            * 'increment'
+                The files data values are created by counting
+                up individually. Order is based on C indexing.
+            * 'pseudorandom'
+                The fits data values are generated using
+                a set seed and a pseudorandom number generator.
+            * 'random'
+                The fits data values are generated randomly 
+                as determined by undetermined-seed random number 
+                generator.
+
     data_shape : tuple
         The shape of the data that will be created.
     fill_value : float (optional)

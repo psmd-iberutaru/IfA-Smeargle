@@ -1,0 +1,377 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>ifa_smeargle.tutorial.scripting &mdash; IfA_Smeargle 2020 documentation</title>
+  
+
+  
+  <link rel="stylesheet" href="../../../_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
+  <link rel="stylesheet" href="../../../_static/css/custom.css" type="text/css" />
+
+  
+  
+  
+  
+
+  
+  <!--[if lt IE 9]>
+    <script src="../../../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+    
+      <script type="text/javascript" id="documentation_options" data-url_root="../../../" src="../../../_static/documentation_options.js"></script>
+        <script src="../../../_static/jquery.js"></script>
+        <script src="../../../_static/underscore.js"></script>
+        <script src="../../../_static/doctools.js"></script>
+        <script src="../../../_static/language_data.js"></script>
+    
+    <script type="text/javascript" src="../../../_static/js/theme.js"></script>
+
+    
+    <link rel="index" title="Index" href="../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../search.html" /> 
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+          
+
+          
+            <a href="../../../index.html" class="icon icon-home" alt="Documentation Home"> IfA_Smeargle
+          
+
+          
+          </a>
+
+          
+            
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <p class="caption"><span class="caption-text">Code Documentation:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../docstrings/modules.html">ifa_smeargle</a></li>
+</ul>
+
+            
+          
+        </div>
+        
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../../index.html">IfA_Smeargle</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="../../../index.html" class="icon icon-home"></a> &raquo;</li>
+        
+          <li><a href="../../index.html">Module code</a> &raquo;</li>
+        
+      <li>ifa_smeargle.tutorial.scripting</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <h1>Source code for ifa_smeargle.tutorial.scripting</h1><div class="highlight"><pre>
+<span></span>
+<span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">This is where all of the scripts that create different tutorials</span>
+<span class="sd">for each different type of detector lies.</span>
+<span class="sd">&quot;&quot;&quot;</span>
+
+<span class="kn">import</span> <span class="nn">copy</span>
+<span class="kn">import</span> <span class="nn">os</span>
+<span class="kn">import</span> <span class="nn">time</span>
+
+<span class="kn">import</span> <span class="nn">ifa_smeargle.core</span> <span class="k">as</span> <span class="nn">core</span>
+<span class="kn">import</span> <span class="nn">ifa_smeargle.tutorial</span> <span class="k">as</span> <span class="nn">tutorial</span>
+
+<div class="viewcode-block" id="script_generate_saphira_tutorial"><a class="viewcode-back" href="../../../docstrings/ifa_smeargle.tutorial.scripting.html#ifa_smeargle.tutorial.scripting.script_generate_saphira_tutorial">[docs]</a><span class="k">def</span> <span class="nf">script_generate_saphira_tutorial</span><span class="p">(</span><span class="n">config</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot; This function generates a tutorial directory for new users</span>
+<span class="sd">    to experiment with.</span>
+
+<span class="sd">    This script generates a tutorial for the SAPHIRA detectors and</span>
+<span class="sd">    what kind of data they would spit out.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    config : ConfigObj</span>
+<span class="sd">        The configuration object that is to be used for this </span>
+<span class="sd">        function.</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    None    </span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="c1"># Extract global parameters.</span>
+    <span class="n">tutorial_directory</span> <span class="o">=</span> <span class="n">core</span><span class="o">.</span><span class="n">config</span><span class="o">.</span><span class="n">extract_configuration</span><span class="p">(</span>
+        <span class="n">config_object</span><span class="o">=</span><span class="n">config</span><span class="p">,</span> <span class="n">keys</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;tutorial_directory&#39;</span><span class="p">])</span>
+    <span class="n">tutorial_creation_override</span> <span class="o">=</span> <span class="n">core</span><span class="o">.</span><span class="n">config</span><span class="o">.</span><span class="n">extract_configuration</span><span class="p">(</span>
+        <span class="n">config_object</span><span class="o">=</span><span class="n">config</span><span class="p">,</span> <span class="n">keys</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;tutorial_creation_override&#39;</span><span class="p">])</span>
+
+    <span class="c1"># Extract parameters dedicated to the generation of the</span>
+    <span class="c1"># tutorial.</span>
+    <span class="n">number_of_fits_files</span> <span class="o">=</span> <span class="n">core</span><span class="o">.</span><span class="n">config</span><span class="o">.</span><span class="n">extract_configuration</span><span class="p">(</span>
+        <span class="n">config_object</span><span class="o">=</span><span class="n">config</span><span class="p">,</span> <span class="n">keys</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;generation&#39;</span><span class="p">,</span><span class="s1">&#39;number_of_fits_files&#39;</span><span class="p">])</span>
+    <span class="n">generation_mode</span> <span class="o">=</span> <span class="n">core</span><span class="o">.</span><span class="n">config</span><span class="o">.</span><span class="n">extract_configuration</span><span class="p">(</span>
+        <span class="n">config_object</span><span class="o">=</span><span class="n">config</span><span class="p">,</span> <span class="n">keys</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;generation&#39;</span><span class="p">,</span><span class="s1">&#39;generation_mode&#39;</span><span class="p">])</span>
+    <span class="n">fill_value</span> <span class="o">=</span> <span class="n">core</span><span class="o">.</span><span class="n">config</span><span class="o">.</span><span class="n">extract_configuration</span><span class="p">(</span>
+        <span class="n">config_object</span><span class="o">=</span><span class="n">config</span><span class="p">,</span> <span class="n">keys</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;generation&#39;</span><span class="p">,</span><span class="s1">&#39;fill_value&#39;</span><span class="p">])</span>
+    <span class="n">seed</span> <span class="o">=</span> <span class="n">core</span><span class="o">.</span><span class="n">config</span><span class="o">.</span><span class="n">extract_configuration</span><span class="p">(</span>
+        <span class="n">config_object</span><span class="o">=</span><span class="n">config</span><span class="p">,</span> <span class="n">keys</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;generation&#39;</span><span class="p">,</span><span class="s1">&#39;seed&#39;</span><span class="p">])</span>
+    <span class="n">minimum_range</span> <span class="o">=</span> <span class="n">core</span><span class="o">.</span><span class="n">config</span><span class="o">.</span><span class="n">extract_configuration</span><span class="p">(</span>
+        <span class="n">config_object</span><span class="o">=</span><span class="n">config</span><span class="p">,</span> <span class="n">keys</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;generation&#39;</span><span class="p">,</span><span class="s1">&#39;minimum_range&#39;</span><span class="p">])</span>
+    <span class="n">maximum_range</span> <span class="o">=</span> <span class="n">core</span><span class="o">.</span><span class="n">config</span><span class="o">.</span><span class="n">extract_configuration</span><span class="p">(</span>
+        <span class="n">config_object</span><span class="o">=</span><span class="n">config</span><span class="p">,</span> <span class="n">keys</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;generation&#39;</span><span class="p">,</span><span class="s1">&#39;maximum_range&#39;</span><span class="p">])</span>
+    <span class="n">data_shape</span> <span class="o">=</span> <span class="n">core</span><span class="o">.</span><span class="n">config</span><span class="o">.</span><span class="n">extract_configuration</span><span class="p">(</span>
+        <span class="n">config_object</span><span class="o">=</span><span class="n">config</span><span class="p">,</span> <span class="n">keys</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;generation&#39;</span><span class="p">,</span><span class="s1">&#39;data_shape&#39;</span><span class="p">])</span>
+
+    <span class="n">config_destination</span> <span class="o">=</span> <span class="n">core</span><span class="o">.</span><span class="n">config</span><span class="o">.</span><span class="n">extract_configuration</span><span class="p">(</span>
+        <span class="n">config_object</span><span class="o">=</span><span class="n">config</span><span class="p">,</span> <span class="n">keys</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;generation&#39;</span><span class="p">,</span><span class="s1">&#39;config_destination&#39;</span><span class="p">])</span>
+
+    <span class="c1"># Compiling the configurations into forms recognized by the </span>
+    <span class="c1"># functions that they are used for.</span>
+    <span class="n">generation_range</span> <span class="o">=</span> <span class="p">[</span><span class="n">minimum_range</span><span class="p">,</span> <span class="n">maximum_range</span><span class="p">]</span>
+    <span class="c1"># If the configuration destination is not provided, then default </span>
+    <span class="c1"># to the tutorial directory. If it is invalid, let it raise an</span>
+    <span class="c1"># error elsewhere but still warn about it.</span>
+    <span class="k">if</span> <span class="p">((</span><span class="nb">isinstance</span><span class="p">(</span><span class="n">config_destination</span><span class="p">,</span> <span class="nb">str</span><span class="p">))</span> <span class="ow">and</span> 
+        <span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">config_destination</span><span class="p">)</span> <span class="o">!=</span> <span class="mi">0</span><span class="p">)):</span>
+        <span class="n">config_destination</span> <span class="o">=</span> <span class="n">config_destination</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">config_destination</span> <span class="o">=</span> <span class="n">tutorial_directory</span>
+        <span class="n">core</span><span class="o">.</span><span class="n">error</span><span class="o">.</span><span class="n">ifas_warning</span><span class="p">(</span><span class="n">core</span><span class="o">.</span><span class="n">error</span><span class="o">.</span><span class="n">ConfigurationWarning</span><span class="p">,</span>
+                                <span class="p">(</span><span class="s2">&quot;The configuration file destination has &quot;</span>
+                                 <span class="s2">&quot;not been provided. Defaulting to the &quot;</span>
+                                 <span class="s2">&quot;tutorial directory.&quot;</span><span class="p">))</span>
+
+
+    <span class="c1"># First thing is to see if the tutorial directory exists, and,</span>
+    <span class="c1"># if it does not, if it should be created.</span>
+    <span class="k">if</span> <span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">isdir</span><span class="p">(</span><span class="n">tutorial_directory</span><span class="p">)):</span>
+        <span class="c1"># The directory exists, files may be overwritten, warn and</span>
+        <span class="c1"># proceed if creation is mandated.</span>
+        <span class="k">if</span> <span class="p">(</span><span class="n">tutorial_creation_override</span><span class="p">):</span>
+            <span class="n">core</span><span class="o">.</span><span class="n">error</span><span class="o">.</span><span class="n">ifas_error</span><span class="p">(</span><span class="n">core</span><span class="o">.</span><span class="n">error</span><span class="o">.</span><span class="n">InputError</span><span class="p">,</span>
+                                  <span class="p">(</span><span class="s2">&quot;The tutorial directory provided already &quot;</span>
+                                   <span class="s2">&quot;exists. However, the creation flag is &quot;</span>
+                                   <span class="s2">&quot;True so creation will continue. Files &quot;</span>
+                                   <span class="s2">&quot;may be overwritten.&quot;</span><span class="p">))</span>
+            <span class="c1"># Continue.</span>
+            <span class="k">pass</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="c1"># The directory exists, and the creation flag is not </span>
+            <span class="c1"># there to override.</span>
+            <span class="k">raise</span> <span class="n">core</span><span class="o">.</span><span class="n">error</span><span class="o">.</span><span class="n">InputError</span><span class="p">(</span><span class="s2">&quot;The tutorial directory provided &quot;</span>
+                                        <span class="s2">&quot;already exists. The creation flag &quot;</span>
+                                        <span class="s2">&quot;is False, no override will happen.&quot;</span><span class="p">)</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="c1"># It does not exist, so, it may be created based on the </span>
+        <span class="c1"># creation override.</span>
+        <span class="k">if</span> <span class="p">(</span><span class="n">tutorial_creation_override</span><span class="p">):</span>
+            <span class="n">core</span><span class="o">.</span><span class="n">error</span><span class="o">.</span><span class="n">ifas_info</span><span class="p">(</span><span class="s2">&quot;The tutorial directory does not exist. &quot;</span>
+                                 <span class="s2">&quot;The creation flag is True, so, this makes &quot;</span>
+                                 <span class="s2">&quot;sense. The directory will be created.&quot;</span><span class="p">)</span>
+            <span class="c1"># Making the directory.</span>
+            <span class="n">os</span><span class="o">.</span><span class="n">makedirs</span><span class="p">(</span><span class="n">tutorial_directory</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="c1"># The directory does not exist, and no override is </span>
+            <span class="c1"># provided for proper execution.</span>
+            <span class="k">raise</span> <span class="n">core</span><span class="o">.</span><span class="n">error</span><span class="o">.</span><span class="n">InputError</span><span class="p">(</span><span class="s2">&quot;The tutorial directory does not &quot;</span>
+                                        <span class="s2">&quot;exist. The creation flag is False &quot;</span>
+                                        <span class="s2">&quot;so the tutorial directory will not &quot;</span>
+                                        <span class="s2">&quot;be made.&quot;</span><span class="p">)</span>
+
+    <span class="c1"># Within the tutorial directory, make the fits data files.</span>
+    <span class="c1"># Making a dedicated directory for the data.</span>
+    <span class="n">fits_data_directory</span> <span class="o">=</span> <span class="n">core</span><span class="o">.</span><span class="n">strformat</span><span class="o">.</span><span class="n">combine_pathname</span><span class="p">(</span>
+        <span class="n">directory</span><span class="o">=</span><span class="p">[</span><span class="n">tutorial_directory</span><span class="p">,</span><span class="s1">&#39;tutorial_data&#39;</span><span class="p">])</span>
+    <span class="n">os</span><span class="o">.</span><span class="n">makedirs</span><span class="p">(</span><span class="n">fits_data_directory</span><span class="p">,</span> <span class="n">exist_ok</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+    <span class="c1"># Creating the data files.</span>
+    <span class="k">for</span> <span class="n">index</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">number_of_fits_files</span><span class="p">):</span>
+        <span class="c1"># The seed itself doesn&#39;t need to be always the same number,</span>
+        <span class="c1"># but for pseudo-random, it needs to be predictable. </span>
+        <span class="c1"># Incrementing it for every file ensures reproducible, but</span>
+        <span class="c1"># not the same, fits files for more than one fits generation.</span>
+        <span class="n">used_seed</span> <span class="o">=</span> <span class="n">seed</span> <span class="o">+</span> <span class="n">index</span> <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">seed</span><span class="p">,</span> <span class="p">(</span><span class="nb">int</span><span class="p">,</span><span class="nb">float</span><span class="p">))</span> <span class="k">else</span> <span class="kc">None</span>
+
+        <span class="c1"># Generating a data file based on the configuration.</span>
+        <span class="n">hdu_object</span> <span class="o">=</span> <span class="n">tutorial</span><span class="o">.</span><span class="n">generation</span><span class="o">.</span><span class="n">tutorial_generate_fits_file</span><span class="p">(</span>
+            <span class="n">generation_mode</span><span class="o">=</span><span class="n">generation_mode</span><span class="p">,</span> <span class="n">data_shape</span><span class="o">=</span><span class="n">data_shape</span><span class="p">,</span>
+            <span class="n">fill_value</span><span class="o">=</span><span class="n">fill_value</span><span class="p">,</span> <span class="n">seed</span><span class="o">=</span><span class="n">used_seed</span><span class="p">,</span> <span class="nb">range</span><span class="o">=</span><span class="n">generation_range</span><span class="p">)</span>
+        <span class="c1"># The fits file should also have a name that more or less </span>
+        <span class="c1"># simulates real data. SAPHRIA detectors use time-stamps for</span>
+        <span class="c1"># sequential data images. Dummy timestamps should work fine.</span>
+        <span class="n">current_time</span> <span class="o">=</span> <span class="n">time</span><span class="o">.</span><span class="n">strftime</span><span class="p">(</span><span class="s2">&quot;%Y%m</span><span class="si">%d</span><span class="s2">_%H&quot;</span><span class="p">,</span> <span class="n">time</span><span class="o">.</span><span class="n">localtime</span><span class="p">())</span>
+        <span class="n">random_minuite_second</span> <span class="o">=</span> <span class="n">core</span><span class="o">.</span><span class="n">strformat</span><span class="o">.</span><span class="n">random_string</span><span class="p">(</span>
+            <span class="n">characters</span><span class="o">=</span><span class="s1">&#39;0123456&#39;</span><span class="p">,</span> <span class="n">length</span><span class="o">=</span><span class="mi">4</span><span class="p">)</span>
+        <span class="n">fits_file_name</span> <span class="o">=</span> <span class="s1">&#39;&#39;</span><span class="o">.</span><span class="n">join</span><span class="p">([</span><span class="n">current_time</span><span class="p">,</span> <span class="n">random_minuite_second</span><span class="p">])</span>
+        <span class="n">fits_path_name</span> <span class="o">=</span> <span class="n">core</span><span class="o">.</span><span class="n">strformat</span><span class="o">.</span><span class="n">combine_pathname</span><span class="p">(</span>
+            <span class="n">directory</span><span class="o">=</span><span class="p">[</span><span class="n">fits_data_directory</span><span class="p">],</span> 
+            <span class="n">file_name</span><span class="o">=</span><span class="p">[</span><span class="n">fits_file_name</span><span class="p">],</span> <span class="n">extension</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;.fits&#39;</span><span class="p">])</span>
+        <span class="c1"># Save the fits file </span>
+        <span class="n">core</span><span class="o">.</span><span class="n">io</span><span class="o">.</span><span class="n">write_fits_file</span><span class="p">(</span>
+            <span class="n">file_name</span><span class="o">=</span><span class="n">fits_path_name</span><span class="p">,</span> 
+            <span class="n">hdu_header</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">hdu_data</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">hdu_object</span><span class="o">=</span><span class="n">hdu_object</span><span class="p">,</span> 
+            <span class="n">overwrite</span><span class="o">=</span><span class="n">tutorial_creation_override</span><span class="p">,</span> <span class="n">silent</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+
+    <span class="c1"># All possible configuration files that have been created should </span>
+    <span class="c1"># also be copied over.</span>
+    <span class="c1"># If the directory does not exist, create it if overriding is </span>
+    <span class="c1"># available.</span>
+    <span class="k">if</span> <span class="p">(</span><span class="ow">not</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">isdir</span><span class="p">(</span><span class="n">config_destination</span><span class="p">)):</span>
+        <span class="k">if</span> <span class="p">(</span><span class="n">tutorial_creation_override</span><span class="p">):</span>
+            <span class="n">core</span><span class="o">.</span><span class="n">error</span><span class="o">.</span><span class="n">ifas_info</span><span class="p">(</span><span class="s2">&quot;The configuration destination does &quot;</span>
+                                 <span class="s2">&quot;not exist. Creating it as the creation &quot;</span>
+                                 <span class="s2">&quot;override is True.&quot;</span><span class="p">)</span>
+            <span class="c1"># Create the directory(s) needed so that the </span>
+            <span class="c1"># configuration files may be copied into there.</span>
+            <span class="n">os</span><span class="o">.</span><span class="n">makedirs</span><span class="p">(</span><span class="n">config_destination</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">core</span><span class="o">.</span><span class="n">error</span><span class="o">.</span><span class="n">ifas_warning</span><span class="p">(</span><span class="n">core</span><span class="o">.</span><span class="n">error</span><span class="o">.</span><span class="n">InputWarning</span><span class="p">,</span>
+                                    <span class="s2">&quot;The configuration destination does &quot;</span>
+                                    <span class="s2">&quot;not exist. The creation override &quot;</span>
+                                    <span class="s2">&quot;False, the tutorial directory will be &quot;</span>
+                                    <span class="s2">&quot;used instead.&quot;</span><span class="p">)</span>
+            <span class="n">config_destination</span> <span class="o">=</span> <span class="n">tutorial_directory</span>
+
+    <span class="k">for</span> <span class="n">configkeydex</span><span class="p">,</span> <span class="n">__</span> <span class="ow">in</span> <span class="n">core</span><span class="o">.</span><span class="n">runtime</span><span class="o">.</span><span class="n">get_configuration_files</span><span class="p">()</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+        <span class="c1"># Each configuration may need a file name too. Prefixing them</span>
+        <span class="c1"># with tutorial serves to indicate that they are for the </span>
+        <span class="c1"># tutorial. (Not that it really matters.)</span>
+        <span class="n">config_file_name</span> <span class="o">=</span> <span class="n">core</span><span class="o">.</span><span class="n">strformat</span><span class="o">.</span><span class="n">combine_pathname</span><span class="p">(</span>
+            <span class="n">file_name</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;tutorial_&#39;</span><span class="p">,</span> <span class="n">configkeydex</span><span class="p">])</span>
+
+        <span class="c1"># Loop through and generate the configuration files for each</span>
+        <span class="c1"># configuration type. It is automatically copied into the </span>
+        <span class="c1"># correct directory.</span>
+        <span class="n">core</span><span class="o">.</span><span class="n">config</span><span class="o">.</span><span class="n">copy_configuration_file</span><span class="p">(</span>
+            <span class="n">config_type</span><span class="o">=</span><span class="n">configkeydex</span><span class="p">,</span> <span class="n">destination</span><span class="o">=</span><span class="n">config_destination</span><span class="p">,</span>
+            <span class="n">file_name</span><span class="o">=</span><span class="n">config_file_name</span><span class="p">)</span>
+
+    <span class="c1"># It should be all done.</span>
+    <span class="k">return</span> <span class="kc">None</span></div>
+</pre></div>
+
+           </div>
+           
+          </div>
+          <footer>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        
+        &copy; Copyright 2020, Sparrow
+
+    </p>
+  </div>
+    
+    
+    
+    Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a
+    
+    <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a>
+    
+    provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+
+  
+  
+    
+   
+
+</body>
+</html>

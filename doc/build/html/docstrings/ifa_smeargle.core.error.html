@@ -1,0 +1,721 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>ifa_smeargle.core.error module &mdash; IfA_Smeargle 2020 documentation</title>
+  
+
+  
+  <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+  <link rel="stylesheet" href="../_static/css/custom.css" type="text/css" />
+
+  
+  
+  
+  
+
+  
+  <!--[if lt IE 9]>
+    <script src="../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+    
+      <script type="text/javascript" id="documentation_options" data-url_root="../" src="../_static/documentation_options.js"></script>
+        <script src="../_static/jquery.js"></script>
+        <script src="../_static/underscore.js"></script>
+        <script src="../_static/doctools.js"></script>
+        <script src="../_static/language_data.js"></script>
+    
+    <script type="text/javascript" src="../_static/js/theme.js"></script>
+
+    
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="ifa_smeargle.core.io module" href="ifa_smeargle.core.io.html" />
+    <link rel="prev" title="ifa_smeargle.core.configuration module" href="ifa_smeargle.core.configuration.html" /> 
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+          
+
+          
+            <a href="../index.html" class="icon icon-home" alt="Documentation Home"> IfA_Smeargle
+          
+
+          
+          </a>
+
+          
+            
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <p class="caption"><span class="caption-text">Code Documentation:</span></p>
+<ul class="current">
+<li class="toctree-l1 current"><a class="reference internal" href="modules.html">ifa_smeargle</a><ul class="current">
+<li class="toctree-l2 current"><a class="reference internal" href="ifa_smeargle.html">ifa_smeargle package</a><ul class="current">
+<li class="toctree-l3 current"><a class="reference internal" href="ifa_smeargle.html#subpackages">Subpackages</a><ul class="current">
+<li class="toctree-l4"><a class="reference internal" href="ifa_smeargle.analysis.html">ifa_smeargle.analysis package</a></li>
+<li class="toctree-l4 current"><a class="reference internal" href="ifa_smeargle.core.html">ifa_smeargle.core package</a></li>
+<li class="toctree-l4"><a class="reference internal" href="ifa_smeargle.masking.html">ifa_smeargle.masking package</a></li>
+<li class="toctree-l4"><a class="reference internal" href="ifa_smeargle.plotting.html">ifa_smeargle.plotting package</a></li>
+<li class="toctree-l4"><a class="reference internal" href="ifa_smeargle.reformat.html">ifa_smeargle.reformat package</a></li>
+<li class="toctree-l4"><a class="reference internal" href="ifa_smeargle.testing.html">ifa_smeargle.testing package</a></li>
+<li class="toctree-l4"><a class="reference internal" href="ifa_smeargle.tutorial.html">ifa_smeargle.tutorial package</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="ifa_smeargle.html#submodules">Submodules</a></li>
+<li class="toctree-l3"><a class="reference internal" href="ifa_smeargle.html#module-ifa_smeargle">Module contents</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+
+            
+          
+        </div>
+        
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../index.html">IfA_Smeargle</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="../index.html" class="icon icon-home"></a> &raquo;</li>
+        
+          <li><a href="modules.html">ifa_smeargle</a> &raquo;</li>
+        
+          <li><a href="ifa_smeargle.html">ifa_smeargle package</a> &raquo;</li>
+        
+          <li><a href="ifa_smeargle.core.html">ifa_smeargle.core package</a> &raquo;</li>
+        
+      <li>ifa_smeargle.core.error module</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+            
+            
+              <a href="https://github.com/psmd-iberutaru/IfA_Smeargle/blob/testdoc/source/docstrings/ifa_smeargle.core.error.rst" class="fa fa-github"> Edit on GitHub</a>
+            
+          
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <div class="section" id="module-ifa_smeargle.core.error">
+<span id="ifa-smeargle-core-error-module"></span><h1>ifa_smeargle.core.error module<a class="headerlink" href="#module-ifa_smeargle.core.error" title="Permalink to this headline">¶</a></h1>
+<p>Defining custom errors because Python does not have all of the
+needed error categories.</p>
+<dl class="exception">
+<dt id="ifa_smeargle.core.error.AssumptionError">
+<em class="property">exception </em><code class="sig-prename descclassname">ifa_smeargle.core.error.</code><code class="sig-name descname">AssumptionError</code><span class="sig-paren">(</span><em class="sig-param">message=None</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/ifa_smeargle/core/error.html#AssumptionError"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#ifa_smeargle.core.error.AssumptionError" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="#ifa_smeargle.core.error.Ifas_BaseException" title="ifa_smeargle.core.error.Ifas_BaseException"><code class="xref py py-class docutils literal notranslate"><span class="pre">ifa_smeargle.core.error.Ifas_BaseException</span></code></a></p>
+<p>This error is reserved for instances where something
+unexpected has occurred because of a flaw in the understanding
+of assumptions about Python or module functions.</p>
+</dd></dl>
+
+<dl class="exception">
+<dt id="ifa_smeargle.core.error.BrokenLogicError">
+<em class="property">exception </em><code class="sig-prename descclassname">ifa_smeargle.core.error.</code><code class="sig-name descname">BrokenLogicError</code><span class="sig-paren">(</span><em class="sig-param">message=None</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/ifa_smeargle/core/error.html#BrokenLogicError"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#ifa_smeargle.core.error.BrokenLogicError" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="#ifa_smeargle.core.error.Ifas_BaseException" title="ifa_smeargle.core.error.Ifas_BaseException"><code class="xref py py-class docutils literal notranslate"><span class="pre">ifa_smeargle.core.error.Ifas_BaseException</span></code></a></p>
+<p>This error is encountered when the program enters in a place it
+should not be able to. Incorporated mostly for safety; usually
+not the fault of the user.</p>
+</dd></dl>
+
+<dl class="exception">
+<dt id="ifa_smeargle.core.error.ConfigurationError">
+<em class="property">exception </em><code class="sig-prename descclassname">ifa_smeargle.core.error.</code><code class="sig-name descname">ConfigurationError</code><a class="reference internal" href="../_modules/ifa_smeargle/core/error.html#ConfigurationError"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#ifa_smeargle.core.error.ConfigurationError" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="#ifa_smeargle.core.error.Ifas_Exception" title="ifa_smeargle.core.error.Ifas_Exception"><code class="xref py py-class docutils literal notranslate"><span class="pre">ifa_smeargle.core.error.Ifas_Exception</span></code></a></p>
+<p>This error is normally encountered when there are problems with
+configuration processing (usually because the configuration
+class is incorrect).</p>
+</dd></dl>
+
+<dl class="exception">
+<dt id="ifa_smeargle.core.error.ConfigurationWarning">
+<em class="property">exception </em><code class="sig-prename descclassname">ifa_smeargle.core.error.</code><code class="sig-name descname">ConfigurationWarning</code><a class="reference internal" href="../_modules/ifa_smeargle/core/error.html#ConfigurationWarning"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#ifa_smeargle.core.error.ConfigurationWarning" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="#ifa_smeargle.core.error.Ifas_Warning" title="ifa_smeargle.core.error.Ifas_Warning"><code class="xref py py-class docutils literal notranslate"><span class="pre">ifa_smeargle.core.error.Ifas_Warning</span></code></a></p>
+<p>This warning is used when there are issues with the
+configuration class and that data is missing. However, the
+missing data does not warrant an exception.</p>
+</dd></dl>
+
+<dl class="exception">
+<dt id="ifa_smeargle.core.error.DataError">
+<em class="property">exception </em><code class="sig-prename descclassname">ifa_smeargle.core.error.</code><code class="sig-name descname">DataError</code><a class="reference internal" href="../_modules/ifa_smeargle/core/error.html#DataError"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#ifa_smeargle.core.error.DataError" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="#ifa_smeargle.core.error.Ifas_Exception" title="ifa_smeargle.core.error.Ifas_Exception"><code class="xref py py-class docutils literal notranslate"><span class="pre">ifa_smeargle.core.error.Ifas_Exception</span></code></a></p>
+<p>This error is used when there is an issue with the fundamental
+data that this program or module cannot fix. The user should be
+able to figure out what is the problem.</p>
+</dd></dl>
+
+<dl class="exception">
+<dt id="ifa_smeargle.core.error.DataWarning">
+<em class="property">exception </em><code class="sig-prename descclassname">ifa_smeargle.core.error.</code><code class="sig-name descname">DataWarning</code><a class="reference internal" href="../_modules/ifa_smeargle/core/error.html#DataWarning"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#ifa_smeargle.core.error.DataWarning" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="#ifa_smeargle.core.error.Ifas_Warning" title="ifa_smeargle.core.error.Ifas_Warning"><code class="xref py py-class docutils literal notranslate"><span class="pre">ifa_smeargle.core.error.Ifas_Warning</span></code></a></p>
+<p>This warning is used when there is an issue with the fundamental
+data that this program or module cannot fix but can still work
+around. The user should be able to figure out what is the problem.</p>
+</dd></dl>
+
+<dl class="exception">
+<dt id="ifa_smeargle.core.error.DeprecatedError">
+<em class="property">exception </em><code class="sig-prename descclassname">ifa_smeargle.core.error.</code><code class="sig-name descname">DeprecatedError</code><span class="sig-paren">(</span><em class="sig-param">message=None</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/ifa_smeargle/core/error.html#DeprecatedError"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#ifa_smeargle.core.error.DeprecatedError" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="#ifa_smeargle.core.error.Ifas_BaseException" title="ifa_smeargle.core.error.Ifas_BaseException"><code class="xref py py-class docutils literal notranslate"><span class="pre">ifa_smeargle.core.error.Ifas_BaseException</span></code></a></p>
+<p>This is used when the code should be using a different
+equivalent function. This is mostly used for cases where a
+warning has already been issued, or to clean up the core
+sections of the code during testing.</p>
+</dd></dl>
+
+<dl class="exception">
+<dt id="ifa_smeargle.core.error.DeprecatedWarning">
+<em class="property">exception </em><code class="sig-prename descclassname">ifa_smeargle.core.error.</code><code class="sig-name descname">DeprecatedWarning</code><a class="reference internal" href="../_modules/ifa_smeargle/core/error.html#DeprecatedWarning"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#ifa_smeargle.core.error.DeprecatedWarning" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="#ifa_smeargle.core.error.Ifas_Warning" title="ifa_smeargle.core.error.Ifas_Warning"><code class="xref py py-class docutils literal notranslate"><span class="pre">ifa_smeargle.core.error.Ifas_Warning</span></code></a></p>
+<p>This warning is used when there are some functions that are
+used but have since been replaced with better functions, or
+where the previous function is not very stable or integrated
+with the rest of the functions.</p>
+</dd></dl>
+
+<dl class="exception">
+<dt id="ifa_smeargle.core.error.DevelopmentError">
+<em class="property">exception </em><code class="sig-prename descclassname">ifa_smeargle.core.error.</code><code class="sig-name descname">DevelopmentError</code><span class="sig-paren">(</span><em class="sig-param">message=None</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/ifa_smeargle/core/error.html#DevelopmentError"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#ifa_smeargle.core.error.DevelopmentError" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="#ifa_smeargle.core.error.Ifas_BaseException" title="ifa_smeargle.core.error.Ifas_BaseException"><code class="xref py py-class docutils literal notranslate"><span class="pre">ifa_smeargle.core.error.Ifas_BaseException</span></code></a></p>
+<p>This is used when the code is improperly written as a result of
+development solely by one or many parties. An error here usually
+is because some assumptions on development has been imposed that
+may have been forgotten about.</p>
+</dd></dl>
+
+<dl class="exception">
+<dt id="ifa_smeargle.core.error.ErrorWarning">
+<em class="property">exception </em><code class="sig-prename descclassname">ifa_smeargle.core.error.</code><code class="sig-name descname">ErrorWarning</code><a class="reference internal" href="../_modules/ifa_smeargle/core/error.html#ErrorWarning"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#ifa_smeargle.core.error.ErrorWarning" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="#ifa_smeargle.core.error.Ifas_Warning" title="ifa_smeargle.core.error.Ifas_Warning"><code class="xref py py-class docutils literal notranslate"><span class="pre">ifa_smeargle.core.error.Ifas_Warning</span></code></a></p>
+<p>This warning is to inform that there was an error that was
+thrown as a warning (either as a critical warning log or
+something else.</p>
+</dd></dl>
+
+<dl class="exception">
+<dt id="ifa_smeargle.core.error.ExportingError">
+<em class="property">exception </em><code class="sig-prename descclassname">ifa_smeargle.core.error.</code><code class="sig-name descname">ExportingError</code><a class="reference internal" href="../_modules/ifa_smeargle/core/error.html#ExportingError"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#ifa_smeargle.core.error.ExportingError" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="#ifa_smeargle.core.error.Ifas_Exception" title="ifa_smeargle.core.error.Ifas_Exception"><code class="xref py py-class docutils literal notranslate"><span class="pre">ifa_smeargle.core.error.Ifas_Exception</span></code></a></p>
+<p>This error is used when the program attempts to export data in
+some way, but is unable to. Named ExportingError to keep with
+ImportingError.</p>
+</dd></dl>
+
+<dl class="exception">
+<dt id="ifa_smeargle.core.error.ExportingWarning">
+<em class="property">exception </em><code class="sig-prename descclassname">ifa_smeargle.core.error.</code><code class="sig-name descname">ExportingWarning</code><a class="reference internal" href="../_modules/ifa_smeargle/core/error.html#ExportingWarning"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#ifa_smeargle.core.error.ExportingWarning" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="#ifa_smeargle.core.error.Ifas_Warning" title="ifa_smeargle.core.error.Ifas_Warning"><code class="xref py py-class docutils literal notranslate"><span class="pre">ifa_smeargle.core.error.Ifas_Warning</span></code></a></p>
+<p>This warning is used to warn the user about exports and some
+things that may be helpful to know about them. Such exports are
+generally writing files to disk.</p>
+</dd></dl>
+
+<dl class="exception">
+<dt id="ifa_smeargle.core.error.Ifas_BaseException">
+<em class="property">exception </em><code class="sig-prename descclassname">ifa_smeargle.core.error.</code><code class="sig-name descname">Ifas_BaseException</code><a class="reference internal" href="../_modules/ifa_smeargle/core/error.html#Ifas_BaseException"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#ifa_smeargle.core.error.Ifas_BaseException" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">BaseException</span></code></p>
+</dd></dl>
+
+<dl class="exception">
+<dt id="ifa_smeargle.core.error.Ifas_Exception">
+<em class="property">exception </em><code class="sig-prename descclassname">ifa_smeargle.core.error.</code><code class="sig-name descname">Ifas_Exception</code><a class="reference internal" href="../_modules/ifa_smeargle/core/error.html#Ifas_Exception"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#ifa_smeargle.core.error.Ifas_Exception" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">Exception</span></code></p>
+</dd></dl>
+
+<dl class="exception">
+<dt id="ifa_smeargle.core.error.Ifas_Warning">
+<em class="property">exception </em><code class="sig-prename descclassname">ifa_smeargle.core.error.</code><code class="sig-name descname">Ifas_Warning</code><a class="reference internal" href="../_modules/ifa_smeargle/core/error.html#Ifas_Warning"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#ifa_smeargle.core.error.Ifas_Warning" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">UserWarning</span></code></p>
+</dd></dl>
+
+<dl class="exception">
+<dt id="ifa_smeargle.core.error.IllogicalProsedureError">
+<em class="property">exception </em><code class="sig-prename descclassname">ifa_smeargle.core.error.</code><code class="sig-name descname">IllogicalProsedureError</code><a class="reference internal" href="../_modules/ifa_smeargle/core/error.html#IllogicalProsedureError"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#ifa_smeargle.core.error.IllogicalProsedureError" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="#ifa_smeargle.core.error.Ifas_Exception" title="ifa_smeargle.core.error.Ifas_Exception"><code class="xref py py-class docutils literal notranslate"><span class="pre">ifa_smeargle.core.error.Ifas_Exception</span></code></a></p>
+<p>This error is thrown when the program would attempt something
+that does not make scene. This is usually due to issues with
+configuration errors.</p>
+</dd></dl>
+
+<dl class="exception">
+<dt id="ifa_smeargle.core.error.ImportingError">
+<em class="property">exception </em><code class="sig-prename descclassname">ifa_smeargle.core.error.</code><code class="sig-name descname">ImportingError</code><a class="reference internal" href="../_modules/ifa_smeargle/core/error.html#ImportingError"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#ifa_smeargle.core.error.ImportingError" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="#ifa_smeargle.core.error.Ifas_Exception" title="ifa_smeargle.core.error.Ifas_Exception"><code class="xref py py-class docutils literal notranslate"><span class="pre">ifa_smeargle.core.error.Ifas_Exception</span></code></a></p>
+<p>This error is used when reading configuration files, or other
+data files is not going as it should. Named ImportingError to
+avoid conflicts with ImportError.</p>
+</dd></dl>
+
+<dl class="exception">
+<dt id="ifa_smeargle.core.error.ImportingWarning">
+<em class="property">exception </em><code class="sig-prename descclassname">ifa_smeargle.core.error.</code><code class="sig-name descname">ImportingWarning</code><a class="reference internal" href="../_modules/ifa_smeargle/core/error.html#ImportingWarning"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#ifa_smeargle.core.error.ImportingWarning" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="#ifa_smeargle.core.error.Ifas_Warning" title="ifa_smeargle.core.error.Ifas_Warning"><code class="xref py py-class docutils literal notranslate"><span class="pre">ifa_smeargle.core.error.Ifas_Warning</span></code></a></p>
+<p>This warning is used when there are issues loading a file, but
+it can be handled using some assumptions.</p>
+</dd></dl>
+
+<dl class="exception">
+<dt id="ifa_smeargle.core.error.ImprecisionError">
+<em class="property">exception </em><code class="sig-prename descclassname">ifa_smeargle.core.error.</code><code class="sig-name descname">ImprecisionError</code><a class="reference internal" href="../_modules/ifa_smeargle/core/error.html#ImprecisionError"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#ifa_smeargle.core.error.ImprecisionError" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="#ifa_smeargle.core.error.Ifas_Exception" title="ifa_smeargle.core.error.Ifas_Exception"><code class="xref py py-class docutils literal notranslate"><span class="pre">ifa_smeargle.core.error.Ifas_Exception</span></code></a></p>
+<p>This error is used when there are critical issues with numerical
+precision because of the volume of data or the very low/high
+numbers involved. It is also just used when data may be chaotic.</p>
+</dd></dl>
+
+<dl class="exception">
+<dt id="ifa_smeargle.core.error.ImprecisionWarning">
+<em class="property">exception </em><code class="sig-prename descclassname">ifa_smeargle.core.error.</code><code class="sig-name descname">ImprecisionWarning</code><a class="reference internal" href="../_modules/ifa_smeargle/core/error.html#ImprecisionWarning"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#ifa_smeargle.core.error.ImprecisionWarning" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="#ifa_smeargle.core.error.Ifas_Warning" title="ifa_smeargle.core.error.Ifas_Warning"><code class="xref py py-class docutils literal notranslate"><span class="pre">ifa_smeargle.core.error.Ifas_Warning</span></code></a></p>
+<p>This warning is used when there may be issues with numerical
+precision because of the volume of data or the very low/high
+numbers involved.</p>
+</dd></dl>
+
+<dl class="exception">
+<dt id="ifa_smeargle.core.error.IncompleteError">
+<em class="property">exception </em><code class="sig-prename descclassname">ifa_smeargle.core.error.</code><code class="sig-name descname">IncompleteError</code><span class="sig-paren">(</span><em class="sig-param">message=None</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/ifa_smeargle/core/error.html#IncompleteError"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#ifa_smeargle.core.error.IncompleteError" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="#ifa_smeargle.core.error.Ifas_BaseException" title="ifa_smeargle.core.error.Ifas_BaseException"><code class="xref py py-class docutils literal notranslate"><span class="pre">ifa_smeargle.core.error.Ifas_BaseException</span></code></a></p>
+<p>This used when the code is trying to use a function that is
+incomplete or not usable.</p>
+</dd></dl>
+
+<dl class="exception">
+<dt id="ifa_smeargle.core.error.InputError">
+<em class="property">exception </em><code class="sig-prename descclassname">ifa_smeargle.core.error.</code><code class="sig-name descname">InputError</code><a class="reference internal" href="../_modules/ifa_smeargle/core/error.html#InputError"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#ifa_smeargle.core.error.InputError" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="#ifa_smeargle.core.error.Ifas_Exception" title="ifa_smeargle.core.error.Ifas_Exception"><code class="xref py py-class docutils literal notranslate"><span class="pre">ifa_smeargle.core.error.Ifas_Exception</span></code></a></p>
+<p>This error is used when the user does not input a proper or
+logical entry.</p>
+</dd></dl>
+
+<dl class="exception">
+<dt id="ifa_smeargle.core.error.InputWarning">
+<em class="property">exception </em><code class="sig-prename descclassname">ifa_smeargle.core.error.</code><code class="sig-name descname">InputWarning</code><a class="reference internal" href="../_modules/ifa_smeargle/core/error.html#InputWarning"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#ifa_smeargle.core.error.InputWarning" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="#ifa_smeargle.core.error.Ifas_Warning" title="ifa_smeargle.core.error.Ifas_Warning"><code class="xref py py-class docutils literal notranslate"><span class="pre">ifa_smeargle.core.error.Ifas_Warning</span></code></a></p>
+<p>This warning is used when the user inputs something that is
+questionable, but not wrong.</p>
+</dd></dl>
+
+<dl class="exception">
+<dt id="ifa_smeargle.core.error.MagicError">
+<em class="property">exception </em><code class="sig-prename descclassname">ifa_smeargle.core.error.</code><code class="sig-name descname">MagicError</code><a class="reference internal" href="../_modules/ifa_smeargle/core/error.html#MagicError"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#ifa_smeargle.core.error.MagicError" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="#ifa_smeargle.core.error.Ifas_Exception" title="ifa_smeargle.core.error.Ifas_Exception"><code class="xref py py-class docutils literal notranslate"><span class="pre">ifa_smeargle.core.error.Ifas_Exception</span></code></a></p>
+<p>This error is used when any routine would utilize
+magic/hard-coded values for the purposes of any process where
+said numbers are magic. This is mostly as a programming warning
+to the user that behavior with magic numbers may not always be
+expected or logical. This error form is used for higher warning
+levels, and if the user wants an interrupt when upgrading.</p>
+</dd></dl>
+
+<dl class="exception">
+<dt id="ifa_smeargle.core.error.MagicWarning">
+<em class="property">exception </em><code class="sig-prename descclassname">ifa_smeargle.core.error.</code><code class="sig-name descname">MagicWarning</code><a class="reference internal" href="../_modules/ifa_smeargle/core/error.html#MagicWarning"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#ifa_smeargle.core.error.MagicWarning" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="#ifa_smeargle.core.error.Ifas_Warning" title="ifa_smeargle.core.error.Ifas_Warning"><code class="xref py py-class docutils literal notranslate"><span class="pre">ifa_smeargle.core.error.Ifas_Warning</span></code></a></p>
+<p>This warning is used when any routine would utilize
+magic/hard-coded values for the purposes of any process where
+said numbers are magic. This is mostly as a programming
+warning to the user that behavior with magic numbers may not
+always be expected or logical.</p>
+</dd></dl>
+
+<dl class="exception">
+<dt id="ifa_smeargle.core.error.MaskingError">
+<em class="property">exception </em><code class="sig-prename descclassname">ifa_smeargle.core.error.</code><code class="sig-name descname">MaskingError</code><a class="reference internal" href="../_modules/ifa_smeargle/core/error.html#MaskingError"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#ifa_smeargle.core.error.MaskingError" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="#ifa_smeargle.core.error.Ifas_Exception" title="ifa_smeargle.core.error.Ifas_Exception"><code class="xref py py-class docutils literal notranslate"><span class="pre">ifa_smeargle.core.error.Ifas_Exception</span></code></a></p>
+<p>This error is used when a mask cannot be applied or where there
+are fatal issues with calculating the mask.</p>
+</dd></dl>
+
+<dl class="exception">
+<dt id="ifa_smeargle.core.error.MaskingWarning">
+<em class="property">exception </em><code class="sig-prename descclassname">ifa_smeargle.core.error.</code><code class="sig-name descname">MaskingWarning</code><a class="reference internal" href="../_modules/ifa_smeargle/core/error.html#MaskingWarning"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#ifa_smeargle.core.error.MaskingWarning" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="#ifa_smeargle.core.error.Ifas_Warning" title="ifa_smeargle.core.error.Ifas_Warning"><code class="xref py py-class docutils literal notranslate"><span class="pre">ifa_smeargle.core.error.Ifas_Warning</span></code></a></p>
+<p>This warning is used when any masking or filtering routine
+(especially in the masking and filtering scripts) fails to
+mask any pixels or something else is amiss. It is not a bad
+thing, but it can be helpful to know.</p>
+</dd></dl>
+
+<dl class="exception">
+<dt id="ifa_smeargle.core.error.MemoryWarning">
+<em class="property">exception </em><code class="sig-prename descclassname">ifa_smeargle.core.error.</code><code class="sig-name descname">MemoryWarning</code><a class="reference internal" href="../_modules/ifa_smeargle/core/error.html#MemoryWarning"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#ifa_smeargle.core.error.MemoryWarning" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="#ifa_smeargle.core.error.Ifas_Warning" title="ifa_smeargle.core.error.Ifas_Warning"><code class="xref py py-class docutils literal notranslate"><span class="pre">ifa_smeargle.core.error.Ifas_Warning</span></code></a></p>
+<p>This warning is used to warn the user that the procedures that
+follow would require a lot of memory RAM. If instead it would
+produce a large file(s), StorageWarning should be used.</p>
+</dd></dl>
+
+<dl class="exception">
+<dt id="ifa_smeargle.core.error.ModelingError">
+<em class="property">exception </em><code class="sig-prename descclassname">ifa_smeargle.core.error.</code><code class="sig-name descname">ModelingError</code><a class="reference internal" href="../_modules/ifa_smeargle/core/error.html#ModelingError"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#ifa_smeargle.core.error.ModelingError" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="#ifa_smeargle.core.error.Ifas_Exception" title="ifa_smeargle.core.error.Ifas_Exception"><code class="xref py py-class docutils literal notranslate"><span class="pre">ifa_smeargle.core.error.Ifas_Exception</span></code></a></p>
+<p>This error is used when there are issues with applying or
+fitting models to a particular set of data. May be used
+hand-in-hand with DataError.</p>
+</dd></dl>
+
+<dl class="exception">
+<dt id="ifa_smeargle.core.error.OverwriteWarning">
+<em class="property">exception </em><code class="sig-prename descclassname">ifa_smeargle.core.error.</code><code class="sig-name descname">OverwriteWarning</code><a class="reference internal" href="../_modules/ifa_smeargle/core/error.html#OverwriteWarning"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#ifa_smeargle.core.error.OverwriteWarning" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="#ifa_smeargle.core.error.Ifas_Warning" title="ifa_smeargle.core.error.Ifas_Warning"><code class="xref py py-class docutils literal notranslate"><span class="pre">ifa_smeargle.core.error.Ifas_Warning</span></code></a></p>
+<p>This warning is used to warn the user that a file has been
+overwritten, most likely because of conflicting file names.</p>
+</dd></dl>
+
+<dl class="exception">
+<dt id="ifa_smeargle.core.error.ReductionWarning">
+<em class="property">exception </em><code class="sig-prename descclassname">ifa_smeargle.core.error.</code><code class="sig-name descname">ReductionWarning</code><a class="reference internal" href="../_modules/ifa_smeargle/core/error.html#ReductionWarning"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#ifa_smeargle.core.error.ReductionWarning" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="#ifa_smeargle.core.error.Ifas_Warning" title="ifa_smeargle.core.error.Ifas_Warning"><code class="xref py py-class docutils literal notranslate"><span class="pre">ifa_smeargle.core.error.Ifas_Warning</span></code></a></p>
+<p>This warning is used when normally unusual parameters are
+used for data reduction. The user is trusted in their procedures.</p>
+</dd></dl>
+
+<dl class="exception">
+<dt id="ifa_smeargle.core.error.StorageWarning">
+<em class="property">exception </em><code class="sig-prename descclassname">ifa_smeargle.core.error.</code><code class="sig-name descname">StorageWarning</code><a class="reference internal" href="../_modules/ifa_smeargle/core/error.html#StorageWarning"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#ifa_smeargle.core.error.StorageWarning" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="#ifa_smeargle.core.error.Ifas_Warning" title="ifa_smeargle.core.error.Ifas_Warning"><code class="xref py py-class docutils literal notranslate"><span class="pre">ifa_smeargle.core.error.Ifas_Warning</span></code></a></p>
+<p>This warning is used when the large file(s) would be written
+to the hard drive. If instead a lot of RAM would be used, it is
+better to use MemoryWarning.</p>
+</dd></dl>
+
+<dl class="exception">
+<dt id="ifa_smeargle.core.error.TerminalError">
+<em class="property">exception </em><code class="sig-prename descclassname">ifa_smeargle.core.error.</code><code class="sig-name descname">TerminalError</code><span class="sig-paren">(</span><em class="sig-param">message=None</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/ifa_smeargle/core/error.html#TerminalError"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#ifa_smeargle.core.error.TerminalError" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="#ifa_smeargle.core.error.Ifas_BaseException" title="ifa_smeargle.core.error.Ifas_BaseException"><code class="xref py py-class docutils literal notranslate"><span class="pre">ifa_smeargle.core.error.Ifas_BaseException</span></code></a></p>
+<p>This is used when something has gone terribly wrong. It is best
+to contact the maintainers or Sparrow.</p>
+</dd></dl>
+
+<dl class="exception">
+<dt id="ifa_smeargle.core.error.TimeWarning">
+<em class="property">exception </em><code class="sig-prename descclassname">ifa_smeargle.core.error.</code><code class="sig-name descname">TimeWarning</code><a class="reference internal" href="../_modules/ifa_smeargle/core/error.html#TimeWarning"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#ifa_smeargle.core.error.TimeWarning" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="#ifa_smeargle.core.error.Ifas_Warning" title="ifa_smeargle.core.error.Ifas_Warning"><code class="xref py py-class docutils literal notranslate"><span class="pre">ifa_smeargle.core.error.Ifas_Warning</span></code></a></p>
+<p>This warning is used when any method called may take a long time
+to compute or execute. This allows the user to stop and change
+if desired.</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="ifa_smeargle.core.error.ifas_absolute_silence">
+<code class="sig-prename descclassname">ifa_smeargle.core.error.</code><code class="sig-name descname">ifas_absolute_silence</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/ifa_smeargle/core/error.html#ifas_absolute_silence"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#ifa_smeargle.core.error.ifas_absolute_silence" title="Permalink to this definition">¶</a></dt>
+<dd><p>This context manager silences any and all messages, it
+basically is a wrapper around all other general Ifas context
+managers (even if there is some overlap).</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="ifa_smeargle.core.error.ifas_debug">
+<code class="sig-prename descclassname">ifa_smeargle.core.error.</code><code class="sig-name descname">ifas_debug</code><span class="sig-paren">(</span><em class="sig-param">message</em>, <em class="sig-param">console_print=False</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/ifa_smeargle/core/error.html#ifas_debug"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#ifa_smeargle.core.error.ifas_debug" title="Permalink to this definition">¶</a></dt>
+<dd><p>This is a wrapper function for the printing of debug messages.</p>
+<p>Given the nature of debug messages, it should be clear that it
+is a debug message, and should also have the proper silencing
+capabilities.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>message</strong> (<em>string</em>) – The message that is to be sent as the debug message.</p></li>
+<li><p><strong>console_print</strong> (<em>boolean</em><em> (</em><em>optional</em><em>)</em>) – This ensures that the info message is always printed
+regardless of the logging level set by the logging utility.
+Default is False.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p></p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>nothing</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="function">
+<dt id="ifa_smeargle.core.error.ifas_debug_block">
+<code class="sig-prename descclassname">ifa_smeargle.core.error.</code><code class="sig-name descname">ifas_debug_block</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/ifa_smeargle/core/error.html#ifas_debug_block"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#ifa_smeargle.core.error.ifas_debug_block" title="Permalink to this definition">¶</a></dt>
+<dd><p>This is a wrapper function for encasing debugging code.</p>
+<p>The execution of code within a debug block is used to contain
+easily printed debug information. Debug messages should use the
+debug function <a class="reference internal" href="#ifa_smeargle.core.error.ifas_debug" title="ifa_smeargle.core.error.ifas_debug"><code class="xref py py-func docutils literal notranslate"><span class="pre">ifas_debug()</span></code></a></p>
+</dd></dl>
+
+<dl class="function">
+<dt id="ifa_smeargle.core.error.ifas_disable_debug">
+<code class="sig-prename descclassname">ifa_smeargle.core.error.</code><code class="sig-name descname">ifas_disable_debug</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/ifa_smeargle/core/error.html#ifas_disable_debug"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#ifa_smeargle.core.error.ifas_disable_debug" title="Permalink to this definition">¶</a></dt>
+<dd><p>This context manager turns all debug messages off for the
+duration of the context. Given that debug messages are generally
+off in the first place, usage may be rare.</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="ifa_smeargle.core.error.ifas_enable_debug">
+<code class="sig-prename descclassname">ifa_smeargle.core.error.</code><code class="sig-name descname">ifas_enable_debug</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/ifa_smeargle/core/error.html#ifas_enable_debug"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#ifa_smeargle.core.error.ifas_enable_debug" title="Permalink to this definition">¶</a></dt>
+<dd><p>This context manager turns all debug messages on for the
+duration of the context.</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="ifa_smeargle.core.error.ifas_error">
+<code class="sig-prename descclassname">ifa_smeargle.core.error.</code><code class="sig-name descname">ifas_error</code><span class="sig-paren">(</span><em class="sig-param">type</em>, <em class="sig-param">message</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/ifa_smeargle/core/error.html#ifas_error"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#ifa_smeargle.core.error.ifas_error" title="Permalink to this definition">¶</a></dt>
+<dd><p>This is a wrapper around the logging’s error command.
+However, it does not raise an error. Instead, an error may be
+sent to and it will be converted into a proper warning.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>type</strong> (<em>ExecptionsClass</em>) – The error that could be raised, but it is more manageable as
+a logged error.</p></li>
+<li><p><strong>message</strong> (<em>string</em>) – The message that the error is to give.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p></p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>None</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="function">
+<dt id="ifa_smeargle.core.error.ifas_info">
+<code class="sig-prename descclassname">ifa_smeargle.core.error.</code><code class="sig-name descname">ifas_info</code><span class="sig-paren">(</span><em class="sig-param">message</em>, <em class="sig-param">console_print=None</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/ifa_smeargle/core/error.html#ifas_info"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#ifa_smeargle.core.error.ifas_info" title="Permalink to this definition">¶</a></dt>
+<dd><p>This is a wrapper function to print helpful information.</p>
+<p>Printing information as the function(s) go on is very helpful.
+However, using the normal print function doesn’t allow for some
+level of customization and ease of handling. Hence, function
+for uniformity.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>message</strong> (<em>string</em>) – The informational message that is to be printed.</p></li>
+<li><p><strong>console_print</strong> (<em>boolean</em><em> (</em><em>optional</em><em>)</em>) – This ensures that the info message is always printed
+regardless of the logging level set by the logging utility.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p></p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>nothing</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="function">
+<dt id="ifa_smeargle.core.error.ifas_log_warning">
+<code class="sig-prename descclassname">ifa_smeargle.core.error.</code><code class="sig-name descname">ifas_log_warning</code><span class="sig-paren">(</span><em class="sig-param">type</em>, <em class="sig-param">message</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/ifa_smeargle/core/error.html#ifas_log_warning"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#ifa_smeargle.core.error.ifas_log_warning" title="Permalink to this definition">¶</a></dt>
+<dd><p>Just a wrapper function around logging’s built-in warn.
+This is to only log a warning but not to display it as a
+standard warning.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>type</strong> (<em>Warnings Class</em>) – The warning class type.</p></li>
+<li><p><strong>message</strong> (<em>string</em>) – The message that the warning is to give to the user.</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="function">
+<dt id="ifa_smeargle.core.error.ifas_silence_all_warnings">
+<code class="sig-prename descclassname">ifa_smeargle.core.error.</code><code class="sig-name descname">ifas_silence_all_warnings</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/ifa_smeargle/core/error.html#ifas_silence_all_warnings"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#ifa_smeargle.core.error.ifas_silence_all_warnings" title="Permalink to this definition">¶</a></dt>
+<dd><p>This context manager silences all warnings. Warnings should
+not be printed.</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="ifa_smeargle.core.error.ifas_silence_ifas_warnings">
+<code class="sig-prename descclassname">ifa_smeargle.core.error.</code><code class="sig-name descname">ifas_silence_ifas_warnings</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/ifa_smeargle/core/error.html#ifas_silence_ifas_warnings"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#ifa_smeargle.core.error.ifas_silence_ifas_warnings" title="Permalink to this definition">¶</a></dt>
+<dd><p>This context manager silences all Ifas based warnings, all
+other warnings are still valid.</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="ifa_smeargle.core.error.ifas_silence_info_message">
+<code class="sig-prename descclassname">ifa_smeargle.core.error.</code><code class="sig-name descname">ifas_silence_info_message</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/ifa_smeargle/core/error.html#ifas_silence_info_message"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#ifa_smeargle.core.error.ifas_silence_info_message" title="Permalink to this definition">¶</a></dt>
+<dd><p>This context manager silences all informational messages
+that may be printed.</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="ifa_smeargle.core.error.ifas_silence_nonifas_warnings">
+<code class="sig-prename descclassname">ifa_smeargle.core.error.</code><code class="sig-name descname">ifas_silence_nonifas_warnings</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/ifa_smeargle/core/error.html#ifas_silence_nonifas_warnings"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#ifa_smeargle.core.error.ifas_silence_nonifas_warnings" title="Permalink to this definition">¶</a></dt>
+<dd><p>This context manager silences all non-Ifas based warnings,
+all other warnings are still valid.</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="ifa_smeargle.core.error.ifas_silence_specific_warnings">
+<code class="sig-prename descclassname">ifa_smeargle.core.error.</code><code class="sig-name descname">ifas_silence_specific_warnings</code><span class="sig-paren">(</span><em class="sig-param">silenced_warning_type</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/ifa_smeargle/core/error.html#ifas_silence_specific_warnings"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#ifa_smeargle.core.error.ifas_silence_specific_warnings" title="Permalink to this definition">¶</a></dt>
+<dd><p>This context manager silences all warnings of a given type.
+Depending on what was inputed.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>silenced_warning_type</strong> (<em>WarningType</em>) – The warning that should be silenced.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="function">
+<dt id="ifa_smeargle.core.error.ifas_warning">
+<code class="sig-prename descclassname">ifa_smeargle.core.error.</code><code class="sig-name descname">ifas_warning</code><span class="sig-paren">(</span><em class="sig-param">type</em>, <em class="sig-param">message</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/ifa_smeargle/core/error.html#ifas_warning"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#ifa_smeargle.core.error.ifas_warning" title="Permalink to this definition">¶</a></dt>
+<dd><p>Just a wrapper function around the warning’s warn command.</p>
+<p>This wrapper was really only for the logical flow of Sparrow.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>type</strong> (<em>Warnings Class</em>) – The warning class type.</p></li>
+<li><p><strong>message</strong> (<em>string</em>) – The message that the warning is to give to the user.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p></p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>None</p>
+</dd>
+</dl>
+</dd></dl>
+
+</div>
+
+
+           </div>
+           
+          </div>
+          <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+        <a href="ifa_smeargle.core.io.html" class="btn btn-neutral float-right" title="ifa_smeargle.core.io module" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
+      
+      
+        <a href="ifa_smeargle.core.configuration.html" class="btn btn-neutral float-left" title="ifa_smeargle.core.configuration module" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+      
+    </div>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        
+        &copy; Copyright 2020, Sparrow
+
+    </p>
+  </div>
+    
+    
+    
+    Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a
+    
+    <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a>
+    
+    provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+
+  
+  
+    
+   
+
+</body>
+</html>

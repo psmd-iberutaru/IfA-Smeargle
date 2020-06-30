@@ -1,0 +1,940 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>ifa_smeargle.core.error &mdash; IfA_Smeargle 2020 documentation</title>
+  
+
+  
+  <link rel="stylesheet" href="../../../_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
+  <link rel="stylesheet" href="../../../_static/css/custom.css" type="text/css" />
+
+  
+  
+  
+  
+
+  
+  <!--[if lt IE 9]>
+    <script src="../../../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+    
+      <script type="text/javascript" id="documentation_options" data-url_root="../../../" src="../../../_static/documentation_options.js"></script>
+        <script src="../../../_static/jquery.js"></script>
+        <script src="../../../_static/underscore.js"></script>
+        <script src="../../../_static/doctools.js"></script>
+        <script src="../../../_static/language_data.js"></script>
+    
+    <script type="text/javascript" src="../../../_static/js/theme.js"></script>
+
+    
+    <link rel="index" title="Index" href="../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../search.html" /> 
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+          
+
+          
+            <a href="../../../index.html" class="icon icon-home" alt="Documentation Home"> IfA_Smeargle
+          
+
+          
+          </a>
+
+          
+            
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <p class="caption"><span class="caption-text">Code Documentation:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../docstrings/modules.html">ifa_smeargle</a></li>
+</ul>
+
+            
+          
+        </div>
+        
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../../index.html">IfA_Smeargle</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="../../../index.html" class="icon icon-home"></a> &raquo;</li>
+        
+          <li><a href="../../index.html">Module code</a> &raquo;</li>
+        
+      <li>ifa_smeargle.core.error</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <h1>Source code for ifa_smeargle.core.error</h1><div class="highlight"><pre>
+<span></span>
+<span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">Defining custom errors because Python does not have all of the </span>
+<span class="sd">needed error categories.</span>
+<span class="sd">&quot;&quot;&quot;</span>
+
+<span class="kn">import</span> <span class="nn">contextlib</span>
+<span class="kn">import</span> <span class="nn">copy</span>
+<span class="kn">import</span> <span class="nn">logging</span> <span class="k">as</span> <span class="nn">log</span>
+<span class="kn">import</span> <span class="nn">warnings</span> <span class="k">as</span> <span class="nn">warn</span>
+
+<span class="kn">import</span> <span class="nn">ifa_smeargle.core</span> <span class="k">as</span> <span class="nn">core</span>
+
+<span class="c1"># Ifas Bases.</span>
+<div class="viewcode-block" id="Ifas_BaseException"><a class="viewcode-back" href="../../../docstrings/ifa_smeargle.core.error.html#ifa_smeargle.core.error.Ifas_BaseException">[docs]</a><span class="k">class</span> <span class="nc">Ifas_BaseException</span><span class="p">(</span><span class="ne">BaseException</span><span class="p">):</span>
+    <span class="k">pass</span></div>
+<div class="viewcode-block" id="Ifas_Exception"><a class="viewcode-back" href="../../../docstrings/ifa_smeargle.core.error.html#ifa_smeargle.core.error.Ifas_Exception">[docs]</a><span class="k">class</span> <span class="nc">Ifas_Exception</span><span class="p">(</span><span class="ne">Exception</span><span class="p">):</span>
+    <span class="k">pass</span></div>
+
+
+<span class="c1">#####################################################################</span>
+<span class="c1">#####################################################################</span>
+<span class="c1"># Errors</span>
+<span class="c1">#####################################################################</span>
+<span class="c1">#####################################################################</span>
+
+<div class="viewcode-block" id="ConfigurationError"><a class="viewcode-back" href="../../../docstrings/ifa_smeargle.core.error.html#ifa_smeargle.core.error.ConfigurationError">[docs]</a><span class="k">class</span> <span class="nc">ConfigurationError</span><span class="p">(</span><span class="n">Ifas_Exception</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    This error is normally encountered when there are problems with </span>
+<span class="sd">    configuration processing (usually because the configuration </span>
+<span class="sd">    class is incorrect).</span>
+<span class="sd">    &quot;&quot;&quot;</span></div>
+    
+<div class="viewcode-block" id="DataError"><a class="viewcode-back" href="../../../docstrings/ifa_smeargle.core.error.html#ifa_smeargle.core.error.DataError">[docs]</a><span class="k">class</span> <span class="nc">DataError</span><span class="p">(</span><span class="n">Ifas_Exception</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    This error is used when there is an issue with the fundamental </span>
+<span class="sd">    data that this program or module cannot fix. The user should be </span>
+<span class="sd">    able to figure out what is the problem.</span>
+<span class="sd">    &quot;&quot;&quot;</span></div>
+
+<div class="viewcode-block" id="ExportingError"><a class="viewcode-back" href="../../../docstrings/ifa_smeargle.core.error.html#ifa_smeargle.core.error.ExportingError">[docs]</a><span class="k">class</span> <span class="nc">ExportingError</span><span class="p">(</span><span class="n">Ifas_Exception</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    This error is used when the program attempts to export data in </span>
+<span class="sd">    some way, but is unable to. Named ExportingError to keep with </span>
+<span class="sd">    ImportingError.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">pass</span></div>
+
+<div class="viewcode-block" id="IllogicalProsedureError"><a class="viewcode-back" href="../../../docstrings/ifa_smeargle.core.error.html#ifa_smeargle.core.error.IllogicalProsedureError">[docs]</a><span class="k">class</span> <span class="nc">IllogicalProsedureError</span><span class="p">(</span><span class="n">Ifas_Exception</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    This error is thrown when the program would attempt something </span>
+<span class="sd">    that does not make scene. This is usually due to issues with </span>
+<span class="sd">    configuration errors.</span>
+<span class="sd">    &quot;&quot;&quot;</span></div>
+
+<div class="viewcode-block" id="ImprecisionError"><a class="viewcode-back" href="../../../docstrings/ifa_smeargle.core.error.html#ifa_smeargle.core.error.ImprecisionError">[docs]</a><span class="k">class</span> <span class="nc">ImprecisionError</span><span class="p">(</span><span class="n">Ifas_Exception</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    This error is used when there are critical issues with numerical </span>
+<span class="sd">    precision because of the volume of data or the very low/high </span>
+<span class="sd">    numbers involved. It is also just used when data may be chaotic.   </span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">pass</span></div>
+
+<div class="viewcode-block" id="InputError"><a class="viewcode-back" href="../../../docstrings/ifa_smeargle.core.error.html#ifa_smeargle.core.error.InputError">[docs]</a><span class="k">class</span> <span class="nc">InputError</span><span class="p">(</span><span class="n">Ifas_Exception</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    This error is used when the user does not input a proper or </span>
+<span class="sd">    logical entry. </span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">pass</span></div>
+
+<div class="viewcode-block" id="ImportingError"><a class="viewcode-back" href="../../../docstrings/ifa_smeargle.core.error.html#ifa_smeargle.core.error.ImportingError">[docs]</a><span class="k">class</span> <span class="nc">ImportingError</span><span class="p">(</span><span class="n">Ifas_Exception</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    This error is used when reading configuration files, or other </span>
+<span class="sd">    data files is not going as it should. Named ImportingError to </span>
+<span class="sd">    avoid conflicts with ImportError.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">pass</span></div>
+
+<div class="viewcode-block" id="MaskingError"><a class="viewcode-back" href="../../../docstrings/ifa_smeargle.core.error.html#ifa_smeargle.core.error.MaskingError">[docs]</a><span class="k">class</span> <span class="nc">MaskingError</span><span class="p">(</span><span class="n">Ifas_Exception</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    This error is used when a mask cannot be applied or where there </span>
+<span class="sd">    are fatal issues with calculating the mask.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">pass</span></div>
+
+<div class="viewcode-block" id="MagicError"><a class="viewcode-back" href="../../../docstrings/ifa_smeargle.core.error.html#ifa_smeargle.core.error.MagicError">[docs]</a><span class="k">class</span> <span class="nc">MagicError</span><span class="p">(</span><span class="n">Ifas_Exception</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    This error is used when any routine would utilize </span>
+<span class="sd">    magic/hard-coded values for the purposes of any process where </span>
+<span class="sd">    said numbers are magic. This is mostly as a programming warning </span>
+<span class="sd">    to the user that behavior with magic numbers may not always be </span>
+<span class="sd">    expected or logical. This error form is used for higher warning </span>
+<span class="sd">    levels, and if the user wants an interrupt when upgrading.</span>
+<span class="sd">    &quot;&quot;&quot;</span></div>
+
+<div class="viewcode-block" id="ModelingError"><a class="viewcode-back" href="../../../docstrings/ifa_smeargle.core.error.html#ifa_smeargle.core.error.ModelingError">[docs]</a><span class="k">class</span> <span class="nc">ModelingError</span><span class="p">(</span><span class="n">Ifas_Exception</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    This error is used when there are issues with applying or </span>
+<span class="sd">    fitting models to a particular set of data. May be used </span>
+<span class="sd">    hand-in-hand with DataError.</span>
+<span class="sd">    &quot;&quot;&quot;</span></div>
+
+<span class="c1">#####</span>
+<span class="c1"># These are the base exceptions; proper programing protocol dictates </span>
+<span class="c1"># that Python try-except statements should not catch these. As such, </span>
+<span class="c1"># they are reserved for very critical problems within the code </span>
+<span class="c1"># itself (it rarely should be the fault of the user&#39;s).</span>
+
+<span class="c1"># The common way for formatting TERMINAL error strings.</span>
+<span class="k">def</span> <span class="nf">_common_terminal_string_format</span><span class="p">(</span><span class="n">message</span><span class="p">):</span>
+    <span class="c1"># The capital TERMINAL letters.</span>
+    <span class="n">terminal_prefix</span> <span class="o">=</span> <span class="s1">&#39;TERMINAL:&#39;</span>
+
+    <span class="c1"># The original message.</span>
+    <span class="k">if</span> <span class="p">(</span><span class="nb">isinstance</span><span class="p">(</span><span class="n">message</span><span class="p">,</span> <span class="nb">str</span><span class="p">)):</span>
+        <span class="n">original_message</span> <span class="o">=</span> <span class="n">message</span>
+    <span class="k">else</span><span class="p">:</span> 
+        <span class="c1"># It is not a valid type.</span>
+        <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span><span class="s2">&quot;The message for a TERMINAL error must be a &quot;</span>
+                         <span class="s2">&quot;string type.&quot;</span><span class="p">)</span>
+        <span class="c1"># If the message gets here, the user might not have caught</span>
+        <span class="c1"># the TypeError, the error is going to be elevated.</span>
+        <span class="k">raise</span> <span class="n">TerminalError</span><span class="p">(</span><span class="s2">&quot;The message for a TERMINAL error must be a &quot;</span>
+                            <span class="s2">&quot;string type. The previous TypeError was not &quot;</span>
+                            <span class="s2">&quot;properly raised.&quot;</span><span class="p">)</span>
+
+    <span class="c1"># The extra information regarding who to contact and how</span>
+    <span class="c1"># to &quot;fix it&quot;.</span>
+    <span class="n">contact_suffix</span> <span class="o">=</span> <span class="p">(</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2"> &gt;&gt; Please contact project maintainers or &quot;</span>
+                      <span class="s2">&quot;Sparrow to resolve this issue. &quot;</span><span class="p">)</span>
+    
+    <span class="c1"># The finished message. The spaces are for spacing.</span>
+    <span class="n">formatted_message</span> <span class="o">=</span> <span class="s1">&#39;  &#39;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span>
+        <span class="p">[</span><span class="n">terminal_prefix</span><span class="p">,</span> <span class="n">original_message</span><span class="p">,</span> <span class="n">contact_suffix</span><span class="p">])</span>
+    <span class="k">return</span> <span class="n">formatted_message</span>
+
+<div class="viewcode-block" id="AssumptionError"><a class="viewcode-back" href="../../../docstrings/ifa_smeargle.core.error.html#ifa_smeargle.core.error.AssumptionError">[docs]</a><span class="k">class</span> <span class="nc">AssumptionError</span><span class="p">(</span><span class="n">Ifas_BaseException</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    This error is reserved for instances where something </span>
+<span class="sd">    unexpected has occurred because of a flaw in the understanding </span>
+<span class="sd">    of assumptions about Python or module functions.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">message</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+        <span class="c1"># See if the user&#39;s message or a default message should be</span>
+        <span class="c1"># applied.</span>
+        <span class="k">if</span> <span class="p">(</span><span class="nb">isinstance</span><span class="p">(</span><span class="n">message</span><span class="p">,</span> <span class="nb">str</span><span class="p">)):</span>
+            <span class="c1"># The user&#39;s message.</span>
+            <span class="n">user_message</span> <span class="o">=</span> <span class="n">message</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="c1"># A default message.</span>
+            <span class="n">user_message</span> <span class="o">=</span> <span class="p">(</span><span class="s2">&quot;An erroneous result has transpired because of &quot;</span>
+                            <span class="s2">&quot;an incorrect assumption about how Python or &quot;</span>
+                            <span class="s2">&quot;other Python modules or functions work.&quot;</span><span class="p">)</span>
+        <span class="c1"># Format either message regardless.</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">message</span> <span class="o">=</span> <span class="n">_common_terminal_string_format</span><span class="p">(</span><span class="n">message</span><span class="o">=</span><span class="n">user_message</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="fm">__str__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">message</span>
+
+    <span class="k">pass</span></div>
+
+<div class="viewcode-block" id="BrokenLogicError"><a class="viewcode-back" href="../../../docstrings/ifa_smeargle.core.error.html#ifa_smeargle.core.error.BrokenLogicError">[docs]</a><span class="k">class</span> <span class="nc">BrokenLogicError</span><span class="p">(</span><span class="n">Ifas_BaseException</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    This error is encountered when the program enters in a place it </span>
+<span class="sd">    should not be able to. Incorporated mostly for safety; usually </span>
+<span class="sd">    not the fault of the user. </span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">message</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+        <span class="c1"># See if the user&#39;s message or a default message should be</span>
+        <span class="c1"># applied.</span>
+        <span class="k">if</span> <span class="p">(</span><span class="nb">isinstance</span><span class="p">(</span><span class="n">message</span><span class="p">,</span> <span class="nb">str</span><span class="p">)):</span>
+            <span class="c1"># The user&#39;s message.</span>
+            <span class="n">user_message</span> <span class="o">=</span> <span class="n">message</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="c1"># A default message.</span>
+            <span class="n">user_message</span> <span class="o">=</span> <span class="p">(</span><span class="s2">&quot;Something is not right with the code&#39;s logic. &quot;</span>
+                            <span class="s2">&quot;It has arrived to a place considered &quot;</span>
+                            <span class="s2">&quot;impossible from the logic flow.&quot;</span><span class="p">)</span>
+        <span class="c1"># Format either message regardless.</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">message</span> <span class="o">=</span> <span class="n">_common_terminal_string_format</span><span class="p">(</span><span class="n">message</span><span class="o">=</span><span class="n">user_message</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="fm">__str__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">message</span>
+
+    <span class="k">pass</span></div>
+
+<div class="viewcode-block" id="DeprecatedError"><a class="viewcode-back" href="../../../docstrings/ifa_smeargle.core.error.html#ifa_smeargle.core.error.DeprecatedError">[docs]</a><span class="k">class</span> <span class="nc">DeprecatedError</span><span class="p">(</span><span class="n">Ifas_BaseException</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    This is used when the code should be using a different </span>
+<span class="sd">    equivalent function. This is mostly used for cases where a </span>
+<span class="sd">    warning has already been issued, or to clean up the core </span>
+<span class="sd">    sections of the code during testing. </span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">message</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+        <span class="c1"># See if the user&#39;s message or a default message should be</span>
+        <span class="c1"># applied.</span>
+        <span class="k">if</span> <span class="p">(</span><span class="nb">isinstance</span><span class="p">(</span><span class="n">message</span><span class="p">,</span> <span class="nb">str</span><span class="p">)):</span>
+            <span class="c1"># The user&#39;s message.</span>
+            <span class="n">user_message</span> <span class="o">=</span> <span class="n">message</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="c1"># A default message.</span>
+            <span class="n">user_message</span> <span class="o">=</span> <span class="p">(</span><span class="s2">&quot;This function is terminally deprecated. There &quot;</span>
+                            <span class="s2">&quot;exists a different and equivalent function. &quot;</span>
+                            <span class="s2">&quot;Use that function instead.&quot;</span><span class="p">)</span>
+        <span class="c1"># Format either message regardless.</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">message</span> <span class="o">=</span> <span class="n">_common_terminal_string_format</span><span class="p">(</span><span class="n">message</span><span class="o">=</span><span class="n">user_message</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="fm">__str__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">message</span>
+
+    <span class="k">pass</span></div>
+
+<div class="viewcode-block" id="DevelopmentError"><a class="viewcode-back" href="../../../docstrings/ifa_smeargle.core.error.html#ifa_smeargle.core.error.DevelopmentError">[docs]</a><span class="k">class</span> <span class="nc">DevelopmentError</span><span class="p">(</span><span class="n">Ifas_BaseException</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    This is used when the code is improperly written as a result of</span>
+<span class="sd">    development solely by one or many parties. An error here usually</span>
+<span class="sd">    is because some assumptions on development has been imposed that</span>
+<span class="sd">    may have been forgotten about.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">message</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+        <span class="c1"># See if the user&#39;s message or a default message should be</span>
+        <span class="c1"># applied.</span>
+        <span class="k">if</span> <span class="p">(</span><span class="nb">isinstance</span><span class="p">(</span><span class="n">message</span><span class="p">,</span> <span class="nb">str</span><span class="p">)):</span>
+            <span class="c1"># The user&#39;s message.</span>
+            <span class="n">user_message</span> <span class="o">=</span> <span class="n">message</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="c1"># A default message.</span>
+            <span class="n">user_message</span> <span class="o">=</span> <span class="p">(</span><span class="s2">&quot;There seems to be an error in the &quot;</span>
+                            <span class="s2">&quot;development of this code script or library.&quot;</span><span class="p">)</span>
+        <span class="c1"># Format either message regardless.</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">message</span> <span class="o">=</span> <span class="n">_common_terminal_string_format</span><span class="p">(</span><span class="n">message</span><span class="o">=</span><span class="n">user_message</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="fm">__str__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">message</span></div>
+
+<div class="viewcode-block" id="IncompleteError"><a class="viewcode-back" href="../../../docstrings/ifa_smeargle.core.error.html#ifa_smeargle.core.error.IncompleteError">[docs]</a><span class="k">class</span> <span class="nc">IncompleteError</span><span class="p">(</span><span class="n">Ifas_BaseException</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    This used when the code is trying to use a function that is </span>
+<span class="sd">    incomplete or not usable. </span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">message</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+        <span class="c1"># See if the user&#39;s message or a default message should be</span>
+        <span class="c1"># applied.</span>
+        <span class="k">if</span> <span class="p">(</span><span class="nb">isinstance</span><span class="p">(</span><span class="n">message</span><span class="p">,</span> <span class="nb">str</span><span class="p">)):</span>
+            <span class="c1"># The user&#39;s message.</span>
+            <span class="n">user_message</span> <span class="o">=</span> <span class="n">message</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="c1"># A default message.</span>
+            <span class="n">user_message</span> <span class="o">=</span> <span class="p">(</span><span class="s2">&quot;This section of the code is incomplete &quot;</span>
+                            <span class="s2">&quot;and likely does not work at all. Proceeding &quot;</span>
+                            <span class="s2">&quot;is not allowed.&quot;</span><span class="p">)</span>
+        <span class="c1"># Format either message regardless.</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">message</span> <span class="o">=</span> <span class="n">_common_terminal_string_format</span><span class="p">(</span><span class="n">message</span><span class="o">=</span><span class="n">user_message</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="fm">__str__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">message</span></div>
+
+<div class="viewcode-block" id="TerminalError"><a class="viewcode-back" href="../../../docstrings/ifa_smeargle.core.error.html#ifa_smeargle.core.error.TerminalError">[docs]</a><span class="k">class</span> <span class="nc">TerminalError</span><span class="p">(</span><span class="n">Ifas_BaseException</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    This is used when something has gone terribly wrong. It is best </span>
+<span class="sd">    to contact the maintainers or Sparrow. </span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">message</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+        <span class="c1"># See if the user&#39;s message or a default message should be</span>
+        <span class="c1"># applied.</span>
+        <span class="k">if</span> <span class="p">(</span><span class="nb">isinstance</span><span class="p">(</span><span class="n">message</span><span class="p">,</span> <span class="nb">str</span><span class="p">)):</span>
+            <span class="c1"># The user&#39;s message.</span>
+            <span class="n">user_message</span> <span class="o">=</span> <span class="n">message</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="c1"># A default message.</span>
+            <span class="n">user_message</span> <span class="o">=</span> <span class="p">(</span><span class="s2">&quot;A general TERMINAL error has been raised.&quot;</span><span class="p">)</span>
+        <span class="c1"># Format either message regardless.</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">message</span> <span class="o">=</span> <span class="n">_common_terminal_string_format</span><span class="p">(</span><span class="n">message</span><span class="o">=</span><span class="n">user_message</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="fm">__str__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">message</span></div>
+
+<span class="c1">#####################################################################</span>
+<span class="c1">#####################################################################</span>
+<span class="c1"># Warnings and other Non-Exceptions</span>
+<span class="c1">#####################################################################</span>
+<span class="c1">#####################################################################</span>
+
+<div class="viewcode-block" id="ifas_error"><a class="viewcode-back" href="../../../docstrings/ifa_smeargle.core.error.html#ifa_smeargle.core.error.ifas_error">[docs]</a><span class="k">def</span> <span class="nf">ifas_error</span><span class="p">(</span><span class="nb">type</span><span class="p">,</span> <span class="n">message</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot; This is a wrapper around the logging&#39;s error command. </span>
+<span class="sd">    However, it does not raise an error. Instead, an error may be </span>
+<span class="sd">    sent to and it will be converted into a proper warning.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    type : ExecptionsClass</span>
+<span class="sd">        The error that could be raised, but it is more manageable as </span>
+<span class="sd">        a logged error.</span>
+<span class="sd">    message : string</span>
+<span class="sd">        The message that the error is to give.</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    None</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="c1"># Ensure that the type really is an error.</span>
+    <span class="k">if</span> <span class="p">(</span><span class="ow">not</span> <span class="nb">issubclass</span><span class="p">(</span><span class="nb">type</span><span class="p">,</span> <span class="ne">Exception</span><span class="p">)):</span>
+        <span class="k">raise</span> <span class="n">AssumptionError</span><span class="p">(</span><span class="s2">&quot;It is assumed that logging errors should &quot;</span>
+                              <span class="s2">&quot;be raise-able. This type class is not a &quot;</span>
+                              <span class="s2">&quot;raise-able exception.&quot;</span><span class="p">)</span>
+    <span class="k">try</span><span class="p">:</span>
+        <span class="n">error_name</span> <span class="o">=</span> <span class="nb">str</span><span class="p">(</span><span class="nb">type</span><span class="o">.</span><span class="vm">__name__</span><span class="p">)</span>
+    <span class="k">except</span> <span class="n">Ifas_BaseException</span><span class="p">:</span>
+        <span class="k">raise</span>
+    <span class="k">except</span> <span class="ne">Exception</span><span class="p">:</span>
+        <span class="c1"># Or just apply a default.</span>
+        <span class="n">error_name</span> <span class="o">=</span> <span class="s1">&#39;UserError&#39;</span>
+    <span class="k">finally</span><span class="p">:</span>
+        <span class="n">error_message</span> <span class="o">=</span> <span class="s1">&#39;&#39;</span><span class="o">.</span><span class="n">join</span><span class="p">([</span><span class="s1">&#39;[&#39;</span><span class="p">,</span> <span class="n">error_name</span><span class="p">,</span> <span class="s1">&#39;]&#39;</span><span class="p">,</span> <span class="s1">&#39;  &#39;</span><span class="p">,</span> <span class="n">message</span><span class="p">])</span>
+    <span class="c1"># Log the error.</span>
+    <span class="n">log</span><span class="o">.</span><span class="n">error</span><span class="p">(</span><span class="n">error_message</span><span class="p">)</span>
+    <span class="c1"># ...and inform.</span>
+    <span class="n">warn</span><span class="o">.</span><span class="n">warn</span><span class="p">(</span><span class="n">error_message</span><span class="p">,</span> <span class="n">ErrorWarning</span><span class="p">,</span> <span class="n">stacklevel</span><span class="o">=</span><span class="mi">2</span><span class="p">)</span></div>
+
+
+
+<div class="viewcode-block" id="ifas_warning"><a class="viewcode-back" href="../../../docstrings/ifa_smeargle.core.error.html#ifa_smeargle.core.error.ifas_warning">[docs]</a><span class="k">def</span> <span class="nf">ifas_warning</span><span class="p">(</span><span class="nb">type</span><span class="p">,</span> <span class="n">message</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot; Just a wrapper function around the warning&#39;s warn command.</span>
+
+<span class="sd">    This wrapper was really only for the logical flow of Sparrow.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    type : Warnings Class</span>
+<span class="sd">        The warning class type.</span>
+<span class="sd">    message : string</span>
+<span class="sd">        The message that the warning is to give to the user.</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    None</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">warn</span><span class="o">.</span><span class="n">warn</span><span class="p">(</span><span class="n">message</span><span class="p">,</span> <span class="nb">type</span><span class="p">,</span> <span class="n">stacklevel</span><span class="o">=</span><span class="mi">2</span><span class="p">)</span>
+    <span class="c1"># Also add it into the logger, but, add information to </span>
+    <span class="c1"># indicate that is was a raised warning.</span>
+    <span class="n">ifas_log_warning</span><span class="p">(</span><span class="nb">type</span><span class="o">=</span><span class="nb">type</span><span class="p">,</span> <span class="n">message</span><span class="o">=</span><span class="n">message</span><span class="p">)</span>
+
+    <span class="k">return</span> <span class="kc">None</span></div>
+    
+<div class="viewcode-block" id="ifas_log_warning"><a class="viewcode-back" href="../../../docstrings/ifa_smeargle.core.error.html#ifa_smeargle.core.error.ifas_log_warning">[docs]</a><span class="k">def</span> <span class="nf">ifas_log_warning</span><span class="p">(</span><span class="nb">type</span><span class="p">,</span> <span class="n">message</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot; Just a wrapper function around logging&#39;s built-in warn. </span>
+<span class="sd">    This is to only log a warning but not to display it as a </span>
+<span class="sd">    standard warning.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    type : Warnings Class</span>
+<span class="sd">        The warning class type.</span>
+<span class="sd">    message : string</span>
+<span class="sd">        The message that the warning is to give to the user.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">try</span><span class="p">:</span>
+        <span class="n">warning_name</span> <span class="o">=</span> <span class="nb">str</span><span class="p">(</span><span class="nb">type</span><span class="o">.</span><span class="vm">__name__</span><span class="p">)</span>
+    <span class="k">except</span> <span class="ne">Exception</span><span class="p">:</span>
+        <span class="n">warning_name</span> <span class="o">=</span> <span class="s1">&#39;UserWarning&#39;</span>
+    <span class="k">finally</span><span class="p">:</span>
+        <span class="n">warning_message</span> <span class="o">=</span> <span class="s1">&#39;&#39;</span><span class="o">.</span><span class="n">join</span><span class="p">([</span><span class="s1">&#39;[&#39;</span><span class="p">,</span> <span class="n">warning_name</span><span class="p">,</span> <span class="s1">&#39;]&#39;</span><span class="p">,</span> <span class="s1">&#39;  &#39;</span><span class="p">,</span> <span class="n">message</span><span class="p">])</span>
+    <span class="c1"># Log the warning.</span>
+    <span class="n">log</span><span class="o">.</span><span class="n">warning</span><span class="p">(</span><span class="n">warning_message</span><span class="p">)</span></div>
+
+<span class="c1"># Ifas base.</span>
+<div class="viewcode-block" id="Ifas_Warning"><a class="viewcode-back" href="../../../docstrings/ifa_smeargle.core.error.html#ifa_smeargle.core.error.Ifas_Warning">[docs]</a><span class="k">class</span> <span class="nc">Ifas_Warning</span><span class="p">(</span><span class="ne">UserWarning</span><span class="p">):</span>
+    <span class="k">pass</span></div>
+
+
+<div class="viewcode-block" id="ConfigurationWarning"><a class="viewcode-back" href="../../../docstrings/ifa_smeargle.core.error.html#ifa_smeargle.core.error.ConfigurationWarning">[docs]</a><span class="k">class</span> <span class="nc">ConfigurationWarning</span><span class="p">(</span><span class="n">Ifas_Warning</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    This warning is used when there are issues with the </span>
+<span class="sd">    configuration class and that data is missing. However, the </span>
+<span class="sd">    missing data does not warrant an exception.</span>
+<span class="sd">    &quot;&quot;&quot;</span></div>
+
+<div class="viewcode-block" id="DataWarning"><a class="viewcode-back" href="../../../docstrings/ifa_smeargle.core.error.html#ifa_smeargle.core.error.DataWarning">[docs]</a><span class="k">class</span> <span class="nc">DataWarning</span><span class="p">(</span><span class="n">Ifas_Warning</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    This warning is used when there is an issue with the fundamental </span>
+<span class="sd">    data that this program or module cannot fix but can still work </span>
+<span class="sd">    around. The user should be able to figure out what is the problem.</span>
+<span class="sd">    &quot;&quot;&quot;</span></div>
+
+<div class="viewcode-block" id="DeprecatedWarning"><a class="viewcode-back" href="../../../docstrings/ifa_smeargle.core.error.html#ifa_smeargle.core.error.DeprecatedWarning">[docs]</a><span class="k">class</span> <span class="nc">DeprecatedWarning</span><span class="p">(</span><span class="n">Ifas_Warning</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    This warning is used when there are some functions that are </span>
+<span class="sd">    used but have since been replaced with better functions, or </span>
+<span class="sd">    where the previous function is not very stable or integrated </span>
+<span class="sd">    with the rest of the functions.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">pass</span></div>
+
+<div class="viewcode-block" id="ExportingWarning"><a class="viewcode-back" href="../../../docstrings/ifa_smeargle.core.error.html#ifa_smeargle.core.error.ExportingWarning">[docs]</a><span class="k">class</span> <span class="nc">ExportingWarning</span><span class="p">(</span><span class="n">Ifas_Warning</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    This warning is used to warn the user about exports and some </span>
+<span class="sd">    things that may be helpful to know about them. Such exports are </span>
+<span class="sd">    generally writing files to disk.</span>
+<span class="sd">    &quot;&quot;&quot;</span></div>
+
+<div class="viewcode-block" id="ErrorWarning"><a class="viewcode-back" href="../../../docstrings/ifa_smeargle.core.error.html#ifa_smeargle.core.error.ErrorWarning">[docs]</a><span class="k">class</span> <span class="nc">ErrorWarning</span><span class="p">(</span><span class="n">Ifas_Warning</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    This warning is to inform that there was an error that was </span>
+<span class="sd">    thrown as a warning (either as a critical warning log or </span>
+<span class="sd">    something else.</span>
+<span class="sd">    &quot;&quot;&quot;</span></div>
+
+<div class="viewcode-block" id="ImportingWarning"><a class="viewcode-back" href="../../../docstrings/ifa_smeargle.core.error.html#ifa_smeargle.core.error.ImportingWarning">[docs]</a><span class="k">class</span> <span class="nc">ImportingWarning</span><span class="p">(</span><span class="n">Ifas_Warning</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    This warning is used when there are issues loading a file, but </span>
+<span class="sd">    it can be handled using some assumptions.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">pass</span> </div>
+
+<div class="viewcode-block" id="ImprecisionWarning"><a class="viewcode-back" href="../../../docstrings/ifa_smeargle.core.error.html#ifa_smeargle.core.error.ImprecisionWarning">[docs]</a><span class="k">class</span> <span class="nc">ImprecisionWarning</span><span class="p">(</span><span class="n">Ifas_Warning</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    This warning is used when there may be issues with numerical </span>
+<span class="sd">    precision because of the volume of data or the very low/high </span>
+<span class="sd">    numbers involved. </span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">pass</span></div>
+
+<div class="viewcode-block" id="InputWarning"><a class="viewcode-back" href="../../../docstrings/ifa_smeargle.core.error.html#ifa_smeargle.core.error.InputWarning">[docs]</a><span class="k">class</span> <span class="nc">InputWarning</span><span class="p">(</span><span class="n">Ifas_Warning</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    This warning is used when the user inputs something that is </span>
+<span class="sd">    questionable, but not wrong.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">pass</span></div>
+
+<div class="viewcode-block" id="MagicWarning"><a class="viewcode-back" href="../../../docstrings/ifa_smeargle.core.error.html#ifa_smeargle.core.error.MagicWarning">[docs]</a><span class="k">class</span> <span class="nc">MagicWarning</span><span class="p">(</span><span class="n">Ifas_Warning</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    This warning is used when any routine would utilize </span>
+<span class="sd">    magic/hard-coded values for the purposes of any process where </span>
+<span class="sd">    said numbers are magic. This is mostly as a programming </span>
+<span class="sd">    warning to the user that behavior with magic numbers may not </span>
+<span class="sd">    always be expected or logical.</span>
+<span class="sd">    &quot;&quot;&quot;</span></div>
+
+<div class="viewcode-block" id="MaskingWarning"><a class="viewcode-back" href="../../../docstrings/ifa_smeargle.core.error.html#ifa_smeargle.core.error.MaskingWarning">[docs]</a><span class="k">class</span> <span class="nc">MaskingWarning</span><span class="p">(</span><span class="n">Ifas_Warning</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    This warning is used when any masking or filtering routine </span>
+<span class="sd">    (especially in the masking and filtering scripts) fails to </span>
+<span class="sd">    mask any pixels or something else is amiss. It is not a bad </span>
+<span class="sd">    thing, but it can be helpful to know. </span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">pass</span></div>
+
+<div class="viewcode-block" id="MemoryWarning"><a class="viewcode-back" href="../../../docstrings/ifa_smeargle.core.error.html#ifa_smeargle.core.error.MemoryWarning">[docs]</a><span class="k">class</span> <span class="nc">MemoryWarning</span><span class="p">(</span><span class="n">Ifas_Warning</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    This warning is used to warn the user that the procedures that </span>
+<span class="sd">    follow would require a lot of memory RAM. If instead it would </span>
+<span class="sd">    produce a large file(s), StorageWarning should be used.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">pass</span></div>
+
+<div class="viewcode-block" id="OverwriteWarning"><a class="viewcode-back" href="../../../docstrings/ifa_smeargle.core.error.html#ifa_smeargle.core.error.OverwriteWarning">[docs]</a><span class="k">class</span> <span class="nc">OverwriteWarning</span><span class="p">(</span><span class="n">Ifas_Warning</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    This warning is used to warn the user that a file has been </span>
+<span class="sd">    overwritten, most likely because of conflicting file names.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">pass</span></div>
+
+
+<div class="viewcode-block" id="ReductionWarning"><a class="viewcode-back" href="../../../docstrings/ifa_smeargle.core.error.html#ifa_smeargle.core.error.ReductionWarning">[docs]</a><span class="k">class</span> <span class="nc">ReductionWarning</span><span class="p">(</span><span class="n">Ifas_Warning</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    This warning is used when normally unusual parameters are </span>
+<span class="sd">    used for data reduction. The user is trusted in their procedures.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">pass</span></div>
+
+<div class="viewcode-block" id="StorageWarning"><a class="viewcode-back" href="../../../docstrings/ifa_smeargle.core.error.html#ifa_smeargle.core.error.StorageWarning">[docs]</a><span class="k">class</span> <span class="nc">StorageWarning</span><span class="p">(</span><span class="n">Ifas_Warning</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    This warning is used when the large file(s) would be written </span>
+<span class="sd">    to the hard drive. If instead a lot of RAM would be used, it is </span>
+<span class="sd">    better to use MemoryWarning.</span>
+<span class="sd">    &quot;&quot;&quot;</span></div>
+
+<div class="viewcode-block" id="TimeWarning"><a class="viewcode-back" href="../../../docstrings/ifa_smeargle.core.error.html#ifa_smeargle.core.error.TimeWarning">[docs]</a><span class="k">class</span> <span class="nc">TimeWarning</span><span class="p">(</span><span class="n">Ifas_Warning</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    This warning is used when any method called may take a long time </span>
+<span class="sd">    to compute or execute. This allows the user to stop and change </span>
+<span class="sd">    if desired. </span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">pass</span></div>
+
+
+<span class="c1">####################################################################</span>
+<span class="c1">####################################################################</span>
+<span class="c1"># Informational Logging Messages</span>
+<span class="c1">####################################################################</span>
+<span class="c1">####################################################################</span>
+
+<div class="viewcode-block" id="ifas_info"><a class="viewcode-back" href="../../../docstrings/ifa_smeargle.core.error.html#ifa_smeargle.core.error.ifas_info">[docs]</a><span class="k">def</span> <span class="nf">ifas_info</span><span class="p">(</span><span class="n">message</span><span class="p">,</span> <span class="n">console_print</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    This is a wrapper function to print helpful information.</span>
+<span class="sd">   </span>
+<span class="sd">    Printing information as the function(s) go on is very helpful. </span>
+<span class="sd">    However, using the normal print function doesn&#39;t allow for some </span>
+<span class="sd">    level of customization and ease of handling. Hence, function </span>
+<span class="sd">    for uniformity.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    message : string</span>
+<span class="sd">        The informational message that is to be printed. </span>
+<span class="sd">    console_print : boolean (optional)</span>
+<span class="sd">        This ensures that the info message is always printed </span>
+<span class="sd">        regardless of the logging level set by the logging utility.</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    nothing</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="c1"># Use the default console print parameter if not specified.</span>
+    <span class="k">if</span> <span class="p">(</span><span class="n">console_print</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">):</span>
+        <span class="n">console_print</span> <span class="o">=</span> <span class="nb">bool</span><span class="p">(</span><span class="n">console_print</span><span class="p">)</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">console_print</span> <span class="o">=</span> <span class="n">core</span><span class="o">.</span><span class="n">runtime</span><span class="o">.</span><span class="n">extract_runtime_configuration</span><span class="p">(</span>
+            <span class="n">config_key</span><span class="o">=</span><span class="s1">&#39;CONSOLE_LOG&#39;</span><span class="p">)</span>
+    
+    <span class="c1"># Test if info messages should not be printed given their</span>
+    <span class="k">if</span> <span class="p">(</span><span class="n">ifas_info</span><span class="o">.</span><span class="n">_silent_mode</span><span class="p">):</span>
+        <span class="c1"># Messages should not be printed in general.</span>
+        <span class="k">pass</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="c1"># Just a little white space so it is not so cluttered.</span>
+        <span class="n">log</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s1">&#39;&#39;</span><span class="o">.</span><span class="n">join</span><span class="p">([</span><span class="s1">&#39;  &#39;</span><span class="p">,</span> <span class="n">message</span><span class="p">]))</span>
+        <span class="k">if</span> <span class="p">(</span><span class="n">console_print</span><span class="p">):</span>
+            <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;IFAS Info:  &quot;</span> <span class="o">+</span> <span class="n">message</span><span class="p">)</span>
+    <span class="k">return</span> <span class="kc">None</span></div>
+
+<span class="c1"># This is the default and will set the silent mode parameter for </span>
+<span class="c1"># informational printing, but it ensures not to override anything </span>
+<span class="c1"># that may already exist.</span>
+<span class="k">if</span> <span class="p">(</span><span class="nb">hasattr</span><span class="p">(</span><span class="n">ifas_info</span><span class="p">,</span> <span class="s1">&#39;_silent_mode&#39;</span><span class="p">)):</span>
+    <span class="k">pass</span>
+<span class="k">else</span><span class="p">:</span>
+    <span class="n">ifas_info</span><span class="o">.</span><span class="n">_silent_mode</span> <span class="o">=</span> <span class="kc">False</span>
+
+
+<span class="c1"># The context manager is mostly for stylistic purposes. Given that </span>
+<span class="c1"># debug functional printing is more often than not more than one line. </span>
+<div class="viewcode-block" id="ifas_debug_block"><a class="viewcode-back" href="../../../docstrings/ifa_smeargle.core.error.html#ifa_smeargle.core.error.ifas_debug_block">[docs]</a><span class="nd">@contextlib</span><span class="o">.</span><span class="n">contextmanager</span>
+<span class="k">def</span> <span class="nf">ifas_debug_block</span><span class="p">():</span>
+    <span class="sd">&quot;&quot;&quot; This is a wrapper function for encasing debugging code. </span>
+
+<span class="sd">    The execution of code within a debug block is used to contain </span>
+<span class="sd">    easily printed debug information. Debug messages should use the </span>
+<span class="sd">    debug function :func:`ifas_debug`</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="k">if</span> <span class="p">(</span><span class="n">ifas_debug_block</span><span class="o">.</span><span class="n">_silent_mode</span><span class="p">):</span>
+        <span class="k">pass</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="k">yield</span>
+    <span class="k">return</span> <span class="kc">None</span></div>
+<span class="c1"># This is the default and will set the silent mode parameter for debug</span>
+<span class="c1"># printing, but it ensures not to override anything that may already </span>
+<span class="c1"># exist.</span>
+<span class="k">if</span> <span class="p">(</span><span class="nb">hasattr</span><span class="p">(</span><span class="n">ifas_debug_block</span><span class="p">,</span> <span class="s1">&#39;_silent_mode&#39;</span><span class="p">)):</span>
+    <span class="k">pass</span>
+<span class="k">else</span><span class="p">:</span>
+    <span class="n">ifas_debug_block</span><span class="o">.</span><span class="n">_silent_mode</span> <span class="o">=</span> <span class="kc">True</span>
+
+<span class="c1"># The message form of the debug information. </span>
+<div class="viewcode-block" id="ifas_debug"><a class="viewcode-back" href="../../../docstrings/ifa_smeargle.core.error.html#ifa_smeargle.core.error.ifas_debug">[docs]</a><span class="k">def</span> <span class="nf">ifas_debug</span><span class="p">(</span><span class="n">message</span><span class="p">,</span> <span class="n">console_print</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot; This is a wrapper function for the printing of debug messages. </span>
+
+<span class="sd">    Given the nature of debug messages, it should be clear that it </span>
+<span class="sd">    is a debug message, and should also have the proper silencing </span>
+<span class="sd">    capabilities.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    message : string</span>
+<span class="sd">        The message that is to be sent as the debug message.</span>
+<span class="sd">    console_print : boolean (optional)</span>
+<span class="sd">        This ensures that the info message is always printed </span>
+<span class="sd">        regardless of the logging level set by the logging utility. </span>
+<span class="sd">        Default is False.</span>
+<span class="sd">    </span>
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    nothing    </span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="c1"># Test if info messages should not be printed given their</span>
+    <span class="k">if</span> <span class="p">(</span><span class="n">ifas_debug</span><span class="o">.</span><span class="n">_silent_mode</span><span class="p">):</span>
+        <span class="c1"># Messages should not be printed in general.</span>
+        <span class="k">pass</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">log</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="s1">&#39;&#39;</span><span class="o">.</span><span class="n">join</span><span class="p">([</span><span class="s1">&#39;  &#39;</span><span class="p">,</span> <span class="n">message</span><span class="p">]))</span>
+        <span class="k">if</span> <span class="p">(</span><span class="n">console_print</span><span class="p">):</span>
+            <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;IFAS Debug:  &quot;</span> <span class="o">+</span> <span class="n">message</span><span class="p">)</span>
+    <span class="k">return</span> <span class="kc">None</span></div>
+<span class="c1"># This is the default and will set the silent mode parameter for </span>
+<span class="c1"># debug printing, but it ensures not to override anything that may </span>
+<span class="c1"># already exist.</span>
+<span class="k">if</span> <span class="p">(</span><span class="nb">hasattr</span><span class="p">(</span><span class="n">ifas_debug</span><span class="p">,</span> <span class="s1">&#39;_silent_mode&#39;</span><span class="p">)):</span>
+    <span class="k">pass</span>
+<span class="k">else</span><span class="p">:</span>
+    <span class="n">ifas_debug</span><span class="o">.</span><span class="n">_silent_mode</span> <span class="o">=</span> <span class="kc">True</span>
+
+
+<span class="c1">####################################################################</span>
+<span class="c1">####################################################################</span>
+<span class="c1"># Enabling/Silencing Context Managers</span>
+<span class="c1">####################################################################</span>
+<span class="c1">####################################################################</span>
+
+<span class="c1"># To silence a specific type of warning. This is a wrapper function.</span>
+<div class="viewcode-block" id="ifas_silence_specific_warnings"><a class="viewcode-back" href="../../../docstrings/ifa_smeargle.core.error.html#ifa_smeargle.core.error.ifas_silence_specific_warnings">[docs]</a><span class="nd">@contextlib</span><span class="o">.</span><span class="n">contextmanager</span>
+<span class="k">def</span> <span class="nf">ifas_silence_specific_warnings</span><span class="p">(</span><span class="n">silenced_warning_type</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot; This context manager silences all warnings of a given type. </span>
+<span class="sd">    Depending on what was inputed.</span>
+<span class="sd">    </span>
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    silenced_warning_type : WarningType</span>
+<span class="sd">        The warning that should be silenced.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">with</span> <span class="n">warn</span><span class="o">.</span><span class="n">catch_warnings</span><span class="p">():</span>
+        <span class="n">warn</span><span class="o">.</span><span class="n">simplefilter</span><span class="p">(</span><span class="s2">&quot;ignore&quot;</span><span class="p">,</span> <span class="n">category</span><span class="o">=</span><span class="n">silenced_warning_type</span><span class="p">)</span>
+        <span class="k">yield</span>
+
+    <span class="k">return</span> <span class="kc">None</span></div>
+
+<span class="c1"># To silence Ifas based warnings</span>
+<div class="viewcode-block" id="ifas_silence_ifas_warnings"><a class="viewcode-back" href="../../../docstrings/ifa_smeargle.core.error.html#ifa_smeargle.core.error.ifas_silence_ifas_warnings">[docs]</a><span class="nd">@contextlib</span><span class="o">.</span><span class="n">contextmanager</span>
+<span class="k">def</span> <span class="nf">ifas_silence_ifas_warnings</span><span class="p">():</span>
+    <span class="sd">&quot;&quot;&quot; This context manager silences all Ifas based warnings, all </span>
+<span class="sd">    other warnings are still valid.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">with</span> <span class="n">warn</span><span class="o">.</span><span class="n">catch_warnings</span><span class="p">():</span>
+        <span class="n">warn</span><span class="o">.</span><span class="n">simplefilter</span><span class="p">(</span><span class="s2">&quot;ignore&quot;</span><span class="p">,</span> <span class="n">category</span><span class="o">=</span><span class="n">Ifas_Warning</span><span class="p">)</span>
+        <span class="k">yield</span>
+
+    <span class="k">return</span> <span class="kc">None</span></div>
+
+<span class="c1"># To silence non-Ifas based warnings</span>
+<div class="viewcode-block" id="ifas_silence_nonifas_warnings"><a class="viewcode-back" href="../../../docstrings/ifa_smeargle.core.error.html#ifa_smeargle.core.error.ifas_silence_nonifas_warnings">[docs]</a><span class="nd">@contextlib</span><span class="o">.</span><span class="n">contextmanager</span>
+<span class="k">def</span> <span class="nf">ifas_silence_nonifas_warnings</span><span class="p">():</span>
+    <span class="sd">&quot;&quot;&quot; This context manager silences all non-Ifas based warnings, </span>
+<span class="sd">    all other warnings are still valid.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">with</span> <span class="n">warn</span><span class="o">.</span><span class="n">catch_warnings</span><span class="p">():</span>
+        <span class="n">warn</span><span class="o">.</span><span class="n">simplefilter</span><span class="p">(</span><span class="s2">&quot;ignore&quot;</span><span class="p">)</span>
+        <span class="n">warn</span><span class="o">.</span><span class="n">simplefilter</span><span class="p">(</span><span class="s2">&quot;default&quot;</span><span class="p">,</span> <span class="n">category</span><span class="o">=</span><span class="n">Ifas_Warning</span><span class="p">)</span>
+        <span class="k">yield</span>
+
+    <span class="k">return</span> <span class="kc">None</span></div>
+
+<span class="c1"># To silence all warnings</span>
+<div class="viewcode-block" id="ifas_silence_all_warnings"><a class="viewcode-back" href="../../../docstrings/ifa_smeargle.core.error.html#ifa_smeargle.core.error.ifas_silence_all_warnings">[docs]</a><span class="nd">@contextlib</span><span class="o">.</span><span class="n">contextmanager</span>
+<span class="k">def</span> <span class="nf">ifas_silence_all_warnings</span><span class="p">():</span>
+    <span class="sd">&quot;&quot;&quot; This context manager silences all warnings. Warnings should </span>
+<span class="sd">    not be printed.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">with</span> <span class="n">warn</span><span class="o">.</span><span class="n">catch_warnings</span><span class="p">():</span>
+        <span class="n">warn</span><span class="o">.</span><span class="n">simplefilter</span><span class="p">(</span><span class="s2">&quot;ignore&quot;</span><span class="p">)</span>
+        <span class="k">yield</span>
+
+    <span class="k">return</span> <span class="kc">None</span></div>
+
+<span class="c1"># To silence all informational messages.</span>
+<div class="viewcode-block" id="ifas_silence_info_message"><a class="viewcode-back" href="../../../docstrings/ifa_smeargle.core.error.html#ifa_smeargle.core.error.ifas_silence_info_message">[docs]</a><span class="nd">@contextlib</span><span class="o">.</span><span class="n">contextmanager</span>
+<span class="k">def</span> <span class="nf">ifas_silence_info_message</span><span class="p">():</span>
+    <span class="sd">&quot;&quot;&quot; This context manager silences all informational messages </span>
+<span class="sd">    that may be printed.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="c1"># Store previous state.</span>
+    <span class="n">previous_state</span> <span class="o">=</span> <span class="n">copy</span><span class="o">.</span><span class="n">deepcopy</span><span class="p">(</span><span class="n">ifas_info</span><span class="o">.</span><span class="n">_silent_mode</span><span class="p">)</span>
+
+    <span class="c1"># Trigger silent mode.</span>
+    <span class="n">ifas_info</span><span class="o">.</span><span class="n">_silent_mode</span> <span class="o">=</span> <span class="kc">True</span>
+
+    <span class="k">yield</span>
+
+    <span class="c1"># Release silent mode, return to default.</span>
+    <span class="n">ifas_info</span><span class="o">.</span><span class="n">_silent_mode</span> <span class="o">=</span> <span class="n">copy</span><span class="o">.</span><span class="n">deepcopy</span><span class="p">(</span><span class="n">previous_state</span><span class="p">)</span>
+    <span class="k">return</span> <span class="kc">None</span></div>
+
+<span class="c1"># To enable debug messages.</span>
+<div class="viewcode-block" id="ifas_enable_debug"><a class="viewcode-back" href="../../../docstrings/ifa_smeargle.core.error.html#ifa_smeargle.core.error.ifas_enable_debug">[docs]</a><span class="nd">@contextlib</span><span class="o">.</span><span class="n">contextmanager</span>
+<span class="k">def</span> <span class="nf">ifas_enable_debug</span><span class="p">():</span>
+    <span class="sd">&quot;&quot;&quot; This context manager turns all debug messages on for the </span>
+<span class="sd">    duration of the context. </span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="c1"># Store previous state.</span>
+    <span class="n">block_previous_state</span> <span class="o">=</span> <span class="n">copy</span><span class="o">.</span><span class="n">deepcopy</span><span class="p">(</span><span class="n">ifas_debug_block</span><span class="o">.</span><span class="n">_silent_mode</span><span class="p">)</span>
+    <span class="n">message_previous_state</span> <span class="o">=</span> <span class="n">copy</span><span class="o">.</span><span class="n">deepcopy</span><span class="p">(</span><span class="n">ifas_debug</span><span class="o">.</span><span class="n">_silent_mode</span><span class="p">)</span>
+
+    <span class="c1"># Turn on debugging (releasing from silence)</span>
+    <span class="n">ifas_debug_block</span><span class="o">.</span><span class="n">_silent_mode</span> <span class="o">=</span> <span class="kc">False</span>
+    <span class="n">ifas_debug</span><span class="o">.</span><span class="n">_silent_mode</span> <span class="o">=</span> <span class="kc">False</span>
+
+    <span class="k">yield</span>
+    
+    <span class="c1"># Release to previous state.</span>
+    <span class="n">ifas_debug_block</span><span class="o">.</span><span class="n">_silent_mode</span> <span class="o">=</span> <span class="n">copy</span><span class="o">.</span><span class="n">deepcopy</span><span class="p">(</span><span class="n">block_previous_state</span><span class="p">)</span>
+    <span class="n">ifas_debug</span><span class="o">.</span><span class="n">_silent_mode</span> <span class="o">=</span> <span class="n">copy</span><span class="o">.</span><span class="n">deepcopy</span><span class="p">(</span><span class="n">message_previous_state</span><span class="p">)</span>
+
+    <span class="k">return</span> <span class="kc">None</span></div>
+
+<span class="c1"># To disable debug messages.</span>
+<div class="viewcode-block" id="ifas_disable_debug"><a class="viewcode-back" href="../../../docstrings/ifa_smeargle.core.error.html#ifa_smeargle.core.error.ifas_disable_debug">[docs]</a><span class="nd">@contextlib</span><span class="o">.</span><span class="n">contextmanager</span>
+<span class="k">def</span> <span class="nf">ifas_disable_debug</span><span class="p">():</span>
+    <span class="sd">&quot;&quot;&quot; This context manager turns all debug messages off for the </span>
+<span class="sd">    duration of the context. Given that debug messages are generally </span>
+<span class="sd">    off in the first place, usage may be rare.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="c1"># Store previous state.</span>
+    <span class="n">block_previous_state</span> <span class="o">=</span> <span class="n">copy</span><span class="o">.</span><span class="n">deepcopy</span><span class="p">(</span><span class="n">ifas_debug_block</span><span class="o">.</span><span class="n">_silent_mode</span><span class="p">)</span>
+    <span class="n">message_previous_state</span> <span class="o">=</span> <span class="n">copy</span><span class="o">.</span><span class="n">deepcopy</span><span class="p">(</span><span class="n">ifas_debug</span><span class="o">.</span><span class="n">_silent_mode</span><span class="p">)</span>
+
+    <span class="c1"># Disable by silencing. </span>
+    <span class="n">ifas_debug_block</span><span class="o">.</span><span class="n">_silent_mode</span> <span class="o">=</span> <span class="kc">True</span>
+    <span class="n">ifas_debug</span><span class="o">.</span><span class="n">_silent_mode</span> <span class="o">=</span> <span class="kc">True</span>
+
+    <span class="k">yield</span>
+    
+    <span class="c1"># Release to previous state.</span>
+    <span class="n">ifas_debug_block</span><span class="o">.</span><span class="n">_silent_mode</span> <span class="o">=</span> <span class="n">copy</span><span class="o">.</span><span class="n">deepcopy</span><span class="p">(</span><span class="n">block_previous_state</span><span class="p">)</span>
+    <span class="n">ifas_debug</span><span class="o">.</span><span class="n">_silent_mode</span> <span class="o">=</span> <span class="n">copy</span><span class="o">.</span><span class="n">deepcopy</span><span class="p">(</span><span class="n">message_previous_state</span><span class="p">)</span>
+
+    <span class="k">return</span> <span class="kc">None</span></div>
+
+<span class="c1"># To silence everything, warnings, informational, and debug messages.</span>
+<div class="viewcode-block" id="ifas_absolute_silence"><a class="viewcode-back" href="../../../docstrings/ifa_smeargle.core.error.html#ifa_smeargle.core.error.ifas_absolute_silence">[docs]</a><span class="nd">@contextlib</span><span class="o">.</span><span class="n">contextmanager</span>
+<span class="k">def</span> <span class="nf">ifas_absolute_silence</span><span class="p">():</span>
+    <span class="sd">&quot;&quot;&quot;This context manager silences any and all messages, it </span>
+<span class="sd">    basically is a wrapper around all other general Ifas context </span>
+<span class="sd">    managers (even if there is some overlap).</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">with</span> <span class="n">ifas_silence_ifas_warnings</span><span class="p">(),</span> \
+         <span class="n">ifas_silence_all_warnings</span><span class="p">(),</span>  \
+         <span class="n">ifas_silence_info_message</span><span class="p">(),</span>  \
+         <span class="n">ifas_disable_debug</span><span class="p">():</span>
+            <span class="k">yield</span> 
+
+    <span class="k">return</span> <span class="kc">None</span></div>
+</pre></div>
+
+           </div>
+           
+          </div>
+          <footer>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        
+        &copy; Copyright 2020, Sparrow
+
+    </p>
+  </div>
+    
+    
+    
+    Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a
+    
+    <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a>
+    
+    provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+
+  
+  
+    
+   
+
+</body>
+</html>

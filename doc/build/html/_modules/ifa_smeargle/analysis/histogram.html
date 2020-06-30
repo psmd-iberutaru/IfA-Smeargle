@@ -1,0 +1,344 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>ifa_smeargle.analysis.histogram &mdash; IfA_Smeargle 2020 documentation</title>
+  
+
+  
+  <link rel="stylesheet" href="../../../_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
+  <link rel="stylesheet" href="../../../_static/css/custom.css" type="text/css" />
+
+  
+  
+  
+  
+
+  
+  <!--[if lt IE 9]>
+    <script src="../../../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+    
+      <script type="text/javascript" id="documentation_options" data-url_root="../../../" src="../../../_static/documentation_options.js"></script>
+        <script src="../../../_static/jquery.js"></script>
+        <script src="../../../_static/underscore.js"></script>
+        <script src="../../../_static/doctools.js"></script>
+        <script src="../../../_static/language_data.js"></script>
+    
+    <script type="text/javascript" src="../../../_static/js/theme.js"></script>
+
+    
+    <link rel="index" title="Index" href="../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../search.html" /> 
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+          
+
+          
+            <a href="../../../index.html" class="icon icon-home" alt="Documentation Home"> IfA_Smeargle
+          
+
+          
+          </a>
+
+          
+            
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <p class="caption"><span class="caption-text">Code Documentation:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../docstrings/modules.html">ifa_smeargle</a></li>
+</ul>
+
+            
+          
+        </div>
+        
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../../index.html">IfA_Smeargle</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="../../../index.html" class="icon icon-home"></a> &raquo;</li>
+        
+          <li><a href="../../index.html">Module code</a> &raquo;</li>
+        
+      <li>ifa_smeargle.analysis.histogram</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <h1>Source code for ifa_smeargle.analysis.histogram</h1><div class="highlight"><pre>
+<span></span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">This function computes all of the histogram information needed for</span>
+<span class="sd">plotting.</span>
+<span class="sd">&quot;&quot;&quot;</span>
+
+<span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+<span class="kn">import</span> <span class="nn">numpy.ma</span> <span class="k">as</span> <span class="nn">np_ma</span>
+
+<span class="kn">import</span> <span class="nn">ifa_smeargle.core</span> <span class="k">as</span> <span class="nn">core</span>
+<span class="kn">import</span> <span class="nn">ifa_smeargle.analysis</span> <span class="k">as</span> <span class="nn">analysis</span>
+
+<div class="viewcode-block" id="analysis_gaussian_histogram"><a class="viewcode-back" href="../../../docstrings/ifa_smeargle.analysis.histogram.html#ifa_smeargle.analysis.histogram.analysis_gaussian_histogram">[docs]</a><span class="k">def</span> <span class="nf">analysis_gaussian_histogram</span><span class="p">(</span><span class="n">data_array</span><span class="p">,</span> <span class="n">bin_width</span><span class="p">,</span> 
+                                <span class="n">mask_filter</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">run</span><span class="o">=</span><span class="kc">True</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot; This generates the dictionary which is the results from the</span>
+<span class="sd">    analysis of the data to create a heat-map of the data.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    data_array : ndarray</span>
+<span class="sd">        The array of data that will be used to compute the heat-map</span>
+<span class="sd">        results.</span>
+<span class="sd">    bin_width : float</span>
+<span class="sd">        The bin width of the histogram bars.</span>
+<span class="sd">    mask_filter : ndarray (optional)</span>
+<span class="sd">        The array of mask and filter values to consider in the </span>
+<span class="sd">        calculations. True values denote the mask/filter is applied, </span>
+<span class="sd">        False otherwise.</span>
+<span class="sd">    run : boolean (optional)</span>
+<span class="sd">        If True, the analysis is run, else it is not and will exit</span>
+<span class="sd">        with None.</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    histogram_results : dictionary</span>
+<span class="sd">        The results of the histogram analysis.</span>
+
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="c1"># The data object to store the analysis.</span>
+    <span class="n">histogram_results</span> <span class="o">=</span> <span class="p">{}</span>
+
+    <span class="c1"># See if the analysis should even be run.</span>
+    <span class="k">if</span> <span class="p">(</span><span class="ow">not</span> <span class="n">run</span><span class="p">):</span>
+        <span class="n">core</span><span class="o">.</span><span class="n">error</span><span class="o">.</span><span class="n">ifas_info</span><span class="p">(</span><span class="s2">&quot;The `run` flag is False regarding histogram &quot;</span>
+                             <span class="s2">&quot;analysis. Nothing is done, the run flag &quot;</span>
+                             <span class="s2">&quot;in the results is set to False.&quot;</span><span class="p">)</span>
+        <span class="n">histogram_results</span><span class="p">[</span><span class="s1">&#39;histogram_run&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="kc">False</span>
+        <span class="k">return</span> <span class="n">histogram_results</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">histogram_results</span><span class="p">[</span><span class="s1">&#39;histogram_run&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="kc">True</span>
+    <span class="c1"># Continue with analysis.</span>
+
+    <span class="c1"># Check that the bin-width is a usable value.</span>
+    <span class="k">if</span> <span class="p">(</span><span class="n">bin_width</span> <span class="o">&lt;=</span> <span class="mi">0</span><span class="p">):</span>
+        <span class="k">raise</span> <span class="n">core</span><span class="o">.</span><span class="n">error</span><span class="o">.</span><span class="n">InputError</span><span class="p">(</span><span class="s2">&quot;The bin width must be a positive &quot;</span>
+                                    <span class="s2">&quot;non-zero number. It is currently: &quot;</span>
+                                    <span class="s2">&quot;</span><span class="si">{bin_val}</span><span class="s2">&quot;</span>
+                                    <span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">bin_val</span><span class="o">=</span><span class="n">bin_width</span><span class="p">))</span>
+
+    <span class="c1"># Combine the data and the mask for better management.</span>
+    <span class="n">masked_data</span> <span class="o">=</span> <span class="n">np_ma</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">data_array</span><span class="p">,</span> <span class="n">mask</span><span class="o">=</span><span class="n">mask_filter</span><span class="p">)</span>
+
+    <span class="c1"># Calculate the histogram values.</span>
+    <span class="n">hist_values</span><span class="p">,</span> <span class="n">hist_bins</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">histogram</span><span class="p">(</span>
+        <span class="n">masked_data</span><span class="o">.</span><span class="n">compressed</span><span class="p">(),</span> 
+        <span class="n">bins</span><span class="o">=</span><span class="n">core</span><span class="o">.</span><span class="n">math</span><span class="o">.</span><span class="n">generate_numpy_bin_width_array</span><span class="p">(</span>
+            <span class="n">data_array</span><span class="o">=</span><span class="n">masked_data</span><span class="o">.</span><span class="n">compressed</span><span class="p">(),</span> <span class="n">bin_width</span><span class="o">=</span><span class="n">bin_width</span><span class="p">))</span>
+    
+    <span class="c1"># Save the histogram values to the results. The modified keys</span>
+    <span class="c1"># are needed as Astropy Header cards cannot use both the HIERARCH </span>
+    <span class="c1"># and CONTINUE cards at the same time.</span>
+    <span class="n">histogram_results</span><span class="p">[</span><span class="s1">&#39;HIST_BIN&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="nb">str</span><span class="p">(</span><span class="n">hist_bins</span><span class="o">.</span><span class="n">tolist</span><span class="p">())</span>
+    <span class="n">histogram_results</span><span class="p">[</span><span class="s1">&#39;HIST_VAL&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="nb">str</span><span class="p">(</span><span class="n">hist_values</span><span class="o">.</span><span class="n">tolist</span><span class="p">())</span>
+
+    <span class="c1"># Calculate the Gaussian fit values. The compressed function</span>
+    <span class="c1"># allows the histogram to ignore masked values.</span>
+    <span class="n">gauss_funct</span><span class="p">,</span> <span class="n">gauss_param</span> <span class="o">=</span> <span class="n">core</span><span class="o">.</span><span class="n">model</span><span class="o">.</span><span class="n">fit_histogram_gaussian_function</span><span class="p">(</span>
+        <span class="n">data_array</span><span class="o">=</span><span class="n">masked_data</span><span class="o">.</span><span class="n">compressed</span><span class="p">(),</span> <span class="n">bin_width</span><span class="o">=</span><span class="n">bin_width</span><span class="p">)</span>
+
+    <span class="c1"># Save the Gaussian values to the results.</span>
+    <span class="k">for</span> <span class="n">keydex</span><span class="p">,</span> <span class="n">paramdex</span> <span class="ow">in</span> <span class="n">gauss_param</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+        <span class="n">histogram_results</span><span class="o">.</span><span class="n">update</span><span class="p">({</span><span class="s1">&#39;&#39;</span><span class="o">.</span><span class="n">join</span><span class="p">([</span><span class="s1">&#39;histogram_&#39;</span><span class="p">,</span> <span class="n">keydex</span><span class="p">]):</span><span class="n">paramdex</span><span class="p">})</span>
+
+    <span class="c1"># The bin width is also important information for plotting.</span>
+    <span class="n">histogram_results</span><span class="p">[</span><span class="s1">&#39;histogram_bin_width&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">bin_width</span>
+
+    <span class="c1"># All done.</span>
+    <span class="k">return</span> <span class="n">histogram_results</span></div>
+
+
+<div class="viewcode-block" id="script_analysis_gaussian_histogram"><a class="viewcode-back" href="../../../docstrings/ifa_smeargle.analysis.histogram.html#ifa_smeargle.analysis.histogram.script_analysis_gaussian_histogram">[docs]</a><span class="k">def</span> <span class="nf">script_analysis_gaussian_histogram</span><span class="p">(</span><span class="n">config</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot; This is the script form of `analysis_gaussian_histogram`. </span>
+<span class="sd">    It does all the needed calculations, saves the results as </span>
+<span class="sd">    separate fits files and also saves parameters that are not </span>
+<span class="sd">    easy to save in fits files.</span>
+<span class="sd">    </span>
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    config : ConfigObj</span>
+<span class="sd">        The configuration object that is to be used for this </span>
+<span class="sd">        function.</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    None</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="c1"># Extract the global parameters.</span>
+    <span class="n">data_directory</span> <span class="o">=</span> <span class="n">core</span><span class="o">.</span><span class="n">config</span><span class="o">.</span><span class="n">extract_configuration</span><span class="p">(</span>
+        <span class="n">config_object</span><span class="o">=</span><span class="n">config</span><span class="p">,</span> <span class="n">keys</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;data_directory&#39;</span><span class="p">])</span>
+    <span class="n">append</span> <span class="o">=</span> <span class="n">core</span><span class="o">.</span><span class="n">config</span><span class="o">.</span><span class="n">extract_configuration</span><span class="p">(</span>
+        <span class="n">config_object</span><span class="o">=</span><span class="n">config</span><span class="p">,</span> <span class="n">keys</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;append&#39;</span><span class="p">])</span>
+    <span class="n">mask_file</span> <span class="o">=</span> <span class="n">core</span><span class="o">.</span><span class="n">config</span><span class="o">.</span><span class="n">extract_configuration</span><span class="p">(</span>
+        <span class="n">config_object</span><span class="o">=</span><span class="n">config</span><span class="p">,</span> <span class="n">keys</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;mask_file&#39;</span><span class="p">])</span>
+    <span class="n">filter_directory</span> <span class="o">=</span> <span class="n">core</span><span class="o">.</span><span class="n">config</span><span class="o">.</span><span class="n">extract_configuration</span><span class="p">(</span>
+        <span class="n">config_object</span><span class="o">=</span><span class="n">config</span><span class="p">,</span> <span class="n">keys</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;filter_directory&#39;</span><span class="p">])</span>
+    <span class="n">filter_config_file</span> <span class="o">=</span> <span class="n">core</span><span class="o">.</span><span class="n">config</span><span class="o">.</span><span class="n">extract_configuration</span><span class="p">(</span>
+        <span class="n">config_object</span><span class="o">=</span><span class="n">config</span><span class="p">,</span> <span class="n">keys</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;filter_config_file&#39;</span><span class="p">])</span>
+
+    <span class="c1"># Extracting the run parameter.</span>
+    <span class="n">run</span> <span class="o">=</span> <span class="n">core</span><span class="o">.</span><span class="n">config</span><span class="o">.</span><span class="n">extract_configuration</span><span class="p">(</span>
+        <span class="n">config_object</span><span class="o">=</span><span class="n">config</span><span class="p">,</span> <span class="n">keys</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;histogram&#39;</span><span class="p">,</span><span class="s1">&#39;histogram_run&#39;</span><span class="p">])</span>
+
+    <span class="c1"># Extract parameters relevant to the computation of the analysis.</span>
+    <span class="n">bin_width</span> <span class="o">=</span> <span class="n">core</span><span class="o">.</span><span class="n">config</span><span class="o">.</span><span class="n">extract_configuration</span><span class="p">(</span>
+        <span class="n">config_object</span><span class="o">=</span><span class="n">config</span><span class="p">,</span> <span class="n">keys</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;histogram&#39;</span><span class="p">,</span><span class="s1">&#39;bin_width&#39;</span><span class="p">])</span>
+    <span class="c1"># Packaging all of the parameters relevant to this computation.</span>
+    <span class="n">analysis_parameters</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;bin_width&#39;</span><span class="p">:</span><span class="n">bin_width</span><span class="p">}</span>
+
+    <span class="c1"># Computation function.</span>
+    <span class="n">analysis_function</span> <span class="o">=</span> <span class="n">analysis_gaussian_histogram</span>
+    
+    <span class="c1"># Run the analysis off the common function</span>
+    <span class="n">analysis</span><span class="o">.</span><span class="n">base</span><span class="o">.</span><span class="n">create_directory_analysis_files</span><span class="p">(</span>
+        <span class="n">data_directory</span><span class="o">=</span><span class="n">data_directory</span><span class="p">,</span>
+        <span class="n">mask_file</span><span class="o">=</span><span class="n">mask_file</span><span class="p">,</span> 
+        <span class="n">filter_directory</span><span class="o">=</span><span class="n">filter_directory</span><span class="p">,</span> 
+        <span class="n">filter_config_file</span><span class="o">=</span><span class="n">filter_config_file</span><span class="p">,</span>
+        <span class="n">analysis_function</span><span class="o">=</span><span class="n">analysis_function</span><span class="p">,</span> 
+        <span class="n">analysis_parameters</span><span class="o">=</span><span class="n">analysis_parameters</span><span class="p">,</span>
+        <span class="n">run</span><span class="o">=</span><span class="n">run</span><span class="p">,</span>
+        <span class="n">append</span><span class="o">=</span><span class="n">append</span><span class="p">,)</span>
+    
+
+    <span class="c1"># All done.</span>
+    <span class="k">return</span> <span class="kc">None</span></div>
+</pre></div>
+
+           </div>
+           
+          </div>
+          <footer>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        
+        &copy; Copyright 2020, Sparrow
+
+    </p>
+  </div>
+    
+    
+    
+    Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a
+    
+    <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a>
+    
+    provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+
+  
+  
+    
+   
+
+</body>
+</html>

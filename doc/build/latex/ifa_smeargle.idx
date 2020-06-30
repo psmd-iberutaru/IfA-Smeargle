@@ -1,0 +1,221 @@
+\indexentry{ifa\_smeargle.analysis.base\_functions (module)@\spxentry{ifa\_smeargle.analysis.base\_functions}\spxextra{module}|hyperpage}{3}
+\indexentry{create\_directory\_analysis\_files() (in module ifa\_smeargle.analysis.base\_functions)@\spxentry{create\_directory\_analysis\_files()}\spxextra{in module ifa\_smeargle.analysis.base\_functions}|hyperpage}{3}
+\indexentry{create\_filter\_from\_configuration() (in module ifa\_smeargle.analysis.base\_functions)@\spxentry{create\_filter\_from\_configuration()}\spxextra{in module ifa\_smeargle.analysis.base\_functions}|hyperpage}{4}
+\indexentry{create\_filter\_from\_directory() (in module ifa\_smeargle.analysis.base\_functions)@\spxentry{create\_filter\_from\_directory()}\spxextra{in module ifa\_smeargle.analysis.base\_functions}|hyperpage}{4}
+\indexentry{get\_analysis\_fits\_filenames() (in module ifa\_smeargle.analysis.base\_functions)@\spxentry{get\_analysis\_fits\_filenames()}\spxextra{in module ifa\_smeargle.analysis.base\_functions}|hyperpage}{4}
+\indexentry{script\_batch\_analysis() (in module ifa\_smeargle.analysis.base\_functions)@\spxentry{script\_batch\_analysis()}\spxextra{in module ifa\_smeargle.analysis.base\_functions}|hyperpage}{5}
+\indexentry{ifa\_smeargle.analysis.heatmap (module)@\spxentry{ifa\_smeargle.analysis.heatmap}\spxextra{module}|hyperpage}{5}
+\indexentry{analysis\_heatmap() (in module ifa\_smeargle.analysis.heatmap)@\spxentry{analysis\_heatmap()}\spxextra{in module ifa\_smeargle.analysis.heatmap}|hyperpage}{5}
+\indexentry{script\_analysis\_heatmap() (in module ifa\_smeargle.analysis.heatmap)@\spxentry{script\_analysis\_heatmap()}\spxextra{in module ifa\_smeargle.analysis.heatmap}|hyperpage}{5}
+\indexentry{ifa\_smeargle.analysis.histogram (module)@\spxentry{ifa\_smeargle.analysis.histogram}\spxextra{module}|hyperpage}{5}
+\indexentry{analysis\_gaussian\_histogram() (in module ifa\_smeargle.analysis.histogram)@\spxentry{analysis\_gaussian\_histogram()}\spxextra{in module ifa\_smeargle.analysis.histogram}|hyperpage}{5}
+\indexentry{script\_analysis\_gaussian\_histogram() (in module ifa\_smeargle.analysis.histogram)@\spxentry{script\_analysis\_gaussian\_histogram()}\spxextra{in module ifa\_smeargle.analysis.histogram}|hyperpage}{6}
+\indexentry{ifa\_smeargle.analysis (module)@\spxentry{ifa\_smeargle.analysis}\spxextra{module}|hyperpage}{6}
+\indexentry{ifa\_smeargle.core.configuration (module)@\spxentry{ifa\_smeargle.core.configuration}\spxextra{module}|hyperpage}{6}
+\indexentry{copy\_configuration\_file() (in module ifa\_smeargle.core.configuration)@\spxentry{copy\_configuration\_file()}\spxextra{in module ifa\_smeargle.core.configuration}|hyperpage}{6}
+\indexentry{extract\_configuration() (in module ifa\_smeargle.core.configuration)@\spxentry{extract\_configuration()}\spxextra{in module ifa\_smeargle.core.configuration}|hyperpage}{6}
+\indexentry{read\_configuration\_file() (in module ifa\_smeargle.core.configuration)@\spxentry{read\_configuration\_file()}\spxextra{in module ifa\_smeargle.core.configuration}|hyperpage}{7}
+\indexentry{write\_configuration\_file() (in module ifa\_smeargle.core.configuration)@\spxentry{write\_configuration\_file()}\spxextra{in module ifa\_smeargle.core.configuration}|hyperpage}{7}
+\indexentry{ifa\_smeargle.core.error (module)@\spxentry{ifa\_smeargle.core.error}\spxextra{module}|hyperpage}{7}
+\indexentry{AssumptionError@\spxentry{AssumptionError}|hyperpage}{7}
+\indexentry{BrokenLogicError@\spxentry{BrokenLogicError}|hyperpage}{7}
+\indexentry{ConfigurationError@\spxentry{ConfigurationError}|hyperpage}{7}
+\indexentry{ConfigurationWarning@\spxentry{ConfigurationWarning}|hyperpage}{7}
+\indexentry{DataError@\spxentry{DataError}|hyperpage}{8}
+\indexentry{DataWarning@\spxentry{DataWarning}|hyperpage}{8}
+\indexentry{DeprecatedError@\spxentry{DeprecatedError}|hyperpage}{8}
+\indexentry{DeprecatedWarning@\spxentry{DeprecatedWarning}|hyperpage}{8}
+\indexentry{DevelopmentError@\spxentry{DevelopmentError}|hyperpage}{8}
+\indexentry{ErrorWarning@\spxentry{ErrorWarning}|hyperpage}{8}
+\indexentry{ExportingError@\spxentry{ExportingError}|hyperpage}{8}
+\indexentry{ExportingWarning@\spxentry{ExportingWarning}|hyperpage}{8}
+\indexentry{Ifas\_BaseException@\spxentry{Ifas\_BaseException}|hyperpage}{8}
+\indexentry{Ifas\_Exception@\spxentry{Ifas\_Exception}|hyperpage}{8}
+\indexentry{Ifas\_Warning@\spxentry{Ifas\_Warning}|hyperpage}{8}
+\indexentry{IllogicalProsedureError@\spxentry{IllogicalProsedureError}|hyperpage}{8}
+\indexentry{ImportingError@\spxentry{ImportingError}|hyperpage}{9}
+\indexentry{ImportingWarning@\spxentry{ImportingWarning}|hyperpage}{9}
+\indexentry{ImprecisionError@\spxentry{ImprecisionError}|hyperpage}{9}
+\indexentry{ImprecisionWarning@\spxentry{ImprecisionWarning}|hyperpage}{9}
+\indexentry{IncompleteError@\spxentry{IncompleteError}|hyperpage}{9}
+\indexentry{InputError@\spxentry{InputError}|hyperpage}{9}
+\indexentry{InputWarning@\spxentry{InputWarning}|hyperpage}{9}
+\indexentry{MagicError@\spxentry{MagicError}|hyperpage}{9}
+\indexentry{MagicWarning@\spxentry{MagicWarning}|hyperpage}{9}
+\indexentry{MaskingError@\spxentry{MaskingError}|hyperpage}{9}
+\indexentry{MaskingWarning@\spxentry{MaskingWarning}|hyperpage}{9}
+\indexentry{MemoryWarning@\spxentry{MemoryWarning}|hyperpage}{10}
+\indexentry{ModelingError@\spxentry{ModelingError}|hyperpage}{10}
+\indexentry{OverwriteWarning@\spxentry{OverwriteWarning}|hyperpage}{10}
+\indexentry{ReductionWarning@\spxentry{ReductionWarning}|hyperpage}{10}
+\indexentry{StorageWarning@\spxentry{StorageWarning}|hyperpage}{10}
+\indexentry{TerminalError@\spxentry{TerminalError}|hyperpage}{10}
+\indexentry{TimeWarning@\spxentry{TimeWarning}|hyperpage}{10}
+\indexentry{ifas\_absolute\_silence() (in module ifa\_smeargle.core.error)@\spxentry{ifas\_absolute\_silence()}\spxextra{in module ifa\_smeargle.core.error}|hyperpage}{10}
+\indexentry{ifas\_debug() (in module ifa\_smeargle.core.error)@\spxentry{ifas\_debug()}\spxextra{in module ifa\_smeargle.core.error}|hyperpage}{10}
+\indexentry{ifas\_debug\_block() (in module ifa\_smeargle.core.error)@\spxentry{ifas\_debug\_block()}\spxextra{in module ifa\_smeargle.core.error}|hyperpage}{11}
+\indexentry{ifas\_disable\_debug() (in module ifa\_smeargle.core.error)@\spxentry{ifas\_disable\_debug()}\spxextra{in module ifa\_smeargle.core.error}|hyperpage}{11}
+\indexentry{ifas\_enable\_debug() (in module ifa\_smeargle.core.error)@\spxentry{ifas\_enable\_debug()}\spxextra{in module ifa\_smeargle.core.error}|hyperpage}{11}
+\indexentry{ifas\_error() (in module ifa\_smeargle.core.error)@\spxentry{ifas\_error()}\spxextra{in module ifa\_smeargle.core.error}|hyperpage}{11}
+\indexentry{ifas\_info() (in module ifa\_smeargle.core.error)@\spxentry{ifas\_info()}\spxextra{in module ifa\_smeargle.core.error}|hyperpage}{11}
+\indexentry{ifas\_log\_warning() (in module ifa\_smeargle.core.error)@\spxentry{ifas\_log\_warning()}\spxextra{in module ifa\_smeargle.core.error}|hyperpage}{11}
+\indexentry{ifas\_silence\_all\_warnings() (in module ifa\_smeargle.core.error)@\spxentry{ifas\_silence\_all\_warnings()}\spxextra{in module ifa\_smeargle.core.error}|hyperpage}{11}
+\indexentry{ifas\_silence\_ifas\_warnings() (in module ifa\_smeargle.core.error)@\spxentry{ifas\_silence\_ifas\_warnings()}\spxextra{in module ifa\_smeargle.core.error}|hyperpage}{11}
+\indexentry{ifas\_silence\_info\_message() (in module ifa\_smeargle.core.error)@\spxentry{ifas\_silence\_info\_message()}\spxextra{in module ifa\_smeargle.core.error}|hyperpage}{11}
+\indexentry{ifas\_silence\_nonifas\_warnings() (in module ifa\_smeargle.core.error)@\spxentry{ifas\_silence\_nonifas\_warnings()}\spxextra{in module ifa\_smeargle.core.error}|hyperpage}{11}
+\indexentry{ifas\_silence\_specific\_warnings() (in module ifa\_smeargle.core.error)@\spxentry{ifas\_silence\_specific\_warnings()}\spxextra{in module ifa\_smeargle.core.error}|hyperpage}{12}
+\indexentry{ifas\_warning() (in module ifa\_smeargle.core.error)@\spxentry{ifas\_warning()}\spxextra{in module ifa\_smeargle.core.error}|hyperpage}{12}
+\indexentry{ifa\_smeargle.core.io (module)@\spxentry{ifa\_smeargle.core.io}\spxextra{module}|hyperpage}{12}
+\indexentry{append\_astropy\_header\_card() (in module ifa\_smeargle.core.io)@\spxentry{append\_astropy\_header\_card()}\spxextra{in module ifa\_smeargle.core.io}|hyperpage}{12}
+\indexentry{archive\_data\_directory() (in module ifa\_smeargle.core.io)@\spxentry{archive\_data\_directory()}\spxextra{in module ifa\_smeargle.core.io}|hyperpage}{12}
+\indexentry{dearchive\_data\_directory() (in module ifa\_smeargle.core.io)@\spxentry{dearchive\_data\_directory()}\spxextra{in module ifa\_smeargle.core.io}|hyperpage}{13}
+\indexentry{get\_fits\_filenames() (in module ifa\_smeargle.core.io)@\spxentry{get\_fits\_filenames()}\spxextra{in module ifa\_smeargle.core.io}|hyperpage}{13}
+\indexentry{get\_subdirectories() (in module ifa\_smeargle.core.io)@\spxentry{get\_subdirectories()}\spxextra{in module ifa\_smeargle.core.io}|hyperpage}{13}
+\indexentry{read\_fits\_file() (in module ifa\_smeargle.core.io)@\spxentry{read\_fits\_file()}\spxextra{in module ifa\_smeargle.core.io}|hyperpage}{13}
+\indexentry{rename\_by\_parallel\_append() (in module ifa\_smeargle.core.io)@\spxentry{rename\_by\_parallel\_append()}\spxextra{in module ifa\_smeargle.core.io}|hyperpage}{14}
+\indexentry{rename\_by\_parallel\_replace() (in module ifa\_smeargle.core.io)@\spxentry{rename\_by\_parallel\_replace()}\spxextra{in module ifa\_smeargle.core.io}|hyperpage}{14}
+\indexentry{write\_fits\_file() (in module ifa\_smeargle.core.io)@\spxentry{write\_fits\_file()}\spxextra{in module ifa\_smeargle.core.io}|hyperpage}{14}
+\indexentry{ifa\_smeargle.core.magic (module)@\spxentry{ifa\_smeargle.core.magic}\spxextra{module}|hyperpage}{15}
+\indexentry{magic\_inital\_gaussian\_parameters() (in module ifa\_smeargle.core.magic)@\spxentry{magic\_inital\_gaussian\_parameters()}\spxextra{in module ifa\_smeargle.core.magic}|hyperpage}{15}
+\indexentry{ifa\_smeargle.core.mathematics (module)@\spxentry{ifa\_smeargle.core.mathematics}\spxextra{module}|hyperpage}{15}
+\indexentry{generate\_numpy\_bin\_width\_array() (in module ifa\_smeargle.core.mathematics)@\spxentry{generate\_numpy\_bin\_width\_array()}\spxextra{in module ifa\_smeargle.core.mathematics}|hyperpage}{15}
+\indexentry{generate\_prime\_numbers() (in module ifa\_smeargle.core.mathematics)@\spxentry{generate\_prime\_numbers()}\spxextra{in module ifa\_smeargle.core.mathematics}|hyperpage}{16}
+\indexentry{ifas\_gaussian\_function() (in module ifa\_smeargle.core.mathematics)@\spxentry{ifas\_gaussian\_function()}\spxextra{in module ifa\_smeargle.core.mathematics}|hyperpage}{16}
+\indexentry{ifas\_large\_integer\_array\_product() (in module ifa\_smeargle.core.mathematics)@\spxentry{ifas\_large\_integer\_array\_product()}\spxextra{in module ifa\_smeargle.core.mathematics}|hyperpage}{16}
+\indexentry{ifas\_masked\_mean() (in module ifa\_smeargle.core.mathematics)@\spxentry{ifas\_masked\_mean()}\spxextra{in module ifa\_smeargle.core.mathematics}|hyperpage}{17}
+\indexentry{ifas\_masked\_median() (in module ifa\_smeargle.core.mathematics)@\spxentry{ifas\_masked\_median()}\spxextra{in module ifa\_smeargle.core.mathematics}|hyperpage}{17}
+\indexentry{ifas\_masked\_std() (in module ifa\_smeargle.core.mathematics)@\spxentry{ifas\_masked\_std()}\spxextra{in module ifa\_smeargle.core.mathematics}|hyperpage}{17}
+\indexentry{ifas\_robust\_mean() (in module ifa\_smeargle.core.mathematics)@\spxentry{ifas\_robust\_mean()}\spxextra{in module ifa\_smeargle.core.mathematics}|hyperpage}{17}
+\indexentry{ifas\_robust\_std() (in module ifa\_smeargle.core.mathematics)@\spxentry{ifas\_robust\_std()}\spxextra{in module ifa\_smeargle.core.mathematics}|hyperpage}{17}
+\indexentry{ifa\_smeargle.core.modeling (module)@\spxentry{ifa\_smeargle.core.modeling}\spxextra{module}|hyperpage}{18}
+\indexentry{fit\_gaussian\_function() (in module ifa\_smeargle.core.modeling)@\spxentry{fit\_gaussian\_function()}\spxextra{in module ifa\_smeargle.core.modeling}|hyperpage}{18}
+\indexentry{fit\_histogram\_gaussian\_function() (in module ifa\_smeargle.core.modeling)@\spxentry{fit\_histogram\_gaussian\_function()}\spxextra{in module ifa\_smeargle.core.modeling}|hyperpage}{18}
+\indexentry{ifa\_smeargle.core.string\_formatting (module)@\spxentry{ifa\_smeargle.core.string\_formatting}\spxextra{module}|hyperpage}{19}
+\indexentry{combine\_pathname() (in module ifa\_smeargle.core.string\_formatting)@\spxentry{combine\_pathname()}\spxextra{in module ifa\_smeargle.core.string\_formatting}|hyperpage}{19}
+\indexentry{format\_shutil\_archive\_extensions() (in module ifa\_smeargle.core.string\_formatting)@\spxentry{format\_shutil\_archive\_extensions()}\spxextra{in module ifa\_smeargle.core.string\_formatting}|hyperpage}{19}
+\indexentry{purge\_substrings() (in module ifa\_smeargle.core.string\_formatting)@\spxentry{purge\_substrings()}\spxextra{in module ifa\_smeargle.core.string\_formatting}|hyperpage}{19}
+\indexentry{random\_string() (in module ifa\_smeargle.core.string\_formatting)@\spxentry{random\_string()}\spxextra{in module ifa\_smeargle.core.string\_formatting}|hyperpage}{19}
+\indexentry{remove\_prefix() (in module ifa\_smeargle.core.string\_formatting)@\spxentry{remove\_prefix()}\spxextra{in module ifa\_smeargle.core.string\_formatting}|hyperpage}{20}
+\indexentry{split\_pathname() (in module ifa\_smeargle.core.string\_formatting)@\spxentry{split\_pathname()}\spxextra{in module ifa\_smeargle.core.string\_formatting}|hyperpage}{20}
+\indexentry{ifa\_smeargle.core (module)@\spxentry{ifa\_smeargle.core}\spxextra{module}|hyperpage}{20}
+\indexentry{ifa\_smeargle.masking.base\_functions (module)@\spxentry{ifa\_smeargle.masking.base\_functions}\spxextra{module}|hyperpage}{20}
+\indexentry{create\_directory\_filter\_files() (in module ifa\_smeargle.masking.base\_functions)@\spxentry{create\_directory\_filter\_files()}\spxextra{in module ifa\_smeargle.masking.base\_functions}|hyperpage}{20}
+\indexentry{create\_directory\_mask\_file() (in module ifa\_smeargle.masking.base\_functions)@\spxentry{create\_directory\_mask\_file()}\spxextra{in module ifa\_smeargle.masking.base\_functions}|hyperpage}{21}
+\indexentry{get\_filter\_fits\_filenames() (in module ifa\_smeargle.masking.base\_functions)@\spxentry{get\_filter\_fits\_filenames()}\spxextra{in module ifa\_smeargle.masking.base\_functions}|hyperpage}{21}
+\indexentry{get\_mask\_fits\_filenames() (in module ifa\_smeargle.masking.base\_functions)@\spxentry{get\_mask\_fits\_filenames()}\spxextra{in module ifa\_smeargle.masking.base\_functions}|hyperpage}{22}
+\indexentry{synthesize\_masks() (in module ifa\_smeargle.masking.base\_functions)@\spxentry{synthesize\_masks()}\spxextra{in module ifa\_smeargle.masking.base\_functions}|hyperpage}{22}
+\indexentry{ifa\_smeargle.masking.filters (module)@\spxentry{ifa\_smeargle.masking.filters}\spxextra{module}|hyperpage}{22}
+\indexentry{filter\_exact\_value() (in module ifa\_smeargle.masking.filters)@\spxentry{filter\_exact\_value()}\spxextra{in module ifa\_smeargle.masking.filters}|hyperpage}{22}
+\indexentry{filter\_invalid\_value() (in module ifa\_smeargle.masking.filters)@\spxentry{filter\_invalid\_value()}\spxextra{in module ifa\_smeargle.masking.filters}|hyperpage}{22}
+\indexentry{filter\_maximum\_value() (in module ifa\_smeargle.masking.filters)@\spxentry{filter\_maximum\_value()}\spxextra{in module ifa\_smeargle.masking.filters}|hyperpage}{23}
+\indexentry{filter\_minimum\_value() (in module ifa\_smeargle.masking.filters)@\spxentry{filter\_minimum\_value()}\spxextra{in module ifa\_smeargle.masking.filters}|hyperpage}{23}
+\indexentry{filter\_percent\_truncation() (in module ifa\_smeargle.masking.filters)@\spxentry{filter\_percent\_truncation()}\spxextra{in module ifa\_smeargle.masking.filters}|hyperpage}{23}
+\indexentry{filter\_pixel\_truncation() (in module ifa\_smeargle.masking.filters)@\spxentry{filter\_pixel\_truncation()}\spxextra{in module ifa\_smeargle.masking.filters}|hyperpage}{23}
+\indexentry{filter\_sigma\_value() (in module ifa\_smeargle.masking.filters)@\spxentry{filter\_sigma\_value()}\spxextra{in module ifa\_smeargle.masking.filters}|hyperpage}{24}
+\indexentry{ifa\_smeargle.masking.geometric (module)@\spxentry{ifa\_smeargle.masking.geometric}\spxextra{module}|hyperpage}{24}
+\indexentry{mask\_columns() (in module ifa\_smeargle.masking.geometric)@\spxentry{mask\_columns()}\spxextra{in module ifa\_smeargle.masking.geometric}|hyperpage}{24}
+\indexentry{mask\_everything() (in module ifa\_smeargle.masking.geometric)@\spxentry{mask\_everything()}\spxextra{in module ifa\_smeargle.masking.geometric}|hyperpage}{24}
+\indexentry{mask\_nothing() (in module ifa\_smeargle.masking.geometric)@\spxentry{mask\_nothing()}\spxextra{in module ifa\_smeargle.masking.geometric}|hyperpage}{25}
+\indexentry{mask\_rectangle() (in module ifa\_smeargle.masking.geometric)@\spxentry{mask\_rectangle()}\spxextra{in module ifa\_smeargle.masking.geometric}|hyperpage}{25}
+\indexentry{mask\_rows() (in module ifa\_smeargle.masking.geometric)@\spxentry{mask\_rows()}\spxextra{in module ifa\_smeargle.masking.geometric}|hyperpage}{25}
+\indexentry{mask\_single\_pixels() (in module ifa\_smeargle.masking.geometric)@\spxentry{mask\_single\_pixels()}\spxextra{in module ifa\_smeargle.masking.geometric}|hyperpage}{25}
+\indexentry{mask\_subarray() (in module ifa\_smeargle.masking.geometric)@\spxentry{mask\_subarray()}\spxextra{in module ifa\_smeargle.masking.geometric}|hyperpage}{26}
+\indexentry{ifa\_smeargle.masking.scripting (module)@\spxentry{ifa\_smeargle.masking.scripting}\spxextra{module}|hyperpage}{26}
+\indexentry{script\_batch\_masking() (in module ifa\_smeargle.masking.scripting)@\spxentry{script\_batch\_masking()}\spxextra{in module ifa\_smeargle.masking.scripting}|hyperpage}{26}
+\indexentry{script\_filter\_exact\_value() (in module ifa\_smeargle.masking.scripting)@\spxentry{script\_filter\_exact\_value()}\spxextra{in module ifa\_smeargle.masking.scripting}|hyperpage}{26}
+\indexentry{script\_filter\_invalid\_value() (in module ifa\_smeargle.masking.scripting)@\spxentry{script\_filter\_invalid\_value()}\spxextra{in module ifa\_smeargle.masking.scripting}|hyperpage}{26}
+\indexentry{script\_filter\_maximum\_value() (in module ifa\_smeargle.masking.scripting)@\spxentry{script\_filter\_maximum\_value()}\spxextra{in module ifa\_smeargle.masking.scripting}|hyperpage}{26}
+\indexentry{script\_filter\_minimum\_value() (in module ifa\_smeargle.masking.scripting)@\spxentry{script\_filter\_minimum\_value()}\spxextra{in module ifa\_smeargle.masking.scripting}|hyperpage}{26}
+\indexentry{script\_filter\_percent\_truncation() (in module ifa\_smeargle.masking.scripting)@\spxentry{script\_filter\_percent\_truncation()}\spxextra{in module ifa\_smeargle.masking.scripting}|hyperpage}{27}
+\indexentry{script\_filter\_pixel\_truncation() (in module ifa\_smeargle.masking.scripting)@\spxentry{script\_filter\_pixel\_truncation()}\spxextra{in module ifa\_smeargle.masking.scripting}|hyperpage}{27}
+\indexentry{script\_filter\_sigma\_value() (in module ifa\_smeargle.masking.scripting)@\spxentry{script\_filter\_sigma\_value()}\spxextra{in module ifa\_smeargle.masking.scripting}|hyperpage}{27}
+\indexentry{script\_mask\_columns() (in module ifa\_smeargle.masking.scripting)@\spxentry{script\_mask\_columns()}\spxextra{in module ifa\_smeargle.masking.scripting}|hyperpage}{27}
+\indexentry{script\_mask\_everything() (in module ifa\_smeargle.masking.scripting)@\spxentry{script\_mask\_everything()}\spxextra{in module ifa\_smeargle.masking.scripting}|hyperpage}{27}
+\indexentry{script\_mask\_nothing() (in module ifa\_smeargle.masking.scripting)@\spxentry{script\_mask\_nothing()}\spxextra{in module ifa\_smeargle.masking.scripting}|hyperpage}{27}
+\indexentry{script\_mask\_rectangle() (in module ifa\_smeargle.masking.scripting)@\spxentry{script\_mask\_rectangle()}\spxextra{in module ifa\_smeargle.masking.scripting}|hyperpage}{28}
+\indexentry{script\_mask\_rows() (in module ifa\_smeargle.masking.scripting)@\spxentry{script\_mask\_rows()}\spxextra{in module ifa\_smeargle.masking.scripting}|hyperpage}{28}
+\indexentry{script\_mask\_single\_pixels() (in module ifa\_smeargle.masking.scripting)@\spxentry{script\_mask\_single\_pixels()}\spxextra{in module ifa\_smeargle.masking.scripting}|hyperpage}{28}
+\indexentry{script\_mask\_subarray() (in module ifa\_smeargle.masking.scripting)@\spxentry{script\_mask\_subarray()}\spxextra{in module ifa\_smeargle.masking.scripting}|hyperpage}{28}
+\indexentry{script\_synthesize\_filters() (in module ifa\_smeargle.masking.scripting)@\spxentry{script\_synthesize\_filters()}\spxextra{in module ifa\_smeargle.masking.scripting}|hyperpage}{28}
+\indexentry{script\_synthesize\_masks() (in module ifa\_smeargle.masking.scripting)@\spxentry{script\_synthesize\_masks()}\spxextra{in module ifa\_smeargle.masking.scripting}|hyperpage}{28}
+\indexentry{ifa\_smeargle.masking (module)@\spxentry{ifa\_smeargle.masking}\spxextra{module}|hyperpage}{29}
+\indexentry{ifa\_smeargle.plotting.base\_functions (module)@\spxentry{ifa\_smeargle.plotting.base\_functions}\spxextra{module}|hyperpage}{29}
+\indexentry{create\_directory\_plot\_files() (in module ifa\_smeargle.plotting.base\_functions)@\spxentry{create\_directory\_plot\_files()}\spxextra{in module ifa\_smeargle.plotting.base\_functions}|hyperpage}{29}
+\indexentry{write\_plot\_file() (in module ifa\_smeargle.plotting.base\_functions)@\spxentry{write\_plot\_file()}\spxextra{in module ifa\_smeargle.plotting.base\_functions}|hyperpage}{29}
+\indexentry{ifa\_smeargle.plotting.heatmap (module)@\spxentry{ifa\_smeargle.plotting.heatmap}\spxextra{module}|hyperpage}{30}
+\indexentry{plot\_heatmap() (in module ifa\_smeargle.plotting.heatmap)@\spxentry{plot\_heatmap()}\spxextra{in module ifa\_smeargle.plotting.heatmap}|hyperpage}{30}
+\indexentry{script\_plot\_heatmap() (in module ifa\_smeargle.plotting.heatmap)@\spxentry{script\_plot\_heatmap()}\spxextra{in module ifa\_smeargle.plotting.heatmap}|hyperpage}{30}
+\indexentry{ifa\_smeargle.plotting.histogram (module)@\spxentry{ifa\_smeargle.plotting.histogram}\spxextra{module}|hyperpage}{31}
+\indexentry{plot\_gaussian\_histogram() (in module ifa\_smeargle.plotting.histogram)@\spxentry{plot\_gaussian\_histogram()}\spxextra{in module ifa\_smeargle.plotting.histogram}|hyperpage}{31}
+\indexentry{script\_plot\_gaussian\_histogram() (in module ifa\_smeargle.plotting.histogram)@\spxentry{script\_plot\_gaussian\_histogram()}\spxextra{in module ifa\_smeargle.plotting.histogram}|hyperpage}{31}
+\indexentry{ifa\_smeargle.plotting (module)@\spxentry{ifa\_smeargle.plotting}\spxextra{module}|hyperpage}{32}
+\indexentry{ifa\_smeargle.reformat.base\_functions (module)@\spxentry{ifa\_smeargle.reformat.base\_functions}\spxextra{module}|hyperpage}{32}
+\indexentry{format\_slice\_appending\_name() (in module ifa\_smeargle.reformat.base\_functions)@\spxentry{format\_slice\_appending\_name()}\spxextra{in module ifa\_smeargle.reformat.base\_functions}|hyperpage}{32}
+\indexentry{ifa\_smeargle.reformat.collapse (module)@\spxentry{ifa\_smeargle.reformat.collapse}\spxextra{module}|hyperpage}{32}
+\indexentry{collapse\_by\_average\_endpoints() (in module ifa\_smeargle.reformat.collapse)@\spxentry{collapse\_by\_average\_endpoints()}\spxextra{in module ifa\_smeargle.reformat.collapse}|hyperpage}{32}
+\indexentry{collapse\_by\_average\_endpoints\_per\_kilosecond() (in module ifa\_smeargle.reformat.collapse)@\spxentry{collapse\_by\_average\_endpoints\_per\_kilosecond()}\spxextra{in module ifa\_smeargle.reformat.collapse}|hyperpage}{32}
+\indexentry{collapse\_by\_average\_endpoints\_per\_second() (in module ifa\_smeargle.reformat.collapse)@\spxentry{collapse\_by\_average\_endpoints\_per\_second()}\spxextra{in module ifa\_smeargle.reformat.collapse}|hyperpage}{33}
+\indexentry{script\_collapse\_by\_average\_endpoints() (in module ifa\_smeargle.reformat.collapse)@\spxentry{script\_collapse\_by\_average\_endpoints()}\spxextra{in module ifa\_smeargle.reformat.collapse}|hyperpage}{34}
+\indexentry{script\_collapse\_by\_average\_endpoints\_per\_kilosecond() (in module ifa\_smeargle.reformat.collapse)@\spxentry{script\_collapse\_by\_average\_endpoints\_per\_kilosecond()}\spxextra{in module ifa\_smeargle.reformat.collapse}|hyperpage}{34}
+\indexentry{script\_collapse\_by\_average\_endpoints\_per\_second() (in module ifa\_smeargle.reformat.collapse)@\spxentry{script\_collapse\_by\_average\_endpoints\_per\_second()}\spxextra{in module ifa\_smeargle.reformat.collapse}|hyperpage}{34}
+\indexentry{ifa\_smeargle.reformat.renaming (module)@\spxentry{ifa\_smeargle.reformat.renaming}\spxextra{module}|hyperpage}{34}
+\indexentry{rename\_detector() (in module ifa\_smeargle.reformat.renaming)@\spxentry{rename\_detector()}\spxextra{in module ifa\_smeargle.reformat.renaming}|hyperpage}{34}
+\indexentry{rename\_garbage() (in module ifa\_smeargle.reformat.renaming)@\spxentry{rename\_garbage()}\spxextra{in module ifa\_smeargle.reformat.renaming}|hyperpage}{34}
+\indexentry{rename\_number() (in module ifa\_smeargle.reformat.renaming)@\spxentry{rename\_number()}\spxextra{in module ifa\_smeargle.reformat.renaming}|hyperpage}{35}
+\indexentry{rename\_set() (in module ifa\_smeargle.reformat.renaming)@\spxentry{rename\_set()}\spxextra{in module ifa\_smeargle.reformat.renaming}|hyperpage}{35}
+\indexentry{rename\_voltage\_pattern() (in module ifa\_smeargle.reformat.renaming)@\spxentry{rename\_voltage\_pattern()}\spxextra{in module ifa\_smeargle.reformat.renaming}|hyperpage}{35}
+\indexentry{script\_rename\_detector() (in module ifa\_smeargle.reformat.renaming)@\spxentry{script\_rename\_detector()}\spxextra{in module ifa\_smeargle.reformat.renaming}|hyperpage}{36}
+\indexentry{script\_rename\_garbage() (in module ifa\_smeargle.reformat.renaming)@\spxentry{script\_rename\_garbage()}\spxextra{in module ifa\_smeargle.reformat.renaming}|hyperpage}{36}
+\indexentry{script\_rename\_number() (in module ifa\_smeargle.reformat.renaming)@\spxentry{script\_rename\_number()}\spxextra{in module ifa\_smeargle.reformat.renaming}|hyperpage}{36}
+\indexentry{script\_rename\_set() (in module ifa\_smeargle.reformat.renaming)@\spxentry{script\_rename\_set()}\spxextra{in module ifa\_smeargle.reformat.renaming}|hyperpage}{36}
+\indexentry{script\_rename\_voltage\_pattern() (in module ifa\_smeargle.reformat.renaming)@\spxentry{script\_rename\_voltage\_pattern()}\spxextra{in module ifa\_smeargle.reformat.renaming}|hyperpage}{37}
+\indexentry{ifa\_smeargle.reformat.sanitization (module)@\spxentry{ifa\_smeargle.reformat.sanitization}\spxextra{module}|hyperpage}{37}
+\indexentry{sanitize\_file\_size() (in module ifa\_smeargle.reformat.sanitization)@\spxentry{sanitize\_file\_size()}\spxextra{in module ifa\_smeargle.reformat.sanitization}|hyperpage}{37}
+\indexentry{script\_sanitize\_file\_size() (in module ifa\_smeargle.reformat.sanitization)@\spxentry{script\_sanitize\_file\_size()}\spxextra{in module ifa\_smeargle.reformat.sanitization}|hyperpage}{37}
+\indexentry{ifa\_smeargle.reformat (module)@\spxentry{ifa\_smeargle.reformat}\spxextra{module}|hyperpage}{38}
+\indexentry{ifa\_smeargle.testing.base\_functions (module)@\spxentry{ifa\_smeargle.testing.base\_functions}\spxextra{module}|hyperpage}{38}
+\indexentry{create\_prime\_test\_array() (in module ifa\_smeargle.testing.base\_functions)@\spxentry{create\_prime\_test\_array()}\spxextra{in module ifa\_smeargle.testing.base\_functions}|hyperpage}{38}
+\indexentry{ifa\_smeargle.testing.test\_global (module)@\spxentry{ifa\_smeargle.testing.test\_global}\spxextra{module}|hyperpage}{38}
+\indexentry{test\_pass() (in module ifa\_smeargle.testing.test\_global)@\spxentry{test\_pass()}\spxextra{in module ifa\_smeargle.testing.test\_global}|hyperpage}{38}
+\indexentry{ifa\_smeargle.testing.test\_numerical\_core\_mathematics (module)@\spxentry{ifa\_smeargle.testing.test\_numerical\_core\_mathematics}\spxextra{module}|hyperpage}{38}
+\indexentry{test\_ifas\_large\_integer\_array\_product() (in module ifa\_smeargle.testing.test\_numerical\_core\_mathematics)@\spxentry{test\_ifas\_large\_integer\_array\_product()}\spxextra{in module ifa\_smeargle.testing.test\_numerical\_core\_mathematics}|hyperpage}{38}
+\indexentry{test\_ifas\_masked\_mean() (in module ifa\_smeargle.testing.test\_numerical\_core\_mathematics)@\spxentry{test\_ifas\_masked\_mean()}\spxextra{in module ifa\_smeargle.testing.test\_numerical\_core\_mathematics}|hyperpage}{38}
+\indexentry{test\_ifas\_masked\_median() (in module ifa\_smeargle.testing.test\_numerical\_core\_mathematics)@\spxentry{test\_ifas\_masked\_median()}\spxextra{in module ifa\_smeargle.testing.test\_numerical\_core\_mathematics}|hyperpage}{38}
+\indexentry{test\_ifas\_masked\_std() (in module ifa\_smeargle.testing.test\_numerical\_core\_mathematics)@\spxentry{test\_ifas\_masked\_std()}\spxextra{in module ifa\_smeargle.testing.test\_numerical\_core\_mathematics}|hyperpage}{38}
+\indexentry{test\_ifas\_robust\_mean() (in module ifa\_smeargle.testing.test\_numerical\_core\_mathematics)@\spxentry{test\_ifas\_robust\_mean()}\spxextra{in module ifa\_smeargle.testing.test\_numerical\_core\_mathematics}|hyperpage}{38}
+\indexentry{test\_ifas\_robust\_std() (in module ifa\_smeargle.testing.test\_numerical\_core\_mathematics)@\spxentry{test\_ifas\_robust\_std()}\spxextra{in module ifa\_smeargle.testing.test\_numerical\_core\_mathematics}|hyperpage}{38}
+\indexentry{ifa\_smeargle.testing.test\_numerical\_filters (module)@\spxentry{ifa\_smeargle.testing.test\_numerical\_filters}\spxextra{module}|hyperpage}{39}
+\indexentry{test\_filter\_exact\_value() (in module ifa\_smeargle.testing.test\_numerical\_filters)@\spxentry{test\_filter\_exact\_value()}\spxextra{in module ifa\_smeargle.testing.test\_numerical\_filters}|hyperpage}{39}
+\indexentry{test\_filter\_invalid\_value() (in module ifa\_smeargle.testing.test\_numerical\_filters)@\spxentry{test\_filter\_invalid\_value()}\spxextra{in module ifa\_smeargle.testing.test\_numerical\_filters}|hyperpage}{39}
+\indexentry{test\_filter\_maximum\_value() (in module ifa\_smeargle.testing.test\_numerical\_filters)@\spxentry{test\_filter\_maximum\_value()}\spxextra{in module ifa\_smeargle.testing.test\_numerical\_filters}|hyperpage}{39}
+\indexentry{test\_filter\_minimum\_value() (in module ifa\_smeargle.testing.test\_numerical\_filters)@\spxentry{test\_filter\_minimum\_value()}\spxextra{in module ifa\_smeargle.testing.test\_numerical\_filters}|hyperpage}{39}
+\indexentry{test\_filter\_percent\_truncation() (in module ifa\_smeargle.testing.test\_numerical\_filters)@\spxentry{test\_filter\_percent\_truncation()}\spxextra{in module ifa\_smeargle.testing.test\_numerical\_filters}|hyperpage}{39}
+\indexentry{test\_filter\_pixel\_truncation() (in module ifa\_smeargle.testing.test\_numerical\_filters)@\spxentry{test\_filter\_pixel\_truncation()}\spxextra{in module ifa\_smeargle.testing.test\_numerical\_filters}|hyperpage}{39}
+\indexentry{test\_filter\_sigma\_value() (in module ifa\_smeargle.testing.test\_numerical\_filters)@\spxentry{test\_filter\_sigma\_value()}\spxextra{in module ifa\_smeargle.testing.test\_numerical\_filters}|hyperpage}{39}
+\indexentry{ifa\_smeargle.testing.test\_numerical\_masking (module)@\spxentry{ifa\_smeargle.testing.test\_numerical\_masking}\spxextra{module}|hyperpage}{39}
+\indexentry{test\_mask\_columns() (in module ifa\_smeargle.testing.test\_numerical\_masking)@\spxentry{test\_mask\_columns()}\spxextra{in module ifa\_smeargle.testing.test\_numerical\_masking}|hyperpage}{39}
+\indexentry{test\_mask\_everything() (in module ifa\_smeargle.testing.test\_numerical\_masking)@\spxentry{test\_mask\_everything()}\spxextra{in module ifa\_smeargle.testing.test\_numerical\_masking}|hyperpage}{39}
+\indexentry{test\_mask\_nothing() (in module ifa\_smeargle.testing.test\_numerical\_masking)@\spxentry{test\_mask\_nothing()}\spxextra{in module ifa\_smeargle.testing.test\_numerical\_masking}|hyperpage}{39}
+\indexentry{test\_mask\_rectangle() (in module ifa\_smeargle.testing.test\_numerical\_masking)@\spxentry{test\_mask\_rectangle()}\spxextra{in module ifa\_smeargle.testing.test\_numerical\_masking}|hyperpage}{39}
+\indexentry{test\_mask\_rows() (in module ifa\_smeargle.testing.test\_numerical\_masking)@\spxentry{test\_mask\_rows()}\spxextra{in module ifa\_smeargle.testing.test\_numerical\_masking}|hyperpage}{39}
+\indexentry{test\_mask\_single\_pixels() (in module ifa\_smeargle.testing.test\_numerical\_masking)@\spxentry{test\_mask\_single\_pixels()}\spxextra{in module ifa\_smeargle.testing.test\_numerical\_masking}|hyperpage}{39}
+\indexentry{test\_mask\_subarray() (in module ifa\_smeargle.testing.test\_numerical\_masking)@\spxentry{test\_mask\_subarray()}\spxextra{in module ifa\_smeargle.testing.test\_numerical\_masking}|hyperpage}{39}
+\indexentry{ifa\_smeargle.testing (module)@\spxentry{ifa\_smeargle.testing}\spxextra{module}|hyperpage}{40}
+\indexentry{ifa\_smeargle.tutorial.copying (module)@\spxentry{ifa\_smeargle.tutorial.copying}\spxextra{module}|hyperpage}{40}
+\indexentry{ifa\_smeargle.tutorial.generation (module)@\spxentry{ifa\_smeargle.tutorial.generation}\spxextra{module}|hyperpage}{40}
+\indexentry{tutorial\_generate\_fits\_file() (in module ifa\_smeargle.tutorial.generation)@\spxentry{tutorial\_generate\_fits\_file()}\spxextra{in module ifa\_smeargle.tutorial.generation}|hyperpage}{40}
+\indexentry{ifa\_smeargle.tutorial.scripting (module)@\spxentry{ifa\_smeargle.tutorial.scripting}\spxextra{module}|hyperpage}{41}
+\indexentry{script\_generate\_saphira\_tutorial() (in module ifa\_smeargle.tutorial.scripting)@\spxentry{script\_generate\_saphira\_tutorial()}\spxextra{in module ifa\_smeargle.tutorial.scripting}|hyperpage}{41}
+\indexentry{ifa\_smeargle.tutorial (module)@\spxentry{ifa\_smeargle.tutorial}\spxextra{module}|hyperpage}{41}
+\indexentry{ifa\_smeargle.runtime (module)@\spxentry{ifa\_smeargle.runtime}\spxextra{module}|hyperpage}{41}
+\indexentry{extract\_runtime\_configuration (in module ifa\_smeargle.runtime)@\spxentry{extract\_runtime\_configuration}\spxextra{in module ifa\_smeargle.runtime}|hyperpage}{41}
+\indexentry{get\_configuration\_files() (in module ifa\_smeargle.runtime)@\spxentry{get\_configuration\_files()}\spxextra{in module ifa\_smeargle.runtime}|hyperpage}{41}
+\indexentry{get\_filter\_functions() (in module ifa\_smeargle.runtime)@\spxentry{get\_filter\_functions()}\spxextra{in module ifa\_smeargle.runtime}|hyperpage}{41}
+\indexentry{get\_mask\_functions() (in module ifa\_smeargle.runtime)@\spxentry{get\_mask\_functions()}\spxextra{in module ifa\_smeargle.runtime}|hyperpage}{42}
+\indexentry{get\_module\_directory() (in module ifa\_smeargle.runtime)@\spxentry{get\_module\_directory()}\spxextra{in module ifa\_smeargle.runtime}|hyperpage}{42}
+\indexentry{get\_script\_functions() (in module ifa\_smeargle.runtime)@\spxentry{get\_script\_functions()}\spxextra{in module ifa\_smeargle.runtime}|hyperpage}{42}
+\indexentry{get\_specification\_files() (in module ifa\_smeargle.runtime)@\spxentry{get\_specification\_files()}\spxextra{in module ifa\_smeargle.runtime}|hyperpage}{42}
+\indexentry{ifa\_smeargle.special (module)@\spxentry{ifa\_smeargle.special}\spxextra{module}|hyperpage}{42}
+\indexentry{script\_special\_create\_configuration\_file() (in module ifa\_smeargle.special)@\spxentry{script\_special\_create\_configuration\_file()}\spxextra{in module ifa\_smeargle.special}|hyperpage}{42}
+\indexentry{script\_special\_list\_scripts() (in module ifa\_smeargle.special)@\spxentry{script\_special\_list\_scripts()}\spxextra{in module ifa\_smeargle.special}|hyperpage}{42}
+\indexentry{ifa\_smeargle (module)@\spxentry{ifa\_smeargle}\spxextra{module}|hyperpage}{43}

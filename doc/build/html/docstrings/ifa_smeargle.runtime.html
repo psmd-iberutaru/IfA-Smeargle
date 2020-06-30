@@ -1,0 +1,380 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>ifa_smeargle.runtime module &mdash; IfA_Smeargle 2020 documentation</title>
+  
+
+  
+  <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+  <link rel="stylesheet" href="../_static/css/custom.css" type="text/css" />
+
+  
+  
+  
+  
+
+  
+  <!--[if lt IE 9]>
+    <script src="../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+    
+      <script type="text/javascript" id="documentation_options" data-url_root="../" src="../_static/documentation_options.js"></script>
+        <script src="../_static/jquery.js"></script>
+        <script src="../_static/underscore.js"></script>
+        <script src="../_static/doctools.js"></script>
+        <script src="../_static/language_data.js"></script>
+    
+    <script type="text/javascript" src="../_static/js/theme.js"></script>
+
+    
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="ifa_smeargle.special module" href="ifa_smeargle.special.html" />
+    <link rel="prev" title="ifa_smeargle.tutorial.scripting module" href="ifa_smeargle.tutorial.scripting.html" /> 
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+          
+
+          
+            <a href="../index.html" class="icon icon-home" alt="Documentation Home"> IfA_Smeargle
+          
+
+          
+          </a>
+
+          
+            
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <p class="caption"><span class="caption-text">Code Documentation:</span></p>
+<ul class="current">
+<li class="toctree-l1 current"><a class="reference internal" href="modules.html">ifa_smeargle</a><ul class="current">
+<li class="toctree-l2 current"><a class="reference internal" href="ifa_smeargle.html">ifa_smeargle package</a><ul class="current">
+<li class="toctree-l3"><a class="reference internal" href="ifa_smeargle.html#subpackages">Subpackages</a></li>
+<li class="toctree-l3 current"><a class="reference internal" href="ifa_smeargle.html#submodules">Submodules</a><ul class="current">
+<li class="toctree-l4 current"><a class="current reference internal" href="#">ifa_smeargle.runtime module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="ifa_smeargle.special.html">ifa_smeargle.special module</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="ifa_smeargle.html#module-ifa_smeargle">Module contents</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+
+            
+          
+        </div>
+        
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../index.html">IfA_Smeargle</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="../index.html" class="icon icon-home"></a> &raquo;</li>
+        
+          <li><a href="modules.html">ifa_smeargle</a> &raquo;</li>
+        
+          <li><a href="ifa_smeargle.html">ifa_smeargle package</a> &raquo;</li>
+        
+      <li>ifa_smeargle.runtime module</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+            
+            
+              <a href="https://github.com/psmd-iberutaru/IfA_Smeargle/blob/testdoc/source/docstrings/ifa_smeargle.runtime.rst" class="fa fa-github"> Edit on GitHub</a>
+            
+          
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <div class="section" id="module-ifa_smeargle.runtime">
+<span id="ifa-smeargle-runtime-module"></span><h1>ifa_smeargle.runtime module<a class="headerlink" href="#module-ifa_smeargle.runtime" title="Permalink to this headline">¶</a></h1>
+<p>This module contains runtime-variables that are important for the
+function of this module.</p>
+<dl class="attribute">
+<dt id="ifa_smeargle.runtime.extract_runtime_configuration">
+<code class="sig-prename descclassname">ifa_smeargle.runtime.</code><code class="sig-name descname">extract_runtime_configuration</code><a class="reference internal" href="../_modules/ifa_smeargle/runtime.html#extract_runtime_configuration"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#ifa_smeargle.runtime.extract_runtime_configuration" title="Permalink to this definition">¶</a></dt>
+<dd><p>This function extracts the configuration based solely on the
+key of the configuration value.</p>
+<p>The conversion of ‘True’-&gt;bool(True) and ‘False’-&gt;bool(False) is
+implicitly assumed. Letter case doesn’t matter.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>config_key</strong> (<em>string</em>) – The tag of the configuration parameter that is being sought.</p></li>
+<li><p><strong>type_convert</strong> (<em>boolean</em>) – A flag to determine if type conversion is desired. If False,
+the raw value is returned instead.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p><strong>config_value</strong> – The configuration object that is present within the file.</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>object</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="function">
+<dt id="ifa_smeargle.runtime.get_configuration_files">
+<code class="sig-prename descclassname">ifa_smeargle.runtime.</code><code class="sig-name descname">get_configuration_files</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/ifa_smeargle/runtime.html#get_configuration_files"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#ifa_smeargle.runtime.get_configuration_files" title="Permalink to this definition">¶</a></dt>
+<dd><p>This function obtains all of the configuration files,
+returning a dictionary of them for each of their paths.</p>
+<p>The qualifier to be a configuration file is just to have <cite>.ini</cite>
+extension to the file name.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>None</strong> – </p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p><strong>config_files</strong> – The configuration files that have been found in the module
+and its sub-modules.</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>dictionary</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="function">
+<dt id="ifa_smeargle.runtime.get_filter_functions">
+<code class="sig-prename descclassname">ifa_smeargle.runtime.</code><code class="sig-name descname">get_filter_functions</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/ifa_smeargle/runtime.html#get_filter_functions"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#ifa_smeargle.runtime.get_filter_functions" title="Permalink to this definition">¶</a></dt>
+<dd><p>This function obtains all possible <cite>filter</cite> based
+functions, returning a dictionary of them.</p>
+<p>The qualifier to be a script function is just to have <cite>filter_</cite>
+as the prefix to the function.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>None</strong> – </p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p><strong>filters</strong> – The filters that have been found in the module and its
+sub-modules which have the filtering prefix.</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>dictionary</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="function">
+<dt id="ifa_smeargle.runtime.get_mask_functions">
+<code class="sig-prename descclassname">ifa_smeargle.runtime.</code><code class="sig-name descname">get_mask_functions</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/ifa_smeargle/runtime.html#get_mask_functions"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#ifa_smeargle.runtime.get_mask_functions" title="Permalink to this definition">¶</a></dt>
+<dd><p>This function obtains all possible <cite>mask</cite> based
+functions, returning a dictionary of them.</p>
+<p>The qualifier to be a masking function is just to have <cite>mask_</cite>
+as the prefix to the function.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>None</strong> – </p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p><strong>masks</strong> – The masking functions that have been found in the module
+and its sub-modules which have the scripting prefix.</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>dictionary</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="function">
+<dt id="ifa_smeargle.runtime.get_module_directory">
+<code class="sig-prename descclassname">ifa_smeargle.runtime.</code><code class="sig-name descname">get_module_directory</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/ifa_smeargle/runtime.html#get_module_directory"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#ifa_smeargle.runtime.get_module_directory" title="Permalink to this definition">¶</a></dt>
+<dd><p>This function returns the path of this module.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>None</strong> – </p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p><strong>module_directory</strong> – The directory of this module.</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>string</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="function">
+<dt id="ifa_smeargle.runtime.get_script_functions">
+<code class="sig-prename descclassname">ifa_smeargle.runtime.</code><code class="sig-name descname">get_script_functions</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/ifa_smeargle/runtime.html#get_script_functions"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#ifa_smeargle.runtime.get_script_functions" title="Permalink to this definition">¶</a></dt>
+<dd><p>This function obtains all possible <cite>script</cite> based
+functions, returning a dictionary of them.</p>
+<p>The qualifier to be a script function is just to have <cite>script_</cite>
+as the prefix to the function.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>None</strong> – </p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p><strong>scripts</strong> – The scripts that have been found in the module and its
+sub-modules which have the scripting prefix.</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>dictionary</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="function">
+<dt id="ifa_smeargle.runtime.get_specification_files">
+<code class="sig-prename descclassname">ifa_smeargle.runtime.</code><code class="sig-name descname">get_specification_files</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/ifa_smeargle/runtime.html#get_specification_files"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#ifa_smeargle.runtime.get_specification_files" title="Permalink to this definition">¶</a></dt>
+<dd><p>This function obtains all of the configuration specification
+files, returning a dictionary of them for each of their paths.</p>
+<p>The qualifier to be a specification file is just to have <cite>.spec</cite>
+extension to the file name.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>None</strong> – </p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p><strong>spec_files</strong> – The specification files that have been found in the module
+and its sub-modules.</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>dictionary</p>
+</dd>
+</dl>
+</dd></dl>
+
+</div>
+
+
+           </div>
+           
+          </div>
+          <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+        <a href="ifa_smeargle.special.html" class="btn btn-neutral float-right" title="ifa_smeargle.special module" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
+      
+      
+        <a href="ifa_smeargle.tutorial.scripting.html" class="btn btn-neutral float-left" title="ifa_smeargle.tutorial.scripting module" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+      
+    </div>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        
+        &copy; Copyright 2020, Sparrow
+
+    </p>
+  </div>
+    
+    
+    
+    Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a
+    
+    <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a>
+    
+    provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+
+  
+  
+    
+   
+
+</body>
+</html>

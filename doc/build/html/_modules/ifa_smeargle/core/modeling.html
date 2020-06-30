@@ -1,0 +1,354 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>ifa_smeargle.core.modeling &mdash; IfA_Smeargle 2020 documentation</title>
+  
+
+  
+  <link rel="stylesheet" href="../../../_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
+  <link rel="stylesheet" href="../../../_static/css/custom.css" type="text/css" />
+
+  
+  
+  
+  
+
+  
+  <!--[if lt IE 9]>
+    <script src="../../../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+    
+      <script type="text/javascript" id="documentation_options" data-url_root="../../../" src="../../../_static/documentation_options.js"></script>
+        <script src="../../../_static/jquery.js"></script>
+        <script src="../../../_static/underscore.js"></script>
+        <script src="../../../_static/doctools.js"></script>
+        <script src="../../../_static/language_data.js"></script>
+    
+    <script type="text/javascript" src="../../../_static/js/theme.js"></script>
+
+    
+    <link rel="index" title="Index" href="../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../search.html" /> 
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+          
+
+          
+            <a href="../../../index.html" class="icon icon-home" alt="Documentation Home"> IfA_Smeargle
+          
+
+          
+          </a>
+
+          
+            
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <p class="caption"><span class="caption-text">Code Documentation:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../docstrings/modules.html">ifa_smeargle</a></li>
+</ul>
+
+            
+          
+        </div>
+        
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../../index.html">IfA_Smeargle</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="../../../index.html" class="icon icon-home"></a> &raquo;</li>
+        
+          <li><a href="../../index.html">Module code</a> &raquo;</li>
+        
+      <li>ifa_smeargle.core.modeling</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <h1>Source code for ifa_smeargle.core.modeling</h1><div class="highlight"><pre>
+<span></span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">This module contains functions that are strictly the backbone of many</span>
+<span class="sd">of the modeling and fitting functionality.</span>
+<span class="sd">&quot;&quot;&quot;</span>
+
+<span class="kn">import</span> <span class="nn">astropy</span> <span class="k">as</span> <span class="nn">ap</span>
+<span class="kn">import</span> <span class="nn">astropy.modeling</span> <span class="k">as</span> <span class="nn">ap_mod</span>
+<span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+<span class="kn">import</span> <span class="nn">numpy.ma</span> <span class="k">as</span> <span class="nn">np_ma</span>
+
+<span class="kn">import</span> <span class="nn">ifa_smeargle.core</span> <span class="k">as</span> <span class="nn">core</span>
+
+<div class="viewcode-block" id="fit_gaussian_function"><a class="viewcode-back" href="../../../docstrings/ifa_smeargle.core.modeling.html#ifa_smeargle.core.modeling.fit_gaussian_function">[docs]</a><span class="k">def</span> <span class="nf">fit_gaussian_function</span><span class="p">(</span><span class="n">x_data</span><span class="p">,</span> <span class="n">y_data</span><span class="p">,</span> <span class="n">inital_guesses</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot; This function fits a Gaussian function to a specific set of </span>
+<span class="sd">    data.</span>
+
+<span class="sd">    Gaussian fitting is hard, this function exists as a port so that </span>
+<span class="sd">    all fitting functions use the same algorithm and said algorithm </span>
+<span class="sd">    is easy to change.</span>
+<span class="sd">    </span>
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    x_data : ndarray</span>
+<span class="sd">        The X data that the Gaussian will be fit over.</span>
+<span class="sd">    y_data : ndarray</span>
+<span class="sd">        The Y data that the Gaussian will be fit over.</span>
+<span class="sd">    inital_guesses : dictionary</span>
+<span class="sd">        Initial guesses for the Gaussian fitting function. The </span>
+<span class="sd">        allowed inputs and their keys are:</span>
+
+<span class="sd">            * &#39;mean&#39; : The initial guess of the Gaussian function&#39;s </span>
+<span class="sd">                       mean. Defaults to 0.</span>
+<span class="sd">            * &#39;studded&#39; : The initial guess of the Gaussian    </span>
+<span class="sd">                          function&#39;s standard deviation. </span>
+<span class="sd">                          Defaults to 1.</span>
+<span class="sd">            * &#39;amplitude&#39; : The initial guess of the Gaussian </span>
+<span class="sd">                            function&#39;s  amplitude. Defaults to 1.</span>
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    gaussian_function : function</span>
+<span class="sd">        A callable function that when provided an X value, it </span>
+<span class="sd">        will return the value of the function.</span>
+<span class="sd">    gaussian_parameters : dictionary</span>
+<span class="sd">        A compiled dictionary of all of the parameters of the </span>
+<span class="sd">        Gaussian fit.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="c1"># Ensure that the x_data and y_data are the same length.</span>
+    <span class="k">if</span> <span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">x_data</span><span class="p">)</span> <span class="o">!=</span> <span class="nb">len</span><span class="p">(</span><span class="n">y_data</span><span class="p">)):</span>
+        <span class="k">raise</span> <span class="n">core</span><span class="o">.</span><span class="n">error</span><span class="o">.</span><span class="n">InputError</span><span class="p">(</span><span class="s2">&quot;The x-data and y-data arrays must be &quot;</span>
+                                    <span class="s2">&quot;parallel arrays; thus, their sizes &quot;</span>
+                                    <span class="s2">&quot;must be the same.&quot;</span><span class="p">)</span>
+
+    <span class="c1"># Extract the initial guesses.</span>
+    <span class="n">inital_guesses</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">(</span><span class="n">inital_guesses</span><span class="p">)</span>
+    <span class="n">guess_mean</span> <span class="o">=</span> <span class="n">inital_guesses</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;mean&#39;</span><span class="p">,</span> <span class="mi">0</span><span class="p">)</span>
+    <span class="n">guess_stddev</span> <span class="o">=</span> <span class="n">inital_guesses</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;stddev&#39;</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>
+    <span class="n">guess_amplitude</span> <span class="o">=</span> <span class="n">inital_guesses</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;amplitude&#39;</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>
+
+    <span class="c1"># Plotting/fitting the Gaussian function. For some reasons beyond </span>
+    <span class="c1"># what Sparrow can explain, Astropy seems to have better fitting </span>
+    <span class="c1"># capabilities, in this specific application, than Scipy.</span>
+    <span class="n">gaussian_init</span> <span class="o">=</span> <span class="n">ap_mod</span><span class="o">.</span><span class="n">models</span><span class="o">.</span><span class="n">Gaussian1D</span><span class="p">(</span>
+        <span class="n">amplitude</span><span class="o">=</span><span class="n">guess_amplitude</span><span class="p">,</span> <span class="n">mean</span><span class="o">=</span><span class="n">guess_mean</span><span class="p">,</span> <span class="n">stddev</span><span class="o">=</span><span class="n">guess_stddev</span><span class="p">)</span>
+    <span class="n">gaussian_fit_model</span> <span class="o">=</span> <span class="n">ap_mod</span><span class="o">.</span><span class="n">fitting</span><span class="o">.</span><span class="n">LevMarLSQFitter</span><span class="p">()</span>
+    <span class="c1"># If the number of data points is less than three, a model cannot</span>
+    <span class="c1"># be reasonably fit as it is over-fit.</span>
+    <span class="k">try</span><span class="p">:</span>
+        <span class="n">gaussian_fit</span> <span class="o">=</span> <span class="n">gaussian_fit_model</span><span class="p">(</span><span class="n">gaussian_init</span><span class="p">,</span> <span class="n">x_data</span><span class="p">,</span> <span class="n">y_data</span><span class="p">)</span>
+    <span class="k">except</span><span class="p">:</span>
+        <span class="k">raise</span> <span class="n">core</span><span class="o">.</span><span class="n">error</span><span class="o">.</span><span class="n">DataError</span><span class="p">(</span><span class="s2">&quot;The number of data points is </span><span class="si">{num}</span><span class="s2">. &quot;</span>
+                                   <span class="s2">&quot;This is likely less than the number of &quot;</span>
+                                   <span class="s2">&quot;fitting parameters (3). The data cannot &quot;</span>
+                                   <span class="s2">&quot;be fit.&quot;</span>
+                                   <span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">num</span><span class="o">=</span><span class="nb">len</span><span class="p">(</span><span class="n">x_data</span><span class="p">)))</span>
+
+    <span class="c1"># Deriving basic information form Gaussian model to return back </span>
+    <span class="c1"># to the user.</span>
+    <span class="n">gaussian_mean</span> <span class="o">=</span> <span class="n">gaussian_fit</span><span class="o">.</span><span class="n">mean</span><span class="o">.</span><span class="n">value</span>
+    <span class="n">gaussian_stddev</span> <span class="o">=</span> <span class="n">gaussian_fit</span><span class="o">.</span><span class="n">stddev</span><span class="o">.</span><span class="n">value</span>
+    <span class="n">gaussian_amplitude</span> <span class="o">=</span> <span class="n">gaussian_fit</span><span class="o">.</span><span class="n">amplitude</span><span class="o">.</span><span class="n">value</span>
+    <span class="n">temp_gauss_x_axis</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">nanmin</span><span class="p">(</span><span class="n">x_data</span><span class="p">)</span> <span class="o">-</span> <span class="mi">1</span><span class="p">,</span> 
+                                    <span class="n">np</span><span class="o">.</span><span class="n">nanmax</span><span class="p">(</span><span class="n">x_data</span><span class="p">)</span> <span class="o">+</span> <span class="mi">1</span><span class="p">,</span> 
+                                    <span class="mi">1000</span> <span class="o">+</span> <span class="n">x_data</span><span class="o">.</span><span class="n">size</span><span class="o">**</span><span class="mi">2</span><span class="p">)</span>
+    <span class="n">gaussian_max</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">max</span><span class="p">(</span><span class="n">gaussian_fit</span><span class="p">(</span><span class="n">temp_gauss_x_axis</span><span class="p">))</span>
+    <span class="n">gaussian_parameters</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;mean&#39;</span><span class="p">:</span><span class="n">gaussian_mean</span><span class="p">,</span> <span class="s1">&#39;stddev&#39;</span><span class="p">:</span><span class="n">gaussian_stddev</span><span class="p">,</span>
+                           <span class="s1">&#39;amplitude&#39;</span><span class="p">:</span><span class="n">gaussian_amplitude</span><span class="p">,</span> <span class="s1">&#39;max&#39;</span><span class="p">:</span><span class="n">gaussian_max</span><span class="p">}</span>
+
+    <span class="c1"># The Gaussian function</span>
+    <span class="n">gaussian_function</span> <span class="o">=</span> <span class="k">lambda</span> <span class="nb">input</span><span class="p">:</span> <span class="n">gaussian_fit</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="nb">input</span><span class="p">))</span>
+
+    <span class="k">return</span> <span class="n">gaussian_function</span><span class="p">,</span> <span class="n">gaussian_parameters</span></div>
+
+
+<div class="viewcode-block" id="fit_histogram_gaussian_function"><a class="viewcode-back" href="../../../docstrings/ifa_smeargle.core.modeling.html#ifa_smeargle.core.modeling.fit_histogram_gaussian_function">[docs]</a><span class="k">def</span> <span class="nf">fit_histogram_gaussian_function</span><span class="p">(</span><span class="n">data_array</span><span class="p">,</span> <span class="n">bin_width</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot; This function fits a Gaussian function to a specific set </span>
+<span class="sd">    of data.</span>
+
+<span class="sd">    Gaussian fitting is hard, this function exists as a port so that </span>
+<span class="sd">    all fitting functions use the same algorithm and said algorithm </span>
+<span class="sd">    is easy to change. This applies it to the histogram of the data.</span>
+<span class="sd">    </span>
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    data_array : ndarray</span>
+<span class="sd">        The data that the histogram Gaussian function is fitting.</span>
+<span class="sd">    bin_width : float</span>
+<span class="sd">        The width of the bins to use for the histogram fitting </span>
+<span class="sd">        function.</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    gaussian_function : function</span>
+<span class="sd">        A callable function that when provided an X value, it will </span>
+<span class="sd">        return the value of the function.</span>
+<span class="sd">    gaussian_parameters : dictionary</span>
+<span class="sd">        A compiled dictionary of all of the parameters of the </span>
+<span class="sd">        Gaussian fit.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="c1"># Be able to accept both masked arrays and standard arrays and </span>
+    <span class="c1"># be able to tell.</span>
+    <span class="k">if</span> <span class="p">(</span><span class="n">np_ma</span><span class="o">.</span><span class="n">is_masked</span><span class="p">(</span><span class="n">data_array</span><span class="p">)):</span>
+        <span class="n">flat_data</span> <span class="o">=</span> <span class="n">data_array</span><span class="o">.</span><span class="n">compressed</span><span class="p">()</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">flat_data</span> <span class="o">=</span> <span class="n">data_array</span><span class="o">.</span><span class="n">flatten</span><span class="p">()</span>
+
+    <span class="c1"># Numpy does not support histogram bin widths, instead using </span>
+    <span class="c1"># bins defined by values in an array. Converting equal bin </span>
+    <span class="c1"># widths to this array.</span>
+    <span class="n">hist_bins</span> <span class="o">=</span> <span class="n">core</span><span class="o">.</span><span class="n">math</span><span class="o">.</span><span class="n">generate_numpy_bin_width_array</span><span class="p">(</span><span class="n">data_array</span><span class="o">=</span><span class="n">flat_data</span><span class="p">,</span> 
+                                                         <span class="n">bin_width</span><span class="o">=</span><span class="n">bin_width</span><span class="p">)</span>
+
+    <span class="c1"># Extract histogram data from the data. The x locations are in</span>
+    <span class="c1"># the middle of the bin.</span>
+    <span class="n">hist_data</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">histogram</span><span class="p">(</span><span class="n">flat_data</span><span class="p">,</span> <span class="n">bins</span><span class="o">=</span><span class="n">hist_bins</span><span class="p">)</span>
+    <span class="n">hist_x</span> <span class="o">=</span> <span class="p">(</span><span class="n">hist_data</span><span class="p">[</span><span class="mi">1</span><span class="p">][</span><span class="mi">0</span><span class="p">:</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span> <span class="o">+</span> <span class="n">hist_data</span><span class="p">[</span><span class="mi">1</span><span class="p">][</span><span class="mi">1</span><span class="p">:])</span> <span class="o">/</span> <span class="mi">2</span>
+    <span class="n">hist_y</span> <span class="o">=</span> <span class="n">hist_data</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+
+    <span class="c1"># Determine the initial guesses of the Gaussian histogram </span>
+    <span class="c1"># fit. So far magic is the best way.</span>
+    <span class="n">guess_mean</span><span class="p">,</span> <span class="n">guess_stddev</span><span class="p">,</span> <span class="n">guess_amplitude</span> <span class="o">=</span> \
+        <span class="n">core</span><span class="o">.</span><span class="n">magic</span><span class="o">.</span><span class="n">magic_inital_gaussian_parameters</span><span class="p">(</span><span class="n">x_data</span><span class="o">=</span><span class="n">hist_x</span><span class="p">,</span> 
+                                                    <span class="n">y_data</span><span class="o">=</span><span class="n">hist_y</span><span class="p">)</span>
+
+    <span class="c1"># Do the Gaussian fit.</span>
+    <span class="n">inital_guesses</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;mean&#39;</span><span class="p">:</span> <span class="n">guess_mean</span><span class="p">,</span>
+                      <span class="s1">&#39;stddev&#39;</span><span class="p">:</span> <span class="n">guess_stddev</span><span class="p">,</span>
+                      <span class="s1">&#39;amplitude&#39;</span><span class="p">:</span> <span class="n">guess_amplitude</span><span class="p">}</span>
+    <span class="n">gauss_funct</span><span class="p">,</span> <span class="n">gauss_param</span> <span class="o">=</span> <span class="n">fit_gaussian_function</span><span class="p">(</span><span class="n">hist_x</span><span class="p">,</span> <span class="n">hist_y</span><span class="p">,</span>
+                                                     <span class="n">inital_guesses</span><span class="p">)</span>
+    <span class="c1"># For naming convention.</span>
+    <span class="n">gaussian_function</span> <span class="o">=</span> <span class="n">gauss_funct</span>
+    <span class="n">gaussian_parameters</span> <span class="o">=</span> <span class="n">gauss_param</span>
+    <span class="k">return</span> <span class="n">gaussian_function</span><span class="p">,</span> <span class="n">gaussian_parameters</span></div>
+</pre></div>
+
+           </div>
+           
+          </div>
+          <footer>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        
+        &copy; Copyright 2020, Sparrow
+
+    </p>
+  </div>
+    
+    
+    
+    Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a
+    
+    <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a>
+    
+    provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+
+  
+  
+    
+   
+
+</body>
+</html>

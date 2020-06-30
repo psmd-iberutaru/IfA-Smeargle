@@ -1,0 +1,413 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>ifa_smeargle.masking.geometric module &mdash; IfA_Smeargle 2020 documentation</title>
+  
+
+  
+  <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+  <link rel="stylesheet" href="../_static/css/custom.css" type="text/css" />
+
+  
+  
+  
+  
+
+  
+  <!--[if lt IE 9]>
+    <script src="../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+    
+      <script type="text/javascript" id="documentation_options" data-url_root="../" src="../_static/documentation_options.js"></script>
+        <script src="../_static/jquery.js"></script>
+        <script src="../_static/underscore.js"></script>
+        <script src="../_static/doctools.js"></script>
+        <script src="../_static/language_data.js"></script>
+    
+    <script type="text/javascript" src="../_static/js/theme.js"></script>
+
+    
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="ifa_smeargle.masking.scripting module" href="ifa_smeargle.masking.scripting.html" />
+    <link rel="prev" title="ifa_smeargle.masking.filters module" href="ifa_smeargle.masking.filters.html" /> 
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+          
+
+          
+            <a href="../index.html" class="icon icon-home" alt="Documentation Home"> IfA_Smeargle
+          
+
+          
+          </a>
+
+          
+            
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <p class="caption"><span class="caption-text">Code Documentation:</span></p>
+<ul class="current">
+<li class="toctree-l1 current"><a class="reference internal" href="modules.html">ifa_smeargle</a><ul class="current">
+<li class="toctree-l2 current"><a class="reference internal" href="ifa_smeargle.html">ifa_smeargle package</a><ul class="current">
+<li class="toctree-l3 current"><a class="reference internal" href="ifa_smeargle.html#subpackages">Subpackages</a><ul class="current">
+<li class="toctree-l4"><a class="reference internal" href="ifa_smeargle.analysis.html">ifa_smeargle.analysis package</a></li>
+<li class="toctree-l4"><a class="reference internal" href="ifa_smeargle.core.html">ifa_smeargle.core package</a></li>
+<li class="toctree-l4 current"><a class="reference internal" href="ifa_smeargle.masking.html">ifa_smeargle.masking package</a></li>
+<li class="toctree-l4"><a class="reference internal" href="ifa_smeargle.plotting.html">ifa_smeargle.plotting package</a></li>
+<li class="toctree-l4"><a class="reference internal" href="ifa_smeargle.reformat.html">ifa_smeargle.reformat package</a></li>
+<li class="toctree-l4"><a class="reference internal" href="ifa_smeargle.testing.html">ifa_smeargle.testing package</a></li>
+<li class="toctree-l4"><a class="reference internal" href="ifa_smeargle.tutorial.html">ifa_smeargle.tutorial package</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="ifa_smeargle.html#submodules">Submodules</a></li>
+<li class="toctree-l3"><a class="reference internal" href="ifa_smeargle.html#module-ifa_smeargle">Module contents</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+
+            
+          
+        </div>
+        
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../index.html">IfA_Smeargle</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="../index.html" class="icon icon-home"></a> &raquo;</li>
+        
+          <li><a href="modules.html">ifa_smeargle</a> &raquo;</li>
+        
+          <li><a href="ifa_smeargle.html">ifa_smeargle package</a> &raquo;</li>
+        
+          <li><a href="ifa_smeargle.masking.html">ifa_smeargle.masking package</a> &raquo;</li>
+        
+      <li>ifa_smeargle.masking.geometric module</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+            
+            
+              <a href="https://github.com/psmd-iberutaru/IfA_Smeargle/blob/testdoc/source/docstrings/ifa_smeargle.masking.geometric.rst" class="fa fa-github"> Edit on GitHub</a>
+            
+          
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <div class="section" id="module-ifa_smeargle.masking.geometric">
+<span id="ifa-smeargle-masking-geometric-module"></span><h1>ifa_smeargle.masking.geometric module<a class="headerlink" href="#module-ifa_smeargle.masking.geometric" title="Permalink to this headline">¶</a></h1>
+<p>These are masks that are applied in a purely geometric method.</p>
+<dl class="function">
+<dt id="ifa_smeargle.masking.geometric.mask_columns">
+<code class="sig-prename descclassname">ifa_smeargle.masking.geometric.</code><code class="sig-name descname">mask_columns</code><span class="sig-paren">(</span><em class="sig-param">data_array</em>, <em class="sig-param">column_list</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/ifa_smeargle/masking/geometric.html#mask_columns"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#ifa_smeargle.masking.geometric.mask_columns" title="Permalink to this definition">¶</a></dt>
+<dd><p>This applies a column mask on the data array provided its
+locations.</p>
+<p>The column mask takes a list of column numbers (0-indexed x-axis
+values). All pixels within these columns are then masked.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>data_array</strong> (<em>ndarray</em>) – The data array that the mask will be calculated from.</p></li>
+<li><p><strong>column_list</strong> (<em>list</em><em> or </em><em>ndarray</em>) – The list of column x-axis values that will be masked. Should
+be 0-indexed.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p><strong>final_mask</strong> – A boolean array for pixels that are masked (True) or are
+valid (False).</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>ndarray -&gt; dictionary</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="function">
+<dt id="ifa_smeargle.masking.geometric.mask_everything">
+<code class="sig-prename descclassname">ifa_smeargle.masking.geometric.</code><code class="sig-name descname">mask_everything</code><span class="sig-paren">(</span><em class="sig-param">data_array</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/ifa_smeargle/masking/geometric.html#mask_everything"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#ifa_smeargle.masking.geometric.mask_everything" title="Permalink to this definition">¶</a></dt>
+<dd><p>This applies a blanket blank (all pixels are valid) mask on
+the data array.</p>
+<p>As the name says, this applies a mask…to…well…everything.
+As such, all that is returned is a full mask.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>data_array</strong> (<em>ndarray</em>) – The data array that the mask will be calculated from.</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p><strong>final_mask</strong> – A boolean array for pixels that are masked (True) or are
+valid (False).</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>ndarray</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="function">
+<dt id="ifa_smeargle.masking.geometric.mask_nothing">
+<code class="sig-prename descclassname">ifa_smeargle.masking.geometric.</code><code class="sig-name descname">mask_nothing</code><span class="sig-paren">(</span><em class="sig-param">data_array</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/ifa_smeargle/masking/geometric.html#mask_nothing"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#ifa_smeargle.masking.geometric.mask_nothing" title="Permalink to this definition">¶</a></dt>
+<dd><p>This applies a blanket blank (all pixels are valid) mask on
+the data array.</p>
+<p>As the name says, this applies a mask…to…well…nothing. As
+such, all that is returned is a blank mask.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>data_array</strong> (<em>ndarray</em>) – The data array that the mask will be calculated from.</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p><strong>final_mask</strong> – A boolean array for pixels that are masked (True) or are
+valid (False).</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>ndarray</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="function">
+<dt id="ifa_smeargle.masking.geometric.mask_rectangle">
+<code class="sig-prename descclassname">ifa_smeargle.masking.geometric.</code><code class="sig-name descname">mask_rectangle</code><span class="sig-paren">(</span><em class="sig-param">data_array</em>, <em class="sig-param">column_range</em>, <em class="sig-param">row_range</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/ifa_smeargle/masking/geometric.html#mask_rectangle"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#ifa_smeargle.masking.geometric.mask_rectangle" title="Permalink to this definition">¶</a></dt>
+<dd><p>This mask function applies rectangular masks to the data
+array.</p>
+<p>The rectangles defined by subsequent xy-ranges (0-indexed) are
+masked. The rectangle bounds provided are also masked as the
+rectangle is inclusive of said bounds.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>data_array</strong> (<em>ndarray</em>) – The data array that the mask will be calculated from.</p></li>
+<li><p><strong>column_range</strong> (<em>list</em><em> or </em><em>ndarray</em>) – The range of 0-indexed columns to be masked.</p></li>
+<li><p><strong>row_range</strong> (<em>list</em><em> or </em><em>ndarray</em>) – The range of 0-indexed row to be masked.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p><strong>final_mask</strong> – A boolean array for pixels that are masked (True) or are
+valid (False).</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>ndarray -&gt; dictionary</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="function">
+<dt id="ifa_smeargle.masking.geometric.mask_rows">
+<code class="sig-prename descclassname">ifa_smeargle.masking.geometric.</code><code class="sig-name descname">mask_rows</code><span class="sig-paren">(</span><em class="sig-param">data_array</em>, <em class="sig-param">row_list</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/ifa_smeargle/masking/geometric.html#mask_rows"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#ifa_smeargle.masking.geometric.mask_rows" title="Permalink to this definition">¶</a></dt>
+<dd><p>This applies a row mask on the data array provided its
+locations.</p>
+<p>The row mask takes a list of column numbers (0-indexed x-axis
+values). All pixels within these rows are then masked.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>data_array</strong> (<em>ndarray</em>) – The data array that the mask will be calculated from.</p></li>
+<li><p><strong>row_list</strong> (<em>list</em><em> or </em><em>ndarray</em>) – The list of row y-axis values that will be masked. Should be
+0-indexed.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p><strong>final_mask</strong> – A boolean array for pixels that are masked (True) or are
+valid (False).</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>ndarray</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="function">
+<dt id="ifa_smeargle.masking.geometric.mask_single_pixels">
+<code class="sig-prename descclassname">ifa_smeargle.masking.geometric.</code><code class="sig-name descname">mask_single_pixels</code><span class="sig-paren">(</span><em class="sig-param">data_array</em>, <em class="sig-param">column_indexes</em>, <em class="sig-param">row_indexes</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/ifa_smeargle/masking/geometric.html#mask_single_pixels"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#ifa_smeargle.masking.geometric.mask_single_pixels" title="Permalink to this definition">¶</a></dt>
+<dd><p>This applies a single mask on a single pixel(s)</p>
+<p>As the name implies, this function masks a single pixel value or
+a list of single pixel pairs.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>data_array</strong> (<em>ndarray</em>) – The data array that the mask will be calculated from.</p></li>
+<li><p><strong>column_indexes</strong> (<em>list</em><em> or </em><em>ndarray</em>) – The successive 0-indexed list of column indexes that specify
+the pixel to be masked.</p></li>
+<li><p><strong>row_indexes</strong> (<em>list</em><em> or </em><em>ndarray</em>) – The successive 0-indexed list of row indexes that specify the
+pixel to be masked.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p><strong>final_mask</strong> – A boolean array for pixels that are masked (True) or are
+valid (False).</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>ndarray -&gt; dictionary</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="function">
+<dt id="ifa_smeargle.masking.geometric.mask_subarray">
+<code class="sig-prename descclassname">ifa_smeargle.masking.geometric.</code><code class="sig-name descname">mask_subarray</code><span class="sig-paren">(</span><em class="sig-param">data_array</em>, <em class="sig-param">column_range</em>, <em class="sig-param">row_range</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/ifa_smeargle/masking/geometric.html#mask_subarray"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#ifa_smeargle.masking.geometric.mask_subarray" title="Permalink to this definition">¶</a></dt>
+<dd><p>This applies a mask on the entire array except for a single
+sub-array rectangle.</p>
+<p>This function subsets a sub-array of the data array from a
+mask. Only one sub-array can be defined using this function.
+The bounds of the sub-array is inclusively defined by the
+x-ranges and y-ranges.</p>
+<p>If you want to mask a rectangular section of your array, use
+<cite>mask_rectangle</cite>.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>data_array</strong> (<em>ndarray</em>) – The data array that the mask will be calculated from.</p></li>
+<li><p><strong>column_range</strong> (<em>list</em><em> or </em><em>ndarray</em>) – The inclusive column bounds of the sub-array.</p></li>
+<li><p><strong>row_range</strong> (<em>list</em><em> or </em><em>ndarray</em>) – The inclusive row bounds of the sub-array.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p><strong>final_mask</strong> – A boolean array for pixels that are masked (True) or are
+valid (False).</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>ndarray -&gt; dictionary</p>
+</dd>
+</dl>
+</dd></dl>
+
+</div>
+
+
+           </div>
+           
+          </div>
+          <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+        <a href="ifa_smeargle.masking.scripting.html" class="btn btn-neutral float-right" title="ifa_smeargle.masking.scripting module" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
+      
+      
+        <a href="ifa_smeargle.masking.filters.html" class="btn btn-neutral float-left" title="ifa_smeargle.masking.filters module" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+      
+    </div>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        
+        &copy; Copyright 2020, Sparrow
+
+    </p>
+  </div>
+    
+    
+    
+    Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a
+    
+    <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a>
+    
+    provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+
+  
+  
+    
+   
+
+</body>
+</html>

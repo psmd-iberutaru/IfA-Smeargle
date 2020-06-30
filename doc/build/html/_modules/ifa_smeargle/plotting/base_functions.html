@@ -1,0 +1,384 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>ifa_smeargle.plotting.base_functions &mdash; IfA_Smeargle 2020 documentation</title>
+  
+
+  
+  <link rel="stylesheet" href="../../../_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
+  <link rel="stylesheet" href="../../../_static/css/custom.css" type="text/css" />
+
+  
+  
+  
+  
+
+  
+  <!--[if lt IE 9]>
+    <script src="../../../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+    
+      <script type="text/javascript" id="documentation_options" data-url_root="../../../" src="../../../_static/documentation_options.js"></script>
+        <script src="../../../_static/jquery.js"></script>
+        <script src="../../../_static/underscore.js"></script>
+        <script src="../../../_static/doctools.js"></script>
+        <script src="../../../_static/language_data.js"></script>
+    
+    <script type="text/javascript" src="../../../_static/js/theme.js"></script>
+
+    
+    <link rel="index" title="Index" href="../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../search.html" /> 
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+          
+
+          
+            <a href="../../../index.html" class="icon icon-home" alt="Documentation Home"> IfA_Smeargle
+          
+
+          
+          </a>
+
+          
+            
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <p class="caption"><span class="caption-text">Code Documentation:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../docstrings/modules.html">ifa_smeargle</a></li>
+</ul>
+
+            
+          
+        </div>
+        
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../../index.html">IfA_Smeargle</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="../../../index.html" class="icon icon-home"></a> &raquo;</li>
+        
+          <li><a href="../../index.html">Module code</a> &raquo;</li>
+        
+      <li>ifa_smeargle.plotting.base_functions</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <h1>Source code for ifa_smeargle.plotting.base_functions</h1><div class="highlight"><pre>
+<span></span>
+<span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">These are the base functions that are common to the entire plotting</span>
+<span class="sd">functionality.</span>
+<span class="sd">&quot;&quot;&quot;</span>
+
+<span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="nn">plt</span>
+
+<span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+<span class="kn">import</span> <span class="nn">numpy.ma</span> <span class="k">as</span> <span class="nn">np_ma</span>
+
+<span class="kn">import</span> <span class="nn">ifa_smeargle.core</span> <span class="k">as</span> <span class="nn">core</span>
+<span class="kn">import</span> <span class="nn">ifa_smeargle.analysis</span> <span class="k">as</span> <span class="nn">analysis</span>
+
+
+<div class="viewcode-block" id="write_plot_file"><a class="viewcode-back" href="../../../docstrings/ifa_smeargle.plotting.base_functions.html#ifa_smeargle.plotting.base_functions.write_plot_file">[docs]</a><span class="k">def</span> <span class="nf">write_plot_file</span><span class="p">(</span><span class="n">file_name</span><span class="p">,</span> <span class="n">figure</span><span class="p">,</span> <span class="n">title</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">close_figure</span><span class="o">=</span><span class="kc">True</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot; This function just saves a figure to a file to a name </span>
+<span class="sd">    provided.</span>
+
+<span class="sd">    Because of some oddities with Matplotlib, saving a file within </span>
+<span class="sd">    a function and exiting said function (or overwriting in a loop </span>
+<span class="sd">    its variable) with a new figure causes two figures to be saved </span>
+<span class="sd">    in parallel. This is very memory intensive, so closing a saved </span>
+<span class="sd">    figure is ideal. This function does this by default.</span>
+
+<span class="sd">    See https://stackoverflow.com/a/8862575 and </span>
+<span class="sd">    https://cutt.ly/gyK4HlE for more information.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    file_name : string</span>
+<span class="sd">        This is the file string name for the figure to be saved. It </span>
+<span class="sd">        should already have the appropriate extension. If not, it </span>
+<span class="sd">        defaults to the configuration default. </span>
+<span class="sd">    figure : Matplotlib Figure</span>
+<span class="sd">        This is the figure to be saved to a file.</span>
+<span class="sd">    title : string (optional)</span>
+<span class="sd">        This is the title for the figure plot. Although it can be </span>
+<span class="sd">        added from here, it is not advised; the original function </span>
+<span class="sd">        creating the plot should do it instead.</span>
+<span class="sd">    close_figure : boolean (optional)</span>
+<span class="sd">        This specifies if the figure should be closed. Given that </span>
+<span class="sd">        this function is built for that, this should not be changed.</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    Nothing</span>
+
+<span class="sd">    Note</span>
+<span class="sd">    ----</span>
+<span class="sd">    The file type checking logic is not the smartest implementation.</span>
+<span class="sd">    </span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="c1"># Warn about the build up of memory if the figure is not closed.</span>
+    <span class="k">if</span> <span class="p">(</span><span class="ow">not</span> <span class="n">close_figure</span><span class="p">):</span>
+        <span class="n">core</span><span class="o">.</span><span class="n">error</span><span class="o">.</span><span class="n">ifas_warning</span><span class="p">(</span><span class="n">core</span><span class="o">.</span><span class="n">error</span><span class="o">.</span><span class="n">MemoryWarning</span><span class="p">,</span> 
+                                <span class="p">(</span><span class="s2">&quot;The figure will not be released from RAM. &quot;</span>
+                                 <span class="s2">&quot;An excessive amount of figures will be &quot;</span>
+                                 <span class="s2">&quot;very memory intensive. Why this function &quot;</span>
+                                 <span class="s2">&quot;is being used without its closing &quot;</span>
+                                 <span class="s2">&quot;functionality, Sparrow does not know.&quot;</span><span class="p">))</span>
+
+    <span class="c1"># Checking or applying file ending configuration.</span>
+    <span class="n">supported_file_types</span> <span class="o">=</span> <span class="n">figure</span><span class="o">.</span><span class="n">canvas</span><span class="o">.</span><span class="n">get_supported_filetypes</span><span class="p">()</span>
+    <span class="n">supported_file_types</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="n">supported_file_types</span><span class="o">.</span><span class="n">keys</span><span class="p">())</span>
+    <span class="k">if</span> <span class="p">(</span><span class="nb">any</span><span class="p">((</span><span class="s1">&#39;.&#39;</span> <span class="o">+</span> <span class="n">typedex</span><span class="p">)</span> <span class="ow">in</span> <span class="n">file_name</span><span class="p">[</span><span class="o">-</span><span class="mi">7</span><span class="p">:]</span> 
+            <span class="k">for</span> <span class="n">typedex</span> <span class="ow">in</span> <span class="n">supported_file_types</span><span class="p">)):</span>
+        <span class="c1"># The there seems to be a supported file type already in </span>
+        <span class="c1"># here.</span>
+        <span class="k">pass</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="c1"># There does not seem to be an appropriate file extension. </span>
+
+        <span class="n">file_name</span> <span class="o">=</span> <span class="n">core</span><span class="o">.</span><span class="n">strformat</span><span class="o">.</span><span class="n">combine_pathname</span><span class="p">(</span>
+            <span class="n">file_name</span><span class="o">=</span><span class="p">[</span><span class="n">file_name</span><span class="p">],</span> <span class="n">extension</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;.pdf&#39;</span><span class="p">])</span>
+
+    <span class="c1"># Apply the title if provided. If the format isn&#39;t applicable, </span>
+    <span class="c1"># ignore the input.</span>
+    <span class="k">if</span> <span class="p">(</span><span class="n">title</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">):</span>
+        <span class="k">if</span> <span class="p">(</span><span class="nb">isinstance</span><span class="p">(</span><span class="n">title</span><span class="p">,</span> <span class="nb">str</span><span class="p">)):</span>
+            <span class="n">figure</span><span class="o">.</span><span class="n">suptitle</span><span class="p">(</span><span class="n">title</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="c1"># Doesn&#39;t seem to be a string...</span>
+            <span class="n">core</span><span class="o">.</span><span class="n">error</span><span class="o">.</span><span class="n">ifas_warning</span><span class="p">(</span><span class="n">core</span><span class="o">.</span><span class="n">error</span><span class="o">.</span><span class="n">InputWarning</span><span class="p">,</span>
+                                    <span class="p">(</span><span class="s2">&quot;The title parameter has been provided, &quot;</span>
+                                     <span class="s2">&quot;but as it is not a string, it cannot &quot;</span>
+                                     <span class="s2">&quot;be applied to the figure. The title &quot;</span>
+                                     <span class="s2">&quot;will not be applied.&quot;</span><span class="p">))</span>
+
+    <span class="c1"># Save to file then remove figure from RAM if specified.</span>
+    <span class="n">figure</span><span class="o">.</span><span class="n">savefig</span><span class="p">(</span><span class="n">file_name</span><span class="p">,</span> <span class="n">bbox_inches</span><span class="o">=</span><span class="s1">&#39;tight&#39;</span><span class="p">)</span>
+    <span class="k">if</span> <span class="p">(</span><span class="n">close_figure</span><span class="p">):</span>
+        <span class="n">plt</span><span class="o">.</span><span class="n">close</span><span class="p">(</span><span class="n">figure</span><span class="p">)</span>
+        <span class="k">del</span> <span class="n">figure</span>
+        <span class="c1"># Inform of the saved and released RAM from the figure.</span>
+        <span class="n">core</span><span class="o">.</span><span class="n">error</span><span class="o">.</span><span class="n">ifas_info</span><span class="p">(</span><span class="s2">&quot;The figure `</span><span class="si">{fig_name}</span><span class="s2">` has been saved to &quot;</span>
+                             <span class="s2">&quot;disk and the figure instance has been &quot;</span>
+                             <span class="s2">&quot;released from memory.&quot;</span>
+                             <span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">fig_name</span><span class="o">=</span><span class="n">file_name</span><span class="p">))</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="c1"># The figure was saved, but the ram was not released.</span>
+        <span class="n">core</span><span class="o">.</span><span class="n">error</span><span class="o">.</span><span class="n">ifas_info</span><span class="p">(</span><span class="s2">&quot;The figure `</span><span class="si">{fig_name}</span><span class="s2">` has been saved to &quot;</span>
+                             <span class="s2">&quot;disk. The figure instance still was not &quot;</span>
+                             <span class="s2">&quot;and may still exist in and use memory.&quot;</span>
+                             <span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">fig_name</span><span class="o">=</span><span class="n">file_name</span><span class="p">))</span>
+
+    <span class="c1"># All done.</span>
+    <span class="k">return</span> <span class="kc">None</span></div>
+
+
+<div class="viewcode-block" id="create_directory_plot_files"><a class="viewcode-back" href="../../../docstrings/ifa_smeargle.plotting.base_functions.html#ifa_smeargle.plotting.base_functions.create_directory_plot_files">[docs]</a><span class="k">def</span> <span class="nf">create_directory_plot_files</span><span class="p">(</span><span class="n">data_directory</span><span class="p">,</span> <span class="n">plotting_function</span><span class="p">,</span>
+                                <span class="n">figure_arguments</span><span class="p">,</span>
+                                <span class="n">plot_arguments</span><span class="p">,</span> <span class="n">matplotlib_arguments</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot; This function is the common function to create plots for </span>
+<span class="sd">    all analysis fits files.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    data_directory : string</span>
+<span class="sd">        The data directory by which all of data for the analysis</span>
+<span class="sd">        is contained within.</span>
+<span class="sd">    plotting_function : function</span>
+<span class="sd">        This is the plotting function that will be applied to all</span>
+<span class="sd">        analysis fits files. </span>
+<span class="sd">    figure_arguments : dictionary</span>
+<span class="sd">        The plotting arguments that will be sent to the function</span>
+<span class="sd">        that creates the function.s</span>
+<span class="sd">    plot_arguments : dictionary</span>
+<span class="sd">        Custom arguments that shall be given to the plotting </span>
+<span class="sd">        function. For arguments that should be sent to the </span>
+<span class="sd">        matplotlib function, use `matplotlib_arguments`.</span>
+<span class="sd">    matplotlib_arguments : dictionary</span>
+<span class="sd">        Custom arguments that shall be given to the matplotlib </span>
+<span class="sd">        functions. For arguments that should be sent to the </span>
+<span class="sd">        plotting function, use `plot_arguments`.</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    None</span>
+<span class="sd">    </span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="c1"># Obtain all of the analysis files within the data directory </span>
+    <span class="c1"># provided.</span>
+    <span class="n">analysis_file_list</span> <span class="o">=</span> <span class="n">analysis</span><span class="o">.</span><span class="n">base</span><span class="o">.</span><span class="n">get_analysis_fits_filenames</span><span class="p">(</span>
+        <span class="n">data_directory</span><span class="o">=</span><span class="n">data_directory</span><span class="p">,</span> <span class="n">recursive</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+
+    <span class="c1"># For each of the files, read them, plot, and write the plot</span>
+    <span class="c1"># to file.</span>
+    <span class="k">for</span> <span class="n">filedex</span> <span class="ow">in</span> <span class="n">analysis_file_list</span><span class="p">:</span>
+        <span class="c1"># Read the file into memory.</span>
+        <span class="n">__</span><span class="p">,</span> <span class="n">hdu_header</span><span class="p">,</span> <span class="n">hdu_data</span><span class="o">=</span> <span class="n">core</span><span class="o">.</span><span class="n">io</span><span class="o">.</span><span class="n">read_fits_file</span><span class="p">(</span><span class="n">file_name</span><span class="o">=</span><span class="n">filedex</span><span class="p">,</span> 
+                                                         <span class="n">silent</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+        <span class="c1"># If the data array has a mask, then it will be shown as</span>
+        <span class="c1"># nans. Masked arrays are the best way to handle this.</span>
+        <span class="n">masked_array</span> <span class="o">=</span> <span class="n">np_ma</span><span class="o">.</span><span class="n">fix_invalid</span><span class="p">(</span><span class="n">hdu_data</span><span class="p">)</span>
+        <span class="n">raw_data</span> <span class="o">=</span> <span class="n">np_ma</span><span class="o">.</span><span class="n">getdata</span><span class="p">(</span><span class="n">masked_array</span><span class="p">)</span>
+        <span class="n">mask</span> <span class="o">=</span> <span class="n">np_ma</span><span class="o">.</span><span class="n">getmaskarray</span><span class="p">(</span><span class="n">masked_array</span><span class="p">)</span>
+
+        <span class="c1"># Creating the figure that will be saved.</span>
+        <span class="n">fig</span><span class="p">,</span> <span class="n">ax</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span><span class="o">**</span><span class="n">figure_arguments</span><span class="p">)</span>
+
+        <span class="c1"># Run the plotting function to create the plot that is </span>
+        <span class="c1"># desired.</span>
+        <span class="n">plot</span> <span class="o">=</span> <span class="n">plotting_function</span><span class="p">(</span><span class="n">data_array</span><span class="o">=</span><span class="n">hdu_data</span><span class="p">,</span> <span class="n">data_header</span><span class="o">=</span><span class="n">hdu_header</span><span class="p">,</span> 
+                                 <span class="n">data_mask</span><span class="o">=</span><span class="n">mask</span><span class="p">,</span> <span class="n">figure_axes</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+                                 <span class="n">matplotlib_arguments</span><span class="o">=</span><span class="n">matplotlib_arguments</span><span class="p">,</span>
+                                 <span class="o">**</span><span class="n">plot_arguments</span><span class="p">)</span>
+        <span class="n">ax</span> <span class="o">=</span> <span class="n">plot</span>
+
+        <span class="c1"># The file name of the plot. The core will generally be the </span>
+        <span class="c1"># root file name. The second path name split removes the</span>
+        <span class="c1"># .analysis from the file name as well.</span>
+        <span class="nb">dir</span><span class="p">,</span> <span class="n">file_analysis</span><span class="p">,</span> <span class="n">__</span> <span class="o">=</span> <span class="n">core</span><span class="o">.</span><span class="n">strformat</span><span class="o">.</span><span class="n">split_pathname</span><span class="p">(</span><span class="n">pathname</span><span class="o">=</span><span class="n">filedex</span><span class="p">)</span>
+        <span class="n">__</span><span class="p">,</span> <span class="n">file</span><span class="p">,</span> <span class="n">__</span> <span class="o">=</span> <span class="n">core</span><span class="o">.</span><span class="n">strformat</span><span class="o">.</span><span class="n">split_pathname</span><span class="p">(</span><span class="n">pathname</span><span class="o">=</span><span class="n">file_analysis</span><span class="p">)</span>
+        <span class="n">figure_filename</span> <span class="o">=</span> <span class="n">core</span><span class="o">.</span><span class="n">strformat</span><span class="o">.</span><span class="n">combine_pathname</span><span class="p">(</span>
+            <span class="n">directory</span><span class="o">=</span><span class="p">[</span><span class="nb">dir</span><span class="p">],</span>
+            <span class="n">file_name</span><span class="o">=</span><span class="p">[</span><span class="n">file</span><span class="p">,</span> <span class="s1">&#39;__&#39;</span><span class="p">,</span> <span class="n">plotting_function</span><span class="o">.</span><span class="vm">__name__</span><span class="p">])</span>
+
+        <span class="c1"># Save the plot to file.</span>
+        <span class="n">write_plot_file</span><span class="p">(</span><span class="n">file_name</span><span class="o">=</span><span class="n">figure_filename</span><span class="p">,</span> <span class="n">figure</span><span class="o">=</span><span class="n">fig</span><span class="p">,</span> 
+                        <span class="n">title</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">close_figure</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span></div>
+
+    <span class="c1"># All done?</span>
+</pre></div>
+
+           </div>
+           
+          </div>
+          <footer>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        
+        &copy; Copyright 2020, Sparrow
+
+    </p>
+  </div>
+    
+    
+    
+    Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a
+    
+    <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a>
+    
+    provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+
+  
+  
+    
+   
+
+</body>
+</html>

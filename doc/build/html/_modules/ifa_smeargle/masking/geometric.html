@@ -1,0 +1,478 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>ifa_smeargle.masking.geometric &mdash; IfA_Smeargle 2020 documentation</title>
+  
+
+  
+  <link rel="stylesheet" href="../../../_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
+  <link rel="stylesheet" href="../../../_static/css/custom.css" type="text/css" />
+
+  
+  
+  
+  
+
+  
+  <!--[if lt IE 9]>
+    <script src="../../../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+    
+      <script type="text/javascript" id="documentation_options" data-url_root="../../../" src="../../../_static/documentation_options.js"></script>
+        <script src="../../../_static/jquery.js"></script>
+        <script src="../../../_static/underscore.js"></script>
+        <script src="../../../_static/doctools.js"></script>
+        <script src="../../../_static/language_data.js"></script>
+    
+    <script type="text/javascript" src="../../../_static/js/theme.js"></script>
+
+    
+    <link rel="index" title="Index" href="../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../search.html" /> 
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+          
+
+          
+            <a href="../../../index.html" class="icon icon-home" alt="Documentation Home"> IfA_Smeargle
+          
+
+          
+          </a>
+
+          
+            
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <p class="caption"><span class="caption-text">Code Documentation:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../docstrings/modules.html">ifa_smeargle</a></li>
+</ul>
+
+            
+          
+        </div>
+        
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../../index.html">IfA_Smeargle</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="../../../index.html" class="icon icon-home"></a> &raquo;</li>
+        
+          <li><a href="../../index.html">Module code</a> &raquo;</li>
+        
+      <li>ifa_smeargle.masking.geometric</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <h1>Source code for ifa_smeargle.masking.geometric</h1><div class="highlight"><pre>
+<span></span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">These are masks that are applied in a purely geometric method.</span>
+<span class="sd">&quot;&quot;&quot;</span>
+
+<span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+
+<span class="kn">import</span> <span class="nn">ifa_smeargle.core</span> <span class="k">as</span> <span class="nn">core</span>
+<span class="kn">import</span> <span class="nn">ifa_smeargle.masking</span> <span class="k">as</span> <span class="nn">mask</span>
+
+<div class="viewcode-block" id="mask_single_pixels"><a class="viewcode-back" href="../../../docstrings/ifa_smeargle.masking.geometric.html#ifa_smeargle.masking.geometric.mask_single_pixels">[docs]</a><span class="k">def</span> <span class="nf">mask_single_pixels</span><span class="p">(</span><span class="n">data_array</span><span class="p">,</span> <span class="n">column_indexes</span><span class="p">,</span> <span class="n">row_indexes</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot; This applies a single mask on a single pixel(s)</span>
+
+<span class="sd">    As the name implies, this function masks a single pixel value or </span>
+<span class="sd">    a list of single pixel pairs. </span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    data_array : ndarray</span>
+<span class="sd">        The data array that the mask will be calculated from.</span>
+<span class="sd">    column_indexes : list or ndarray</span>
+<span class="sd">        The successive 0-indexed list of column indexes that specify </span>
+<span class="sd">        the pixel to be masked.</span>
+<span class="sd">    row_indexes : list or ndarray</span>
+<span class="sd">        The successive 0-indexed list of row indexes that specify the </span>
+<span class="sd">        pixel to be masked.</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    final_mask : ndarray -&gt; dictionary</span>
+<span class="sd">        A boolean array for pixels that are masked (True) or are </span>
+<span class="sd">        valid (False).</span>
+
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="c1"># Flatten the column and row indexes in the event that they are </span>
+    <span class="c1"># stacked?</span>
+    <span class="n">column_indexes</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">ravel</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">column_indexes</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="nb">int</span><span class="p">))</span>
+    <span class="n">row_indexes</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">ravel</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">row_indexes</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="nb">int</span><span class="p">))</span>
+
+    <span class="c1"># Input validation. Both should be ordered pairs and thus have </span>
+    <span class="c1"># the same size.</span>
+    <span class="k">if</span> <span class="p">(</span><span class="n">column_indexes</span><span class="o">.</span><span class="n">size</span> <span class="o">!=</span> <span class="n">row_indexes</span><span class="o">.</span><span class="n">size</span><span class="p">):</span>
+        <span class="k">raise</span> <span class="n">core</span><span class="o">.</span><span class="n">error</span><span class="o">.</span><span class="n">ConfigurationError</span><span class="p">(</span><span class="s2">&quot;The column and row indexes &quot;</span>
+                                            <span class="s2">&quot;should be parallel arrays, the &quot;</span>
+                                            <span class="s2">&quot;current inputs are of &quot;</span>
+                                            <span class="s2">&quot;different length. &quot;</span>
+                                            <span class="s2">&quot;</span><span class="se">\n</span><span class="s2"> Column:  </span><span class="si">{col_index}</span><span class="s2">  &quot;</span>
+                                            <span class="s2">&quot;</span><span class="se">\n</span><span class="s2"> Row:  </span><span class="si">{row_index}</span><span class="s2">&quot;</span>
+                                            <span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">col_index</span><span class="o">=</span><span class="n">column_indexes</span><span class="p">,</span> 
+                                                    <span class="n">row_index</span><span class="o">=</span><span class="n">row_indexes</span><span class="p">))</span>
+    
+    <span class="c1"># Taking a template mask to then change.</span>
+    <span class="n">masked_array</span> <span class="o">=</span> <span class="n">mask_nothing</span><span class="p">(</span><span class="n">data_array</span><span class="o">=</span><span class="n">data_array</span><span class="p">)</span>
+
+    <span class="c1"># Loop over all of the pixel pairs, making as you proceed.</span>
+    <span class="k">for</span> <span class="n">columndex</span><span class="p">,</span> <span class="n">rowdex</span> <span class="ow">in</span> <span class="nb">zip</span><span class="p">(</span><span class="n">column_indexes</span><span class="p">,</span> <span class="n">row_indexes</span><span class="p">):</span>
+        <span class="n">masked_array</span><span class="p">[</span><span class="n">columndex</span><span class="p">,</span><span class="n">rowdex</span><span class="p">]</span> <span class="o">=</span> <span class="kc">True</span>
+
+    <span class="c1"># Finished.</span>
+    <span class="n">final_mask</span> <span class="o">=</span> <span class="n">masked_array</span>
+    <span class="k">return</span> <span class="n">final_mask</span></div>
+
+<div class="viewcode-block" id="mask_rectangle"><a class="viewcode-back" href="../../../docstrings/ifa_smeargle.masking.geometric.html#ifa_smeargle.masking.geometric.mask_rectangle">[docs]</a><span class="k">def</span> <span class="nf">mask_rectangle</span><span class="p">(</span><span class="n">data_array</span><span class="p">,</span> <span class="n">column_range</span><span class="p">,</span> <span class="n">row_range</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot; This mask function applies rectangular masks to the data </span>
+<span class="sd">    array.</span>
+
+<span class="sd">    The rectangles defined by subsequent xy-ranges (0-indexed) are </span>
+<span class="sd">    masked. The rectangle bounds provided are also masked as the </span>
+<span class="sd">    rectangle is inclusive of said bounds. </span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    data_array : ndarray</span>
+<span class="sd">        The data array that the mask will be calculated from. </span>
+<span class="sd">    column_range : list or ndarray</span>
+<span class="sd">        The range of 0-indexed columns to be masked.</span>
+<span class="sd">    row_range : list or ndarray</span>
+<span class="sd">        The range of 0-indexed row to be masked.</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    final_mask : ndarray -&gt; dictionary</span>
+<span class="sd">        A boolean array for pixels that are masked (True) or are </span>
+<span class="sd">        valid (False).</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="c1"># Validating the input.</span>
+    <span class="n">column_range</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">column_range</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="nb">int</span><span class="p">)</span>
+    <span class="n">row_range</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">row_range</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="nb">int</span><span class="p">)</span>
+
+    <span class="c1"># Check if the sizes of columns and rows are wrong.</span>
+    <span class="k">if</span> <span class="p">(</span><span class="n">column_range</span><span class="o">.</span><span class="n">size</span> <span class="o">&gt;</span> <span class="mi">2</span><span class="p">):</span>
+        <span class="n">core</span><span class="o">.</span><span class="n">error</span><span class="o">.</span><span class="n">ifas_warning</span><span class="p">(</span><span class="n">core</span><span class="o">.</span><span class="n">error</span><span class="o">.</span><span class="n">ConfigurationWarning</span><span class="p">,</span>
+                                <span class="p">(</span><span class="s2">&quot;There are more than two entries in the &quot;</span>
+                                 <span class="s2">&quot;column range. Only the first and last &quot;</span>
+                                 <span class="s2">&quot;entry will be considered as the bounds.&quot;</span><span class="p">))</span>
+    <span class="k">if</span> <span class="p">(</span><span class="n">row_range</span><span class="o">.</span><span class="n">size</span> <span class="o">&gt;</span> <span class="mi">2</span><span class="p">):</span>
+        <span class="n">core</span><span class="o">.</span><span class="n">error</span><span class="o">.</span><span class="n">ifas_warning</span><span class="p">(</span><span class="n">core</span><span class="o">.</span><span class="n">error</span><span class="o">.</span><span class="n">ConfigurationWarning</span><span class="p">,</span>
+                                <span class="p">(</span><span class="s2">&quot;There are more than two entries in the &quot;</span>
+                                 <span class="s2">&quot;row range. Only the first and last entry &quot;</span>
+                                 <span class="s2">&quot;will be considered as the bounds.&quot;</span><span class="p">))</span>
+
+    <span class="c1"># Extract a blank mask as a template.</span>
+    <span class="n">masked_array</span> <span class="o">=</span> <span class="n">mask_nothing</span><span class="p">(</span><span class="n">data_array</span><span class="o">=</span><span class="n">data_array</span><span class="p">)</span>
+
+    <span class="c1"># Mask rectangle inclusively.</span>
+    <span class="n">masked_array</span><span class="p">[</span><span class="n">row_range</span><span class="p">[</span><span class="mi">0</span><span class="p">]:</span><span class="n">row_range</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span> <span class="o">+</span> <span class="mi">1</span><span class="p">,</span> 
+                 <span class="n">column_range</span><span class="p">[</span><span class="mi">0</span><span class="p">]:</span><span class="n">column_range</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span> <span class="o">+</span> <span class="mi">1</span><span class="p">]</span> <span class="o">=</span> <span class="kc">True</span>
+
+    <span class="c1"># And returning.</span>
+    <span class="n">final_mask</span> <span class="o">=</span> <span class="n">masked_array</span>
+
+    <span class="k">return</span> <span class="n">final_mask</span></div>
+
+<div class="viewcode-block" id="mask_subarray"><a class="viewcode-back" href="../../../docstrings/ifa_smeargle.masking.geometric.html#ifa_smeargle.masking.geometric.mask_subarray">[docs]</a><span class="k">def</span> <span class="nf">mask_subarray</span><span class="p">(</span><span class="n">data_array</span><span class="p">,</span> <span class="n">column_range</span><span class="p">,</span> <span class="n">row_range</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot; This applies a mask on the entire array except for a single </span>
+<span class="sd">    sub-array rectangle. </span>
+
+<span class="sd">    This function subsets a sub-array of the data array from a </span>
+<span class="sd">    mask. Only one sub-array can be defined using this function. </span>
+<span class="sd">    The bounds of the sub-array is inclusively defined by the </span>
+<span class="sd">    x-ranges and y-ranges.</span>
+
+<span class="sd">    If you want to mask a rectangular section of your array, use </span>
+<span class="sd">    `mask_rectangle`.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    data_array : ndarray</span>
+<span class="sd">        The data array that the mask will be calculated from. </span>
+<span class="sd">    column_range : list or ndarray</span>
+<span class="sd">        The inclusive column bounds of the sub-array.</span>
+<span class="sd">    row_range : list or ndarray</span>
+<span class="sd">        The inclusive row bounds of the sub-array.</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    final_mask : ndarray -&gt; dictionary</span>
+<span class="sd">        A boolean array for pixels that are masked (True) or are </span>
+<span class="sd">        valid (False).</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="c1"># Data reformatting.</span>
+    <span class="n">column_range</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">column_range</span><span class="p">)</span>
+    <span class="n">row_range</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">row_range</span><span class="p">)</span>
+
+    <span class="c1"># A sub-array mask is practically the opposite of a rectangle </span>
+    <span class="c1"># mask. As such will be the implementation of it.</span>
+    <span class="n">masked_array</span> <span class="o">=</span> <span class="n">mask_rectangle</span><span class="p">(</span><span class="n">data_array</span><span class="o">=</span><span class="n">data_array</span><span class="p">,</span>
+                                  <span class="n">column_range</span><span class="o">=</span><span class="n">column_range</span><span class="p">,</span> 
+                                  <span class="n">row_range</span><span class="o">=</span><span class="n">row_range</span><span class="p">)</span>
+    <span class="n">final_mask</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">logical_not</span><span class="p">(</span><span class="n">masked_array</span><span class="p">)</span>    
+    <span class="k">return</span> <span class="n">final_mask</span></div>
+
+<div class="viewcode-block" id="mask_columns"><a class="viewcode-back" href="../../../docstrings/ifa_smeargle.masking.geometric.html#ifa_smeargle.masking.geometric.mask_columns">[docs]</a><span class="k">def</span> <span class="nf">mask_columns</span><span class="p">(</span><span class="n">data_array</span><span class="p">,</span> <span class="n">column_list</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot; This applies a column mask on the data array provided its </span>
+<span class="sd">    locations.</span>
+
+<span class="sd">    The column mask takes a list of column numbers (0-indexed x-axis </span>
+<span class="sd">    values). All pixels within these columns are then masked. </span>
+
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    data_array : ndarray</span>
+<span class="sd">        The data array that the mask will be calculated from. </span>
+<span class="sd">    column_list : list or ndarray</span>
+<span class="sd">        The list of column x-axis values that will be masked. Should </span>
+<span class="sd">        be 0-indexed.</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    final_mask : ndarray -&gt; dictionary</span>
+<span class="sd">        A boolean array for pixels that are masked (True) or are </span>
+<span class="sd">        valid (False).</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="c1"># Extract a blank mask as a template.</span>
+    <span class="n">masked_array</span> <span class="o">=</span> <span class="n">mask_nothing</span><span class="p">(</span><span class="n">data_array</span><span class="o">=</span><span class="n">data_array</span><span class="p">)</span>
+
+    <span class="c1"># Masking the columns</span>
+    <span class="k">for</span> <span class="n">columndex</span> <span class="ow">in</span> <span class="n">column_list</span><span class="p">:</span>
+        <span class="n">masked_array</span><span class="p">[:,</span><span class="n">columndex</span><span class="p">]</span> <span class="o">=</span> <span class="kc">True</span>
+
+    <span class="c1"># And returning.</span>
+    <span class="n">final_mask</span> <span class="o">=</span> <span class="n">masked_array</span>
+    <span class="k">return</span> <span class="n">final_mask</span></div>
+
+<div class="viewcode-block" id="mask_rows"><a class="viewcode-back" href="../../../docstrings/ifa_smeargle.masking.geometric.html#ifa_smeargle.masking.geometric.mask_rows">[docs]</a><span class="k">def</span> <span class="nf">mask_rows</span><span class="p">(</span><span class="n">data_array</span><span class="p">,</span> <span class="n">row_list</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot; This applies a row mask on the data array provided its </span>
+<span class="sd">    locations.</span>
+
+<span class="sd">    The row mask takes a list of column numbers (0-indexed x-axis </span>
+<span class="sd">    values). All pixels within these rows are then masked. </span>
+
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    data_array : ndarray</span>
+<span class="sd">        The data array that the mask will be calculated from. </span>
+<span class="sd">    row_list : list or ndarray</span>
+<span class="sd">        The list of row y-axis values that will be masked. Should be </span>
+<span class="sd">        0-indexed.</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    final_mask : ndarray</span>
+<span class="sd">        A boolean array for pixels that are masked (True) or are </span>
+<span class="sd">        valid (False).</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="c1"># Extract a blank mask as a template.</span>
+    <span class="n">masked_array</span> <span class="o">=</span> <span class="n">mask_nothing</span><span class="p">(</span><span class="n">data_array</span><span class="o">=</span><span class="n">data_array</span><span class="p">)</span>
+
+    <span class="c1"># Masking the rows</span>
+    <span class="k">for</span> <span class="n">rowdex</span> <span class="ow">in</span> <span class="n">row_list</span><span class="p">:</span>
+        <span class="n">masked_array</span><span class="p">[</span><span class="n">rowdex</span><span class="p">,:]</span> <span class="o">=</span> <span class="kc">True</span>
+
+    <span class="c1"># And returning.</span>
+    <span class="n">final_mask</span> <span class="o">=</span> <span class="n">masked_array</span>
+    <span class="k">return</span> <span class="n">final_mask</span></div>
+
+<div class="viewcode-block" id="mask_nothing"><a class="viewcode-back" href="../../../docstrings/ifa_smeargle.masking.geometric.html#ifa_smeargle.masking.geometric.mask_nothing">[docs]</a><span class="k">def</span> <span class="nf">mask_nothing</span><span class="p">(</span><span class="n">data_array</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot; This applies a blanket blank (all pixels are valid) mask on </span>
+<span class="sd">    the data array.</span>
+
+<span class="sd">    As the name says, this applies a mask...to...well...nothing. As </span>
+<span class="sd">    such, all that is returned is a blank mask.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    data_array : ndarray</span>
+<span class="sd">        The data array that the mask will be calculated from. </span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    final_mask : ndarray</span>
+<span class="sd">        A boolean array for pixels that are masked (True) or are </span>
+<span class="sd">        valid (False).</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="n">array_shape</span> <span class="o">=</span> <span class="n">data_array</span><span class="o">.</span><span class="n">shape</span>
+    <span class="n">final_mask</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">full</span><span class="p">(</span><span class="n">array_shape</span><span class="p">,</span> <span class="kc">False</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="nb">bool</span><span class="p">)</span>
+
+    <span class="k">return</span> <span class="n">final_mask</span></div>
+
+<div class="viewcode-block" id="mask_everything"><a class="viewcode-back" href="../../../docstrings/ifa_smeargle.masking.geometric.html#ifa_smeargle.masking.geometric.mask_everything">[docs]</a><span class="k">def</span> <span class="nf">mask_everything</span><span class="p">(</span><span class="n">data_array</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot; This applies a blanket blank (all pixels are valid) mask on </span>
+<span class="sd">    the data array.</span>
+
+<span class="sd">    As the name says, this applies a mask...to...well...everything. </span>
+<span class="sd">    As such, all that is returned is a full mask.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    data_array : ndarray</span>
+<span class="sd">        The data array that the mask will be calculated from. </span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    final_mask : ndarray</span>
+<span class="sd">        A boolean array for pixels that are masked (True) or are </span>
+<span class="sd">        valid (False).</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="n">array_shape</span> <span class="o">=</span> <span class="n">data_array</span><span class="o">.</span><span class="n">shape</span>
+    <span class="n">final_mask</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">full</span><span class="p">(</span><span class="n">array_shape</span><span class="p">,</span> <span class="kc">True</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="nb">bool</span><span class="p">)</span>
+
+    <span class="k">return</span> <span class="n">final_mask</span></div>
+
+
+
+
+
+
+
+
+
+
+
+
+</pre></div>
+
+           </div>
+           
+          </div>
+          <footer>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        
+        &copy; Copyright 2020, Sparrow
+
+    </p>
+  </div>
+    
+    
+    
+    Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a
+    
+    <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a>
+    
+    provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+
+  
+  
+    
+   
+
+</body>
+</html>

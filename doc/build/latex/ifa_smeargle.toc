@@ -1,0 +1,61 @@
+\babel@toc {english}{}
+\contentsline {chapter}{\numberline {1}ifa\_smeargle}{3}{chapter.1}%
+\contentsline {section}{\numberline {1.1}ifa\_smeargle package}{3}{section.1.1}%
+\contentsline {subsection}{\numberline {1.1.1}Subpackages}{3}{subsection.1.1.1}%
+\contentsline {subsubsection}{\numberline {1.1.1.1}ifa\_smeargle.analysis package}{3}{subsubsection.1.1.1.1}%
+\contentsline {paragraph}{Submodules}{3}{paragraph*.3}%
+\contentsline {subparagraph}{ifa\_smeargle.analysis.base\_functions module}{3}{subparagraph*.4}%
+\contentsline {subparagraph}{ifa\_smeargle.analysis.heatmap module}{5}{subparagraph*.10}%
+\contentsline {subparagraph}{ifa\_smeargle.analysis.histogram module}{5}{subparagraph*.13}%
+\contentsline {paragraph}{Module contents}{6}{paragraph*.16}%
+\contentsline {subsubsection}{\numberline {1.1.1.2}ifa\_smeargle.core package}{6}{subsubsection.1.1.1.2}%
+\contentsline {paragraph}{Submodules}{6}{paragraph*.17}%
+\contentsline {subparagraph}{ifa\_smeargle.core.configuration module}{6}{subparagraph*.18}%
+\contentsline {subparagraph}{ifa\_smeargle.core.error module}{7}{subparagraph*.23}%
+\contentsline {subparagraph}{ifa\_smeargle.core.io module}{12}{subparagraph*.72}%
+\contentsline {subparagraph}{ifa\_smeargle.core.magic module}{15}{subparagraph*.82}%
+\contentsline {subparagraph}{ifa\_smeargle.core.mathematics module}{15}{subparagraph*.84}%
+\contentsline {subparagraph}{ifa\_smeargle.core.modeling module}{18}{subparagraph*.94}%
+\contentsline {subparagraph}{ifa\_smeargle.core.string\_formatting module}{19}{subparagraph*.97}%
+\contentsline {paragraph}{Module contents}{20}{paragraph*.104}%
+\contentsline {subsubsection}{\numberline {1.1.1.3}ifa\_smeargle.masking package}{20}{subsubsection.1.1.1.3}%
+\contentsline {paragraph}{Submodules}{20}{paragraph*.105}%
+\contentsline {subparagraph}{ifa\_smeargle.masking.base\_functions module}{20}{subparagraph*.106}%
+\contentsline {subparagraph}{ifa\_smeargle.masking.filters module}{22}{subparagraph*.112}%
+\contentsline {subparagraph}{ifa\_smeargle.masking.geometric module}{24}{subparagraph*.120}%
+\contentsline {subparagraph}{ifa\_smeargle.masking.scripting module}{26}{subparagraph*.128}%
+\contentsline {paragraph}{Module contents}{29}{paragraph*.146}%
+\contentsline {subsubsection}{\numberline {1.1.1.4}ifa\_smeargle.plotting package}{29}{subsubsection.1.1.1.4}%
+\contentsline {paragraph}{Submodules}{29}{paragraph*.147}%
+\contentsline {subparagraph}{ifa\_smeargle.plotting.base\_functions module}{29}{subparagraph*.148}%
+\contentsline {subparagraph}{ifa\_smeargle.plotting.heatmap module}{30}{subparagraph*.151}%
+\contentsline {subparagraph}{ifa\_smeargle.plotting.histogram module}{31}{subparagraph*.154}%
+\contentsline {paragraph}{Module contents}{32}{paragraph*.157}%
+\contentsline {subsubsection}{\numberline {1.1.1.5}ifa\_smeargle.reformat package}{32}{subsubsection.1.1.1.5}%
+\contentsline {paragraph}{Submodules}{32}{paragraph*.158}%
+\contentsline {subparagraph}{ifa\_smeargle.reformat.base\_functions module}{32}{subparagraph*.159}%
+\contentsline {subparagraph}{ifa\_smeargle.reformat.collapse module}{32}{subparagraph*.161}%
+\contentsline {subparagraph}{ifa\_smeargle.reformat.renaming module}{34}{subparagraph*.168}%
+\contentsline {subparagraph}{ifa\_smeargle.reformat.sanitization module}{37}{subparagraph*.179}%
+\contentsline {paragraph}{Module contents}{38}{paragraph*.182}%
+\contentsline {subsubsection}{\numberline {1.1.1.6}ifa\_smeargle.testing package}{38}{subsubsection.1.1.1.6}%
+\contentsline {paragraph}{Submodules}{38}{paragraph*.183}%
+\contentsline {subparagraph}{ifa\_smeargle.testing.base\_functions module}{38}{subparagraph*.184}%
+\contentsline {subparagraph}{ifa\_smeargle.testing.test\_global module}{38}{subparagraph*.186}%
+\contentsline {subparagraph}{ifa\_smeargle.testing.test\_numerical\_core\_mathematics module}{38}{subparagraph*.188}%
+\contentsline {subparagraph}{ifa\_smeargle.testing.test\_numerical\_filters module}{39}{subparagraph*.195}%
+\contentsline {subparagraph}{ifa\_smeargle.testing.test\_numerical\_masking module}{39}{subparagraph*.203}%
+\contentsline {paragraph}{Module contents}{40}{paragraph*.211}%
+\contentsline {subsubsection}{\numberline {1.1.1.7}ifa\_smeargle.tutorial package}{40}{subsubsection.1.1.1.7}%
+\contentsline {paragraph}{Submodules}{40}{paragraph*.212}%
+\contentsline {subparagraph}{ifa\_smeargle.tutorial.copying module}{40}{subparagraph*.213}%
+\contentsline {subparagraph}{ifa\_smeargle.tutorial.generation module}{40}{subparagraph*.214}%
+\contentsline {subparagraph}{ifa\_smeargle.tutorial.scripting module}{41}{subparagraph*.216}%
+\contentsline {paragraph}{Module contents}{41}{paragraph*.218}%
+\contentsline {subsection}{\numberline {1.1.2}Submodules}{41}{subsection.1.1.2}%
+\contentsline {subsubsection}{\numberline {1.1.2.1}ifa\_smeargle.runtime module}{41}{subsubsection.1.1.2.1}%
+\contentsline {subsubsection}{\numberline {1.1.2.2}ifa\_smeargle.special module}{42}{subsubsection.1.1.2.2}%
+\contentsline {subsection}{\numberline {1.1.3}Module contents}{43}{subsection.1.1.3}%
+\contentsline {chapter}{\numberline {2}Indices and tables}{45}{chapter.2}%
+\contentsline {chapter}{Python Module Index}{47}{section*.228}%
+\contentsline {chapter}{Index}{49}{section*.229}%
