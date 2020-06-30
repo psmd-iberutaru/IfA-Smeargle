@@ -1,0 +1,1179 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>ifa_smeargle.masking.scripting &mdash; IfA_Smeargle 2020 documentation</title>
+  
+
+  
+  <link rel="stylesheet" href="../../../_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
+  <link rel="stylesheet" href="../../../_static/css/custom.css" type="text/css" />
+
+  
+  
+  
+  
+
+  
+  <!--[if lt IE 9]>
+    <script src="../../../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+    
+      <script type="text/javascript" id="documentation_options" data-url_root="../../../" src="../../../_static/documentation_options.js"></script>
+        <script src="../../../_static/jquery.js"></script>
+        <script src="../../../_static/underscore.js"></script>
+        <script src="../../../_static/doctools.js"></script>
+        <script src="../../../_static/language_data.js"></script>
+    
+    <script type="text/javascript" src="../../../_static/js/theme.js"></script>
+
+    
+    <link rel="index" title="Index" href="../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../search.html" /> 
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+          
+
+          
+            <a href="../../../index.html" class="icon icon-home" alt="Documentation Home"> IfA_Smeargle
+          
+
+          
+          </a>
+
+          
+            
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <p class="caption"><span class="caption-text">Code Documentation:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../docstrings/modules.html">ifa_smeargle</a></li>
+</ul>
+
+            
+          
+        </div>
+        
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../../index.html">IfA_Smeargle</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="../../../index.html" class="icon icon-home"></a> &raquo;</li>
+        
+          <li><a href="../../index.html">Module code</a> &raquo;</li>
+        
+      <li>ifa_smeargle.masking.scripting</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <h1>Source code for ifa_smeargle.masking.scripting</h1><div class="highlight"><pre>
+<span></span>
+<span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">This contains the scripts of the masking functions.</span>
+<span class="sd">&quot;&quot;&quot;</span>
+<span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+<span class="kn">import</span> <span class="nn">os</span>
+<span class="kn">import</span> <span class="nn">string</span>
+
+<span class="kn">import</span> <span class="nn">ifa_smeargle.core</span> <span class="k">as</span> <span class="nn">core</span>
+<span class="kn">import</span> <span class="nn">ifa_smeargle.masking</span> <span class="k">as</span> <span class="nn">mask</span>
+
+
+<span class="c1"># The scripts of the masks.</span>
+<div class="viewcode-block" id="script_mask_single_pixels"><a class="viewcode-back" href="../../../docstrings/ifa_smeargle.masking.scripting.html#ifa_smeargle.masking.scripting.script_mask_single_pixels">[docs]</a><span class="k">def</span> <span class="nf">script_mask_single_pixels</span><span class="p">(</span><span class="n">config</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot; The scripting version of `mask_single_pixels`. This function </span>
+<span class="sd">    applies the mask to the entire directory (or single file). It </span>
+<span class="sd">    also adds the tags to the header file of each fits file </span>
+<span class="sd">    indicating the number of pixels masked for this mask.</span>
+<span class="sd">    </span>
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    config : ConfigObj</span>
+<span class="sd">        The configuration object that is to be used for this </span>
+<span class="sd">        function.</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    None</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="c1"># Extract the global configuration parameters, including </span>
+    <span class="c1"># the directory.</span>
+    <span class="n">data_directory</span> <span class="o">=</span> <span class="n">core</span><span class="o">.</span><span class="n">config</span><span class="o">.</span><span class="n">extract_configuration</span><span class="p">(</span>
+        <span class="n">config_object</span><span class="o">=</span><span class="n">config</span><span class="p">,</span> <span class="n">keys</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;data_directory&#39;</span><span class="p">])</span>
+    <span class="n">subfolder</span> <span class="o">=</span> <span class="n">core</span><span class="o">.</span><span class="n">config</span><span class="o">.</span><span class="n">extract_configuration</span><span class="p">(</span>
+        <span class="n">config_object</span><span class="o">=</span><span class="n">config</span><span class="p">,</span> <span class="n">keys</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;subfolder&#39;</span><span class="p">])</span>
+    <span class="n">mask_file_name</span> <span class="o">=</span> <span class="n">core</span><span class="o">.</span><span class="n">config</span><span class="o">.</span><span class="n">extract_configuration</span><span class="p">(</span>
+        <span class="n">config_object</span><span class="o">=</span><span class="n">config</span><span class="p">,</span> <span class="n">keys</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;mask_file_name&#39;</span><span class="p">])</span>
+
+    <span class="c1"># Extract the run flag for this particular script.</span>
+    <span class="n">run_flag</span> <span class="o">=</span> <span class="n">core</span><span class="o">.</span><span class="n">config</span><span class="o">.</span><span class="n">extract_configuration</span><span class="p">(</span>
+        <span class="n">config_object</span><span class="o">=</span><span class="n">config</span><span class="p">,</span> <span class="n">keys</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;geometric&#39;</span><span class="p">,</span><span class="s1">&#39;run_mask_single_pixels&#39;</span><span class="p">])</span>
+    <span class="c1"># Extract the masking programs configuration parameters.</span>
+    <span class="n">column_indexes</span> <span class="o">=</span> <span class="n">core</span><span class="o">.</span><span class="n">config</span><span class="o">.</span><span class="n">extract_configuration</span><span class="p">(</span>
+        <span class="n">config_object</span><span class="o">=</span><span class="n">config</span><span class="p">,</span> <span class="n">keys</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;geometric&#39;</span><span class="p">,</span><span class="s1">&#39;pixel_column_indexes&#39;</span><span class="p">])</span>
+    <span class="n">row_indexes</span> <span class="o">=</span> <span class="n">core</span><span class="o">.</span><span class="n">config</span><span class="o">.</span><span class="n">extract_configuration</span><span class="p">(</span>
+        <span class="n">config_object</span><span class="o">=</span><span class="n">config</span><span class="p">,</span> <span class="n">keys</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;geometric&#39;</span><span class="p">,</span><span class="s1">&#39;pixel_row_indexes&#39;</span><span class="p">])</span>
+
+    <span class="c1"># The function that is being used to calculate the masks.</span>
+    <span class="n">masking_function</span> <span class="o">=</span> <span class="n">mask</span><span class="o">.</span><span class="n">mask_single_pixels</span>
+
+    <span class="c1"># Compiling the arguments that the masking function uses.</span>
+    <span class="n">masking_arguments</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;column_indexes&#39;</span><span class="p">:</span><span class="n">column_indexes</span><span class="p">,</span>
+                         <span class="s1">&#39;row_indexes&#39;</span><span class="p">:</span><span class="n">row_indexes</span><span class="p">}</span>
+
+    <span class="c1"># Create masks within the data directory, provided the </span>
+    <span class="c1"># configuration.</span>
+    <span class="n">mask</span><span class="o">.</span><span class="n">base</span><span class="o">.</span><span class="n">create_directory_mask_file</span><span class="p">(</span><span class="n">data_directory</span><span class="o">=</span><span class="n">data_directory</span><span class="p">,</span>
+                                         <span class="n">mask_function</span><span class="o">=</span><span class="n">masking_function</span><span class="p">,</span>
+                                         <span class="n">mask_arguments</span><span class="o">=</span><span class="n">masking_arguments</span><span class="p">,</span>
+                                         <span class="n">mask_file_name</span><span class="o">=</span><span class="n">mask_file_name</span><span class="p">,</span>
+                                         <span class="n">subfolder</span><span class="o">=</span><span class="n">subfolder</span><span class="p">,</span>
+                                         <span class="n">run</span><span class="o">=</span><span class="n">run_flag</span><span class="p">)</span>
+
+    <span class="c1"># All done.</span>
+    <span class="k">return</span> <span class="kc">None</span></div>
+
+<div class="viewcode-block" id="script_mask_rectangle"><a class="viewcode-back" href="../../../docstrings/ifa_smeargle.masking.scripting.html#ifa_smeargle.masking.scripting.script_mask_rectangle">[docs]</a><span class="k">def</span> <span class="nf">script_mask_rectangle</span><span class="p">(</span><span class="n">config</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot; The scripting version of `mask_rectangle`. This function </span>
+<span class="sd">    applies the mask to the entire directory (or single file). It </span>
+<span class="sd">    also adds the tags to the header file of each fits file </span>
+<span class="sd">    indicating the number of pixels masked for this mask.</span>
+<span class="sd">    </span>
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    config : ConfigObj</span>
+<span class="sd">        The configuration object that is to be used for this </span>
+<span class="sd">        function.</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    None</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="c1"># Extract the global configuration parameters, including </span>
+    <span class="c1"># the directory.</span>
+    <span class="n">data_directory</span> <span class="o">=</span> <span class="n">core</span><span class="o">.</span><span class="n">config</span><span class="o">.</span><span class="n">extract_configuration</span><span class="p">(</span>
+        <span class="n">config_object</span><span class="o">=</span><span class="n">config</span><span class="p">,</span> <span class="n">keys</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;data_directory&#39;</span><span class="p">])</span>
+    <span class="n">subfolder</span> <span class="o">=</span> <span class="n">core</span><span class="o">.</span><span class="n">config</span><span class="o">.</span><span class="n">extract_configuration</span><span class="p">(</span>
+        <span class="n">config_object</span><span class="o">=</span><span class="n">config</span><span class="p">,</span> <span class="n">keys</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;subfolder&#39;</span><span class="p">])</span>
+    <span class="n">mask_file_name</span> <span class="o">=</span> <span class="n">core</span><span class="o">.</span><span class="n">config</span><span class="o">.</span><span class="n">extract_configuration</span><span class="p">(</span>
+        <span class="n">config_object</span><span class="o">=</span><span class="n">config</span><span class="p">,</span> <span class="n">keys</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;mask_file_name&#39;</span><span class="p">])</span>
+
+    <span class="c1"># Extract the run flag for this particular script.</span>
+    <span class="n">run_flag</span> <span class="o">=</span> <span class="n">core</span><span class="o">.</span><span class="n">config</span><span class="o">.</span><span class="n">extract_configuration</span><span class="p">(</span>
+        <span class="n">config_object</span><span class="o">=</span><span class="n">config</span><span class="p">,</span> <span class="n">keys</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;geometric&#39;</span><span class="p">,</span><span class="s1">&#39;run_mask_rectangle&#39;</span><span class="p">])</span>
+    <span class="c1"># Extract the masking programs configuration parameters.</span>
+    <span class="n">column_range</span> <span class="o">=</span> <span class="n">core</span><span class="o">.</span><span class="n">config</span><span class="o">.</span><span class="n">extract_configuration</span><span class="p">(</span>
+        <span class="n">config_object</span><span class="o">=</span><span class="n">config</span><span class="p">,</span> <span class="n">keys</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;geometric&#39;</span><span class="p">,</span><span class="s1">&#39;rectangle_column_range&#39;</span><span class="p">])</span>
+    <span class="n">row_range</span> <span class="o">=</span> <span class="n">core</span><span class="o">.</span><span class="n">config</span><span class="o">.</span><span class="n">extract_configuration</span><span class="p">(</span>
+        <span class="n">config_object</span><span class="o">=</span><span class="n">config</span><span class="p">,</span> <span class="n">keys</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;geometric&#39;</span><span class="p">,</span><span class="s1">&#39;rectangle_row_range&#39;</span><span class="p">])</span>
+
+    <span class="c1"># The function that is being used to calculate the masks.</span>
+    <span class="n">masking_function</span> <span class="o">=</span> <span class="n">mask</span><span class="o">.</span><span class="n">mask_rectangle</span>
+
+    <span class="c1"># Compiling the arguments that the masking function uses.</span>
+    <span class="n">masking_arguments</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;column_range&#39;</span><span class="p">:</span><span class="n">column_range</span><span class="p">,</span>
+                         <span class="s1">&#39;row_range&#39;</span><span class="p">:</span><span class="n">row_range</span><span class="p">}</span>
+
+    <span class="c1"># Create masks within the data directory, provided the </span>
+    <span class="c1"># configuration.</span>
+    <span class="n">mask</span><span class="o">.</span><span class="n">base</span><span class="o">.</span><span class="n">create_directory_mask_file</span><span class="p">(</span><span class="n">data_directory</span><span class="o">=</span><span class="n">data_directory</span><span class="p">,</span>
+                                         <span class="n">mask_function</span><span class="o">=</span><span class="n">masking_function</span><span class="p">,</span>
+                                         <span class="n">mask_arguments</span><span class="o">=</span><span class="n">masking_arguments</span><span class="p">,</span>
+                                         <span class="n">mask_file_name</span><span class="o">=</span><span class="n">mask_file_name</span><span class="p">,</span>
+                                         <span class="n">subfolder</span><span class="o">=</span><span class="n">subfolder</span><span class="p">,</span>
+                                         <span class="n">run</span><span class="o">=</span><span class="n">run_flag</span><span class="p">)</span>
+
+    <span class="c1"># All done.</span>
+    <span class="k">return</span> <span class="kc">None</span></div>
+
+<div class="viewcode-block" id="script_mask_subarray"><a class="viewcode-back" href="../../../docstrings/ifa_smeargle.masking.scripting.html#ifa_smeargle.masking.scripting.script_mask_subarray">[docs]</a><span class="k">def</span> <span class="nf">script_mask_subarray</span><span class="p">(</span><span class="n">config</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot; The scripting version of `mask_subarray`. This function </span>
+<span class="sd">    applies the mask to the entire directory (or single file). It </span>
+<span class="sd">    also adds the tags to the header file of each fits file </span>
+<span class="sd">    indicating the number of pixels masked for this mask.</span>
+<span class="sd">    </span>
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    config : ConfigObj</span>
+<span class="sd">        The configuration object that is to be used for this </span>
+<span class="sd">        function.</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    None</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="c1"># Extract the global configuration parameters, including </span>
+    <span class="c1"># the directory.</span>
+    <span class="n">data_directory</span> <span class="o">=</span> <span class="n">core</span><span class="o">.</span><span class="n">config</span><span class="o">.</span><span class="n">extract_configuration</span><span class="p">(</span>
+        <span class="n">config_object</span><span class="o">=</span><span class="n">config</span><span class="p">,</span> <span class="n">keys</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;data_directory&#39;</span><span class="p">])</span>
+    <span class="n">subfolder</span> <span class="o">=</span> <span class="n">core</span><span class="o">.</span><span class="n">config</span><span class="o">.</span><span class="n">extract_configuration</span><span class="p">(</span>
+        <span class="n">config_object</span><span class="o">=</span><span class="n">config</span><span class="p">,</span> <span class="n">keys</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;subfolder&#39;</span><span class="p">])</span>
+    <span class="n">mask_file_name</span> <span class="o">=</span> <span class="n">core</span><span class="o">.</span><span class="n">config</span><span class="o">.</span><span class="n">extract_configuration</span><span class="p">(</span>
+        <span class="n">config_object</span><span class="o">=</span><span class="n">config</span><span class="p">,</span> <span class="n">keys</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;mask_file_name&#39;</span><span class="p">])</span>
+
+    <span class="c1"># Extract the run flag for this particular script.</span>
+    <span class="n">run_flag</span> <span class="o">=</span> <span class="n">core</span><span class="o">.</span><span class="n">config</span><span class="o">.</span><span class="n">extract_configuration</span><span class="p">(</span>
+        <span class="n">config_object</span><span class="o">=</span><span class="n">config</span><span class="p">,</span> <span class="n">keys</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;geometric&#39;</span><span class="p">,</span><span class="s1">&#39;run_mask_subarray&#39;</span><span class="p">])</span>
+    <span class="c1"># Extract the masking programs configuration parameters.</span>
+    <span class="n">column_range</span> <span class="o">=</span> <span class="n">core</span><span class="o">.</span><span class="n">config</span><span class="o">.</span><span class="n">extract_configuration</span><span class="p">(</span>
+        <span class="n">config_object</span><span class="o">=</span><span class="n">config</span><span class="p">,</span> <span class="n">keys</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;geometric&#39;</span><span class="p">,</span><span class="s1">&#39;subarray_column_range&#39;</span><span class="p">])</span>
+    <span class="n">row_range</span> <span class="o">=</span> <span class="n">core</span><span class="o">.</span><span class="n">config</span><span class="o">.</span><span class="n">extract_configuration</span><span class="p">(</span>
+        <span class="n">config_object</span><span class="o">=</span><span class="n">config</span><span class="p">,</span> <span class="n">keys</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;geometric&#39;</span><span class="p">,</span><span class="s1">&#39;subarray_row_range&#39;</span><span class="p">])</span>
+
+    <span class="c1"># The function that is being used to calculate the masks.</span>
+    <span class="n">masking_function</span> <span class="o">=</span> <span class="n">mask</span><span class="o">.</span><span class="n">mask_subarray</span>
+
+    <span class="c1"># Compiling the arguments that the masking function uses.</span>
+    <span class="n">masking_arguments</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;column_range&#39;</span><span class="p">:</span><span class="n">column_range</span><span class="p">,</span>
+                         <span class="s1">&#39;row_range&#39;</span><span class="p">:</span><span class="n">row_range</span><span class="p">}</span>
+
+    <span class="c1"># Create masks within the data directory, provided the </span>
+    <span class="c1"># configuration.</span>
+    <span class="n">mask</span><span class="o">.</span><span class="n">base</span><span class="o">.</span><span class="n">create_directory_mask_file</span><span class="p">(</span><span class="n">data_directory</span><span class="o">=</span><span class="n">data_directory</span><span class="p">,</span>
+                                         <span class="n">mask_function</span><span class="o">=</span><span class="n">masking_function</span><span class="p">,</span>
+                                         <span class="n">mask_arguments</span><span class="o">=</span><span class="n">masking_arguments</span><span class="p">,</span>
+                                         <span class="n">mask_file_name</span><span class="o">=</span><span class="n">mask_file_name</span><span class="p">,</span>
+                                         <span class="n">subfolder</span><span class="o">=</span><span class="n">subfolder</span><span class="p">,</span>
+                                         <span class="n">run</span><span class="o">=</span><span class="n">run_flag</span><span class="p">)</span>
+
+    <span class="c1"># All done.</span>
+    <span class="k">return</span> <span class="kc">None</span></div>
+
+<div class="viewcode-block" id="script_mask_columns"><a class="viewcode-back" href="../../../docstrings/ifa_smeargle.masking.scripting.html#ifa_smeargle.masking.scripting.script_mask_columns">[docs]</a><span class="k">def</span> <span class="nf">script_mask_columns</span><span class="p">(</span><span class="n">config</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot; The scripting version of `mask_columns`. This function </span>
+<span class="sd">    applies the mask to the entire directory (or single file). It </span>
+<span class="sd">    also adds the tags to the header file of each fits file </span>
+<span class="sd">    indicating the number of pixels masked for this mask.</span>
+<span class="sd">    </span>
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    config : ConfigObj</span>
+<span class="sd">        The configuration object that is to be used for this </span>
+<span class="sd">        function.</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    None</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="c1"># Extract the global configuration parameters, including </span>
+    <span class="c1"># the directory.</span>
+    <span class="n">data_directory</span> <span class="o">=</span> <span class="n">core</span><span class="o">.</span><span class="n">config</span><span class="o">.</span><span class="n">extract_configuration</span><span class="p">(</span>
+        <span class="n">config_object</span><span class="o">=</span><span class="n">config</span><span class="p">,</span> <span class="n">keys</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;data_directory&#39;</span><span class="p">])</span>
+    <span class="n">subfolder</span> <span class="o">=</span> <span class="n">core</span><span class="o">.</span><span class="n">config</span><span class="o">.</span><span class="n">extract_configuration</span><span class="p">(</span>
+        <span class="n">config_object</span><span class="o">=</span><span class="n">config</span><span class="p">,</span> <span class="n">keys</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;subfolder&#39;</span><span class="p">])</span>
+    <span class="n">mask_file_name</span> <span class="o">=</span> <span class="n">core</span><span class="o">.</span><span class="n">config</span><span class="o">.</span><span class="n">extract_configuration</span><span class="p">(</span>
+        <span class="n">config_object</span><span class="o">=</span><span class="n">config</span><span class="p">,</span> <span class="n">keys</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;mask_file_name&#39;</span><span class="p">])</span>
+
+    <span class="c1"># Extract the run flag for this particular script.</span>
+    <span class="n">run_flag</span> <span class="o">=</span> <span class="n">core</span><span class="o">.</span><span class="n">config</span><span class="o">.</span><span class="n">extract_configuration</span><span class="p">(</span>
+        <span class="n">config_object</span><span class="o">=</span><span class="n">config</span><span class="p">,</span> <span class="n">keys</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;geometric&#39;</span><span class="p">,</span><span class="s1">&#39;run_mask_columns&#39;</span><span class="p">])</span>
+    <span class="c1"># Extract the masking programs configuration parameters.</span>
+    <span class="n">column_list</span> <span class="o">=</span> <span class="n">core</span><span class="o">.</span><span class="n">config</span><span class="o">.</span><span class="n">extract_configuration</span><span class="p">(</span>
+        <span class="n">config_object</span><span class="o">=</span><span class="n">config</span><span class="p">,</span> <span class="n">keys</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;geometric&#39;</span><span class="p">,</span><span class="s1">&#39;column_list&#39;</span><span class="p">])</span>
+
+    <span class="c1"># The function that is being used to calculate the masks.</span>
+    <span class="n">masking_function</span> <span class="o">=</span> <span class="n">mask</span><span class="o">.</span><span class="n">mask_columns</span>
+
+    <span class="c1"># Compiling the arguments that the masking function uses.</span>
+    <span class="n">masking_arguments</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;column_list&#39;</span><span class="p">:</span><span class="n">column_list</span><span class="p">}</span>
+
+    <span class="c1"># Create masks within the data directory, provided the </span>
+    <span class="c1"># configuration.</span>
+    <span class="n">mask</span><span class="o">.</span><span class="n">base</span><span class="o">.</span><span class="n">create_directory_mask_file</span><span class="p">(</span><span class="n">data_directory</span><span class="o">=</span><span class="n">data_directory</span><span class="p">,</span>
+                                         <span class="n">mask_function</span><span class="o">=</span><span class="n">masking_function</span><span class="p">,</span>
+                                         <span class="n">mask_arguments</span><span class="o">=</span><span class="n">masking_arguments</span><span class="p">,</span>
+                                         <span class="n">mask_file_name</span><span class="o">=</span><span class="n">mask_file_name</span><span class="p">,</span>
+                                         <span class="n">subfolder</span><span class="o">=</span><span class="n">subfolder</span><span class="p">,</span>
+                                         <span class="n">run</span><span class="o">=</span><span class="n">run_flag</span><span class="p">)</span>
+
+    <span class="c1"># All done.</span>
+    <span class="k">return</span> <span class="kc">None</span></div>
+
+<div class="viewcode-block" id="script_mask_rows"><a class="viewcode-back" href="../../../docstrings/ifa_smeargle.masking.scripting.html#ifa_smeargle.masking.scripting.script_mask_rows">[docs]</a><span class="k">def</span> <span class="nf">script_mask_rows</span><span class="p">(</span><span class="n">config</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot; The scripting version of `mask_rows`. This function </span>
+<span class="sd">    applies the mask to the entire directory (or single file). It </span>
+<span class="sd">    also adds the tags to the header file of each fits file </span>
+<span class="sd">    indicating the number of pixels masked for this mask.</span>
+<span class="sd">    </span>
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    config : ConfigObj</span>
+<span class="sd">        The configuration object that is to be used for this </span>
+<span class="sd">        function.</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    None</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="c1"># Extract the global configuration parameters, including </span>
+    <span class="c1"># the directory.</span>
+    <span class="n">data_directory</span> <span class="o">=</span> <span class="n">core</span><span class="o">.</span><span class="n">config</span><span class="o">.</span><span class="n">extract_configuration</span><span class="p">(</span>
+        <span class="n">config_object</span><span class="o">=</span><span class="n">config</span><span class="p">,</span> <span class="n">keys</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;data_directory&#39;</span><span class="p">])</span>
+    <span class="n">subfolder</span> <span class="o">=</span> <span class="n">core</span><span class="o">.</span><span class="n">config</span><span class="o">.</span><span class="n">extract_configuration</span><span class="p">(</span>
+        <span class="n">config_object</span><span class="o">=</span><span class="n">config</span><span class="p">,</span> <span class="n">keys</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;subfolder&#39;</span><span class="p">])</span>
+    <span class="n">mask_file_name</span> <span class="o">=</span> <span class="n">core</span><span class="o">.</span><span class="n">config</span><span class="o">.</span><span class="n">extract_configuration</span><span class="p">(</span>
+        <span class="n">config_object</span><span class="o">=</span><span class="n">config</span><span class="p">,</span> <span class="n">keys</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;mask_file_name&#39;</span><span class="p">])</span>
+
+    <span class="c1"># Extract the run flag for this particular script.</span>
+    <span class="n">run_flag</span> <span class="o">=</span> <span class="n">core</span><span class="o">.</span><span class="n">config</span><span class="o">.</span><span class="n">extract_configuration</span><span class="p">(</span>
+        <span class="n">config_object</span><span class="o">=</span><span class="n">config</span><span class="p">,</span> <span class="n">keys</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;geometric&#39;</span><span class="p">,</span><span class="s1">&#39;run_mask_rows&#39;</span><span class="p">])</span>
+    <span class="c1"># Extract the masking programs configuration parameters.</span>
+    <span class="n">row_list</span> <span class="o">=</span> <span class="n">core</span><span class="o">.</span><span class="n">config</span><span class="o">.</span><span class="n">extract_configuration</span><span class="p">(</span>
+        <span class="n">config_object</span><span class="o">=</span><span class="n">config</span><span class="p">,</span> <span class="n">keys</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;geometric&#39;</span><span class="p">,</span><span class="s1">&#39;row_list&#39;</span><span class="p">])</span>
+
+    <span class="c1"># The function that is being used to calculate the masks.</span>
+    <span class="n">masking_function</span> <span class="o">=</span> <span class="n">mask</span><span class="o">.</span><span class="n">mask_rows</span>
+
+    <span class="c1"># Compiling the arguments that the masking function uses.</span>
+    <span class="n">masking_arguments</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;row_list&#39;</span><span class="p">:</span><span class="n">row_list</span><span class="p">}</span>
+
+    <span class="c1"># Create masks within the data directory, provided the </span>
+    <span class="c1"># configuration.</span>
+    <span class="n">mask</span><span class="o">.</span><span class="n">base</span><span class="o">.</span><span class="n">create_directory_mask_file</span><span class="p">(</span><span class="n">data_directory</span><span class="o">=</span><span class="n">data_directory</span><span class="p">,</span>
+                                         <span class="n">mask_function</span><span class="o">=</span><span class="n">masking_function</span><span class="p">,</span>
+                                         <span class="n">mask_arguments</span><span class="o">=</span><span class="n">masking_arguments</span><span class="p">,</span>
+                                         <span class="n">mask_file_name</span><span class="o">=</span><span class="n">mask_file_name</span><span class="p">,</span>
+                                         <span class="n">subfolder</span><span class="o">=</span><span class="n">subfolder</span><span class="p">,</span>
+                                         <span class="n">run</span><span class="o">=</span><span class="n">run_flag</span><span class="p">)</span>
+
+    <span class="c1"># All done.</span>
+    <span class="k">return</span> <span class="kc">None</span></div>
+
+<div class="viewcode-block" id="script_mask_nothing"><a class="viewcode-back" href="../../../docstrings/ifa_smeargle.masking.scripting.html#ifa_smeargle.masking.scripting.script_mask_nothing">[docs]</a><span class="k">def</span> <span class="nf">script_mask_nothing</span><span class="p">(</span><span class="n">config</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot; The scripting version of `mask_nothing`. This function </span>
+<span class="sd">    applies the mask to the entire directory (or single file). It </span>
+<span class="sd">    also adds the tags to the header file of each fits file </span>
+<span class="sd">    indicating the number of pixels masked for this mask.</span>
+<span class="sd">    </span>
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    config : ConfigObj</span>
+<span class="sd">        The configuration object that is to be used for this </span>
+<span class="sd">        function.</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    None</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="c1"># Extract the global configuration parameters, including </span>
+    <span class="c1"># the directory.</span>
+    <span class="n">data_directory</span> <span class="o">=</span> <span class="n">core</span><span class="o">.</span><span class="n">config</span><span class="o">.</span><span class="n">extract_configuration</span><span class="p">(</span>
+        <span class="n">config_object</span><span class="o">=</span><span class="n">config</span><span class="p">,</span> <span class="n">keys</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;data_directory&#39;</span><span class="p">])</span>
+    <span class="n">subfolder</span> <span class="o">=</span> <span class="n">core</span><span class="o">.</span><span class="n">config</span><span class="o">.</span><span class="n">extract_configuration</span><span class="p">(</span>
+        <span class="n">config_object</span><span class="o">=</span><span class="n">config</span><span class="p">,</span> <span class="n">keys</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;subfolder&#39;</span><span class="p">])</span>
+    <span class="n">mask_file_name</span> <span class="o">=</span> <span class="n">core</span><span class="o">.</span><span class="n">config</span><span class="o">.</span><span class="n">extract_configuration</span><span class="p">(</span>
+        <span class="n">config_object</span><span class="o">=</span><span class="n">config</span><span class="p">,</span> <span class="n">keys</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;mask_file_name&#39;</span><span class="p">])</span>
+
+    <span class="c1"># Extract the run flag for this particular script.</span>
+    <span class="n">run_flag</span> <span class="o">=</span> <span class="n">core</span><span class="o">.</span><span class="n">config</span><span class="o">.</span><span class="n">extract_configuration</span><span class="p">(</span>
+        <span class="n">config_object</span><span class="o">=</span><span class="n">config</span><span class="p">,</span> <span class="n">keys</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;geometric&#39;</span><span class="p">,</span><span class="s1">&#39;run_mask_nothing&#39;</span><span class="p">])</span>
+    <span class="c1"># Extract the masking programs configuration parameters.</span>
+    <span class="k">pass</span>
+
+    <span class="c1"># The function that is being used to calculate the masks.</span>
+    <span class="n">masking_function</span> <span class="o">=</span> <span class="n">mask</span><span class="o">.</span><span class="n">mask_nothing</span>
+
+    <span class="c1"># Compiling the arguments that the masking function uses.</span>
+    <span class="n">masking_arguments</span> <span class="o">=</span> <span class="p">{}</span>
+
+    <span class="c1"># Create masks within the data directory, provided the </span>
+    <span class="c1"># configuration.</span>
+    <span class="n">mask</span><span class="o">.</span><span class="n">base</span><span class="o">.</span><span class="n">create_directory_mask_file</span><span class="p">(</span><span class="n">data_directory</span><span class="o">=</span><span class="n">data_directory</span><span class="p">,</span>
+                                         <span class="n">mask_function</span><span class="o">=</span><span class="n">masking_function</span><span class="p">,</span>
+                                         <span class="n">mask_arguments</span><span class="o">=</span><span class="n">masking_arguments</span><span class="p">,</span>
+                                         <span class="n">mask_file_name</span><span class="o">=</span><span class="n">mask_file_name</span><span class="p">,</span>
+                                         <span class="n">subfolder</span><span class="o">=</span><span class="n">subfolder</span><span class="p">,</span>
+                                         <span class="n">run</span><span class="o">=</span><span class="n">run_flag</span><span class="p">)</span>
+
+    <span class="c1"># All done.</span>
+    <span class="k">return</span> <span class="kc">None</span></div>
+
+<div class="viewcode-block" id="script_mask_everything"><a class="viewcode-back" href="../../../docstrings/ifa_smeargle.masking.scripting.html#ifa_smeargle.masking.scripting.script_mask_everything">[docs]</a><span class="k">def</span> <span class="nf">script_mask_everything</span><span class="p">(</span><span class="n">config</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot; The scripting version of `mask_everything`. This function </span>
+<span class="sd">    applies the mask to the entire directory (or single file). It </span>
+<span class="sd">    also adds the tags to the header file of each fits file </span>
+<span class="sd">    indicating the number of pixels masked for this mask.</span>
+<span class="sd">    </span>
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    config : ConfigObj</span>
+<span class="sd">        The configuration object that is to be used for this </span>
+<span class="sd">        function.</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    None</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="c1"># Extract the global configuration parameters, including </span>
+    <span class="c1"># the directory.</span>
+    <span class="n">data_directory</span> <span class="o">=</span> <span class="n">core</span><span class="o">.</span><span class="n">config</span><span class="o">.</span><span class="n">extract_configuration</span><span class="p">(</span>
+        <span class="n">config_object</span><span class="o">=</span><span class="n">config</span><span class="p">,</span> <span class="n">keys</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;data_directory&#39;</span><span class="p">])</span>
+    <span class="n">subfolder</span> <span class="o">=</span> <span class="n">core</span><span class="o">.</span><span class="n">config</span><span class="o">.</span><span class="n">extract_configuration</span><span class="p">(</span>
+        <span class="n">config_object</span><span class="o">=</span><span class="n">config</span><span class="p">,</span> <span class="n">keys</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;subfolder&#39;</span><span class="p">])</span>
+    <span class="n">mask_file_name</span> <span class="o">=</span> <span class="n">core</span><span class="o">.</span><span class="n">config</span><span class="o">.</span><span class="n">extract_configuration</span><span class="p">(</span>
+        <span class="n">config_object</span><span class="o">=</span><span class="n">config</span><span class="p">,</span> <span class="n">keys</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;mask_file_name&#39;</span><span class="p">])</span>
+
+    <span class="c1"># Extract the run flag for this particular script.</span>
+    <span class="n">run_flag</span> <span class="o">=</span> <span class="n">core</span><span class="o">.</span><span class="n">config</span><span class="o">.</span><span class="n">extract_configuration</span><span class="p">(</span>
+        <span class="n">config_object</span><span class="o">=</span><span class="n">config</span><span class="p">,</span> <span class="n">keys</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;geometric&#39;</span><span class="p">,</span><span class="s1">&#39;run_mask_everything&#39;</span><span class="p">])</span>
+    <span class="c1"># Extract the masking programs configuration parameters.</span>
+    <span class="k">pass</span>
+
+    <span class="c1"># The function that is being used to calculate the masks.</span>
+    <span class="n">masking_function</span> <span class="o">=</span> <span class="n">mask</span><span class="o">.</span><span class="n">mask_everything</span>
+
+    <span class="c1"># Compiling the arguments that the masking function uses.</span>
+    <span class="n">masking_arguments</span> <span class="o">=</span> <span class="p">{}</span>
+
+    <span class="c1"># Create masks within the data directory, provided the </span>
+    <span class="c1"># configuration.</span>
+    <span class="n">mask</span><span class="o">.</span><span class="n">base</span><span class="o">.</span><span class="n">create_directory_mask_file</span><span class="p">(</span><span class="n">data_directory</span><span class="o">=</span><span class="n">data_directory</span><span class="p">,</span>
+                                         <span class="n">mask_function</span><span class="o">=</span><span class="n">masking_function</span><span class="p">,</span>
+                                         <span class="n">mask_arguments</span><span class="o">=</span><span class="n">masking_arguments</span><span class="p">,</span>
+                                         <span class="n">mask_file_name</span><span class="o">=</span><span class="n">mask_file_name</span><span class="p">,</span>
+                                         <span class="n">subfolder</span><span class="o">=</span><span class="n">subfolder</span><span class="p">,</span>
+                                         <span class="n">run</span><span class="o">=</span><span class="n">run_flag</span><span class="p">)</span>
+
+    <span class="c1"># All done.</span>
+    <span class="k">return</span> <span class="kc">None</span></div>
+
+<div class="viewcode-block" id="script_batch_masking"><a class="viewcode-back" href="../../../docstrings/ifa_smeargle.masking.scripting.html#ifa_smeargle.masking.scripting.script_batch_masking">[docs]</a><span class="k">def</span> <span class="nf">script_batch_masking</span><span class="p">(</span><span class="n">config</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot; This script runs all masks in a batch fashion. </span>
+<span class="sd">    </span>
+<span class="sd">    If the run flag of a mask in the configuration file is True, </span>
+<span class="sd">    it is run according to the parameters set.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    config : ConfigObj</span>
+<span class="sd">        The configuration object that is to be used for this </span>
+<span class="sd">        function.</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    None</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="c1"># This is just a batch script that runs all of the mask scripts.</span>
+    <span class="n">core</span><span class="o">.</span><span class="n">error</span><span class="o">.</span><span class="n">ifas_info</span><span class="p">(</span><span class="s2">&quot;Running the batch script for all mask scripts. &quot;</span>
+                         <span class="s2">&quot;All mask scripts will be run according to the &quot;</span>
+                         <span class="s2">&quot;configuration file.&quot;</span><span class="p">)</span>
+
+    <span class="c1"># A single mask file name is not supported with batch masks.</span>
+    <span class="k">if</span> <span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">core</span><span class="o">.</span><span class="n">config</span><span class="o">.</span><span class="n">extract_configuration</span><span class="p">(</span>
+        <span class="n">config_object</span><span class="o">=</span><span class="n">config</span><span class="p">,</span> <span class="n">keys</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;mask_file_name&#39;</span><span class="p">]))</span> <span class="o">!=</span> <span class="mi">0</span><span class="p">):</span>
+        <span class="c1"># The base configuration class has an entry for the mask</span>
+        <span class="c1"># file name. It cannot be kept else the masks will overwrite</span>
+        <span class="c1"># themselves.</span>
+        <span class="n">core</span><span class="o">.</span><span class="n">error</span><span class="o">.</span><span class="n">ifas_warning</span><span class="p">(</span><span class="n">core</span><span class="o">.</span><span class="n">error</span><span class="o">.</span><span class="n">ConfigurationWarning</span><span class="p">,</span>
+                                <span class="p">(</span><span class="s2">&quot;The configuration parameters contain a &quot;</span>
+                                 <span class="s2">&quot;`mask_file_name` that is not empty. Batch &quot;</span>
+                                 <span class="s2">&quot;script masking does not support a single &quot;</span>
+                                 <span class="s2">&quot;file name for all masks. It will be &quot;</span>
+                                 <span class="s2">&quot;ignored.&quot;</span><span class="p">))</span>
+
+    <span class="c1"># Gather all script mask functions. It is best not to use </span>
+    <span class="c1"># the internal functions of runtime even though it is more</span>
+    <span class="c1"># efficient.</span>
+    <span class="n">script_functions</span> <span class="o">=</span> <span class="n">core</span><span class="o">.</span><span class="n">runtime</span><span class="o">.</span><span class="n">get_script_functions</span><span class="p">()</span>
+    <span class="c1"># We only need to run the masking script functions.</span>
+    <span class="n">script_mask_prefix</span> <span class="o">=</span> <span class="s1">&#39;script_mask&#39;</span>
+    <span class="k">for</span> <span class="n">keydex</span><span class="p">,</span> <span class="n">scriptdex</span> <span class="ow">in</span> <span class="n">script_functions</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+        <span class="k">if</span> <span class="p">(</span><span class="n">script_mask_prefix</span> <span class="ow">in</span> <span class="n">keydex</span><span class="p">):</span>
+            <span class="n">core</span><span class="o">.</span><span class="n">error</span><span class="o">.</span><span class="n">ifas_info</span><span class="p">(</span><span class="s2">&quot;Calling the script mask function: </span><span class="si">{script}</span><span class="s2">&quot;</span>
+                                 <span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">script</span><span class="o">=</span><span class="n">keydex</span><span class="p">))</span>
+            <span class="c1"># The mask name should be assigned here and overwritten</span>
+            <span class="c1"># else the mask names will be random or the masks will</span>
+            <span class="c1"># be overwritten.</span>
+            <span class="n">config</span><span class="p">[</span><span class="s1">&#39;mask_file_name&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">core</span><span class="o">.</span><span class="n">strformat</span><span class="o">.</span><span class="n">remove_prefix</span><span class="p">(</span>
+                <span class="n">string</span><span class="o">=</span><span class="n">keydex</span><span class="p">,</span> <span class="n">prefix</span><span class="o">=</span><span class="s1">&#39;script_&#39;</span><span class="p">)</span>
+            <span class="c1"># Run the masking script.</span>
+            <span class="n">__</span> <span class="o">=</span> <span class="n">scriptdex</span><span class="p">(</span><span class="n">config</span><span class="o">=</span><span class="n">config</span><span class="p">)</span>
+        <span class="k">elif</span> <span class="p">(</span><span class="n">script_mask_prefix</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">keydex</span><span class="p">):</span>
+            <span class="k">continue</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="c1"># Something is wrong with the keydex.</span>
+            <span class="k">raise</span> <span class="n">core</span><span class="o">.</span><span class="n">error</span><span class="o">.</span><span class="n">BrokenLogicError</span>
+
+    <span class="c1"># All done.</span>
+    <span class="k">return</span> <span class="kc">None</span></div>
+
+<span class="c1"># The scripts of the filters.</span>
+<div class="viewcode-block" id="script_filter_sigma_value"><a class="viewcode-back" href="../../../docstrings/ifa_smeargle.masking.scripting.html#ifa_smeargle.masking.scripting.script_filter_sigma_value">[docs]</a><span class="k">def</span> <span class="nf">script_filter_sigma_value</span><span class="p">(</span><span class="n">config</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot; The scripting version of `filter_sigma_value`. This </span>
+<span class="sd">    function applies the filter to the entire directory (or single </span>
+<span class="sd">    file). It also adds the tags to the header file of each fits file </span>
+<span class="sd">    indicating the number of pixels filtered for this filter.</span>
+<span class="sd">    </span>
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    config : ConfigObj</span>
+<span class="sd">        The configuration object that is to be used for this </span>
+<span class="sd">        function.</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    None</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="c1"># Extract the global configuration parameters, including </span>
+    <span class="c1"># the directory.</span>
+    <span class="n">data_directory</span> <span class="o">=</span> <span class="n">core</span><span class="o">.</span><span class="n">config</span><span class="o">.</span><span class="n">extract_configuration</span><span class="p">(</span>
+        <span class="n">config_object</span><span class="o">=</span><span class="n">config</span><span class="p">,</span> <span class="n">keys</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;data_directory&#39;</span><span class="p">])</span>
+    <span class="n">subfolder</span> <span class="o">=</span> <span class="n">core</span><span class="o">.</span><span class="n">config</span><span class="o">.</span><span class="n">extract_configuration</span><span class="p">(</span>
+        <span class="n">config_object</span><span class="o">=</span><span class="n">config</span><span class="p">,</span> <span class="n">keys</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;subfolder&#39;</span><span class="p">])</span>
+    <span class="n">filter_tag_name</span> <span class="o">=</span> <span class="n">core</span><span class="o">.</span><span class="n">config</span><span class="o">.</span><span class="n">extract_configuration</span><span class="p">(</span>
+        <span class="n">config_object</span><span class="o">=</span><span class="n">config</span><span class="p">,</span> <span class="n">keys</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;filter_tag_name&#39;</span><span class="p">])</span>
+
+    <span class="c1"># Extract the run flag for this particular script.</span>
+    <span class="n">run_flag</span> <span class="o">=</span> <span class="n">core</span><span class="o">.</span><span class="n">config</span><span class="o">.</span><span class="n">extract_configuration</span><span class="p">(</span>
+        <span class="n">config_object</span><span class="o">=</span><span class="n">config</span><span class="p">,</span> <span class="n">keys</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;filter&#39;</span><span class="p">,</span><span class="s1">&#39;run_filter_sigma_value&#39;</span><span class="p">])</span>
+    <span class="c1"># Extract the filter programs configuration parameters.</span>
+    <span class="n">sigma_multiple</span> <span class="o">=</span> <span class="n">core</span><span class="o">.</span><span class="n">config</span><span class="o">.</span><span class="n">extract_configuration</span><span class="p">(</span>
+        <span class="n">config_object</span><span class="o">=</span><span class="n">config</span><span class="p">,</span> <span class="n">keys</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;filter&#39;</span><span class="p">,</span><span class="s1">&#39;sigma_multiple&#39;</span><span class="p">])</span>
+    <span class="n">sigma_iterations</span> <span class="o">=</span> <span class="n">core</span><span class="o">.</span><span class="n">config</span><span class="o">.</span><span class="n">extract_configuration</span><span class="p">(</span>
+        <span class="n">config_object</span><span class="o">=</span><span class="n">config</span><span class="p">,</span> <span class="n">keys</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;filter&#39;</span><span class="p">,</span><span class="s1">&#39;sigma_iterations&#39;</span><span class="p">])</span>
+
+    <span class="c1"># The function that is being used to calculate the masks.</span>
+    <span class="n">filter_function</span> <span class="o">=</span> <span class="n">mask</span><span class="o">.</span><span class="n">filter_sigma_value</span>
+
+    <span class="c1"># Compiling the arguments that the masking function uses.</span>
+    <span class="n">filter_arguments</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;sigma_multiple&#39;</span><span class="p">:</span><span class="n">sigma_multiple</span><span class="p">,</span> 
+                        <span class="s1">&#39;iterations&#39;</span><span class="p">:</span><span class="n">sigma_iterations</span><span class="p">}</span>
+
+    <span class="c1"># Create the filters from the directory.</span>
+    <span class="n">mask</span><span class="o">.</span><span class="n">base</span><span class="o">.</span><span class="n">create_directory_filter_files</span><span class="p">(</span><span class="n">data_directory</span><span class="o">=</span><span class="n">data_directory</span><span class="p">,</span>  
+                                            <span class="n">filter_function</span><span class="o">=</span><span class="n">filter_function</span><span class="p">,</span>
+                                            <span class="n">filter_arguments</span><span class="o">=</span><span class="n">filter_arguments</span><span class="p">,</span>
+                                            <span class="n">filter_file_tag</span><span class="o">=</span><span class="n">filter_tag_name</span><span class="p">,</span>
+                                            <span class="n">subfolder</span><span class="o">=</span><span class="n">subfolder</span><span class="p">,</span>
+                                            <span class="n">run</span><span class="o">=</span><span class="n">run_flag</span><span class="p">)</span>
+    <span class="c1"># All done.</span>
+    <span class="k">return</span> <span class="kc">None</span></div>
+
+<div class="viewcode-block" id="script_filter_percent_truncation"><a class="viewcode-back" href="../../../docstrings/ifa_smeargle.masking.scripting.html#ifa_smeargle.masking.scripting.script_filter_percent_truncation">[docs]</a><span class="k">def</span> <span class="nf">script_filter_percent_truncation</span><span class="p">(</span><span class="n">config</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot; The scripting version of `filter_percent_truncation`. This </span>
+<span class="sd">    function applies the filter to the entire directory (or single </span>
+<span class="sd">    file). It also adds the tags to the header file of each fits file </span>
+<span class="sd">    indicating the number of pixels filtered for this filter.</span>
+<span class="sd">    </span>
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    config : ConfigObj</span>
+<span class="sd">        The configuration object that is to be used for this </span>
+<span class="sd">        function.</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    None</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="c1"># Extract the global configuration parameters, including </span>
+    <span class="c1"># the directory.</span>
+    <span class="n">data_directory</span> <span class="o">=</span> <span class="n">core</span><span class="o">.</span><span class="n">config</span><span class="o">.</span><span class="n">extract_configuration</span><span class="p">(</span>
+        <span class="n">config_object</span><span class="o">=</span><span class="n">config</span><span class="p">,</span> <span class="n">keys</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;data_directory&#39;</span><span class="p">])</span>
+    <span class="n">subfolder</span> <span class="o">=</span> <span class="n">core</span><span class="o">.</span><span class="n">config</span><span class="o">.</span><span class="n">extract_configuration</span><span class="p">(</span>
+        <span class="n">config_object</span><span class="o">=</span><span class="n">config</span><span class="p">,</span> <span class="n">keys</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;subfolder&#39;</span><span class="p">])</span>
+    <span class="n">filter_tag_name</span> <span class="o">=</span> <span class="n">core</span><span class="o">.</span><span class="n">config</span><span class="o">.</span><span class="n">extract_configuration</span><span class="p">(</span>
+        <span class="n">config_object</span><span class="o">=</span><span class="n">config</span><span class="p">,</span> <span class="n">keys</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;filter_tag_name&#39;</span><span class="p">])</span>
+
+    <span class="c1"># Extract the run flag for this particular script.</span>
+    <span class="n">run_flag</span> <span class="o">=</span> <span class="n">core</span><span class="o">.</span><span class="n">config</span><span class="o">.</span><span class="n">extract_configuration</span><span class="p">(</span>
+        <span class="n">config_object</span><span class="o">=</span><span class="n">config</span><span class="p">,</span> <span class="n">keys</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;filter&#39;</span><span class="p">,</span><span class="s1">&#39;run_filter_percent_truncation&#39;</span><span class="p">])</span>
+    <span class="c1"># Extract the filter programs configuration parameters.</span>
+    <span class="n">top_percent</span> <span class="o">=</span> <span class="n">core</span><span class="o">.</span><span class="n">config</span><span class="o">.</span><span class="n">extract_configuration</span><span class="p">(</span>
+        <span class="n">config_object</span><span class="o">=</span><span class="n">config</span><span class="p">,</span> <span class="n">keys</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;filter&#39;</span><span class="p">,</span><span class="s1">&#39;top_percent&#39;</span><span class="p">])</span>
+    <span class="n">bottom_percent</span> <span class="o">=</span> <span class="n">core</span><span class="o">.</span><span class="n">config</span><span class="o">.</span><span class="n">extract_configuration</span><span class="p">(</span>
+        <span class="n">config_object</span><span class="o">=</span><span class="n">config</span><span class="p">,</span> <span class="n">keys</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;filter&#39;</span><span class="p">,</span><span class="s1">&#39;bottom_percent&#39;</span><span class="p">])</span>
+
+    <span class="c1"># The function that is being used to calculate the masks.</span>
+    <span class="n">filter_function</span> <span class="o">=</span> <span class="n">mask</span><span class="o">.</span><span class="n">filter_percent_truncation</span>
+
+    <span class="c1"># Compiling the arguments that the masking function uses.</span>
+    <span class="n">filter_arguments</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;top_percent&#39;</span><span class="p">:</span><span class="n">top_percent</span><span class="p">,</span> 
+                        <span class="s1">&#39;bottom_percent&#39;</span><span class="p">:</span><span class="n">bottom_percent</span><span class="p">}</span>
+
+    <span class="c1"># Create the filters from the directory.</span>
+    <span class="n">mask</span><span class="o">.</span><span class="n">base</span><span class="o">.</span><span class="n">create_directory_filter_files</span><span class="p">(</span><span class="n">data_directory</span><span class="o">=</span><span class="n">data_directory</span><span class="p">,</span>  
+                                            <span class="n">filter_function</span><span class="o">=</span><span class="n">filter_function</span><span class="p">,</span>
+                                            <span class="n">filter_arguments</span><span class="o">=</span><span class="n">filter_arguments</span><span class="p">,</span>
+                                            <span class="n">filter_file_tag</span><span class="o">=</span><span class="n">filter_tag_name</span><span class="p">,</span>
+                                            <span class="n">subfolder</span><span class="o">=</span><span class="n">subfolder</span><span class="p">,</span>
+                                            <span class="n">run</span><span class="o">=</span><span class="n">run_flag</span><span class="p">)</span>
+    <span class="c1"># All done.</span>
+    <span class="k">return</span> <span class="kc">None</span></div>
+
+<div class="viewcode-block" id="script_filter_pixel_truncation"><a class="viewcode-back" href="../../../docstrings/ifa_smeargle.masking.scripting.html#ifa_smeargle.masking.scripting.script_filter_pixel_truncation">[docs]</a><span class="k">def</span> <span class="nf">script_filter_pixel_truncation</span><span class="p">(</span><span class="n">config</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot; The scripting version of `filter_pixel_truncation`. This </span>
+<span class="sd">    function applies the filter to the entire directory (or single </span>
+<span class="sd">    file). It also adds the tags to the header file of each fits file </span>
+<span class="sd">    indicating the number of pixels filtered for this filter.</span>
+<span class="sd">    </span>
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    config : ConfigObj</span>
+<span class="sd">        The configuration object that is to be used for this </span>
+<span class="sd">        function.</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    None</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="c1"># Extract the global configuration parameters, including </span>
+    <span class="c1"># the directory.</span>
+    <span class="n">data_directory</span> <span class="o">=</span> <span class="n">core</span><span class="o">.</span><span class="n">config</span><span class="o">.</span><span class="n">extract_configuration</span><span class="p">(</span>
+        <span class="n">config_object</span><span class="o">=</span><span class="n">config</span><span class="p">,</span> <span class="n">keys</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;data_directory&#39;</span><span class="p">])</span>
+    <span class="n">subfolder</span> <span class="o">=</span> <span class="n">core</span><span class="o">.</span><span class="n">config</span><span class="o">.</span><span class="n">extract_configuration</span><span class="p">(</span>
+        <span class="n">config_object</span><span class="o">=</span><span class="n">config</span><span class="p">,</span> <span class="n">keys</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;subfolder&#39;</span><span class="p">])</span>
+    <span class="n">filter_tag_name</span> <span class="o">=</span> <span class="n">core</span><span class="o">.</span><span class="n">config</span><span class="o">.</span><span class="n">extract_configuration</span><span class="p">(</span>
+        <span class="n">config_object</span><span class="o">=</span><span class="n">config</span><span class="p">,</span> <span class="n">keys</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;filter_tag_name&#39;</span><span class="p">])</span>
+
+    <span class="c1"># Extract the run flag for this particular script.</span>
+    <span class="n">run_flag</span> <span class="o">=</span> <span class="n">core</span><span class="o">.</span><span class="n">config</span><span class="o">.</span><span class="n">extract_configuration</span><span class="p">(</span>
+        <span class="n">config_object</span><span class="o">=</span><span class="n">config</span><span class="p">,</span> <span class="n">keys</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;filter&#39;</span><span class="p">,</span><span class="s1">&#39;run_filter_pixel_truncation&#39;</span><span class="p">])</span>
+    <span class="c1"># Extract the filter programs configuration parameters.</span>
+    <span class="n">top_count</span> <span class="o">=</span> <span class="n">core</span><span class="o">.</span><span class="n">config</span><span class="o">.</span><span class="n">extract_configuration</span><span class="p">(</span>
+        <span class="n">config_object</span><span class="o">=</span><span class="n">config</span><span class="p">,</span> <span class="n">keys</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;filter&#39;</span><span class="p">,</span><span class="s1">&#39;top_count&#39;</span><span class="p">])</span>
+    <span class="n">bottom_count</span> <span class="o">=</span> <span class="n">core</span><span class="o">.</span><span class="n">config</span><span class="o">.</span><span class="n">extract_configuration</span><span class="p">(</span>
+        <span class="n">config_object</span><span class="o">=</span><span class="n">config</span><span class="p">,</span> <span class="n">keys</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;filter&#39;</span><span class="p">,</span><span class="s1">&#39;bottom_count&#39;</span><span class="p">])</span>
+
+    <span class="c1"># The function that is being used to calculate the masks.</span>
+    <span class="n">filter_function</span> <span class="o">=</span> <span class="n">mask</span><span class="o">.</span><span class="n">filter_pixel_truncation</span>
+
+    <span class="c1"># Compiling the arguments that the masking function uses.</span>
+    <span class="n">filter_arguments</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;top_count&#39;</span><span class="p">:</span><span class="n">top_count</span><span class="p">,</span> <span class="s1">&#39;bottom_count&#39;</span><span class="p">:</span><span class="n">bottom_count</span><span class="p">}</span>
+
+    <span class="c1"># Create the filters from the directory.</span>
+    <span class="n">mask</span><span class="o">.</span><span class="n">base</span><span class="o">.</span><span class="n">create_directory_filter_files</span><span class="p">(</span><span class="n">data_directory</span><span class="o">=</span><span class="n">data_directory</span><span class="p">,</span>  
+                                            <span class="n">filter_function</span><span class="o">=</span><span class="n">filter_function</span><span class="p">,</span>
+                                            <span class="n">filter_arguments</span><span class="o">=</span><span class="n">filter_arguments</span><span class="p">,</span>
+                                            <span class="n">filter_file_tag</span><span class="o">=</span><span class="n">filter_tag_name</span><span class="p">,</span>
+                                            <span class="n">subfolder</span><span class="o">=</span><span class="n">subfolder</span><span class="p">,</span>
+                                            <span class="n">run</span><span class="o">=</span><span class="n">run_flag</span><span class="p">)</span>
+    <span class="c1"># All done.</span>
+    <span class="k">return</span> <span class="kc">None</span></div>
+
+<div class="viewcode-block" id="script_filter_maximum_value"><a class="viewcode-back" href="../../../docstrings/ifa_smeargle.masking.scripting.html#ifa_smeargle.masking.scripting.script_filter_maximum_value">[docs]</a><span class="k">def</span> <span class="nf">script_filter_maximum_value</span><span class="p">(</span><span class="n">config</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot; The scripting version of `filter_maximum_value`. This </span>
+<span class="sd">    function applies the filter to the entire directory (or single </span>
+<span class="sd">    file). It also adds the tags to the header file of each fits file </span>
+<span class="sd">    indicating the number of pixels filtered for this filter.</span>
+<span class="sd">    </span>
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    config : ConfigObj</span>
+<span class="sd">        The configuration object that is to be used for this </span>
+<span class="sd">        function.</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    None</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="c1"># Extract the global configuration parameters, including </span>
+    <span class="c1"># the directory.</span>
+    <span class="n">data_directory</span> <span class="o">=</span> <span class="n">core</span><span class="o">.</span><span class="n">config</span><span class="o">.</span><span class="n">extract_configuration</span><span class="p">(</span>
+        <span class="n">config_object</span><span class="o">=</span><span class="n">config</span><span class="p">,</span> <span class="n">keys</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;data_directory&#39;</span><span class="p">])</span>
+    <span class="n">subfolder</span> <span class="o">=</span> <span class="n">core</span><span class="o">.</span><span class="n">config</span><span class="o">.</span><span class="n">extract_configuration</span><span class="p">(</span>
+        <span class="n">config_object</span><span class="o">=</span><span class="n">config</span><span class="p">,</span> <span class="n">keys</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;subfolder&#39;</span><span class="p">])</span>
+    <span class="n">filter_tag_name</span> <span class="o">=</span> <span class="n">core</span><span class="o">.</span><span class="n">config</span><span class="o">.</span><span class="n">extract_configuration</span><span class="p">(</span>
+        <span class="n">config_object</span><span class="o">=</span><span class="n">config</span><span class="p">,</span> <span class="n">keys</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;filter_tag_name&#39;</span><span class="p">])</span>
+
+    <span class="c1"># Extract the run flag for this particular script.</span>
+    <span class="n">run_flag</span> <span class="o">=</span> <span class="n">core</span><span class="o">.</span><span class="n">config</span><span class="o">.</span><span class="n">extract_configuration</span><span class="p">(</span>
+        <span class="n">config_object</span><span class="o">=</span><span class="n">config</span><span class="p">,</span> <span class="n">keys</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;filter&#39;</span><span class="p">,</span><span class="s1">&#39;run_filter_maximum_value&#39;</span><span class="p">])</span>
+    <span class="c1"># Extract the filter programs configuration parameters.</span>
+    <span class="n">maximum_value</span> <span class="o">=</span> <span class="n">core</span><span class="o">.</span><span class="n">config</span><span class="o">.</span><span class="n">extract_configuration</span><span class="p">(</span>
+        <span class="n">config_object</span><span class="o">=</span><span class="n">config</span><span class="p">,</span> <span class="n">keys</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;filter&#39;</span><span class="p">,</span><span class="s1">&#39;maximum_value&#39;</span><span class="p">])</span>
+
+    <span class="c1"># The function that is being used to calculate the masks.</span>
+    <span class="n">filter_function</span> <span class="o">=</span> <span class="n">mask</span><span class="o">.</span><span class="n">filter_maximum_value</span>
+
+    <span class="c1"># Compiling the arguments that the masking function uses.</span>
+    <span class="n">filter_arguments</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;maximum_value&#39;</span><span class="p">:</span><span class="n">maximum_value</span><span class="p">}</span>
+
+    <span class="c1"># Create the filters from the directory.</span>
+    <span class="n">mask</span><span class="o">.</span><span class="n">base</span><span class="o">.</span><span class="n">create_directory_filter_files</span><span class="p">(</span><span class="n">data_directory</span><span class="o">=</span><span class="n">data_directory</span><span class="p">,</span>  
+                                            <span class="n">filter_function</span><span class="o">=</span><span class="n">filter_function</span><span class="p">,</span>
+                                            <span class="n">filter_arguments</span><span class="o">=</span><span class="n">filter_arguments</span><span class="p">,</span>
+                                            <span class="n">filter_file_tag</span><span class="o">=</span><span class="n">filter_tag_name</span><span class="p">,</span>
+                                            <span class="n">subfolder</span><span class="o">=</span><span class="n">subfolder</span><span class="p">,</span>
+                                            <span class="n">run</span><span class="o">=</span><span class="n">run_flag</span><span class="p">)</span>
+    <span class="c1"># All done.</span>
+    <span class="k">return</span> <span class="kc">None</span></div>
+
+<div class="viewcode-block" id="script_filter_minimum_value"><a class="viewcode-back" href="../../../docstrings/ifa_smeargle.masking.scripting.html#ifa_smeargle.masking.scripting.script_filter_minimum_value">[docs]</a><span class="k">def</span> <span class="nf">script_filter_minimum_value</span><span class="p">(</span><span class="n">config</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot; The scripting version of `filter_minimum_value`. This </span>
+<span class="sd">    function applies the filter to the entire directory (or single </span>
+<span class="sd">    file). It also adds the tags to the header file of each fits file </span>
+<span class="sd">    indicating the number of pixels filtered for this filter.</span>
+<span class="sd">    </span>
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    config : ConfigObj</span>
+<span class="sd">        The configuration object that is to be used for this </span>
+<span class="sd">        function.</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    None</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="c1"># Extract the global configuration parameters, including </span>
+    <span class="c1"># the directory.</span>
+    <span class="n">data_directory</span> <span class="o">=</span> <span class="n">core</span><span class="o">.</span><span class="n">config</span><span class="o">.</span><span class="n">extract_configuration</span><span class="p">(</span>
+        <span class="n">config_object</span><span class="o">=</span><span class="n">config</span><span class="p">,</span> <span class="n">keys</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;data_directory&#39;</span><span class="p">])</span>
+    <span class="n">subfolder</span> <span class="o">=</span> <span class="n">core</span><span class="o">.</span><span class="n">config</span><span class="o">.</span><span class="n">extract_configuration</span><span class="p">(</span>
+        <span class="n">config_object</span><span class="o">=</span><span class="n">config</span><span class="p">,</span> <span class="n">keys</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;subfolder&#39;</span><span class="p">])</span>
+    <span class="n">filter_tag_name</span> <span class="o">=</span> <span class="n">core</span><span class="o">.</span><span class="n">config</span><span class="o">.</span><span class="n">extract_configuration</span><span class="p">(</span>
+        <span class="n">config_object</span><span class="o">=</span><span class="n">config</span><span class="p">,</span> <span class="n">keys</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;filter_tag_name&#39;</span><span class="p">])</span>
+
+    <span class="c1"># Extract the run flag for this particular script.</span>
+    <span class="n">run_flag</span> <span class="o">=</span> <span class="n">core</span><span class="o">.</span><span class="n">config</span><span class="o">.</span><span class="n">extract_configuration</span><span class="p">(</span>
+        <span class="n">config_object</span><span class="o">=</span><span class="n">config</span><span class="p">,</span> <span class="n">keys</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;filter&#39;</span><span class="p">,</span><span class="s1">&#39;run_filter_minimum_value&#39;</span><span class="p">])</span>
+    <span class="c1"># Extract the filter programs configuration parameters.</span>
+    <span class="n">minimum_value</span> <span class="o">=</span> <span class="n">core</span><span class="o">.</span><span class="n">config</span><span class="o">.</span><span class="n">extract_configuration</span><span class="p">(</span>
+        <span class="n">config_object</span><span class="o">=</span><span class="n">config</span><span class="p">,</span> <span class="n">keys</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;filter&#39;</span><span class="p">,</span><span class="s1">&#39;minimum_value&#39;</span><span class="p">])</span>
+
+    <span class="c1"># The function that is being used to calculate the masks.</span>
+    <span class="n">filter_function</span> <span class="o">=</span> <span class="n">mask</span><span class="o">.</span><span class="n">filter_minimum_value</span>
+
+    <span class="c1"># Compiling the arguments that the masking function uses.</span>
+    <span class="n">filter_arguments</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;minimum_value&#39;</span><span class="p">:</span><span class="n">minimum_value</span><span class="p">}</span>
+
+    <span class="c1"># Create the filters from the directory.</span>
+    <span class="n">mask</span><span class="o">.</span><span class="n">base</span><span class="o">.</span><span class="n">create_directory_filter_files</span><span class="p">(</span><span class="n">data_directory</span><span class="o">=</span><span class="n">data_directory</span><span class="p">,</span>  
+                                            <span class="n">filter_function</span><span class="o">=</span><span class="n">filter_function</span><span class="p">,</span>
+                                            <span class="n">filter_arguments</span><span class="o">=</span><span class="n">filter_arguments</span><span class="p">,</span>
+                                            <span class="n">filter_file_tag</span><span class="o">=</span><span class="n">filter_tag_name</span><span class="p">,</span>
+                                            <span class="n">subfolder</span><span class="o">=</span><span class="n">subfolder</span><span class="p">,</span>
+                                            <span class="n">run</span><span class="o">=</span><span class="n">run_flag</span><span class="p">)</span>
+    <span class="c1"># All done.</span>
+    <span class="k">return</span> <span class="kc">None</span></div>
+
+<div class="viewcode-block" id="script_filter_exact_value"><a class="viewcode-back" href="../../../docstrings/ifa_smeargle.masking.scripting.html#ifa_smeargle.masking.scripting.script_filter_exact_value">[docs]</a><span class="k">def</span> <span class="nf">script_filter_exact_value</span><span class="p">(</span><span class="n">config</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot; The scripting version of `filter_exact_value`. This function </span>
+<span class="sd">    applies the filter to the entire directory (or single file). It </span>
+<span class="sd">    also adds the tags to the header file of each fits file </span>
+<span class="sd">    indicating the number of pixels filtered for this filter.</span>
+<span class="sd">    </span>
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    config : ConfigObj</span>
+<span class="sd">        The configuration object that is to be used for this </span>
+<span class="sd">        function.</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    None</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="c1"># Extract the global configuration parameters, including </span>
+    <span class="c1"># the directory.</span>
+    <span class="n">data_directory</span> <span class="o">=</span> <span class="n">core</span><span class="o">.</span><span class="n">config</span><span class="o">.</span><span class="n">extract_configuration</span><span class="p">(</span>
+        <span class="n">config_object</span><span class="o">=</span><span class="n">config</span><span class="p">,</span> <span class="n">keys</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;data_directory&#39;</span><span class="p">])</span>
+    <span class="n">subfolder</span> <span class="o">=</span> <span class="n">core</span><span class="o">.</span><span class="n">config</span><span class="o">.</span><span class="n">extract_configuration</span><span class="p">(</span>
+        <span class="n">config_object</span><span class="o">=</span><span class="n">config</span><span class="p">,</span> <span class="n">keys</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;subfolder&#39;</span><span class="p">])</span>
+    <span class="n">filter_tag_name</span> <span class="o">=</span> <span class="n">core</span><span class="o">.</span><span class="n">config</span><span class="o">.</span><span class="n">extract_configuration</span><span class="p">(</span>
+        <span class="n">config_object</span><span class="o">=</span><span class="n">config</span><span class="p">,</span> <span class="n">keys</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;filter_tag_name&#39;</span><span class="p">])</span>
+
+    <span class="c1"># Extract the run flag for this particular script.</span>
+    <span class="n">run_flag</span> <span class="o">=</span> <span class="n">core</span><span class="o">.</span><span class="n">config</span><span class="o">.</span><span class="n">extract_configuration</span><span class="p">(</span>
+        <span class="n">config_object</span><span class="o">=</span><span class="n">config</span><span class="p">,</span> <span class="n">keys</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;filter&#39;</span><span class="p">,</span><span class="s1">&#39;run_filter_exact_value&#39;</span><span class="p">])</span>
+    <span class="c1"># Extract the filter programs configuration parameters.</span>
+    <span class="n">exact_value</span> <span class="o">=</span> <span class="n">core</span><span class="o">.</span><span class="n">config</span><span class="o">.</span><span class="n">extract_configuration</span><span class="p">(</span>
+        <span class="n">config_object</span><span class="o">=</span><span class="n">config</span><span class="p">,</span> <span class="n">keys</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;filter&#39;</span><span class="p">,</span><span class="s1">&#39;exact_value&#39;</span><span class="p">])</span>
+
+    <span class="c1"># The function that is being used to calculate the masks.</span>
+    <span class="n">filter_function</span> <span class="o">=</span> <span class="n">mask</span><span class="o">.</span><span class="n">filter_exact_value</span>
+
+    <span class="c1"># Compiling the arguments that the masking function uses.</span>
+    <span class="n">filter_arguments</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;exact_value&#39;</span><span class="p">:</span><span class="n">exact_value</span><span class="p">}</span>
+
+    <span class="c1"># Create the filters from the directory.</span>
+    <span class="n">mask</span><span class="o">.</span><span class="n">base</span><span class="o">.</span><span class="n">create_directory_filter_files</span><span class="p">(</span><span class="n">data_directory</span><span class="o">=</span><span class="n">data_directory</span><span class="p">,</span>  
+                                            <span class="n">filter_function</span><span class="o">=</span><span class="n">filter_function</span><span class="p">,</span>
+                                            <span class="n">filter_arguments</span><span class="o">=</span><span class="n">filter_arguments</span><span class="p">,</span>
+                                            <span class="n">filter_file_tag</span><span class="o">=</span><span class="n">filter_tag_name</span><span class="p">,</span>
+                                            <span class="n">subfolder</span><span class="o">=</span><span class="n">subfolder</span><span class="p">,</span>
+                                            <span class="n">run</span><span class="o">=</span><span class="n">run_flag</span><span class="p">)</span>
+    <span class="c1"># All done.</span>
+    <span class="k">return</span> <span class="kc">None</span></div>
+
+<div class="viewcode-block" id="script_filter_invalid_value"><a class="viewcode-back" href="../../../docstrings/ifa_smeargle.masking.scripting.html#ifa_smeargle.masking.scripting.script_filter_invalid_value">[docs]</a><span class="k">def</span> <span class="nf">script_filter_invalid_value</span><span class="p">(</span><span class="n">config</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot; The scripting version of `filter_invalid_value`. This </span>
+<span class="sd">    function applies the filter to the entire directory (or single </span>
+<span class="sd">    file). It also adds the tags to the header file of each fits </span>
+<span class="sd">    file indicating the number of pixels filtered for this filter.</span>
+<span class="sd">    </span>
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    config : ConfigObj</span>
+<span class="sd">        The configuration object that is to be used for this </span>
+<span class="sd">        function.</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    None</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="c1"># Extract the global configuration parameters, including </span>
+    <span class="c1"># the directory.</span>
+    <span class="n">data_directory</span> <span class="o">=</span> <span class="n">core</span><span class="o">.</span><span class="n">config</span><span class="o">.</span><span class="n">extract_configuration</span><span class="p">(</span>
+        <span class="n">config_object</span><span class="o">=</span><span class="n">config</span><span class="p">,</span> <span class="n">keys</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;data_directory&#39;</span><span class="p">])</span>
+    <span class="n">subfolder</span> <span class="o">=</span> <span class="n">core</span><span class="o">.</span><span class="n">config</span><span class="o">.</span><span class="n">extract_configuration</span><span class="p">(</span>
+        <span class="n">config_object</span><span class="o">=</span><span class="n">config</span><span class="p">,</span> <span class="n">keys</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;subfolder&#39;</span><span class="p">])</span>
+    <span class="n">filter_tag_name</span> <span class="o">=</span> <span class="n">core</span><span class="o">.</span><span class="n">config</span><span class="o">.</span><span class="n">extract_configuration</span><span class="p">(</span>
+        <span class="n">config_object</span><span class="o">=</span><span class="n">config</span><span class="p">,</span> <span class="n">keys</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;filter_tag_name&#39;</span><span class="p">])</span>
+
+    <span class="c1"># Extract the run flag for this particular script.</span>
+    <span class="n">run_flag</span> <span class="o">=</span> <span class="n">core</span><span class="o">.</span><span class="n">config</span><span class="o">.</span><span class="n">extract_configuration</span><span class="p">(</span>
+        <span class="n">config_object</span><span class="o">=</span><span class="n">config</span><span class="p">,</span> <span class="n">keys</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;filter&#39;</span><span class="p">,</span><span class="s1">&#39;run_filter_invalid_value&#39;</span><span class="p">])</span>
+    <span class="c1"># Extract the filter programs configuration parameters.</span>
+    <span class="k">pass</span>
+
+    <span class="c1"># The function that is being used to calculate the masks.</span>
+    <span class="n">filter_function</span> <span class="o">=</span> <span class="n">mask</span><span class="o">.</span><span class="n">filter_invalid_value</span>
+
+    <span class="c1"># Compiling the arguments that the masking function uses.</span>
+    <span class="n">filter_arguments</span> <span class="o">=</span> <span class="p">{}</span>
+
+    <span class="c1"># Create the filters from the directory.</span>
+    <span class="n">mask</span><span class="o">.</span><span class="n">base</span><span class="o">.</span><span class="n">create_directory_filter_files</span><span class="p">(</span><span class="n">data_directory</span><span class="o">=</span><span class="n">data_directory</span><span class="p">,</span>  
+                                            <span class="n">filter_function</span><span class="o">=</span><span class="n">filter_function</span><span class="p">,</span>
+                                            <span class="n">filter_arguments</span><span class="o">=</span><span class="n">filter_arguments</span><span class="p">,</span>
+                                            <span class="n">filter_file_tag</span><span class="o">=</span><span class="n">filter_tag_name</span><span class="p">,</span>
+                                            <span class="n">subfolder</span><span class="o">=</span><span class="n">subfolder</span><span class="p">,</span>
+                                            <span class="n">run</span><span class="o">=</span><span class="n">run_flag</span><span class="p">)</span>
+    <span class="c1"># All done.</span>
+    <span class="k">return</span> <span class="kc">None</span></div>
+
+
+
+<span class="c1"># The script versions of other masking utilities.</span>
+<div class="viewcode-block" id="script_synthesize_masks"><a class="viewcode-back" href="../../../docstrings/ifa_smeargle.masking.scripting.html#ifa_smeargle.masking.scripting.script_synthesize_masks">[docs]</a><span class="k">def</span> <span class="nf">script_synthesize_masks</span><span class="p">(</span><span class="n">config</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot; The scripting version of `synthesize_masks`. This function </span>
+<span class="sd">    applies the mask to the entire directory (or single file). It</span>
+<span class="sd">    combines the mask files from the data directory.</span>
+<span class="sd">    </span>
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    config : ConfigObj</span>
+<span class="sd">        The configuration object that is to be used for this </span>
+<span class="sd">        function.</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    None</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="c1"># Extract the global configuration parameters, including </span>
+    <span class="c1"># the directory.</span>
+    <span class="n">data_directory</span> <span class="o">=</span> <span class="n">core</span><span class="o">.</span><span class="n">config</span><span class="o">.</span><span class="n">extract_configuration</span><span class="p">(</span>
+        <span class="n">config_object</span><span class="o">=</span><span class="n">config</span><span class="p">,</span> <span class="n">keys</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;data_directory&#39;</span><span class="p">])</span>
+    <span class="n">subfolder</span> <span class="o">=</span> <span class="n">core</span><span class="o">.</span><span class="n">config</span><span class="o">.</span><span class="n">extract_configuration</span><span class="p">(</span>
+        <span class="n">config_object</span><span class="o">=</span><span class="n">config</span><span class="p">,</span> <span class="n">keys</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;subfolder&#39;</span><span class="p">])</span>
+    <span class="n">mask_file_name</span> <span class="o">=</span> <span class="n">core</span><span class="o">.</span><span class="n">config</span><span class="o">.</span><span class="n">extract_configuration</span><span class="p">(</span>
+        <span class="n">config_object</span><span class="o">=</span><span class="n">config</span><span class="p">,</span> <span class="n">keys</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;mask_file_name&#39;</span><span class="p">])</span>
+
+    <span class="c1"># If there is a sub-folder, then check the sub-folder itself as</span>
+    <span class="c1"># default.</span>
+    <span class="n">_config_mask_subdir</span> <span class="o">=</span> <span class="n">core</span><span class="o">.</span><span class="n">runtime</span><span class="o">.</span><span class="n">extract_runtime_configuration</span><span class="p">(</span>
+        <span class="n">config_key</span><span class="o">=</span><span class="s1">&#39;MASKING_SUBDIR&#39;</span><span class="p">)</span>
+    <span class="n">_mask_subdir</span> <span class="o">=</span> <span class="p">([</span><span class="n">data_directory</span><span class="p">,</span> <span class="n">_config_mask_subdir</span><span class="p">]</span> 
+                    <span class="k">if</span> <span class="p">(</span><span class="n">subfolder</span><span class="p">)</span> <span class="k">else</span> <span class="n">data_directory</span><span class="p">)</span>
+    <span class="n">data_directory</span> <span class="o">=</span> <span class="n">core</span><span class="o">.</span><span class="n">strformat</span><span class="o">.</span><span class="n">combine_pathname</span><span class="p">(</span><span class="n">directory</span><span class="o">=</span><span class="n">_mask_subdir</span><span class="p">)</span>
+
+    <span class="c1"># Obtain the list of masks that will need to be synthesized.</span>
+    <span class="n">mask_file_list</span> <span class="o">=</span> <span class="n">mask</span><span class="o">.</span><span class="n">base</span><span class="o">.</span><span class="n">get_mask_fits_filenames</span><span class="p">(</span>
+        <span class="n">data_directory</span><span class="o">=</span><span class="n">data_directory</span><span class="p">)</span>
+
+    <span class="c1"># If there are no mask files, then inform and return with </span>
+    <span class="c1"># nothing.</span>
+    <span class="k">if</span> <span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">mask_file_list</span><span class="p">)</span> <span class="o">==</span> <span class="mi">0</span><span class="p">):</span>
+        <span class="n">core</span><span class="o">.</span><span class="n">error</span><span class="o">.</span><span class="n">ifas_error</span><span class="p">(</span><span class="n">core</span><span class="o">.</span><span class="n">error</span><span class="o">.</span><span class="n">ImportingError</span><span class="p">,</span>
+                              <span class="p">(</span><span class="s2">&quot;There are no mask files found in &quot;</span>
+                               <span class="s2">&quot;`</span><span class="si">{data_dir}</span><span class="s2">`.&quot;</span>
+                               <span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">data_dir</span><span class="o">=</span><span class="n">data_directory</span><span class="p">)))</span>
+        <span class="k">return</span> <span class="kc">None</span>
+
+    <span class="c1"># Extract the mask themselves.</span>
+    <span class="n">mask_data_list</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="n">header_data_list</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="k">for</span> <span class="n">filedex</span> <span class="ow">in</span> <span class="n">mask_file_list</span><span class="p">:</span>
+        <span class="n">__</span><span class="p">,</span> <span class="n">temp_header</span><span class="p">,</span> <span class="n">temp_data</span> <span class="o">=</span> <span class="n">core</span><span class="o">.</span><span class="n">io</span><span class="o">.</span><span class="n">read_fits_file</span><span class="p">(</span>
+            <span class="n">file_name</span><span class="o">=</span><span class="n">filedex</span><span class="p">,</span> <span class="n">silent</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+        <span class="n">header_data_list</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">temp_header</span><span class="p">)</span>
+        <span class="n">mask_data_list</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">temp_data</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="nb">bool</span><span class="p">))</span>
+
+    <span class="c1"># Combine all of the masks </span>
+    <span class="n">synthesized_mask</span> <span class="o">=</span> <span class="n">mask</span><span class="o">.</span><span class="n">base</span><span class="o">.</span><span class="n">synthesize_masks</span><span class="p">(</span><span class="o">*</span><span class="n">mask_data_list</span><span class="p">)</span> 
+
+    <span class="c1"># If the user didn&#39;t create a valid mask name, provide one </span>
+    <span class="c1"># for them.</span>
+    <span class="k">if</span> <span class="p">((</span><span class="nb">len</span><span class="p">(</span><span class="nb">str</span><span class="p">(</span><span class="n">mask_file_name</span><span class="p">))</span> <span class="o">==</span> <span class="mi">0</span><span class="p">)</span> <span class="ow">or</span> <span class="p">(</span><span class="n">mask_file_name</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">)):</span>
+        <span class="c1"># A valid name has not been provided, creating a random name.</span>
+        <span class="n">mask_file_name</span> <span class="o">=</span> <span class="s1">&#39;SYNTHESIZED&#39;</span>
+        <span class="n">core</span><span class="o">.</span><span class="n">error</span><span class="o">.</span><span class="n">ifas_warning</span><span class="p">(</span><span class="n">core</span><span class="o">.</span><span class="n">error</span><span class="o">.</span><span class="n">InputWarning</span><span class="p">,</span>
+                                <span class="p">(</span><span class="s2">&quot;A valid masking name has not been &quot;</span>
+                                 <span class="s2">&quot;provided. The defined name `</span><span class="si">{def_name}</span><span class="s2">` &quot;</span>
+                                 <span class="s2">&quot;shall be used instead.&quot;</span>
+                                 <span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">def_name</span><span class="o">=</span><span class="n">mask_file_name</span><span class="p">)))</span>
+
+    <span class="c1"># Read out the mask file into the main data directory.</span>
+    <span class="n">mask_pathname</span> <span class="o">=</span> <span class="n">core</span><span class="o">.</span><span class="n">strformat</span><span class="o">.</span><span class="n">combine_pathname</span><span class="p">(</span>
+        <span class="n">directory</span><span class="o">=</span><span class="n">data_directory</span><span class="p">,</span> <span class="n">file_name</span><span class="o">=</span><span class="n">mask_file_name</span><span class="p">,</span> 
+        <span class="n">extension</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;.mask&#39;</span><span class="p">,</span><span class="s1">&#39;.fits&#39;</span><span class="p">])</span>
+    <span class="n">core</span><span class="o">.</span><span class="n">io</span><span class="o">.</span><span class="n">write_fits_file</span><span class="p">(</span><span class="n">file_name</span><span class="o">=</span><span class="n">mask_pathname</span><span class="p">,</span> 
+                            <span class="n">hdu_header</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">hdu_data</span><span class="o">=</span><span class="n">synthesized_mask</span><span class="p">,</span> 
+                            <span class="n">hdu_object</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> 
+                            <span class="n">save_file</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">overwrite</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">silent</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+    <span class="n">core</span><span class="o">.</span><span class="n">error</span><span class="o">.</span><span class="n">ifas_info</span><span class="p">(</span><span class="s2">&quot;The `</span><span class="si">{mask_type}</span><span class="s2">` mask has been written &quot;</span>
+                         <span class="s2">&quot;to `</span><span class="si">{mask_path}</span><span class="s2">`.&quot;</span>
+                         <span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">mask_type</span><span class="o">=</span><span class="s1">&#39;synthesized&#39;</span><span class="p">,</span>
+                                 <span class="n">mask_path</span><span class="o">=</span><span class="n">mask_pathname</span><span class="p">))</span>
+
+    <span class="k">return</span> <span class="kc">None</span></div>
+
+<div class="viewcode-block" id="script_synthesize_filters"><a class="viewcode-back" href="../../../docstrings/ifa_smeargle.masking.scripting.html#ifa_smeargle.masking.scripting.script_synthesize_filters">[docs]</a><span class="k">def</span> <span class="nf">script_synthesize_filters</span><span class="p">(</span><span class="n">config</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot; The scripting version of `synthesize_masks`. This function </span>
+<span class="sd">    applies the filter to the entire directory (or single file). It</span>
+<span class="sd">    combines the filter files from the data directory.</span>
+<span class="sd">    </span>
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    config : ConfigObj</span>
+<span class="sd">        The configuration object that is to be used for this </span>
+<span class="sd">        function.</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    None</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="c1"># Extract the global configuration parameters, including </span>
+    <span class="c1"># the directory.</span>
+    <span class="n">data_directory</span> <span class="o">=</span> <span class="n">core</span><span class="o">.</span><span class="n">config</span><span class="o">.</span><span class="n">extract_configuration</span><span class="p">(</span>
+        <span class="n">config_object</span><span class="o">=</span><span class="n">config</span><span class="p">,</span> <span class="n">keys</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;data_directory&#39;</span><span class="p">])</span>
+    <span class="n">subfolder</span> <span class="o">=</span> <span class="n">core</span><span class="o">.</span><span class="n">config</span><span class="o">.</span><span class="n">extract_configuration</span><span class="p">(</span>
+        <span class="n">config_object</span><span class="o">=</span><span class="n">config</span><span class="p">,</span> <span class="n">keys</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;subfolder&#39;</span><span class="p">])</span>
+    <span class="n">filter_tag_name</span> <span class="o">=</span> <span class="n">core</span><span class="o">.</span><span class="n">config</span><span class="o">.</span><span class="n">extract_configuration</span><span class="p">(</span>
+        <span class="n">config_object</span><span class="o">=</span><span class="n">config</span><span class="p">,</span> <span class="n">keys</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;filter_tag_name&#39;</span><span class="p">])</span>
+    
+    <span class="c1"># Get all of the data fits file in the directory to work on.</span>
+    <span class="n">data_fits</span> <span class="o">=</span> <span class="n">core</span><span class="o">.</span><span class="n">io</span><span class="o">.</span><span class="n">get_fits_filenames</span><span class="p">(</span><span class="n">data_directory</span><span class="o">=</span><span class="n">data_directory</span><span class="p">)</span>
+
+    <span class="c1"># Get all of the filter files within this directory too.</span>
+    <span class="c1"># sub-folder forces the filters into subdirectories which are </span>
+    <span class="c1"># custom made, so the recursive is forced True.</span>
+    <span class="k">if</span> <span class="p">(</span><span class="n">subfolder</span><span class="p">):</span>
+        <span class="n">core</span><span class="o">.</span><span class="n">error</span><span class="o">.</span><span class="n">ifas_info</span><span class="p">(</span><span class="s2">&quot;As masks exist in the sub-folders as &quot;</span>
+                             <span class="s2">&quot;indicated by the `subfolder` parameter in the &quot;</span>
+                             <span class="s2">&quot;configuration file, obtaining filters will be &quot;</span>
+                             <span class="s2">&quot;recursive with respect to the data directory.&quot;</span><span class="p">)</span>
+        <span class="n">defacto_recursive</span> <span class="o">=</span> <span class="kc">True</span>
+    <span class="c1"># Getting the filter files.</span>
+    <span class="n">filter_files</span> <span class="o">=</span> <span class="n">mask</span><span class="o">.</span><span class="n">base</span><span class="o">.</span><span class="n">get_filter_fits_filenames</span><span class="p">(</span>
+        <span class="n">data_directory</span><span class="o">=</span><span class="n">data_directory</span><span class="p">,</span> <span class="n">recursive</span><span class="o">=</span><span class="n">defacto_recursive</span><span class="p">)</span>
+
+    <span class="c1"># Compile and combine all of the filter files that used a given</span>
+    <span class="c1"># data file as its base. We assume that it can be determined</span>
+    <span class="c1"># from just name matching.</span>
+    <span class="k">for</span> <span class="n">datafiledex</span> <span class="ow">in</span> <span class="n">data_fits</span><span class="p">:</span>
+        <span class="c1"># The real data array.</span>
+        <span class="n">__</span><span class="p">,</span> <span class="n">hdu_header</span><span class="p">,</span> <span class="n">hdu_data</span> <span class="o">=</span> <span class="n">core</span><span class="o">.</span><span class="n">io</span><span class="o">.</span><span class="n">read_fits_file</span><span class="p">(</span>
+            <span class="n">file_name</span><span class="o">=</span><span class="n">datafiledex</span><span class="p">,</span> <span class="n">extension</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">silent</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+        <span class="c1"># The data filter, assume by default all pixels are good.</span>
+        <span class="n">hdu_filter</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">full_like</span><span class="p">(</span><span class="n">hdu_data</span><span class="p">,</span> <span class="kc">False</span><span class="p">)</span>
+
+        <span class="c1"># Search through all filter files.</span>
+        <span class="k">for</span> <span class="n">filterfiledex</span> <span class="ow">in</span> <span class="n">filter_files</span><span class="p">:</span>
+            <span class="c1"># Extract the base file names of these files to allow </span>
+            <span class="c1"># for comparison to ensure that the files use the same </span>
+            <span class="c1"># source data file.</span>
+            <span class="n">__</span><span class="p">,</span> <span class="n">data_filename</span><span class="p">,</span> <span class="n">__</span> <span class="o">=</span> <span class="n">core</span><span class="o">.</span><span class="n">strformat</span><span class="o">.</span><span class="n">split_pathname</span><span class="p">(</span>
+                <span class="n">pathname</span><span class="o">=</span><span class="n">datafiledex</span><span class="p">)</span>
+            <span class="n">__</span><span class="p">,</span> <span class="n">filter_filename</span><span class="p">,</span> <span class="n">__</span> <span class="o">=</span> <span class="n">core</span><span class="o">.</span><span class="n">strformat</span><span class="o">.</span><span class="n">split_pathname</span><span class="p">(</span>
+                <span class="n">pathname</span><span class="o">=</span><span class="n">filterfiledex</span><span class="p">)</span>
+
+            <span class="k">if</span> <span class="p">(</span><span class="n">data_filename</span> <span class="ow">in</span> <span class="n">filter_filename</span><span class="p">):</span>
+                <span class="c1"># They have a large common section in their name; </span>
+                <span class="c1"># they likely share the same data file. Read the </span>
+                <span class="c1"># fits in.</span>
+                <span class="n">__</span><span class="p">,</span> <span class="n">filter_header</span><span class="p">,</span> <span class="n">filter_data</span> <span class="o">=</span> <span class="n">core</span><span class="o">.</span><span class="n">io</span><span class="o">.</span><span class="n">read_fits_file</span><span class="p">(</span>
+                    <span class="n">file_name</span><span class="o">=</span><span class="n">filterfiledex</span><span class="p">,</span> <span class="n">extension</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">silent</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+
+                <span class="c1"># Combine this filter with the other ones extracted.</span>
+                <span class="c1"># Ignore the mask part, it works perfectly well with</span>
+                <span class="c1"># filters.</span>
+                <span class="n">hdu_filter</span> <span class="o">=</span> <span class="n">mask</span><span class="o">.</span><span class="n">base</span><span class="o">.</span><span class="n">synthesize_masks</span><span class="p">(</span><span class="n">hdu_filter</span><span class="p">,</span>
+                                                        <span class="n">filter_data</span><span class="p">)</span>
+                <span class="c1"># Move on to the next filter.</span>
+                <span class="k">continue</span>
+
+            <span class="k">else</span><span class="p">:</span>
+                <span class="c1"># These files don&#39;t likely share the same data file.</span>
+                <span class="k">continue</span>
+
+        <span class="c1"># Deriving the name of the filter file to be written. It </span>
+        <span class="c1"># changes depending on user&#39;s data directory and the </span>
+        <span class="c1"># sub-folder status.</span>
+        <span class="nb">dir</span><span class="p">,</span> <span class="n">file</span><span class="p">,</span> <span class="n">ext</span> <span class="o">=</span> <span class="n">core</span><span class="o">.</span><span class="n">strformat</span><span class="o">.</span><span class="n">split_pathname</span><span class="p">(</span><span class="n">pathname</span><span class="o">=</span><span class="n">datafiledex</span><span class="p">)</span>
+        <span class="n">filter_dir_name</span> <span class="o">=</span> <span class="n">core</span><span class="o">.</span><span class="n">runtime</span><span class="o">.</span><span class="n">extract_runtime_configuration</span><span class="p">(</span>
+            <span class="n">config_key</span><span class="o">=</span><span class="s1">&#39;FILTERING_SUBDIR&#39;</span><span class="p">)</span>
+        <span class="c1"># The filter tag name; if it is not a valid input, then</span>
+        <span class="c1"># use a default.</span>
+        <span class="k">if</span> <span class="p">((</span><span class="nb">isinstance</span><span class="p">(</span><span class="n">filter_tag_name</span><span class="p">,</span> <span class="nb">str</span><span class="p">))</span> <span class="ow">and</span> 
+            <span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">filter_tag_name</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">)</span> <span class="ow">and</span>
+            <span class="p">(</span><span class="n">filter_tag_name</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">)):</span> 
+            <span class="c1"># Apple the tag that the user provided.</span>
+            <span class="n">filter_tag</span> <span class="o">=</span> <span class="n">filter_tag_name</span>
+            <span class="n">filter_dir_tag</span> <span class="o">=</span> <span class="s1">&#39;&#39;</span><span class="o">.</span><span class="n">join</span><span class="p">([</span><span class="s1">&#39;FILTER&#39;</span><span class="p">,</span> <span class="s1">&#39;_&#39;</span><span class="p">,</span> <span class="n">filter_tag_name</span><span class="p">])</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="c1"># The defaults.</span>
+            <span class="n">filter_tag</span> <span class="o">=</span> <span class="s1">&#39;SYNTHESIZED&#39;</span>
+            <span class="n">filter_dir_tag</span> <span class="o">=</span> <span class="s1">&#39;FILTER_SYNTHESIZE&#39;</span>
+        <span class="c1"># Compile the file name for this filter.</span>
+        <span class="n">synth_filter_filename</span> <span class="o">=</span> <span class="n">core</span><span class="o">.</span><span class="n">strformat</span><span class="o">.</span><span class="n">combine_pathname</span><span class="p">(</span>
+            <span class="n">directory</span><span class="o">=</span><span class="p">([</span><span class="nb">dir</span><span class="p">,</span> <span class="n">filter_dir_name</span><span class="p">,</span> <span class="n">filter_dir_tag</span><span class="p">]</span> 
+                       <span class="k">if</span> <span class="n">subfolder</span> <span class="k">else</span> <span class="p">[</span><span class="nb">dir</span><span class="p">]),</span> 
+            <span class="n">file_name</span><span class="o">=</span><span class="p">[</span><span class="n">file</span><span class="p">,</span> <span class="s1">&#39;__&#39;</span><span class="p">,</span> <span class="n">filter_tag</span><span class="p">],</span> <span class="n">extension</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;.filter&#39;</span><span class="p">,</span><span class="s1">&#39;.fits&#39;</span><span class="p">])</span>
+        <span class="c1"># Also check if the folder exists, if not, then make it.</span>
+        <span class="k">if</span> <span class="p">(</span><span class="ow">not</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">isdir</span><span class="p">(</span><span class="n">core</span><span class="o">.</span><span class="n">strformat</span><span class="o">.</span><span class="n">combine_pathname</span><span class="p">(</span>
+            <span class="n">directory</span><span class="o">=</span><span class="p">([</span><span class="nb">dir</span><span class="p">,</span> <span class="n">filter_dir_name</span><span class="p">,</span> <span class="n">filter_dir_tag</span><span class="p">]</span> 
+                       <span class="k">if</span> <span class="n">subfolder</span> <span class="k">else</span> <span class="p">[</span><span class="nb">dir</span><span class="p">])</span> <span class="p">))):</span>
+            <span class="c1"># Creating the directory.</span>
+            <span class="n">os</span><span class="o">.</span><span class="n">makedirs</span><span class="p">(</span><span class="n">core</span><span class="o">.</span><span class="n">strformat</span><span class="o">.</span><span class="n">combine_pathname</span><span class="p">(</span>
+                <span class="n">directory</span><span class="o">=</span><span class="p">([</span><span class="nb">dir</span><span class="p">,</span> <span class="n">filter_dir_name</span><span class="p">,</span> <span class="n">filter_dir_tag</span><span class="p">]</span> 
+                       <span class="k">if</span> <span class="n">subfolder</span> <span class="k">else</span> <span class="p">[</span><span class="nb">dir</span><span class="p">])))</span>
+
+        <span class="c1"># All of the filters have been added to the sum total. Save</span>
+        <span class="c1"># the sum total.</span>
+        <span class="n">core</span><span class="o">.</span><span class="n">io</span><span class="o">.</span><span class="n">write_fits_file</span><span class="p">(</span><span class="n">file_name</span><span class="o">=</span><span class="n">synth_filter_filename</span><span class="p">,</span> 
+                                <span class="n">hdu_header</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">hdu_data</span><span class="o">=</span><span class="n">hdu_filter</span><span class="p">,</span>
+                                <span class="n">save_file</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">overwrite</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">silent</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+
+    <span class="c1"># All done.</span>
+    <span class="k">return</span> <span class="kc">None</span></div>
+</pre></div>
+
+           </div>
+           
+          </div>
+          <footer>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        
+        &copy; Copyright 2020, Sparrow
+
+    </p>
+  </div>
+    
+    
+    
+    Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a
+    
+    <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a>
+    
+    provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+
+  
+  
+    
+   
+
+</body>
+</html>

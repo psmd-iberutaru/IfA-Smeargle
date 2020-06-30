@@ -27,12 +27,16 @@ def sanitize_file_size(data_directory, method='largest', delete=False,
         The current available methods for determining the file size 
         that is proper.
 
-            * 'largest' : The largest ``.fits`` file is considered 
-            to be the right file size (default).
-            * 'smallest' : The smallest ``.fits`` file is considered 
-            to be the right file size.
-            * 'exact' : The ``.fits`` file that is exactly the 
-            size specified.
+            * 'largest'
+                The largest ``.fits`` file is considered 
+                to be the right file size (default).
+            * 'smallest'
+                The smallest ``.fits`` file is considered 
+                to be the right file size.
+            * 'exact'
+                The ``.fits`` file that is exactly the 
+                size specified.
+
     delete : boolean (optional)
         If True, then all bad files found by this method are deleted.
     exact_size : int (optional)

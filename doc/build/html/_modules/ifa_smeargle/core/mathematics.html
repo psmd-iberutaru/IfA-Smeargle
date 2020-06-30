@@ -1,0 +1,656 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>ifa_smeargle.core.mathematics &mdash; IfA_Smeargle 2020 documentation</title>
+  
+
+  
+  <link rel="stylesheet" href="../../../_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
+  <link rel="stylesheet" href="../../../_static/css/custom.css" type="text/css" />
+
+  
+  
+  
+  
+
+  
+  <!--[if lt IE 9]>
+    <script src="../../../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+    
+      <script type="text/javascript" id="documentation_options" data-url_root="../../../" src="../../../_static/documentation_options.js"></script>
+        <script src="../../../_static/jquery.js"></script>
+        <script src="../../../_static/underscore.js"></script>
+        <script src="../../../_static/doctools.js"></script>
+        <script src="../../../_static/language_data.js"></script>
+    
+    <script type="text/javascript" src="../../../_static/js/theme.js"></script>
+
+    
+    <link rel="index" title="Index" href="../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../search.html" /> 
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+          
+
+          
+            <a href="../../../index.html" class="icon icon-home" alt="Documentation Home"> IfA_Smeargle
+          
+
+          
+          </a>
+
+          
+            
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <p class="caption"><span class="caption-text">Code Documentation:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../docstrings/modules.html">ifa_smeargle</a></li>
+</ul>
+
+            
+          
+        </div>
+        
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../../index.html">IfA_Smeargle</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="../../../index.html" class="icon icon-home"></a> &raquo;</li>
+        
+          <li><a href="../../index.html">Module code</a> &raquo;</li>
+        
+      <li>ifa_smeargle.core.mathematics</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <h1>Source code for ifa_smeargle.core.mathematics</h1><div class="highlight"><pre>
+<span></span>
+<span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+<span class="kn">import</span> <span class="nn">numpy.ma</span> <span class="k">as</span> <span class="nn">np_ma</span>
+<span class="kn">import</span> <span class="nn">astropy</span> <span class="k">as</span> <span class="nn">ap</span>
+<span class="kn">import</span> <span class="nn">astropy.modeling</span> <span class="k">as</span> <span class="nn">ap_mod</span>
+<span class="kn">import</span> <span class="nn">sympy</span> <span class="k">as</span> <span class="nn">sy</span>
+
+<span class="kn">import</span> <span class="nn">ifa_smeargle.core</span> <span class="k">as</span> <span class="nn">core</span>
+
+<div class="viewcode-block" id="ifas_masked_mean"><a class="viewcode-back" href="../../../docstrings/ifa_smeargle.core.mathematics.html#ifa_smeargle.core.mathematics.ifas_masked_mean">[docs]</a><span class="k">def</span> <span class="nf">ifas_masked_mean</span><span class="p">(</span><span class="n">array</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot; This returns the true mean of the data. It only counts </span>
+<span class="sd">    valid data.</span>
+
+<span class="sd">    There are outstanding problems with how the masked arrays </span>
+<span class="sd">    handle means. For some reason, there is no np.ma.nanmean </span>
+<span class="sd">    function. This adds that functionality.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    array : ndarray</span>
+<span class="sd">        The value or array of values by which the mean will be</span>
+<span class="sd">       taken from.</span>
+<span class="sd">    axis : int </span>
+<span class="sd">        The axis that the mean will be taken over.</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    true_mean : float or ndarray</span>
+<span class="sd">        The mean of the array along which ever axis was given. </span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="c1"># Fix all invalid data before taking the mean.</span>
+    <span class="n">valid_array</span> <span class="o">=</span> <span class="n">np_ma</span><span class="o">.</span><span class="n">fix_invalid</span><span class="p">(</span><span class="n">array</span><span class="p">)</span>
+
+    <span class="c1"># Test to see if there is any invalid data left.</span>
+    <span class="k">if</span> <span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">any</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">isnan</span><span class="p">(</span><span class="n">valid_array</span><span class="p">))):</span>
+        <span class="k">raise</span> <span class="n">core</span><span class="o">.</span><span class="n">error</span><span class="o">.</span><span class="n">DataError</span><span class="p">(</span><span class="s2">&quot;The array still contains invalid nan &quot;</span>
+                                   <span class="s2">&quot;data after the invalid data was fixed. &quot;</span>
+                                   <span class="s2">&quot;The true mean function will not work &quot;</span>
+                                   <span class="s2">&quot;as expected.&quot;</span><span class="p">)</span>
+    <span class="k">if</span> <span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">any</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">isinf</span><span class="p">(</span><span class="n">valid_array</span><span class="p">))):</span>
+        <span class="k">raise</span> <span class="n">core</span><span class="o">.</span><span class="n">error</span><span class="o">.</span><span class="n">DataError</span><span class="p">(</span><span class="s2">&quot;The array still contains invalid inf &quot;</span>
+                                   <span class="s2">&quot;data after the invalid data was fixed. &quot;</span>
+                                   <span class="s2">&quot;The true mean function will not work &quot;</span>
+                                   <span class="s2">&quot;as expected.&quot;</span><span class="p">)</span>
+
+    <span class="c1"># Calculate and return the mean. The masked array version of the </span>
+    <span class="c1"># functions seems to properly ignore masks as intended.</span>
+    <span class="n">true_mean</span> <span class="o">=</span> <span class="n">np_ma</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">valid_array</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="n">axis</span><span class="p">)</span>
+
+    <span class="k">return</span> <span class="n">true_mean</span></div>
+<div class="viewcode-block" id="ifas_masked_median"><a class="viewcode-back" href="../../../docstrings/ifa_smeargle.core.mathematics.html#ifa_smeargle.core.mathematics.ifas_masked_median">[docs]</a><span class="k">def</span> <span class="nf">ifas_masked_median</span><span class="p">(</span><span class="n">array</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot; This returns the true median of the data. It only counts </span>
+<span class="sd">    valid data.</span>
+
+<span class="sd">    There are outstanding problems with how the masked arrays </span>
+<span class="sd">    handle medians. For some reason, there is no np.ma.nanmedian </span>
+<span class="sd">    function. This adds that functionality.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    array : ndarray</span>
+<span class="sd">        The value or array of values by which the median will be </span>
+<span class="sd">        taken from.</span>
+<span class="sd">    axis : int </span>
+<span class="sd">        The axis that the median will be taken over.</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    true_median : float or ndarray</span>
+<span class="sd">        The median of the array along which ever axis was given. </span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="c1"># Fix all invalid data before taking the median.</span>
+    <span class="n">valid_array</span> <span class="o">=</span> <span class="n">np_ma</span><span class="o">.</span><span class="n">fix_invalid</span><span class="p">(</span><span class="n">array</span><span class="p">)</span>
+
+    <span class="c1"># Test to see if there is any invalid data left.</span>
+    <span class="k">if</span> <span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">any</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">isnan</span><span class="p">(</span><span class="n">valid_array</span><span class="p">))):</span>
+        <span class="k">raise</span> <span class="n">core</span><span class="o">.</span><span class="n">error</span><span class="o">.</span><span class="n">DataError</span><span class="p">(</span><span class="s2">&quot;The array still contains invalid nan &quot;</span>
+                                   <span class="s2">&quot;data after the invalid data was fixed. &quot;</span>
+                                   <span class="s2">&quot;The true mean function will not work &quot;</span>
+                                   <span class="s2">&quot;as expected.&quot;</span><span class="p">)</span>
+    <span class="k">if</span> <span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">any</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">isinf</span><span class="p">(</span><span class="n">valid_array</span><span class="p">))):</span>
+        <span class="k">raise</span> <span class="n">core</span><span class="o">.</span><span class="n">error</span><span class="o">.</span><span class="n">DataError</span><span class="p">(</span><span class="s2">&quot;The array still contains invalid inf &quot;</span>
+                                   <span class="s2">&quot;data after the invalid data was fixed. &quot;</span>
+                                   <span class="s2">&quot;The true mean function will not work &quot;</span>
+                                   <span class="s2">&quot;as expected.&quot;</span><span class="p">)</span>
+
+    <span class="c1"># Calculate and return the median. The masked array version of </span>
+    <span class="c1"># the functions seems to properly ignore masks as intended.</span>
+    <span class="n">true_median</span> <span class="o">=</span> <span class="n">np_ma</span><span class="o">.</span><span class="n">median</span><span class="p">(</span><span class="n">valid_array</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="n">axis</span><span class="p">)</span>
+
+    <span class="k">return</span> <span class="n">true_median</span></div>
+
+<div class="viewcode-block" id="ifas_masked_std"><a class="viewcode-back" href="../../../docstrings/ifa_smeargle.core.mathematics.html#ifa_smeargle.core.mathematics.ifas_masked_std">[docs]</a><span class="k">def</span> <span class="nf">ifas_masked_std</span><span class="p">(</span><span class="n">array</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot; This returns the true standard deviation of the data. It </span>
+<span class="sd">    only counts valid data.</span>
+
+<span class="sd">    There are outstanding problems with how the masked arrays </span>
+<span class="sd">    handle stds. For some reason, there is no np.ma.nanstd </span>
+<span class="sd">    function. This adds that functionality.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    array : ndarray</span>
+<span class="sd">        The value or array of values by which the standard deviation </span>
+<span class="sd">        will be taken from.</span>
+<span class="sd">    axis : int </span>
+<span class="sd">        The axis that the median will be taken over.</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    true_std : float or ndarray</span>
+<span class="sd">        The standard deviation of the array along which ever axis </span>
+<span class="sd">        was given. </span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="c1"># Fix all invalid data before taking the median.</span>
+    <span class="n">valid_array</span> <span class="o">=</span> <span class="n">np_ma</span><span class="o">.</span><span class="n">fix_invalid</span><span class="p">(</span><span class="n">array</span><span class="p">)</span>
+
+    <span class="c1"># Test to see if there is any invalid data left.</span>
+    <span class="k">if</span> <span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">any</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">isnan</span><span class="p">(</span><span class="n">valid_array</span><span class="p">))):</span>
+        <span class="k">raise</span> <span class="n">core</span><span class="o">.</span><span class="n">error</span><span class="o">.</span><span class="n">DataError</span><span class="p">(</span><span class="s2">&quot;The array still contains invalid nan &quot;</span>
+                                   <span class="s2">&quot;data after the invalid data was fixed. &quot;</span>
+                                   <span class="s2">&quot;The true mean function will not work &quot;</span>
+                                   <span class="s2">&quot;as expected.&quot;</span><span class="p">)</span>
+    <span class="k">if</span> <span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">any</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">isinf</span><span class="p">(</span><span class="n">valid_array</span><span class="p">))):</span>
+        <span class="k">raise</span> <span class="n">core</span><span class="o">.</span><span class="n">error</span><span class="o">.</span><span class="n">DataError</span><span class="p">(</span><span class="s2">&quot;The array still contains invalid inf &quot;</span>
+                                   <span class="s2">&quot;data after the invalid data was fixed. &quot;</span>
+                                   <span class="s2">&quot;The true mean function will not work &quot;</span>
+                                   <span class="s2">&quot;as expected.&quot;</span><span class="p">)</span>
+
+    <span class="c1"># Calculate and return the standard deviation. The masked array </span>
+    <span class="c1"># version of the functions seems to properly ignore masks as </span>
+    <span class="c1"># intended.</span>
+    <span class="n">true_std</span> <span class="o">=</span> <span class="n">np_ma</span><span class="o">.</span><span class="n">std</span><span class="p">(</span><span class="n">valid_array</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="n">axis</span><span class="p">)</span>
+
+    <span class="k">return</span> <span class="n">true_std</span></div>
+
+
+<div class="viewcode-block" id="ifas_robust_mean"><a class="viewcode-back" href="../../../docstrings/ifa_smeargle.core.mathematics.html#ifa_smeargle.core.mathematics.ifas_robust_mean">[docs]</a><span class="k">def</span> <span class="nf">ifas_robust_mean</span><span class="p">(</span><span class="n">array</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot; This provides a more robust measurement of the mean of the </span>
+<span class="sd">    array of values.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    array : ndarray</span>
+<span class="sd">        The array of values by which the mean will be </span>
+<span class="sd">        calculated from.</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    robust_mean : float</span>
+<span class="sd">        The robust mean value.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="c1"># Do not explicitly expect an array.</span>
+    <span class="k">if</span> <span class="p">(</span><span class="nb">isinstance</span><span class="p">(</span><span class="n">array</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">)):</span>
+        <span class="n">x</span> <span class="o">=</span> <span class="n">array</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">x</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">array</span><span class="p">)</span>
+
+    <span class="c1"># This section is provided code from Dr. Mike Bottom.</span>
+    <span class="k">def</span> <span class="nf">robust_mean</span><span class="p">(</span><span class="n">x</span><span class="p">):</span>
+        <span class="n">y</span> <span class="o">=</span> <span class="n">x</span><span class="o">.</span><span class="n">flatten</span><span class="p">()</span>
+        <span class="n">n</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">y</span><span class="p">)</span>
+        <span class="n">y</span><span class="o">.</span><span class="n">sort</span><span class="p">()</span>
+        <span class="n">ind_qt1</span> <span class="o">=</span> <span class="nb">round</span><span class="p">((</span><span class="n">n</span><span class="o">+</span><span class="mi">1</span><span class="p">)</span><span class="o">/</span><span class="mf">4.</span><span class="p">)</span>
+        <span class="n">ind_qt3</span> <span class="o">=</span> <span class="nb">round</span><span class="p">((</span><span class="n">n</span><span class="o">+</span><span class="mi">1</span><span class="p">)</span><span class="o">*</span><span class="mi">3</span><span class="o">/</span><span class="mf">4.</span><span class="p">)</span>
+        <span class="n">IQR</span> <span class="o">=</span> <span class="n">y</span><span class="p">[</span><span class="n">ind_qt3</span><span class="p">]</span><span class="o">-</span> <span class="n">y</span><span class="p">[</span><span class="n">ind_qt1</span><span class="p">]</span>
+        <span class="n">lowFense</span> <span class="o">=</span> <span class="n">y</span><span class="p">[</span><span class="n">ind_qt1</span><span class="p">]</span> <span class="o">-</span> <span class="mf">1.5</span><span class="o">*</span><span class="n">IQR</span>
+        <span class="n">highFense</span> <span class="o">=</span> <span class="n">y</span><span class="p">[</span><span class="n">ind_qt3</span><span class="p">]</span> <span class="o">+</span> <span class="mf">1.5</span><span class="o">*</span><span class="n">IQR</span>
+        <span class="n">ok</span> <span class="o">=</span> <span class="p">(</span><span class="n">y</span><span class="o">&gt;</span><span class="n">lowFense</span><span class="p">)</span><span class="o">*</span><span class="p">(</span><span class="n">y</span><span class="o">&lt;</span><span class="n">highFense</span><span class="p">)</span>
+        <span class="n">yy</span><span class="o">=</span><span class="n">y</span><span class="p">[</span><span class="n">ok</span><span class="p">]</span>
+        <span class="k">return</span> <span class="n">yy</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">dtype</span><span class="o">=</span><span class="s1">&#39;double&#39;</span><span class="p">)</span>
+        
+    <span class="c1"># For documentation</span>
+    <span class="n">robust_mean</span> <span class="o">=</span> <span class="n">robust_mean</span><span class="p">(</span><span class="n">x</span><span class="o">=</span><span class="n">x</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">robust_mean</span></div>
+
+<div class="viewcode-block" id="ifas_robust_std"><a class="viewcode-back" href="../../../docstrings/ifa_smeargle.core.mathematics.html#ifa_smeargle.core.mathematics.ifas_robust_std">[docs]</a><span class="k">def</span> <span class="nf">ifas_robust_std</span><span class="p">(</span><span class="n">array</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot; This provides a more robust measurement of the standard </span>
+<span class="sd">    deviation of the array of values.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    array : ndarray</span>
+<span class="sd">        The array of values by which the standard deviation will be </span>
+<span class="sd">        calculated from.</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    robust_std : float</span>
+<span class="sd">        The robust standard deviation value.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="c1"># Do not explicitly expect an array.</span>
+    <span class="k">if</span> <span class="p">(</span><span class="nb">isinstance</span><span class="p">(</span><span class="n">array</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">)):</span>
+        <span class="n">x</span> <span class="o">=</span> <span class="n">array</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">x</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">array</span><span class="p">)</span>
+
+    <span class="c1"># This section is provided code from Dr. Mike Bottom.</span>
+    <span class="k">def</span> <span class="nf">robust_std</span><span class="p">(</span><span class="n">x</span><span class="p">):</span>
+        <span class="n">y</span> <span class="o">=</span> <span class="n">x</span><span class="o">.</span><span class="n">flatten</span><span class="p">()</span>
+        <span class="n">n</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">y</span><span class="p">)</span>
+        <span class="n">y</span><span class="o">.</span><span class="n">sort</span><span class="p">()</span>
+        <span class="n">ind_qt1</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="nb">round</span><span class="p">((</span><span class="n">n</span><span class="o">+</span><span class="mi">1</span><span class="p">)</span><span class="o">/</span><span class="mf">4.</span><span class="p">))</span>
+        <span class="n">ind_qt3</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="nb">round</span><span class="p">((</span><span class="n">n</span><span class="o">+</span><span class="mi">1</span><span class="p">)</span><span class="o">*</span><span class="mi">3</span><span class="o">/</span><span class="mf">4.</span><span class="p">))</span>
+        <span class="n">IQR</span> <span class="o">=</span> <span class="n">y</span><span class="p">[</span><span class="n">ind_qt3</span><span class="p">]</span><span class="o">-</span> <span class="n">y</span><span class="p">[</span><span class="n">ind_qt1</span><span class="p">]</span>
+        <span class="n">lowFense</span> <span class="o">=</span> <span class="n">y</span><span class="p">[</span><span class="n">ind_qt1</span><span class="p">]</span> <span class="o">-</span> <span class="mf">1.5</span><span class="o">*</span><span class="n">IQR</span>
+        <span class="n">highFense</span> <span class="o">=</span> <span class="n">y</span><span class="p">[</span><span class="n">ind_qt3</span><span class="p">]</span> <span class="o">+</span> <span class="mf">1.5</span><span class="o">*</span><span class="n">IQR</span>
+        <span class="n">ok</span> <span class="o">=</span> <span class="p">(</span><span class="n">y</span><span class="o">&gt;</span><span class="n">lowFense</span><span class="p">)</span><span class="o">*</span><span class="p">(</span><span class="n">y</span><span class="o">&lt;</span><span class="n">highFense</span><span class="p">)</span>
+        <span class="n">yy</span><span class="o">=</span><span class="n">y</span><span class="p">[</span><span class="n">ok</span><span class="p">]</span>
+        <span class="k">return</span> <span class="n">yy</span><span class="o">.</span><span class="n">std</span><span class="p">(</span><span class="n">dtype</span><span class="o">=</span><span class="s1">&#39;double&#39;</span><span class="p">)</span>
+
+    <span class="c1"># For documentation</span>
+    <span class="n">robust_std</span> <span class="o">=</span> <span class="n">robust_std</span><span class="p">(</span><span class="n">x</span><span class="o">=</span><span class="n">x</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">robust_std</span></div>
+
+<div class="viewcode-block" id="ifas_large_integer_array_product"><a class="viewcode-back" href="../../../docstrings/ifa_smeargle.core.mathematics.html#ifa_smeargle.core.mathematics.ifas_large_integer_array_product">[docs]</a><span class="k">def</span> <span class="nf">ifas_large_integer_array_product</span><span class="p">(</span><span class="n">integer_array</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot; Arrays of large integer numbers, or large integer results,</span>
+<span class="sd">    do not operate as well with multiplication.</span>
+<span class="sd">    </span>
+<span class="sd">    The purpose of this function is to compute the product of the </span>
+<span class="sd">    integer as accurately as possible without error. The main source</span>
+<span class="sd">    of error is over/underflow and precision error from the lack of</span>
+<span class="sd">    byte allocation. </span>
+
+<span class="sd">    If the numbers are not integers, they will be forced into </span>
+<span class="sd">    integers. </span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    integer_array : array-like</span>
+<span class="sd">        The array of integers that will be multiplied.</span>
+<span class="sd">    </span>
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    product : integer</span>
+<span class="sd">        The product of the entire array. </span>
+<span class="sd">    ln_product : float</span>
+<span class="sd">        The natural log of the product to a high precision.</span>
+<span class="sd">    log10_product : float</span>
+<span class="sd">        The base 10 log of the product to a high precision.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="c1"># This is the number of float digit precision used throughout</span>
+    <span class="c1"># this function for Sympy.</span>
+    <span class="n">flt_pris</span> <span class="o">=</span> <span class="mi">42</span>
+
+    <span class="c1"># If there is nothing in the array, then the product is 0.</span>
+    <span class="k">if</span> <span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">integer_array</span><span class="p">)</span> <span class="o">==</span> <span class="mi">0</span><span class="p">):</span>
+        <span class="n">product</span> <span class="o">=</span> <span class="n">sy</span><span class="o">.</span><span class="n">Integer</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>
+        <span class="n">ln_product</span> <span class="o">=</span> <span class="o">-</span><span class="n">np</span><span class="o">.</span><span class="n">inf</span>
+        <span class="n">log10_product</span> <span class="o">=</span> <span class="o">-</span><span class="n">np</span><span class="o">.</span><span class="n">inf</span>
+        <span class="k">return</span> <span class="n">product</span><span class="p">,</span> <span class="n">ln_product</span><span class="p">,</span> <span class="n">log10_product</span> 
+
+    <span class="c1"># If the array is more than 2 dimensions, then it is needed to</span>
+    <span class="c1"># flatten the array as Sympy matrices must always be Rank=2.</span>
+    <span class="k">if</span> <span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">integer_array</span><span class="p">)</span><span class="o">.</span><span class="n">shape</span> <span class="o">==</span> <span class="mi">2</span><span class="p">):</span>
+        <span class="c1"># The array is the correct shape, nothing needs to be done.</span>
+        <span class="k">pass</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="c1"># The array is not the correct shape, flattening. The array</span>
+        <span class="c1"># should retain whatever object type it came in with.</span>
+        <span class="n">integer_array</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">integer_array</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="nb">object</span><span class="p">)</span><span class="o">.</span><span class="n">flatten</span><span class="p">()</span>
+
+    <span class="c1"># Test for the type of the array. If it is not an integer, warn.</span>
+    <span class="c1"># This seems the best way to test for integer type regardless</span>
+    <span class="c1"># of which integer class is used. It is not perfect.</span>
+    <span class="k">if</span> <span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">ravel</span><span class="p">(</span><span class="n">integer_array</span><span class="p">)[</span><span class="mi">0</span><span class="p">]</span> <span class="o">%</span> <span class="mi">1</span> <span class="o">!=</span> <span class="nb">int</span><span class="p">(</span><span class="mi">0</span><span class="p">)):</span>
+        <span class="n">core</span><span class="o">.</span><span class="n">ifas_warning</span><span class="p">(</span><span class="n">core</span><span class="o">.</span><span class="n">error</span><span class="o">.</span><span class="n">DataWarning</span><span class="p">,</span>
+                          <span class="p">(</span><span class="s2">&quot;The integer array provided does not seem to be &quot;</span>
+                           <span class="s2">&quot;made of integers. They will be forced into &quot;</span>
+                           <span class="s2">&quot;integers.&quot;</span><span class="p">))</span>
+
+    <span class="c1"># Convert the integer array to Sympy matrices. Sympy allows</span>
+    <span class="c1"># for next to infinite precision. Ensure they are integers too.</span>
+    <span class="n">integer_matrix</span> <span class="o">=</span> <span class="n">sy</span><span class="o">.</span><span class="n">Matrix</span><span class="p">(</span><span class="n">integer_array</span><span class="p">)</span><span class="o">.</span><span class="n">applyfunc</span><span class="p">(</span><span class="n">sy</span><span class="o">.</span><span class="n">Integer</span><span class="p">)</span>
+
+    <span class="c1"># Calculate the product of this array.</span>
+    <span class="n">product</span> <span class="o">=</span> <span class="n">sy</span><span class="o">.</span><span class="n">prod</span><span class="p">(</span><span class="n">integer_matrix</span><span class="p">)</span>
+    <span class="c1"># Calculate the logarithms.</span>
+    <span class="n">ln_product</span> <span class="o">=</span> <span class="n">sy</span><span class="o">.</span><span class="n">Float</span><span class="p">(</span><span class="n">sy</span><span class="o">.</span><span class="n">N</span><span class="p">(</span><span class="n">sy</span><span class="o">.</span><span class="n">log</span><span class="p">(</span><span class="n">product</span><span class="p">),</span> <span class="n">flt_pris</span><span class="p">),</span> 
+                          <span class="p">(</span><span class="n">flt_pris</span><span class="o">+</span><span class="mi">3</span><span class="p">))</span>
+    <span class="n">log10_product</span> <span class="o">=</span> <span class="n">sy</span><span class="o">.</span><span class="n">Float</span><span class="p">(</span><span class="n">sy</span><span class="o">.</span><span class="n">N</span><span class="p">(</span><span class="n">sy</span><span class="o">.</span><span class="n">log</span><span class="p">(</span><span class="n">product</span><span class="p">,</span> <span class="mi">10</span><span class="p">),</span> <span class="n">flt_pris</span><span class="p">),</span> 
+                             <span class="p">(</span><span class="n">flt_pris</span><span class="o">+</span><span class="mi">3</span><span class="p">))</span>
+    <span class="c1"># All done.</span>
+    <span class="k">return</span> <span class="n">product</span><span class="p">,</span> <span class="n">ln_product</span><span class="p">,</span> <span class="n">log10_product</span></div>
+
+<div class="viewcode-block" id="ifas_gaussian_function"><a class="viewcode-back" href="../../../docstrings/ifa_smeargle.core.mathematics.html#ifa_smeargle.core.mathematics.ifas_gaussian_function">[docs]</a><span class="k">def</span> <span class="nf">ifas_gaussian_function</span><span class="p">(</span><span class="nb">input</span><span class="p">,</span> <span class="n">mean</span><span class="p">,</span> <span class="n">stddev</span><span class="p">,</span> <span class="n">amplitude</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot; This is a wrapper function around Astropy&#39;s Gaussian</span>
+<span class="sd">    function. This takes the input of a function, and gives it an</span>
+<span class="sd">    output according to the Gaussian parameters provided. The </span>
+<span class="sd">    function itself is also returned.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    input : array</span>
+<span class="sd">        The input into the Gaussian function.</span>
+<span class="sd">    mean : float</span>
+<span class="sd">        The mean of the Gaussian function.</span>
+<span class="sd">    stddev : float</span>
+<span class="sd">        The standard deviation of the Gaussian function.</span>
+<span class="sd">    amplitude : float</span>
+<span class="sd">        The amplitude to of the Gaussian function.</span>
+<span class="sd">    </span>
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    output : array</span>
+<span class="sd">        The output when the Gaussian function is calculated from the </span>
+<span class="sd">        input.</span>
+<span class="sd">    gaussian_function : function</span>
+<span class="sd">        The Gaussian function with the parameters provided already</span>
+<span class="sd">        given.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="c1"># The Gaussian function itself.</span>
+    <span class="k">def</span> <span class="nf">gaussian_model</span><span class="p">(</span><span class="nb">input</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">mean</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">stddev</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">amplitude</span><span class="o">=</span><span class="mi">0</span><span class="p">):</span>
+        <span class="c1"># A wrapper around Astropy&#39;s.</span>
+        <span class="n">gaussian</span> <span class="o">=</span> <span class="n">ap_mod</span><span class="o">.</span><span class="n">models</span><span class="o">.</span><span class="n">Gaussian1D</span><span class="p">(</span><span class="n">amplitude</span><span class="o">=</span><span class="n">amplitude</span><span class="p">,</span> <span class="n">mean</span><span class="o">=</span><span class="n">mean</span><span class="p">,</span>
+                                            <span class="n">stddev</span><span class="o">=</span><span class="n">stddev</span><span class="p">)</span>
+        <span class="c1"># Evaluation.</span>
+        <span class="n">output</span> <span class="o">=</span> <span class="n">gaussian</span><span class="o">.</span><span class="n">evaluate</span><span class="p">(</span><span class="nb">input</span><span class="p">,</span> <span class="n">amplitude</span><span class="o">=</span><span class="n">amplitude</span><span class="p">,</span> 
+                                   <span class="n">mean</span><span class="o">=</span><span class="n">mean</span><span class="p">,</span> <span class="n">stddev</span><span class="o">=</span><span class="n">stddev</span><span class="p">)</span>
+        <span class="c1"># Return</span>
+        <span class="k">return</span> <span class="n">output</span>
+
+    <span class="c1"># Return both the function and its evaluation.</span>
+    <span class="n">gaussian_function</span> <span class="o">=</span> <span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="n">gaussian_model</span><span class="p">(</span><span class="nb">input</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">x</span><span class="p">),</span> 
+                                                 <span class="n">mean</span><span class="o">=</span><span class="n">mean</span><span class="p">,</span> <span class="n">stddev</span><span class="o">=</span><span class="n">stddev</span><span class="p">,</span> 
+                                                 <span class="n">amplitude</span><span class="o">=</span><span class="n">amplitude</span><span class="p">)</span>
+    <span class="n">output</span> <span class="o">=</span> <span class="n">gaussian_function</span><span class="p">(</span><span class="n">x</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="nb">input</span><span class="p">))</span>
+
+    <span class="c1"># All done.</span>
+    <span class="k">return</span> <span class="n">output</span><span class="p">,</span> <span class="n">gaussian_function</span></div>
+
+<div class="viewcode-block" id="generate_numpy_bin_width_array"><a class="viewcode-back" href="../../../docstrings/ifa_smeargle.core.mathematics.html#ifa_smeargle.core.mathematics.generate_numpy_bin_width_array">[docs]</a><span class="k">def</span> <span class="nf">generate_numpy_bin_width_array</span><span class="p">(</span><span class="n">data_array</span><span class="p">,</span> <span class="n">bin_width</span><span class="p">,</span> 
+                                   <span class="n">local_minimum</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">local_maximum</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot; Matplotlib does not support having input bin withs; this </span>
+<span class="sd">    returns a valid form.</span>
+
+<span class="sd">    This function just generates a valid bin value list provided a </span>
+<span class="sd">    given bin widths. If the ``local_maximum`` or </span>
+<span class="sd">    ``local_minimum value`` is not provided, then the absolute </span>
+<span class="sd">    maximum and minimum of the provided array is used. </span>
+
+<span class="sd">    If mod[(max - min), bin_width] != 0, the last/highest bin is </span>
+<span class="sd">    disenfranchised. This function can adapt to masked arrays. </span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    data_array : ndarray</span>
+<span class="sd">        The data to which the bins will be calculated from; </span>
+<span class="sd">        ignored if the two local maximum and minimum parameters are </span>
+<span class="sd">        provided.</span>
+<span class="sd">    bin_width : float</span>
+<span class="sd">        The width of the bins.</span>
+<span class="sd">    local_minimum : float (optional)</span>
+<span class="sd">        A predefined minimum that the calculating function </span>
+<span class="sd">        should use.</span>
+<span class="sd">    local_maximum : float (optional)</span>
+<span class="sd">        A predefined maximum that the calculating function </span>
+<span class="sd">        should use. </span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    bin_list_values : ndarray</span>
+<span class="sd">        A list of values that can be fed into matplotlib to emulate </span>
+<span class="sd">        binning by a value width.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="c1"># Test if the user provided their own minimum or maximums.</span>
+    <span class="k">if</span> <span class="p">((</span><span class="n">local_minimum</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">)</span> <span class="ow">and</span> <span class="p">(</span><span class="n">local_maximum</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">)):</span>
+        <span class="c1"># They have, apply the minimum and maximums.</span>
+        <span class="n">minimum</span> <span class="o">=</span> <span class="n">local_minimum</span>
+        <span class="n">maximum</span> <span class="o">=</span> <span class="n">local_maximum</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="c1"># They have not, or at least, it is not a usable set.</span>
+        <span class="k">if</span> <span class="p">(</span><span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">data_array</span><span class="p">,</span><span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">)):</span>
+            <span class="n">data_array</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">data_array</span><span class="p">)</span>
+            <span class="c1"># Do not count data that is masked, or </span>
+            <span class="c1"># MaskedArray.compressed() only returns unmasked values.</span>
+            <span class="n">flat_data</span> <span class="o">=</span> <span class="p">(</span><span class="n">data_array</span><span class="o">.</span><span class="n">compressed</span><span class="p">()</span> 
+                         <span class="k">if</span> <span class="n">np_ma</span><span class="o">.</span><span class="n">is_masked</span><span class="p">(</span><span class="n">data_array</span><span class="p">)</span> 
+                         <span class="k">else</span> <span class="n">data_array</span><span class="o">.</span><span class="n">flatten</span><span class="p">())</span>
+        <span class="c1"># Nans normally clog up the computation of maximums </span>
+        <span class="c1"># and minimums.</span>
+        <span class="n">minimum</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">nanmin</span><span class="p">(</span><span class="n">data_array</span><span class="p">)</span>
+        <span class="n">maximum</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">nanmax</span><span class="p">(</span><span class="n">data_array</span><span class="p">)</span>
+
+    <span class="c1"># Calculate the bins based off of the width provided. Numpy </span>
+    <span class="c1"># is pretty good with this.</span>
+    <span class="n">bin_list_values</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="n">minimum</span><span class="p">,</span> <span class="n">maximum</span><span class="p">,</span> <span class="n">bin_width</span><span class="p">)</span>
+    <span class="n">bin_list_values</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">bin_list_values</span><span class="p">,</span> <span class="n">maximum</span><span class="p">)</span>
+
+    <span class="c1"># All done, return.</span>
+    <span class="k">return</span> <span class="n">bin_list_values</span></div>
+
+<div class="viewcode-block" id="generate_prime_numbers"><a class="viewcode-back" href="../../../docstrings/ifa_smeargle.core.mathematics.html#ifa_smeargle.core.mathematics.generate_prime_numbers">[docs]</a><span class="k">def</span> <span class="nf">generate_prime_numbers</span><span class="p">(</span><span class="n">index</span><span class="p">,</span> <span class="n">count</span><span class="o">=</span><span class="mi">1</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot; This function returns prime numbers from a downloaded list</span>
+<span class="sd">    provided by OEIS.</span>
+<span class="sd">    </span>
+<span class="sd">    This function returns the prime number at the 0-indexed </span>
+<span class="sd">    location (e.g. 0 index is 2, 1 index is 3, etc.). It will</span>
+<span class="sd">    also return the `count` number of prime numbers including and</span>
+<span class="sd">    including the prime number at the specified index.</span>
+<span class="sd">    </span>
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    index : int</span>
+<span class="sd">        The 0-indexed index for the prime number to start at. If it</span>
+<span class="sd">        is negative, the prime numbers will be randomized from </span>
+<span class="sd">        2 to 104729 (the first and last prime numbers in the list).</span>
+<span class="sd">    count : int</span>
+<span class="sd">        The number of prime numbers that will be returned. It must</span>
+<span class="sd">        be greater than 1.</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    prime_array : array</span>
+<span class="sd">        The prime numbers. The numbers are sorted.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="c1"># If the count is less than one, raise an error as the number</span>
+    <span class="c1"># of items returned must be greater than one.</span>
+    <span class="k">if</span> <span class="p">(</span><span class="n">count</span> <span class="o">&lt;</span> <span class="mi">1</span><span class="p">):</span>
+        <span class="k">raise</span> <span class="n">core</span><span class="o">.</span><span class="n">error</span><span class="o">.</span><span class="n">InputError</span><span class="p">(</span><span class="s2">&quot;The number count of prime numbers &quot;</span>
+                                    <span class="s2">&quot;returned must be greater than one.&quot;</span><span class="p">)</span>
+
+    <span class="c1"># Open the data file containing all of the prime numbers.</span>
+    <span class="n">prime_file_path</span> <span class="o">=</span> <span class="n">core</span><span class="o">.</span><span class="n">strformat</span><span class="o">.</span><span class="n">combine_pathname</span><span class="p">(</span>
+        <span class="n">directory</span><span class="o">=</span><span class="p">[</span><span class="n">core</span><span class="o">.</span><span class="n">runtime</span><span class="o">.</span><span class="n">get_module_directory</span><span class="p">(),</span><span class="s1">&#39;core&#39;</span><span class="p">,</span><span class="s1">&#39;data_files&#39;</span><span class="p">],</span>
+        <span class="n">file_name</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;prime_numbers&#39;</span><span class="p">],</span>
+        <span class="n">extension</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;.txt&#39;</span><span class="p">])</span>
+    <span class="n">prime_data</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">genfromtxt</span><span class="p">(</span><span class="n">prime_file_path</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="nb">int</span><span class="p">,</span> <span class="n">delimiter</span><span class="o">=</span><span class="s1">&#39; &#39;</span><span class="p">)</span>
+
+    <span class="c1"># Split the prime data into the index numbers, which are </span>
+    <span class="c1"># not needed, and the actual prime numbers into an array.</span>
+    <span class="n">prime_data</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">transpose</span><span class="p">(</span><span class="n">prime_data</span><span class="p">)</span>
+    <span class="n">prime_indexes</span> <span class="o">=</span> <span class="n">prime_data</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+    <span class="n">prime_numbers</span> <span class="o">=</span> <span class="n">prime_data</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
+
+    <span class="c1"># Determine which indexes are to be used to extract the prime</span>
+    <span class="c1"># numbers.</span>
+    <span class="k">if</span> <span class="p">(</span><span class="n">index</span> <span class="o">&lt;</span> <span class="mi">0</span><span class="p">):</span>
+        <span class="c1"># The index is negative, creating a random index list.</span>
+        <span class="n">choosing_index</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">choice</span><span class="p">(</span><span class="n">prime_indexes</span><span class="p">,</span> <span class="n">count</span><span class="p">)</span>
+    <span class="k">elif</span> <span class="p">(</span><span class="n">index</span> <span class="o">&gt;=</span> <span class="mi">0</span><span class="p">):</span>
+        <span class="c1"># The index is positive, creating the ordered index.</span>
+        <span class="n">choosing_index</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="n">index</span><span class="p">,</span> <span class="n">index</span> <span class="o">+</span> <span class="n">count</span><span class="p">)</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="c1"># The index should have been caught.</span>
+        <span class="k">raise</span> <span class="n">core</span><span class="o">.</span><span class="n">error</span><span class="o">.</span><span class="n">BrokenLogicError</span>
+
+    <span class="c1"># Extract the prime numbers.</span>
+    <span class="n">prime_array</span> <span class="o">=</span> <span class="n">prime_numbers</span><span class="p">[</span><span class="n">choosing_index</span><span class="p">]</span>
+    <span class="c1"># And sort, as documented.</span>
+    <span class="n">prime_array</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">sort</span><span class="p">(</span><span class="n">prime_array</span><span class="p">)</span>
+    <span class="c1"># All done.</span>
+    <span class="k">return</span> <span class="n">prime_array</span></div>
+</pre></div>
+
+           </div>
+           
+          </div>
+          <footer>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        
+        &copy; Copyright 2020, Sparrow
+
+    </p>
+  </div>
+    
+    
+    
+    Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a
+    
+    <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a>
+    
+    provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+
+  
+  
+    
+   
+
+</body>
+</html>

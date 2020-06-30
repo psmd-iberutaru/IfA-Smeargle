@@ -1,0 +1,613 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>ifa_smeargle.analysis.base_functions &mdash; IfA_Smeargle 2020 documentation</title>
+  
+
+  
+  <link rel="stylesheet" href="../../../_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
+  <link rel="stylesheet" href="../../../_static/css/custom.css" type="text/css" />
+
+  
+  
+  
+  
+
+  
+  <!--[if lt IE 9]>
+    <script src="../../../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+    
+      <script type="text/javascript" id="documentation_options" data-url_root="../../../" src="../../../_static/documentation_options.js"></script>
+        <script src="../../../_static/jquery.js"></script>
+        <script src="../../../_static/underscore.js"></script>
+        <script src="../../../_static/doctools.js"></script>
+        <script src="../../../_static/language_data.js"></script>
+    
+    <script type="text/javascript" src="../../../_static/js/theme.js"></script>
+
+    
+    <link rel="index" title="Index" href="../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../search.html" /> 
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+          
+
+          
+            <a href="../../../index.html" class="icon icon-home" alt="Documentation Home"> IfA_Smeargle
+          
+
+          
+          </a>
+
+          
+            
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <p class="caption"><span class="caption-text">Code Documentation:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../docstrings/modules.html">ifa_smeargle</a></li>
+</ul>
+
+            
+          
+        </div>
+        
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../../index.html">IfA_Smeargle</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="../../../index.html" class="icon icon-home"></a> &raquo;</li>
+        
+          <li><a href="../../index.html">Module code</a> &raquo;</li>
+        
+      <li>ifa_smeargle.analysis.base_functions</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <h1>Source code for ifa_smeargle.analysis.base_functions</h1><div class="highlight"><pre>
+<span></span>
+<span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">This is where common functions to all of the analysis </span>
+<span class="sd">code is written to.</span>
+<span class="sd">&quot;&quot;&quot;</span>
+
+<span class="kn">import</span> <span class="nn">os</span>
+<span class="kn">import</span> <span class="nn">copy</span>
+<span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+<span class="kn">import</span> <span class="nn">inspect</span>
+
+<span class="kn">import</span> <span class="nn">ifa_smeargle.core</span> <span class="k">as</span> <span class="nn">core</span>
+<span class="kn">import</span> <span class="nn">ifa_smeargle.masking</span> <span class="k">as</span> <span class="nn">mask</span>
+
+<div class="viewcode-block" id="script_batch_analysis"><a class="viewcode-back" href="../../../docstrings/ifa_smeargle.analysis.base_functions.html#ifa_smeargle.analysis.base_functions.script_batch_analysis">[docs]</a><span class="k">def</span> <span class="nf">script_batch_analysis</span><span class="p">(</span><span class="n">config</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot; This script runs all analysis in a batch fashion. </span>
+<span class="sd">    </span>
+<span class="sd">    If the run flag of an analysis in the configuration file is </span>
+<span class="sd">    True, it is run according to the parameters set.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    config : ConfigObj</span>
+<span class="sd">        The configuration object that is to be used for this </span>
+<span class="sd">        function.</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    None</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="c1"># This is just a batch script that runs all of the analysis </span>
+    <span class="c1"># scripts.</span>
+    <span class="n">core</span><span class="o">.</span><span class="n">error</span><span class="o">.</span><span class="n">ifas_info</span><span class="p">(</span><span class="s2">&quot;Running the batch script for all analysis &quot;</span>
+                         <span class="s2">&quot;scripts. All analysis scripts will be run &quot;</span>
+                         <span class="s2">&quot;according to the configuration file.&quot;</span><span class="p">)</span>
+
+    <span class="c1"># Gather all script analysis functions. It is best not to use </span>
+    <span class="c1"># the internal functions of runtime even though it is more</span>
+    <span class="c1"># efficient.</span>
+    <span class="n">script_functions</span> <span class="o">=</span> <span class="n">core</span><span class="o">.</span><span class="n">runtime</span><span class="o">.</span><span class="n">get_script_functions</span><span class="p">()</span>
+    <span class="c1"># We only need to run the masking script functions.</span>
+    <span class="n">script_analysis_prefix</span> <span class="o">=</span> <span class="s1">&#39;script_analysis&#39;</span>
+    <span class="k">for</span> <span class="n">keydex</span><span class="p">,</span> <span class="n">scriptdex</span> <span class="ow">in</span> <span class="n">script_functions</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+        <span class="k">if</span> <span class="p">(</span><span class="n">script_analysis_prefix</span> <span class="ow">in</span> <span class="n">keydex</span><span class="p">):</span>
+            <span class="n">core</span><span class="o">.</span><span class="n">error</span><span class="o">.</span><span class="n">ifas_info</span><span class="p">(</span><span class="s2">&quot;Calling the script mask function: </span><span class="si">{script}</span><span class="s2">&quot;</span>
+                                 <span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">script</span><span class="o">=</span><span class="n">keydex</span><span class="p">))</span>
+            <span class="c1"># Run the analysis script.</span>
+            <span class="n">__</span> <span class="o">=</span> <span class="n">scriptdex</span><span class="p">(</span><span class="n">config</span><span class="o">=</span><span class="n">config</span><span class="p">)</span>
+        <span class="k">elif</span> <span class="p">(</span><span class="n">script_analysis_prefix</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">keydex</span><span class="p">):</span>
+            <span class="k">continue</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="c1"># Something is wrong with the keydex.</span>
+            <span class="k">raise</span> <span class="n">core</span><span class="o">.</span><span class="n">error</span><span class="o">.</span><span class="n">BrokenLogicError</span>
+
+    <span class="c1"># All done.</span>
+    <span class="k">return</span> <span class="kc">None</span></div>
+
+
+<div class="viewcode-block" id="create_filter_from_configuration"><a class="viewcode-back" href="../../../docstrings/ifa_smeargle.analysis.base_functions.html#ifa_smeargle.analysis.base_functions.create_filter_from_configuration">[docs]</a><span class="k">def</span> <span class="nf">create_filter_from_configuration</span><span class="p">(</span><span class="n">data_array</span><span class="p">,</span> <span class="n">filter_config</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    This function applies all of the filters that are written based </span>
+<span class="sd">    on the configurations supplied. </span>
+<span class="sd">    </span>
+<span class="sd">    All filters are obtained automatically from the written code.</span>
+<span class="sd">    If required configuration parameters are missing for any of the </span>
+<span class="sd">    filters, they are automatically skipped.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    data_array : ndarray</span>
+<span class="sd">        The data array by which the filters will be calculated from.</span>
+<span class="sd">    filter_config : ConfigObj or dictionary-like</span>
+<span class="sd">        The configuration that the filters will use.</span>
+<span class="sd">    </span>
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    filter_array : ndarray</span>
+<span class="sd">        The filter, made of each of the individual filters as </span>
+<span class="sd">        calculated.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="c1"># Ensure that the data array is a real array; type check the </span>
+    <span class="c1"># configuration too for easy usage.</span>
+    <span class="n">data_array</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">data_array</span><span class="p">)</span>
+    <span class="n">filter_config</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">(</span><span class="n">filter_config</span><span class="p">)</span>
+
+    <span class="c1"># The dictionary of all of the filters.</span>
+    <span class="n">filter_dict</span> <span class="o">=</span> <span class="n">core</span><span class="o">.</span><span class="n">runtime</span><span class="o">.</span><span class="n">get_filter_functions</span><span class="p">()</span>
+
+    <span class="c1"># Loop through all of the filters, applying them as usual.</span>
+    <span class="n">filter_array_list</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="k">for</span> <span class="n">namedex</span><span class="p">,</span> <span class="n">filterdex</span> <span class="ow">in</span> <span class="n">copy</span><span class="o">.</span><span class="n">deepcopy</span><span class="p">(</span><span class="n">filter_dict</span><span class="p">)</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+        <span class="c1"># Attempt to find the run parameter for this function.</span>
+        <span class="n">run_key</span> <span class="o">=</span> <span class="s1">&#39;&#39;</span><span class="o">.</span><span class="n">join</span><span class="p">([</span><span class="s1">&#39;run_&#39;</span><span class="p">,</span> <span class="n">namedex</span><span class="p">])</span>
+        <span class="k">if</span> <span class="p">(</span><span class="n">run_key</span> <span class="ow">in</span> <span class="n">filter_config</span><span class="p">):</span>
+            <span class="n">run_param</span> <span class="o">=</span> <span class="n">filter_config</span><span class="p">[</span><span class="n">run_key</span><span class="p">]</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">run_param</span> <span class="o">=</span> <span class="kc">False</span>
+            <span class="n">core</span><span class="o">.</span><span class="n">error</span><span class="o">.</span><span class="n">ifas_error</span><span class="p">(</span><span class="n">core</span><span class="o">.</span><span class="n">error</span><span class="o">.</span><span class="n">DevelopmentError</span><span class="p">,</span>
+                                  <span class="p">(</span><span class="s2">&quot;The filter `</span><span class="si">{name}</span><span class="s2">` does not have the &quot;</span>
+                                   <span class="s2">&quot;run parameter `</span><span class="si">{param_key}</span><span class="s2">` in the &quot;</span>
+                                   <span class="s2">&quot;configuration. The filter will be &quot;</span>
+                                   <span class="s2">&quot;skipped as if it were False.&quot;</span>
+                                   <span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="n">namedex</span><span class="p">,</span>
+                                           <span class="n">param_key</span><span class="o">=</span><span class="n">run_key</span><span class="p">)))</span>
+
+        <span class="c1"># All valid parameters for this filter function, extracted.</span>
+        <span class="n">filter_args</span> <span class="o">=</span> <span class="p">{}</span>
+        <span class="n">valid_keys</span> <span class="o">=</span> <span class="p">[</span><span class="n">param</span><span class="o">.</span><span class="n">name</span> <span class="k">for</span> <span class="n">param</span> 
+                      <span class="ow">in</span> <span class="n">inspect</span><span class="o">.</span><span class="n">signature</span><span class="p">(</span><span class="n">filterdex</span><span class="p">)</span><span class="o">.</span><span class="n">parameters</span><span class="o">.</span><span class="n">values</span><span class="p">()</span> 
+                      <span class="k">if</span> <span class="n">param</span><span class="o">.</span><span class="n">kind</span> <span class="o">==</span> <span class="n">param</span><span class="o">.</span><span class="n">POSITIONAL_OR_KEYWORD</span><span class="p">]</span>
+        <span class="k">for</span> <span class="n">keydex</span> <span class="ow">in</span> <span class="n">valid_keys</span><span class="p">:</span>
+            <span class="c1"># The data array is not really a configuration argument.</span>
+            <span class="k">if</span> <span class="p">(</span><span class="n">keydex</span> <span class="o">==</span> <span class="s1">&#39;data_array&#39;</span><span class="p">):</span>
+                <span class="k">continue</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="k">try</span><span class="p">:</span>
+                    <span class="n">filter_args</span><span class="p">[</span><span class="n">keydex</span><span class="p">]</span> <span class="o">=</span> <span class="n">filter_config</span><span class="p">[</span><span class="n">keydex</span><span class="p">]</span>
+                <span class="k">except</span> <span class="ne">TypeError</span><span class="p">:</span>
+                    <span class="n">core</span><span class="o">.</span><span class="n">error</span><span class="o">.</span><span class="n">ifas_warning</span><span class="p">(</span><span class="n">core</span><span class="o">.</span><span class="n">error</span><span class="o">.</span><span class="n">ConfigurationWarning</span><span class="p">,</span>
+                                            <span class="p">(</span><span class="s2">&quot;The configuration parameter &quot;</span>
+                                             <span class="s2">&quot;</span><span class="si">{param}</span><span class="s2"> does not exist in the &quot;</span>
+                                             <span class="s2">&quot;configuration. Skipping the &quot;</span>
+                                             <span class="s2">&quot;</span><span class="si">{name}</span><span class="s2"> filter.&quot;</span>
+                                             <span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">param</span><span class="o">=</span><span class="n">keydex</span><span class="p">,</span> 
+                                                     <span class="n">name</span><span class="o">=</span><span class="n">namedex</span><span class="p">)))</span>
+                    <span class="c1"># This filter will be skipped.</span>
+                    <span class="n">run_param</span> <span class="o">=</span> <span class="kc">False</span>
+                    <span class="k">continue</span>
+
+
+        <span class="c1"># If the script should be run or not.</span>
+        <span class="k">if</span> <span class="p">(</span><span class="ow">not</span> <span class="n">run_param</span><span class="p">):</span>
+            <span class="c1"># It should not be run, moving on.</span>
+            <span class="n">core</span><span class="o">.</span><span class="n">error</span><span class="o">.</span><span class="n">ifas_info</span><span class="p">(</span><span class="s2">&quot;Skipping the filter `</span><span class="si">{name}</span><span class="s2">` because the &quot;</span>
+                                 <span class="s2">&quot;run is False.&quot;</span>
+                                 <span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="n">namedex</span><span class="p">))</span>
+            <span class="k">continue</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="c1"># Attempt to create a filter.</span>
+            <span class="n">temp_filter</span> <span class="o">=</span> <span class="n">filterdex</span><span class="p">(</span><span class="n">data_array</span><span class="o">=</span><span class="n">data_array</span><span class="p">,</span> <span class="o">**</span><span class="n">filter_args</span><span class="p">)</span>
+
+        <span class="c1"># Attach it to the rest of the filters.</span>
+        <span class="n">filter_array_list</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">temp_filter</span><span class="p">)</span>
+
+    <span class="c1"># Combine all of the filters as they have finished.</span>
+    <span class="n">filter_array</span> <span class="o">=</span> <span class="n">mask</span><span class="o">.</span><span class="n">base</span><span class="o">.</span><span class="n">synthesize_masks</span><span class="p">(</span><span class="o">*</span><span class="n">filter_array_list</span><span class="p">)</span>
+
+    <span class="k">if</span> <span class="p">(</span><span class="n">filter_array</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">):</span>
+        <span class="c1"># There were no filters applied, so, just provide a blank </span>
+        <span class="c1"># filter instead of nothing.</span>
+        <span class="n">filter_array</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">full_like</span><span class="p">(</span><span class="n">data_array</span><span class="p">,</span> <span class="kc">False</span><span class="p">)</span>
+
+    <span class="c1"># All done.</span>
+    <span class="k">return</span> <span class="n">filter_array</span></div>
+
+<div class="viewcode-block" id="create_filter_from_directory"><a class="viewcode-back" href="../../../docstrings/ifa_smeargle.analysis.base_functions.html#ifa_smeargle.analysis.base_functions.create_filter_from_directory">[docs]</a><span class="k">def</span> <span class="nf">create_filter_from_directory</span><span class="p">(</span><span class="n">data_file</span><span class="p">,</span> <span class="n">filter_directory</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot; This function extracts the filter from a filter directory that </span>
+<span class="sd">    corresponds to the data file.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    data_file : string</span>
+<span class="sd">        The name of the data file that is going to used as the </span>
+<span class="sd">        reference to find any matching filter files. All directory</span>
+<span class="sd">        information is stripped.</span>
+<span class="sd">    filter_directory : string</span>
+<span class="sd">        The directory by which the filters within will be checked if </span>
+<span class="sd">        they match to the data file.</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    filter_array : ndarray</span>
+<span class="sd">        The filter, made of each of the individual filters as </span>
+<span class="sd">        calculated.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="c1"># Find all of the filter files within the filter directory.</span>
+    <span class="n">filter_files</span> <span class="o">=</span> <span class="n">mask</span><span class="o">.</span><span class="n">base</span><span class="o">.</span><span class="n">get_filter_fits_filenames</span><span class="p">(</span>
+        <span class="n">data_directory</span><span class="o">=</span><span class="n">filter_directory</span><span class="p">,</span> <span class="n">recursive</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+
+    <span class="c1"># See if the data file name matches any of the names of the </span>
+    <span class="c1"># filters.</span>
+    <span class="n">__</span><span class="p">,</span> <span class="n">data_filename</span><span class="p">,</span> <span class="n">__</span> <span class="o">=</span> <span class="n">core</span><span class="o">.</span><span class="n">strformat</span><span class="o">.</span><span class="n">split_pathname</span><span class="p">(</span><span class="n">pathname</span><span class="o">=</span><span class="n">data_file</span><span class="p">)</span>
+    <span class="n">matching_filter_filenames</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="k">for</span> <span class="n">filedex</span> <span class="ow">in</span> <span class="n">filter_files</span><span class="p">:</span>
+        <span class="c1"># Extract only the file name, trim all directory and </span>
+        <span class="c1"># extension non-sense.</span>
+        <span class="n">__</span><span class="p">,</span> <span class="n">filter_filename</span><span class="p">,</span> <span class="n">__</span> <span class="o">=</span> <span class="n">core</span><span class="o">.</span><span class="n">strformat</span><span class="o">.</span><span class="n">split_pathname</span><span class="p">(</span>
+            <span class="n">pathname</span><span class="o">=</span><span class="n">filedex</span><span class="p">)</span>
+        <span class="c1"># Test if they have any common name.</span>
+        <span class="k">if</span> <span class="p">(</span><span class="n">data_filename</span> <span class="ow">in</span> <span class="n">filter_filename</span><span class="p">):</span>
+            <span class="c1"># They files are likely a match,</span>
+            <span class="n">matching_filter_filenames</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">filedex</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">continue</span>
+
+    <span class="c1"># If there are zero or more than 1 matching file, warn as it</span>
+    <span class="c1"># cannot be determined which one is the valid one.</span>
+    <span class="k">if</span> <span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">matching_filter_filenames</span><span class="p">)</span> <span class="o">==</span> <span class="mi">0</span><span class="p">):</span>
+        <span class="n">core</span><span class="o">.</span><span class="n">error</span><span class="o">.</span><span class="n">ifas_warning</span><span class="p">(</span><span class="n">core</span><span class="o">.</span><span class="n">error</span><span class="o">.</span><span class="n">MaskingWarning</span><span class="p">,</span>
+                                <span class="s2">&quot;For the data file `</span><span class="si">{file}</span><span class="s2">`, there were no &quot;</span>
+                                <span class="s2">&quot;appropriate filter files in the directory &quot;</span>
+                                <span class="s2">&quot;</span><span class="si">{dir}</span><span class="s2"> found. Returning None.&quot;</span>
+                                <span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">file</span><span class="o">=</span><span class="n">data_file</span><span class="p">,</span> <span class="nb">dir</span><span class="o">=</span><span class="n">filter_directory</span><span class="p">))</span>
+        <span class="k">return</span> <span class="kc">None</span>
+    <span class="k">elif</span> <span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">matching_filter_filenames</span><span class="p">)</span> <span class="o">==</span> <span class="mi">1</span><span class="p">):</span>
+        <span class="c1"># There is only one matching filter, as expected.</span>
+        <span class="n">__</span><span class="p">,</span> <span class="n">__</span><span class="p">,</span> <span class="n">filter_array</span> <span class="o">=</span> <span class="n">core</span><span class="o">.</span><span class="n">io</span><span class="o">.</span><span class="n">read_fits_file</span><span class="p">(</span>
+            <span class="n">file_name</span><span class="o">=</span><span class="n">matching_filter_filenames</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">silent</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">filter_array</span>
+    <span class="k">elif</span> <span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">matching_filter_filenames</span><span class="p">)</span> <span class="o">&gt;=</span> <span class="mi">1</span><span class="p">):</span>
+        <span class="c1"># There seems to be more than one filters, it is not clear </span>
+        <span class="c1"># which one should be used.</span>
+        <span class="n">core</span><span class="o">.</span><span class="n">error</span><span class="o">.</span><span class="n">ifas_warning</span><span class="p">(</span><span class="n">core</span><span class="o">.</span><span class="n">error</span><span class="o">.</span><span class="n">ImportingWarning</span><span class="p">,</span>
+                                <span class="p">(</span><span class="s2">&quot;There is more than one likely associating &quot;</span>
+                                 <span class="s2">&quot;filter file with this data file. Returning &quot;</span>
+                                 <span class="s2">&quot;None.&quot;</span>
+                                 <span class="s2">&quot;Data file: </span><span class="si">{file}</span><span class="s2">  &quot;</span>
+                                 <span class="s2">&quot;Matching filters: </span><span class="si">{filters}</span><span class="s2">.&quot;</span>
+                                 <span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">file</span><span class="o">=</span><span class="n">data_file</span><span class="p">,</span> 
+                                         <span class="n">filters</span><span class="o">=</span><span class="n">matching_filter_filenames</span><span class="p">)))</span>
+        <span class="k">return</span> <span class="kc">None</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="c1"># The program should not reach here as it should have already</span>
+        <span class="c1"># been caught above.</span>
+        <span class="k">raise</span> <span class="n">core</span><span class="o">.</span><span class="n">error</span><span class="o">.</span><span class="n">BrokenLogicError</span><span class="p">(</span><span class="s2">&quot;The length of the filter &quot;</span>
+                                          <span class="s2">&quot;filenames is: </span><span class="si">{length}</span><span class="s2">. The if &quot;</span>
+                                          <span class="s2">&quot;statements did not catch it &quot;</span>
+                                          <span class="s2">&quot;correctly.&quot;</span>
+                                          <span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">length</span><span class="o">=</span><span class="nb">len</span><span class="p">(</span>
+                                              <span class="n">matching_filter_filenames</span><span class="p">)))</span>
+    <span class="c1"># The program should also not reach here.</span>
+    <span class="k">raise</span> <span class="n">core</span><span class="o">.</span><span class="n">error</span><span class="o">.</span><span class="n">BrokenLogicError</span>
+    <span class="k">return</span> <span class="kc">None</span></div>
+    
+
+<div class="viewcode-block" id="create_directory_analysis_files"><a class="viewcode-back" href="../../../docstrings/ifa_smeargle.analysis.base_functions.html#ifa_smeargle.analysis.base_functions.create_directory_analysis_files">[docs]</a><span class="k">def</span> <span class="nf">create_directory_analysis_files</span><span class="p">(</span><span class="n">data_directory</span><span class="p">,</span> <span class="n">mask_file</span><span class="p">,</span>
+                                    <span class="n">filter_directory</span><span class="p">,</span> <span class="n">filter_config_file</span><span class="p">,</span> 
+                                    <span class="n">analysis_function</span><span class="p">,</span> <span class="n">analysis_parameters</span><span class="p">,</span>
+                                    <span class="n">run</span><span class="p">,</span> <span class="n">append</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot; This function is the common function to compute and save the </span>
+<span class="sd">    results of analysis functions.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    data_directory : string</span>
+<span class="sd">        The data directory by which all of data for the analysis</span>
+<span class="sd">        is contained within.</span>
+<span class="sd">    mask_file : string</span>
+<span class="sd">        The mask, if desired, that will be applied to this analysis</span>
+<span class="sd">        run.</span>
+<span class="sd">    filter_directory : string</span>
+<span class="sd">        The directory that has all of the synthesized filter files.</span>
+<span class="sd">        If it does not exist, then the filters will be calculated if</span>
+<span class="sd">        possible.</span>
+<span class="sd">    filter_config_file : string</span>
+<span class="sd">        The configuration file with the filtering parameters. This </span>
+<span class="sd">        is used if only the filter is calculated rather than read.</span>
+<span class="sd">    analysis_function : function</span>
+<span class="sd">        The analysis function that will be used to calculate the </span>
+<span class="sd">        analysis results.</span>
+<span class="sd">    analysis_parameters : dictionary</span>
+<span class="sd">        The dictionary for the arguments of the analysis function.</span>
+<span class="sd">    run : boolean</span>
+<span class="sd">        This is a flag to ensure that the analysis script should run.</span>
+<span class="sd">        If it is False, it is not run. </span>
+<span class="sd">    append : boolean (optional)</span>
+<span class="sd">        This parameter specifies what to do with a file conflict. </span>
+<span class="sd">        If True, the new analysis is appended to the other header;</span>
+<span class="sd">        else, an exception is raised. Defaults to False.</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    None</span>
+<span class="sd">    </span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="c1"># The data files.</span>
+    <span class="n">data_files</span> <span class="o">=</span> <span class="n">core</span><span class="o">.</span><span class="n">io</span><span class="o">.</span><span class="n">get_fits_filenames</span><span class="p">(</span><span class="n">data_directory</span><span class="o">=</span><span class="n">data_directory</span><span class="p">)</span>
+
+    <span class="c1"># Read the mask into file.</span>
+    <span class="k">try</span><span class="p">:</span>
+        <span class="n">__</span><span class="p">,</span> <span class="n">__</span><span class="p">,</span> <span class="n">mask_array</span> <span class="o">=</span> <span class="n">core</span><span class="o">.</span><span class="n">io</span><span class="o">.</span><span class="n">read_fits_file</span><span class="p">(</span><span class="n">file_name</span><span class="o">=</span><span class="n">mask_file</span><span class="p">,</span> 
+                                                    <span class="n">silent</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+    <span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">error</span><span class="p">:</span>
+        <span class="c1"># The mask cannot be read into memory.</span>
+        <span class="n">core</span><span class="o">.</span><span class="n">error</span><span class="o">.</span><span class="n">ifas_error</span><span class="p">(</span><span class="nb">type</span><span class="p">(</span><span class="n">error</span><span class="p">),</span> <span class="nb">str</span><span class="p">(</span><span class="n">error</span><span class="p">))</span>
+        <span class="c1"># Continue without a mask.</span>
+        <span class="n">__</span><span class="p">,</span> <span class="n">__</span><span class="p">,</span> <span class="n">temp_data</span> <span class="o">=</span> <span class="n">core</span><span class="o">.</span><span class="n">io</span><span class="o">.</span><span class="n">read_fits_file</span><span class="p">(</span><span class="n">file_name</span><span class="o">=</span><span class="n">data_files</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span>
+                                                   <span class="n">silent</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+        <span class="n">mask_array</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">full_like</span><span class="p">(</span><span class="n">temp_data</span><span class="p">,</span> <span class="kc">False</span><span class="p">)</span>
+        <span class="n">core</span><span class="o">.</span><span class="n">error</span><span class="o">.</span><span class="n">ifas_error</span><span class="p">(</span><span class="n">core</span><span class="o">.</span><span class="n">error</span><span class="o">.</span><span class="n">ConfigurationError</span><span class="p">,</span>
+                              <span class="p">(</span><span class="s2">&quot;The mask file `</span><span class="si">{file}</span><span class="s2">` cannot be read into &quot;</span>
+                               <span class="s2">&quot;memory. Check the previous error in the &quot;</span>
+                               <span class="s2">&quot;log. A False mask will be applied.&quot;</span>
+                               <span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">file</span><span class="o">=</span><span class="n">mask_file</span><span class="p">)))</span>
+
+    <span class="c1"># Loop through each file and compute and read back to a new </span>
+    <span class="c1"># analysis file.</span>
+    <span class="k">for</span> <span class="n">filedex</span> <span class="ow">in</span> <span class="n">data_files</span><span class="p">:</span>
+        <span class="c1"># It does not make sense to do an analysis on an analysis</span>
+        <span class="c1"># fits file.</span>
+        <span class="k">if</span> <span class="p">(</span><span class="n">core</span><span class="o">.</span><span class="n">strformat</span><span class="o">.</span><span class="n">split_pathname</span><span class="p">(</span>
+            <span class="n">pathname</span><span class="o">=</span><span class="n">core</span><span class="o">.</span><span class="n">strformat</span><span class="o">.</span><span class="n">split_pathname</span><span class="p">(</span>
+                <span class="n">pathname</span><span class="o">=</span><span class="n">filedex</span><span class="p">)[</span><span class="mi">1</span><span class="p">])[</span><span class="mi">2</span><span class="p">]</span> <span class="o">==</span> <span class="s1">&#39;.analysis&#39;</span><span class="p">):</span>
+            <span class="c1"># It is an analysis file, skip.</span>
+            <span class="k">continue</span>
+
+        <span class="c1"># Load the data.</span>
+        <span class="n">__</span><span class="p">,</span> <span class="n">hdu_header</span><span class="p">,</span> <span class="n">hdu_data</span> <span class="o">=</span> <span class="n">core</span><span class="o">.</span><span class="n">io</span><span class="o">.</span><span class="n">read_fits_file</span><span class="p">(</span><span class="n">file_name</span><span class="o">=</span><span class="n">filedex</span><span class="p">,</span>
+                                                          <span class="n">silent</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+        <span class="c1"># Compute or find the appropriate filter file.</span>
+        <span class="k">if</span> <span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">isdir</span><span class="p">(</span><span class="n">filter_directory</span><span class="p">)):</span>
+            <span class="n">filter_array</span> <span class="o">=</span> <span class="n">create_filter_from_directory</span><span class="p">(</span>
+                <span class="n">data_file</span><span class="o">=</span><span class="n">filedex</span><span class="p">,</span> <span class="n">filter_directory</span><span class="o">=</span><span class="n">filter_directory</span><span class="p">)</span>
+        <span class="k">elif</span> <span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">isfile</span><span class="p">(</span><span class="n">filter_config_file</span><span class="p">)):</span>
+            <span class="c1"># Read the specification and configuration files.</span>
+            <span class="n">filter_spec</span> <span class="o">=</span> <span class="p">(</span><span class="n">core</span><span class="o">.</span><span class="n">runtime</span><span class="o">.</span><span class="n">get_specification_files</span><span class="p">()</span><span class="o">.</span><span class="n">get</span><span class="p">(</span>
+                <span class="s1">&#39;masking_specification&#39;</span><span class="p">,</span> <span class="kc">None</span><span class="p">))</span>
+            <span class="n">filter_config_obj</span> <span class="o">=</span> <span class="n">core</span><span class="o">.</span><span class="n">config</span><span class="o">.</span><span class="n">read_configuration_file</span><span class="p">(</span>
+                <span class="n">config_file_name</span><span class="o">=</span><span class="n">filter_config_file</span><span class="p">,</span> 
+                <span class="n">specification_file_name</span><span class="o">=</span><span class="n">filter_spec</span><span class="p">)</span>
+            <span class="n">filter_config</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">(</span><span class="n">core</span><span class="o">.</span><span class="n">config</span><span class="o">.</span><span class="n">extract_configuration</span><span class="p">(</span>
+                <span class="n">config_object</span><span class="o">=</span><span class="n">filter_config_obj</span><span class="p">,</span> <span class="n">keys</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;filter&#39;</span><span class="p">]))</span>
+            <span class="c1"># Calculate the filter.</span>
+            <span class="n">filter_array</span> <span class="o">=</span> <span class="n">create_filter_from_configuration</span><span class="p">(</span>
+                <span class="n">data_array</span><span class="o">=</span><span class="n">hdu_data</span><span class="p">,</span> <span class="n">filter_config</span><span class="o">=</span><span class="n">filter_config</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">core</span><span class="o">.</span><span class="n">error</span><span class="o">.</span><span class="n">ifas_warning</span><span class="p">(</span><span class="n">core</span><span class="o">.</span><span class="n">error</span><span class="o">.</span><span class="n">MaskingWarning</span><span class="p">,</span>
+                                    <span class="p">(</span><span class="s2">&quot;The filter could not computed or &quot;</span>
+                                     <span class="s2">&quot;found. A False filter will be &quot;</span>
+                                     <span class="s2">&quot;applied.&quot;</span><span class="p">))</span>
+            <span class="n">filter_array</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">full_like</span><span class="p">(</span><span class="n">hdu_data</span><span class="p">,</span> <span class="kc">False</span><span class="p">)</span>
+
+
+        <span class="c1"># Combine both the filter and the mask. </span>
+        <span class="n">mask_filter_array</span> <span class="o">=</span> <span class="n">mask</span><span class="o">.</span><span class="n">base</span><span class="o">.</span><span class="n">synthesize_masks</span><span class="p">(</span><span class="n">mask_array</span><span class="p">,</span> 
+                                                       <span class="n">filter_array</span><span class="p">)</span>
+
+        <span class="c1"># Compute the analysis for this data file.</span>
+        <span class="n">analysis_results</span> <span class="o">=</span> <span class="n">analysis_function</span><span class="p">(</span><span class="n">data_array</span><span class="o">=</span><span class="n">hdu_data</span><span class="p">,</span> 
+                                             <span class="n">mask_filter</span><span class="o">=</span><span class="n">mask_filter_array</span><span class="p">,</span> 
+                                             <span class="n">run</span><span class="o">=</span><span class="n">run</span><span class="p">,</span>
+                                             <span class="o">**</span><span class="n">analysis_parameters</span><span class="p">)</span>
+
+        <span class="c1"># The saved analysis file, should be where masked values </span>
+        <span class="c1"># are NaN. Not the best way by Sparrow&#39;s account, but it is </span>
+        <span class="c1"># done either way.</span>
+        <span class="n">saved_data_array</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">where</span><span class="p">(</span><span class="n">mask_filter_array</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">nan</span><span class="p">,</span> <span class="n">hdu_data</span><span class="p">)</span>
+        <span class="c1"># The name of the data file.</span>
+        <span class="n">temp_dir</span><span class="p">,</span> <span class="n">temp_file</span><span class="p">,</span> <span class="n">temp_ext</span> <span class="o">=</span> <span class="n">core</span><span class="o">.</span><span class="n">strformat</span><span class="o">.</span><span class="n">split_pathname</span><span class="p">(</span>
+            <span class="n">pathname</span><span class="o">=</span><span class="n">filedex</span><span class="p">)</span>
+        <span class="n">saved_file_name</span> <span class="o">=</span> <span class="n">core</span><span class="o">.</span><span class="n">strformat</span><span class="o">.</span><span class="n">combine_pathname</span><span class="p">(</span>
+            <span class="n">directory</span><span class="o">=</span><span class="p">[</span><span class="n">temp_dir</span><span class="p">],</span> 
+            <span class="n">file_name</span><span class="o">=</span><span class="p">[</span><span class="n">temp_file</span><span class="p">],</span> <span class="n">extension</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;.analysis&#39;</span><span class="p">,</span> <span class="n">temp_ext</span><span class="p">])</span>
+
+
+        <span class="c1"># Save the analyzed fits file. The analysis values can be </span>
+        <span class="c1"># saved to the header.</span>
+        <span class="k">try</span><span class="p">:</span>
+            <span class="n">core</span><span class="o">.</span><span class="n">io</span><span class="o">.</span><span class="n">write_fits_file</span><span class="p">(</span><span class="n">file_name</span><span class="o">=</span><span class="n">saved_file_name</span><span class="p">,</span> 
+                                    <span class="n">hdu_header</span><span class="o">=</span><span class="n">hdu_header</span><span class="p">,</span> 
+                                    <span class="n">hdu_data</span><span class="o">=</span><span class="n">saved_data_array</span><span class="p">,</span>
+                                    <span class="n">save_file</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">overwrite</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> 
+                                    <span class="n">silent</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+        <span class="k">except</span> <span class="n">core</span><span class="o">.</span><span class="n">error</span><span class="o">.</span><span class="n">ExportingError</span><span class="p">:</span>
+            <span class="c1"># The exporting error is likely because of a file </span>
+            <span class="c1"># overwrite conflict. Using the append parameter to sort </span>
+            <span class="c1"># it out.</span>
+            <span class="k">if</span> <span class="p">(</span><span class="n">append</span><span class="p">):</span>
+                <span class="c1"># The file should be appended, ignore this error.</span>
+                <span class="k">pass</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="c1"># The file should be written, re-raise.</span>
+                <span class="k">raise</span>
+
+        <span class="c1"># Add the extra analysis information.</span>
+        <span class="n">core</span><span class="o">.</span><span class="n">io</span><span class="o">.</span><span class="n">append_astropy_header_card</span><span class="p">(</span><span class="n">file_name</span><span class="o">=</span><span class="n">saved_file_name</span><span class="p">,</span> 
+                                           <span class="n">header_cards</span><span class="o">=</span><span class="n">analysis_results</span><span class="p">,</span> 
+                                           <span class="n">comment_cards</span><span class="o">=</span><span class="kc">None</span><span class="p">)</span>
+
+    <span class="c1"># All done</span>
+    <span class="k">return</span> <span class="kc">None</span></div>
+
+
+<div class="viewcode-block" id="get_analysis_fits_filenames"><a class="viewcode-back" href="../../../docstrings/ifa_smeargle.analysis.base_functions.html#ifa_smeargle.analysis.base_functions.get_analysis_fits_filenames">[docs]</a><span class="k">def</span> <span class="nf">get_analysis_fits_filenames</span><span class="p">(</span><span class="n">data_directory</span><span class="p">,</span> <span class="n">recursive</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot; This function is to obtain all of the filter fits files </span>
+<span class="sd">    within the directory provided. Mask fits files are those that </span>
+<span class="sd">    have the extension `.analysis.fits`.</span>
+<span class="sd">    </span>
+<span class="sd">    In general, this is a wrapper function around the normal </span>
+<span class="sd">    fits file glob function adapted for filters. </span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    data_directory : string</span>
+<span class="sd">        The data directory that the filter fits files will be </span>
+<span class="sd">        searched from.</span>
+<span class="sd">    recursive : boolean (optional)</span>
+<span class="sd">        If True, also search subdirectories for filter fits files.</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    analysis_fits_filenames : list</span>
+<span class="sd">        The list of the analysis fits file names.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    
+    <span class="c1"># Running to obtain the mask fits file list.</span>
+    <span class="n">analysis_fits_filenames</span> <span class="o">=</span> <span class="n">core</span><span class="o">.</span><span class="n">io</span><span class="o">.</span><span class="n">get_fits_filenames</span><span class="p">(</span>
+        <span class="n">data_directory</span><span class="o">=</span><span class="n">data_directory</span><span class="p">,</span> <span class="n">sub_extension</span><span class="o">=</span><span class="s1">&#39;.analysis&#39;</span><span class="p">,</span> 
+        <span class="n">recursive</span><span class="o">=</span><span class="n">recursive</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">analysis_fits_filenames</span></div>
+</pre></div>
+
+           </div>
+           
+          </div>
+          <footer>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        
+        &copy; Copyright 2020, Sparrow
+
+    </p>
+  </div>
+    
+    
+    
+    Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a
+    
+    <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a>
+    
+    provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+
+  
+  
+    
+   
+
+</body>
+</html>

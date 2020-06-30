@@ -1,0 +1,521 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>ifa_smeargle.core.configuration &mdash; IfA_Smeargle 2020 documentation</title>
+  
+
+  
+  <link rel="stylesheet" href="../../../_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
+  <link rel="stylesheet" href="../../../_static/css/custom.css" type="text/css" />
+
+  
+  
+  
+  
+
+  
+  <!--[if lt IE 9]>
+    <script src="../../../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+    
+      <script type="text/javascript" id="documentation_options" data-url_root="../../../" src="../../../_static/documentation_options.js"></script>
+        <script src="../../../_static/jquery.js"></script>
+        <script src="../../../_static/underscore.js"></script>
+        <script src="../../../_static/doctools.js"></script>
+        <script src="../../../_static/language_data.js"></script>
+    
+    <script type="text/javascript" src="../../../_static/js/theme.js"></script>
+
+    
+    <link rel="index" title="Index" href="../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../search.html" /> 
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+          
+
+          
+            <a href="../../../index.html" class="icon icon-home" alt="Documentation Home"> IfA_Smeargle
+          
+
+          
+          </a>
+
+          
+            
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <p class="caption"><span class="caption-text">Code Documentation:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../docstrings/modules.html">ifa_smeargle</a></li>
+</ul>
+
+            
+          
+        </div>
+        
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../../index.html">IfA_Smeargle</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="../../../index.html" class="icon icon-home"></a> &raquo;</li>
+        
+          <li><a href="../../index.html">Module code</a> &raquo;</li>
+        
+      <li>ifa_smeargle.core.configuration</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <h1>Source code for ifa_smeargle.core.configuration</h1><div class="highlight"><pre>
+<span></span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">This contains the common functions dedicated to the reading, </span>
+<span class="sd">writing, and validating of configuration files.</span>
+<span class="sd">&quot;&quot;&quot;</span>
+
+<span class="kn">import</span> <span class="nn">copy</span>
+<span class="kn">import</span> <span class="nn">configobj</span>
+<span class="kn">import</span> <span class="nn">validate</span>
+<span class="kn">import</span> <span class="nn">os</span>
+<span class="kn">import</span> <span class="nn">shutil</span>
+<span class="kn">import</span> <span class="nn">ifa_smeargle.core</span> <span class="k">as</span> <span class="nn">core</span>
+
+
+<div class="viewcode-block" id="extract_configuration"><a class="viewcode-back" href="../../../docstrings/ifa_smeargle.core.configuration.html#ifa_smeargle.core.configuration.extract_configuration">[docs]</a><span class="k">def</span> <span class="nf">extract_configuration</span><span class="p">(</span><span class="n">config_object</span><span class="p">,</span> <span class="n">keys</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot; This is a wrapper to obtain the configuration parameter from </span>
+<span class="sd">    the configuration tag. This function includes proper error </span>
+<span class="sd">    handling.</span>
+<span class="sd">    </span>
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    config_object : ConfigObj</span>
+<span class="sd">        The configuration object that is going to be tested.</span>
+<span class="sd">    keys : list</span>
+<span class="sd">        The keys that should be called, in order.</span>
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    value : object</span>
+<span class="sd">        The value that the keys was containing.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="c1"># Copy objects, this is to ensure nothing is messed up.</span>
+    <span class="n">config_copy</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">(</span><span class="n">copy</span><span class="o">.</span><span class="n">deepcopy</span><span class="p">(</span><span class="n">config_object</span><span class="p">))</span>
+    <span class="n">keys_copy</span> <span class="o">=</span> <span class="n">copy</span><span class="o">.</span><span class="n">deepcopy</span><span class="p">(</span><span class="n">keys</span><span class="p">)</span>
+    
+    <span class="c1"># The keys must be a list, if only a single tag it is likely </span>
+    <span class="c1"># that the next result would be the answer.</span>
+    <span class="k">try</span><span class="p">:</span>
+        <span class="k">if</span> <span class="p">((</span><span class="nb">isinstance</span><span class="p">(</span><span class="n">keys_copy</span><span class="p">,</span><span class="nb">str</span><span class="p">))</span> <span class="ow">or</span> 
+            <span class="p">((</span><span class="nb">len</span><span class="p">(</span><span class="n">keys_copy</span><span class="p">)</span> <span class="o">==</span> <span class="mi">1</span><span class="p">)</span> <span class="ow">and</span> <span class="p">(</span><span class="nb">isinstance</span><span class="p">(</span><span class="n">keys_copy</span><span class="p">,(</span><span class="nb">list</span><span class="p">,</span><span class="nb">tuple</span><span class="p">))))):</span>
+            <span class="c1"># Return the value.</span>
+            <span class="n">keys_copy</span> <span class="o">=</span> <span class="p">([</span><span class="n">keys_copy</span><span class="p">]</span> <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">keys_copy</span><span class="p">,</span> <span class="nb">str</span><span class="p">)</span> 
+                         <span class="k">else</span> <span class="n">keys_copy</span><span class="p">)</span>
+            <span class="k">return</span> <span class="n">config_copy</span><span class="p">[</span><span class="nb">str</span><span class="p">(</span><span class="n">keys_copy</span><span class="p">[</span><span class="mi">0</span><span class="p">])]</span>
+        <span class="k">elif</span> <span class="p">(</span><span class="nb">isinstance</span><span class="p">(</span><span class="n">keys_copy</span><span class="p">,</span> <span class="p">(</span><span class="nb">list</span><span class="p">,</span> <span class="nb">tuple</span><span class="p">))):</span>
+            <span class="c1"># There likely is more sub-layers to this configuration </span>
+            <span class="c1"># file. Dig another layer deeper.</span>
+            <span class="n">new_config_object</span> <span class="o">=</span> <span class="n">config_object</span><span class="p">[</span><span class="n">keys_copy</span><span class="p">[</span><span class="mi">0</span><span class="p">]]</span>
+            <span class="n">new_keys</span> <span class="o">=</span> <span class="nb">tuple</span><span class="p">(</span><span class="n">keys</span><span class="p">[</span><span class="mi">1</span><span class="p">:])</span>
+
+            <span class="k">return</span> <span class="n">extract_configuration</span><span class="p">(</span><span class="n">config_object</span><span class="o">=</span><span class="n">new_config_object</span><span class="p">,</span> 
+                                         <span class="n">keys</span><span class="o">=</span><span class="n">new_keys</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="n">core</span><span class="o">.</span><span class="n">error</span><span class="o">.</span><span class="n">InputError</span><span class="p">(</span><span class="s2">&quot;The keys were not in a manageable &quot;</span>
+                                        <span class="s2">&quot;form specified by this function.&quot;</span><span class="p">)</span>
+    <span class="k">except</span> <span class="p">(</span><span class="ne">KeyError</span><span class="p">,</span> <span class="ne">AttributeError</span><span class="p">):</span>
+        <span class="c1"># The extra quote mark printed is a property of Python, see</span>
+        <span class="c1"># https://stackoverflow.com/a/24999035</span>
+        <span class="k">raise</span> <span class="ne">KeyError</span><span class="p">(</span><span class="s2">&quot;In the configuration file `</span><span class="si">{config_file}</span><span class="s2">`, &quot;</span>
+                       <span class="s2">&quot;there does not exist the configuration key &quot;</span>
+                       <span class="s2">&quot;path:  </span><span class="si">{key_path}</span><span class="s2">&quot;</span>
+                       <span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">config_file</span><span class="o">=</span><span class="n">config_object</span><span class="o">.</span><span class="n">filename</span><span class="p">,</span> 
+                               <span class="n">key_path</span><span class="o">=</span><span class="s1">&#39;-&gt;&#39;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">keys</span><span class="p">)))</span>
+
+    <span class="c1"># The program should not get to here.</span>
+    <span class="k">raise</span> <span class="n">core</span><span class="o">.</span><span class="n">error</span><span class="o">.</span><span class="n">BrokenLogicError</span>
+    <span class="k">return</span> <span class="kc">None</span></div>
+
+
+
+<div class="viewcode-block" id="read_configuration_file"><a class="viewcode-back" href="../../../docstrings/ifa_smeargle.core.configuration.html#ifa_smeargle.core.configuration.read_configuration_file">[docs]</a><span class="k">def</span> <span class="nf">read_configuration_file</span><span class="p">(</span><span class="n">config_file_name</span><span class="p">,</span> <span class="n">specification_file_name</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot; This reads in a configuration file name specified by the </span>
+<span class="sd">    ConfigObj module. Verification is required.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    config_file_name : string</span>
+<span class="sd">        The path and file name of the configuration. If None, then </span>
+<span class="sd">        the defaults are returned.</span>
+<span class="sd">    specification_file_name : string</span>
+<span class="sd">        The path and file name of the specification/validation file.</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    configuration : ConfigObj</span>
+<span class="sd">        The configuration according to the specification and </span>
+<span class="sd">        configuration files.    </span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    
+    <span class="c1"># Reading the configuration. </span>
+    <span class="k">if</span> <span class="p">(</span><span class="n">config_file_name</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">):</span>
+        <span class="c1"># Assume defaults.</span>
+        <span class="n">config</span> <span class="o">=</span> <span class="n">configobj</span><span class="o">.</span><span class="n">ConfigObj</span><span class="p">(</span><span class="n">configspec</span><span class="o">=</span><span class="n">specification_file_name</span><span class="p">)</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="c1"># Make sure it exists.</span>
+        <span class="k">if</span> <span class="p">(</span><span class="ow">not</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">isfile</span><span class="p">(</span><span class="n">config_file_name</span><span class="p">)):</span>
+            <span class="k">raise</span> <span class="n">core</span><span class="o">.</span><span class="n">error</span><span class="o">.</span><span class="n">InputError</span><span class="p">(</span><span class="s2">&quot;The configuration file `</span><span class="si">{path}</span><span class="s2">` &quot;</span>
+                                        <span class="s2">&quot;does not exist. Please correct it.&quot;</span>
+                                        <span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">path</span><span class="o">=</span><span class="n">config_file_name</span><span class="p">))</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">config</span> <span class="o">=</span> <span class="n">configobj</span><span class="o">.</span><span class="n">ConfigObj</span><span class="p">(</span><span class="n">config_file_name</span><span class="p">,</span> 
+                                         <span class="n">configspec</span><span class="o">=</span><span class="n">specification_file_name</span><span class="p">)</span>
+
+    <span class="c1"># The validator to validate with and ensure proper input.</span>
+    <span class="n">validator</span> <span class="o">=</span> <span class="n">validate</span><span class="o">.</span><span class="n">Validator</span><span class="p">()</span>
+
+    <span class="c1"># Validating, a passed validator is a true pass.</span>
+    <span class="n">validation_results</span> <span class="o">=</span> <span class="n">config</span><span class="o">.</span><span class="n">validate</span><span class="p">(</span><span class="n">validator</span><span class="p">)</span>
+    <span class="c1"># Checking to see if it passed validation. </span>
+    <span class="c1"># As it will return a non-empty dictionary if it fails, direct </span>
+    <span class="c1"># comparison to True is required rather than implicit checking.</span>
+    <span class="k">if</span> <span class="p">(</span><span class="n">validation_results</span> <span class="o">==</span> <span class="kc">True</span><span class="p">):</span>
+        <span class="c1"># It seems fine, attach the filename meta-data too.</span>
+        <span class="n">config</span><span class="o">.</span><span class="n">filename</span> <span class="o">=</span> <span class="n">config_file_name</span>
+        <span class="k">return</span> <span class="n">config</span>
+    <span class="c1"># A dictionary is returned if there were bad entires.</span>
+    <span class="k">elif</span> <span class="p">(</span><span class="nb">isinstance</span><span class="p">(</span><span class="n">validation_results</span><span class="p">,</span> <span class="nb">dict</span><span class="p">)):</span>
+        <span class="k">for</span> <span class="p">(</span><span class="n">sectiondex</span><span class="p">,</span> <span class="n">keydex</span><span class="p">,</span> <span class="n">__</span><span class="p">)</span> <span class="ow">in</span> <span class="n">configobj</span><span class="o">.</span><span class="n">flatten_errors</span><span class="p">(</span>
+            <span class="n">config</span><span class="p">,</span> <span class="n">validation_results</span><span class="p">):</span>
+            <span class="c1"># Going through all configuration keys to see where</span>
+            <span class="c1"># it went wrong.</span>
+            <span class="k">if</span> <span class="p">(</span><span class="n">keydex</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">):</span>
+                <span class="c1"># Keys that did not pass validation.</span>
+                <span class="n">core</span><span class="o">.</span><span class="n">error</span><span class="o">.</span><span class="n">ifas_error</span><span class="p">(</span><span class="n">core</span><span class="o">.</span><span class="n">error</span><span class="o">.</span><span class="n">ConfigurationError</span><span class="p">,</span>
+                                      <span class="p">(</span><span class="s2">&quot;The key `</span><span class="si">{bad_key}</span><span class="s2">` in section &quot;</span>
+                                       <span class="s2">&quot;`</span><span class="si">{bad_sec}</span><span class="s2">` failed validation. &quot;</span>
+                                       <span class="s2">&quot;Please correct it.&quot;</span>
+                                       <span class="o">.</span><span class="n">format</span><span class="p">(</span>
+                                           <span class="n">bad_key</span><span class="o">=</span><span class="n">keydex</span><span class="p">,</span> 
+                                           <span class="n">bad_sec</span><span class="o">=</span><span class="s1">&#39;-&gt;&#39;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">sectiondex</span><span class="p">))))</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="c1"># Sections that are missing.</span>
+                <span class="n">core</span><span class="o">.</span><span class="n">error</span><span class="o">.</span><span class="n">ifas_error</span><span class="p">(</span><span class="n">core</span><span class="o">.</span><span class="n">error</span><span class="o">.</span><span class="n">ConfigurationError</span><span class="p">,</span>
+                                      <span class="p">(</span><span class="s2">&quot;The following section(s) are &quot;</span>
+                                       <span class="s2">&quot;missing:  </span><span class="si">{miss_sec}</span><span class="s2">&quot;</span>
+                                       <span class="o">.</span><span class="n">format</span><span class="p">(</span>
+                                           <span class="n">miss_sec</span><span class="o">=</span><span class="s1">&#39;, &#39;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">sectiondex</span><span class="p">))))</span>
+        <span class="c1"># Stop, let the user correct and have them re-run.</span>
+        <span class="k">raise</span> <span class="n">core</span><span class="o">.</span><span class="n">error</span><span class="o">.</span><span class="n">ConfigurationError</span><span class="p">(</span><span class="s2">&quot;The validaton of the &quot;</span>
+                                            <span class="s2">&quot;configuration file failed. &quot;</span>
+                                            <span class="s2">&quot;Please check that the &quot;</span>
+                                            <span class="s2">&quot;configuration file is formatted &quot;</span>
+                                            <span class="s2">&quot;to the specification file.&quot;</span><span class="p">)</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="k">raise</span> <span class="n">core</span><span class="o">.</span><span class="n">error</span><span class="o">.</span><span class="n">AssumptionError</span><span class="p">(</span><span class="s2">&quot;It had been assumed that &quot;</span>
+                                         <span class="s2">&quot;validation only returns a boolean &quot;</span>
+                                         <span class="s2">&quot;or a dictionary.&quot;</span><span class="p">)</span>
+    <span class="c1"># The program should not reach here.</span>
+    <span class="k">raise</span> <span class="n">core</span><span class="o">.</span><span class="n">error</span><span class="o">.</span><span class="n">BrokenLogicError</span>
+    <span class="k">return</span> <span class="kc">None</span></div>
+
+<div class="viewcode-block" id="write_configuration_file"><a class="viewcode-back" href="../../../docstrings/ifa_smeargle.core.configuration.html#ifa_smeargle.core.configuration.write_configuration_file">[docs]</a><span class="k">def</span> <span class="nf">write_configuration_file</span><span class="p">(</span><span class="n">config_file_name</span><span class="p">,</span> <span class="n">config_object</span><span class="p">,</span> 
+                             <span class="n">specification_file_name</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot; This function takes a configuration object and writes it to </span>
+<span class="sd">    file. If provided with a default, it will also write it to file.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    config_file_name : string</span>
+<span class="sd">        The file name that the configuration object will be  </span>
+<span class="sd">        written to.</span>
+<span class="sd">    config_object : ConfigObj</span>
+<span class="sd">        The configuration object that will be written to file.</span>
+<span class="sd">    specification_file_name : string (optional)</span>
+<span class="sd">        The specification file that is used in the event defaults </span>
+<span class="sd">        are wanted.</span>
+<span class="sd">    </span>
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    None</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="c1"># If the user wanted the defaults instead.</span>
+    <span class="k">if</span> <span class="p">(</span><span class="n">config_object</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">):</span>
+        <span class="k">if</span> <span class="p">(</span><span class="n">specification_file_name</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">):</span>
+            <span class="k">raise</span> <span class="n">core</span><span class="o">.</span><span class="n">error</span><span class="o">.</span><span class="n">ExportingError</span><span class="p">(</span><span class="s2">&quot;There is no configuration or &quot;</span>
+                                            <span class="s2">&quot;specification object or file. &quot;</span>
+                                            <span class="s2">&quot;There is nothing to write or &quot;</span>
+                                            <span class="s2">&quot;create and write.&quot;</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="c1"># Providing the configuration file with the defaults </span>
+            <span class="c1"># already written in.</span>
+            <span class="n">config</span> <span class="o">=</span> <span class="n">configobj</span><span class="o">.</span><span class="n">ConfigObj</span><span class="p">(</span><span class="n">configspec</span><span class="o">=</span><span class="n">specification_file_name</span><span class="p">)</span>
+            <span class="n">validator</span> <span class="o">=</span> <span class="n">validate</span><span class="o">.</span><span class="n">Validator</span><span class="p">()</span>
+            <span class="n">config</span><span class="o">.</span><span class="n">validate</span><span class="p">(</span><span class="n">validator</span><span class="p">,</span> <span class="n">copy</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="c1"># We assume that the configuration object is normal.</span>
+        <span class="k">pass</span>
+
+    <span class="c1"># Attaching the filename. Prioritize the user input over other </span>
+    <span class="c1"># meta-data.</span>
+    <span class="k">if</span> <span class="p">(</span><span class="nb">hasattr</span><span class="p">(</span><span class="n">config</span><span class="p">,</span><span class="s1">&#39;filename&#39;</span><span class="p">)):</span>
+        <span class="n">core</span><span class="o">.</span><span class="n">error</span><span class="o">.</span><span class="n">ifas_log_warning</span><span class="p">(</span><span class="n">core</span><span class="o">.</span><span class="n">error</span><span class="o">.</span><span class="n">ExportingWarning</span><span class="p">,</span>
+                                    <span class="p">(</span><span class="s2">&quot;There was a file name meta-data &quot;</span>
+                                     <span class="s2">&quot;attachment to the configuration file. &quot;</span>
+                                     <span class="s2">&quot;It will be replaced.&quot;</span><span class="p">))</span>
+    <span class="n">config</span><span class="o">.</span><span class="n">filename</span> <span class="o">=</span> <span class="n">config_file_name</span>
+
+    <span class="c1"># Writing to file.</span>
+    <span class="n">config</span><span class="o">.</span><span class="n">write</span><span class="p">()</span>
+
+    <span class="k">return</span> <span class="kc">None</span></div>
+
+<div class="viewcode-block" id="copy_configuration_file"><a class="viewcode-back" href="../../../docstrings/ifa_smeargle.core.configuration.html#ifa_smeargle.core.configuration.copy_configuration_file">[docs]</a><span class="k">def</span> <span class="nf">copy_configuration_file</span><span class="p">(</span><span class="n">config_type</span><span class="p">,</span> <span class="n">destination</span><span class="p">,</span> <span class="n">file_name</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot; This function finds a configuration file based on the </span>
+<span class="sd">    configuration type, and copies it directly into the destination</span>
+<span class="sd">    directory. If the configuration file doesn&#39;t not exist within </span>
+<span class="sd">    the library, an exception is raised.</span>
+<span class="sd">    </span>
+<span class="sd">    Simple substring testing is used to check if the configuration</span>
+<span class="sd">    type matches.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    config_type : string</span>
+<span class="sd">        The type of configuration file that can be copied.</span>
+<span class="sd">    destination : string</span>
+<span class="sd">        The destination directory for the configuration file type</span>
+<span class="sd">        copy.</span>
+<span class="sd">    file_name : string (optional)</span>
+<span class="sd">        This is an optional file name. The extension .ini will be </span>
+<span class="sd">        added unless it is already present. No directory information</span>
+<span class="sd">        should be provided here. Defaults to the copied file name.</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    config_path : string</span>
+<span class="sd">        The new path that the configuration can be found at.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="c1"># Obtaining the list of configuration files.</span>
+    <span class="n">config_files</span> <span class="o">=</span> <span class="n">core</span><span class="o">.</span><span class="n">runtime</span><span class="o">.</span><span class="n">get_configuration_files</span><span class="p">()</span>
+    <span class="c1"># This is mostly for error messages and warnings as it is a </span>
+    <span class="c1"># nice string of the available configurations.</span>
+    <span class="n">avaliable_config_types</span> <span class="o">=</span> <span class="s1">&#39;, &#39;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span>
+        <span class="p">[</span><span class="n">keydex</span> <span class="k">for</span> <span class="n">keydex</span><span class="p">,</span> <span class="n">__</span> <span class="ow">in</span> <span class="n">config_files</span><span class="o">.</span><span class="n">items</span><span class="p">()])</span>
+
+    <span class="c1"># Checking for valid configuration files.</span>
+    <span class="n">matching_files</span> <span class="o">=</span> <span class="p">{}</span>
+    <span class="k">for</span> <span class="n">keydex</span><span class="p">,</span> <span class="n">pathdex</span> <span class="ow">in</span> <span class="n">copy</span><span class="o">.</span><span class="n">deepcopy</span><span class="p">(</span><span class="n">config_files</span><span class="p">)</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+        <span class="k">if</span> <span class="p">(</span><span class="n">config_type</span> <span class="ow">in</span> <span class="n">keydex</span><span class="p">):</span>
+            <span class="c1"># The configuration file matches </span>
+            <span class="n">matching_files</span><span class="p">[</span><span class="n">keydex</span><span class="p">]</span> <span class="o">=</span> <span class="n">pathdex</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="c1"># It is not a matching file.</span>
+            <span class="k">continue</span>
+
+    <span class="c1"># There should only be one matching file. If there is an improper</span>
+    <span class="c1"># number, then inform the user.</span>
+    <span class="k">if</span> <span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">matching_files</span><span class="p">)</span> <span class="o">==</span> <span class="mi">0</span><span class="p">):</span>
+        <span class="c1"># There are no matching configurations.</span>
+        <span class="k">raise</span> <span class="n">core</span><span class="o">.</span><span class="n">error</span><span class="o">.</span><span class="n">InputError</span><span class="p">(</span><span class="s2">&quot;No configuration type `</span><span class="si">{type}</span><span class="s2">` &quot;</span>
+                                    <span class="s2">&quot;matches found. Nothing can be copied. &quot;</span>
+                                    <span class="s2">&quot;The available configurations are: &quot;</span>
+                                    <span class="s2">&quot;</span><span class="se">\n</span><span class="s2">    </span><span class="si">{available}</span><span class="s2">&quot;</span>
+                                    <span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="nb">type</span><span class="o">=</span><span class="n">config_type</span><span class="p">,</span> 
+                                            <span class="n">available</span><span class="o">=</span><span class="n">avaliable_config_types</span><span class="p">))</span>
+    <span class="k">elif</span> <span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">matching_files</span><span class="p">)</span> <span class="o">==</span> <span class="mi">1</span><span class="p">):</span>
+        <span class="c1"># All is normal, the configuration file should be copied </span>
+        <span class="c1"># into the new directory, the file name is added too.</span>
+        <span class="c1"># Check on if the directory provided is a valid one.</span>
+        <span class="k">if</span> <span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">isdir</span><span class="p">(</span><span class="n">destination</span><span class="p">)):</span>
+            <span class="nb">dir</span> <span class="o">=</span> <span class="n">destination</span>
+        <span class="k">elif</span> <span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">isfile</span><span class="p">(</span><span class="n">destination</span><span class="p">)):</span>
+            <span class="c1"># Attempt to extract only the needed directory </span>
+            <span class="c1"># information.</span>
+            <span class="nb">dir</span><span class="p">,</span> <span class="n">__</span><span class="p">,</span> <span class="n">__</span> <span class="o">=</span> <span class="n">core</span><span class="o">.</span><span class="n">strformat</span><span class="o">.</span><span class="n">split_pathname</span><span class="p">(</span><span class="n">pathname</span><span class="o">=</span><span class="n">destination</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="n">core</span><span class="o">.</span><span class="n">error</span><span class="o">.</span><span class="n">InputError</span><span class="p">(</span><span class="s2">&quot;The destination provided is not a &quot;</span>
+                                        <span class="s2">&quot;valid directory. Destination: &quot;</span>
+                                        <span class="s2">&quot;`</span><span class="si">{dest}</span><span class="s2">`&quot;</span>
+                                        <span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">dest</span><span class="o">=</span><span class="n">destination</span><span class="p">))</span>
+        <span class="c1"># The source path for the copied directory file. This should</span>
+        <span class="c1"># be okay as there is only one entry in the dictionary.</span>
+        <span class="n">source_path</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="n">matching_files</span><span class="o">.</span><span class="n">values</span><span class="p">())[</span><span class="mi">0</span><span class="p">]</span>
+        <span class="c1"># Constructing the destination path name for the copied file.</span>
+        <span class="k">if</span> <span class="p">(</span><span class="n">file_name</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">):</span>
+            <span class="c1"># A file name was provided, use it.</span>
+            <span class="n">__</span><span class="p">,</span> <span class="n">file_name</span><span class="p">,</span> <span class="n">__</span> <span class="o">=</span> <span class="n">core</span><span class="o">.</span><span class="n">strformat</span><span class="o">.</span><span class="n">split_pathname</span><span class="p">(</span>
+                <span class="n">pathname</span><span class="o">=</span><span class="n">file_name</span><span class="p">)</span>
+            <span class="n">config_path</span> <span class="o">=</span> <span class="n">core</span><span class="o">.</span><span class="n">strformat</span><span class="o">.</span><span class="n">combine_pathname</span><span class="p">(</span>
+                <span class="n">directory</span><span class="o">=</span><span class="nb">dir</span><span class="p">,</span> <span class="n">file_name</span><span class="o">=</span><span class="n">file_name</span><span class="p">,</span> <span class="n">extension</span><span class="o">=</span><span class="s1">&#39;.ini&#39;</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="c1"># A file name has not been provided, default to the </span>
+            <span class="c1"># copied file name.</span>
+            <span class="n">__</span><span class="p">,</span> <span class="n">file_name</span><span class="p">,</span> <span class="n">__</span> <span class="o">=</span> <span class="n">core</span><span class="o">.</span><span class="n">strformat</span><span class="o">.</span><span class="n">split_pathname</span><span class="p">(</span>
+                <span class="n">pathname</span><span class="o">=</span><span class="n">source_path</span><span class="p">)</span>
+            <span class="n">config_path</span> <span class="o">=</span> <span class="n">core</span><span class="o">.</span><span class="n">strformat</span><span class="o">.</span><span class="n">combine_pathname</span><span class="p">(</span>
+                <span class="n">directory</span><span class="o">=</span><span class="nb">dir</span><span class="p">,</span> <span class="n">file_name</span><span class="o">=</span><span class="n">file_name</span><span class="p">,</span> <span class="n">extension</span><span class="o">=</span><span class="s1">&#39;.ini&#39;</span><span class="p">)</span>
+
+        <span class="c1"># Inform that the file is being copied.</span>
+        <span class="n">core</span><span class="o">.</span><span class="n">error</span><span class="o">.</span><span class="n">ifas_info</span><span class="p">(</span><span class="s2">&quot;The configuration file matching `</span><span class="si">{type}</span><span class="s2">` is &quot;</span>
+                             <span class="s2">&quot;being copied. </span><span class="se">\n</span><span class="s2"> &quot;</span>
+                             <span class="s2">&quot;Source: </span><span class="si">{src}</span><span class="s2">   Destination: </span><span class="si">{dest}</span><span class="s2">&quot;</span>
+                             <span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="nb">type</span><span class="o">=</span><span class="n">config_type</span><span class="p">,</span> <span class="n">src</span><span class="o">=</span><span class="n">source_path</span><span class="p">,</span> 
+                                     <span class="n">dest</span><span class="o">=</span><span class="n">config_path</span><span class="p">))</span>
+        <span class="c1"># Copying the file.</span>
+        <span class="n">shutil</span><span class="o">.</span><span class="n">copyfile</span><span class="p">(</span><span class="n">source_path</span><span class="p">,</span> <span class="n">config_path</span><span class="p">,</span> <span class="n">follow_symlinks</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+
+        <span class="c1"># Returning the path in the event that they need it. </span>
+        <span class="k">return</span> <span class="n">config_path</span>
+    <span class="k">elif</span> <span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">matching_files</span><span class="p">)</span> <span class="o">&gt;=</span> <span class="mi">2</span><span class="p">):</span>
+        <span class="c1"># It is indeterminable as to which file should be coped.</span>
+        <span class="k">raise</span> <span class="n">core</span><span class="o">.</span><span class="n">error</span><span class="o">.</span><span class="n">InputError</span><span class="p">(</span><span class="s2">&quot;The configuration type `</span><span class="si">{type}</span><span class="s2">` &quot;</span>
+                                    <span class="s2">&quot;returned more than one valid &quot;</span>
+                                    <span class="s2">&quot;configuration file. Narrow your type &quot;</span>
+                                    <span class="s2">&quot;using more exact inputs for the &quot;</span>
+                                    <span class="s2">&quot;available configuration files.&quot;</span>
+                                    <span class="s2">&quot;</span><span class="se">\n</span><span class="s2"> Matching:  </span><span class="si">{match}</span><span class="s2"> &quot;</span>
+                                    <span class="s2">&quot;</span><span class="se">\n</span><span class="s2"> Available:  </span><span class="si">{available}</span><span class="s2">&quot;</span>
+                                    <span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="nb">type</span><span class="o">=</span><span class="n">config_type</span><span class="p">,</span>
+                                            <span class="n">match</span><span class="o">=</span><span class="s1">&#39;, &#39;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span>
+                                                <span class="p">[</span><span class="n">keydex</span> <span class="k">for</span> <span class="n">keydex</span><span class="p">,</span> <span class="n">__</span> 
+                                                 <span class="ow">in</span> <span class="n">matching_files</span><span class="o">.</span><span class="n">items</span><span class="p">()]),</span>
+                                            <span class="n">available</span><span class="o">=</span><span class="n">avaliable_config_types</span><span class="p">))</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="c1"># There is no reason why the code should enter here as the </span>
+        <span class="c1"># lengths should be defined.</span>
+        <span class="k">raise</span> <span class="n">core</span><span class="o">.</span><span class="n">error</span><span class="o">.</span><span class="n">BrokenLogicError</span>
+
+    <span class="c1"># All done. Though, it should still not enter here either.</span>
+    <span class="k">raise</span> <span class="n">core</span><span class="o">.</span><span class="n">error</span><span class="o">.</span><span class="n">BrokenLogicError</span>
+    <span class="k">return</span> <span class="kc">None</span></div>
+</pre></div>
+
+           </div>
+           
+          </div>
+          <footer>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        
+        &copy; Copyright 2020, Sparrow
+
+    </p>
+  </div>
+    
+    
+    
+    Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a
+    
+    <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a>
+    
+    provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+
+  
+  
+    
+   
+
+</body>
+</html>

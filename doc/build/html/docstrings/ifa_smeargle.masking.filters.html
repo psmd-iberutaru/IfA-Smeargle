@@ -1,0 +1,419 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>ifa_smeargle.masking.filters module &mdash; IfA_Smeargle 2020 documentation</title>
+  
+
+  
+  <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+  <link rel="stylesheet" href="../_static/css/custom.css" type="text/css" />
+
+  
+  
+  
+  
+
+  
+  <!--[if lt IE 9]>
+    <script src="../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+    
+      <script type="text/javascript" id="documentation_options" data-url_root="../" src="../_static/documentation_options.js"></script>
+        <script src="../_static/jquery.js"></script>
+        <script src="../_static/underscore.js"></script>
+        <script src="../_static/doctools.js"></script>
+        <script src="../_static/language_data.js"></script>
+    
+    <script type="text/javascript" src="../_static/js/theme.js"></script>
+
+    
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="ifa_smeargle.masking.geometric module" href="ifa_smeargle.masking.geometric.html" />
+    <link rel="prev" title="ifa_smeargle.masking.base_functions module" href="ifa_smeargle.masking.base_functions.html" /> 
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+          
+
+          
+            <a href="../index.html" class="icon icon-home" alt="Documentation Home"> IfA_Smeargle
+          
+
+          
+          </a>
+
+          
+            
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <p class="caption"><span class="caption-text">Code Documentation:</span></p>
+<ul class="current">
+<li class="toctree-l1 current"><a class="reference internal" href="modules.html">ifa_smeargle</a><ul class="current">
+<li class="toctree-l2 current"><a class="reference internal" href="ifa_smeargle.html">ifa_smeargle package</a><ul class="current">
+<li class="toctree-l3 current"><a class="reference internal" href="ifa_smeargle.html#subpackages">Subpackages</a><ul class="current">
+<li class="toctree-l4"><a class="reference internal" href="ifa_smeargle.analysis.html">ifa_smeargle.analysis package</a></li>
+<li class="toctree-l4"><a class="reference internal" href="ifa_smeargle.core.html">ifa_smeargle.core package</a></li>
+<li class="toctree-l4 current"><a class="reference internal" href="ifa_smeargle.masking.html">ifa_smeargle.masking package</a></li>
+<li class="toctree-l4"><a class="reference internal" href="ifa_smeargle.plotting.html">ifa_smeargle.plotting package</a></li>
+<li class="toctree-l4"><a class="reference internal" href="ifa_smeargle.reformat.html">ifa_smeargle.reformat package</a></li>
+<li class="toctree-l4"><a class="reference internal" href="ifa_smeargle.testing.html">ifa_smeargle.testing package</a></li>
+<li class="toctree-l4"><a class="reference internal" href="ifa_smeargle.tutorial.html">ifa_smeargle.tutorial package</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="ifa_smeargle.html#submodules">Submodules</a></li>
+<li class="toctree-l3"><a class="reference internal" href="ifa_smeargle.html#module-ifa_smeargle">Module contents</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+
+            
+          
+        </div>
+        
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../index.html">IfA_Smeargle</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="../index.html" class="icon icon-home"></a> &raquo;</li>
+        
+          <li><a href="modules.html">ifa_smeargle</a> &raquo;</li>
+        
+          <li><a href="ifa_smeargle.html">ifa_smeargle package</a> &raquo;</li>
+        
+          <li><a href="ifa_smeargle.masking.html">ifa_smeargle.masking package</a> &raquo;</li>
+        
+      <li>ifa_smeargle.masking.filters module</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+            
+            
+              <a href="https://github.com/psmd-iberutaru/IfA_Smeargle/blob/testdoc/source/docstrings/ifa_smeargle.masking.filters.rst" class="fa fa-github"> Edit on GitHub</a>
+            
+          
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <div class="section" id="module-ifa_smeargle.masking.filters">
+<span id="ifa-smeargle-masking-filters-module"></span><h1>ifa_smeargle.masking.filters module<a class="headerlink" href="#module-ifa_smeargle.masking.filters" title="Permalink to this headline">¶</a></h1>
+<p>This contains all of the value based filters when doing analysis.</p>
+<dl class="function">
+<dt id="ifa_smeargle.masking.filters.filter_exact_value">
+<code class="sig-prename descclassname">ifa_smeargle.masking.filters.</code><code class="sig-name descname">filter_exact_value</code><span class="sig-paren">(</span><em class="sig-param">data_array</em>, <em class="sig-param">exact_value</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/ifa_smeargle/masking/filters.html#filter_exact_value"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#ifa_smeargle.masking.filters.filter_exact_value" title="Permalink to this definition">¶</a></dt>
+<dd><p>This function computes a filter for all pixel values
+equal to some exact value.</p>
+<p>Float equality comparisons are dependent on tolerances. The main
+back function used is <cite>numpy.isclose</cite>.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>data_array</strong> (<em>ndarray</em>) – The data array that the filter will be calculated from.</p></li>
+<li><p><strong>exact_value</strong> (<em>float</em>) – The value that data values close will be tagged as filtered.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p><strong>final_filter</strong> – The filter as computed by this function.</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>ndarray</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="function">
+<dt id="ifa_smeargle.masking.filters.filter_invalid_value">
+<code class="sig-prename descclassname">ifa_smeargle.masking.filters.</code><code class="sig-name descname">filter_invalid_value</code><span class="sig-paren">(</span><em class="sig-param">data_array</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/ifa_smeargle/masking/filters.html#filter_invalid_value"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#ifa_smeargle.masking.filters.filter_invalid_value" title="Permalink to this definition">¶</a></dt>
+<dd><p>This filter applies a mask to all numerically invalid inputs
+on a programing side.</p>
+<p>Numbers that are usually infinite or some other nonsensical
+quantity serve no real usage in calculations further downstream.
+Therefore, they are masked here.</p>
+<p>See numpy.ma.fix_invalid for what is considered invalid.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>data_array</strong> (<em>ndarray</em>) – The data array that the mask will be calculated from.</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p><strong>final_mask</strong> – A boolean array for pixels that are masked (True) or are
+valid (False).</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>ndarray -&gt; dictionary</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="function">
+<dt id="ifa_smeargle.masking.filters.filter_maximum_value">
+<code class="sig-prename descclassname">ifa_smeargle.masking.filters.</code><code class="sig-name descname">filter_maximum_value</code><span class="sig-paren">(</span><em class="sig-param">data_array</em>, <em class="sig-param">maximum_value</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/ifa_smeargle/masking/filters.html#filter_maximum_value"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#ifa_smeargle.masking.filters.filter_maximum_value" title="Permalink to this definition">¶</a></dt>
+<dd><p>This function computes a filter for all pixel values
+strictly more than some maximum value.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>data_array</strong> (<em>ndarray</em>) – The data array that the filter will be calculated from.</p></li>
+<li><p><strong>maximum_value</strong> (<em>float</em>) – The value that data values strictly more than will be
+tagged as filtered.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p><strong>final_filter</strong> – The filter as computed by this function.</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>ndarray</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="function">
+<dt id="ifa_smeargle.masking.filters.filter_minimum_value">
+<code class="sig-prename descclassname">ifa_smeargle.masking.filters.</code><code class="sig-name descname">filter_minimum_value</code><span class="sig-paren">(</span><em class="sig-param">data_array</em>, <em class="sig-param">minimum_value</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/ifa_smeargle/masking/filters.html#filter_minimum_value"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#ifa_smeargle.masking.filters.filter_minimum_value" title="Permalink to this definition">¶</a></dt>
+<dd><p>This function computes a filter for all pixel values
+strictly less than some minimum value.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>data_array</strong> (<em>ndarray</em>) – The data array that the filter will be calculated from.</p></li>
+<li><p><strong>minimum_value</strong> (<em>float</em>) – The value that data values strictly less than will be
+tagged as filtered.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p><strong>final_filter</strong> – The filter as computed by this function.</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>ndarray</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="function">
+<dt id="ifa_smeargle.masking.filters.filter_percent_truncation">
+<code class="sig-prename descclassname">ifa_smeargle.masking.filters.</code><code class="sig-name descname">filter_percent_truncation</code><span class="sig-paren">(</span><em class="sig-param">data_array</em>, <em class="sig-param">top_percent</em>, <em class="sig-param">bottom_percent</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/ifa_smeargle/masking/filters.html#filter_percent_truncation"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#ifa_smeargle.masking.filters.filter_percent_truncation" title="Permalink to this definition">¶</a></dt>
+<dd><p>This filter truncates the top and bottom percent of pixels
+provided.</p>
+<p>The values <code class="docutils literal notranslate"><span class="pre">top_percent</span></code> and <code class="docutils literal notranslate"><span class="pre">bottom_percent</span></code> notate the
+percentage of pixels from top and bottom of the data array
+(in value) that should be filtered. The pixels masked are
+independent on the previous masks applied.</p>
+<p>If the percentage of pixels leads to a non-integer number of
+pixels to be masked, the number is floored. All pixels that have
+a same value as the limiting pixel value for the top and bottom
+percent of pixels are also masked.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>data_array</strong> (<em>ndarray</em>) – The data array that the filter will be calculated from.</p></li>
+<li><p><strong>top_count</strong> (<em>float</em>) – The percent of pixels from the top (highest value) of
+the array that is to be masked.</p></li>
+<li><p><strong>bottom_count</strong> (<em>int</em>) – The percent of pixels from the bottom (lowest value) of
+the array that is to be masked.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p><strong>final_filter</strong> – The filter as computed by this function.</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>ndarray</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="function">
+<dt id="ifa_smeargle.masking.filters.filter_pixel_truncation">
+<code class="sig-prename descclassname">ifa_smeargle.masking.filters.</code><code class="sig-name descname">filter_pixel_truncation</code><span class="sig-paren">(</span><em class="sig-param">data_array</em>, <em class="sig-param">top_count</em>, <em class="sig-param">bottom_count</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/ifa_smeargle/masking/filters.html#filter_pixel_truncation"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#ifa_smeargle.masking.filters.filter_pixel_truncation" title="Permalink to this definition">¶</a></dt>
+<dd><p>This filter truncates the top and bottom number of pixels
+provided.</p>
+<p>The values <code class="docutils literal notranslate"><span class="pre">top_count</span></code> and <code class="docutils literal notranslate"><span class="pre">bottom_count</span></code> notate the number
+of pixels from top and bottom of the data array (in value) that
+should be cut. The pixels masked are independent on the
+previous masks applied.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>data_array</strong> (<em>ndarray</em>) – The data array that the filter will be calculated from.</p></li>
+<li><p><strong>top_count</strong> (<em>int</em>) – The number of pixels from the top (highest value) of the
+array that is to be masked.</p></li>
+<li><p><strong>bottom_count</strong> (<em>int</em>) – The number of pixels from the bottom (lowest value) of the
+array that is to be masked.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p><strong>final_filter</strong> – The filter as computed by this function.</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>ndarray</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="function">
+<dt id="ifa_smeargle.masking.filters.filter_sigma_value">
+<code class="sig-prename descclassname">ifa_smeargle.masking.filters.</code><code class="sig-name descname">filter_sigma_value</code><span class="sig-paren">(</span><em class="sig-param">data_array</em>, <em class="sig-param">sigma_multiple</em>, <em class="sig-param">sigma_iterations=1</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/ifa_smeargle/masking/filters.html#filter_sigma_value"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#ifa_smeargle.masking.filters.filter_sigma_value" title="Permalink to this definition">¶</a></dt>
+<dd><p>This applies a mask on pixels outside a given multiple of a sigma
+value.</p>
+<p>This function masks values if they are outsize of a sigma range
+from the mean. The mean and sigma values are automatically
+calculated from the array provided.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>data_array</strong> (<em>ndarray</em>) – The data array that the mask will be calculated from.</p></li>
+<li><p><strong>sigma_multiple</strong> (<em>float</em><em> or </em><em>array-like</em>) – The multiple of sigma which will be applied. Unequal
+bottom-top bounds may be set as a list-like input. The
+first element is the bottom bound; the last element is the
+top bound.</p></li>
+<li><p><strong>iterations</strong> (<em>int</em>) – The number of iterations this filler will run through to
+develop the proper filter.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p><strong>final_filter</strong> – The filter as computed by this function.</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>ndarray</p>
+</dd>
+</dl>
+</dd></dl>
+
+</div>
+
+
+           </div>
+           
+          </div>
+          <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+        <a href="ifa_smeargle.masking.geometric.html" class="btn btn-neutral float-right" title="ifa_smeargle.masking.geometric module" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
+      
+      
+        <a href="ifa_smeargle.masking.base_functions.html" class="btn btn-neutral float-left" title="ifa_smeargle.masking.base_functions module" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+      
+    </div>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        
+        &copy; Copyright 2020, Sparrow
+
+    </p>
+  </div>
+    
+    
+    
+    Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a
+    
+    <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a>
+    
+    provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+
+  
+  
+    
+   
+
+</body>
+</html>

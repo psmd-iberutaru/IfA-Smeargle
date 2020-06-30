@@ -1,0 +1,851 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>ifa_smeargle.reformat.renaming &mdash; IfA_Smeargle 2020 documentation</title>
+  
+
+  
+  <link rel="stylesheet" href="../../../_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
+  <link rel="stylesheet" href="../../../_static/css/custom.css" type="text/css" />
+
+  
+  
+  
+  
+
+  
+  <!--[if lt IE 9]>
+    <script src="../../../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+    
+      <script type="text/javascript" id="documentation_options" data-url_root="../../../" src="../../../_static/documentation_options.js"></script>
+        <script src="../../../_static/jquery.js"></script>
+        <script src="../../../_static/underscore.js"></script>
+        <script src="../../../_static/doctools.js"></script>
+        <script src="../../../_static/language_data.js"></script>
+    
+    <script type="text/javascript" src="../../../_static/js/theme.js"></script>
+
+    
+    <link rel="index" title="Index" href="../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../search.html" /> 
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+          
+
+          
+            <a href="../../../index.html" class="icon icon-home" alt="Documentation Home"> IfA_Smeargle
+          
+
+          
+          </a>
+
+          
+            
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <p class="caption"><span class="caption-text">Code Documentation:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../docstrings/modules.html">ifa_smeargle</a></li>
+</ul>
+
+            
+          
+        </div>
+        
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../../index.html">IfA_Smeargle</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="../../../index.html" class="icon icon-home"></a> &raquo;</li>
+        
+          <li><a href="../../index.html">Module code</a> &raquo;</li>
+        
+      <li>ifa_smeargle.reformat.renaming</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <h1>Source code for ifa_smeargle.reformat.renaming</h1><div class="highlight"><pre>
+<span></span>
+<span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">This file contains methods used to determine proper naming </span>
+<span class="sd">conventions and to reformat the fits file names from raw output </span>
+<span class="sd">(often just timestamps) to something more useful and accurate to the </span>
+<span class="sd">data.</span>
+<span class="sd">&quot;&quot;&quot;</span>
+
+
+<span class="kn">import</span> <span class="nn">glob</span>
+<span class="kn">import</span> <span class="nn">os</span> 
+<span class="kn">import</span> <span class="nn">string</span>
+
+
+<span class="kn">import</span> <span class="nn">ifa_smeargle.core</span> <span class="k">as</span> <span class="nn">core</span>
+
+<span class="k">def</span> <span class="nf">_get_renaming_delimiter_string</span><span class="p">():</span>
+    <span class="sd">&quot;&quot;&quot; This function gets the delimiter string along with setting</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="c1"># This is the delimiter string; it should be common for all </span>
+    <span class="c1"># renaming functions.</span>
+    <span class="n">delimiter</span> <span class="o">=</span> <span class="nb">str</span><span class="p">(</span><span class="n">core</span><span class="o">.</span><span class="n">runtime</span><span class="o">.</span><span class="n">extract_runtime_configuration</span><span class="p">(</span>
+        <span class="n">config_key</span><span class="o">=</span><span class="s1">&#39;RENAMING_DELIMITER&#39;</span><span class="p">))</span>
+    <span class="c1"># It also cannot be a number.</span>
+    <span class="k">try</span><span class="p">:</span>
+        <span class="k">if</span> <span class="p">(</span><span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">delimiter</span><span class="p">,</span> <span class="nb">str</span><span class="p">)):</span>
+            <span class="k">raise</span> <span class="n">core</span><span class="o">.</span><span class="n">error</span><span class="o">.</span><span class="n">ConfigurationError</span><span class="p">(</span><span class="s2">&quot;The renaming delimiter &quot;</span>
+                                                <span class="s2">&quot;must be a string. It is &quot;</span>
+                                                <span class="s2">&quot;type: </span><span class="si">{type}</span><span class="s2">&quot;</span>
+                                                <span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="nb">type</span><span class="o">=</span><span class="nb">type</span><span class="p">(</span><span class="n">delimiter</span><span class="p">)))</span>
+        <span class="c1"># This should raise a ValueError, it is caught and dealt </span>
+        <span class="c1"># with.</span>
+        <span class="n">__</span> <span class="o">=</span> <span class="nb">float</span><span class="p">(</span><span class="n">delimiter</span><span class="p">)</span>
+
+        <span class="c1"># It did not... the delimiter may be wrong.</span>
+        <span class="k">raise</span> <span class="ne">RuntimeError</span>
+    <span class="k">except</span> <span class="ne">ValueError</span><span class="p">:</span>
+        <span class="c1"># This is normal behavior, it should be a string that cannot be</span>
+        <span class="c1"># a number.</span>
+        <span class="k">return</span> <span class="n">delimiter</span>
+    <span class="k">except</span> <span class="ne">RuntimeError</span><span class="p">:</span>
+        <span class="k">raise</span> <span class="n">core</span><span class="o">.</span><span class="n">error</span><span class="o">.</span><span class="n">ConfigurationError</span><span class="p">(</span><span class="s2">&quot;The renaming delimiter should &quot;</span>
+                                            <span class="s2">&quot;not be able to be turned into &quot;</span>
+                                            <span class="s2">&quot;a number. A numerical splitter &quot;</span>
+                                            <span class="s2">&quot;will lead to confusion. The &quot;</span>
+                                            <span class="s2">&quot;current delimiter: </span><span class="si">{delim}</span><span class="s2"> &quot;</span>
+                                            <span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">delim</span><span class="o">=</span><span class="n">delimiter</span><span class="p">))</span>
+    <span class="c1"># The code should not reach here. It should have either </span>
+    <span class="c1"># returned or failed the float conversion.</span>
+    <span class="k">raise</span> <span class="n">core</span><span class="o">.</span><span class="n">error</span><span class="o">.</span><span class="n">BrokenLogicError</span>
+    <span class="k">return</span> <span class="kc">None</span>
+<span class="c1"># The delimiter.</span>
+<span class="n">RENAMING_DELIMITER</span> <span class="o">=</span> <span class="n">_get_renaming_delimiter_string</span><span class="p">()</span>
+
+
+<div class="viewcode-block" id="rename_detector"><a class="viewcode-back" href="../../../docstrings/ifa_smeargle.reformat.renaming.html#ifa_smeargle.reformat.renaming.rename_detector">[docs]</a><span class="k">def</span> <span class="nf">rename_detector</span><span class="p">(</span><span class="n">data_directory</span><span class="p">,</span> <span class="n">detector_name</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot; Creates file tags according to the detector qualifier name.</span>
+<span class="sd">    </span>
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    data_directory : string</span>
+<span class="sd">        This is the directory that contain all of the data files to </span>
+<span class="sd">        be renamed.</span>
+<span class="sd">    detector_name : string</span>
+<span class="sd">        The detector name that should be applied.</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    detector_string_list : list</span>
+<span class="sd">        This is the list of the state on if the object is garbage or </span>
+<span class="sd">        not.</span>
+<span class="sd">    detector_raw_list : list </span>
+<span class="sd">        This is the raw, unformatted values that was formatted into </span>
+<span class="sd">        the string version.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="c1"># The total number of fits files.</span>
+    <span class="n">n_files</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">core</span><span class="o">.</span><span class="n">io</span><span class="o">.</span><span class="n">get_fits_filenames</span><span class="p">(</span><span class="n">data_directory</span><span class="o">=</span><span class="n">data_directory</span><span class="p">))</span>
+    
+    <span class="c1"># Apply the detector name to all files.</span>
+    <span class="n">detector_raw_list</span> <span class="o">=</span> <span class="p">[</span><span class="nb">str</span><span class="p">(</span><span class="n">detector_name</span><span class="p">)</span> <span class="k">for</span> <span class="n">filedex</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">n_files</span><span class="p">)]</span>
+    <span class="n">detector_string_list</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;&#39;</span><span class="o">.</span><span class="n">join</span><span class="p">([</span><span class="s1">&#39;detector&#39;</span><span class="p">,</span> <span class="n">RENAMING_DELIMITER</span><span class="p">,</span>
+                                     <span class="n">detectordex</span><span class="p">])</span> 
+                            <span class="k">for</span> <span class="n">detectordex</span> <span class="ow">in</span> <span class="n">detector_raw_list</span><span class="p">]</span>
+
+    <span class="k">return</span> <span class="n">detector_string_list</span><span class="p">,</span> <span class="n">detector_raw_list</span></div>
+
+<div class="viewcode-block" id="rename_garbage"><a class="viewcode-back" href="../../../docstrings/ifa_smeargle.reformat.renaming.html#ifa_smeargle.reformat.renaming.rename_garbage">[docs]</a><span class="k">def</span> <span class="nf">rename_garbage</span><span class="p">(</span><span class="n">data_directory</span><span class="p">,</span> <span class="n">begin_garbage</span><span class="o">=</span><span class="mi">0</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot; Creates file tags according to their status as garbage. If </span>
+<span class="sd">    a file is garbage, it should generally not be used.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    data_directory : string</span>
+<span class="sd">        This is the directory that contain all of the data files to </span>
+<span class="sd">        be renamed.</span>
+<span class="sd">    begin_garbage : int (optional)</span>
+<span class="sd">        The number of files, in the beginning, that should not count </span>
+<span class="sd">        as data, (i.e. the number of garbage files).</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    garbage_string_list : list</span>
+<span class="sd">        This is the list of the state on if the object is garbage </span>
+<span class="sd">        or not.</span>
+<span class="sd">    garbage_raw_list : list </span>
+<span class="sd">        This is the raw, unformatted values that was formatted </span>
+<span class="sd">        into the string version.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="c1"># The total number of fits files.</span>
+    <span class="n">n_files</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">core</span><span class="o">.</span><span class="n">io</span><span class="o">.</span><span class="n">get_fits_filenames</span><span class="p">(</span><span class="n">data_directory</span><span class="o">=</span><span class="n">data_directory</span><span class="p">))</span>
+
+    <span class="c1"># The status on if the object is garbage or not.</span>
+    <span class="n">garbage_raw_list</span> <span class="o">=</span> <span class="p">[</span><span class="kc">True</span> <span class="k">if</span> <span class="n">index</span> <span class="o">&lt;</span> <span class="n">begin_garbage</span> <span class="k">else</span> <span class="kc">False</span> 
+                        <span class="k">for</span> <span class="n">index</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">n_files</span><span class="p">)]</span>
+    <span class="c1"># And their formatted string value.</span>
+    <span class="n">yes_garbage</span> <span class="o">=</span> <span class="s1">&#39;&#39;</span><span class="o">.</span><span class="n">join</span><span class="p">([</span><span class="s1">&#39;garb&#39;</span><span class="p">,</span> <span class="n">RENAMING_DELIMITER</span><span class="p">,</span> <span class="s1">&#39;Y&#39;</span><span class="p">])</span>
+    <span class="n">no_garbage</span> <span class="o">=</span> <span class="s1">&#39;&#39;</span><span class="o">.</span><span class="n">join</span><span class="p">([</span><span class="s1">&#39;garb&#39;</span><span class="p">,</span> <span class="n">RENAMING_DELIMITER</span><span class="p">,</span> <span class="s1">&#39;N&#39;</span><span class="p">])</span>
+    <span class="n">garbage_string_list</span> <span class="o">=</span> <span class="p">[</span><span class="n">yes_garbage</span> <span class="k">if</span> <span class="n">garbdex</span> <span class="k">else</span> <span class="n">no_garbage</span>
+                           <span class="k">for</span> <span class="n">garbdex</span> <span class="ow">in</span> <span class="n">garbage_raw_list</span><span class="p">]</span>
+
+    <span class="c1"># Finished.</span>
+    <span class="k">return</span> <span class="n">garbage_string_list</span><span class="p">,</span> <span class="n">garbage_raw_list</span></div>
+
+<div class="viewcode-block" id="rename_number"><a class="viewcode-back" href="../../../docstrings/ifa_smeargle.reformat.renaming.html#ifa_smeargle.reformat.renaming.rename_number">[docs]</a><span class="k">def</span> <span class="nf">rename_number</span><span class="p">(</span><span class="n">data_directory</span><span class="p">,</span> <span class="n">begin_garbage</span><span class="o">=</span><span class="mi">0</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot; Creates file tags according to their number in order.</span>
+
+<span class="sd">    Some data filename outputs only give timestamps. This function </span>
+<span class="sd">    renames said filenames for better processing.  </span>
+<span class="sd">    </span>
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    data_directory : string</span>
+<span class="sd">        This is the directory that contain all of the data files to </span>
+<span class="sd">        be renamed.</span>
+<span class="sd">    begin_garbage : int (optional)</span>
+<span class="sd">        The number of files, in the beginning, that should not count </span>
+<span class="sd">        as data.</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    number_string_list : list</span>
+<span class="sd">        This is the list of the numbered strings applied, given in </span>
+<span class="sd">        a parallel ordered form. Does not include prefixes/suffixes.</span>
+<span class="sd">    number_raw_list : list</span>
+<span class="sd">        This is the raw, unformatted values that was formatted </span>
+<span class="sd">        into the string version.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    
+    <span class="c1"># The files that are before the garbage denotation should be </span>
+    <span class="c1"># labeled as such.</span>
+    <span class="n">garbage_names</span> <span class="o">=</span> <span class="n">core</span><span class="o">.</span><span class="n">io</span><span class="o">.</span><span class="n">get_fits_filenames</span><span class="p">(</span>
+        <span class="n">data_directory</span><span class="o">=</span><span class="n">data_directory</span><span class="p">)[:</span><span class="n">begin_garbage</span><span class="p">]</span>
+    <span class="n">garbage_paths</span> <span class="o">=</span> <span class="p">[</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="n">garbagepathdex</span><span class="p">)[</span><span class="mi">0</span><span class="p">]</span> 
+                     <span class="k">for</span> <span class="n">garbagepathdex</span> <span class="ow">in</span> <span class="n">garbage_names</span><span class="p">]</span>
+    <span class="n">n_garbage_files</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">garbage_names</span><span class="p">)</span>
+
+
+    <span class="c1"># For the files to be renamed.</span>
+    <span class="n">original_names</span> <span class="o">=</span> <span class="n">core</span><span class="o">.</span><span class="n">io</span><span class="o">.</span><span class="n">get_fits_filenames</span><span class="p">(</span>
+        <span class="n">data_directory</span><span class="o">=</span><span class="n">data_directory</span><span class="p">)[</span><span class="n">begin_garbage</span><span class="p">:]</span>
+    <span class="n">original_paths</span> <span class="o">=</span> <span class="p">[</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="n">pathdex</span><span class="p">)[</span><span class="mi">0</span><span class="p">]</span> 
+                      <span class="k">for</span> <span class="n">pathdex</span> <span class="ow">in</span> <span class="n">original_names</span><span class="p">]</span>
+    <span class="n">n_files</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">original_names</span><span class="p">)</span>
+
+    <span class="c1"># Each file number, separating the garbage and the non-garbage </span>
+    <span class="c1"># numbers. There is no reason to lump the two together without </span>
+    <span class="c1"># denotation.</span>
+    <span class="n">garbage_numbers</span> <span class="o">=</span> <span class="p">[(</span><span class="n">index</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)</span> <span class="k">for</span> <span class="n">index</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">n_garbage_files</span><span class="p">)]</span>
+    <span class="n">file_numbers</span> <span class="o">=</span> <span class="p">[(</span><span class="n">index</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)</span> <span class="k">for</span> <span class="n">index</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">n_files</span><span class="p">)]</span>
+
+    <span class="c1"># Converting the numbers to their new names. The `garbage` \</span>
+    <span class="c1"># prefix to the number is a standard. Any file with garbage in </span>
+    <span class="c1"># the name is not processed.</span>
+    <span class="n">garbage_string_list</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;&#39;</span><span class="o">.</span><span class="n">join</span><span class="p">([</span><span class="s1">&#39;num&#39;</span><span class="p">,</span> <span class="n">RENAMING_DELIMITER</span><span class="p">,</span> <span class="s1">&#39;garbage&#39;</span><span class="p">,</span> 
+                                    <span class="nb">str</span><span class="p">(</span><span class="n">numdex</span><span class="p">)])</span>
+                           <span class="k">for</span> <span class="n">numdex</span> <span class="ow">in</span> <span class="n">garbage_numbers</span><span class="p">]</span>
+    <span class="n">file_string_list</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;&#39;</span><span class="o">.</span><span class="n">join</span><span class="p">([</span><span class="s1">&#39;num&#39;</span><span class="p">,</span> <span class="n">RENAMING_DELIMITER</span><span class="p">,</span> <span class="nb">str</span><span class="p">(</span><span class="n">numdex</span><span class="p">)])</span>
+                        <span class="k">for</span> <span class="n">numdex</span> <span class="ow">in</span> <span class="n">file_numbers</span><span class="p">]</span>
+
+    <span class="c1"># The completed lists.</span>
+    <span class="n">number_file_list</span> <span class="o">=</span> <span class="n">garbage_string_list</span> <span class="o">+</span> <span class="n">file_string_list</span>
+    <span class="n">number_raw_list</span> <span class="o">=</span> <span class="n">garbage_numbers</span> <span class="o">+</span> <span class="n">file_numbers</span>
+
+    <span class="k">return</span> <span class="n">number_file_list</span><span class="p">,</span> <span class="n">number_raw_list</span></div>
+
+<div class="viewcode-block" id="rename_set"><a class="viewcode-back" href="../../../docstrings/ifa_smeargle.reformat.renaming.html#ifa_smeargle.reformat.renaming.rename_set">[docs]</a><span class="k">def</span> <span class="nf">rename_set</span><span class="p">(</span><span class="n">data_directory</span><span class="p">,</span> <span class="n">set_length</span><span class="p">,</span> <span class="n">begin_garbage</span><span class="o">=</span><span class="mi">0</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot; Creates file tags according to their set number, as </span>
+<span class="sd">    determined by the number of files in a set. Sets are assumed </span>
+<span class="sd">    to be consecutive.</span>
+
+<span class="sd">    Some data filename outputs only give timestamps. This function </span>
+<span class="sd">    renames said filenames for better processing.  </span>
+<span class="sd">    </span>
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    data_directory : string</span>
+<span class="sd">        This is the directory that contain all of the data files </span>
+<span class="sd">        to be renamed.</span>
+<span class="sd">    set_length : int </span>
+<span class="sd">        This is the length of a set. </span>
+<span class="sd">    begin_garbage : int (optional)</span>
+<span class="sd">        The number of files, in the beginning, that should not </span>
+<span class="sd">        count as data.</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    set_string_list : list</span>
+<span class="sd">        This is the list of the numbered strings applied, given in </span>
+<span class="sd">        a parallel ordered form. Does not include prefixes/suffixes.</span>
+<span class="sd">    set_raw_list : list</span>
+<span class="sd">        This is the raw, unformatted values that was formatted </span>
+<span class="sd">        into the string version.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="c1"># The files that are before the garbage denotation should be </span>
+    <span class="c1"># labeled as such.</span>
+    <span class="n">garbage_names</span> <span class="o">=</span> <span class="n">core</span><span class="o">.</span><span class="n">io</span><span class="o">.</span><span class="n">get_fits_filenames</span><span class="p">(</span>
+        <span class="n">data_directory</span><span class="o">=</span><span class="n">data_directory</span><span class="p">)[:</span><span class="n">begin_garbage</span><span class="p">]</span>
+    <span class="n">garbage_paths</span> <span class="o">=</span> <span class="p">[</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="n">garbagepathdex</span><span class="p">)[</span><span class="mi">0</span><span class="p">]</span> 
+                     <span class="k">for</span> <span class="n">garbagepathdex</span> <span class="ow">in</span> <span class="n">garbage_names</span><span class="p">]</span>
+    <span class="n">n_garbage_files</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">garbage_names</span><span class="p">)</span>
+
+
+    <span class="c1"># For the files to be renamed.</span>
+    <span class="n">original_names</span> <span class="o">=</span> <span class="n">core</span><span class="o">.</span><span class="n">io</span><span class="o">.</span><span class="n">get_fits_filenames</span><span class="p">(</span>
+        <span class="n">data_directory</span><span class="o">=</span><span class="n">data_directory</span><span class="p">)[</span><span class="n">begin_garbage</span><span class="p">:]</span>
+    <span class="n">original_paths</span> <span class="o">=</span> <span class="p">[</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="n">pathdex</span><span class="p">)[</span><span class="mi">0</span><span class="p">]</span> 
+                      <span class="k">for</span> <span class="n">pathdex</span> <span class="ow">in</span> <span class="n">original_names</span><span class="p">]</span>
+    <span class="n">n_files</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">original_names</span><span class="p">)</span>
+
+    <span class="c1"># Each file number, separating the garbage and the non-garbage </span>
+    <span class="c1"># numbers. There is no reason to lump the two together without </span>
+    <span class="c1"># denotation.</span>
+    <span class="n">garbage_numbers</span> <span class="o">=</span> <span class="p">[(</span><span class="n">index</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)</span> <span class="k">for</span> <span class="n">index</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">n_garbage_files</span><span class="p">)]</span>
+    <span class="n">file_numbers</span> <span class="o">=</span> <span class="p">[(</span><span class="n">index</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)</span> <span class="k">for</span> <span class="n">index</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">n_files</span><span class="p">)]</span>
+
+    <span class="c1"># Converting the numbers to their new names. The `garbage` </span>
+    <span class="c1"># prefix to the number is a standard. Any file with garbage in </span>
+    <span class="c1"># the name is not processed.</span>
+    <span class="n">garbage_string_list</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;&#39;</span><span class="o">.</span><span class="n">join</span><span class="p">([</span><span class="s1">&#39;set&#39;</span><span class="p">,</span> <span class="n">RENAMING_DELIMITER</span><span class="p">,</span> <span class="s1">&#39;garbage&#39;</span><span class="p">,</span> 
+                                    <span class="nb">str</span><span class="p">((</span><span class="n">numdex</span><span class="o">-</span><span class="mi">1</span><span class="p">)</span><span class="o">//</span><span class="n">set_length</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)])</span> 
+                           <span class="k">for</span> <span class="n">numdex</span> <span class="ow">in</span> <span class="n">garbage_numbers</span><span class="p">]</span>
+    <span class="n">file_string_list</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;&#39;</span><span class="o">.</span><span class="n">join</span><span class="p">([</span><span class="s1">&#39;set&#39;</span><span class="p">,</span> <span class="n">RENAMING_DELIMITER</span><span class="p">,</span> 
+                                 <span class="nb">str</span><span class="p">((</span><span class="n">numdex</span><span class="o">-</span><span class="mi">1</span><span class="p">)</span><span class="o">//</span><span class="n">set_length</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)])</span>
+                        <span class="k">for</span> <span class="n">numdex</span> <span class="ow">in</span> <span class="n">file_numbers</span><span class="p">]</span>
+
+    <span class="c1"># The completed list.</span>
+    <span class="n">set_file_list</span> <span class="o">=</span> <span class="n">garbage_string_list</span> <span class="o">+</span> <span class="n">file_string_list</span>
+    <span class="n">set_raw_list</span> <span class="o">=</span> <span class="n">garbage_numbers</span> <span class="o">+</span> <span class="p">[(</span><span class="n">numdex</span><span class="o">-</span><span class="mi">1</span><span class="p">)</span><span class="o">//</span><span class="n">set_length</span> <span class="o">+</span> <span class="mi">1</span> 
+                                      <span class="k">for</span> <span class="n">numdex</span> <span class="ow">in</span> <span class="n">file_numbers</span><span class="p">]</span>
+
+    <span class="k">return</span> <span class="n">set_file_list</span><span class="p">,</span> <span class="n">set_raw_list</span></div>
+
+<div class="viewcode-block" id="rename_voltage_pattern"><a class="viewcode-back" href="../../../docstrings/ifa_smeargle.reformat.renaming.html#ifa_smeargle.reformat.renaming.rename_voltage_pattern">[docs]</a><span class="k">def</span> <span class="nf">rename_voltage_pattern</span><span class="p">(</span><span class="n">data_directory</span><span class="p">,</span> <span class="n">voltage_pattern</span><span class="p">,</span> 
+                           <span class="n">begin_garbage</span><span class="o">=</span><span class="mi">0</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot; Creates file tags according to their voltage pattern </span>
+<span class="sd">    specified.</span>
+
+<span class="sd">    Some data filename outputs only give timestamps. This function </span>
+<span class="sd">    renames said filenames for better processing.</span>
+
+<span class="sd">    The output files created are according to the voltage pattern </span>
+<span class="sd">    that the user specified. This function assumes that the pattern </span>
+<span class="sd">    provided is one &#39;set&#39;, where a set contains some amount of fits </span>
+<span class="sd">    files. Moreover, this function weakly determines which are </span>
+<span class="sd">    up-mid-down ramps. </span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    data_directory : string</span>
+<span class="sd">        This is the directory that contain all of the data files </span>
+<span class="sd">        to be renamed.</span>
+<span class="sd">    voltage_pattern : array_like</span>
+<span class="sd">        These are voltage values, assuming that the first element </span>
+<span class="sd">        is the first voltage element to be used, proceeding from </span>
+<span class="sd">        there in order.</span>
+<span class="sd">    begin_garbage : int (optional)</span>
+<span class="sd">        The number of files, in the beginning, that should not count </span>
+<span class="sd">        as data.</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    voltage_string_list : list</span>
+<span class="sd">        This is the list of the voltage strings applied, given in </span>
+<span class="sd">        a parallel ordered form. Does not include prefixes/suffixes.</span>
+<span class="sd">    voltage_raw_list : dictionary</span>
+<span class="sd">        This is the raw, unformatted values that was formatted </span>
+<span class="sd">        into the string version. The voltage values and trends are </span>
+<span class="sd">        separated (as `value` and `trend`).</span>
+
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="c1"># The files that are before the garbage denotation should be </span>
+    <span class="c1"># labeled as such.</span>
+    <span class="n">garbage_names</span> <span class="o">=</span> <span class="n">core</span><span class="o">.</span><span class="n">io</span><span class="o">.</span><span class="n">get_fits_filenames</span><span class="p">(</span>
+        <span class="n">data_directory</span><span class="o">=</span><span class="n">data_directory</span><span class="p">)[:</span><span class="n">begin_garbage</span><span class="p">]</span>
+    <span class="n">garbage_paths</span> <span class="o">=</span> <span class="p">[</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="n">garbagepathdex</span><span class="p">)[</span><span class="mi">0</span><span class="p">]</span> 
+                     <span class="k">for</span> <span class="n">garbagepathdex</span> <span class="ow">in</span> <span class="n">garbage_names</span><span class="p">]</span>
+    <span class="n">n_garbage_files</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">garbage_names</span><span class="p">)</span>
+
+
+    <span class="c1"># For the files to be renamed.</span>
+    <span class="n">original_names</span> <span class="o">=</span> <span class="n">core</span><span class="o">.</span><span class="n">io</span><span class="o">.</span><span class="n">get_fits_filenames</span><span class="p">(</span>
+        <span class="n">data_directory</span><span class="o">=</span><span class="n">data_directory</span><span class="p">)[</span><span class="n">begin_garbage</span><span class="p">:]</span>
+    <span class="n">original_paths</span> <span class="o">=</span> <span class="p">[</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="n">pathdex</span><span class="p">)[</span><span class="mi">0</span><span class="p">]</span> 
+                      <span class="k">for</span> <span class="n">pathdex</span> <span class="ow">in</span> <span class="n">original_names</span><span class="p">]</span>
+    <span class="n">n_files</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">original_names</span><span class="p">)</span>
+
+    
+    <span class="c1"># Formatting the voltage trends by the increase or decrease </span>
+    <span class="c1"># of the voltages.</span>
+    <span class="n">n_voltages</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">voltage_pattern</span><span class="p">)</span>
+    <span class="n">voltage_strings</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="c1"># This is just for renaming and smaller lines.</span>
+    <span class="n">vlt_patt</span> <span class="o">=</span> <span class="n">voltage_pattern</span>
+    <span class="k">for</span> <span class="n">voltindex</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">n_voltages</span><span class="p">):</span>
+        <span class="n">temp_voltage_string</span> <span class="o">=</span> <span class="s1">&#39;&#39;</span>
+    
+        <span class="c1"># Record the voltage number.</span>
+        <span class="n">temp_voltage_string</span> <span class="o">+=</span> <span class="nb">str</span><span class="p">(</span><span class="n">vlt_patt</span><span class="p">[</span><span class="n">voltindex</span><span class="p">])</span> <span class="o">+</span> <span class="s1">&#39;V&#39;</span>
+    
+        <span class="c1"># Detecting if the voltage is overall increasing, </span>
+        <span class="c1"># decreasing, or peaking. The odd modular division is to </span>
+        <span class="c1"># handle the last voltage effectively. </span>
+        <span class="k">if</span> <span class="p">(</span><span class="n">vlt_patt</span><span class="p">[</span><span class="n">voltindex</span> <span class="o">-</span> <span class="mi">1</span><span class="p">]</span> <span class="o">==</span> <span class="n">vlt_patt</span><span class="p">[</span><span class="n">voltindex</span><span class="p">]</span> <span class="ow">and</span> 
+            <span class="n">vlt_patt</span><span class="p">[</span><span class="n">voltindex</span><span class="p">]</span> <span class="o">==</span> <span class="n">vlt_patt</span><span class="p">[(</span><span class="n">voltindex</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)</span><span class="o">%</span><span class="n">n_voltages</span><span class="p">]):</span>
+            <span class="c1"># Surrounding voltages are equal, this is a flat slope.</span>
+            <span class="n">temp_voltage_string</span> <span class="o">+=</span> <span class="s1">&#39;mid&#39;</span>
+        <span class="k">elif</span> <span class="p">(</span><span class="n">vlt_patt</span><span class="p">[</span><span class="n">voltindex</span> <span class="o">-</span> <span class="mi">1</span><span class="p">]</span> <span class="o">&lt;=</span> <span class="n">vlt_patt</span><span class="p">[</span><span class="n">voltindex</span><span class="p">]</span> <span class="ow">and</span> 
+              <span class="n">vlt_patt</span><span class="p">[</span><span class="n">voltindex</span><span class="p">]</span> <span class="o">&lt;=</span> <span class="n">vlt_patt</span><span class="p">[(</span><span class="n">voltindex</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)</span><span class="o">%</span><span class="n">n_voltages</span><span class="p">]):</span>
+            <span class="c1"># Surrounding voltages are sloped upwards.</span>
+            <span class="n">temp_voltage_string</span> <span class="o">+=</span> <span class="s1">&#39;up&#39;</span>
+        <span class="k">elif</span> <span class="p">(</span><span class="n">vlt_patt</span><span class="p">[</span><span class="n">voltindex</span> <span class="o">-</span> <span class="mi">1</span><span class="p">]</span> <span class="o">&gt;=</span> <span class="n">vlt_patt</span><span class="p">[</span><span class="n">voltindex</span><span class="p">]</span> <span class="ow">and</span> 
+              <span class="n">vlt_patt</span><span class="p">[</span><span class="n">voltindex</span><span class="p">]</span> <span class="o">&gt;=</span> <span class="n">vlt_patt</span><span class="p">[(</span><span class="n">voltindex</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)</span><span class="o">%</span><span class="n">n_voltages</span><span class="p">]):</span>
+            <span class="c1"># Surrounding voltages are sloped downwards.</span>
+            <span class="n">temp_voltage_string</span> <span class="o">+=</span> <span class="s1">&#39;down&#39;</span>
+        <span class="k">elif</span> <span class="p">(</span><span class="n">vlt_patt</span><span class="p">[</span><span class="n">voltindex</span> <span class="o">-</span> <span class="mi">1</span><span class="p">]</span> <span class="o">&lt;=</span> <span class="n">vlt_patt</span><span class="p">[</span><span class="n">voltindex</span><span class="p">]</span> <span class="ow">and</span> 
+              <span class="n">vlt_patt</span><span class="p">[</span><span class="n">voltindex</span><span class="p">]</span> <span class="o">&gt;=</span> <span class="n">vlt_patt</span><span class="p">[(</span><span class="n">voltindex</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)</span><span class="o">%</span><span class="n">n_voltages</span><span class="p">]):</span>
+            <span class="c1"># Surrounding voltages are lower than this voltage.</span>
+            <span class="n">temp_voltage_string</span> <span class="o">+=</span> <span class="s1">&#39;top&#39;</span>
+        <span class="k">elif</span> <span class="p">(</span><span class="n">vlt_patt</span><span class="p">[</span><span class="n">voltindex</span> <span class="o">-</span> <span class="mi">1</span><span class="p">]</span> <span class="o">&gt;=</span> <span class="n">vlt_patt</span><span class="p">[</span><span class="n">voltindex</span><span class="p">]</span> <span class="ow">and</span> 
+              <span class="n">vlt_patt</span><span class="p">[</span><span class="n">voltindex</span><span class="p">]</span> <span class="o">&lt;=</span> <span class="n">vlt_patt</span><span class="p">[(</span><span class="n">voltindex</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)</span><span class="o">%</span><span class="n">n_voltages</span><span class="p">]):</span>
+            <span class="c1"># Surrounding voltages are higher than this voltage.</span>
+            <span class="n">temp_voltage_string</span> <span class="o">+=</span> <span class="s1">&#39;bot&#39;</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="c1"># For some reason, it does not fit into the pattern.</span>
+            <span class="n">temp_voltage_string</span> <span class="o">+=</span> <span class="s1">&#39;null&#39;</span>
+
+        <span class="c1"># Label, Windows does not like the colon or pipe, so, we </span>
+        <span class="c1"># use the next best thing. Allow the setting of the </span>
+        <span class="c1"># uniform delimiter.</span>
+        <span class="n">temp_voltage_string</span> <span class="o">=</span> <span class="s1">&#39;&#39;</span><span class="o">.</span><span class="n">join</span><span class="p">([</span><span class="s1">&#39;detBias&#39;</span><span class="p">,</span> <span class="n">RENAMING_DELIMITER</span><span class="p">,</span>
+                                      <span class="n">temp_voltage_string</span><span class="p">])</span>
+
+
+        <span class="c1"># Save and record.</span>
+        <span class="n">voltage_strings</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">temp_voltage_string</span><span class="p">)</span>
+
+    <span class="c1"># Compile the garbage files. The garbage &#39;prefix&#39; to the </span>
+    <span class="c1"># number is a standard. Any file with garbage in the name is not </span>
+    <span class="c1"># processed.</span>
+    <span class="n">garbage_string_list</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="k">for</span> <span class="n">fileindex</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">n_garbage_files</span><span class="p">):</span>
+        <span class="n">garbage_string</span> <span class="o">=</span> <span class="s1">&#39;garbage&#39;</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">fileindex</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)</span><span class="o">.</span><span class="n">zfill</span><span class="p">(</span><span class="mi">3</span><span class="p">)</span>
+        <span class="n">garbage_string_list</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">garbage_string</span><span class="p">)</span>
+
+    <span class="c1"># Compile the renames, assume that the sets repeat themselves </span>
+    <span class="c1"># if there are more files than voltages. Then actually rename </span>
+    <span class="c1"># the file.</span>
+    <span class="n">voltage_string_list</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="k">for</span> <span class="n">fileindex</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">n_files</span><span class="p">):</span>
+        <span class="n">volt_string</span> <span class="o">=</span> <span class="nb">str</span><span class="p">(</span><span class="n">voltage_strings</span><span class="p">[</span><span class="n">fileindex</span><span class="o">%</span><span class="n">n_voltages</span><span class="p">])</span>
+        <span class="n">voltage_string_list</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">volt_string</span><span class="p">)</span>
+
+    <span class="c1"># Extracting the raw values from the formatted values and </span>
+    <span class="c1"># converting.</span>
+    <span class="n">_purge_volt_substrings</span> <span class="o">=</span> <span class="p">(</span><span class="nb">list</span><span class="p">(</span><span class="n">string</span><span class="o">.</span><span class="n">ascii_uppercase</span><span class="p">)</span> 
+                        <span class="o">+</span> <span class="nb">list</span><span class="p">(</span><span class="n">string</span><span class="o">.</span><span class="n">ascii_lowercase</span><span class="p">)</span> 
+                        <span class="o">+</span> <span class="p">[</span><span class="s1">&#39;:&#39;</span><span class="p">,</span><span class="s1">&#39;;&#39;</span><span class="p">,</span> <span class="n">RENAMING_DELIMITER</span><span class="p">])</span>
+    <span class="n">raw_voltages</span> <span class="o">=</span> <span class="p">[</span><span class="nb">float</span><span class="p">(</span><span class="n">core</span><span class="o">.</span><span class="n">strformat</span><span class="o">.</span><span class="n">purge_substrings</span><span class="p">(</span>
+        <span class="n">string</span><span class="o">=</span><span class="n">voltdex</span><span class="p">,</span> <span class="n">substrings</span><span class="o">=</span><span class="n">_purge_volt_substrings</span><span class="p">))</span>
+                    <span class="k">for</span> <span class="n">voltdex</span> <span class="ow">in</span> <span class="p">(</span><span class="n">garbage_string_list</span> 
+                                    <span class="o">+</span> <span class="n">voltage_string_list</span><span class="p">)]</span>
+    <span class="n">_purge_trend_substrings</span> <span class="o">=</span> <span class="p">(</span><span class="nb">list</span><span class="p">(</span><span class="n">string</span><span class="o">.</span><span class="n">digits</span><span class="p">)</span> <span class="o">+</span> <span class="p">[</span><span class="s1">&#39;.&#39;</span><span class="p">,</span><span class="n">RENAMING_DELIMITER</span><span class="p">,</span>
+                                                      <span class="s1">&#39;detBias&#39;</span><span class="p">,</span><span class="s1">&#39;V&#39;</span><span class="p">])</span>
+    <span class="n">raw_trends</span> <span class="o">=</span> <span class="p">[</span><span class="nb">str</span><span class="p">(</span><span class="n">core</span><span class="o">.</span><span class="n">strformat</span><span class="o">.</span><span class="n">purge_substrings</span><span class="p">(</span>
+        <span class="n">string</span><span class="o">=</span><span class="n">voltdex</span><span class="p">,</span> <span class="n">substrings</span><span class="o">=</span><span class="n">_purge_trend_substrings</span><span class="p">))</span>
+                    <span class="k">for</span> <span class="n">voltdex</span> <span class="ow">in</span> <span class="p">(</span><span class="n">garbage_string_list</span> 
+                                    <span class="o">+</span> <span class="n">voltage_string_list</span><span class="p">)]</span>
+
+
+    <span class="c1"># Finished, it is also helpful to return the garbage file names.</span>
+    <span class="n">voltage_string_list</span> <span class="o">=</span> <span class="n">garbage_string_list</span> <span class="o">+</span> <span class="n">voltage_string_list</span>
+    <span class="n">voltage_raw_list</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;value&#39;</span><span class="p">:</span><span class="n">raw_voltages</span><span class="p">,</span> <span class="s1">&#39;trend&#39;</span><span class="p">:</span><span class="n">raw_trends</span><span class="p">}</span>
+
+    <span class="k">return</span> <span class="n">voltage_string_list</span><span class="p">,</span> <span class="n">voltage_raw_list</span>    </div>
+
+
+
+
+
+<div class="viewcode-block" id="script_rename_detector"><a class="viewcode-back" href="../../../docstrings/ifa_smeargle.reformat.renaming.html#ifa_smeargle.reformat.renaming.script_rename_detector">[docs]</a><span class="k">def</span> <span class="nf">script_rename_detector</span><span class="p">(</span><span class="n">config</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot; The scripting version of `rename_detector`. This function </span>
+<span class="sd">    applies the rename to the entire directory. It also adds the </span>
+<span class="sd">    tags to the header file of each fits.</span>
+<span class="sd">    </span>
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    config : ConfigObj</span>
+<span class="sd">        The configuration object that is to be used for </span>
+<span class="sd">        this function.</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    None</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="c1"># Extract the configuration parameters.</span>
+    <span class="n">data_directory</span> <span class="o">=</span> <span class="n">core</span><span class="o">.</span><span class="n">config</span><span class="o">.</span><span class="n">extract_configuration</span><span class="p">(</span>
+        <span class="n">config_object</span><span class="o">=</span><span class="n">config</span><span class="p">,</span> <span class="n">keys</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;data_directory&#39;</span><span class="p">])</span>
+    <span class="n">detector_name</span> <span class="o">=</span> <span class="n">core</span><span class="o">.</span><span class="n">config</span><span class="o">.</span><span class="n">extract_configuration</span><span class="p">(</span>
+        <span class="n">config_object</span><span class="o">=</span><span class="n">config</span><span class="p">,</span> <span class="n">keys</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;renaming&#39;</span><span class="p">,</span><span class="s1">&#39;detector_name&#39;</span><span class="p">])</span>
+
+    <span class="c1"># Obtain the labels.</span>
+    <span class="n">labels</span><span class="p">,</span> <span class="n">raw</span> <span class="o">=</span> <span class="n">rename_detector</span><span class="p">(</span><span class="n">data_directory</span><span class="o">=</span><span class="n">data_directory</span><span class="p">,</span> 
+                                  <span class="n">detector_name</span><span class="o">=</span><span class="n">detector_name</span><span class="p">)</span>
+    
+    <span class="c1"># Add to all file headers. Assume that the order has not changed </span>
+    <span class="c1"># between renaming steps.</span>
+    <span class="n">core</span><span class="o">.</span><span class="n">error</span><span class="o">.</span><span class="n">ifas_info</span><span class="p">(</span><span class="s2">&quot;Adding the detector name `</span><span class="si">{detect_name}</span><span class="s2">` &quot;</span>
+                         <span class="s2">&quot;under the `DETECTOR` card in the headers of the &quot;</span>
+                         <span class="s2">&quot;fits files in </span><span class="si">{data_dir}</span><span class="s2">.&quot;</span>
+                         <span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">detect_name</span><span class="o">=</span><span class="n">detector_name</span><span class="p">,</span> 
+                                 <span class="n">data_dir</span><span class="o">=</span><span class="n">data_directory</span><span class="p">))</span>
+    <span class="n">fits_files</span> <span class="o">=</span> <span class="n">core</span><span class="o">.</span><span class="n">io</span><span class="o">.</span><span class="n">get_fits_filenames</span><span class="p">(</span><span class="n">data_directory</span><span class="o">=</span><span class="n">data_directory</span><span class="p">)</span>
+    <span class="k">for</span> <span class="p">(</span><span class="n">filedex</span><span class="p">,</span> <span class="n">headerdex</span><span class="p">)</span> <span class="ow">in</span> <span class="nb">zip</span><span class="p">(</span><span class="n">fits_files</span><span class="p">,</span> <span class="n">raw</span><span class="p">):</span>
+        <span class="n">__</span> <span class="o">=</span> <span class="n">core</span><span class="o">.</span><span class="n">io</span><span class="o">.</span><span class="n">append_astropy_header_card</span><span class="p">(</span>
+            <span class="n">file_name</span><span class="o">=</span><span class="n">filedex</span><span class="p">,</span> <span class="n">header_cards</span><span class="o">=</span><span class="p">{</span><span class="s1">&#39;DETECTOR&#39;</span><span class="p">:</span><span class="n">headerdex</span><span class="p">})</span>
+
+    <span class="c1"># Finally rename the files based on parallel appending. Glob </span>
+    <span class="c1"># provides the directory.</span>
+    <span class="n">core</span><span class="o">.</span><span class="n">error</span><span class="o">.</span><span class="n">ifas_info</span><span class="p">(</span><span class="s2">&quot;Appending the detector name to the end of the &quot;</span>
+                         <span class="s2">&quot;files in </span><span class="si">{data_dir}</span><span class="s2">.&quot;</span>
+                         <span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">data_dir</span><span class="o">=</span><span class="n">data_directory</span><span class="p">))</span>
+    <span class="n">core</span><span class="o">.</span><span class="n">io</span><span class="o">.</span><span class="n">rename_by_parallel_append</span><span class="p">(</span><span class="n">file_names</span><span class="o">=</span><span class="n">fits_files</span><span class="p">,</span> 
+                                      <span class="n">appending_names</span><span class="o">=</span><span class="n">labels</span><span class="p">,</span> 
+                                      <span class="n">directory</span><span class="o">=</span><span class="kc">None</span><span class="p">)</span>
+
+    <span class="k">return</span> <span class="kc">None</span></div>
+
+<div class="viewcode-block" id="script_rename_garbage"><a class="viewcode-back" href="../../../docstrings/ifa_smeargle.reformat.renaming.html#ifa_smeargle.reformat.renaming.script_rename_garbage">[docs]</a><span class="k">def</span> <span class="nf">script_rename_garbage</span><span class="p">(</span><span class="n">config</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot; The scripting version of `rename_garbage`. This function </span>
+<span class="sd">    applies the rename to the entire directory. It also adds the </span>
+<span class="sd">    tags to the header file of each fits.</span>
+<span class="sd">    </span>
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    config : ConfigObj</span>
+<span class="sd">        The configuration object that is to be used for this </span>
+<span class="sd">        function.</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    None</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="c1"># Extract the configuration parameters.</span>
+    <span class="n">data_directory</span> <span class="o">=</span> <span class="n">core</span><span class="o">.</span><span class="n">config</span><span class="o">.</span><span class="n">extract_configuration</span><span class="p">(</span>
+        <span class="n">config_object</span><span class="o">=</span><span class="n">config</span><span class="p">,</span> <span class="n">keys</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;data_directory&#39;</span><span class="p">])</span>
+    <span class="n">begin_garbage</span> <span class="o">=</span> <span class="n">core</span><span class="o">.</span><span class="n">config</span><span class="o">.</span><span class="n">extract_configuration</span><span class="p">(</span>
+        <span class="n">config_object</span><span class="o">=</span><span class="n">config</span><span class="p">,</span> <span class="n">keys</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;renaming&#39;</span><span class="p">,</span><span class="s1">&#39;begin_garbage&#39;</span><span class="p">])</span>
+
+    <span class="c1"># Obtain the labels.</span>
+    <span class="n">labels</span><span class="p">,</span> <span class="n">raw</span> <span class="o">=</span> <span class="n">rename_garbage</span><span class="p">(</span><span class="n">data_directory</span><span class="o">=</span><span class="n">data_directory</span><span class="p">,</span>
+                                 <span class="n">begin_garbage</span><span class="o">=</span><span class="n">begin_garbage</span><span class="p">)</span>
+    
+    <span class="c1"># Add to all file headers. Assume that the order has not changed </span>
+    <span class="c1"># between renaming steps.</span>
+    <span class="n">core</span><span class="o">.</span><span class="n">error</span><span class="o">.</span><span class="n">ifas_info</span><span class="p">(</span><span class="s2">&quot;Adding the garbage status under the `GARBAGE` &quot;</span>
+                         <span class="s2">&quot;card in the headers of the fits files in &quot;</span>
+                         <span class="s2">&quot;</span><span class="si">{data_dir}</span><span class="s2">.&quot;</span>
+                         <span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">data_dir</span><span class="o">=</span><span class="n">data_directory</span><span class="p">))</span>
+    <span class="n">fits_files</span> <span class="o">=</span> <span class="n">core</span><span class="o">.</span><span class="n">io</span><span class="o">.</span><span class="n">get_fits_filenames</span><span class="p">(</span><span class="n">data_directory</span><span class="o">=</span><span class="n">data_directory</span><span class="p">)</span>
+    <span class="k">for</span> <span class="p">(</span><span class="n">filedex</span><span class="p">,</span> <span class="n">headerdex</span><span class="p">)</span> <span class="ow">in</span> <span class="nb">zip</span><span class="p">(</span><span class="n">fits_files</span><span class="p">,</span> <span class="n">raw</span><span class="p">):</span>
+        <span class="n">__</span> <span class="o">=</span> <span class="n">core</span><span class="o">.</span><span class="n">io</span><span class="o">.</span><span class="n">append_astropy_header_card</span><span class="p">(</span>
+            <span class="n">file_name</span><span class="o">=</span><span class="n">filedex</span><span class="p">,</span> <span class="n">header_cards</span><span class="o">=</span><span class="p">{</span><span class="s1">&#39;GARBAGE&#39;</span><span class="p">:</span><span class="n">headerdex</span><span class="p">})</span>
+
+    <span class="c1"># Finally rename the files based on parallel appending. Glob </span>
+    <span class="c1"># provides the directory.</span>
+    <span class="n">core</span><span class="o">.</span><span class="n">error</span><span class="o">.</span><span class="n">ifas_info</span><span class="p">(</span><span class="s2">&quot;Appending the garbage status to the end of &quot;</span>
+                         <span class="s2">&quot;the files in </span><span class="si">{data_dir}</span><span class="s2">.&quot;</span>
+                         <span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">data_dir</span><span class="o">=</span><span class="n">data_directory</span><span class="p">))</span>
+    <span class="n">core</span><span class="o">.</span><span class="n">io</span><span class="o">.</span><span class="n">rename_by_parallel_append</span><span class="p">(</span><span class="n">file_names</span><span class="o">=</span><span class="n">fits_files</span><span class="p">,</span> 
+                                      <span class="n">appending_names</span><span class="o">=</span><span class="n">labels</span><span class="p">,</span> 
+                                      <span class="n">directory</span><span class="o">=</span><span class="kc">None</span><span class="p">)</span>
+
+    <span class="k">return</span> <span class="kc">None</span></div>
+
+<div class="viewcode-block" id="script_rename_number"><a class="viewcode-back" href="../../../docstrings/ifa_smeargle.reformat.renaming.html#ifa_smeargle.reformat.renaming.script_rename_number">[docs]</a><span class="k">def</span> <span class="nf">script_rename_number</span><span class="p">(</span><span class="n">config</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot; The scripting version of `rename_number`. This function </span>
+<span class="sd">    applies the rename to the entire directory. It also adds the </span>
+<span class="sd">    tags to the header file of each fits.</span>
+<span class="sd">    </span>
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    config : ConfigObj</span>
+<span class="sd">        The configuration object that is to be used for this </span>
+<span class="sd">        function.</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    None</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="c1"># Extract the configuration parameters.</span>
+    <span class="n">data_directory</span> <span class="o">=</span> <span class="n">core</span><span class="o">.</span><span class="n">config</span><span class="o">.</span><span class="n">extract_configuration</span><span class="p">(</span>
+        <span class="n">config_object</span><span class="o">=</span><span class="n">config</span><span class="p">,</span> <span class="n">keys</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;data_directory&#39;</span><span class="p">])</span>
+    <span class="n">begin_garbage</span> <span class="o">=</span> <span class="n">core</span><span class="o">.</span><span class="n">config</span><span class="o">.</span><span class="n">extract_configuration</span><span class="p">(</span>
+        <span class="n">config_object</span><span class="o">=</span><span class="n">config</span><span class="p">,</span> <span class="n">keys</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;renaming&#39;</span><span class="p">,</span><span class="s1">&#39;begin_garbage&#39;</span><span class="p">])</span>
+
+    <span class="c1"># Obtain the labels.</span>
+    <span class="n">labels</span><span class="p">,</span> <span class="n">raw</span> <span class="o">=</span> <span class="n">rename_number</span><span class="p">(</span><span class="n">data_directory</span><span class="o">=</span><span class="n">data_directory</span><span class="p">,</span> 
+                                <span class="n">begin_garbage</span><span class="o">=</span><span class="n">begin_garbage</span><span class="p">)</span>
+    
+    <span class="c1"># Add to all file headers. Assume that the order has not </span>
+    <span class="c1"># changed between renaming steps.</span>
+    <span class="n">core</span><span class="o">.</span><span class="n">error</span><span class="o">.</span><span class="n">ifas_info</span><span class="p">(</span><span class="s2">&quot;Adding the file number under the `NUMBER` card &quot;</span>
+                         <span class="s2">&quot;in the headers of the fits files in </span><span class="si">{data_dir}</span><span class="s2"> &quot;</span>
+                         <span class="s2">&quot;based on the file order.&quot;</span>
+                         <span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">data_dir</span><span class="o">=</span><span class="n">data_directory</span><span class="p">))</span>
+    <span class="n">fits_files</span> <span class="o">=</span> <span class="n">core</span><span class="o">.</span><span class="n">io</span><span class="o">.</span><span class="n">get_fits_filenames</span><span class="p">(</span><span class="n">data_directory</span><span class="o">=</span><span class="n">data_directory</span><span class="p">)</span>
+    <span class="k">for</span> <span class="p">(</span><span class="n">filedex</span><span class="p">,</span> <span class="n">headerdex</span><span class="p">)</span> <span class="ow">in</span> <span class="nb">zip</span><span class="p">(</span><span class="n">fits_files</span><span class="p">,</span> <span class="n">raw</span><span class="p">):</span>
+        <span class="n">__</span> <span class="o">=</span> <span class="n">core</span><span class="o">.</span><span class="n">io</span><span class="o">.</span><span class="n">append_astropy_header_card</span><span class="p">(</span>
+            <span class="n">file_name</span><span class="o">=</span><span class="n">filedex</span><span class="p">,</span> <span class="n">header_cards</span><span class="o">=</span><span class="p">{</span><span class="s1">&#39;NUMBER&#39;</span><span class="p">:</span><span class="n">headerdex</span><span class="p">})</span>
+
+    <span class="c1"># Finally rename the files based on parallel appending. Glob </span>
+    <span class="c1"># provides the directory.</span>
+    <span class="n">core</span><span class="o">.</span><span class="n">error</span><span class="o">.</span><span class="n">ifas_info</span><span class="p">(</span><span class="s2">&quot;Appending the file number to the end of &quot;</span>
+                         <span class="s2">&quot;the files in </span><span class="si">{data_dir}</span><span class="s2">.&quot;</span>
+                         <span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">data_dir</span><span class="o">=</span><span class="n">data_directory</span><span class="p">))</span>
+    <span class="n">core</span><span class="o">.</span><span class="n">io</span><span class="o">.</span><span class="n">rename_by_parallel_append</span><span class="p">(</span><span class="n">file_names</span><span class="o">=</span><span class="n">fits_files</span><span class="p">,</span> 
+                                      <span class="n">appending_names</span><span class="o">=</span><span class="n">labels</span><span class="p">,</span> 
+                                      <span class="n">directory</span><span class="o">=</span><span class="kc">None</span><span class="p">)</span>
+
+    <span class="k">return</span> <span class="kc">None</span></div>
+
+<div class="viewcode-block" id="script_rename_set"><a class="viewcode-back" href="../../../docstrings/ifa_smeargle.reformat.renaming.html#ifa_smeargle.reformat.renaming.script_rename_set">[docs]</a><span class="k">def</span> <span class="nf">script_rename_set</span><span class="p">(</span><span class="n">config</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot; The scripting version of `rename_set`. This function </span>
+<span class="sd">    applies the rename to the entire directory. It also adds the </span>
+<span class="sd">    tags to the header file of each fits.</span>
+<span class="sd">    </span>
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    config : ConfigObj</span>
+<span class="sd">        The configuration object that is to be used for this </span>
+<span class="sd">        function.</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    None</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="c1"># Extract the configuration parameters.</span>
+    <span class="n">data_directory</span> <span class="o">=</span> <span class="n">core</span><span class="o">.</span><span class="n">config</span><span class="o">.</span><span class="n">extract_configuration</span><span class="p">(</span>
+        <span class="n">config_object</span><span class="o">=</span><span class="n">config</span><span class="p">,</span> <span class="n">keys</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;data_directory&#39;</span><span class="p">])</span>
+    <span class="n">set_length</span> <span class="o">=</span> <span class="n">core</span><span class="o">.</span><span class="n">config</span><span class="o">.</span><span class="n">extract_configuration</span><span class="p">(</span>
+        <span class="n">config_object</span><span class="o">=</span><span class="n">config</span><span class="p">,</span> <span class="n">keys</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;renaming&#39;</span><span class="p">,</span><span class="s1">&#39;set_length&#39;</span><span class="p">])</span>
+    <span class="n">begin_garbage</span> <span class="o">=</span> <span class="n">core</span><span class="o">.</span><span class="n">config</span><span class="o">.</span><span class="n">extract_configuration</span><span class="p">(</span>
+        <span class="n">config_object</span><span class="o">=</span><span class="n">config</span><span class="p">,</span> <span class="n">keys</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;renaming&#39;</span><span class="p">,</span><span class="s1">&#39;begin_garbage&#39;</span><span class="p">])</span>
+
+    <span class="c1"># Obtain the labels.</span>
+    <span class="n">labels</span><span class="p">,</span> <span class="n">raw</span> <span class="o">=</span> <span class="n">rename_set</span><span class="p">(</span><span class="n">data_directory</span><span class="o">=</span><span class="n">data_directory</span><span class="p">,</span> 
+                               <span class="n">set_length</span><span class="o">=</span><span class="n">set_length</span><span class="p">,</span> 
+                               <span class="n">begin_garbage</span><span class="o">=</span><span class="n">begin_garbage</span><span class="p">)</span>
+    
+    <span class="c1"># Add to all file headers. Assume that the order has not </span>
+    <span class="c1"># changed between renaming steps.</span>
+    <span class="n">core</span><span class="o">.</span><span class="n">error</span><span class="o">.</span><span class="n">ifas_info</span><span class="p">(</span><span class="s2">&quot;Adding the set number under the `SET_NUM` card &quot;</span>
+                         <span class="s2">&quot;in the headers of the fits files in </span><span class="si">{data_dir}</span><span class="s2"> &quot;</span>
+                         <span class="s2">&quot;based on the file order.&quot;</span>
+                         <span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">data_dir</span><span class="o">=</span><span class="n">data_directory</span><span class="p">))</span>
+    <span class="n">fits_files</span> <span class="o">=</span> <span class="n">core</span><span class="o">.</span><span class="n">io</span><span class="o">.</span><span class="n">get_fits_filenames</span><span class="p">(</span><span class="n">data_directory</span><span class="o">=</span><span class="n">data_directory</span><span class="p">)</span>
+    <span class="k">for</span> <span class="p">(</span><span class="n">filedex</span><span class="p">,</span> <span class="n">headerdex</span><span class="p">)</span> <span class="ow">in</span> <span class="nb">zip</span><span class="p">(</span><span class="n">fits_files</span><span class="p">,</span> <span class="n">raw</span><span class="p">):</span>
+        <span class="n">__</span> <span class="o">=</span> <span class="n">core</span><span class="o">.</span><span class="n">io</span><span class="o">.</span><span class="n">append_astropy_header_card</span><span class="p">(</span>
+            <span class="n">file_name</span><span class="o">=</span><span class="n">filedex</span><span class="p">,</span> <span class="n">header_cards</span><span class="o">=</span><span class="p">{</span><span class="s1">&#39;SET_NUM&#39;</span><span class="p">:</span><span class="n">headerdex</span><span class="p">})</span>
+
+    <span class="c1"># Finally rename the files based on parallel appending. Glob </span>
+    <span class="c1"># provides the directory.</span>
+    <span class="n">core</span><span class="o">.</span><span class="n">error</span><span class="o">.</span><span class="n">ifas_info</span><span class="p">(</span><span class="s2">&quot;Appending the set number to the end of the &quot;</span>
+                         <span class="s2">&quot;files in </span><span class="si">{data_dir}</span><span class="s2">.&quot;</span>
+                         <span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">data_dir</span><span class="o">=</span><span class="n">data_directory</span><span class="p">))</span>
+    <span class="n">core</span><span class="o">.</span><span class="n">io</span><span class="o">.</span><span class="n">rename_by_parallel_append</span><span class="p">(</span><span class="n">file_names</span><span class="o">=</span><span class="n">fits_files</span><span class="p">,</span> 
+                                      <span class="n">appending_names</span><span class="o">=</span><span class="n">labels</span><span class="p">,</span> 
+                                      <span class="n">directory</span><span class="o">=</span><span class="kc">None</span><span class="p">)</span>
+
+    <span class="k">return</span> <span class="kc">None</span></div>
+
+<div class="viewcode-block" id="script_rename_voltage_pattern"><a class="viewcode-back" href="../../../docstrings/ifa_smeargle.reformat.renaming.html#ifa_smeargle.reformat.renaming.script_rename_voltage_pattern">[docs]</a><span class="k">def</span> <span class="nf">script_rename_voltage_pattern</span><span class="p">(</span><span class="n">config</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot; The scripting version of `rename_voltage_pattern`. This </span>
+<span class="sd">    function applies the rename to the entire directory. It also </span>
+<span class="sd">    adds the tags to the header file of each fits.</span>
+<span class="sd">    </span>
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    config : ConfigObj</span>
+<span class="sd">        The configuration object that is to be used for this </span>
+<span class="sd">        function.</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    None</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="c1"># Extract the configuration parameters.</span>
+    <span class="n">data_directory</span> <span class="o">=</span> <span class="n">core</span><span class="o">.</span><span class="n">config</span><span class="o">.</span><span class="n">extract_configuration</span><span class="p">(</span>
+        <span class="n">config_object</span><span class="o">=</span><span class="n">config</span><span class="p">,</span> <span class="n">keys</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;data_directory&#39;</span><span class="p">])</span>
+    <span class="n">voltage_pattern</span> <span class="o">=</span> <span class="n">core</span><span class="o">.</span><span class="n">config</span><span class="o">.</span><span class="n">extract_configuration</span><span class="p">(</span>
+        <span class="n">config_object</span><span class="o">=</span><span class="n">config</span><span class="p">,</span> <span class="n">keys</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;renaming&#39;</span><span class="p">,</span><span class="s1">&#39;voltage_pattern&#39;</span><span class="p">])</span>
+    <span class="n">begin_garbage</span> <span class="o">=</span> <span class="n">core</span><span class="o">.</span><span class="n">config</span><span class="o">.</span><span class="n">extract_configuration</span><span class="p">(</span>
+        <span class="n">config_object</span><span class="o">=</span><span class="n">config</span><span class="p">,</span> <span class="n">keys</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;renaming&#39;</span><span class="p">,</span><span class="s1">&#39;begin_garbage&#39;</span><span class="p">])</span>
+
+    <span class="c1"># Obtain the labels. This one is a little special with its </span>
+    <span class="c1"># output; the raw contains two sections.</span>
+    <span class="n">labels</span><span class="p">,</span> <span class="n">raw</span> <span class="o">=</span> <span class="n">rename_voltage_pattern</span><span class="p">(</span><span class="n">data_directory</span><span class="o">=</span><span class="n">data_directory</span><span class="p">,</span> 
+                                           <span class="n">voltage_pattern</span><span class="o">=</span><span class="n">voltage_pattern</span><span class="p">,</span>
+                                           <span class="n">begin_garbage</span><span class="o">=</span><span class="n">begin_garbage</span><span class="p">)</span>
+    <span class="c1"># Split the sections.</span>
+    <span class="n">raw_volt_value</span> <span class="o">=</span> <span class="n">raw</span><span class="p">[</span><span class="s1">&#39;value&#39;</span><span class="p">]</span>
+    <span class="n">raw_volt_trend</span> <span class="o">=</span> <span class="n">raw</span><span class="p">[</span><span class="s1">&#39;trend&#39;</span><span class="p">]</span>
+
+    <span class="c1"># Add to all file headers. Assume that the order has not </span>
+    <span class="c1"># changed between renaming steps.</span>
+    <span class="n">core</span><span class="o">.</span><span class="n">error</span><span class="o">.</span><span class="n">ifas_info</span><span class="p">(</span><span class="s2">&quot;Adding the bias voltage under the `VOLTAGE` &quot;</span>
+                         <span class="s2">&quot;card and the ramp slope under the `RAMPSLPE` card &quot;</span>
+                         <span class="s2">&quot;in the headers of the fits files in &quot;</span>
+                         <span class="s2">&quot;</span><span class="si">{data_dir}</span><span class="s2"> based on the file order.&quot;</span>
+                         <span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">data_dir</span><span class="o">=</span><span class="n">data_directory</span><span class="p">))</span>
+    <span class="n">fits_files</span> <span class="o">=</span> <span class="n">core</span><span class="o">.</span><span class="n">io</span><span class="o">.</span><span class="n">get_fits_filenames</span><span class="p">(</span><span class="n">data_directory</span><span class="o">=</span><span class="n">data_directory</span><span class="p">)</span>
+    <span class="k">for</span> <span class="p">(</span><span class="n">filedex</span><span class="p">,</span> <span class="n">voltdex</span><span class="p">,</span> <span class="n">trenddex</span><span class="p">)</span> <span class="ow">in</span> <span class="nb">zip</span><span class="p">(</span><span class="n">fits_files</span><span class="p">,</span> 
+                                            <span class="n">raw_volt_value</span><span class="p">,</span> <span class="n">raw_volt_trend</span><span class="p">):</span>
+        <span class="n">__</span> <span class="o">=</span> <span class="n">core</span><span class="o">.</span><span class="n">io</span><span class="o">.</span><span class="n">append_astropy_header_card</span><span class="p">(</span>
+            <span class="n">file_name</span><span class="o">=</span><span class="n">filedex</span><span class="p">,</span> <span class="n">header_cards</span><span class="o">=</span><span class="p">{</span><span class="s1">&#39;VOLTAGE&#39;</span><span class="p">:</span><span class="n">voltdex</span><span class="p">,</span> 
+                                             <span class="s1">&#39;RAMPSLPE&#39;</span><span class="p">:</span><span class="n">trenddex</span><span class="p">})</span>
+
+    <span class="c1"># Finally rename the files based on parallel appending. Glob </span>
+    <span class="c1"># provides the directory.</span>
+    <span class="n">core</span><span class="o">.</span><span class="n">error</span><span class="o">.</span><span class="n">ifas_info</span><span class="p">(</span><span class="s2">&quot;Appending the bias voltage number and slope to &quot;</span>
+                         <span class="s2">&quot;the end of the files in </span><span class="si">{data_dir}</span><span class="s2">.&quot;</span>
+                         <span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">data_dir</span><span class="o">=</span><span class="n">data_directory</span><span class="p">))</span>
+    <span class="n">core</span><span class="o">.</span><span class="n">io</span><span class="o">.</span><span class="n">rename_by_parallel_append</span><span class="p">(</span><span class="n">file_names</span><span class="o">=</span><span class="n">fits_files</span><span class="p">,</span> 
+                                      <span class="n">appending_names</span><span class="o">=</span><span class="n">labels</span><span class="p">,</span> 
+                                      <span class="n">directory</span><span class="o">=</span><span class="kc">None</span><span class="p">)</span>
+
+    <span class="k">return</span> <span class="kc">None</span></div>
+</pre></div>
+
+           </div>
+           
+          </div>
+          <footer>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        
+        &copy; Copyright 2020, Sparrow
+
+    </p>
+  </div>
+    
+    
+    
+    Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a
+    
+    <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a>
+    
+    provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+
+  
+  
+    
+   
+
+</body>
+</html>

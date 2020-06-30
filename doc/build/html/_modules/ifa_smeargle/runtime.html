@@ -1,0 +1,546 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>ifa_smeargle.runtime &mdash; IfA_Smeargle 2020 documentation</title>
+  
+
+  
+  <link rel="stylesheet" href="../../_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
+  <link rel="stylesheet" href="../../_static/css/custom.css" type="text/css" />
+
+  
+  
+  
+  
+
+  
+  <!--[if lt IE 9]>
+    <script src="../../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+    
+      <script type="text/javascript" id="documentation_options" data-url_root="../../" src="../../_static/documentation_options.js"></script>
+        <script src="../../_static/jquery.js"></script>
+        <script src="../../_static/underscore.js"></script>
+        <script src="../../_static/doctools.js"></script>
+        <script src="../../_static/language_data.js"></script>
+    
+    <script type="text/javascript" src="../../_static/js/theme.js"></script>
+
+    
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" /> 
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+          
+
+          
+            <a href="../../index.html" class="icon icon-home" alt="Documentation Home"> IfA_Smeargle
+          
+
+          
+          </a>
+
+          
+            
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <p class="caption"><span class="caption-text">Code Documentation:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../docstrings/modules.html">ifa_smeargle</a></li>
+</ul>
+
+            
+          
+        </div>
+        
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../index.html">IfA_Smeargle</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="../../index.html" class="icon icon-home"></a> &raquo;</li>
+        
+          <li><a href="../index.html">Module code</a> &raquo;</li>
+        
+      <li>ifa_smeargle.runtime</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <h1>Source code for ifa_smeargle.runtime</h1><div class="highlight"><pre>
+<span></span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">This module contains runtime-variables that are important for the </span>
+<span class="sd">function of this module.</span>
+<span class="sd">&quot;&quot;&quot;</span>
+
+
+<span class="kn">import</span> <span class="nn">copy</span>
+<span class="kn">import</span> <span class="nn">glob</span>
+<span class="kn">import</span> <span class="nn">os</span>
+<span class="kn">import</span> <span class="nn">importlib</span>
+<span class="kn">import</span> <span class="nn">inspect</span>
+<span class="kn">import</span> <span class="nn">functools</span>
+
+
+<span class="kn">import</span> <span class="nn">ifa_smeargle.core</span> <span class="k">as</span> <span class="nn">core</span>
+
+
+<div class="viewcode-block" id="get_module_directory"><a class="viewcode-back" href="../../docstrings/ifa_smeargle.runtime.html#ifa_smeargle.runtime.get_module_directory">[docs]</a><span class="k">def</span> <span class="nf">get_module_directory</span><span class="p">():</span>
+    <span class="sd">&quot;&quot;&quot; This function returns the path of this module.</span>
+<span class="sd">    </span>
+<span class="sd">    </span>
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    None</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    module_directory : string</span>
+<span class="sd">        The directory of this module.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="c1"># Getting the module directory based on the script </span>
+    <span class="c1"># file&#39;s location.</span>
+    <span class="n">module_directory</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">dirname</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">abspath</span><span class="p">(</span><span class="vm">__file__</span><span class="p">))</span>
+
+    <span class="c1"># Adding the extra slash, else the directory name may be </span>
+    <span class="c1"># incorrectly split as a file name.</span>
+    <span class="n">module_directory</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">module_directory</span><span class="p">,</span><span class="s1">&#39;&#39;</span><span class="p">)</span>
+
+    <span class="k">return</span> <span class="n">module_directory</span></div>
+
+<div class="viewcode-block" id="get_configuration_files"><a class="viewcode-back" href="../../docstrings/ifa_smeargle.runtime.html#ifa_smeargle.runtime.get_configuration_files">[docs]</a><span class="k">def</span> <span class="nf">get_configuration_files</span><span class="p">():</span>
+    <span class="sd">&quot;&quot;&quot; This function obtains all of the configuration files,</span>
+<span class="sd">    returning a dictionary of them for each of their paths.</span>
+<span class="sd">    </span>
+<span class="sd">    The qualifier to be a configuration file is just to have `.ini` </span>
+<span class="sd">    extension to the file name.</span>
+<span class="sd">    </span>
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    None</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    config_files : dictionary</span>
+<span class="sd">        The configuration files that have been found in the module </span>
+<span class="sd">        and its sub-modules.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="c1"># Extract the directory that the module is generally hosted in.</span>
+    <span class="n">module_pathname</span> <span class="o">=</span> <span class="n">get_module_directory</span><span class="p">()</span>
+    <span class="n">module_dir</span><span class="p">,</span> <span class="n">__</span><span class="p">,</span> <span class="n">__</span> <span class="o">=</span> <span class="n">core</span><span class="o">.</span><span class="n">strformat</span><span class="o">.</span><span class="n">split_pathname</span><span class="p">(</span>
+        <span class="n">pathname</span><span class="o">=</span><span class="n">module_pathname</span><span class="p">)</span>
+
+    <span class="c1"># Obtain all configuration files within that directory.</span>
+    <span class="n">config_file_list</span> <span class="o">=</span> <span class="n">glob</span><span class="o">.</span><span class="n">glob</span><span class="p">(</span>
+        <span class="n">core</span><span class="o">.</span><span class="n">strformat</span><span class="o">.</span><span class="n">combine_pathname</span><span class="p">(</span><span class="n">directory</span><span class="o">=</span><span class="p">[</span><span class="n">module_dir</span><span class="p">,</span> <span class="s1">&#39;**&#39;</span><span class="p">],</span> 
+                                        <span class="n">file_name</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;*&#39;</span><span class="p">],</span> 
+                                        <span class="n">extension</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;.ini&#39;</span><span class="p">]),</span> 
+        <span class="n">recursive</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+
+    <span class="c1"># Constructing the dictionary, the key being the true file name </span>
+    <span class="c1"># without extension, the value being the full path.</span>
+    <span class="n">config_files</span> <span class="o">=</span> <span class="p">{}</span>
+    <span class="k">for</span> <span class="n">filedex</span> <span class="ow">in</span> <span class="n">config_file_list</span><span class="p">:</span>
+        <span class="n">__</span><span class="p">,</span> <span class="n">config_key</span><span class="p">,</span> <span class="n">config_ext</span> <span class="o">=</span> <span class="n">core</span><span class="o">.</span><span class="n">strformat</span><span class="o">.</span><span class="n">split_pathname</span><span class="p">(</span>
+            <span class="n">pathname</span><span class="o">=</span><span class="n">filedex</span><span class="p">)</span>
+        <span class="c1"># Quick check that the configuration file really is one. </span>
+        <span class="c1"># (And that the splitting path name is a valid function.)</span>
+        <span class="k">assert</span> <span class="p">(</span><span class="n">config_ext</span> <span class="o">==</span> <span class="s1">&#39;.ini&#39;</span><span class="p">)</span>
+        <span class="n">config_files</span><span class="p">[</span><span class="n">config_key</span><span class="p">]</span> <span class="o">=</span> <span class="n">filedex</span>
+
+    <span class="c1"># The files have been combined.</span>
+    <span class="k">return</span> <span class="n">config_files</span></div>
+
+<div class="viewcode-block" id="get_specification_files"><a class="viewcode-back" href="../../docstrings/ifa_smeargle.runtime.html#ifa_smeargle.runtime.get_specification_files">[docs]</a><span class="k">def</span> <span class="nf">get_specification_files</span><span class="p">():</span>
+    <span class="sd">&quot;&quot;&quot; This function obtains all of the configuration specification </span>
+<span class="sd">    files, returning a dictionary of them for each of their paths.</span>
+<span class="sd">    </span>
+<span class="sd">    The qualifier to be a specification file is just to have `.spec` </span>
+<span class="sd">    extension to the file name.</span>
+<span class="sd">    </span>
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    None</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    spec_files : dictionary</span>
+<span class="sd">        The specification files that have been found in the module </span>
+<span class="sd">        and its sub-modules.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="c1"># Extract the directory that the module is generally hosted in.</span>
+    <span class="n">module_pathname</span> <span class="o">=</span> <span class="n">get_module_directory</span><span class="p">()</span>
+    <span class="n">module_dir</span><span class="p">,</span> <span class="n">__</span><span class="p">,</span> <span class="n">__</span> <span class="o">=</span> <span class="n">core</span><span class="o">.</span><span class="n">strformat</span><span class="o">.</span><span class="n">split_pathname</span><span class="p">(</span>
+        <span class="n">pathname</span><span class="o">=</span><span class="n">module_pathname</span><span class="p">)</span>
+    
+    <span class="c1"># Obtain all specification files within that directory.</span>
+    <span class="n">spec_file_list</span> <span class="o">=</span> <span class="n">glob</span><span class="o">.</span><span class="n">glob</span><span class="p">(</span>
+        <span class="n">core</span><span class="o">.</span><span class="n">strformat</span><span class="o">.</span><span class="n">combine_pathname</span><span class="p">(</span><span class="n">directory</span><span class="o">=</span><span class="p">[</span><span class="n">module_dir</span><span class="p">,</span> <span class="s1">&#39;**&#39;</span><span class="p">],</span> 
+                                        <span class="n">file_name</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;*&#39;</span><span class="p">],</span> 
+                                        <span class="n">extension</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;.spec&#39;</span><span class="p">]),</span> 
+        <span class="n">recursive</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+
+    <span class="c1"># Constructing the dictionary, the key being the true file name </span>
+    <span class="c1"># without extension, the value being the full path.</span>
+    <span class="n">spec_files</span> <span class="o">=</span> <span class="p">{}</span>
+    <span class="k">for</span> <span class="n">filedex</span> <span class="ow">in</span> <span class="n">spec_file_list</span><span class="p">:</span>
+        <span class="n">__</span><span class="p">,</span> <span class="n">spec_key</span><span class="p">,</span> <span class="n">spec_ext</span> <span class="o">=</span> <span class="n">core</span><span class="o">.</span><span class="n">strformat</span><span class="o">.</span><span class="n">split_pathname</span><span class="p">(</span>
+            <span class="n">pathname</span><span class="o">=</span><span class="n">filedex</span><span class="p">)</span>
+        <span class="c1"># Quick check that the specification file really is one. </span>
+        <span class="c1"># (And that the splitting path name is a valid function.)</span>
+        <span class="k">assert</span> <span class="p">(</span><span class="n">spec_ext</span> <span class="o">==</span> <span class="s1">&#39;.spec&#39;</span><span class="p">)</span>
+        <span class="n">spec_files</span><span class="p">[</span><span class="n">spec_key</span><span class="p">]</span> <span class="o">=</span> <span class="n">filedex</span>
+
+    <span class="c1"># The files have been combined.</span>
+    <span class="k">return</span> <span class="n">spec_files</span></div>
+
+
+<div class="viewcode-block" id="get_script_functions"><a class="viewcode-back" href="../../docstrings/ifa_smeargle.runtime.html#ifa_smeargle.runtime.get_script_functions">[docs]</a><span class="k">def</span> <span class="nf">get_script_functions</span><span class="p">():</span>
+    <span class="sd">&quot;&quot;&quot; This function obtains all possible `script` based </span>
+<span class="sd">    functions, returning a dictionary of them. </span>
+<span class="sd">    </span>
+<span class="sd">    The qualifier to be a script function is just to have `script_`</span>
+<span class="sd">    as the prefix to the function.</span>
+<span class="sd">    </span>
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    None</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    scripts : dictionary</span>
+<span class="sd">        The scripts that have been found in the module and its</span>
+<span class="sd">        sub-modules which have the scripting prefix.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="c1"># This is generally a wrapper around the main function.</span>
+    <span class="n">scripts</span> <span class="o">=</span> <span class="n">_get_any_tagged_functions</span><span class="p">(</span><span class="n">tag_prefix</span><span class="o">=</span><span class="s1">&#39;script_&#39;</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">scripts</span></div>
+
+<div class="viewcode-block" id="get_mask_functions"><a class="viewcode-back" href="../../docstrings/ifa_smeargle.runtime.html#ifa_smeargle.runtime.get_mask_functions">[docs]</a><span class="k">def</span> <span class="nf">get_mask_functions</span><span class="p">():</span>
+    <span class="sd">&quot;&quot;&quot; This function obtains all possible `mask` based </span>
+<span class="sd">    functions, returning a dictionary of them. </span>
+<span class="sd">    </span>
+<span class="sd">    The qualifier to be a masking function is just to have `mask_`</span>
+<span class="sd">    as the prefix to the function.</span>
+<span class="sd">    </span>
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    None</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    masks : dictionary</span>
+<span class="sd">        The masking functions that have been found in the module </span>
+<span class="sd">        and its sub-modules which have the scripting prefix.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="c1"># This is generally a wrapper around the main function.</span>
+    <span class="n">masks</span> <span class="o">=</span> <span class="n">_get_any_tagged_functions</span><span class="p">(</span><span class="n">tag_prefix</span><span class="o">=</span><span class="s1">&#39;mask_&#39;</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">masks</span></div>
+
+<div class="viewcode-block" id="get_filter_functions"><a class="viewcode-back" href="../../docstrings/ifa_smeargle.runtime.html#ifa_smeargle.runtime.get_filter_functions">[docs]</a><span class="k">def</span> <span class="nf">get_filter_functions</span><span class="p">():</span>
+    <span class="sd">&quot;&quot;&quot; This function obtains all possible `filter` based </span>
+<span class="sd">    functions, returning a dictionary of them. </span>
+<span class="sd">    </span>
+<span class="sd">    The qualifier to be a script function is just to have `filter_`</span>
+<span class="sd">    as the prefix to the function.</span>
+<span class="sd">    </span>
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    None</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    filters : dictionary</span>
+<span class="sd">        The filters that have been found in the module and its</span>
+<span class="sd">        sub-modules which have the filtering prefix.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="c1"># This is generally a wrapper around the main function.</span>
+    <span class="n">filters</span> <span class="o">=</span> <span class="n">_get_any_tagged_functions</span><span class="p">(</span><span class="n">tag_prefix</span><span class="o">=</span><span class="s1">&#39;filter_&#39;</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">filters</span></div>
+
+<span class="k">def</span> <span class="nf">_get_any_tagged_functions</span><span class="p">(</span><span class="n">tag_prefix</span><span class="p">):</span> 
+    <span class="sd">&quot;&quot;&quot; This function obtains all possible prefix-tagged based </span>
+<span class="sd">    functions, returning a dictionary of them. </span>
+<span class="sd">    </span>
+<span class="sd">    The qualifier to be a tagged function is just to have the tag</span>
+<span class="sd">    as the prefix to the function.</span>
+<span class="sd">    </span>
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    None</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    tagged_functions : dictionary</span>
+<span class="sd">        The functions that have been found in the module and its</span>
+<span class="sd">        sub-modules which have the prefix tag.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="c1"># Extract the directory that the module is generally hosted in.</span>
+    <span class="n">module_pathname</span> <span class="o">=</span> <span class="n">get_module_directory</span><span class="p">()</span>
+    <span class="n">module_dir</span><span class="p">,</span> <span class="n">__</span><span class="p">,</span> <span class="n">__</span> <span class="o">=</span> <span class="n">core</span><span class="o">.</span><span class="n">strformat</span><span class="o">.</span><span class="n">split_pathname</span><span class="p">(</span>
+        <span class="n">pathname</span><span class="o">=</span><span class="n">module_pathname</span><span class="p">)</span>
+    
+    <span class="c1"># Obtain all python files within that directory.</span>
+    <span class="n">file_wildcard</span> <span class="o">=</span> <span class="n">core</span><span class="o">.</span><span class="n">strformat</span><span class="o">.</span><span class="n">combine_pathname</span><span class="p">(</span>
+        <span class="n">directory</span><span class="o">=</span><span class="p">[</span><span class="n">module_dir</span><span class="p">,</span><span class="s1">&#39;**&#39;</span><span class="p">],</span> <span class="n">file_name</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;*&#39;</span><span class="p">],</span> <span class="n">extension</span><span class="o">=</span><span class="s1">&#39;.py&#39;</span><span class="p">)</span>
+    <span class="n">module_files</span> <span class="o">=</span> <span class="n">glob</span><span class="o">.</span><span class="n">glob</span><span class="p">(</span><span class="n">file_wildcard</span><span class="p">,</span> <span class="n">recursive</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+    
+    <span class="c1"># A function to loading arbitrary source files (the ones just </span>
+    <span class="c1"># found).</span>
+    <span class="k">def</span> <span class="nf">_load_soruce</span><span class="p">(</span><span class="n">file_name</span><span class="p">,</span> <span class="n">mod_pathname</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;A function to loading arbitrary source files into the </span>
+<span class="sd">        program. </span>
+<span class="sd">        </span>
+<span class="sd">        Credit: https://stackoverflow.com/a/19011259</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">__</span><span class="p">,</span> <span class="n">module_filename</span><span class="p">,</span> <span class="n">__</span> <span class="o">=</span> <span class="n">core</span><span class="o">.</span><span class="n">strformat</span><span class="o">.</span><span class="n">split_pathname</span><span class="p">(</span>
+            <span class="n">pathname</span><span class="o">=</span><span class="n">mod_pathname</span><span class="p">)</span>
+        <span class="n">loader</span> <span class="o">=</span> <span class="n">importlib</span><span class="o">.</span><span class="n">machinery</span><span class="o">.</span><span class="n">SourceFileLoader</span><span class="p">(</span><span class="n">module_filename</span><span class="p">,</span> 
+                                                      <span class="n">file_name</span><span class="p">)</span>
+        <span class="n">spec</span> <span class="o">=</span> <span class="n">importlib</span><span class="o">.</span><span class="n">util</span><span class="o">.</span><span class="n">spec_from_loader</span><span class="p">(</span><span class="n">loader</span><span class="o">.</span><span class="n">name</span><span class="p">,</span> <span class="n">loader</span><span class="p">)</span>
+        <span class="n">mod</span> <span class="o">=</span> <span class="n">importlib</span><span class="o">.</span><span class="n">util</span><span class="o">.</span><span class="n">module_from_spec</span><span class="p">(</span><span class="n">spec</span><span class="p">)</span>
+        <span class="n">loader</span><span class="o">.</span><span class="n">exec_module</span><span class="p">(</span><span class="n">mod</span><span class="p">)</span>
+        
+        <span class="k">return</span> <span class="n">mod</span>
+    
+    <span class="c1"># Load all of the source files and extract the functions.</span>
+    <span class="n">function_list</span> <span class="o">=</span> <span class="p">{}</span>
+    <span class="k">for</span> <span class="n">pyfiledex</span> <span class="ow">in</span> <span class="n">module_files</span><span class="p">:</span>
+        <span class="c1"># Load...</span>
+        <span class="n">pymod</span> <span class="o">=</span> <span class="n">_load_soruce</span><span class="p">(</span><span class="n">file_name</span><span class="o">=</span><span class="n">pyfiledex</span><span class="p">,</span> 
+                             <span class="n">mod_pathname</span><span class="o">=</span><span class="n">module_pathname</span><span class="p">)</span>
+        <span class="c1"># Gathering all possible functions within the source file.</span>
+        <span class="n">function_list</span><span class="o">.</span><span class="n">update</span><span class="p">(</span>
+            <span class="nb">dict</span><span class="p">(</span><span class="n">inspect</span><span class="o">.</span><span class="n">getmembers</span><span class="p">(</span><span class="n">pymod</span><span class="p">,</span> <span class="n">inspect</span><span class="o">.</span><span class="n">isfunction</span><span class="p">)))</span>
+        <span class="c1"># To reuse?</span>
+        <span class="k">del</span> <span class="n">pymod</span>
+
+    <span class="c1"># All scripts generally will have the same prefix. </span>
+    <span class="k">for</span> <span class="n">keydex</span><span class="p">,</span> <span class="n">functiondex</span> <span class="ow">in</span> <span class="n">copy</span><span class="o">.</span><span class="n">deepcopy</span><span class="p">(</span><span class="n">function_list</span><span class="p">)</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+        <span class="c1"># Remove those that are not properly prefixed.</span>
+        <span class="k">if</span> <span class="p">(</span><span class="n">tag_prefix</span> <span class="o">!=</span> <span class="n">keydex</span><span class="p">[:</span><span class="nb">len</span><span class="p">(</span><span class="n">tag_prefix</span><span class="p">)]):</span>
+            <span class="n">__</span> <span class="o">=</span> <span class="n">function_list</span><span class="o">.</span><span class="n">pop</span><span class="p">(</span><span class="n">keydex</span><span class="p">,</span> <span class="kc">None</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">continue</span>
+    
+    <span class="c1"># For documentation.</span>
+    <span class="n">tagged_functions</span> <span class="o">=</span> <span class="n">function_list</span>
+    <span class="k">return</span> <span class="n">tagged_functions</span>
+
+
+
+<span class="c1"># To cache the results so there is less overhead.</span>
+<div class="viewcode-block" id="extract_runtime_configuration"><a class="viewcode-back" href="../../docstrings/ifa_smeargle.runtime.html#ifa_smeargle.runtime.extract_runtime_configuration">[docs]</a><span class="nd">@functools</span><span class="o">.</span><span class="n">lru_cache</span><span class="p">()</span>
+<span class="k">def</span> <span class="nf">extract_runtime_configuration</span><span class="p">(</span><span class="n">config_key</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot; This function extracts the configuration based solely on the </span>
+<span class="sd">    key of the configuration value.</span>
+
+<span class="sd">    The conversion of &#39;True&#39;-&gt;bool(True) and &#39;False&#39;-&gt;bool(False) is</span>
+<span class="sd">    implicitly assumed. Letter case doesn&#39;t matter.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    config_key : string</span>
+<span class="sd">        The tag of the configuration parameter that is being sought.</span>
+<span class="sd">    type_convert : boolean</span>
+<span class="sd">        A flag to determine if type conversion is desired. If False, </span>
+<span class="sd">        the raw value is returned instead.</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    config_value : object</span>
+<span class="sd">        The configuration object that is present within the file.  </span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="c1"># Get the all specification files and obtain the Smeargle one.</span>
+    <span class="n">spec_dict</span> <span class="o">=</span> <span class="n">get_specification_files</span><span class="p">()</span>
+    <span class="n">smeargle_spec</span> <span class="o">=</span> <span class="n">spec_dict</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;smeargle_specification&#39;</span><span class="p">)</span>
+
+    <span class="c1"># Load the configuration.</span>
+    <span class="n">smeargle_config_path</span> <span class="o">=</span> <span class="n">glob</span><span class="o">.</span><span class="n">glob</span><span class="p">(</span>
+        <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">get_module_directory</span><span class="p">(),</span> 
+                     <span class="s1">&#39;**&#39;</span><span class="p">,</span> <span class="s1">&#39;smeargle_configuration.ini&#39;</span><span class="p">),</span> 
+        <span class="n">recursive</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+    <span class="c1"># There should be only one configuration file.</span>
+    <span class="k">if</span> <span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">smeargle_config_path</span><span class="p">)</span> <span class="o">&lt;=</span> <span class="mi">0</span><span class="p">):</span>
+        <span class="k">raise</span> <span class="n">core</span><span class="o">.</span><span class="n">error</span><span class="o">.</span><span class="n">TerminalError</span><span class="p">(</span><span class="s2">&quot;The `smeargle_configuration.ini` &quot;</span>
+                                       <span class="s2">&quot;file is missing. This file is &quot;</span>
+                                       <span class="s2">&quot;required for the operation of this &quot;</span>
+                                       <span class="s2">&quot;program.&quot;</span><span class="p">)</span>
+    <span class="k">elif</span> <span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">smeargle_config_path</span><span class="p">)</span> <span class="o">==</span> <span class="mi">1</span><span class="p">):</span>
+        <span class="n">smeargle_config</span> <span class="o">=</span> <span class="n">core</span><span class="o">.</span><span class="n">config</span><span class="o">.</span><span class="n">read_configuration_file</span><span class="p">(</span>
+            <span class="n">config_file_name</span><span class="o">=</span><span class="nb">str</span><span class="p">(</span><span class="n">smeargle_config_path</span><span class="p">[</span><span class="mi">0</span><span class="p">]),</span> 
+            <span class="n">specification_file_name</span><span class="o">=</span><span class="n">smeargle_spec</span><span class="p">)</span>
+    <span class="k">elif</span> <span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">smeargle_config_path</span><span class="p">)</span> <span class="o">&gt;=</span> <span class="mi">2</span><span class="p">):</span>
+        <span class="k">raise</span> <span class="n">core</span><span class="o">.</span><span class="n">error</span><span class="o">.</span><span class="n">AssumptionError</span><span class="p">(</span><span class="s2">&quot;There should only be one &quot;</span>
+                                         <span class="s2">&quot;`smeargle_configuration.ini` &quot;</span>
+                                         <span class="s2">&quot;files. Please delete one: </span><span class="si">{paths}</span><span class="s2">&quot;</span>
+                                         <span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">paths</span><span class="o">=</span><span class="n">smeargle_config_path</span><span class="p">))</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="k">raise</span> <span class="n">core</span><span class="o">.</span><span class="n">error</span><span class="o">.</span><span class="n">BrokenLogicError</span>
+
+    <span class="c1"># Get the configuration parameter as desired.</span>
+    <span class="n">raw_config_value</span> <span class="o">=</span> <span class="n">core</span><span class="o">.</span><span class="n">config</span><span class="o">.</span><span class="n">extract_configuration</span><span class="p">(</span>
+        <span class="n">config_object</span><span class="o">=</span><span class="n">smeargle_config</span><span class="p">,</span> <span class="n">keys</span><span class="o">=</span><span class="n">config_key</span><span class="p">)</span>
+
+    <span class="c1"># Check if boolean conversion is needed.</span>
+    <span class="k">if</span> <span class="p">(</span><span class="nb">isinstance</span><span class="p">(</span><span class="n">raw_config_value</span><span class="p">,</span><span class="nb">str</span><span class="p">)):</span>
+        <span class="k">if</span> <span class="p">(</span><span class="n">raw_config_value</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span> <span class="o">==</span> <span class="s1">&#39;true&#39;</span><span class="p">):</span>
+            <span class="c1"># The boolean is True, so return it as such.</span>
+            <span class="n">config_value</span> <span class="o">=</span> <span class="kc">True</span>
+        <span class="k">elif</span> <span class="p">(</span><span class="n">raw_config_value</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span> <span class="o">==</span> <span class="s1">&#39;false&#39;</span><span class="p">):</span>
+            <span class="c1"># The boolean is False, so return it as such.</span>
+            <span class="n">config_value</span> <span class="o">=</span> <span class="kc">False</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="c1"># The string is as it is, not a boolean.</span>
+            <span class="n">config_value</span> <span class="o">=</span> <span class="nb">str</span><span class="p">(</span><span class="n">raw_config_value</span><span class="p">)</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="c1"># The default.</span>
+        <span class="n">config_value</span> <span class="o">=</span> <span class="n">raw_config_value</span>
+    <span class="c1"># Return the configuration</span>
+    <span class="k">return</span> <span class="n">config_value</span></div>
+
+
+<span class="c1"># This is an index of all of the parameters that change at runtime,</span>
+<span class="c1"># rather than a simple program configuration. These variables are</span>
+<span class="c1"># used across all scripts, for all functions. Their global nature</span>
+<span class="c1"># relegates them to this area. </span>
+<span class="n">_smeargle_runtime</span> <span class="o">=</span> <span class="p">{</span>
+    <span class="c1"># This is the path of the script configuration file.</span>
+    <span class="s1">&#39;CONFIG_FILE_PATH&#39;</span><span class="p">:</span><span class="kc">None</span><span class="p">,</span>
+    <span class="c1"># This is the path of the log file that is being used.</span>
+    <span class="s1">&#39;LOG_FILE_PATH&#39;</span><span class="p">:</span><span class="kc">None</span><span class="p">,</span>
+    <span class="p">}</span>
+
+
+</pre></div>
+
+           </div>
+           
+          </div>
+          <footer>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        
+        &copy; Copyright 2020, Sparrow
+
+    </p>
+  </div>
+    
+    
+    
+    Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a
+    
+    <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a>
+    
+    provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+
+  
+  
+    
+   
+
+</body>
+</html>

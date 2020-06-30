@@ -1,0 +1,923 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>ifa_smeargle.core.io &mdash; IfA_Smeargle 2020 documentation</title>
+  
+
+  
+  <link rel="stylesheet" href="../../../_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
+  <link rel="stylesheet" href="../../../_static/css/custom.css" type="text/css" />
+
+  
+  
+  
+  
+
+  
+  <!--[if lt IE 9]>
+    <script src="../../../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+    
+      <script type="text/javascript" id="documentation_options" data-url_root="../../../" src="../../../_static/documentation_options.js"></script>
+        <script src="../../../_static/jquery.js"></script>
+        <script src="../../../_static/underscore.js"></script>
+        <script src="../../../_static/doctools.js"></script>
+        <script src="../../../_static/language_data.js"></script>
+    
+    <script type="text/javascript" src="../../../_static/js/theme.js"></script>
+
+    
+    <link rel="index" title="Index" href="../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../search.html" /> 
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+          
+
+          
+            <a href="../../../index.html" class="icon icon-home" alt="Documentation Home"> IfA_Smeargle
+          
+
+          
+          </a>
+
+          
+            
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <p class="caption"><span class="caption-text">Code Documentation:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../docstrings/modules.html">ifa_smeargle</a></li>
+</ul>
+
+            
+          
+        </div>
+        
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../../index.html">IfA_Smeargle</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="../../../index.html" class="icon icon-home"></a> &raquo;</li>
+        
+          <li><a href="../../index.html">Module code</a> &raquo;</li>
+        
+      <li>ifa_smeargle.core.io</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <h1>Source code for ifa_smeargle.core.io</h1><div class="highlight"><pre>
+<span></span><span class="sd">&quot;&quot;&quot; These are functions related to the reading, writing, and </span>
+<span class="sd">manipulation of files (data, configuration, or otherwise).</span>
+<span class="sd">&quot;&quot;&quot;</span>
+
+<span class="kn">import</span> <span class="nn">astropy</span> <span class="k">as</span> <span class="nn">ap</span>
+<span class="kn">import</span> <span class="nn">astropy.io.fits</span> <span class="k">as</span> <span class="nn">ap_fits</span>
+<span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+<span class="kn">import</span> <span class="nn">numpy.ma</span> <span class="k">as</span> <span class="nn">np_ma</span>
+<span class="kn">import</span> <span class="nn">copy</span>
+<span class="kn">import</span> <span class="nn">time</span>
+<span class="kn">import</span> <span class="nn">glob</span>
+<span class="kn">import</span> <span class="nn">shutil</span>
+<span class="kn">import</span> <span class="nn">os</span>
+
+<span class="kn">import</span> <span class="nn">ifa_smeargle.core</span> <span class="k">as</span> <span class="nn">core</span>
+
+<div class="viewcode-block" id="get_subdirectories"><a class="viewcode-back" href="../../../docstrings/ifa_smeargle.core.io.html#ifa_smeargle.core.io.get_subdirectories">[docs]</a><span class="k">def</span> <span class="nf">get_subdirectories</span><span class="p">(</span><span class="n">directory</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot; This returns a list of the immediate subdirectories of the</span>
+<span class="sd">    provided directory.</span>
+<span class="sd">    </span>
+<span class="sd">    Credit: https://stackoverflow.com/a/59938961</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    directory : string</span>
+<span class="sd">        The directory that subdirectories will be found from.</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    subdirectories : list</span>
+<span class="sd">        The list of subdirectories.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="c1"># Finding all of the subdirectories.</span>
+    <span class="n">subdirectories</span> <span class="o">=</span> <span class="p">[</span><span class="n">filedex</span><span class="o">.</span><span class="n">path</span> <span class="k">for</span> <span class="n">filedex</span> <span class="ow">in</span> <span class="n">os</span><span class="o">.</span><span class="n">scandir</span><span class="p">(</span><span class="n">directory</span><span class="p">)</span> 
+                      <span class="k">if</span> <span class="n">filedex</span><span class="o">.</span><span class="n">is_dir</span><span class="p">()]</span>
+    <span class="k">return</span> <span class="n">subdirectories</span></div>
+
+
+<div class="viewcode-block" id="archive_data_directory"><a class="viewcode-back" href="../../../docstrings/ifa_smeargle.core.io.html#ifa_smeargle.core.io.archive_data_directory">[docs]</a><span class="k">def</span> <span class="nf">archive_data_directory</span><span class="p">(</span><span class="n">data_directory</span><span class="p">,</span> <span class="n">archive_name</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> 
+                           <span class="n">archive_type</span><span class="o">=</span><span class="s1">&#39;bztar&#39;</span><span class="p">,</span> <span class="n">silent</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Creates a file archive of a copy of the data files contained </span>
+<span class="sd">    within a directory.</span>
+<span class="sd">    </span>
+<span class="sd">    This function creates an archive of a data directory, preserving </span>
+<span class="sd">    a copy of data. However, note that this function generally takes </span>
+<span class="sd">    a bit of time if there are a lot of files or if the files are </span>
+<span class="sd">    particularly large.</span>
+
+<span class="sd">    Please note that this function archives recursively. Non-data </span>
+<span class="sd">    files and non-required files should not be in the a given </span>
+<span class="sd">    data/archiving directory.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    data_directory : string</span>
+<span class="sd">        The directory that the data is contained within.</span>
+<span class="sd">    archive_name : string (optional)</span>
+<span class="sd">        The name of the archive that is to be created. If not </span>
+<span class="sd">        provided, a default is provided that contains the time-stamp </span>
+<span class="sd">        of its creation.</span>
+<span class="sd">    archive_extension : string (optional)</span>
+<span class="sd">        The extension of the archive. Note that only some archives </span>
+<span class="sd">        are supported. Default is ``bztar``. See </span>
+<span class="sd">        :py:func:`shutil.get_archive_formats` for more information on </span>
+<span class="sd">        available archive formats.</span>
+<span class="sd">    silent : boolean (optional)</span>
+<span class="sd">        Turn off all warnings and information sent by this function </span>
+<span class="sd">        and functions below it.</span>
+<span class="sd">        </span>
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    archive_path : string</span>
+<span class="sd">        The path of the archive file.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="c1"># The user doesn&#39;t want any warnings.</span>
+    <span class="k">if</span> <span class="p">(</span><span class="n">silent</span><span class="p">):</span>
+        <span class="k">with</span> <span class="n">core</span><span class="o">.</span><span class="n">error</span><span class="o">.</span><span class="n">ifas_absolute_silence</span><span class="p">():</span>
+            <span class="k">return</span> <span class="n">archive_data_directory</span><span class="p">(</span><span class="n">data_directory</span><span class="o">=</span><span class="n">data_directory</span><span class="p">,</span> 
+                                          <span class="n">archive_name</span><span class="o">=</span><span class="n">archive_name</span><span class="p">,</span>
+                                          <span class="n">archive_type</span><span class="o">=</span><span class="n">archive_type</span><span class="p">,</span> 
+                                          <span class="n">silent</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+    <span class="c1"># Ensure that archiving is not disabled. Strict equality is </span>
+    <span class="c1"># because the archive type would normally be a string.</span>
+    <span class="k">if</span> <span class="p">(</span><span class="n">archive_type</span> <span class="o">==</span> <span class="kc">False</span><span class="p">):</span>
+        <span class="c1"># There should be no archiving.</span>
+        <span class="n">core</span><span class="o">.</span><span class="n">error</span><span class="o">.</span><span class="n">ifas_info</span><span class="p">(</span><span class="s2">&quot;A call has been made to the archiving &quot;</span>
+                             <span class="s2">&quot;utility. However, archiving is disabled for &quot;</span>
+                             <span class="s2">&quot;this particular call, exiting.&quot;</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">data_directory</span>
+
+    <span class="c1"># Warn just in case.</span>
+    <span class="n">core</span><span class="o">.</span><span class="n">error</span><span class="o">.</span><span class="n">ifas_warning</span><span class="p">(</span><span class="n">core</span><span class="o">.</span><span class="n">error</span><span class="o">.</span><span class="n">TimeWarning</span><span class="p">,</span>
+                            <span class="p">(</span><span class="s2">&quot;Archiving and copying particularly a lot of &quot;</span>
+                             <span class="s2">&quot;large fits files may take a very long time. &quot;</span>
+                             <span class="s2">&quot;It is still suggested, but archive outside &quot;</span>
+                             <span class="s2">&quot;of Python.&quot;</span><span class="p">))</span>
+
+    <span class="c1"># Preserve the files just in case, work on a copy data set. </span>
+    <span class="c1"># Date-time to distinguish, by format __YYYYMMDD_HHMMSS, from </span>
+    <span class="c1"># other BravoArchives if an original name has not been given.</span>
+    <span class="k">if</span> <span class="p">(</span><span class="n">archive_name</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">):</span>
+        <span class="k">pass</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">archive_name</span> <span class="o">=</span> <span class="s1">&#39;IFAS_DataArchive&#39;</span> <span class="o">+</span> <span class="n">time</span><span class="o">.</span><span class="n">strftime</span><span class="p">(</span><span class="s2">&quot;__%Y%m</span><span class="si">%d</span><span class="s2">_%H%M%S&quot;</span><span class="p">,</span> 
+                                                          <span class="n">time</span><span class="o">.</span><span class="n">localtime</span><span class="p">())</span>
+    
+    <span class="c1"># Extract the archive type and extension from the user input.</span>
+    <span class="n">arc_type</span><span class="p">,</span> <span class="n">arc_ext</span> <span class="o">=</span> <span class="n">core</span><span class="o">.</span><span class="n">strformat</span><span class="o">.</span><span class="n">format_shutil_archive_extensions</span><span class="p">(</span>
+        <span class="n">archive_string</span><span class="o">=</span><span class="n">archive_type</span><span class="p">)</span>
+
+    <span class="c1"># For some reason, if the archive is made in the same directory, </span>
+    <span class="c1"># it recursively archives itself and intended files until it is</span>
+    <span class="c1"># way too big. Making it outside then moving it is a workaround.</span>
+    <span class="n">temp_dir</span> <span class="o">=</span> <span class="n">core</span><span class="o">.</span><span class="n">strformat</span><span class="o">.</span><span class="n">combine_pathname</span><span class="p">(</span>
+        <span class="n">directory</span><span class="o">=</span><span class="p">[</span><span class="n">data_directory</span><span class="p">,</span> <span class="s1">&#39;..&#39;</span><span class="p">],</span> 
+        <span class="n">file_name</span><span class="o">=</span><span class="n">archive_name</span><span class="p">)</span>
+    <span class="n">archive_path</span> <span class="o">=</span> <span class="n">core</span><span class="o">.</span><span class="n">strformat</span><span class="o">.</span><span class="n">combine_pathname</span><span class="p">(</span>
+        <span class="n">directory</span><span class="o">=</span><span class="p">[</span><span class="n">data_directory</span><span class="p">,</span> <span class="s1">&#39;&#39;</span><span class="p">],</span> 
+        <span class="n">file_name</span><span class="o">=</span><span class="n">archive_name</span><span class="p">,</span> <span class="n">extension</span><span class="o">=</span><span class="n">arc_ext</span><span class="p">)</span>
+    <span class="c1"># Create the archive of the data within the data directory.</span>
+    <span class="n">temp_archive_path</span> <span class="o">=</span> <span class="n">shutil</span><span class="o">.</span><span class="n">make_archive</span><span class="p">(</span><span class="n">temp_dir</span><span class="p">,</span> <span class="n">arc_type</span><span class="p">,</span>
+                        <span class="n">core</span><span class="o">.</span><span class="n">strformat</span><span class="o">.</span><span class="n">combine_pathname</span><span class="p">(</span>
+                            <span class="n">directory</span><span class="o">=</span><span class="p">[</span><span class="n">data_directory</span><span class="p">,</span> <span class="s1">&#39;&#39;</span><span class="p">]))</span>
+    <span class="c1"># Proceed with the move.</span>
+    <span class="n">shutil</span><span class="o">.</span><span class="n">move</span><span class="p">(</span><span class="n">temp_archive_path</span><span class="p">,</span> <span class="n">archive_path</span><span class="p">)</span>
+
+    <span class="c1"># Inform the user where the archive is (just in case).</span>
+    <span class="n">core</span><span class="o">.</span><span class="n">error</span><span class="o">.</span><span class="n">ifas_info</span><span class="p">(</span><span class="s2">&quot;Archive is stored in  &lt; </span><span class="si">{arc_dir}</span><span class="s2"> &gt;&quot;</span>
+                         <span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">arc_dir</span><span class="o">=</span><span class="n">archive_path</span><span class="p">))</span>
+
+    <span class="k">return</span> <span class="n">archive_path</span></div>
+
+<div class="viewcode-block" id="dearchive_data_directory"><a class="viewcode-back" href="../../../docstrings/ifa_smeargle.core.io.html#ifa_smeargle.core.io.dearchive_data_directory">[docs]</a><span class="k">def</span> <span class="nf">dearchive_data_directory</span><span class="p">(</span><span class="n">archive_name</span><span class="p">,</span> <span class="n">alternate_directory</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+                             <span class="n">silent</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Unpacks a file archive of a copy of the data files contained </span>
+<span class="sd">    within an archive.</span>
+<span class="sd">    </span>
+<span class="sd">    This function unpacks an archive of a data directory. However, </span>
+<span class="sd">    note that this function generally takes a bit of time if there </span>
+<span class="sd">    are a lot of files or if the files are particularly large.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    archive_name : string</span>
+<span class="sd">        The name of the archive that is to be unpacked.</span>
+<span class="sd">    alternate_directory : string</span>
+<span class="sd">        The path that an alternate directory that the archive should </span>
+<span class="sd">        be unpacked it.</span>
+<span class="sd">    silent : boolean (optional)</span>
+<span class="sd">        Turn off all warnings and information sent by this function </span>
+<span class="sd">        and functions below it.</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    unarchive_path : string</span>
+<span class="sd">        The path of the archive file.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">if</span> <span class="p">(</span><span class="n">silent</span><span class="p">):</span>
+        <span class="k">with</span> <span class="n">core</span><span class="o">.</span><span class="n">error</span><span class="o">.</span><span class="n">ifas_absolute_silence</span><span class="p">():</span>
+            <span class="k">return</span> <span class="n">dearchive_data_directory</span><span class="p">(</span>
+                <span class="n">archive_name</span><span class="o">=</span><span class="n">archive_name</span><span class="p">,</span> 
+                <span class="n">alternate_directory</span><span class="o">=</span><span class="n">alternate_directory</span><span class="p">,</span>
+                <span class="n">silent</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+
+    <span class="c1"># Unpack the archive. Check if the user supplied an alternative</span>
+    <span class="c1"># directory.</span>
+    <span class="k">if</span> <span class="p">(</span><span class="n">alternate_directory</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">):</span>
+        <span class="n">shutil</span><span class="o">.</span><span class="n">unpack_archive</span><span class="p">(</span><span class="n">archive_name</span><span class="p">,</span> <span class="n">alternate_directory</span><span class="p">)</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">shutil</span><span class="o">.</span><span class="n">unpack_archive</span><span class="p">(</span><span class="n">archive_name</span><span class="p">)</span>
+
+    <span class="c1"># Inform where the archive has been unpacked.</span>
+    <span class="n">unarchive_path</span> <span class="o">=</span> <span class="p">(</span><span class="n">archive_name</span> <span class="k">if</span> <span class="n">alternate_directory</span> <span class="ow">is</span> <span class="kc">None</span> 
+                      <span class="k">else</span> <span class="n">alternate_directory</span><span class="p">)</span>
+    <span class="n">core</span><span class="o">.</span><span class="n">error</span><span class="o">.</span><span class="n">ifas_info</span><span class="p">(</span><span class="s2">&quot;The archive has been unpacked to the directory: &quot;</span>
+                         <span class="s2">&quot;</span><span class="si">{path}</span><span class="s2">&quot;</span>
+                         <span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">path</span><span class="o">=</span><span class="n">unarchive_path</span><span class="p">))</span>
+    <span class="c1"># All done.</span>
+    <span class="k">return</span> <span class="n">unarchive_path</span></div>
+
+
+<div class="viewcode-block" id="rename_by_parallel_replace"><a class="viewcode-back" href="../../../docstrings/ifa_smeargle.core.io.html#ifa_smeargle.core.io.rename_by_parallel_replace">[docs]</a><span class="k">def</span> <span class="nf">rename_by_parallel_replace</span><span class="p">(</span><span class="n">file_names</span><span class="p">,</span> <span class="n">file_renames</span><span class="p">,</span> <span class="n">directory</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot; Renames files provided parallel name arrays. This only works </span>
+<span class="sd">    for fits files.</span>
+
+<span class="sd">    Given two same length lists of file names, one pre-rename and one </span>
+<span class="sd">    post-rename, this function renames them accordingly. A directory </span>
+<span class="sd">    is also an option, and the file name list will be derived from </span>
+<span class="sd">    that.</span>
+
+<span class="sd">    This only works for one type of file extension, or leave the </span>
+<span class="sd">    string blank for all files.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    file_names : array_like</span>
+<span class="sd">        The list of the file names that is to be renamed.</span>
+<span class="sd">    file_renames : array_like</span>
+<span class="sd">        The list of the file names that are going to be used for the </span>
+<span class="sd">        renaming process.</span>
+<span class="sd">    directory : string (optional)</span>
+<span class="sd">        A directory that contains all of the files that are going </span>
+<span class="sd">        to be renamed. Does not handle directories recursively.</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    None</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="c1"># Adapt for an added directory. The path join function cannot </span>
+    <span class="c1"># handle a NoneType, but it can deal with an empty string.</span>
+    <span class="n">directory</span> <span class="o">=</span> <span class="s1">&#39;&#39;</span> <span class="k">if</span> <span class="p">(</span><span class="n">directory</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">)</span> <span class="k">else</span> <span class="nb">str</span><span class="p">(</span><span class="n">directory</span><span class="p">)</span>
+    <span class="n">file_names</span> <span class="o">=</span> <span class="p">[</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">directory</span><span class="p">,</span> <span class="n">filedex</span><span class="p">)</span> 
+                  <span class="k">for</span> <span class="n">filedex</span> <span class="ow">in</span> <span class="n">file_names</span><span class="p">]</span>
+    <span class="n">file_renames</span> <span class="o">=</span> <span class="p">[</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">directory</span><span class="p">,</span> <span class="n">filedex</span><span class="p">)</span> 
+                    <span class="k">for</span> <span class="n">filedex</span> <span class="ow">in</span> <span class="n">file_renames</span><span class="p">]</span>
+
+    <span class="c1"># Check for length issues.</span>
+    <span class="k">if</span> <span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">file_names</span><span class="p">)</span> <span class="o">!=</span> <span class="nb">len</span><span class="p">(</span><span class="n">file_renames</span><span class="p">)):</span>
+        <span class="k">raise</span> <span class="n">core</span><span class="o">.</span><span class="n">error</span><span class="o">.</span><span class="n">RuntimeError</span><span class="p">(</span><span class="s2">&quot;The number of file names and the &quot;</span>
+                                      <span class="s2">&quot;number of file renames are not the &quot;</span>
+                                      <span class="s2">&quot;same; therefore, these are not &quot;</span>
+                                      <span class="s2">&quot;parallel arrays.&quot;</span><span class="p">)</span>
+
+    <span class="c1"># Loop through all file names, renaming each of them.</span>
+    <span class="k">for</span> <span class="p">(</span><span class="n">filedex</span><span class="p">,</span> <span class="n">refiledex</span><span class="p">)</span> <span class="ow">in</span> <span class="nb">zip</span><span class="p">(</span><span class="n">file_names</span><span class="p">,</span> <span class="n">file_renames</span><span class="p">):</span>
+        <span class="c1"># Check if the file exists.</span>
+        <span class="k">if</span> <span class="p">(</span><span class="ow">not</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">isfile</span><span class="p">(</span><span class="n">filedex</span><span class="p">)):</span>
+            <span class="n">core</span><span class="o">.</span><span class="n">error</span><span class="o">.</span><span class="n">ifas_warning</span><span class="p">(</span><span class="n">core</span><span class="o">.</span><span class="n">error</span><span class="o">.</span><span class="n">RuntimeWarning</span><span class="p">,</span>
+                                    <span class="p">(</span><span class="s2">&quot;The file </span><span class="si">{file_name}</span><span class="s2"> does not exist &quot;</span>
+                                     <span class="s2">&quot;and thus cannot be renamed. Moving on &quot;</span>
+                                     <span class="s2">&quot;to the next file.&quot;</span>
+                                     <span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">file_name</span><span class="o">=</span><span class="n">filedex</span><span class="p">)))</span>
+            <span class="k">continue</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="c1"># The file exists, rename.</span>
+            <span class="n">os</span><span class="o">.</span><span class="n">rename</span><span class="p">(</span><span class="n">filedex</span><span class="p">,</span> <span class="n">refiledex</span><span class="p">)</span>
+
+    <span class="k">return</span> <span class="kc">None</span></div>
+
+<div class="viewcode-block" id="rename_by_parallel_append"><a class="viewcode-back" href="../../../docstrings/ifa_smeargle.core.io.html#ifa_smeargle.core.io.rename_by_parallel_append">[docs]</a><span class="k">def</span> <span class="nf">rename_by_parallel_append</span><span class="p">(</span><span class="n">file_names</span><span class="p">,</span> <span class="n">appending_names</span><span class="p">,</span> <span class="n">directory</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot; This function renames all files by appending a string to </span>
+<span class="sd">    their name. The file name extension is not modified.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    file_names : array_like</span>
+<span class="sd">        The list of the file names that is to be renamed.</span>
+<span class="sd">    appending_names : array_like</span>
+<span class="sd">        The list of the appending strings that are going to be used </span>
+<span class="sd">        for the renaming process.</span>
+<span class="sd">    directory : string (optional)</span>
+<span class="sd">        A directory that contains all of the files that are going to </span>
+<span class="sd">        be renamed. Does not handle directories recursively.</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    None</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="c1"># Obtain the path names, combining the two inputs.</span>
+    <span class="n">directory</span> <span class="o">=</span> <span class="s1">&#39;&#39;</span> <span class="k">if</span> <span class="n">directory</span> <span class="ow">is</span> <span class="kc">None</span> <span class="k">else</span> <span class="nb">str</span><span class="p">(</span><span class="n">directory</span><span class="p">)</span>
+    <span class="n">path_names</span> <span class="o">=</span> <span class="p">[</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">directory</span><span class="p">,</span> <span class="n">filedex</span><span class="p">)</span> <span class="k">for</span> <span class="n">filedex</span> <span class="ow">in</span> <span class="n">file_names</span><span class="p">]</span>
+    <span class="n">n_files</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">path_names</span><span class="p">)</span>
+
+    <span class="c1"># Append the entry between the end of the file name and the </span>
+    <span class="c1"># extension for all files.</span>
+    <span class="n">new_path_names</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="k">for</span> <span class="n">pathdex</span><span class="p">,</span> <span class="n">appenddex</span> <span class="ow">in</span> <span class="nb">zip</span><span class="p">(</span><span class="n">path_names</span><span class="p">,</span> <span class="n">appending_names</span><span class="p">):</span>
+        <span class="c1"># Extract the new path parameters.</span>
+        <span class="nb">dir</span><span class="p">,</span> <span class="n">file</span><span class="p">,</span> <span class="n">ext</span> <span class="o">=</span> <span class="n">core</span><span class="o">.</span><span class="n">strformat</span><span class="o">.</span><span class="n">split_pathname</span><span class="p">(</span><span class="n">pathname</span><span class="o">=</span><span class="n">pathdex</span><span class="p">)</span>
+        <span class="c1"># The new file and path name.</span>
+        <span class="n">new_file</span> <span class="o">=</span> <span class="s1">&#39;&#39;</span><span class="o">.</span><span class="n">join</span><span class="p">([</span><span class="n">file</span><span class="p">,</span> <span class="s1">&#39;_&#39;</span><span class="p">,</span><span class="n">appenddex</span><span class="p">,</span> <span class="n">ext</span><span class="p">])</span>
+        <span class="n">new_path</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="nb">dir</span><span class="p">,</span> <span class="n">new_file</span><span class="p">)</span>
+        <span class="c1"># Add it to the rest.</span>
+        <span class="n">new_path_names</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">copy</span><span class="o">.</span><span class="n">deepcopy</span><span class="p">(</span><span class="n">new_path</span><span class="p">))</span>
+        <span class="c1"># For ensured reusability.</span>
+        <span class="k">del</span> <span class="n">new_path</span>
+
+    <span class="c1"># Rename, given the new file names by append. The directory has </span>
+    <span class="c1"># already been accounted for.</span>
+    <span class="n">rename_by_parallel_replace</span><span class="p">(</span><span class="n">file_names</span><span class="o">=</span><span class="n">file_names</span><span class="p">,</span> 
+                               <span class="n">file_renames</span><span class="o">=</span><span class="n">new_path_names</span><span class="p">,</span> 
+                               <span class="n">directory</span><span class="o">=</span><span class="kc">None</span><span class="p">)</span>
+    <span class="c1"># Done.</span>
+    <span class="k">return</span> <span class="kc">None</span></div>
+
+<div class="viewcode-block" id="get_fits_filenames"><a class="viewcode-back" href="../../../docstrings/ifa_smeargle.core.io.html#ifa_smeargle.core.io.get_fits_filenames">[docs]</a><span class="k">def</span> <span class="nf">get_fits_filenames</span><span class="p">(</span><span class="n">data_directory</span><span class="p">,</span> <span class="n">sub_extension</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">recursive</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot; This function is a wrapper function around the glob command </span>
+<span class="sd">    to get all fits files.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    data_directory : string</span>
+<span class="sd">        The data directory that the fits files will be search for </span>
+<span class="sd">        from.</span>
+<span class="sd">    sub_extension : string (optional)</span>
+<span class="sd">        This allows for the focus of obtaining fits files that </span>
+<span class="sd">        is only like a .subextension.fits file, depending on what</span>
+<span class="sd">        the string `sub-extension` is.</span>
+<span class="sd">    recursive : boolean (optional)</span>
+<span class="sd">        If True, also search subdirectories for fits files.</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    fits_filenames : list</span>
+<span class="sd">        The list of the fits file names.</span>
+
+<span class="sd">    .. note::</span>
+
+<span class="sd">        If `data_directory` is instead a valid fit file, then only </span>
+<span class="sd">        that fit file is returned in a list. This allows scripts to </span>
+<span class="sd">        only be run on single files. (Recursive must be False.)</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="c1"># Ensure that the data directory is non-blank. A blank directory</span>
+    <span class="c1"># may accidentally be used by omitting it from the configuration</span>
+    <span class="c1"># file.</span>
+    <span class="k">if</span> <span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="nb">str</span><span class="p">(</span><span class="n">data_directory</span><span class="p">))</span> <span class="o">==</span> <span class="mi">0</span><span class="p">):</span>
+        <span class="c1"># The data directory is a blank string.</span>
+        <span class="k">raise</span> <span class="n">core</span><span class="o">.</span><span class="n">error</span><span class="o">.</span><span class="n">InputError</span><span class="p">(</span><span class="s2">&quot;The provided data directory is blank. &quot;</span>
+                                    <span class="s2">&quot;The configuration file data directory &quot;</span>
+                                    <span class="s2">&quot;may be blank.&quot;</span><span class="p">)</span>
+
+    <span class="c1"># This is the entire extension that should be used, including </span>
+    <span class="c1"># the sub-extension. A basic test first.</span>
+    <span class="k">if</span> <span class="p">(</span><span class="n">sub_extension</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">):</span>
+        <span class="k">if</span> <span class="p">(</span><span class="nb">str</span><span class="p">(</span><span class="n">sub_extension</span><span class="p">)[</span><span class="mi">0</span><span class="p">]</span> <span class="o">!=</span> <span class="s1">&#39;.&#39;</span><span class="p">):</span>
+            <span class="n">core</span><span class="o">.</span><span class="n">error</span><span class="o">.</span><span class="n">ifas_warning</span><span class="p">(</span><span class="n">core</span><span class="o">.</span><span class="n">error</span><span class="o">.</span><span class="n">InputWarning</span><span class="p">,</span>
+                                    <span class="p">(</span><span class="s2">&quot;The sub-extension does not begin like &quot;</span>
+                                     <span class="s2">&quot;an extension (with a `.`), it will &quot;</span>
+                                     <span class="s2">&quot;be added.&quot;</span><span class="p">))</span>
+            <span class="n">sub_extension</span> <span class="o">=</span> <span class="s1">&#39;&#39;</span><span class="o">.</span><span class="n">join</span><span class="p">([</span><span class="s1">&#39;.&#39;</span><span class="p">,</span> <span class="n">sub_extension</span><span class="p">])</span>
+        <span class="n">extension</span> <span class="o">=</span> <span class="n">core</span><span class="o">.</span><span class="n">strformat</span><span class="o">.</span><span class="n">combine_pathname</span><span class="p">(</span>
+            <span class="n">extension</span><span class="o">=</span><span class="p">[</span><span class="nb">str</span><span class="p">(</span><span class="n">sub_extension</span><span class="p">),</span> <span class="s1">&#39;.fits&#39;</span><span class="p">])</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="c1"># Just stick to the default extension.</span>
+        <span class="n">extension</span> <span class="o">=</span> <span class="s1">&#39;.fits&#39;</span>
+
+    <span class="c1"># Allow a single fits file if the file is a valid fits file. </span>
+    <span class="c1"># This is to allow single file scripts rather than whole </span>
+    <span class="c1"># directory scripts.</span>
+    <span class="k">if</span> <span class="p">((</span><span class="ow">not</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">isdir</span><span class="p">(</span><span class="n">data_directory</span><span class="p">))</span> <span class="ow">and</span> <span class="p">(</span><span class="ow">not</span> <span class="n">recursive</span><span class="p">)):</span>
+        <span class="c1"># It is not a directory, check if it is a fits file instead.</span>
+        <span class="c1"># Testing for existence and extension.</span>
+        <span class="k">if</span> <span class="p">((</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">isfile</span><span class="p">(</span><span class="n">data_directory</span><span class="p">))</span> <span class="ow">and</span> 
+             <span class="p">(</span><span class="n">core</span><span class="o">.</span><span class="n">strformat</span><span class="o">.</span><span class="n">split_pathname</span><span class="p">(</span>
+                 <span class="n">pathname</span><span class="o">=</span><span class="n">data_directory</span><span class="p">)[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span> <span class="o">==</span> <span class="n">extension</span><span class="p">)):</span>
+            <span class="c1"># If Astropy can deal with it, it should be good enough.</span>
+            <span class="k">try</span><span class="p">:</span>
+                <span class="n">ap_fits</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="n">data_directory</span><span class="p">,</span> <span class="n">output</span><span class="o">=</span><span class="kc">None</span><span class="p">)</span>
+                <span class="c1"># It should be all well and good then.</span>
+                <span class="n">core</span><span class="o">.</span><span class="n">error</span><span class="o">.</span><span class="n">ifas_info</span><span class="p">(</span><span class="s2">&quot;The data directory inputted is really &quot;</span>
+                                     <span class="s2">&quot;just a single fits file: </span><span class="si">{file}</span><span class="s2">. It &quot;</span>
+                                     <span class="s2">&quot;will be handled and returned.&quot;</span>
+                                     <span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">file</span><span class="o">=</span><span class="nb">str</span><span class="p">(</span><span class="n">data_directory</span><span class="p">)))</span>
+                <span class="k">return</span> <span class="p">[</span><span class="n">data_directory</span><span class="p">]</span>
+            <span class="k">except</span> <span class="ne">Exception</span><span class="p">:</span>
+                <span class="n">core</span><span class="o">.</span><span class="n">error</span><span class="o">.</span><span class="n">ifas_warning</span><span class="p">(</span><span class="n">core</span><span class="o">.</span><span class="n">error</span><span class="o">.</span><span class="n">InputWarning</span><span class="p">,</span>
+                                        <span class="p">(</span><span class="s2">&quot;The file input </span><span class="si">{file}</span><span class="s2"> is detected &quot;</span>
+                                         <span class="s2">&quot;to be a .fits file. However, the &quot;</span>
+                                         <span class="s2">&quot;Astropy module has issues with it.&quot;</span>
+                                         <span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">file</span><span class="o">=</span><span class="n">data_directory</span><span class="p">)))</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="n">core</span><span class="o">.</span><span class="n">error</span><span class="o">.</span><span class="n">InputError</span><span class="p">(</span><span class="s2">&quot;The directory provided is not a &quot;</span>
+                                        <span class="s2">&quot;valid directory or appropriate fits &quot;</span>
+                                        <span class="s2">&quot;file. Input:  `</span><span class="si">{dir}</span><span class="s2">`&quot;</span>
+                                        <span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="nb">dir</span><span class="o">=</span><span class="n">data_directory</span><span class="p">))</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="c1"># Process the directory like normal and obtain the fits </span>
+        <span class="c1"># files.</span>
+        <span class="n">dir_list</span> <span class="o">=</span> <span class="p">[</span><span class="n">data_directory</span><span class="p">,</span> <span class="s1">&#39;**&#39;</span><span class="p">]</span> <span class="k">if</span> <span class="n">recursive</span> <span class="k">else</span> <span class="p">[</span><span class="n">data_directory</span><span class="p">]</span>
+        <span class="n">fits_filenames</span> <span class="o">=</span> <span class="n">glob</span><span class="o">.</span><span class="n">glob</span><span class="p">(</span><span class="n">core</span><span class="o">.</span><span class="n">strformat</span><span class="o">.</span><span class="n">combine_pathname</span><span class="p">(</span>
+            <span class="n">directory</span><span class="o">=</span><span class="n">dir_list</span><span class="p">,</span> <span class="n">file_name</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;*&#39;</span><span class="p">],</span> <span class="n">extension</span><span class="o">=</span><span class="p">[</span><span class="n">extension</span><span class="p">]),</span>
+                                   <span class="n">recursive</span><span class="o">=</span><span class="n">recursive</span><span class="p">)</span>
+
+        <span class="c1"># Check and warn for no files found.</span>
+        <span class="k">if</span> <span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">fits_filenames</span><span class="p">)</span> <span class="o">==</span> <span class="mi">0</span><span class="p">):</span>
+            <span class="n">core</span><span class="o">.</span><span class="n">error</span><span class="o">.</span><span class="n">ifas_warning</span><span class="p">(</span><span class="n">core</span><span class="o">.</span><span class="n">error</span><span class="o">.</span><span class="n">ImportingWarning</span><span class="p">,</span>
+                                   <span class="p">(</span><span class="s2">&quot;No fits files were obtained within the &quot;</span>
+                                    <span class="s2">&quot;data directory:  </span><span class="si">{data_dir}</span><span class="s2">&quot;</span>
+                                    <span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">data_dir</span><span class="o">=</span><span class="nb">str</span><span class="p">(</span><span class="n">data_directory</span><span class="p">))))</span>
+        <span class="k">return</span> <span class="n">fits_filenames</span>
+
+    <span class="c1"># The code should not reach here.</span>
+    <span class="k">raise</span> <span class="n">core</span><span class="o">.</span><span class="n">error</span><span class="o">.</span><span class="n">BrokenLogicError</span>
+    <span class="k">return</span> <span class="kc">None</span></div>
+
+<div class="viewcode-block" id="read_fits_file"><a class="viewcode-back" href="../../../docstrings/ifa_smeargle.core.io.html#ifa_smeargle.core.io.read_fits_file">[docs]</a><span class="k">def</span> <span class="nf">read_fits_file</span><span class="p">(</span><span class="n">file_name</span><span class="p">,</span> <span class="n">extension</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">silent</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot; A function to ensure proper loading/reading of fits files.</span>
+
+<span class="sd">    This function, as its name, opens a fits file. It returns the </span>
+<span class="sd">    Astropy HDU file. This function is mostly done to ensure that </span>
+<span class="sd">    files are properly closed. It also extracts the needed data </span>
+<span class="sd">    and header information from the file.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ---------- </span>
+<span class="sd">    file_name : string</span>
+<span class="sd">        This is the path of the file to be read, either relative </span>
+<span class="sd">        or absolute.</span>
+<span class="sd">    extension : int or string (optional)</span>
+<span class="sd">        The desired extension of the fits file. Defaults to primary </span>
+<span class="sd">        structure. </span>
+<span class="sd">    silent : boolean (optional)</span>
+<span class="sd">        Turn off all warnings and information sent by this function </span>
+<span class="sd">        and functions below it.</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    hdu_file : HDULists</span>
+<span class="sd">        The Astropy object representing the fits file.</span>
+<span class="sd">    hdu_header : Header</span>
+<span class="sd">        The Astropy header object representing the headers of the </span>
+<span class="sd">        given file.</span>
+<span class="sd">    hdu_data : ndarray</span>
+<span class="sd">        The Numpy representation of a fits file data.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="c1"># The user doesn&#39;t want any warnings.</span>
+    <span class="k">if</span> <span class="p">(</span><span class="n">silent</span><span class="p">):</span>
+        <span class="k">with</span> <span class="n">core</span><span class="o">.</span><span class="n">error</span><span class="o">.</span><span class="n">ifas_absolute_silence</span><span class="p">():</span>
+            <span class="k">return</span> <span class="n">read_fits_file</span><span class="p">(</span><span class="n">file_name</span><span class="o">=</span><span class="n">file_name</span><span class="p">,</span> <span class="n">extension</span><span class="o">=</span><span class="n">extension</span><span class="p">,</span>
+                                  <span class="n">silent</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+
+    <span class="k">with</span> <span class="n">ap_fits</span><span class="o">.</span><span class="n">open</span><span class="p">(</span><span class="n">file_name</span><span class="p">)</span> <span class="k">as</span> <span class="n">hdul</span><span class="p">:</span>
+        <span class="n">hdul_file</span> <span class="o">=</span> <span class="n">copy</span><span class="o">.</span><span class="n">deepcopy</span><span class="p">(</span><span class="n">hdul</span><span class="p">)</span>
+        
+        <span class="c1"># Just because just in case.</span>
+        <span class="n">hdul</span><span class="o">.</span><span class="n">close</span><span class="p">()</span>
+        <span class="k">del</span> <span class="n">hdul</span>
+
+    <span class="c1"># Read from the extension</span>
+    <span class="n">hdu_header</span> <span class="o">=</span> <span class="n">hdul_file</span><span class="p">[</span><span class="n">extension</span><span class="p">]</span><span class="o">.</span><span class="n">header</span>
+    <span class="n">hdu_data</span> <span class="o">=</span> <span class="n">hdul_file</span><span class="p">[</span><span class="n">extension</span><span class="p">]</span><span class="o">.</span><span class="n">data</span>
+
+    <span class="c1"># For some reason, there are null problems and value problems </span>
+    <span class="c1"># with the data. Any and all frames that match the criteria are </span>
+    <span class="c1"># nulled out. Send a warning.</span>
+    <span class="c1"># Check first for nans.</span>
+    <span class="k">if</span> <span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">any</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">isnan</span><span class="p">(</span><span class="n">hdu_data</span><span class="p">))):</span>
+        <span class="c1"># Test for bad or nan/null values. Of course, there is not </span>
+        <span class="c1"># need for repeat frames.</span>
+        <span class="n">nan_index_data</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">argwhere</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">isnan</span><span class="p">(</span><span class="n">hdu_data</span><span class="p">))</span>
+        <span class="n">nan_frames</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">unique</span><span class="p">(</span><span class="n">nan_index_data</span><span class="o">.</span><span class="n">T</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
+        <span class="c1"># Check for 3D or 2D file.</span>
+        <span class="k">if</span> <span class="p">(</span><span class="n">nan_index_data</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">==</span> <span class="mi">2</span><span class="p">):</span>
+            <span class="n">core</span><span class="o">.</span><span class="n">error</span><span class="o">.</span><span class="n">ifas_log_warning</span><span class="p">(</span><span class="n">core</span><span class="o">.</span><span class="n">error</span><span class="o">.</span><span class="n">DataWarning</span><span class="p">,</span>
+                                        <span class="p">(</span><span class="s2">&quot;This 2D data frame has nan/null &quot;</span>
+                                         <span class="s2">&quot;values. They will be kept; but, &quot;</span>
+                                         <span class="s2">&quot;functions down the line may break.&quot;</span>
+                                         <span class="s2">&quot;</span><span class="se">\n</span><span class="s2">    File name: </span><span class="si">{f_name}</span><span class="s2"> | &quot;</span>
+                                         <span class="s2">&quot;&#39;Null&#39; frames: </span><span class="si">{fr_list}</span><span class="s2">&quot;</span>
+                                         <span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">f_name</span><span class="o">=</span><span class="n">file_name</span><span class="p">,</span> 
+                                                 <span class="n">fr_list</span><span class="o">=</span><span class="n">nan_frames</span><span class="p">)))</span>
+        <span class="k">elif</span> <span class="p">(</span><span class="n">nan_index_data</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">==</span> <span class="mi">3</span><span class="p">):</span>
+            <span class="n">core</span><span class="o">.</span><span class="n">error</span><span class="o">.</span><span class="n">ifas_warning</span><span class="p">(</span><span class="n">core</span><span class="o">.</span><span class="n">error</span><span class="o">.</span><span class="n">DataWarning</span><span class="p">,</span>
+                                    <span class="p">(</span><span class="s2">&quot;This 3D data frame has nan/null &quot;</span>
+                                     <span class="s2">&quot;values. Frames with nan/null values &quot;</span>
+                                     <span class="s2">&quot;have been completely nulled. &quot;</span>
+                                     <span class="s2">&quot;</span><span class="se">\n</span><span class="s2">    File name: </span><span class="si">{f_name}</span><span class="s2"> | &quot;</span>
+                                     <span class="s2">&quot;Null frames: </span><span class="si">{fr_list}</span><span class="s2">&quot;</span>
+                                     <span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">f_name</span><span class="o">=</span><span class="n">file_name</span><span class="p">,</span> 
+                                             <span class="n">fr_list</span><span class="o">=</span><span class="n">nan_frames</span><span class="p">)))</span>
+            <span class="c1"># Null all of the frames with null values.</span>
+            <span class="k">for</span> <span class="n">framedex</span> <span class="ow">in</span> <span class="n">nan_frames</span><span class="p">:</span>
+                <span class="n">hdu_data</span><span class="p">[</span><span class="n">framedex</span><span class="p">]</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">full_like</span><span class="p">(</span><span class="n">hdu_data</span><span class="p">[</span><span class="n">framedex</span><span class="p">],</span> <span class="n">np</span><span class="o">.</span><span class="n">nan</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="n">core</span><span class="o">.</span><span class="n">error</span><span class="o">.</span><span class="n">DataError</span><span class="p">(</span><span class="s2">&quot;The fits file exists, but it may be&quot;</span>
+                                       <span class="s2">&quot; 1D or 4D+; this module cannot &quot;</span>
+                                       <span class="s2">&quot;handle cleaning such data.&quot;</span><span class="p">)</span>
+
+    <span class="c1"># Check if there is an IfA-Smeargle mask, if so, mutate data </span>
+    <span class="c1"># to a masked array. This is depreciated in favor of saving the </span>
+    <span class="c1"># mask as a separate fits file.</span>
+    <span class="k">try</span><span class="p">:</span>
+        <span class="n">data_mask</span> <span class="o">=</span> <span class="n">hdul_file</span><span class="p">[</span><span class="s1">&#39;IFASMASK&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">data</span>
+        <span class="c1"># Because fits files do not handle boolean arrays, convert </span>
+        <span class="c1"># from the int 1/0 array in the file.</span>
+        <span class="n">data_mask</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">where</span><span class="p">(</span><span class="n">data_mask</span> <span class="o">&gt;=</span> <span class="mi">1</span><span class="p">,</span> <span class="kc">True</span><span class="p">,</span> <span class="kc">False</span><span class="p">),</span> 
+                             <span class="n">dtype</span><span class="o">=</span><span class="nb">bool</span><span class="p">)</span>
+
+    <span class="k">except</span> <span class="ne">KeyError</span><span class="p">:</span>
+        <span class="n">data_mask</span> <span class="o">=</span> <span class="kc">None</span>
+    <span class="k">finally</span><span class="p">:</span>
+        <span class="k">if</span> <span class="p">(</span><span class="n">data_mask</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">):</span>
+            <span class="c1"># Inform that a mask has been found and is going to be </span>
+            <span class="c1"># used.</span>
+            <span class="n">core</span><span class="o">.</span><span class="n">error</span><span class="o">.</span><span class="n">ifas_info</span><span class="p">(</span><span class="s2">&quot;The fits file contains an &lt;IFASMASK&gt; &quot;</span>
+                                 <span class="s2">&quot;extension, a pixel mask created by &quot;</span>
+                                 <span class="s2">&quot;this program. It will be applied to &quot;</span>
+                                 <span class="s2">&quot;the data. The output data will be a &quot;</span>
+                                 <span class="s2">&quot;Numpy Masked Array.&quot;</span><span class="p">)</span>
+            <span class="c1"># Also inform of the depreciated nature of this feature.</span>
+            <span class="n">core</span><span class="o">.</span><span class="n">error</span><span class="o">.</span><span class="n">ifas_warning</span><span class="p">(</span><span class="n">core</span><span class="o">.</span><span class="n">error</span><span class="o">.</span><span class="n">DepreciationWarning</span><span class="p">,</span>
+                                    <span class="p">(</span><span class="s2">&quot;Storing masks in an &lt;IFASMASK&gt; &quot;</span>
+                                     <span class="s2">&quot;extension is unfavored in lieu of &quot;</span>
+                                     <span class="s2">&quot;saving the mask as a separate file.&quot;</span><span class="p">))</span>
+
+            <span class="c1"># Apply the mask.</span>
+            <span class="n">hdu_data</span> <span class="o">=</span> <span class="n">np_ma</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">hdu_data</span><span class="p">,</span> <span class="n">mask</span><span class="o">=</span><span class="n">data_mask</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">hdu_data</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">hdu_data</span><span class="p">)</span>
+
+    <span class="c1"># Finally return. Inform the successful reading.</span>
+    <span class="n">core</span><span class="o">.</span><span class="n">error</span><span class="o">.</span><span class="n">ifas_info</span><span class="p">(</span><span class="s2">&quot;Successfully read </span><span class="si">{read_fits}</span><span class="s2"> into memory.&quot;</span>
+                   <span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">read_fits</span><span class="o">=</span><span class="n">file_name</span><span class="p">))</span>
+    <span class="k">return</span> <span class="n">hdul_file</span><span class="p">,</span> <span class="n">hdu_header</span><span class="p">,</span> <span class="n">hdu_data</span></div>
+
+<div class="viewcode-block" id="write_fits_file"><a class="viewcode-back" href="../../../docstrings/ifa_smeargle.core.io.html#ifa_smeargle.core.io.write_fits_file">[docs]</a><span class="k">def</span> <span class="nf">write_fits_file</span><span class="p">(</span><span class="n">file_name</span><span class="p">,</span> <span class="n">hdu_header</span><span class="p">,</span> <span class="n">hdu_data</span><span class="p">,</span> <span class="n">hdu_object</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> 
+                    <span class="n">save_file</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">overwrite</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">silent</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot; A function to ensure proper writing of fits files.</span>
+
+<span class="sd">    This function writes fits files given the data and header file. </span>
+<span class="sd">    The file name should be a complete path and must also include </span>
+<span class="sd">    the file name.</span>
+
+
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    file_name : string</span>
+<span class="sd">        This is the path of the file to be written, either relative </span>
+<span class="sd">        or absolute.</span>
+<span class="sd">    hdu_header : Header</span>
+<span class="sd">        The Astropy header object representing the headers of the </span>
+<span class="sd">        given file.</span>
+<span class="sd">    hdu_data : ndarray</span>
+<span class="sd">        The Numpy representation of a fits file data.</span>
+<span class="sd">    hdu_object : Astropy HDUList (optional)</span>
+<span class="sd">        An astropy HDUList object, if provided, this object takes </span>
+<span class="sd">        priority to be written, the rest are ignored.</span>
+<span class="sd">    save_file : boolean (optional)</span>
+<span class="sd">        If ``True``, then the fits file will be written to file, </span>
+<span class="sd">        else, just the instance will be returned.</span>
+<span class="sd">    overwrite : boolean (optional)</span>
+<span class="sd">        If ``True``, if there exists a file of the same name, </span>
+<span class="sd">        overwrite.</span>
+<span class="sd">    silent : boolean (optional)</span>
+<span class="sd">        Turn off all warnings and information sent by this function </span>
+<span class="sd">        and functions below it.</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    hdul_file : Astropy HDUList</span>
+<span class="sd">        The file object that was written to disk. If ``hdu_object`` </span>
+<span class="sd">        was provided, it is returned untouched.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="c1"># The user does not want any warnings.</span>
+    <span class="k">if</span> <span class="p">(</span><span class="n">silent</span><span class="p">):</span>
+        <span class="k">with</span> <span class="n">core</span><span class="o">.</span><span class="n">error</span><span class="o">.</span><span class="n">ifas_absolute_silence</span><span class="p">():</span>
+            <span class="k">return</span> <span class="n">write_fits_file</span><span class="p">(</span><span class="n">file_name</span><span class="o">=</span><span class="n">file_name</span><span class="p">,</span> 
+                                   <span class="n">hdu_header</span><span class="o">=</span><span class="n">hdu_header</span><span class="p">,</span> <span class="n">hdu_data</span><span class="o">=</span><span class="n">hdu_data</span><span class="p">,</span> 
+                                   <span class="n">hdu_object</span><span class="o">=</span><span class="n">hdu_object</span><span class="p">,</span> 
+                                   <span class="n">save_file</span><span class="o">=</span><span class="n">save_file</span><span class="p">,</span> <span class="n">overwrite</span><span class="o">=</span><span class="n">overwrite</span><span class="p">,</span> 
+                                   <span class="n">silent</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+
+
+    <span class="c1"># Check if the file name has a fits extension.</span>
+    <span class="n">core</span><span class="o">.</span><span class="n">strformat</span><span class="o">.</span><span class="n">split_pathname</span><span class="p">(</span><span class="n">pathname</span><span class="o">=</span><span class="n">file_name</span><span class="p">)[</span><span class="mi">2</span><span class="p">]</span>
+    <span class="k">if</span> <span class="p">(</span><span class="n">core</span><span class="o">.</span><span class="n">strformat</span><span class="o">.</span><span class="n">split_pathname</span><span class="p">(</span><span class="n">pathname</span><span class="o">=</span><span class="n">file_name</span><span class="p">)[</span><span class="mi">2</span><span class="p">]</span> <span class="o">!=</span> <span class="s1">&#39;.fits&#39;</span><span class="p">):</span>
+        <span class="n">file_name</span> <span class="o">=</span>  <span class="n">core</span><span class="o">.</span><span class="n">strformat</span><span class="o">.</span><span class="n">combine_pathname</span><span class="p">(</span><span class="n">file_name</span><span class="o">=</span><span class="n">file_name</span><span class="p">,</span> 
+                                                     <span class="n">extension</span><span class="o">=</span><span class="s1">&#39;.fits&#39;</span><span class="p">)</span>
+        <span class="n">core</span><span class="o">.</span><span class="n">error</span><span class="o">.</span><span class="n">ifas_log_warning</span><span class="p">(</span><span class="n">core</span><span class="o">.</span><span class="n">error</span><span class="o">.</span><span class="n">InputWarning</span><span class="p">,</span> 
+                                    <span class="p">(</span><span class="s2">&quot;The fits file name does not have &quot;</span>
+                                     <span class="s2">&quot;a .fits extension; it has been &quot;</span>
+                                     <span class="s2">&quot;automatically added.&quot;</span><span class="p">))</span>
+
+    <span class="c1"># Create the main HDUL object to write the fits file.</span>
+    <span class="c1"># Check for the hdu_object.</span>
+    <span class="k">if</span> <span class="p">(</span><span class="nb">isinstance</span><span class="p">(</span><span class="n">hdu_object</span><span class="p">,(</span><span class="n">ap_fits</span><span class="o">.</span><span class="n">PrimaryHDU</span><span class="p">,</span><span class="n">ap_fits</span><span class="o">.</span><span class="n">HDUList</span><span class="p">))):</span>
+        <span class="c1"># Astropy can handle PrimaryHDU -&gt; .fits conversion.</span>
+        <span class="n">hdul_file</span> <span class="o">=</span> <span class="n">hdu_object</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="c1"># Else, deal with the data.</span>
+        <span class="c1"># If the data is a boolean, then as FITS cannot handle </span>
+        <span class="c1"># booleans, convert to int.</span>
+        <span class="k">if</span> <span class="p">(</span><span class="nb">isinstance</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">ravel</span><span class="p">(</span><span class="n">hdu_data</span><span class="p">)[</span><span class="mi">0</span><span class="p">],</span> <span class="p">(</span><span class="nb">bool</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">bool_</span><span class="p">))):</span>
+            <span class="n">hdu_data</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">where</span><span class="p">(</span><span class="n">hdu_data</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">)</span>
+
+        <span class="c1"># The HDU header may be a dictionary, if so, as Astropy can</span>
+        <span class="c1"># only handle actual header objects, convert.</span>
+        <span class="k">if</span> <span class="p">(</span><span class="nb">isinstance</span><span class="p">(</span><span class="n">hdu_header</span><span class="p">,</span> <span class="nb">dict</span><span class="p">)):</span>
+            <span class="n">hdu_header</span> <span class="o">=</span> <span class="n">ap_fits</span><span class="o">.</span><span class="n">Header</span><span class="p">(</span><span class="n">hdu_header</span><span class="p">)</span>
+
+        <span class="c1"># Writing to a fits HDU.</span>
+        <span class="n">hdu</span> <span class="o">=</span> <span class="n">ap_fits</span><span class="o">.</span><span class="n">PrimaryHDU</span><span class="p">(</span><span class="n">data</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">hdu_data</span><span class="p">),</span> <span class="n">header</span><span class="o">=</span><span class="n">hdu_header</span><span class="p">)</span>
+        <span class="n">hdul_file</span> <span class="o">=</span> <span class="n">ap_fits</span><span class="o">.</span><span class="n">HDUList</span><span class="p">([</span><span class="n">hdu</span><span class="p">])</span>
+
+    <span class="c1"># Check if the data is a masked array, if it is, extract the </span>
+    <span class="c1"># mask and save it to write in an extension. Though, this </span>
+    <span class="c1"># is depreciated in favor of saving it as a separate fits file.</span>
+    <span class="k">if</span> <span class="p">(</span><span class="nb">isinstance</span><span class="p">(</span><span class="n">hdu_data</span><span class="p">,</span><span class="n">np_ma</span><span class="o">.</span><span class="n">MaskedArray</span><span class="p">)):</span>
+        <span class="c1"># Get data mask and convert to int array; apparently fits </span>
+        <span class="c1"># files do not work well with booleans.</span>
+        <span class="n">data_mask</span> <span class="o">=</span> <span class="n">np_ma</span><span class="o">.</span><span class="n">getmaskarray</span><span class="p">(</span><span class="n">hdu_data</span><span class="p">)</span>
+        <span class="n">data_mask</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">where</span><span class="p">(</span><span class="n">data_mask</span><span class="p">,</span> <span class="nb">int</span><span class="p">(</span><span class="mi">1</span><span class="p">),</span> <span class="nb">int</span><span class="p">(</span><span class="mi">0</span><span class="p">)),</span> <span class="n">dtype</span><span class="o">=</span><span class="nb">int</span><span class="p">)</span>
+        <span class="c1"># Create the HDU object mask.</span>
+        <span class="n">data_mask_hdu</span> <span class="o">=</span> <span class="n">ap_fits</span><span class="o">.</span><span class="n">ImageHDU</span><span class="p">(</span><span class="n">data_mask</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="s1">&#39;IFASMASK&#39;</span><span class="p">)</span>
+        <span class="n">hdul_file</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">data_mask_hdu</span><span class="p">)</span>
+
+        <span class="c1"># Warn that the mask has been added. </span>
+        <span class="n">core</span><span class="o">.</span><span class="n">error</span><span class="o">.</span><span class="n">ifas_warning</span><span class="p">(</span><span class="n">core</span><span class="o">.</span><span class="n">error</span><span class="o">.</span><span class="n">DepreciationWarning</span><span class="p">,</span>
+                                <span class="p">(</span><span class="s2">&quot;Storing masks in an &lt;IFASMASK&gt; &quot;</span>
+                                 <span class="s2">&quot;extension is unfavored in lieu of &quot;</span>
+                                 <span class="s2">&quot;saving the mask as a separate file.&quot;</span><span class="p">))</span>
+        <span class="n">core</span><span class="o">.</span><span class="n">error</span><span class="o">.</span><span class="n">ifas_info</span><span class="p">(</span><span class="s2">&quot;The data array provided has been detected &quot;</span>
+                             <span class="s2">&quot;to be a masked array. The mask is saved in &quot;</span>
+                             <span class="s2">&quot;the fits extension &lt;IFASMASK&gt;. The primary &quot;</span>
+                             <span class="s2">&quot;data is not affected.&quot;</span><span class="p">)</span>
+
+
+    <span class="c1"># Check to see if the file exists, if so, then overwrite </span>
+    <span class="c1"># if provided for.</span>
+    <span class="k">if</span> <span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">isfile</span><span class="p">(</span><span class="n">file_name</span><span class="p">)</span> <span class="ow">and</span> <span class="p">(</span><span class="n">save_file</span><span class="p">)):</span>
+        <span class="k">if</span> <span class="p">(</span><span class="n">overwrite</span><span class="p">):</span>
+            <span class="c1"># It should be overwritten, warn to be nice. </span>
+            <span class="n">core</span><span class="o">.</span><span class="n">error</span><span class="o">.</span><span class="n">ifas_warning</span><span class="p">(</span><span class="n">core</span><span class="o">.</span><span class="n">error</span><span class="o">.</span><span class="n">OverwriteWarning</span><span class="p">,</span>
+                                    <span class="p">(</span><span class="s2">&quot;There exists a file with the provided &quot;</span>
+                                     <span class="s2">&quot;name. Overwrite is true; the previous &quot;</span>
+                                     <span class="s2">&quot;file will be replaced as provided.&quot;</span><span class="p">))</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="c1"># It should not overwritten at this point.</span>
+            <span class="k">raise</span> <span class="n">core</span><span class="o">.</span><span class="n">error</span><span class="o">.</span><span class="n">ExportingError</span><span class="p">(</span><span class="s2">&quot;There exists a file with the &quot;</span>
+                                            <span class="s2">&quot;same name as the previous one. &quot;</span>
+                                            <span class="s2">&quot;Overwrite is set to False, the &quot;</span>
+                                            <span class="s2">&quot;new fits file cannot be &quot;</span>
+                                            <span class="s2">&quot;written. File name: </span><span class="si">{f_name}</span><span class="s2">&quot;</span>
+                                            <span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">f_name</span><span class="o">=</span><span class="n">file_name</span><span class="p">))</span>
+
+    <span class="c1"># Write, follow overwrite instructions, assume the user knows </span>
+    <span class="c1"># what they are doing. Return object.</span>
+    <span class="k">if</span> <span class="p">(</span><span class="n">save_file</span><span class="p">):</span>
+        <span class="n">hdul_file</span><span class="o">.</span><span class="n">writeto</span><span class="p">(</span><span class="n">file_name</span><span class="p">,</span> <span class="n">overwrite</span><span class="o">=</span><span class="n">overwrite</span><span class="p">)</span>
+        <span class="c1"># Inform of the completed save.</span>
+        <span class="n">core</span><span class="o">.</span><span class="n">error</span><span class="o">.</span><span class="n">ifas_info</span><span class="p">(</span><span class="s2">&quot;Successfully wrote </span><span class="si">{read_fits}</span><span class="s2"> onto disk.&quot;</span>
+                       <span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">read_fits</span><span class="o">=</span><span class="n">file_name</span><span class="p">))</span>
+
+    <span class="k">return</span> <span class="n">hdul_file</span></div>
+
+<div class="viewcode-block" id="append_astropy_header_card"><a class="viewcode-back" href="../../../docstrings/ifa_smeargle.core.io.html#ifa_smeargle.core.io.append_astropy_header_card">[docs]</a><span class="k">def</span> <span class="nf">append_astropy_header_card</span><span class="p">(</span><span class="n">file_name</span><span class="p">,</span> <span class="n">header_cards</span><span class="p">,</span> <span class="n">comment_cards</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot; This is a function to add header card entries into the </span>
+<span class="sd">    header of a fits file. This uses dictionaries to achieve said </span>
+<span class="sd">    result.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    file_name : string</span>
+<span class="sd">        This is the path of the file to be written, either relative </span>
+<span class="sd">        or absolute.</span>
+<span class="sd">    header_cards : dictionary</span>
+<span class="sd">        The header entries to be added to the header file. Please </span>
+<span class="sd">        note that the keys of the dictionary must be no more than </span>
+<span class="sd">        8 characters; otherwise a HIERARCH card will be used.</span>
+<span class="sd">    comment_cards : dictionary (optional)</span>
+<span class="sd">        The comment entries to be added to the header file. The </span>
+<span class="sd">        keys of the comment dictionary and the `header_cards` must </span>
+<span class="sd">        line up.</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    hdul_file : Astropy PrimaryHDU</span>
+<span class="sd">        The file object that was written to disk. If ``hdu_object`` </span>
+<span class="sd">        was provided, it is returned with its header changed.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="c1"># Sort the comment cards to the needed dictionary. If it is </span>
+    <span class="c1"># nothing, then a blank dictionary is compatible with no comment.</span>
+    <span class="n">comment_cards</span> <span class="o">=</span> <span class="p">(</span><span class="n">comment_cards</span> <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">comment_cards</span><span class="p">,</span> <span class="nb">dict</span><span class="p">)</span> 
+                     <span class="k">else</span> <span class="nb">dict</span><span class="p">())</span>
+
+    <span class="c1"># Add the entries.</span>
+    <span class="k">for</span> <span class="n">keydex</span><span class="p">,</span> <span class="n">valuedex</span> <span class="ow">in</span> <span class="n">copy</span><span class="o">.</span><span class="n">deepcopy</span><span class="p">(</span><span class="n">header_cards</span><span class="p">)</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+        <span class="c1"># Check that the entries are valid type based on the FITS </span>
+        <span class="c1"># specification. Astropy does this, but it is not as clear.</span>
+        <span class="k">if</span> <span class="p">(</span><span class="nb">isinstance</span><span class="p">(</span><span class="n">valuedex</span><span class="p">,</span> <span class="p">(</span><span class="nb">int</span><span class="p">,</span> <span class="nb">float</span><span class="p">,</span> <span class="nb">str</span><span class="p">))):</span>
+            <span class="c1"># This is a valid and accepted type, write to the Header.</span>
+            <span class="n">ap_fits</span><span class="o">.</span><span class="n">setval</span><span class="p">(</span><span class="n">file_name</span><span class="p">,</span> <span class="n">keydex</span><span class="p">,</span> <span class="n">value</span><span class="o">=</span><span class="n">valuedex</span><span class="p">,</span> 
+                           <span class="n">comment</span><span class="o">=</span><span class="n">comment_cards</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">keydex</span><span class="p">,</span><span class="kc">None</span><span class="p">))</span>
+        <span class="k">elif</span> <span class="p">(</span><span class="nb">isinstance</span><span class="p">(</span><span class="n">valuedex</span><span class="p">,</span> <span class="nb">bool</span><span class="p">)):</span>
+            <span class="n">core</span><span class="o">.</span><span class="n">error</span><span class="o">.</span><span class="n">ifas_log_warning</span><span class="p">(</span><span class="n">core</span><span class="o">.</span><span class="n">error</span><span class="o">.</span><span class="n">ExportingWarning</span><span class="p">,</span>
+                                        <span class="p">(</span><span class="s2">&quot;FITS Headers cannot store a &quot;</span>
+                                         <span class="s2">&quot;boolean directly but can use T/F &quot;</span>
+                                         <span class="s2">&quot;letters. The boolean has been &quot;</span>
+                                         <span class="s2">&quot;converted.&quot;</span><span class="p">))</span>
+            <span class="c1"># Convert to a fits proper type.</span>
+            <span class="n">converted_value</span> <span class="o">=</span> <span class="s1">&#39;T&#39;</span> <span class="k">if</span> <span class="n">valuedex</span> <span class="k">else</span> <span class="s1">&#39;F&#39;</span>
+            <span class="n">ap_fits</span><span class="o">.</span><span class="n">setval</span><span class="p">(</span><span class="n">file_name</span><span class="p">,</span> <span class="n">keydex</span><span class="p">,</span> <span class="n">value</span><span class="o">=</span><span class="n">converted_value</span><span class="p">,</span> 
+                           <span class="n">comment</span><span class="o">=</span><span class="n">comment_cards</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">keydex</span><span class="p">,</span><span class="kc">None</span><span class="p">))</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">core</span><span class="o">.</span><span class="n">error</span><span class="o">.</span><span class="n">ifas_warning</span><span class="p">(</span><span class="n">core</span><span class="o">.</span><span class="n">error</span><span class="o">.</span><span class="n">ExportingWarning</span><span class="p">,</span>
+                                    <span class="p">(</span><span class="s2">&quot;The header card key-value pair &quot;</span>
+                                     <span class="s2">&quot;(</span><span class="si">{key}</span><span class="s2"> = </span><span class="si">{value}</span><span class="s2">) uses a value type &quot;</span>
+                                     <span class="s2">&quot;of </span><span class="si">{value_type}</span><span class="s2">. FITS Headers can &quot;</span>
+                                     <span class="s2">&quot;only use numbers and ASCII strings. &quot;</span>
+                                     <span class="s2">&quot;Converting it to a string.&quot;</span>
+                                      <span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">key</span><span class="o">=</span><span class="n">keydex</span><span class="p">,</span> <span class="n">value</span><span class="o">=</span><span class="nb">str</span><span class="p">(</span><span class="n">valuedex</span><span class="p">),</span> 
+                                              <span class="n">value_type</span><span class="o">=</span><span class="nb">type</span><span class="p">(</span><span class="n">valuedex</span><span class="p">))))</span>
+            <span class="c1"># Convert to a fits proper type.</span>
+            <span class="n">converted_value</span> <span class="o">=</span> <span class="nb">str</span><span class="p">(</span><span class="n">valuedex</span><span class="p">)</span>
+
+            <span class="c1"># If the key, value and comment card entry is too big, </span>
+            <span class="c1"># (&gt;=80) it is better to open and write the entire file </span>
+            <span class="c1"># for the CONTINUE card.</span>
+            <span class="n">card_length</span> <span class="o">=</span> <span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">keydex</span><span class="p">)</span> 
+                           <span class="o">+</span> <span class="nb">len</span><span class="p">(</span><span class="nb">str</span><span class="p">(</span><span class="n">converted_value</span><span class="p">))</span> 
+                           <span class="o">+</span> <span class="nb">len</span><span class="p">(</span><span class="nb">str</span><span class="p">(</span><span class="n">comment_cards</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">keydex</span><span class="p">,</span><span class="s1">&#39;&#39;</span><span class="p">))))</span>
+            <span class="k">if</span> <span class="p">(</span><span class="n">card_length</span> <span class="o">&gt;=</span> <span class="mi">80</span><span class="p">):</span>
+                <span class="n">__</span><span class="p">,</span> <span class="n">hdu_header</span><span class="p">,</span> <span class="n">hdu_data</span> <span class="o">=</span> <span class="n">read_fits_file</span><span class="p">(</span>
+                    <span class="n">file_name</span><span class="o">=</span><span class="n">file_name</span><span class="p">,</span> <span class="n">extension</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">silent</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+                <span class="c1"># Change the header.</span>
+                <span class="n">hdu_header</span><span class="o">.</span><span class="n">set</span><span class="p">(</span><span class="n">keydex</span><span class="p">,</span> <span class="n">converted_value</span><span class="p">,</span> 
+                               <span class="n">comment_cards</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">keydex</span><span class="p">,</span><span class="kc">None</span><span class="p">))</span>
+                <span class="c1"># Finally, over/re-write the file to save the change.</span>
+                <span class="n">write_fits_file</span><span class="p">(</span><span class="n">file_name</span><span class="o">=</span><span class="n">file_name</span><span class="p">,</span> 
+                                <span class="n">hdu_header</span><span class="o">=</span><span class="n">hdu_header</span><span class="p">,</span> <span class="n">hdu_data</span><span class="o">=</span><span class="n">hdu_data</span><span class="p">,</span> 
+                                <span class="n">hdu_object</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+                                <span class="n">save_file</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">overwrite</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">silent</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="n">ap_fits</span><span class="o">.</span><span class="n">setval</span><span class="p">(</span><span class="n">file_name</span><span class="p">,</span> <span class="n">keydex</span><span class="p">,</span> <span class="n">value</span><span class="o">=</span><span class="n">converted_value</span><span class="p">,</span> 
+                               <span class="n">comment</span><span class="o">=</span><span class="n">comment_cards</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">keydex</span><span class="p">,</span><span class="kc">None</span><span class="p">))</span>
+    <span class="k">return</span> <span class="kc">None</span></div>
+        
+
+
+
+
+</pre></div>
+
+           </div>
+           
+          </div>
+          <footer>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        
+        &copy; Copyright 2020, Sparrow
+
+    </p>
+  </div>
+    
+    
+    
+    Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a
+    
+    <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a>
+    
+    provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+
+  
+  
+    
+   
+
+</body>
+</html>

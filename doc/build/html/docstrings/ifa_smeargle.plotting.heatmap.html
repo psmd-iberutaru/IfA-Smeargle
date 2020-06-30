@@ -1,0 +1,300 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>ifa_smeargle.plotting.heatmap module &mdash; IfA_Smeargle 2020 documentation</title>
+  
+
+  
+  <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+  <link rel="stylesheet" href="../_static/css/custom.css" type="text/css" />
+
+  
+  
+  
+  
+
+  
+  <!--[if lt IE 9]>
+    <script src="../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+    
+      <script type="text/javascript" id="documentation_options" data-url_root="../" src="../_static/documentation_options.js"></script>
+        <script src="../_static/jquery.js"></script>
+        <script src="../_static/underscore.js"></script>
+        <script src="../_static/doctools.js"></script>
+        <script src="../_static/language_data.js"></script>
+    
+    <script type="text/javascript" src="../_static/js/theme.js"></script>
+
+    
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="ifa_smeargle.plotting.histogram module" href="ifa_smeargle.plotting.histogram.html" />
+    <link rel="prev" title="ifa_smeargle.plotting.base_functions module" href="ifa_smeargle.plotting.base_functions.html" /> 
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+          
+
+          
+            <a href="../index.html" class="icon icon-home" alt="Documentation Home"> IfA_Smeargle
+          
+
+          
+          </a>
+
+          
+            
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <p class="caption"><span class="caption-text">Code Documentation:</span></p>
+<ul class="current">
+<li class="toctree-l1 current"><a class="reference internal" href="modules.html">ifa_smeargle</a><ul class="current">
+<li class="toctree-l2 current"><a class="reference internal" href="ifa_smeargle.html">ifa_smeargle package</a><ul class="current">
+<li class="toctree-l3 current"><a class="reference internal" href="ifa_smeargle.html#subpackages">Subpackages</a><ul class="current">
+<li class="toctree-l4"><a class="reference internal" href="ifa_smeargle.analysis.html">ifa_smeargle.analysis package</a></li>
+<li class="toctree-l4"><a class="reference internal" href="ifa_smeargle.core.html">ifa_smeargle.core package</a></li>
+<li class="toctree-l4"><a class="reference internal" href="ifa_smeargle.masking.html">ifa_smeargle.masking package</a></li>
+<li class="toctree-l4 current"><a class="reference internal" href="ifa_smeargle.plotting.html">ifa_smeargle.plotting package</a></li>
+<li class="toctree-l4"><a class="reference internal" href="ifa_smeargle.reformat.html">ifa_smeargle.reformat package</a></li>
+<li class="toctree-l4"><a class="reference internal" href="ifa_smeargle.testing.html">ifa_smeargle.testing package</a></li>
+<li class="toctree-l4"><a class="reference internal" href="ifa_smeargle.tutorial.html">ifa_smeargle.tutorial package</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="ifa_smeargle.html#submodules">Submodules</a></li>
+<li class="toctree-l3"><a class="reference internal" href="ifa_smeargle.html#module-ifa_smeargle">Module contents</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+
+            
+          
+        </div>
+        
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../index.html">IfA_Smeargle</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="../index.html" class="icon icon-home"></a> &raquo;</li>
+        
+          <li><a href="modules.html">ifa_smeargle</a> &raquo;</li>
+        
+          <li><a href="ifa_smeargle.html">ifa_smeargle package</a> &raquo;</li>
+        
+          <li><a href="ifa_smeargle.plotting.html">ifa_smeargle.plotting package</a> &raquo;</li>
+        
+      <li>ifa_smeargle.plotting.heatmap module</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+            
+            
+              <a href="https://github.com/psmd-iberutaru/IfA_Smeargle/blob/testdoc/source/docstrings/ifa_smeargle.plotting.heatmap.rst" class="fa fa-github"> Edit on GitHub</a>
+            
+          
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <div class="section" id="module-ifa_smeargle.plotting.heatmap">
+<span id="ifa-smeargle-plotting-heatmap-module"></span><h1>ifa_smeargle.plotting.heatmap module<a class="headerlink" href="#module-ifa_smeargle.plotting.heatmap" title="Permalink to this headline">¶</a></h1>
+<p>This creates a plot of a heat-map from analysis fits files.</p>
+<dl class="function">
+<dt id="ifa_smeargle.plotting.heatmap.plot_heatmap">
+<code class="sig-prename descclassname">ifa_smeargle.plotting.heatmap.</code><code class="sig-name descname">plot_heatmap</code><span class="sig-paren">(</span><em class="sig-param">data_array</em>, <em class="sig-param">data_header=None</em>, <em class="sig-param">data_mask=None</em>, <em class="sig-param">figure_axes=None</em>, <em class="sig-param">matplotlib_arguments=None</em>, <em class="sig-param">**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/ifa_smeargle/plotting/heatmap.html#plot_heatmap"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#ifa_smeargle.plotting.heatmap.plot_heatmap" title="Permalink to this definition">¶</a></dt>
+<dd><p>A function to create a heat-map image of the data array
+provided.</p>
+<p>This function replicates the image plotting functionality of
+Tino Well’s program. (Found here:
+<a class="reference external" href="https://github.com/tinowells/ifa">https://github.com/tinowells/ifa</a>). More specifically, the plot
+assigns a color according to the value a pixel has, and plots
+it corresponding to its location in the provided data array.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>data_array</strong> (<em>ndarray</em>) – This is the provided array that is to be plotted.
+Dimensions matter!</p></li>
+<li><p><strong>data_header</strong> (<em>Astropy Header</em><em> (</em><em>optional</em><em>)</em>) – This is the data header of the fits file. If it is not
+provided, plotting parameters which use it will not be plot.
+An error may also be raised.</p></li>
+<li><p><strong>data_mask</strong> (<em>ndarray</em><em> (</em><em>optional</em><em>)</em>) – The mask that should be applied to the <cite>data_array</cite>.</p></li>
+<li><p><strong>figure_axes</strong> (<em>Matplotlib Axes</em><em> (</em><em>optional</em><em>)</em>) – This is a predefined axes variable that the user may desire
+to have the heat-map plot to. This defaults to either making
+new ones, or using the currently defined axes. Note: This
+is not deep-copied!</p></li>
+<li><p><strong>matplotlib_arguments</strong> (<em>dictionary</em><em> (</em><em>optional</em><em>)</em>) – These are options the user may use to pass customization
+parameters into the heat-map plot or the color-bar
+functionalities.
+See <code class="xref py py-func docutils literal notranslate"><span class="pre">imshow()</span></code> and
+<code class="xref py py-func docutils literal notranslate"><span class="pre">colorbar()</span></code>.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p><strong>heatmap_plot_axes</strong> – This is the heatmap plot made on the (provided, borrowed, or
+generated) plotting axes.</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>Matplotlib Axes</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="function">
+<dt id="ifa_smeargle.plotting.heatmap.script_plot_heatmap">
+<code class="sig-prename descclassname">ifa_smeargle.plotting.heatmap.</code><code class="sig-name descname">script_plot_heatmap</code><span class="sig-paren">(</span><em class="sig-param">config</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/ifa_smeargle/plotting/heatmap.html#script_plot_heatmap"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#ifa_smeargle.plotting.heatmap.script_plot_heatmap" title="Permalink to this definition">¶</a></dt>
+<dd><p>The scripting version of <cite>plot_heatmap</cite>. This function
+automatically creates heat-map plots for each and every analysis
+data file.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>config</strong> (<em>ConfigObj</em>) – The configuration object that is to be used for this
+function.</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p></p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>None</p>
+</dd>
+</dl>
+</dd></dl>
+
+</div>
+
+
+           </div>
+           
+          </div>
+          <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+        <a href="ifa_smeargle.plotting.histogram.html" class="btn btn-neutral float-right" title="ifa_smeargle.plotting.histogram module" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
+      
+      
+        <a href="ifa_smeargle.plotting.base_functions.html" class="btn btn-neutral float-left" title="ifa_smeargle.plotting.base_functions module" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+      
+    </div>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        
+        &copy; Copyright 2020, Sparrow
+
+    </p>
+  </div>
+    
+    
+    
+    Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a
+    
+    <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a>
+    
+    provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+
+  
+  
+    
+   
+
+</body>
+</html>

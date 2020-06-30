@@ -1,0 +1,372 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>ifa_smeargle.analysis.base_functions module &mdash; IfA_Smeargle 2020 documentation</title>
+  
+
+  
+  <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+  <link rel="stylesheet" href="../_static/css/custom.css" type="text/css" />
+
+  
+  
+  
+  
+
+  
+  <!--[if lt IE 9]>
+    <script src="../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+    
+      <script type="text/javascript" id="documentation_options" data-url_root="../" src="../_static/documentation_options.js"></script>
+        <script src="../_static/jquery.js"></script>
+        <script src="../_static/underscore.js"></script>
+        <script src="../_static/doctools.js"></script>
+        <script src="../_static/language_data.js"></script>
+    
+    <script type="text/javascript" src="../_static/js/theme.js"></script>
+
+    
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="ifa_smeargle.analysis.heatmap module" href="ifa_smeargle.analysis.heatmap.html" />
+    <link rel="prev" title="ifa_smeargle.analysis package" href="ifa_smeargle.analysis.html" /> 
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+          
+
+          
+            <a href="../index.html" class="icon icon-home" alt="Documentation Home"> IfA_Smeargle
+          
+
+          
+          </a>
+
+          
+            
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <p class="caption"><span class="caption-text">Code Documentation:</span></p>
+<ul class="current">
+<li class="toctree-l1 current"><a class="reference internal" href="modules.html">ifa_smeargle</a><ul class="current">
+<li class="toctree-l2 current"><a class="reference internal" href="ifa_smeargle.html">ifa_smeargle package</a><ul class="current">
+<li class="toctree-l3 current"><a class="reference internal" href="ifa_smeargle.html#subpackages">Subpackages</a><ul class="current">
+<li class="toctree-l4 current"><a class="reference internal" href="ifa_smeargle.analysis.html">ifa_smeargle.analysis package</a></li>
+<li class="toctree-l4"><a class="reference internal" href="ifa_smeargle.core.html">ifa_smeargle.core package</a></li>
+<li class="toctree-l4"><a class="reference internal" href="ifa_smeargle.masking.html">ifa_smeargle.masking package</a></li>
+<li class="toctree-l4"><a class="reference internal" href="ifa_smeargle.plotting.html">ifa_smeargle.plotting package</a></li>
+<li class="toctree-l4"><a class="reference internal" href="ifa_smeargle.reformat.html">ifa_smeargle.reformat package</a></li>
+<li class="toctree-l4"><a class="reference internal" href="ifa_smeargle.testing.html">ifa_smeargle.testing package</a></li>
+<li class="toctree-l4"><a class="reference internal" href="ifa_smeargle.tutorial.html">ifa_smeargle.tutorial package</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="ifa_smeargle.html#submodules">Submodules</a></li>
+<li class="toctree-l3"><a class="reference internal" href="ifa_smeargle.html#module-ifa_smeargle">Module contents</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+
+            
+          
+        </div>
+        
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../index.html">IfA_Smeargle</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="../index.html" class="icon icon-home"></a> &raquo;</li>
+        
+          <li><a href="modules.html">ifa_smeargle</a> &raquo;</li>
+        
+          <li><a href="ifa_smeargle.html">ifa_smeargle package</a> &raquo;</li>
+        
+          <li><a href="ifa_smeargle.analysis.html">ifa_smeargle.analysis package</a> &raquo;</li>
+        
+      <li>ifa_smeargle.analysis.base_functions module</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+            
+            
+              <a href="https://github.com/psmd-iberutaru/IfA_Smeargle/blob/testdoc/source/docstrings/ifa_smeargle.analysis.base_functions.rst" class="fa fa-github"> Edit on GitHub</a>
+            
+          
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <div class="section" id="module-ifa_smeargle.analysis.base_functions">
+<span id="ifa-smeargle-analysis-base-functions-module"></span><h1>ifa_smeargle.analysis.base_functions module<a class="headerlink" href="#module-ifa_smeargle.analysis.base_functions" title="Permalink to this headline">¶</a></h1>
+<p>This is where common functions to all of the analysis
+code is written to.</p>
+<dl class="function">
+<dt id="ifa_smeargle.analysis.base_functions.create_directory_analysis_files">
+<code class="sig-prename descclassname">ifa_smeargle.analysis.base_functions.</code><code class="sig-name descname">create_directory_analysis_files</code><span class="sig-paren">(</span><em class="sig-param">data_directory</em>, <em class="sig-param">mask_file</em>, <em class="sig-param">filter_directory</em>, <em class="sig-param">filter_config_file</em>, <em class="sig-param">analysis_function</em>, <em class="sig-param">analysis_parameters</em>, <em class="sig-param">run</em>, <em class="sig-param">append=False</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/ifa_smeargle/analysis/base_functions.html#create_directory_analysis_files"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#ifa_smeargle.analysis.base_functions.create_directory_analysis_files" title="Permalink to this definition">¶</a></dt>
+<dd><p>This function is the common function to compute and save the
+results of analysis functions.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>data_directory</strong> (<em>string</em>) – The data directory by which all of data for the analysis
+is contained within.</p></li>
+<li><p><strong>mask_file</strong> (<em>string</em>) – The mask, if desired, that will be applied to this analysis
+run.</p></li>
+<li><p><strong>filter_directory</strong> (<em>string</em>) – The directory that has all of the synthesized filter files.
+If it does not exist, then the filters will be calculated if
+possible.</p></li>
+<li><p><strong>filter_config_file</strong> (<em>string</em>) – The configuration file with the filtering parameters. This
+is used if only the filter is calculated rather than read.</p></li>
+<li><p><strong>analysis_function</strong> (<em>function</em>) – The analysis function that will be used to calculate the
+analysis results.</p></li>
+<li><p><strong>analysis_parameters</strong> (<em>dictionary</em>) – The dictionary for the arguments of the analysis function.</p></li>
+<li><p><strong>run</strong> (<em>boolean</em>) – This is a flag to ensure that the analysis script should run.
+If it is False, it is not run.</p></li>
+<li><p><strong>append</strong> (<em>boolean</em><em> (</em><em>optional</em><em>)</em>) – This parameter specifies what to do with a file conflict.
+If True, the new analysis is appended to the other header;
+else, an exception is raised. Defaults to False.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p></p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>None</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="function">
+<dt id="ifa_smeargle.analysis.base_functions.create_filter_from_configuration">
+<code class="sig-prename descclassname">ifa_smeargle.analysis.base_functions.</code><code class="sig-name descname">create_filter_from_configuration</code><span class="sig-paren">(</span><em class="sig-param">data_array</em>, <em class="sig-param">filter_config</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/ifa_smeargle/analysis/base_functions.html#create_filter_from_configuration"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#ifa_smeargle.analysis.base_functions.create_filter_from_configuration" title="Permalink to this definition">¶</a></dt>
+<dd><p>This function applies all of the filters that are written based
+on the configurations supplied.</p>
+<p>All filters are obtained automatically from the written code.
+If required configuration parameters are missing for any of the
+filters, they are automatically skipped.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>data_array</strong> (<em>ndarray</em>) – The data array by which the filters will be calculated from.</p></li>
+<li><p><strong>filter_config</strong> (<em>ConfigObj</em><em> or </em><em>dictionary-like</em>) – The configuration that the filters will use.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p><strong>filter_array</strong> – The filter, made of each of the individual filters as
+calculated.</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>ndarray</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="function">
+<dt id="ifa_smeargle.analysis.base_functions.create_filter_from_directory">
+<code class="sig-prename descclassname">ifa_smeargle.analysis.base_functions.</code><code class="sig-name descname">create_filter_from_directory</code><span class="sig-paren">(</span><em class="sig-param">data_file</em>, <em class="sig-param">filter_directory</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/ifa_smeargle/analysis/base_functions.html#create_filter_from_directory"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#ifa_smeargle.analysis.base_functions.create_filter_from_directory" title="Permalink to this definition">¶</a></dt>
+<dd><p>This function extracts the filter from a filter directory that
+corresponds to the data file.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>data_file</strong> (<em>string</em>) – The name of the data file that is going to used as the
+reference to find any matching filter files. All directory
+information is stripped.</p></li>
+<li><p><strong>filter_directory</strong> (<em>string</em>) – The directory by which the filters within will be checked if
+they match to the data file.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p><strong>filter_array</strong> – The filter, made of each of the individual filters as
+calculated.</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>ndarray</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="function">
+<dt id="ifa_smeargle.analysis.base_functions.get_analysis_fits_filenames">
+<code class="sig-prename descclassname">ifa_smeargle.analysis.base_functions.</code><code class="sig-name descname">get_analysis_fits_filenames</code><span class="sig-paren">(</span><em class="sig-param">data_directory</em>, <em class="sig-param">recursive=False</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/ifa_smeargle/analysis/base_functions.html#get_analysis_fits_filenames"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#ifa_smeargle.analysis.base_functions.get_analysis_fits_filenames" title="Permalink to this definition">¶</a></dt>
+<dd><p>This function is to obtain all of the filter fits files
+within the directory provided. Mask fits files are those that
+have the extension <cite>.analysis.fits</cite>.</p>
+<p>In general, this is a wrapper function around the normal
+fits file glob function adapted for filters.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>data_directory</strong> (<em>string</em>) – The data directory that the filter fits files will be
+searched from.</p></li>
+<li><p><strong>recursive</strong> (<em>boolean</em><em> (</em><em>optional</em><em>)</em>) – If True, also search subdirectories for filter fits files.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p><strong>analysis_fits_filenames</strong> – The list of the analysis fits file names.</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>list</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="function">
+<dt id="ifa_smeargle.analysis.base_functions.script_batch_analysis">
+<code class="sig-prename descclassname">ifa_smeargle.analysis.base_functions.</code><code class="sig-name descname">script_batch_analysis</code><span class="sig-paren">(</span><em class="sig-param">config</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/ifa_smeargle/analysis/base_functions.html#script_batch_analysis"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#ifa_smeargle.analysis.base_functions.script_batch_analysis" title="Permalink to this definition">¶</a></dt>
+<dd><p>This script runs all analysis in a batch fashion.</p>
+<p>If the run flag of an analysis in the configuration file is
+True, it is run according to the parameters set.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>config</strong> (<em>ConfigObj</em>) – The configuration object that is to be used for this
+function.</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p></p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>None</p>
+</dd>
+</dl>
+</dd></dl>
+
+</div>
+
+
+           </div>
+           
+          </div>
+          <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+        <a href="ifa_smeargle.analysis.heatmap.html" class="btn btn-neutral float-right" title="ifa_smeargle.analysis.heatmap module" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
+      
+      
+        <a href="ifa_smeargle.analysis.html" class="btn btn-neutral float-left" title="ifa_smeargle.analysis package" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+      
+    </div>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        
+        &copy; Copyright 2020, Sparrow
+
+    </p>
+  </div>
+    
+    
+    
+    Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a
+    
+    <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a>
+    
+    provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+
+  
+  
+    
+   
+
+</body>
+</html>

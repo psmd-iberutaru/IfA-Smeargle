@@ -1,0 +1,458 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>ifa_smeargle.core.string_formatting &mdash; IfA_Smeargle 2020 documentation</title>
+  
+
+  
+  <link rel="stylesheet" href="../../../_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
+  <link rel="stylesheet" href="../../../_static/css/custom.css" type="text/css" />
+
+  
+  
+  
+  
+
+  
+  <!--[if lt IE 9]>
+    <script src="../../../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+    
+      <script type="text/javascript" id="documentation_options" data-url_root="../../../" src="../../../_static/documentation_options.js"></script>
+        <script src="../../../_static/jquery.js"></script>
+        <script src="../../../_static/underscore.js"></script>
+        <script src="../../../_static/doctools.js"></script>
+        <script src="../../../_static/language_data.js"></script>
+    
+    <script type="text/javascript" src="../../../_static/js/theme.js"></script>
+
+    
+    <link rel="index" title="Index" href="../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../search.html" /> 
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+          
+
+          
+            <a href="../../../index.html" class="icon icon-home" alt="Documentation Home"> IfA_Smeargle
+          
+
+          
+          </a>
+
+          
+            
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <p class="caption"><span class="caption-text">Code Documentation:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../docstrings/modules.html">ifa_smeargle</a></li>
+</ul>
+
+            
+          
+        </div>
+        
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../../index.html">IfA_Smeargle</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="../../../index.html" class="icon icon-home"></a> &raquo;</li>
+        
+          <li><a href="../../index.html">Module code</a> &raquo;</li>
+        
+      <li>ifa_smeargle.core.string_formatting</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <h1>Source code for ifa_smeargle.core.string_formatting</h1><div class="highlight"><pre>
+<span></span><span class="sd">&quot;&quot;&quot; This module deals with the formatting and processing of strings</span>
+<span class="sd">where either otherwise not provided or as a wrapper function</span>
+<span class="sd">for convience.</span>
+<span class="sd">&quot;&quot;&quot;</span>
+
+<span class="kn">import</span> <span class="nn">copy</span>
+<span class="kn">import</span> <span class="nn">os</span>
+<span class="kn">import</span> <span class="nn">secrets</span>
+<span class="kn">import</span> <span class="nn">shutil</span>
+
+<span class="kn">import</span> <span class="nn">ifa_smeargle.core</span> <span class="k">as</span> <span class="nn">core</span>
+
+<div class="viewcode-block" id="remove_prefix"><a class="viewcode-back" href="../../../docstrings/ifa_smeargle.core.string_formatting.html#ifa_smeargle.core.string_formatting.remove_prefix">[docs]</a><span class="k">def</span> <span class="nf">remove_prefix</span><span class="p">(</span><span class="n">string</span><span class="p">,</span> <span class="n">prefix</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot; This function removes the prefix string of a string. If</span>
+<span class="sd">    the prefix does not exist, the string is returned unchanged.</span>
+
+<span class="sd">    See https://stackoverflow.com/a/16891418</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    string : string</span>
+<span class="sd">        The string that the prefix of which will be taken out.</span>
+<span class="sd">    prefix : string</span>
+<span class="sd">        The prefix.</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    base : string</span>
+<span class="sd">        The string, without the prefix.</span>
+
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">try</span><span class="p">:</span>
+        <span class="c1"># This behavior is available in Python 3.9+. As such, </span>
+        <span class="c1"># we have the fall back.</span>
+        <span class="n">string</span><span class="o">.</span><span class="n">removeprefix</span><span class="p">(</span><span class="n">prefix</span><span class="p">)</span>
+    <span class="k">except</span> <span class="ne">Exception</span><span class="p">:</span>
+        <span class="c1"># The fall back solution.</span>
+        <span class="k">if</span> <span class="n">string</span><span class="o">.</span><span class="n">startswith</span><span class="p">(</span><span class="n">prefix</span><span class="p">):</span>
+            <span class="n">string</span> <span class="o">=</span> <span class="n">string</span><span class="p">[</span><span class="nb">len</span><span class="p">(</span><span class="n">prefix</span><span class="p">):]</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">string</span> <span class="o">=</span> <span class="n">string</span>
+    <span class="k">finally</span><span class="p">:</span>
+        <span class="c1"># Return, all done, naming convention.</span>
+        <span class="n">base</span> <span class="o">=</span> <span class="n">string</span>
+        <span class="k">return</span> <span class="n">base</span>
+
+    <span class="c1"># The code should not reach here.</span>
+    <span class="k">raise</span> <span class="n">core</span><span class="o">.</span><span class="n">error</span><span class="o">.</span><span class="n">BrokenLogicError</span>
+    <span class="k">return</span> <span class="kc">None</span></div>
+
+
+<div class="viewcode-block" id="purge_substrings"><a class="viewcode-back" href="../../../docstrings/ifa_smeargle.core.string_formatting.html#ifa_smeargle.core.string_formatting.purge_substrings">[docs]</a><span class="k">def</span> <span class="nf">purge_substrings</span><span class="p">(</span><span class="n">string</span><span class="p">,</span> <span class="n">substrings</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot; Deletes all occurrences of any substring provided from the </span>
+<span class="sd">    original string.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    string : string</span>
+<span class="sd">        The string to be purged of all substrings.</span>
+<span class="sd">    substrings : string or list</span>
+<span class="sd">        The substrings in a list, or a string by itself.</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    purged_string : string</span>
+<span class="sd">        The string after it had all substring occurrences taken out.    </span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="c1"># Just in case.</span>
+    <span class="n">original_string</span> <span class="o">=</span> <span class="n">copy</span><span class="o">.</span><span class="n">deepcopy</span><span class="p">(</span><span class="n">string</span><span class="p">)</span>
+
+    <span class="c1"># Check if the substring is singular or is a list of substrings. </span>
+    <span class="c1"># It is better to handle a one long list.</span>
+    <span class="k">if</span> <span class="p">(</span><span class="nb">isinstance</span><span class="p">(</span><span class="n">substrings</span><span class="p">,</span> <span class="nb">str</span><span class="p">)):</span>
+        <span class="n">substrings</span> <span class="o">=</span> <span class="p">[</span><span class="n">substrings</span><span class="p">,]</span>
+    
+    <span class="c1"># Purge all substrings using the built-in replace method and </span>
+    <span class="c1"># going through.</span>
+    <span class="k">for</span> <span class="n">substringdex</span> <span class="ow">in</span> <span class="n">substrings</span><span class="p">:</span>
+        <span class="n">original_string</span> <span class="o">=</span> <span class="n">original_string</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="n">substringdex</span><span class="p">,</span> <span class="s1">&#39;&#39;</span><span class="p">)</span>
+
+    <span class="c1"># Naming convention.</span>
+    <span class="n">purged_string</span> <span class="o">=</span> <span class="n">original_string</span>
+    <span class="k">return</span> <span class="n">purged_string</span></div>
+
+<div class="viewcode-block" id="format_shutil_archive_extensions"><a class="viewcode-back" href="../../../docstrings/ifa_smeargle.core.string_formatting.html#ifa_smeargle.core.string_formatting.format_shutil_archive_extensions">[docs]</a><span class="k">def</span> <span class="nf">format_shutil_archive_extensions</span><span class="p">(</span><span class="n">archive_string</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot; This function formats an extension and type string to </span>
+<span class="sd">    conform with shutil allowed extensions. This does not handle</span>
+<span class="sd">    entire file names.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    archive_string : string or boolean</span>
+<span class="sd">        This is any version (either archive type or file extension)</span>
+<span class="sd">        that is allowed under shutil archive maker.</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    archive_type : string</span>
+<span class="sd">        The archive type that shutil allows for archive making.</span>
+<span class="sd">    archive_extension : string</span>
+<span class="sd">        The associated file extension that shutil allows.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="c1"># Do simple type checking and on if archiving is disabled.</span>
+    <span class="c1"># Strict equality is needed as it may be a string or a boolean.</span>
+    <span class="k">if</span> <span class="p">(</span><span class="n">archive_string</span> <span class="o">==</span> <span class="kc">False</span><span class="p">):</span>
+        <span class="n">core</span><span class="o">.</span><span class="n">error</span><span class="o">.</span><span class="n">ifas_info</span><span class="p">(</span><span class="s2">&quot;There was a call to format archive extensions &quot;</span>
+                             <span class="s2">&quot;while the `archive_string` is False, implying &quot;</span>
+                             <span class="s2">&quot;that archiving is disabled. Returning the &quot;</span>
+                             <span class="s2">&quot;parameter without modification.&quot;</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">archive_string</span>
+    <span class="k">elif</span> <span class="p">(</span><span class="nb">isinstance</span><span class="p">(</span><span class="n">archive_string</span><span class="p">,</span> <span class="nb">str</span><span class="p">)):</span>
+        <span class="c1"># Really unneeded, but it is good to make sure.</span>
+        <span class="n">archive_string</span> <span class="o">=</span> <span class="nb">str</span><span class="p">(</span><span class="n">archive_string</span><span class="p">)</span>
+    <span class="k">elif</span> <span class="p">(</span><span class="n">archive_string</span> <span class="o">==</span> <span class="kc">True</span><span class="p">):</span>
+        <span class="n">core</span><span class="o">.</span><span class="n">error</span><span class="o">.</span><span class="n">ifas_error</span><span class="p">(</span><span class="s2">&quot;The `archive_string` is exactly True, the &quot;</span>
+                              <span class="s2">&quot;allowance of the archiving functions tells &quot;</span>
+                              <span class="s2">&quot;nothing about the format. Returning the &quot;</span>
+                              <span class="s2">&quot;boolean.&quot;</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">archive_string</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="k">raise</span> <span class="n">core</span><span class="o">.</span><span class="n">error</span><span class="o">.</span><span class="n">InputError</span><span class="p">(</span><span class="s2">&quot;The `archive_string` must be a string &quot;</span>
+                                    <span class="s2">&quot;loosely related to shutil archive &quot;</span>
+                                    <span class="s2">&quot;formats, or a boolean.&quot;</span><span class="p">)</span>
+
+    <span class="c1"># The list of all available archive types.</span>
+    <span class="n">all_arc_types</span> <span class="o">=</span> <span class="p">[</span><span class="n">typedex</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="k">for</span> <span class="n">typedex</span> <span class="ow">in</span> <span class="n">shutil</span><span class="o">.</span><span class="n">get_archive_formats</span><span class="p">()]</span>
+    <span class="n">all_arc_ext</span> <span class="o">=</span> <span class="p">[</span><span class="n">extdex</span><span class="p">[</span><span class="mi">1</span><span class="p">][</span><span class="mi">0</span><span class="p">]</span> <span class="k">for</span> <span class="n">extdex</span> <span class="ow">in</span> <span class="n">shutil</span><span class="o">.</span><span class="n">get_unpack_formats</span><span class="p">()]</span>
+
+    <span class="c1"># Loop through all of the types and extensions until one that</span>
+    <span class="c1"># matches the input it given.</span>
+    <span class="k">for</span> <span class="n">typedex</span><span class="p">,</span> <span class="n">extdex</span> <span class="ow">in</span> <span class="nb">zip</span><span class="p">(</span><span class="n">all_arc_types</span><span class="p">,</span> <span class="n">all_arc_ext</span><span class="p">):</span>
+        <span class="c1"># A special exception for `tar` as there is overlap with </span>
+        <span class="c1"># other formats. So, strict checking is done before lazy</span>
+        <span class="c1"># checking.</span>
+        <span class="k">if</span> <span class="p">((</span><span class="n">archive_string</span><span class="o">.</span><span class="n">strip</span><span class="p">()</span><span class="o">.</span><span class="n">lstrip</span><span class="p">(</span><span class="s1">&#39;.&#39;</span><span class="p">)</span> <span class="o">==</span> <span class="n">typedex</span><span class="p">)</span> <span class="ow">or</span>
+            <span class="p">(</span><span class="n">archive_string</span><span class="o">.</span><span class="n">strip</span><span class="p">()</span><span class="o">.</span><span class="n">lstrip</span><span class="p">(</span><span class="s1">&#39;.&#39;</span><span class="p">)</span> <span class="o">==</span> <span class="n">extdex</span><span class="p">)):</span>
+            <span class="c1"># This is likely the match to the user&#39;s input. For </span>
+            <span class="c1"># naming convention.</span>
+            <span class="n">archive_type</span> <span class="o">=</span> <span class="n">typedex</span>
+            <span class="n">archive_extension</span> <span class="o">=</span> <span class="n">extdex</span>
+            <span class="k">return</span> <span class="n">archive_type</span><span class="p">,</span> <span class="n">archive_extension</span>
+    <span class="c1"># Now doing lazy testing to see if it matches.</span>
+    <span class="k">for</span> <span class="n">typedex</span><span class="p">,</span> <span class="n">extdex</span> <span class="ow">in</span> <span class="nb">zip</span><span class="p">(</span><span class="n">all_arc_types</span><span class="p">,</span> <span class="n">all_arc_ext</span><span class="p">):</span>
+        <span class="k">if</span> <span class="p">((</span><span class="n">archive_string</span> <span class="ow">in</span> <span class="n">typedex</span><span class="p">)</span> <span class="ow">or</span> <span class="p">(</span><span class="n">archive_string</span> <span class="ow">in</span> <span class="n">extdex</span><span class="p">)):</span>
+            <span class="c1"># This is likely the match to the user&#39;s input. For </span>
+            <span class="c1"># naming convention.</span>
+            <span class="n">archive_type</span> <span class="o">=</span> <span class="n">typedex</span>
+            <span class="n">archive_extension</span> <span class="o">=</span> <span class="n">extdex</span>
+            <span class="k">return</span> <span class="n">archive_type</span><span class="p">,</span> <span class="n">archive_extension</span>
+
+    <span class="c1"># It should have found something, if not, then there is no match.</span>
+    <span class="k">raise</span> <span class="n">core</span><span class="o">.</span><span class="n">error</span><span class="o">.</span><span class="n">InputError</span><span class="p">(</span><span class="s2">&quot;The input string does not have any usual &quot;</span>
+                                <span class="s2">&quot;association to any archive type or &quot;</span>
+                                <span class="s2">&quot;extension from shutil:  </span><span class="si">{input_str}</span><span class="s2">&quot;</span>
+                                <span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">input_str</span><span class="o">=</span><span class="n">archive_string</span><span class="p">))</span>
+    <span class="k">return</span> <span class="kc">None</span></div>
+
+<div class="viewcode-block" id="random_string"><a class="viewcode-back" href="../../../docstrings/ifa_smeargle.core.string_formatting.html#ifa_smeargle.core.string_formatting.random_string">[docs]</a><span class="k">def</span> <span class="nf">random_string</span><span class="p">(</span><span class="n">characters</span><span class="p">,</span> <span class="n">length</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot; This function returns a random string of characters of </span>
+<span class="sd">    some length from a set of characters to use.</span>
+
+<span class="sd">    Credit to: https://stackoverflow.com/a/23728630</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    characters : string</span>
+<span class="sd">        The total available characters to use. The order does </span>
+<span class="sd">        not matter.</span>
+<span class="sd">    length : int</span>
+<span class="sd">        The length of the random string.</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    random_string : string</span>
+<span class="sd">        The random string of proper length.    </span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="c1"># Basic type checking.</span>
+    <span class="n">length</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">length</span><span class="p">)</span>
+    <span class="n">characters</span> <span class="o">=</span> <span class="nb">str</span><span class="p">(</span><span class="n">characters</span><span class="p">)</span>
+    <span class="c1"># Implementing the random string generator found from the </span>
+    <span class="c1"># credited link.</span>
+    <span class="n">random_string</span> <span class="o">=</span> <span class="s1">&#39;&#39;</span><span class="o">.</span><span class="n">join</span><span class="p">([</span><span class="n">secrets</span><span class="o">.</span><span class="n">choice</span><span class="p">(</span><span class="n">characters</span><span class="p">)</span> 
+                             <span class="k">for</span> <span class="n">__</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">length</span><span class="p">)])</span>
+    <span class="c1"># All done</span>
+    <span class="k">return</span> <span class="n">random_string</span></div>
+
+
+<div class="viewcode-block" id="split_pathname"><a class="viewcode-back" href="../../../docstrings/ifa_smeargle.core.string_formatting.html#ifa_smeargle.core.string_formatting.split_pathname">[docs]</a><span class="k">def</span> <span class="nf">split_pathname</span><span class="p">(</span><span class="n">pathname</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot; This function splits a pathname into the directory, file, </span>
+<span class="sd">    and extension names.</span>
+<span class="sd">    </span>
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    pathname : string</span>
+<span class="sd">        The path that is to be split.</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    directory : string</span>
+<span class="sd">        The directory component of the path.</span>
+<span class="sd">    file_name : string</span>
+<span class="sd">        The file name component of the path.</span>
+<span class="sd">    extension : string</span>
+<span class="sd">        The extension component of the path.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="c1"># Type checking.</span>
+    <span class="n">pathname</span> <span class="o">=</span> <span class="nb">str</span><span class="p">(</span><span class="n">pathname</span><span class="p">)</span>
+
+    <span class="c1"># Split the pathname into directory/filename.extension.</span>
+    <span class="n">directory</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="n">pathname</span><span class="p">)[</span><span class="mi">0</span><span class="p">]</span>
+    <span class="n">file_name</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">splitext</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="n">pathname</span><span class="p">)[</span><span class="mi">1</span><span class="p">])[</span><span class="mi">0</span><span class="p">]</span>
+    <span class="n">extension</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">splitext</span><span class="p">(</span><span class="n">pathname</span><span class="p">)[</span><span class="mi">1</span><span class="p">]</span>
+
+    <span class="k">return</span> <span class="n">directory</span><span class="p">,</span> <span class="n">file_name</span><span class="p">,</span> <span class="n">extension</span></div>
+
+<div class="viewcode-block" id="combine_pathname"><a class="viewcode-back" href="../../../docstrings/ifa_smeargle.core.string_formatting.html#ifa_smeargle.core.string_formatting.combine_pathname">[docs]</a><span class="k">def</span> <span class="nf">combine_pathname</span><span class="p">(</span><span class="n">directory</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">file_name</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">extension</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot; This is the opposite of splitting path names. </span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    directory : string or list (optional)</span>
+<span class="sd">        This is the directory component that the path should be </span>
+<span class="sd">        attached to. If it is a list, the directory components are</span>
+<span class="sd">        strung together in order.</span>
+<span class="sd">    file_name : string or list (optional)</span>
+<span class="sd">        This is the file name component that the path should be </span>
+<span class="sd">        attached to. If it is a list, the file name components are</span>
+<span class="sd">        strung together in order.</span>
+<span class="sd">    extension : string or list (optional)</span>
+<span class="sd">        This is the extension component that the path should be </span>
+<span class="sd">        attached to. If it is a list, the extension components are</span>
+<span class="sd">        strung together in order.</span>
+<span class="sd">    </span>
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    pathname : string</span>
+<span class="sd">        The pathname that is created by combining the parts above.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="c1"># Combine the directories...</span>
+    <span class="n">directory</span> <span class="o">=</span> <span class="n">directory</span> <span class="k">if</span> <span class="n">directory</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span> <span class="k">else</span> <span class="s1">&#39;&#39;</span>
+    <span class="n">directory</span> <span class="o">=</span> <span class="p">(</span><span class="n">directory</span> <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">directory</span><span class="p">,</span> <span class="p">(</span><span class="nb">list</span><span class="p">,</span><span class="nb">tuple</span><span class="p">))</span>
+                 <span class="k">else</span> <span class="p">[</span><span class="nb">str</span><span class="p">(</span><span class="n">directory</span><span class="p">)])</span>
+    <span class="n">all_directory</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="o">*</span><span class="n">directory</span><span class="p">)</span>
+    <span class="c1"># ...the file names...</span>
+    <span class="n">file_name</span> <span class="o">=</span> <span class="n">file_name</span> <span class="k">if</span> <span class="n">file_name</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span> <span class="k">else</span> <span class="s1">&#39;&#39;</span>
+    <span class="n">file_name</span> <span class="o">=</span> <span class="p">(</span><span class="n">file_name</span> <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">file_name</span><span class="p">,</span> <span class="p">(</span><span class="nb">list</span><span class="p">,</span><span class="nb">tuple</span><span class="p">))</span>
+                 <span class="k">else</span> <span class="p">[</span><span class="n">file_name</span><span class="p">])</span>
+    <span class="n">all_filename</span> <span class="o">=</span> <span class="s1">&#39;&#39;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">file_name</span><span class="p">)</span>
+    <span class="c1"># ...and the file extensions.</span>
+    <span class="n">extension</span> <span class="o">=</span> <span class="n">extension</span> <span class="k">if</span> <span class="n">extension</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span> <span class="k">else</span> <span class="s1">&#39;&#39;</span>
+    <span class="n">extension</span> <span class="o">=</span> <span class="p">(</span><span class="n">extension</span> <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">extension</span><span class="p">,</span> <span class="p">(</span><span class="nb">list</span><span class="p">,</span><span class="nb">tuple</span><span class="p">))</span>
+                 <span class="k">else</span> <span class="p">[</span><span class="n">extension</span><span class="p">])</span>
+    <span class="n">all_extension</span> <span class="o">=</span> <span class="s1">&#39;&#39;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">extension</span><span class="p">)</span>
+    <span class="c1"># Finally combine all of it into one part.</span>
+    <span class="n">pathname</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">all_directory</span><span class="p">,</span> 
+                            <span class="s1">&#39;&#39;</span><span class="o">.</span><span class="n">join</span><span class="p">([</span><span class="n">all_filename</span><span class="p">,</span> <span class="n">all_extension</span><span class="p">]))</span>
+    <span class="c1"># All done.</span>
+    <span class="k">return</span> <span class="n">pathname</span></div>
+</pre></div>
+
+           </div>
+           
+          </div>
+          <footer>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        
+        &copy; Copyright 2020, Sparrow
+
+    </p>
+  </div>
+    
+    
+    
+    Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a
+    
+    <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a>
+    
+    provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+
+  
+  
+    
+   
+
+</body>
+</html>

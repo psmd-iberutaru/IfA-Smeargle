@@ -1,0 +1,437 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>ifa_smeargle.plotting.heatmap &mdash; IfA_Smeargle 2020 documentation</title>
+  
+
+  
+  <link rel="stylesheet" href="../../../_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
+  <link rel="stylesheet" href="../../../_static/css/custom.css" type="text/css" />
+
+  
+  
+  
+  
+
+  
+  <!--[if lt IE 9]>
+    <script src="../../../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+    
+      <script type="text/javascript" id="documentation_options" data-url_root="../../../" src="../../../_static/documentation_options.js"></script>
+        <script src="../../../_static/jquery.js"></script>
+        <script src="../../../_static/underscore.js"></script>
+        <script src="../../../_static/doctools.js"></script>
+        <script src="../../../_static/language_data.js"></script>
+    
+    <script type="text/javascript" src="../../../_static/js/theme.js"></script>
+
+    
+    <link rel="index" title="Index" href="../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../search.html" /> 
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+          
+
+          
+            <a href="../../../index.html" class="icon icon-home" alt="Documentation Home"> IfA_Smeargle
+          
+
+          
+          </a>
+
+          
+            
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <p class="caption"><span class="caption-text">Code Documentation:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../docstrings/modules.html">ifa_smeargle</a></li>
+</ul>
+
+            
+          
+        </div>
+        
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../../index.html">IfA_Smeargle</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="../../../index.html" class="icon icon-home"></a> &raquo;</li>
+        
+          <li><a href="../../index.html">Module code</a> &raquo;</li>
+        
+      <li>ifa_smeargle.plotting.heatmap</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <h1>Source code for ifa_smeargle.plotting.heatmap</h1><div class="highlight"><pre>
+<span></span>
+<span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">This creates a plot of a heat-map from analysis fits files.</span>
+<span class="sd">&quot;&quot;&quot;</span>
+
+<span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+<span class="kn">import</span> <span class="nn">numpy.ma</span> <span class="k">as</span> <span class="nn">np_ma</span>
+<span class="kn">import</span> <span class="nn">matplotlib</span> <span class="k">as</span> <span class="nn">mpl</span>
+<span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="nn">plt</span>
+<span class="kn">import</span> <span class="nn">matplotlib.cm</span> <span class="k">as</span> <span class="nn">mpl_cm</span>
+<span class="kn">import</span> <span class="nn">mpl_toolkits.axes_grid1</span> <span class="k">as</span> <span class="nn">mpltk_axg1</span>
+
+<span class="kn">import</span> <span class="nn">ifa_smeargle.core</span> <span class="k">as</span> <span class="nn">core</span>
+<span class="kn">import</span> <span class="nn">ifa_smeargle.plotting</span> <span class="k">as</span> <span class="nn">plot</span>
+
+<div class="viewcode-block" id="plot_heatmap"><a class="viewcode-back" href="../../../docstrings/ifa_smeargle.plotting.heatmap.html#ifa_smeargle.plotting.heatmap.plot_heatmap">[docs]</a><span class="k">def</span> <span class="nf">plot_heatmap</span><span class="p">(</span><span class="n">data_array</span><span class="p">,</span> <span class="n">data_header</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">data_mask</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> 
+                 <span class="n">figure_axes</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">matplotlib_arguments</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+                 <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot; A function to create a heat-map image of the data array </span>
+<span class="sd">    provided.</span>
+<span class="sd">    </span>
+<span class="sd">    This function replicates the image plotting functionality of </span>
+<span class="sd">    Tino Well&#39;s program. (Found here: </span>
+<span class="sd">    https://github.com/tinowells/ifa). More specifically, the plot </span>
+<span class="sd">    assigns a color according to the value a pixel has, and plots </span>
+<span class="sd">    it corresponding to its location in the provided data array.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    data_array : ndarray</span>
+<span class="sd">        This is the provided array that is to be plotted. </span>
+<span class="sd">        Dimensions matter!</span>
+<span class="sd">    data_header : Astropy Header (optional)</span>
+<span class="sd">        This is the data header of the fits file. If it is not </span>
+<span class="sd">        provided, plotting parameters which use it will not be plot.</span>
+<span class="sd">        An error may also be raised.</span>
+<span class="sd">    data_mask : ndarray (optional)</span>
+<span class="sd">        The mask that should be applied to the `data_array`.</span>
+<span class="sd">    figure_axes : Matplotlib Axes (optional)</span>
+<span class="sd">        This is a predefined axes variable that the user may desire </span>
+<span class="sd">        to have the heat-map plot to. This defaults to either making </span>
+<span class="sd">        new ones, or using the currently defined axes. Note: This </span>
+<span class="sd">        is not deep-copied!</span>
+<span class="sd">    matplotlib_arguments : dictionary (optional)</span>
+<span class="sd">        These are options the user may use to pass customization </span>
+<span class="sd">        parameters into the heat-map plot or the color-bar </span>
+<span class="sd">        functionalities.</span>
+<span class="sd">        See :py:func:`~.matplotlib.pyplot.imshow` and </span>
+<span class="sd">        :py:func:`~.matplotlib.pyplot.colorbar`.</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    heatmap_plot_axes : Matplotlib Axes</span>
+<span class="sd">        This is the heatmap plot made on the (provided, borrowed, or </span>
+<span class="sd">        generated) plotting axes.</span>
+<span class="sd">    </span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="c1"># Check that this file was processed by the prior analysis file.</span>
+    <span class="c1"># If so, also extract needed information for the plot.</span>
+    <span class="k">if</span> <span class="p">(</span><span class="n">data_header</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">):</span>
+        <span class="c1"># Extract the proper configuration parameters</span>
+        <span class="n">run_param</span> <span class="o">=</span> <span class="n">data_header</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;heatmap_run&#39;</span><span class="p">,</span> <span class="n">default</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="c1"># The data header is not provided. Warn and continue.</span>
+        <span class="n">core</span><span class="o">.</span><span class="n">error</span><span class="o">.</span><span class="n">ifas_error</span><span class="p">(</span><span class="n">core</span><span class="o">.</span><span class="n">error</span><span class="o">.</span><span class="n">DataError</span><span class="p">,</span>
+                              <span class="p">(</span><span class="s2">&quot;There is no header file associated with &quot;</span>
+                               <span class="s2">&quot;this data array. Analysis values which are &quot;</span>
+                               <span class="s2">&quot;stored in it for usage by this function&#39;s &quot;</span>
+                               <span class="s2">&quot;plots may not work or may raise.&quot;</span><span class="p">))</span>
+        <span class="c1"># Defaults.</span>
+        <span class="n">run_param</span> <span class="o">=</span> <span class="kc">True</span>
+
+    <span class="c1"># If this file was not analyzed by the previous function for </span>
+    <span class="c1"># making heat-maps.</span>
+    <span class="k">if</span> <span class="p">(</span><span class="ow">not</span> <span class="n">run_param</span><span class="p">):</span>
+        <span class="k">raise</span> <span class="n">core</span><span class="o">.</span><span class="n">error</span><span class="o">.</span><span class="n">DataError</span><span class="p">(</span><span class="s2">&quot;The `heatmap_run` parameter is not in &quot;</span>
+                                   <span class="s2">&quot;this file&#39;s header. This file was not &quot;</span>
+                                   <span class="s2">&quot;analyzed by the proper function to &quot;</span>
+                                   <span class="s2">&quot;prepare the data for plotting.&quot;</span><span class="p">)</span>
+
+    <span class="c1"># If the user provided a mask, apply it. Otherwise, use a blank</span>
+    <span class="c1"># mask.</span>
+    <span class="k">if</span> <span class="p">(</span><span class="n">data_mask</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">):</span>
+        <span class="c1"># The mask exists so it shall be applied. Override whatever</span>
+        <span class="c1"># the data object itself has.</span>
+        <span class="n">plot_data</span> <span class="o">=</span> <span class="n">np_ma</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">np_ma</span><span class="o">.</span><span class="n">getdata</span><span class="p">(</span><span class="n">data_array</span><span class="p">,</span> <span class="kc">False</span><span class="p">),</span> 
+                                <span class="n">mask</span><span class="o">=</span><span class="n">data_mask</span><span class="p">)</span>
+    <span class="k">elif</span> <span class="p">(</span><span class="nb">isinstance</span><span class="p">(</span><span class="n">data_array</span><span class="p">,</span> <span class="n">np_ma</span><span class="o">.</span><span class="n">MaskedArray</span><span class="p">)):</span>
+        <span class="c1"># The object is already a masked array, deferring to the </span>
+        <span class="c1"># user here.</span>
+        <span class="n">plot_data</span> <span class="o">=</span> <span class="n">data_array</span>
+        <span class="n">core</span><span class="o">.</span><span class="n">error</span><span class="o">.</span><span class="n">ifas_info</span><span class="p">(</span><span class="s2">&quot;The provided data array is a masked &quot;</span>
+                             <span class="s2">&quot;array. Its mask will be applied to the &quot;</span>
+                             <span class="s2">&quot;heat-map.&quot;</span><span class="p">)</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="c1"># There is no mask, so none shall be applied.</span>
+        <span class="n">plot_data</span> <span class="o">=</span> <span class="n">np_ma</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">data_array</span><span class="p">,</span> <span class="n">mask</span><span class="o">=</span><span class="n">np_ma</span><span class="o">.</span><span class="n">nomask</span><span class="p">)</span>
+
+
+    <span class="c1"># If the data array is not the proper dimensions, bark. </span>
+    <span class="c1"># Rewriting the Astropy errors for context.</span>
+    <span class="k">if</span> <span class="p">(</span><span class="n">plot_data</span><span class="o">.</span><span class="n">ndim</span> <span class="o">==</span> <span class="mi">0</span><span class="p">):</span>
+        <span class="k">raise</span> <span class="n">core</span><span class="o">.</span><span class="n">error</span><span class="o">.</span><span class="n">DataError</span><span class="p">(</span><span class="s2">&quot;This data array has no dimensions &quot;</span>
+                                   <span class="s2">&quot;(data_array.ndim=0). A heat-map plot &quot;</span>
+                                   <span class="s2">&quot;cannot be logically constructed.&quot;</span><span class="p">)</span>
+    <span class="k">elif</span> <span class="p">(</span><span class="n">plot_data</span><span class="o">.</span><span class="n">ndim</span> <span class="o">==</span> <span class="mi">1</span><span class="p">):</span>
+        <span class="c1"># This is technically a valid data set, but, still warn as </span>
+        <span class="c1"># it is unusual.</span>
+        <span class="n">core</span><span class="o">.</span><span class="n">error</span><span class="o">.</span><span class="n">ifas_warning</span><span class="p">(</span><span class="n">core</span><span class="o">.</span><span class="n">error</span><span class="o">.</span><span class="n">DataWarning</span><span class="p">,</span> 
+                                <span class="p">(</span><span class="s2">&quot;This data array only has one dimension. &quot;</span>
+                                 <span class="s2">&quot;Plotting will continue despite this &quot;</span>
+                                 <span class="s2">&quot;unusual data input.&quot;</span><span class="p">))</span>
+    <span class="k">elif</span> <span class="p">(</span><span class="n">plot_data</span><span class="o">.</span><span class="n">ndim</span> <span class="o">==</span> <span class="mi">2</span><span class="p">):</span>
+        <span class="c1"># Normal operations</span>
+        <span class="k">pass</span>
+    <span class="k">elif</span> <span class="p">(</span><span class="n">plot_data</span><span class="o">.</span><span class="n">ndim</span> <span class="o">&gt;=</span> <span class="mi">3</span><span class="p">):</span>
+        <span class="k">raise</span> <span class="n">core</span><span class="o">.</span><span class="n">error</span><span class="o">.</span><span class="n">DataError</span><span class="p">(</span><span class="s2">&quot;A heat map cannot be logically &quot;</span>
+                                   <span class="s2">&quot;constructed from a 3+ dimensional &quot;</span>
+                                   <span class="s2">&quot;data set. Current number of dimensions &quot;</span>
+                                   <span class="s2">&quot;of data set is:  </span><span class="si">{ndim}</span><span class="s2">&quot;</span>
+                                   <span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">ndim</span><span class="o">=</span><span class="nb">str</span><span class="p">(</span><span class="n">plot_data</span><span class="o">.</span><span class="n">ndim</span><span class="p">)))</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="k">raise</span> <span class="n">core</span><span class="o">.</span><span class="n">error</span><span class="o">.</span><span class="n">BrokenLogicError</span><span class="p">(</span><span class="s2">&quot;The data array apparently &quot;</span>
+                                          <span class="s2">&quot;doesn&#39;t have a compatible &quot;</span>
+                                          <span class="s2">&quot;dimensional number. The &quot;</span>
+                                          <span class="s2">&quot;dimensional number is:  </span><span class="si">{ndim}</span><span class="s2">&quot;</span>
+                                          <span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">ndim</span><span class="o">=</span><span class="n">plot_data</span><span class="o">.</span><span class="n">ndim</span><span class="p">))</span>
+
+
+    <span class="c1"># First, figure out what type of Matplotlib axes to use. </span>
+    <span class="k">if</span> <span class="p">(</span><span class="n">figure_axes</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">):</span>
+        <span class="n">ax</span> <span class="o">=</span> <span class="n">figure_axes</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">ax</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">gca</span><span class="p">()</span>
+
+
+    <span class="c1"># Color-map. This is a very roundabout way for customization </span>
+    <span class="c1"># because for some reason using a normal color-bar class gives </span>
+    <span class="c1"># a very weird error.</span>
+    <span class="k">if</span> <span class="p">(</span><span class="s1">&#39;cmap&#39;</span> <span class="ow">in</span> <span class="n">matplotlib_arguments</span><span class="p">):</span>
+        <span class="k">pass</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">colormap</span> <span class="o">=</span> <span class="n">mpl_cm</span><span class="o">.</span><span class="n">rainbow</span>
+        <span class="n">colormap</span><span class="o">.</span><span class="n">set_bad</span><span class="p">(</span><span class="s1">&#39;black&#39;</span><span class="p">,</span><span class="mf">1.</span><span class="p">)</span>
+        <span class="n">matplotlib_arguments</span><span class="p">[</span><span class="s1">&#39;cmap&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">colormap</span>
+
+    <span class="c1"># Finally plotting. Extract the needed parameters too.</span>
+    <span class="n">interpolation</span> <span class="o">=</span> <span class="n">matplotlib_arguments</span><span class="o">.</span><span class="n">pop</span><span class="p">(</span><span class="s1">&#39;interpolation&#39;</span><span class="p">,</span> <span class="kc">None</span><span class="p">)</span>
+    <span class="n">cmap</span> <span class="o">=</span> <span class="n">matplotlib_arguments</span><span class="o">.</span><span class="n">pop</span><span class="p">(</span><span class="s1">&#39;cmap&#39;</span><span class="p">,</span> <span class="kc">None</span><span class="p">)</span>
+    <span class="n">heatmap</span> <span class="o">=</span> <span class="n">ax</span><span class="o">.</span><span class="n">imshow</span><span class="p">(</span><span class="n">plot_data</span><span class="p">,</span> <span class="n">origin</span><span class="o">=</span><span class="s1">&#39;lower&#39;</span><span class="p">,</span> 
+                        <span class="n">interpolation</span><span class="o">=</span><span class="n">interpolation</span><span class="p">,</span> <span class="n">cmap</span><span class="o">=</span><span class="n">cmap</span><span class="p">,</span>
+                        <span class="o">**</span><span class="n">matplotlib_arguments</span><span class="p">)</span>
+
+    <span class="c1"># Make color bar match the graph size. There seems to be two </span>
+    <span class="c1"># ways of doing this; pragmatically and magically. Default </span>
+    <span class="c1"># is pragmatically. </span>
+    <span class="n">_magic</span> <span class="o">=</span> <span class="kc">False</span>
+    <span class="k">if</span> <span class="p">(</span><span class="n">_magic</span><span class="p">):</span>
+        <span class="c1"># See https://stackoverflow.com/a/26720422</span>
+        <span class="n">core</span><span class="o">.</span><span class="n">error</span><span class="o">.</span><span class="n">ifas_warning</span><span class="p">(</span><span class="n">core</span><span class="o">.</span><span class="n">error</span><span class="o">.</span><span class="n">MagicWarning</span><span class="p">,</span>
+                                <span class="p">(</span><span class="s2">&quot;The colorbar location and scale are being &quot;</span>
+                                 <span class="s2">&quot;set by magic values. Use this if and only &quot;</span>
+                                 <span class="s2">&quot;if the pragmatic method fails.&quot;</span><span class="p">))</span>
+        <span class="n">plt</span><span class="o">.</span><span class="n">colorbar</span><span class="p">(</span><span class="n">mappable</span><span class="o">=</span><span class="n">heatmap</span><span class="p">,</span> <span class="n">fraction</span><span class="o">=</span><span class="mf">0.046</span><span class="p">,</span> <span class="n">pad</span><span class="o">=</span><span class="mf">0.04</span><span class="p">)</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="c1"># See https://stackoverflow.com/a/18195921</span>
+        <span class="n">divider</span> <span class="o">=</span> <span class="n">mpltk_axg1</span><span class="o">.</span><span class="n">make_axes_locatable</span><span class="p">(</span><span class="n">ax</span><span class="p">)</span>
+        <span class="n">cax</span> <span class="o">=</span> <span class="n">divider</span><span class="o">.</span><span class="n">append_axes</span><span class="p">(</span><span class="s2">&quot;right&quot;</span><span class="p">,</span> <span class="n">size</span><span class="o">=</span><span class="s2">&quot;5%&quot;</span><span class="p">,</span> <span class="n">pad</span><span class="o">=</span><span class="mf">0.05</span><span class="p">)</span>
+        <span class="n">plt</span><span class="o">.</span><span class="n">colorbar</span><span class="p">(</span><span class="n">mappable</span><span class="o">=</span><span class="n">heatmap</span><span class="p">,</span> <span class="n">cax</span><span class="o">=</span><span class="n">cax</span><span class="p">,</span> <span class="n">ax</span><span class="o">=</span><span class="n">ax</span><span class="p">,</span> 
+                     <span class="o">**</span><span class="n">matplotlib_arguments</span><span class="p">)</span>
+
+    <span class="c1"># Return some information about how much masked pixels there </span>
+    <span class="c1"># are, if any.</span>
+    <span class="n">ax</span><span class="o">.</span><span class="n">text</span><span class="p">(</span><span class="n">plot_data</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span><span class="n">plot_data</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span>
+            <span class="s1">&#39;Masked: </span><span class="si">{masked}</span><span class="s1"> / </span><span class="si">{total}</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span>
+                <span class="n">masked</span><span class="o">=</span><span class="n">np_ma</span><span class="o">.</span><span class="n">count_masked</span><span class="p">(</span><span class="n">plot_data</span><span class="p">),</span>
+                <span class="n">total</span><span class="o">=</span><span class="n">plot_data</span><span class="o">.</span><span class="n">size</span><span class="p">),</span>
+            <span class="n">verticalalignment</span><span class="o">=</span><span class="s1">&#39;bottom&#39;</span><span class="p">,</span> <span class="n">horizontalalignment</span><span class="o">=</span><span class="s1">&#39;right&#39;</span><span class="p">,</span> 
+            <span class="n">fontsize</span><span class="o">=</span><span class="s1">&#39;medium&#39;</span><span class="p">)</span>
+
+    <span class="k">return</span> <span class="n">ax</span></div>
+
+
+<div class="viewcode-block" id="script_plot_heatmap"><a class="viewcode-back" href="../../../docstrings/ifa_smeargle.plotting.heatmap.html#ifa_smeargle.plotting.heatmap.script_plot_heatmap">[docs]</a><span class="k">def</span> <span class="nf">script_plot_heatmap</span><span class="p">(</span><span class="n">config</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot; The scripting version of `plot_heatmap`. This function </span>
+<span class="sd">    automatically creates heat-map plots for each and every analysis</span>
+<span class="sd">    data file.</span>
+<span class="sd">    </span>
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    config : ConfigObj</span>
+<span class="sd">        The configuration object that is to be used for this </span>
+<span class="sd">        function.</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    None</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="c1"># Extract the global configuration parameters, including </span>
+    <span class="c1"># the directory.</span>
+    <span class="n">data_directory</span> <span class="o">=</span> <span class="n">core</span><span class="o">.</span><span class="n">config</span><span class="o">.</span><span class="n">extract_configuration</span><span class="p">(</span>
+        <span class="n">config_object</span><span class="o">=</span><span class="n">config</span><span class="p">,</span> <span class="n">keys</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;data_directory&#39;</span><span class="p">])</span>
+
+    <span class="c1"># Compile the configuration parameters for the creation of the </span>
+    <span class="c1"># figure itself.</span>
+    <span class="n">figure_arguments</span> <span class="o">=</span> <span class="p">{}</span>
+
+    <span class="c1"># Extract configuration parameters that the plotting function </span>
+    <span class="c1"># itself uses. Parameters for matplotlib&#39;s functions are done</span>
+    <span class="c1"># through `matplotlib_arguments`.</span>
+    <span class="k">pass</span>
+    <span class="c1"># Compile the configuration parameters for the plotting function.</span>
+    <span class="n">plot_arguments</span> <span class="o">=</span> <span class="p">{}</span>
+
+    <span class="c1"># Extract configuration parameters for the inner matplotlib </span>
+    <span class="c1"># function that the plotting function uses.</span>
+    <span class="n">interpolation</span> <span class="o">=</span> <span class="n">core</span><span class="o">.</span><span class="n">config</span><span class="o">.</span><span class="n">extract_configuration</span><span class="p">(</span>
+        <span class="n">config_object</span><span class="o">=</span><span class="n">config</span><span class="p">,</span> <span class="n">keys</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;heatmap&#39;</span><span class="p">,</span><span class="s1">&#39;interpolation&#39;</span><span class="p">])</span>
+    <span class="c1"># Compile the configuration parameters for the matplotlib </span>
+    <span class="c1"># function that is the base of the plotting function.</span>
+    <span class="n">matplotlib_arguments</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;interpolation&#39;</span><span class="p">:</span><span class="n">interpolation</span><span class="p">}</span>
+
+    
+    <span class="c1"># The plotting function</span>
+    <span class="n">plotting_function</span> <span class="o">=</span> <span class="n">plot_heatmap</span>
+
+    <span class="c1"># Run the function. The base function is used as the </span>
+    <span class="c1"># standard template.</span>
+    <span class="n">plot</span><span class="o">.</span><span class="n">base</span><span class="o">.</span><span class="n">create_directory_plot_files</span><span class="p">(</span>
+        <span class="n">data_directory</span><span class="o">=</span><span class="n">data_directory</span><span class="p">,</span> <span class="n">plotting_function</span><span class="o">=</span><span class="n">plotting_function</span><span class="p">,</span>
+        <span class="n">figure_arguments</span><span class="o">=</span><span class="n">figure_arguments</span><span class="p">,</span>
+        <span class="n">plot_arguments</span><span class="o">=</span><span class="n">plot_arguments</span><span class="p">,</span> 
+        <span class="n">matplotlib_arguments</span><span class="o">=</span><span class="n">matplotlib_arguments</span><span class="p">)</span>
+
+    <span class="c1"># All done.</span>
+    <span class="k">return</span> <span class="kc">None</span></div>
+</pre></div>
+
+           </div>
+           
+          </div>
+          <footer>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        
+        &copy; Copyright 2020, Sparrow
+
+    </p>
+  </div>
+    
+    
+    
+    Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a
+    
+    <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a>
+    
+    provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+
+  
+  
+    
+   
+
+</body>
+</html>
