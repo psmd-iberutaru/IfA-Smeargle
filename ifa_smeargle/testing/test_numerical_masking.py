@@ -39,7 +39,7 @@ def test_mask_single_pixels():
 
     # A properly completed mask should have the same product value 
     # as this number. This is how the mask is checked.
-    CHECK_STRING = '192.684278256839293972761174821265114117452620'
+    CHECK_STRING = '192.402034073333110869492063232962877151281365'
     CHECK_LOGARITHM = sy.Float(CHECK_STRING)
     __, __, product_log10 = core.math.ifas_large_integer_array_product(
         integer_array=test_masked_array.compressed())
