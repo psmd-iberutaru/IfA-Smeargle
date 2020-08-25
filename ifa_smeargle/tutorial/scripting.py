@@ -125,7 +125,7 @@ def script_generate_saphira_tutorial(config):
             generation_mode=generation_mode, data_shape=data_shape,
             fill_value=fill_value, seed=used_seed, range=generation_range)
         # The fits file should also have a name that more or less 
-        # simulates real data. SAPHRIA detectors use time-stamps for
+        # simulates real data. SAPHIRA detectors use time-stamps for
         # sequential data images. Dummy timestamps should work fine.
         current_time = time.strftime("%Y%m%d_%H", time.localtime())
         random_minuite_second = core.strformat.random_string(

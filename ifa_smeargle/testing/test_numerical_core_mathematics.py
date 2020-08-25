@@ -78,7 +78,7 @@ def test_ifas_masked_mean():
     mean = core.math.ifas_masked_mean(array=masked_array)
 
     # Test the mean against the expected value.
-    CHECK_STRING = '41.80952380952380952380952'
+    CHECK_STRING = '40.666666666666664'
     CHECK_NUMBER = sy.Float(CHECK_STRING)
 
     # Checking the mean itself.
@@ -111,7 +111,7 @@ def test_ifas_masked_median():
     median = core.math.ifas_masked_median(array=masked_array)
 
     # Test the median against the expected value.
-    CHECK_STRING = '41'
+    CHECK_STRING = '37'
     CHECK_NUMBER = sy.Integer(CHECK_STRING)
 
     # Checking the mean itself.
@@ -145,7 +145,7 @@ def test_ifas_masked_std():
     std = core.math.ifas_masked_std(array=masked_array)
 
     # Test the population std against the expected value.
-    CHECK_STRING = '28.11137551075322183368774'
+    CHECK_STRING = '29.08662486490562'
     CHECK_NUMBER = sy.Float(CHECK_STRING)
 
     # Checking the mean itself.

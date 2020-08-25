@@ -53,7 +53,7 @@ def mask_single_pixels(data_array, column_indexes, row_indexes):
 
     # Loop over all of the pixel pairs, making as you proceed.
     for columndex, rowdex in zip(column_indexes, row_indexes):
-        masked_array[columndex,rowdex] = True
+        masked_array[rowdex, columndex] = True
 
     # Finished.
     final_mask = masked_array
